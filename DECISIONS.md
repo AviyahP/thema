@@ -132,3 +132,96 @@ shared evidence survives; a separate "shared genes" test is unnecessary
 layers need their own multiple-testing correction despite being
 descriptive; no significance-gated descent (dilution hides real children);
 BH's dependence assumptions challenged → audit-by-permutation policy.
+
+## 2026-08-21 — KEGG: excluded from the public artifact, bring-your-own adapter instead
+
+THEMA's v1 deliverable includes a public, downloadable frozen ontology
+containing gene sets — i.e. redistribution. KEGG's data is proprietary
+(Kanehisa Laboratories): free to browse academically, restricted to
+redistribute; MSigDB flags its KEGG-derived collections with additional
+license terms. Shipping KEGG-derived sets in the public artifact would be
+exactly the restricted act, so it's excluded — as is BioCarta (similar
+terms). Instead, the loader architecture treats sources as pluggable: a
+user with KEGG access can run the download with a KEGG option, fetching
+under their own acceptance of KEGG's terms, and build a locally-extended
+ontology that THEMA never redistributes ("bring-your-own-KEGG"; adapter
+itself is v1.1). WikiPathways (CC0, covers much of the same territory) is
+the planned v1.1 public addition. Included sources and licenses are
+recorded in DATA_LICENSE.md.
+
+## 2026-08-21 — GO restricted to the Biological Process branch
+
+GO is three ontologies in one: Biological Process (BP), Molecular Function
+(MF), Cellular Component (CC). THEMA's themes answer "what biology is
+happening?" — that is BP's question. MF ("ATP binding") and CC ("nucleus")
+describe protein chemistry and location; mixing them into the clustering
+would produce category-error themes. The obo parser filters to
+namespace: biological_process, and gene sets come from MSigDB's C5:GO:BP
+collection only.
+
+## 2026-08-21 — OPEN: embed curated prose as-is vs LLM-normalized (decide in Phase 2)
+
+Curated descriptions differ sharply in register across sources (Reactome
+paragraphs, GO one-liners, Hallmark two lines, BTM none). Risk: embeddings
+encode style, so raw curated text may cluster partly by SOURCE rather than
+biology (Aviyah's catch, 21 Aug 2026). Candidate fix: LLM-normalize all
+descriptions to one template, using curated prose as grounding input
+(constrains hallucination) rather than as the embedded text. Decision
+deferred to a Phase-2 A/B on the 500-pathway set: measure source leakage
+(source-prediction accuracy from embeddings; cluster–source stratification)
+for as-is vs normalized. Cost of full normalization if chosen: ~10-11k
+cached calls, est. $5-15.
+
+## 2026-08-21 — Data download: stdlib urllib, pinned URLs, hashed manifest
+
+`scripts/download_pathway_data.py` fetches all source data into `data/raw/`
+(gitignored) and writes `VERSIONS.txt` with URL, fetch date, size and sha256
+per file. Four choices worth recording:
+
+**stdlib `urllib`, not httpx/requests.** Keeps `dependencies = []` and leaves
+`uv.lock` untouched for what is a one-off acquisition script. The catch: the
+default `Python-urllib/3.x` User-Agent is rejected with HTTP 403 by both
+reactome.org and release.geneontology.org. Any explicit User-Agent fixes it,
+so the script sets one — do not remove it.
+
+**Pinning is per-source, because the sources differ.** GO is pinned to the
+dated release directory `2026-08-05` (never `current.geneontology.org`);
+note the file's own `data-version` reads `releases/2026-07-26`, and the
+script records both. MSigDB is pinned by release string `2026.1.Hs`. BTM is
+pinned to a commit SHA. Reactome alone uses `download/current/` — it
+publishes no stable per-release path for these files (`download/archive/97/`
+exists but does not carry them), so the script instead captures the release
+number from ContentService into `reactome_release.txt` and hashes it like
+any other artifact.
+
+**BTM source: `github.com/shuzhao-li/BTM`,** file
+`BTM/datasets/BTM_for_GSEA_20131008.gmt` at commit `94d5288`. Maintained by
+the paper's first author, a plain GMT needing no registration or unpacking,
+and content-addressable by commit. Rejected: the release zip `ni.2789-S5.zip`
+(a whole tutorial bundle for one file) and the `tmod` R package (needs an R
+toolchain).
+
+**`VERSIONS.txt` is a pure function of (source table, files on disk).**
+Nothing carries over between runs and nothing re-parses its own prior output:
+`fetched` comes from each file's mtime, the Reactome release number is read
+back from disk, and GO's data-version is read out of the `.obo`. So an
+all-skipped re-run still emits a complete, byte-identical manifest — which
+means a plain re-run doubles as a verify pass, and `--only` never truncates
+the manifest to the selected group.
+
+Two implementation notes that cost real debugging time. Large transfers from
+release.geneontology.org and data.broadinstitute.org are cut short at ~28 MiB;
+the length check catches it, and the retry resumes via `Range` guarded by
+`If-Range` on the ETag, so a changed file restarts cleanly instead of
+splicing two releases together. And `http.client.IncompleteRead` is not an
+`OSError` — it must be caught explicitly or a mid-body reset crashes the run.
+
+MSigDB per-gene-set prose lives only in `msigdb_v2026.1.Hs.xml` (221 MB
+extracted); the per-collection JSONs carry metadata but no descriptions. The
+XML is in the default set — disable with `--skip-msigdb-xml`. Its
+`exactSource` field gives each C5 set's GO id, which joins to `go-basic.obo`.
+
+Still open: `DATA_LICENSE.md` (brief §7) is not written yet; `VERSIONS.txt`
+now records per-file licenses and is the natural source for it. `VERSIONS.txt`
+itself stays gitignored for now — `data/raw/` is excluded as a directory, so
+committing it would need the rule rewritten as `data/raw/*` plus a negation.

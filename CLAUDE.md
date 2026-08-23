@@ -8,8 +8,9 @@ nodes of that hierarchy rather than against a flat pathway list.
 ## Commands
 
 ```sh
-uv run pytest        # run the test suite
-uv run ruff check    # lint
+uv run pytest                              # run the test suite
+uv run ruff check                          # lint
+uv run scripts/download_pathway_data.py    # fetch source data into data/raw/ (idempotent)
 ```
 
 ## Conventions
