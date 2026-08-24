@@ -43,13 +43,19 @@ MSIGDB_RELEASE = "2026.1.Hs"
 MSIGDB_BASE = f"https://data.broadinstitute.org/gsea-msigdb/msigdb/release/{MSIGDB_RELEASE}"
 BTM_COMMIT = "94d5288af08320670e1337191173649a864602f8"
 BTM_BASE = f"https://raw.githubusercontent.com/shuzhao-li/BTM/{BTM_COMMIT}/BTM/datasets"
+HGNC_RELEASE = "2026-07-07"
+# The doubled `archive/archive` segment is real; the single-segment path 404s.
+HGNC_BASE = (
+    "https://storage.googleapis.com/public-download-files/hgnc/archive/archive/quarterly/tsv"
+)
 
 LICENSE_REACTOME = "CC0 1.0 - Reactome (reactome.org)"
 LICENSE_GO = "CC BY 4.0 - Gene Ontology Consortium (geneontology.org)"
 LICENSE_MSIGDB = "CC BY 4.0 - Broad Institute / UC San Diego (gsea-msigdb.org)"
 LICENSE_BTM = "Li et al. 2014, Nat Immunol 15:195 - public (github.com/shuzhao-li/BTM)"
+LICENSE_HGNC = "CC0 1.0 - HGNC / EMBL-EBI (genenames.org)"
 
-GROUPS: tuple[str, ...] = ("reactome", "go", "msigdb", "btm")
+GROUPS: tuple[str, ...] = ("reactome", "go", "msigdb", "btm", "hgnc")
 
 Status = Literal["downloaded", "skipped", "failed"]
 
@@ -190,6 +196,28 @@ SOURCES: tuple[Source, ...] = (
         note=f"Blood transcription modules, pinned to commit {BTM_COMMIT}. Chosen over the "
         "release zip and the tmod R package: maintained by the paper's first author, plain "
         "GMT, no registration, content-addressable by commit.",
+    ),
+    Source(
+        group="hgnc",
+        name=f"hgnc_complete_set_{HGNC_RELEASE}.txt",
+        url=f"{HGNC_BASE}/hgnc_complete_set_{HGNC_RELEASE}.txt",
+        license=LICENSE_HGNC,
+        expected_bytes=16_913_890,
+        note=f"HGNC nomenclature, pinned to the dated quarterly {HGNC_RELEASE} rather than the "
+        "floating tsv/tsv/hgnc_complete_set.txt, which carries no version identifier. 54 "
+        "columns; holds Approved records only. prev_symbol/alias_symbol are pipe-delimited "
+        "and the date columns drive the derived era lens in src/thema/data/genes.py.",
+    ),
+    Source(
+        group="hgnc",
+        name=f"withdrawn_{HGNC_RELEASE}.txt",
+        url=f"{HGNC_BASE}/withdrawn_{HGNC_RELEASE}.txt",
+        license=LICENSE_HGNC,
+        expected_bytes=258_931,
+        note="Withdrawn and merged HGNC ids, which are absent from the complete set. The "
+        "MERGED_INTO_REPORT(S) column is the merge map used to carry a retired id forward to "
+        f"its current one. {HGNC_RELEASE} is the most recent quarterly publishing both files: "
+        "withdrawn_2026-07-03.txt does not exist.",
     ),
 )
 
@@ -601,6 +629,7 @@ def render_versions(
         f"# go_release_directory: {GO_RELEASE}",
         f"# msigdb_release: {MSIGDB_RELEASE}",
         f"# btm_commit: {BTM_COMMIT}",
+        f"# hgnc_release: {HGNC_RELEASE}",
         "#",
         "# One stanza per file, blank-line separated. `fetched` is the file's mtime in UTC.",
         "# Regenerated from disk on every run - safe to delete; re-run the script to rebuild.",

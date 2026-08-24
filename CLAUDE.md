@@ -11,6 +11,7 @@ nodes of that hierarchy rather than against a flat pathway list.
 uv run pytest                              # run the test suite
 uv run ruff check                          # lint
 uv run scripts/download_pathway_data.py    # fetch source data into data/raw/ (idempotent)
+uv run scripts/resolve_gene_symbols.py     # resolve source symbols to HGNC ids; writes data/gene_resolution_log.tsv
 ```
 
 ## Conventions

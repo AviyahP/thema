@@ -225,3 +225,80 @@ Still open: `DATA_LICENSE.md` (brief §7) is not written yet; `VERSIONS.txt`
 now records per-file licenses and is the natural source for it. `VERSIONS.txt`
 itself stays gitignored for now — `data/raw/` is excluded as a directory, so
 committing it would need the rule rewritten as `data/raw/*` plus a negation.
+
+## 2026-08-24 — Gene identifiers: resolve every source symbol to an HGNC id through a per-source era lens
+
+All four gene-set sources ship symbols, not identifiers, and they were
+symbol-mapped at three different dates by three different providers. Symbols
+drift, so a cross-database gene union built on them under-counts silently.
+Since a theme's gene set is the union of its members' genes (D1), that error
+propagates into every enrichment statistic. THEMA therefore resolves every
+symbol to an HGNC id, which is permanent. `src/thema/data/genes.py` owns this;
+`SOURCE_SNAPSHOT` maps each source to the snapshot it must be read through and
+loaders consult that table rather than choosing a lens themselves.
+
+**HGNC is pinned to the dated quarterly `2026-07-07`**, matching the
+per-source pinning used for GO, MSigDB and BTM. The advertised current-release
+URL carries no version identifier at all, so it cannot be pinned by reference.
+`2026-07-07` is the most recent quarterly publishing *both* required files:
+`withdrawn_2026-07-03.txt` does not exist. Two files are needed because
+`hgnc_complete_set` holds approved records only — withdrawn and merged ids
+live exclusively in `withdrawn.txt`, whose `MERGED_INTO_REPORT(S)` column is
+the merge map. HGNC data is CC0; attribution is recommended, not required.
+
+**Resolution is two hops.** Hop 1 matches the symbol inside the snapshot
+current when its source was compiled, precedence approved > previous > alias
+as defined *within that snapshot*; ambiguity at the winning tier returns None
+and is recorded, never guessed. Hop 2 validates the resulting id against the
+current release, following a merge if the record merged and failing if it was
+withdrawn. Hop 1 prevents a 2013 symbol from resolving to whichever gene holds
+that name today; hop 2 guarantees all sources land in one current id space.
+
+**The 2013 lens is a reconstruction, not an archive.** No pre-2020 HGNC
+snapshot exists — verified, not assumed: the `ftp.ebi.ac.uk` genenames tree is
+retired and 404s on every path, exhaustive enumeration of the current host's
+`hgnc/` prefix (5,700 objects) found nothing before 2020-07-01, and the
+Wayback Machine holds no captures of the old tree. The earliest real snapshot
+postdates BTM by nearly seven years, so it would not have helped. The lens is
+instead derived from the pinned release's own `date_approved_reserved` and
+`date_symbol_changed`: a gene's current symbol occupies the approved tier only
+if the gene demonstrably held it at the cutoff, and otherwise its previous
+symbols take that place. Being computed from a pinned file, it is
+reproducible; it is also largely robust to newer releases, since a post-cutoff
+rename re-resolves through the previous-symbol tier. Residual drift comes from
+withdrawn records, accumulated multi-renames and HGNC corrections.
+
+Three limitations, each recorded in the log rather than hidden: only the most
+recent rename is dated, so genes renamed more than once are approximate; genes
+withdrawn outright since 2013 are unrecoverable (merged ones are partly
+recoverable via `withdrawn.txt`); and aliases are undated and treated as
+cumulative. A fourth was found empirically and changed the design: HGNC
+sometimes re-approves a record under a new symbol and clears its history,
+leaving the old name only as an alias — SELENOF, approved 2016-09-18, no
+previous symbol, with its pre-2016 name SEP15 surviving only as an alias. An
+earlier rule dropped post-cutoff genes wholesale and lost such names for no
+gain, since their current symbol is already barred from the approved tier.
+Aliases now stay reachable and no gene is dropped.
+
+**What the era lens actually buys, measured.** Across HGNC, 229 symbols are
+approved for one gene and previous for another, and 102 of those were adopted
+by their current owner after 2013-10-08 — the reassignment hazard is real. But
+*none of those 102 appear in BTM*, so for BTM today the lens changes zero
+answers; it is insurance, not a live correction. It also costs almost nothing:
+4 BTM symbols resolve under `current` but not under `2013-10`, and all 4
+(C11orf87, FAM30A, GGTA1, OSBPL1A) are names HGNC approved *after* 2013,
+because BTM's symbols come from Affymetrix probe annotations rather than from
+HGNC at its own compilation date. The lens correctly declines them. This is
+worth re-measuring whenever a source is added or a release is bumped.
+
+**Multi-mapping entries.** BTM carries 34 Affymetrix probe entries of the form
+`ACSM2A /// ACSM2B` (46 occurrences); no other source has any. Each is split
+and every component resolved independently: components that resolve contribute
+their gene, and every id reached only that way is flagged in the report so a
+strict mode can exclude it later. 41 genes currently enter BTM this way.
+
+`data/gene_resolution_log.tsv` is committed — it is provenance, not data, and
+`data/raw/` being gitignored as a directory does not cover it. It holds one
+row per symbol that was not a clean current-approved match, and every
+ambiguous row lists the candidate genes it could not choose between, for hand
+adjudication.

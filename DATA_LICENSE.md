@@ -1,8 +1,8 @@
 # Data licensing and attribution
 
-THEMA builds its ontology from four public pathway and gene-set resources. This file records what
-each one is, the licence it is distributed under, the attribution its licence requires, and the
-exact bytes THEMA was built from.
+THEMA builds its ontology from four public pathway and gene-set resources, and resolves their gene
+symbols against a fifth, HGNC. This file records what each one is, the licence it is distributed
+under, the attribution its licence requires, and the exact bytes THEMA was built from.
 
 It covers **third-party data only** — not THEMA's own source code, which carries its own licence.
 
@@ -13,11 +13,12 @@ here so a build can be traced without re-downloading anything. Re-run the script
 regenerates identically from disk.
 
 **Frozen release identifiers.** Reactome V97 · GO 2026-08-05 · MSigDB 2026.1.Hs · BTM commit
-`94d5288`. If any of those change, this file and `VERSIONS.txt` must be updated together.
+`94d5288` · HGNC quarterly 2026-07-07. If any of those change, this file and `VERSIONS.txt` must be
+updated together.
 
 Licence terms were verified against each provider's own published terms on 23 August 2026 — GO's
 citation-policy page, MSigDB's license-terms pages, Reactome's license agreement, and the BTM
-repository's `LICENSE` file.
+repository's `LICENSE` file — and HGNC's licence page on 24 August 2026.
 
 ---
 
@@ -182,6 +183,40 @@ redistributed commercially, confirm the position with the authors.
 
 ---
 
+## HGNC — CC0 1.0
+
+The HUGO Gene Nomenclature Committee assigns the approved symbols and the permanent `HGNC:` gene
+identifiers that THEMA resolves every source symbol to. It is not a source of gene *sets*; it is the
+identifier space the four sources above are unified into, without which a cross-database gene union
+silently under-counts.
+
+> All HGNC data is released under the Creative Commons Public Domain (CC0) License; any form of
+> reuse of the content is permitted. Attribution is not mandatory but is recommended.
+
+**Cite:** Seal RL, Braschi B, Gray K, Jones TEM, Tweedie S, Haim-Vilmovsky L, Bruford EA.
+Genenames.org: the HGNC resources in 2023. *Nucleic Acids Research*. 2023;51(D1):D1003–D1009.
+doi:[10.1093/nar/gkac888](https://doi.org/10.1093/nar/gkac888) · RRID:SCR_002827
+
+**Used for:** resolving gene symbols to stable HGNC ids in `src/thema/data/genes.py`, including the
+derived 2013 era lens that BTM is read through. `hgnc_complete_set` holds approved records only, so
+`withdrawn.txt` is downloaded alongside it — it is the only source of the merge map that carries a
+retired identifier forward to its current one.
+
+| File | Bytes | sha256 |
+|---|---:|---|
+| `hgnc_complete_set_2026-07-07.txt` | 16,913,890 | `e73e9259177884b5994fc81ed733c1b3d4df34c84290bc9dddc86e960d5d6419` |
+| `withdrawn_2026-07-07.txt` | 258,931 | `77235063bba9492d09997e58387a50b6f750aed2de67a44c519c920b48f7ff87` |
+
+**A note on pinning.** HGNC's advertised current-release URL carries no version identifier at all,
+so THEMA pins the dated quarterly `2026-07-07` instead, in the same spirit as the GO release
+directory and the BTM commit. `2026-07-07` specifically because it is the most recent quarterly that
+publishes *both* files: `withdrawn_2026-07-03.txt` does not exist. Note that HGNC's archive is not
+guaranteed permanent — no snapshot before 2020-07-01 survives anywhere, the historical
+`ftp.ebi.ac.uk` tree is retired, and the Wayback Machine never captured it. If a build must be
+reproducible years from now, mirror these two files rather than trusting the URL.
+
+---
+
 ## Summary
 
 | Source | Release | Licence | Attribution required |
@@ -190,6 +225,7 @@ redistributed commercially, confirm the position with the authors.
 | Gene Ontology | 2026-08-05 | CC BY 4.0 | Yes — creator, licence notice, link, release date |
 | MSigDB (H, C5:GO:BP) | 2026.1.Hs | CC BY 4.0 | Yes — copyright notice and licence |
 | BTM | commit `94d5288` | No explicit data licence; public | Cite Li et al. 2014 |
+| HGNC | quarterly 2026-07-07 | CC0 1.0 | No (recommended, given voluntarily) |
 
 Deliberately excluded for licensing: **KEGG** (all variants) and **BioCarta**.
 Deferred to v1.1: **WikiPathways**.
