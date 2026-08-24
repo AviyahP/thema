@@ -1,83 +1,43 @@
 """Resolve source gene symbols to stable HGNC identifiers.
 
 THEMA's four gene-set sources ship gene symbols, not identifiers, and they were symbol-mapped at
-three different dates by three different providers. Symbols drift: they are renamed, retired,
-merged, and -- worst of all -- *reassigned* from one gene to another. A cross-database gene union
-built on raw symbols therefore under-counts silently, which matters because a theme's gene set is
-the union of its members' genes and every enrichment statistic is computed over that union.
+different dates by different providers. Symbols drift: they are renamed, retired and merged. A
+cross-database gene union built on raw symbols therefore under-counts silently, which matters
+because a theme's gene set is the union of its members' genes and every enrichment statistic is
+computed over that union.
 
-Resolution runs in two hops, and each hop exists to defeat a different failure.
+Resolution runs in two hops against one pinned HGNC release.
 
-**Hop 1, the era lens.** A symbol is matched inside the snapshot of the nomenclature that was
-current when its source was compiled, with precedence ``approved > previous > alias`` *as defined
-inside that snapshot*. Without this, a symbol that was gene A's approved name in 2013 but is gene
-B's approved name today resolves cleanly and confidently to B -- the wrong gene, with no signal
-that anything went wrong. Reading it through a 2013 lens makes it a clean approved match for A, and
-it never falls through to another gene's alias. Ambiguity at the winning tier returns ``None`` and
-is recorded rather than guessed, and a lower tier is never consulted once a higher one matched.
+**Hop 1, the tier match.** A symbol is looked up with precedence ``approved > previous > alias``.
+A lower tier is never consulted once a higher one has matched, so a symbol that is some gene's
+approved name is never quietly reinterpreted as another gene's alias. Ambiguity *at the winning
+tier* returns ``None`` and is recorded rather than guessed -- the resolver refuses, and the
+candidates it could not choose between go to the log for a human to adjudicate. A symbol that
+matches no tier gets one last chance against ``withdrawn.txt``, which is the only place retired
+symbols survive.
 
-**Hop 2, carry forward.** The identifier hop 1 produces belongs to the era, so it is validated
-against the current release: a record that has since merged is followed to its current identifier,
-and one withdrawn without replacement resolves to ``None``. This is what guarantees that all four
-sources unify on one current identifier space no matter which lens resolved them.
+**Hop 2, carry forward.** The identifier hop 1 produced is validated against the release: a record
+that has since merged is followed to its current identifier (transitively, guarding against
+cycles), and one withdrawn without a replacement resolves to ``None``. A record that was *split*
+across several genes is ambiguous, not a coin flip. This is what guarantees that all four sources
+land in one identifier space.
 
-Loaders never choose a lens ad hoc; they consult :data:`SOURCE_SNAPSHOT`.
-
-The 2013 lens is a reconstruction, not an archive
--------------------------------------------------
-No pre-2020 HGNC snapshot exists. This was verified, not assumed: the ``ftp.ebi.ac.uk`` genenames
-tree is retired and 404s on every path, exhaustive enumeration of the current host's ``hgnc/``
-prefix (5,700 objects) found nothing dated before 2020-07-01, and the Wayback Machine holds no
-captures of the old tree. The earliest real snapshot of any kind postdates BTM by nearly seven
-years, so it would not help.
-
-:meth:`Snapshot.derived` therefore reconstructs the era lens from the current release's own
-``date_approved_reserved`` and ``date_symbol_changed`` columns: a gene's current symbol occupies
-the approved tier only if the gene demonstrably held it on the cutoff date, and otherwise that
-symbol is demoted in favour of the gene's previous symbols. Three limitations follow, and each is
-recorded in the resolution log rather than hidden:
-
-1. Only the *most recent* rename is dated, so a gene renamed more than once contributes all of its
-   previous symbols to the approved tier. Such matches are flagged ``approximate``.
-2. Genes withdrawn outright since the cutoff are absent from the current release and cannot be
-   reconstructed this way. Genes that *merged* are partially recoverable, because ``withdrawn.txt``
-   maps the retired symbol to its identifier and that identifier to its merge target; this is the
-   ``merged`` outcome.
-3. Aliases carry no dates at all and are treated as cumulative. HGNC also sometimes re-approves a
-   record under a new symbol without recording a previous symbol, leaving the old name only as an
-   alias -- so some era-correct matches land at the alias tier rather than the approved one.
-
-A source's symbols are not guaranteed to be drawn from HGNC at its compilation date, either: BTM's
-come from Affymetrix probe annotations and include a handful of names HGNC only approved *after*
-2013. The era lens correctly declines these, and the log records them.
-
-The derivation is computed from a pinned release, so it is reproducible. It is also largely robust
-to newer releases, since a rename after the cutoff re-resolves through the previous-symbol tier;
-residual drift comes from withdrawn records, accumulated multi-renames, and HGNC corrections.
+An earlier design added a per-source "era lens" -- a 2013 reconstruction of the nomenclature that
+BTM was read through, meant to stop a 2013 symbol resolving to whichever gene holds that name
+today. It was removed because its premise turned out to be false: symbol reassignment was measured
+across the whole of HGNC (229 approved/previous collisions, 102 of them adopted by their current
+owner after 2013) and none of those reach the only source the lens applied to, while BTM's symbols
+turn out to derive from an Affymetrix annotation build rather than from dated HGNC nomenclature at
+all -- so the lens's sole measurable effect was to decline four names HGNC approved after 2013.
 """
 
 import csv
 import io
-import warnings
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, replace
 from datetime import date
 from pathlib import Path
 from typing import Literal
-
-CURRENT = "current"
-ERA_2013 = "2013-10"
-
-#: Compilation date of ``BTM_for_GSEA_20131008.gmt``, and so the cutoff for the ``2013-10`` lens.
-BTM_CUTOFF = date(2013, 10, 8)
-
-#: The snapshot each source must be read through. Loaders consult this table; they never choose.
-SOURCE_SNAPSHOT: dict[str, str] = {
-    "btm": ERA_2013,
-    "reactome": CURRENT,
-    "hallmark": CURRENT,
-    "go": CURRENT,
-}
 
 #: Affymetrix probe-set convention for one probe mapping to several genes, present only in BTM.
 MULTI_MAPPING_SEPARATOR = " /// "
@@ -100,14 +60,14 @@ OUTCOMES: tuple[Outcome, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class GeneRecord:
-    """One approved gene in an HGNC release.
+    """One approved gene in the HGNC release.
 
     Attributes:
         hgnc_id: Stable identifier, e.g. ``HGNC:6025``.
-        symbol: Approved symbol in this release.
-        prev_symbols: Symbols this gene previously held, most recent first.
+        symbol: Approved symbol.
+        prev_symbols: Symbols this gene previously held.
         alias_symbols: Undated synonyms.
-        date_approved_reserved: When the gene entered the nomenclature.
+        date_approved_reserved: When the symbol was approved or reserved.
         date_symbol_changed: When ``symbol`` was last changed, or None if never.
     """
 
@@ -138,23 +98,21 @@ class WithdrawnRecord:
 
 @dataclass(frozen=True, slots=True)
 class GeneRef:
-    """A symbol resolved to a gene in the current identifier space.
+    """A symbol resolved to a gene.
 
     Attributes:
-        hgnc_id: The gene's identifier in the *current* release.
-        approved_symbol: The gene's approved symbol in the *current* release.
-        match_type: Which tier of the era lens matched the symbol.
-        snapshot: Label of the snapshot that resolved it.
+        hgnc_id: The gene's identifier, after any merge was followed.
+        approved_symbol: The gene's approved symbol.
+        match_type: Which tier matched the symbol.
         carried_forward: Whether hop 2 changed the identifier by following a merge.
-        era_hgnc_id: The identifier hop 1 produced, before any merge was followed.
+        matched_hgnc_id: The identifier hop 1 produced, before any merge was followed.
     """
 
     hgnc_id: str
     approved_symbol: str
     match_type: MatchType
-    snapshot: str
     carried_forward: bool
-    era_hgnc_id: str
+    matched_hgnc_id: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -167,7 +125,6 @@ class Resolution:
         ref: The resolved gene, or None for ambiguous, unmapped and withdrawn outcomes.
         candidates: ``(hgnc_id, symbol)`` per gene an ambiguous match could not choose between.
         note: Human-readable provenance, written to the log's ``note`` column.
-        approximate: Whether the era lens could not date this match precisely.
         origin: The original multi-mapping entry this symbol was split out of, if any.
     """
 
@@ -176,17 +133,15 @@ class Resolution:
     ref: GeneRef | None = None
     candidates: tuple[tuple[str, str], ...] = ()
     note: str = ""
-    approximate: bool = False
     origin: str = ""
 
     @property
-    def is_clean_current_approved(self) -> bool:
+    def is_clean_approved(self) -> bool:
         """Whether this needs no human attention, and so no row in the resolution log."""
         return (
             self.outcome == "approved"
             and self.ref is not None
             and not self.ref.carried_forward
-            and not self.approximate
             and not self.origin
             and self.ref.approved_symbol == self.symbol
         )
@@ -197,13 +152,11 @@ class ResolutionReport:
     """Everything a caller needs to audit one ``resolve_set`` call.
 
     Attributes:
-        snapshot: The lens the symbols were resolved through.
         resolutions: One entry per symbol resolved, in input order.
         multi_mapping_derived: Identifiers reached *only* via a multi-mapping entry, so a
             future strict mode can exclude them.
     """
 
-    snapshot: str
     resolutions: tuple[Resolution, ...]
     multi_mapping_derived: frozenset[str]
 
@@ -229,6 +182,21 @@ class ResolutionReport:
     def carried_forward(self) -> int:
         """How many symbols were carried forward through a merge by hop 2."""
         return sum(1 for r in self.resolutions if r.ref is not None and r.ref.carried_forward)
+
+    def by_hgnc_id(self) -> dict[str, tuple[str, ...]]:
+        """Group the resolved symbols by the identifier they landed on.
+
+        Two distinct symbols mapping to one identifier means the source's gene sets shrink on
+        deduplication, so this is the signal a within-source collision check reads.
+
+        Returns:
+            Each identifier mapped to the distinct symbols that reached it, sorted.
+        """
+        grouped: dict[str, set[str]] = {}
+        for resolution in self.resolutions:
+            if resolution.ref is not None:
+                grouped.setdefault(resolution.ref.hgnc_id, set()).add(resolution.symbol)
+        return {hgnc_id: tuple(sorted(s)) for hgnc_id, s in grouped.items()}
 
 
 def _split_multi_value(value: str) -> tuple[str, ...]:
@@ -315,147 +283,8 @@ def parse_withdrawn(text: str) -> dict[str, WithdrawnRecord]:
     return records
 
 
-@dataclass(frozen=True, slots=True)
-class Snapshot:
-    """One release of the HGNC nomenclature, indexed for symbol lookup.
-
-    Attributes:
-        label: How :data:`SOURCE_SNAPSHOT` refers to this snapshot.
-        records: Approved gene records keyed by HGNC id.
-        withdrawn: Withdrawn and merged records keyed by HGNC id.
-        index: ``tier -> symbol -> hgnc ids``, the lookup hop 1 walks in tier precedence.
-        withdrawn_by_symbol: Retired symbol to the ids that held it; hop 1's last resort.
-        approximate: Ids whose placement in this snapshot could not be dated precisely.
-    """
-
-    label: str
-    records: Mapping[str, GeneRecord]
-    withdrawn: Mapping[str, WithdrawnRecord]
-    index: Mapping[str, Mapping[str, tuple[str, ...]]]
-    withdrawn_by_symbol: Mapping[str, tuple[str, ...]]
-    approximate: frozenset[str]
-
-    @classmethod
-    def _build(
-        cls,
-        label: str,
-        records: Mapping[str, GeneRecord],
-        withdrawn: Mapping[str, WithdrawnRecord],
-        placements: Iterable[tuple[str, MatchType, str]],
-        approximate: frozenset[str],
-    ) -> "Snapshot":
-        tiers: dict[str, dict[str, set[str]]] = {tier: {} for tier in TIERS}
-        for symbol, tier, hgnc_id in placements:
-            if symbol:
-                tiers[tier].setdefault(symbol, set()).add(hgnc_id)
-        by_symbol: dict[str, set[str]] = {}
-        for record in withdrawn.values():
-            if record.withdrawn_symbol:
-                by_symbol.setdefault(record.withdrawn_symbol, set()).add(record.hgnc_id)
-        return cls(
-            label=label,
-            records=dict(records),
-            withdrawn=dict(withdrawn),
-            index={
-                tier: {s: tuple(sorted(ids, key=_hgnc_sort_key)) for s, ids in mapping.items()}
-                for tier, mapping in tiers.items()
-            },
-            withdrawn_by_symbol={
-                s: tuple(sorted(ids, key=_hgnc_sort_key)) for s, ids in by_symbol.items()
-            },
-            approximate=approximate,
-        )
-
-    @classmethod
-    def from_tsv_text(cls, label: str, complete_set: str, withdrawn: str = "") -> "Snapshot":
-        """Build a snapshot from raw TSV text, as published by HGNC.
-
-        Args:
-            label: How :data:`SOURCE_SNAPSHOT` will refer to this snapshot.
-            complete_set: Contents of an ``hgnc_complete_set`` TSV.
-            withdrawn: Contents of the matching ``withdrawn`` TSV; optional but needed for
-                merge-following and for the withdrawn-symbol fallback.
-
-        Returns:
-            An indexed snapshot.
-        """
-        records = parse_complete_set(complete_set)
-        return cls._build(
-            label, records, parse_withdrawn(withdrawn), _natural_placements(records), frozenset()
-        )
-
-    @classmethod
-    def from_files(
-        cls, label: str, complete_set: Path, withdrawn: Path | None = None
-    ) -> "Snapshot":
-        """Build a snapshot from files on disk.
-
-        Args:
-            label: How :data:`SOURCE_SNAPSHOT` will refer to this snapshot.
-            complete_set: Path to an ``hgnc_complete_set`` TSV.
-            withdrawn: Path to the matching ``withdrawn`` TSV, if available.
-
-        Returns:
-            An indexed snapshot.
-        """
-        return cls.from_tsv_text(
-            label,
-            complete_set.read_text(encoding="utf-8", errors="replace"),
-            withdrawn.read_text(encoding="utf-8", errors="replace") if withdrawn else "",
-        )
-
-    def derived(self, label: str, cutoff: date) -> "Snapshot":
-        """Reconstruct the nomenclature as it stood on ``cutoff``, from this snapshot's dates.
-
-        A gene's current symbol earns the approved tier only if the gene actually held it on the
-        cutoff date -- that is, if both ``date_approved_reserved`` and ``date_symbol_changed`` fall
-        on or before it. Otherwise that symbol is dropped from the approved tier and the gene's
-        previous symbols take its place, since one of them was approved then. This is what stops a
-        gene that took a name after the cutoff from capturing it from the gene that held it.
-
-        Aliases stay reachable at the alias tier regardless of dates, and no gene is dropped
-        wholesale. That matters because ``date_approved_reserved`` records when the *symbol* was
-        approved, not when the gene entered the nomenclature: HGNC sometimes re-approves a record
-        under a new symbol and clears its history, leaving the old name only as an alias. SELENOF
-        is the worked example -- approved 2016-09-18, no previous symbols, and its pre-2016 name
-        SEP15 survives only as an alias. Dropping such genes would lose the old name entirely while
-        buying no extra protection, because their current symbol is already out of the approved
-        tier.
-
-        See the module docstring for the limitations that remain.
-
-        Args:
-            label: Label for the derived snapshot, e.g. ``"2013-10"``.
-            cutoff: The date to reconstruct.
-
-        Returns:
-            A snapshot of the nomenclature as reconstructed for ``cutoff``.
-        """
-        placements: list[tuple[str, MatchType, str]] = []
-        approximate: set[str] = set()
-        for record in self.records.values():
-            approved = record.date_approved_reserved
-            changed = record.date_symbol_changed
-            held_at_cutoff = (approved is None or approved <= cutoff) and (
-                changed is None or changed <= cutoff
-            )
-            if held_at_cutoff:
-                placements.append((record.symbol, "approved", record.hgnc_id))
-                placements.extend((s, "previous", record.hgnc_id) for s in record.prev_symbols)
-            else:
-                placements.extend((s, "approved", record.hgnc_id) for s in record.prev_symbols)
-                if len(record.prev_symbols) > 1:
-                    approximate.add(record.hgnc_id)
-            placements.extend((s, "alias", record.hgnc_id) for s in record.alias_symbols)
-        return Snapshot._build(
-            label, self.records, self.withdrawn, placements, frozenset(approximate)
-        )
-
-
-def _natural_placements(
-    records: Mapping[str, GeneRecord],
-) -> Iterator[tuple[str, MatchType, str]]:
-    """Yield the tier placements of a released snapshot, where each field means what it says."""
+def _placements(records: Mapping[str, GeneRecord]) -> Iterator[tuple[str, MatchType, str]]:
+    """Yield every ``(symbol, tier, hgnc_id)`` the release defines."""
     for record in records.values():
         yield (record.symbol, "approved", record.hgnc_id)
         for symbol in record.prev_symbols:
@@ -464,116 +293,131 @@ def _natural_placements(
             yield (symbol, "alias", record.hgnc_id)
 
 
+@dataclass(frozen=True, slots=True)
+class Snapshot:
+    """The pinned HGNC release, indexed for symbol lookup.
+
+    Attributes:
+        records: Approved gene records keyed by HGNC id.
+        withdrawn: Withdrawn and merged records keyed by HGNC id.
+        index: ``tier -> symbol -> hgnc ids``, the lookup hop 1 walks in tier precedence.
+        withdrawn_by_symbol: Retired symbol to the ids that held it; hop 1's last resort.
+    """
+
+    records: Mapping[str, GeneRecord]
+    withdrawn: Mapping[str, WithdrawnRecord]
+    index: Mapping[str, Mapping[str, tuple[str, ...]]]
+    withdrawn_by_symbol: Mapping[str, tuple[str, ...]]
+
+    @classmethod
+    def from_tsv_text(cls, complete_set: str, withdrawn: str = "") -> "Snapshot":
+        """Build a snapshot from raw TSV text, as published by HGNC.
+
+        Args:
+            complete_set: Contents of an ``hgnc_complete_set`` TSV.
+            withdrawn: Contents of the matching ``withdrawn`` TSV; optional but needed for
+                merge-following and for the withdrawn-symbol fallback.
+
+        Returns:
+            An indexed snapshot.
+        """
+        records = parse_complete_set(complete_set)
+        withdrawn_records = parse_withdrawn(withdrawn)
+
+        tiers: dict[str, dict[str, set[str]]] = {tier: {} for tier in TIERS}
+        for symbol, tier, hgnc_id in _placements(records):
+            if symbol:
+                tiers[tier].setdefault(symbol, set()).add(hgnc_id)
+        by_symbol: dict[str, set[str]] = {}
+        for record in withdrawn_records.values():
+            if record.withdrawn_symbol:
+                by_symbol.setdefault(record.withdrawn_symbol, set()).add(record.hgnc_id)
+
+        return cls(
+            records=records,
+            withdrawn=withdrawn_records,
+            index={
+                tier: {s: tuple(sorted(ids, key=_hgnc_sort_key)) for s, ids in mapping.items()}
+                for tier, mapping in tiers.items()
+            },
+            withdrawn_by_symbol={
+                s: tuple(sorted(ids, key=_hgnc_sort_key)) for s, ids in by_symbol.items()
+            },
+        )
+
+    @classmethod
+    def from_files(cls, complete_set: Path, withdrawn: Path | None = None) -> "Snapshot":
+        """Build a snapshot from files on disk.
+
+        Args:
+            complete_set: Path to an ``hgnc_complete_set`` TSV.
+            withdrawn: Path to the matching ``withdrawn`` TSV, if available.
+
+        Returns:
+            An indexed snapshot.
+        """
+        return cls.from_tsv_text(
+            complete_set.read_text(encoding="utf-8", errors="replace"),
+            withdrawn.read_text(encoding="utf-8", errors="replace") if withdrawn else "",
+        )
+
+
 def _format_candidates(candidates: Sequence[tuple[str, str]]) -> str:
     """Render candidate genes for the log's ``note`` column."""
     return "candidates: " + "; ".join(f"{hgnc_id}|{symbol}" for hgnc_id, symbol in candidates)
 
 
 class GeneResolver:
-    """Resolves gene symbols to current HGNC identifiers through per-source era lenses.
+    """Resolves gene symbols to HGNC identifiers against one pinned release."""
 
-    Construct from one or more snapshots keyed by label. A ``current`` snapshot is mandatory,
-    because hop 2 validates every era identifier against it.
-    """
-
-    def __init__(self, snapshots: Mapping[str, Snapshot]) -> None:
-        """Store the snapshots this resolver can read through.
+    def __init__(self, snapshot: Snapshot) -> None:
+        """Store the release this resolver reads through.
 
         Args:
-            snapshots: Snapshots keyed by label, which must include ``current``.
-
-        Raises:
-            ValueError: If no ``current`` snapshot was supplied.
+            snapshot: The pinned HGNC release.
         """
-        if CURRENT not in snapshots:
-            message = f"a {CURRENT!r} snapshot is required; hop 2 validates era ids against it"
-            raise ValueError(message)
-        self._snapshots: dict[str, Snapshot] = dict(snapshots)
+        self._snapshot = snapshot
 
     @classmethod
-    def from_files(
-        cls,
-        complete_set: Path,
-        withdrawn: Path | None = None,
-        *,
-        eras: Mapping[str, date] | None = None,
-    ) -> "GeneResolver":
-        """Load the current release and derive the era lenses from it.
+    def from_files(cls, complete_set: Path, withdrawn: Path | None = None) -> "GeneResolver":
+        """Load the pinned release from disk.
 
         Args:
             complete_set: Path to the pinned ``hgnc_complete_set`` TSV.
             withdrawn: Path to the matching ``withdrawn`` TSV.
-            eras: Label to cutoff date for each derived lens; defaults to the BTM lens.
 
         Returns:
-            A resolver holding ``current`` plus one snapshot per requested era.
+            A resolver ready to use.
         """
-        current = Snapshot.from_files(CURRENT, complete_set, withdrawn)
-        wanted = {ERA_2013: BTM_CUTOFF} if eras is None else eras
-        snapshots = {CURRENT: current}
-        for label, cutoff in wanted.items():
-            snapshots[label] = current.derived(label, cutoff)
-        return cls(snapshots)
+        return cls(Snapshot.from_files(complete_set, withdrawn))
 
     @property
-    def labels(self) -> tuple[str, ...]:
-        """Labels of the snapshots this resolver holds."""
-        return tuple(self._snapshots)
+    def snapshot(self) -> Snapshot:
+        """The release this resolver reads through."""
+        return self._snapshot
 
-    def snapshot_for(self, source: str) -> str:
-        """Return the snapshot label ``source`` must be read through.
-
-        Falls back to ``current`` with a warning when the assigned snapshot was not loaded, so a
-        missing era lens degrades loudly rather than silently changing which genes a source maps to.
-
-        Args:
-            source: A key of :data:`SOURCE_SNAPSHOT`.
-
-        Returns:
-            The label to pass as ``as_of``.
-        """
-        label = SOURCE_SNAPSHOT.get(source, CURRENT)
-        if label not in self._snapshots:
-            warnings.warn(
-                f"snapshot {label!r} for source {source!r} is unavailable; resolving through "
-                f"{CURRENT!r}. Symbols reassigned between genes since then will resolve to the "
-                "current owner of the symbol, not the one the source meant.",
-                RuntimeWarning,
-                stacklevel=2,
-            )
-            return CURRENT
-        return label
-
-    def resolve(self, symbol: str, as_of: str) -> GeneRef | None:
-        """Resolve one symbol to a gene in the current identifier space.
+    def resolve(self, symbol: str) -> GeneRef | None:
+        """Resolve one symbol to a gene.
 
         Args:
             symbol: The symbol as it appears in the source.
-            as_of: Snapshot label, from :meth:`snapshot_for`.
 
         Returns:
             The resolved gene, or None if it was ambiguous, unmappable or withdrawn. Use
             :meth:`explain` when the reason matters.
         """
-        return self.explain(symbol, as_of).ref
+        return self.explain(symbol).ref
 
-    def explain(self, symbol: str, as_of: str) -> Resolution:
+    def explain(self, symbol: str) -> Resolution:
         """Resolve one symbol and report why, including the outcomes that produce no gene.
 
         Args:
             symbol: The symbol as it appears in the source.
-            as_of: Snapshot label, from :meth:`snapshot_for`.
 
         Returns:
             The full outcome, suitable for a row of the resolution log.
-
-        Raises:
-            KeyError: If ``as_of`` names a snapshot this resolver does not hold.
         """
-        if as_of not in self._snapshots:
-            message = f"unknown snapshot {as_of!r}; have {sorted(self._snapshots)}"
-            raise KeyError(message)
-        snapshot = self._snapshots[as_of]
+        snapshot = self._snapshot
         key = symbol.strip()
         if not key:
             return Resolution(symbol, "unmapped", note="empty symbol")
@@ -583,19 +427,18 @@ class GeneResolver:
             if not hgnc_ids:
                 continue
             if len(hgnc_ids) > 1:
-                candidates = self._describe(hgnc_ids, snapshot)
+                candidates = self._describe(hgnc_ids)
                 return Resolution(
                     key,
                     "ambiguous",
                     candidates=candidates,
-                    note=f"ambiguous at the {tier} tier of snapshot {snapshot.label}; "
-                    + _format_candidates(candidates),
+                    note=f"ambiguous at the {tier} tier; " + _format_candidates(candidates),
                 )
-            return self._carry_forward(key, hgnc_ids[0], tier, snapshot)
+            return self._carry_forward(key, hgnc_ids[0], tier)
 
         retired = snapshot.withdrawn_by_symbol.get(key, ())
         if len(retired) > 1:
-            candidates = self._describe(retired, snapshot)
+            candidates = self._describe(retired)
             return Resolution(
                 key,
                 "ambiguous",
@@ -603,82 +446,61 @@ class GeneResolver:
                 note="ambiguous among withdrawn records; " + _format_candidates(candidates),
             )
         if retired:
-            return self._carry_forward(key, retired[0], "approved", snapshot)
-        return Resolution(key, "unmapped", note=f"no match in snapshot {snapshot.label}")
+            return self._carry_forward(key, retired[0], "approved")
+        return Resolution(key, "unmapped", note="no match in the HGNC release")
 
-    def _describe(self, hgnc_ids: Sequence[str], snapshot: Snapshot) -> tuple[tuple[str, str], ...]:
-        """Name each candidate gene, preferring its current approved symbol."""
-        current = self._snapshots[CURRENT]
+    def _describe(self, hgnc_ids: Sequence[str]) -> tuple[tuple[str, str], ...]:
+        """Name each candidate gene, preferring its approved symbol."""
+        snapshot = self._snapshot
         described: list[tuple[str, str]] = []
         for hgnc_id in hgnc_ids:
-            record = current.records.get(hgnc_id) or snapshot.records.get(hgnc_id)
+            record = snapshot.records.get(hgnc_id)
             if record is not None:
                 described.append((hgnc_id, record.symbol))
                 continue
-            retired = current.withdrawn.get(hgnc_id)
+            retired = snapshot.withdrawn.get(hgnc_id)
             described.append((hgnc_id, retired.withdrawn_symbol if retired else "?"))
         return tuple(described)
 
     def _carry_forward(
-        self, symbol: str, era_hgnc_id: str, match_type: MatchType, snapshot: Snapshot
+        self, symbol: str, matched_hgnc_id: str, match_type: MatchType
     ) -> Resolution:
-        """Hop 2: validate an era identifier against the current release, following merges."""
-        current = self._snapshots[CURRENT]
-        approximate = era_hgnc_id in snapshot.approximate
-        hgnc_id = era_hgnc_id
+        """Hop 2: validate the matched identifier against the release, following merges."""
+        snapshot = self._snapshot
+        hgnc_id = matched_hgnc_id
         seen: set[str] = set()
         for _ in range(_MAX_MERGE_DEPTH):
             if hgnc_id in seen:
-                return Resolution(
-                    symbol, "unmapped", note=f"merge cycle at {hgnc_id}", approximate=approximate
-                )
+                return Resolution(symbol, "unmapped", note=f"merge cycle at {hgnc_id}")
             seen.add(hgnc_id)
 
-            record = current.records.get(hgnc_id)
+            record = snapshot.records.get(hgnc_id)
             if record is not None:
-                carried = hgnc_id != era_hgnc_id
+                carried = hgnc_id != matched_hgnc_id
                 ref = GeneRef(
                     hgnc_id=hgnc_id,
                     approved_symbol=record.symbol,
                     match_type=match_type,
-                    snapshot=snapshot.label,
                     carried_forward=carried,
-                    era_hgnc_id=era_hgnc_id,
+                    matched_hgnc_id=matched_hgnc_id,
                 )
-                notes: list[str] = []
-                if carried:
-                    notes.append(f"{era_hgnc_id} merged into {hgnc_id}")
-                if approximate:
-                    era_record = current.records.get(era_hgnc_id)
-                    others = era_record.prev_symbols if era_record is not None else ()
-                    detail = f" ({', '.join(others)})" if others else ""
-                    notes.append(
-                        "era placement approximate: only the most recent rename is dated, and "
-                        f"{era_hgnc_id} has several previous symbols{detail}"
-                    )
                 return Resolution(
                     symbol,
                     "merged" if carried else match_type,
                     ref=ref,
-                    note="; ".join(notes),
-                    approximate=approximate,
+                    note=f"{matched_hgnc_id} merged into {hgnc_id}" if carried else "",
                 )
 
-            retired = current.withdrawn.get(hgnc_id)
+            retired = snapshot.withdrawn.get(hgnc_id)
             if retired is None:
                 return Resolution(
-                    symbol,
-                    "unmapped",
-                    note=f"{hgnc_id} is in snapshot {snapshot.label} but absent from the current "
-                    "release",
-                    approximate=approximate,
+                    symbol, "unmapped", note=f"{hgnc_id} is absent from the HGNC release"
                 )
             if retired.status == _WITHDRAWN_OUTRIGHT or not retired.merged_into:
                 return Resolution(
                     symbol,
                     "withdrawn",
                     note=f"{hgnc_id} ({retired.withdrawn_symbol}) withdrawn with no replacement",
-                    approximate=approximate,
                 )
             if len(retired.merged_into) > 1:
                 candidates = tuple((t[0], t[1]) for t in retired.merged_into)
@@ -688,20 +510,16 @@ class GeneResolver:
                     candidates=candidates,
                     note=f"{hgnc_id} ({retired.withdrawn_symbol}) was split, not merged; "
                     + _format_candidates(candidates),
-                    approximate=approximate,
                 )
             hgnc_id = retired.merged_into[0][0]
         return Resolution(
             symbol,
             "unmapped",
-            note=f"merge chain from {era_hgnc_id} exceeded {_MAX_MERGE_DEPTH} hops",
-            approximate=approximate,
+            note=f"merge chain from {matched_hgnc_id} exceeded {_MAX_MERGE_DEPTH} hops",
         )
 
-    def resolve_set(
-        self, symbols: Iterable[str], as_of: str
-    ) -> tuple[frozenset[str], ResolutionReport]:
-        """Resolve a source's symbols to a set of current HGNC identifiers.
+    def resolve_set(self, symbols: Iterable[str]) -> tuple[frozenset[str], ResolutionReport]:
+        """Resolve a source's symbols to a set of HGNC identifiers.
 
         Entries joined by :data:`MULTI_MAPPING_SEPARATOR` are split and each component resolved
         independently; components that resolve contribute their gene, and those that do not are
@@ -710,10 +528,9 @@ class GeneResolver:
 
         Args:
             symbols: Symbols as they appear in the source; duplicates are resolved once.
-            as_of: Snapshot label, from :meth:`snapshot_for`.
 
         Returns:
-            The current HGNC identifiers, and a report covering every symbol.
+            The HGNC identifiers, and a report covering every symbol.
         """
         resolutions: list[Resolution] = []
         hgnc_ids: set[str] = set()
@@ -729,7 +546,7 @@ class GeneResolver:
             components = [p.strip() for p in entry.split(MULTI_MAPPING_SEPARATOR)]
             origin = entry if len(components) > 1 else ""
             for position, component in enumerate(components, start=1):
-                resolution = self.explain(component, as_of)
+                resolution = self.explain(component)
                 if origin:
                     provenance = (
                         f"multi-mapping component {position} of {len(components)} in "
@@ -746,7 +563,6 @@ class GeneResolver:
                     (from_multi if origin else from_single).add(resolution.ref.hgnc_id)
 
         return frozenset(hgnc_ids), ResolutionReport(
-            snapshot=as_of,
             resolutions=tuple(resolutions),
             multi_mapping_derived=frozenset(from_multi - from_single),
         )

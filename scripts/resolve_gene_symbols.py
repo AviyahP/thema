@@ -1,29 +1,30 @@
 """Resolve every source's gene symbols to HGNC ids and write the resolution log.
 
-Reads the four gene-set GMTs from ``data/raw/``, resolves each through the snapshot
-:data:`thema.data.genes.SOURCE_SNAPSHOT` assigns it, writes ``data/gene_resolution_log.tsv``, and
-prints a per-source summary. The log is committed: it is provenance, not data, and the ambiguous
-rows in it are meant to be adjudicated by hand.
+Reads the four gene-set GMTs from ``data/raw/``, resolves each against the pinned HGNC release,
+writes ``data/gene_resolution_log.tsv`` and ``data/gene_resolution_spotcheck.tsv``, and prints a
+per-source summary plus a within-source collision check. Both files are committed: they are
+provenance, not data, and the ambiguous rows are meant to be adjudicated by hand.
 """
 
 import argparse
+import random
 import sys
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from thema.data.genes import (
-    CURRENT,
-    OUTCOMES,
-    SOURCE_SNAPSHOT,
-    GeneResolver,
-    ResolutionReport,
-)
+from thema.data.genes import OUTCOMES, GeneResolver, ResolutionReport
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RAW = REPO_ROOT / "data" / "raw"
 DEFAULT_LOG = REPO_ROOT / "data" / "gene_resolution_log.tsv"
+DEFAULT_SPOTCHECK = REPO_ROOT / "data" / "gene_resolution_spotcheck.tsv"
 HGNC_RELEASE = "2026-07-07"
+
+#: Sampling seed, so the committed spot-check file is byte-stable and does not churn in git.
+SPOTCHECK_SEED = 0
+SPOTCHECK_PREVIOUS = 20
+MAX_PATHWAYS = 5
 
 LOG_COLUMNS = (
     "source",
@@ -32,8 +33,19 @@ LOG_COLUMNS = (
     "hgnc_id",
     "approved_symbol",
     "match_type",
-    "snapshot",
     "carried_forward",
+    "pathways",
+    "note",
+)
+
+SPOTCHECK_COLUMNS = (
+    "tier",
+    "source",
+    "original_symbol",
+    "hgnc_id",
+    "approved_symbol",
+    "pathways",
+    "verified",
     "note",
 )
 
@@ -43,7 +55,7 @@ class SourceFile:
     """One gene-set source to resolve.
 
     Attributes:
-        key: Key into :data:`thema.data.genes.SOURCE_SNAPSHOT`.
+        key: Short source name, written to the log's first column.
         filename: GMT filename under the raw data directory.
     """
 
@@ -59,44 +71,69 @@ SOURCE_FILES: tuple[SourceFile, ...] = (
 )
 
 
-def read_gmt_symbols(path: Path) -> tuple[str, ...]:
-    """Read the unique gene entries of a GMT, in first-seen order.
+def read_gmt(path: Path) -> dict[str, tuple[str, ...]]:
+    """Read a GMT, mapping each gene entry to the sets it appears in.
 
     Every source here is a plain GMT -- set name, a description or id, then the genes -- so the
-    same reader covers all four even though column two means different things in each.
+    same reader covers all four even though column two means different things in each. The
+    containing set names are what make an ambiguous symbol adjudicable by biological context.
 
     Args:
         path: Path to the GMT file.
 
     Returns:
-        Each distinct entry from column three onwards, in the order first encountered.
+        Each distinct entry from column three onwards, in first-seen order, mapped to the set
+        names containing it.
     """
-    seen: dict[str, None] = {}
+    entries: dict[str, list[str]] = {}
     with path.open("r", encoding="utf-8", errors="replace") as handle:
         for line in handle:
             fields = line.rstrip("\n").split("\t")
+            if len(fields) < 3:
+                continue
+            name = fields[0].strip()
             for entry in fields[2:]:
                 symbol = entry.strip()
                 if symbol:
-                    seen.setdefault(symbol, None)
-    return tuple(seen)
+                    entries.setdefault(symbol, []).append(name)
+    return {symbol: tuple(names) for symbol, names in entries.items()}
 
 
-def log_rows(source: str, report: ResolutionReport) -> list[tuple[str, ...]]:
-    """Render the log rows for one source, omitting clean current-approved matches.
+def format_pathways(names: Sequence[str]) -> str:
+    """Render the containing set names for a log cell, capped so rows stay readable."""
+    if not names:
+        return "-"
+    shown = "; ".join(names[:MAX_PATHWAYS])
+    extra = len(names) - MAX_PATHWAYS
+    return f"{shown} (+{extra} more)" if extra > 0 else shown
+
+
+def log_rows(
+    source: str, report: ResolutionReport, pathways: Mapping[str, tuple[str, ...]]
+) -> list[tuple[str, ...]]:
+    """Render the log rows for one source, omitting clean approved matches.
 
     Args:
         source: The source key, written to the first column.
         report: The report to render.
+        pathways: Entry to containing set names, from :func:`read_gmt`.
 
     Returns:
         One row per symbol that needs a human's attention, sorted by symbol.
     """
     rows: list[tuple[str, ...]] = []
     for resolution in report.resolutions:
-        if resolution.is_clean_current_approved:
+        if resolution.is_clean_approved:
             continue
         ref = resolution.ref
+        # Only ambiguous rows carry the containing sets: they are the ones adjudicated by hand,
+        # and every row carrying them would balloon the file for no gain.
+        key = resolution.origin or resolution.symbol
+        cell = (
+            format_pathways(pathways.get(key, ()))
+            if resolution.outcome == "ambiguous"
+            else "-"
+        )
         rows.append(
             (
                 source,
@@ -105,22 +142,67 @@ def log_rows(source: str, report: ResolutionReport) -> list[tuple[str, ...]]:
                 ref.hgnc_id if ref else "-",
                 ref.approved_symbol if ref else "-",
                 ref.match_type if ref else "-",
-                ref.snapshot if ref else report.snapshot,
                 ("yes" if ref.carried_forward else "no") if ref else "-",
+                cell,
                 resolution.note.replace("\t", " ") or "-",
             )
         )
     return sorted(rows, key=lambda row: (row[1], row[2]))
 
 
-def write_log(path: Path, rows: Sequence[Sequence[str]]) -> None:
-    """Write the resolution log atomically, header first.
+def spotcheck_rows(
+    reports: Mapping[str, ResolutionReport],
+    pathways: Mapping[str, Mapping[str, tuple[str, ...]]],
+) -> list[tuple[str, ...]]:
+    """Sample previous- and alias-tier resolutions for hand verification.
+
+    The alias tier is taken in full: it is the weakest evidence the resolver acts on and the
+    likeliest to be wrong, and there are few enough to check exhaustively. The previous tier is
+    sampled with a fixed seed so the committed file does not churn.
 
     Args:
-        path: Destination, normally ``data/gene_resolution_log.tsv``.
+        reports: Report per source key.
+        pathways: Entry to containing set names, per source key.
+
+    Returns:
+        Rows ready to write, alias tier first, each with empty verified and note columns.
+    """
+    pools: dict[str, list[tuple[str, ...]]] = {"alias": [], "previous": []}
+    for source, report in reports.items():
+        for resolution in report.resolutions:
+            ref = resolution.ref
+            if ref is None or ref.match_type not in pools:
+                continue
+            key = resolution.origin or resolution.symbol
+            pools[ref.match_type].append(
+                (
+                    ref.match_type,
+                    source,
+                    resolution.symbol,
+                    ref.hgnc_id,
+                    ref.approved_symbol,
+                    format_pathways(pathways[source].get(key, ())),
+                    "",
+                    "",
+                )
+            )
+
+    previous = sorted(pools["previous"])
+    sampled = random.Random(SPOTCHECK_SEED).sample(
+        previous, min(SPOTCHECK_PREVIOUS, len(previous))
+    )
+    return sorted(pools["alias"]) + sorted(sampled)
+
+
+def write_tsv(path: Path, columns: Sequence[str], rows: Sequence[Sequence[str]]) -> None:
+    """Write a TSV atomically, header first.
+
+    Args:
+        path: Destination.
+        columns: Header row.
         rows: Rows in final order.
     """
-    text = "\n".join(["\t".join(LOG_COLUMNS), *("\t".join(row) for row in rows)]) + "\n"
+    text = "\n".join(["\t".join(columns), *("\t".join(row) for row in rows)]) + "\n"
     tmp = path.with_name(path.name + ".part")
     tmp.write_text(text, encoding="utf-8")
     tmp.replace(path)
@@ -141,7 +223,7 @@ def _table(headers: Sequence[str], rows: Sequence[Sequence[str]], align: str) ->
     return "\n".join(out)
 
 
-def render_outcomes(reports: dict[str, ResolutionReport], totals: dict[str, int]) -> str:
+def render_outcomes(reports: Mapping[str, ResolutionReport], totals: Mapping[str, int]) -> str:
     """Render the per-source outcome table, counts with percentages.
 
     Args:
@@ -151,7 +233,7 @@ def render_outcomes(reports: dict[str, ResolutionReport], totals: dict[str, int]
     Returns:
         A formatted table.
     """
-    headers = ("SOURCE", "SNAPSHOT", "SYMBOLS", *(o.upper() for o in OUTCOMES), "CARRIED")
+    headers = ("SOURCE", "SYMBOLS", *(o.upper() for o in OUTCOMES), "CARRIED")
     rows: list[Sequence[str]] = []
     for source, report in reports.items():
         counts = report.counts
@@ -159,7 +241,6 @@ def render_outcomes(reports: dict[str, ResolutionReport], totals: dict[str, int]
         rows.append(
             (
                 source,
-                report.snapshot,
                 f"{totals[source]:,}",
                 *(
                     f"{counts[o]:,} ({counts[o] / total * 100:.1f}%)" if counts[o] else "-"
@@ -168,65 +249,31 @@ def render_outcomes(reports: dict[str, ResolutionReport], totals: dict[str, int]
                 f"{report.carried_forward:,}",
             )
         )
-    return _table(headers, rows, "<<" + ">" * (len(headers) - 2))
+    return _table(headers, rows, "<" + ">" * (len(headers) - 1))
 
 
-def render_era_delta(
-    era: ResolutionReport, fallback: ResolutionReport, *, era_label: str
-) -> str:
-    """Report what reading BTM through its own era actually bought.
+def render_collisions(reports: Mapping[str, ResolutionReport]) -> str:
+    """Report distinct symbols within one source that resolve to the same gene.
 
-    Compares BTM resolved through the derived era lens against the same symbols resolved through
-    the current release, which is what the tool would do if the era lens did not exist.
+    A collision means the source's gene sets silently shrink on deduplication, so this doubles as
+    a correctness signal on the resolver: an unexpected pair usually means a bad alias match.
 
     Args:
-        era: BTM resolved through the era lens.
-        fallback: The same symbols resolved through ``current``.
-        era_label: Label of the era lens, for the heading.
+        reports: Report per source key.
 
     Returns:
-        A formatted summary, including examples of the symbols the two lenses disagree on.
+        A formatted summary, listing every colliding group.
     """
-    era_refs = {r.symbol: r for r in era.resolutions}
-    now_refs = {r.symbol: r for r in fallback.resolutions}
-
-    different: list[tuple[str, str, str]] = []
-    rescued: list[str] = []
-    lost: list[str] = []
-    for symbol, era_res in era_refs.items():
-        now_res = now_refs.get(symbol)
-        if now_res is None:
-            continue
-        era_id = era_res.ref.hgnc_id if era_res.ref else None
-        now_id = now_res.ref.hgnc_id if now_res.ref else None
-        if era_id and now_id and era_id != now_id:
-            era_side = f"{era_id} {era_res.ref.approved_symbol}"
-            now_side = f"{now_id} {now_res.ref.approved_symbol}"
-            different.append((symbol, era_side, now_side))
-        elif era_id and not now_id:
-            rescued.append(symbol)
-        elif now_id and not era_id:
-            lost.append(symbol)
-
-    lines = [
-        f"BTM era-lens delta: {era_label} vs {CURRENT}",
-        f"  resolved to a DIFFERENT gene : {len(different):,}"
-        "   <- symbols current-only resolution gets wrong",
-        f"  resolved only by the era lens: {len(rescued):,}",
-        f"  resolved only by current     : {len(lost):,}",
-    ]
-    if different:
-        lines.append("")
-        lines.append("  first 10 disagreements:")
-        lines.append(
-            "\n".join(
-                f"    {symbol:<16} {era_label}: {era_side:<28} {CURRENT}: {now_side}"
-                for symbol, era_side, now_side in sorted(different)[:10]
-            )
-        )
-    if lost:
-        lines.append("")
-        lines.append(f"  lost by the era lens (first 10): {', '.join(sorted(lost)[:10])}")
+    lines: list[str] = []
+    for source, report in reports.items():
+        collisions = {
+            hgnc_id: symbols
+            for hgnc_id, symbols in report.by_hgnc_id().items()
+            if len(symbols) > 1
+        }
+        lines.append(f"{source}: {len(collisions)} colliding gene(s)")
+        for hgnc_id, symbols in sorted(collisions.items(), key=lambda kv: kv[1]):
+            lines.append(f"    {hgnc_id:<12} {' = '.join(symbols)}")
     return "\n".join(lines)
 
 
@@ -243,13 +290,19 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--log", type=Path, default=DEFAULT_LOG, help="log destination (default: %(default)s)"
     )
     parser.add_argument(
+        "--spotcheck",
+        type=Path,
+        default=DEFAULT_SPOTCHECK,
+        help="spot-check destination (default: %(default)s)",
+    )
+    parser.add_argument(
         "--preview", type=int, default=20, metavar="N", help="log rows to print (default: 20)"
     )
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """Resolve every source, write the log, and print the summary tables."""
+    """Resolve every source, write the log and spot-check, and print the summary tables."""
     args = parse_args(argv)
     complete_set = args.raw / f"hgnc_complete_set_{HGNC_RELEASE}.txt"
     withdrawn = args.raw / f"withdrawn_{HGNC_RELEASE}.txt"
@@ -261,30 +314,28 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             return 1
 
-    print("loading HGNC snapshots...", file=sys.stderr)
+    print(f"loading HGNC release {HGNC_RELEASE}...", file=sys.stderr)
     resolver = GeneResolver.from_files(complete_set, withdrawn)
 
     reports: dict[str, ResolutionReport] = {}
     totals: dict[str, int] = {}
     multi_counts: dict[str, int] = {}
+    pathways: dict[str, Mapping[str, tuple[str, ...]]] = {}
     rows: list[tuple[str, ...]] = []
-    btm_symbols: tuple[str, ...] = ()
 
     for source in SOURCE_FILES:
         path = args.raw / source.filename
         if not path.is_file():
             print(f"missing {path}; skipping {source.key}", file=sys.stderr)
             continue
-        symbols = read_gmt_symbols(path)
-        if source.key == "btm":
-            btm_symbols = symbols
-        as_of = resolver.snapshot_for(source.key)
-        print(f"resolving {source.key} ({len(symbols):,} entries) through {as_of}", file=sys.stderr)
-        _, report = resolver.resolve_set(symbols, as_of)
+        entries = read_gmt(path)
+        pathways[source.key] = entries
+        print(f"resolving {source.key} ({len(entries):,} entries)", file=sys.stderr)
+        _, report = resolver.resolve_set(entries)
         reports[source.key] = report
         totals[source.key] = len(report.resolutions)
         multi_counts[source.key] = len(report.multi_mapping_derived)
-        rows.extend(log_rows(source.key, report))
+        rows.extend(log_rows(source.key, report, entries))
 
     if not reports:
         print("no sources found", file=sys.stderr)
@@ -292,7 +343,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     order = {s.key: i for i, s in enumerate(SOURCE_FILES)}
     rows.sort(key=lambda row: (order[row[0]], row[1], row[2]))
-    write_log(args.log, rows)
+    write_tsv(args.log, LOG_COLUMNS, rows)
+
+    spotcheck = spotcheck_rows(reports, pathways)
+    write_tsv(args.spotcheck, SPOTCHECK_COLUMNS, spotcheck)
 
     print()
     print(render_outcomes(reports, totals))
@@ -300,7 +354,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"{len(rows):,} log rows written to {args.log}")
     multi_total = sum(multi_counts.values())
     print(
-        f"multi-mapping ({' /// '.join(['A', 'B'])}) split-derived genes: {multi_total:,}"
+        f"multi-mapping split-derived genes: {multi_total:,}"
         + (
             "  [" + ", ".join(f"{k}={v}" for k, v in multi_counts.items() if v) + "]"
             if multi_total
@@ -308,10 +362,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
     )
 
-    if btm_symbols and "btm" in reports:
-        _, fallback = resolver.resolve_set(btm_symbols, CURRENT)
-        print()
-        print(render_era_delta(reports["btm"], fallback, era_label=SOURCE_SNAPSHOT["btm"]))
+    print()
+    print("within-source collisions (distinct symbols resolving to one gene):")
+    print(render_collisions(reports))
+
+    print()
+    print(f"{len(spotcheck):,} spot-check rows written to {args.spotcheck}")
+    print(_table(SPOTCHECK_COLUMNS, spotcheck, "<" * len(SPOTCHECK_COLUMNS)))
 
     if args.preview:
         print()
