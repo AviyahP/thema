@@ -247,6 +247,14 @@ lower tier is never consulted once a higher one has matched. Those cases are
 adjudicated by hand from `data/gene_resolution_log.tsv`, which is committed as
 provenance.
 
+One further tier sits below the three symbol tiers: a symbol of the form
+`LOC<digits>` is *decoded* rather than matched, since that is NCBI's naming
+convention for an uncharacterized locus and the digits are its Entrez Gene id,
+which HGNC's complete set already carries. It is a deterministic decoding of a
+documented convention rather than a heuristic, and HGNC's Entrez ids are
+unique so it cannot be ambiguous; matches are recorded as `match_type=entrez`.
+It recovers 30 of BTM's symbols and nothing elsewhere.
+
 **A per-source 2013 "era lens" for BTM was built and then removed**, because
 measurement showed its premise was false. Symbol reassignment is real in HGNC
 — 229 approved/previous collisions, 102 adopted by their current owner after

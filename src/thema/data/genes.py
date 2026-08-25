@@ -16,6 +16,15 @@ candidates it could not choose between go to the log for a human to adjudicate. 
 matches no tier gets one last chance against ``withdrawn.txt``, which is the only place retired
 symbols survive.
 
+**The Entrez fallback.** Consulted only once approved, previous and alias have all failed and the
+symbol is absent from ``withdrawn.txt`` too. NCBI names an uncharacterized locus ``LOC<n>`` where
+``n`` *is* its Entrez Gene id, so such a symbol is not matched at all but **decoded**, and the id
+looked up against the ``entrez_id`` column of the complete set. This is a deterministic decoding of
+a documented naming convention, not a heuristic: nothing is inferred from the shape of the name
+beyond what the convention already guarantees, and because HGNC's ``entrez_id`` values are unique
+the lookup cannot be ambiguous. Results are recorded with ``match_type="entrez"`` so they stay
+distinguishable in the log.
+
 **Hop 2, carry forward.** The identifier hop 1 produced is validated against the release: a record
 that has since merged is followed to its current identifier (transitively, guarding against
 cycles), and one withdrawn without a replacement resolves to ``None``. A record that was *split*
@@ -33,6 +42,7 @@ all -- so the lens's sole measurable effect was to decline four names HGNC appro
 
 import csv
 import io
+import re
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, replace
 from datetime import date
@@ -42,19 +52,22 @@ from typing import Literal
 #: Affymetrix probe-set convention for one probe mapping to several genes, present only in BTM.
 MULTI_MAPPING_SEPARATOR = " /// "
 
+#: NCBI names an uncharacterized locus ``LOC<entrez id>``, so the digits decode to the id itself.
+_LOC_SYMBOL = re.compile(r"LOC(\d+)")
+
 _MULTI_VALUE_SEPARATOR = "|"
 _MERGE_TARGET_SEPARATOR = ","
 _MAX_MERGE_DEPTH = 8
 _WITHDRAWN_OUTRIGHT = "Entry Withdrawn"
 
-MatchType = Literal["approved", "previous", "alias"]
+MatchType = Literal["approved", "previous", "alias", "entrez"]
 Outcome = Literal[
-    "approved", "previous", "alias", "ambiguous", "unmapped", "withdrawn", "merged"
+    "approved", "previous", "alias", "entrez", "ambiguous", "unmapped", "withdrawn", "merged"
 ]
 
 TIERS: tuple[MatchType, ...] = ("approved", "previous", "alias")
 OUTCOMES: tuple[Outcome, ...] = (
-    "approved", "previous", "alias", "merged", "ambiguous", "withdrawn", "unmapped",
+    "approved", "previous", "alias", "entrez", "merged", "ambiguous", "withdrawn", "unmapped",
 )
 
 
@@ -67,6 +80,7 @@ class GeneRecord:
         symbol: Approved symbol.
         prev_symbols: Symbols this gene previously held.
         alias_symbols: Undated synonyms.
+        entrez_id: NCBI Entrez Gene id, or the empty string when HGNC records none.
         date_approved_reserved: When the symbol was approved or reserved.
         date_symbol_changed: When ``symbol`` was last changed, or None if never.
     """
@@ -75,6 +89,7 @@ class GeneRecord:
     symbol: str
     prev_symbols: tuple[str, ...] = ()
     alias_symbols: tuple[str, ...] = ()
+    entrez_id: str = ""
     date_approved_reserved: date | None = None
     date_symbol_changed: date | None = None
 
@@ -245,6 +260,7 @@ def parse_complete_set(text: str) -> dict[str, GeneRecord]:
             symbol=symbol,
             prev_symbols=_split_multi_value(row.get("prev_symbol") or ""),
             alias_symbols=_split_multi_value(row.get("alias_symbol") or ""),
+            entrez_id=(row.get("entrez_id") or "").strip(),
             date_approved_reserved=_parse_date(row.get("date_approved_reserved") or ""),
             date_symbol_changed=_parse_date(row.get("date_symbol_changed") or ""),
         )
@@ -302,12 +318,14 @@ class Snapshot:
         withdrawn: Withdrawn and merged records keyed by HGNC id.
         index: ``tier -> symbol -> hgnc ids``, the lookup hop 1 walks in tier precedence.
         withdrawn_by_symbol: Retired symbol to the ids that held it; hop 1's last resort.
+        entrez_index: Entrez Gene id to HGNC id, backing the ``entrez`` fallback tier.
     """
 
     records: Mapping[str, GeneRecord]
     withdrawn: Mapping[str, WithdrawnRecord]
     index: Mapping[str, Mapping[str, tuple[str, ...]]]
     withdrawn_by_symbol: Mapping[str, tuple[str, ...]]
+    entrez_index: Mapping[str, str]
 
     @classmethod
     def from_tsv_text(cls, complete_set: str, withdrawn: str = "") -> "Snapshot":
@@ -343,6 +361,7 @@ class Snapshot:
             withdrawn_by_symbol={
                 s: tuple(sorted(ids, key=_hgnc_sort_key)) for s, ids in by_symbol.items()
             },
+            entrez_index={r.entrez_id: r.hgnc_id for r in records.values() if r.entrez_id},
         )
 
     @classmethod
@@ -447,6 +466,17 @@ class GeneResolver:
             )
         if retired:
             return self._carry_forward(key, retired[0], "approved")
+
+        decoded = _LOC_SYMBOL.fullmatch(key)
+        if decoded:
+            hgnc_id = snapshot.entrez_index.get(decoded.group(1))
+            if hgnc_id is not None:
+                return self._carry_forward(key, hgnc_id, "entrez")
+            return Resolution(
+                key,
+                "unmapped",
+                note=f"decoded to Entrez Gene {decoded.group(1)}, which HGNC does not record",
+            )
         return Resolution(key, "unmapped", note="no match in the HGNC release")
 
     def _describe(self, hgnc_ids: Sequence[str]) -> tuple[tuple[str, str], ...]:

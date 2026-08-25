@@ -1,3 +1,4 @@
+from dataclasses import replace
 from datetime import date
 
 import pytest
@@ -16,12 +17,14 @@ from thema.data.genes import GeneResolver, Snapshot
 #   HGNC:7  MULTIA / HGNC:8 MULTIB                               -> multi-mapping components
 #   HGNC:20 GENEA     prev SHARED                                -> SHARED at the previous tier...
 #   HGNC:21 SHARED    approved                                   -> ...and at the approved tier
+#   HGNC:30 LOC5555   approved symbol shaped like a LOC name     -> approved tier must beat entrez
+#   HGNC:31 DECOY     entrez 5555                                -> ...and this must not win
 #
 # withdrawn.txt supplies the rest: HGNC:100 merged into HGNC:1, HGNC:101 withdrawn outright,
 # HGNC:102 split into two, and HGNC:103 -> HGNC:104 -> HGNC:3 as a two-hop merge chain.
 
 _COLUMNS = (
-    "hgnc_id\tsymbol\tname\tstatus\tprev_symbol\talias_symbol\t"
+    "hgnc_id\tsymbol\tname\tstatus\tprev_symbol\talias_symbol\tentrez_id\t"
     "date_approved_reserved\tdate_symbol_changed"
 )
 
@@ -32,10 +35,14 @@ def _row(
     *,
     prev: str = "",
     alias: str = "",
+    entrez: str = "",
     approved: str = "1990-01-01",
     changed: str = "",
 ) -> str:
-    return f"{hgnc_id}\t{symbol}\t{symbol} gene\tApproved\t{prev}\t{alias}\t{approved}\t{changed}"
+    return (
+        f"{hgnc_id}\t{symbol}\t{symbol} gene\tApproved\t{prev}\t{alias}\t{entrez}\t"
+        f"{approved}\t{changed}"
+    )
 
 
 COMPLETE_SET = "\n".join(
@@ -43,7 +50,7 @@ COMPLETE_SET = "\n".join(
         _COLUMNS,
         _row("HGNC:1", "KLF1"),
         _row("HGNC:2", "CXCL8", prev="IL8", changed="2015-06-01"),
-        _row("HGNC:3", "TP53", alias="P53"),
+        _row("HGNC:3", "TP53", alias="P53", entrez="7157"),
         _row("HGNC:4", "AMBIA", alias="DUPE"),
         _row("HGNC:5", "AMBIB", alias="DUPE"),
         _row("HGNC:6", "NEWGENE", alias="ONLYALIAS", approved="2019-03-01"),
@@ -51,6 +58,10 @@ COMPLETE_SET = "\n".join(
         _row("HGNC:8", "MULTIB"),
         _row("HGNC:20", "GENEA", prev="SHARED", changed="2019-01-01"),
         _row("HGNC:21", "SHARED", prev="OLDB", changed="2020-01-01"),
+        # LOC5555 is HGNC:30's approved symbol, while HGNC:31 holds Entrez id 5555. The approved
+        # tier must win: the Entrez tier is a fallback, not a shortcut.
+        _row("HGNC:30", "LOC5555"),
+        _row("HGNC:31", "DECOY", entrez="5555"),
         "",
     ]
 )
@@ -210,7 +221,7 @@ def test_parsing_handles_pipe_delimited_and_quoted_fields() -> None:
     text = "\n".join(
         [
             _COLUMNS,
-            'HGNC:9\tGENEC\tGene C\tApproved\t"OLD1|OLD2"\t"ALT1|ALT2"\t1990-01-01\t2014-01-01',
+            'HGNC:9\tGENEC\tGene C\tApproved\t"OLD1|OLD2"\t"ALT1|ALT2"\t\t1990-01-01\t2014-01-01',
             "",
         ]
     )
@@ -219,3 +230,51 @@ def test_parsing_handles_pipe_delimited_and_quoted_fields() -> None:
     assert record.prev_symbols == ("OLD1", "OLD2")
     assert record.alias_symbols == ("ALT1", "ALT2")
     assert record.date_symbol_changed == date(2014, 1, 1)
+
+
+def test_entrez_tier_decodes_a_loc_symbol(resolver: GeneResolver) -> None:
+    resolution = resolver.explain("LOC7157")
+    assert resolution.ref is not None, "LOC<n> decodes to Entrez Gene n"
+    assert resolution.outcome == "entrez"
+    assert resolution.ref.match_type == "entrez", "the tier must be distinguishable in the log"
+    assert (resolution.ref.hgnc_id, resolution.ref.approved_symbol) == ("HGNC:3", "TP53")
+    assert not resolution.ref.carried_forward
+
+
+def test_entrez_tier_leaves_an_unknown_id_unmapped(resolver: GeneResolver) -> None:
+    resolution = resolver.explain("LOC999999")
+    assert resolution.ref is None, "an Entrez id HGNC does not record must not resolve"
+    assert resolution.outcome == "unmapped"
+    assert "999999" in resolution.note
+
+
+def test_entrez_tier_is_not_consulted_when_a_higher_tier_matched(resolver: GeneResolver) -> None:
+    # LOC5555 is HGNC:30's approved symbol; HGNC:31 holds Entrez id 5555. Decoding must not
+    # pre-empt a real symbol match, or the fallback becomes a shortcut.
+    resolution = resolver.explain("LOC5555")
+    assert resolution.outcome == "approved"
+    assert resolution.ref is not None
+    assert resolution.ref.hgnc_id == "HGNC:30", "the approved tier owns this symbol"
+
+
+def test_non_loc_symbols_never_reach_the_entrez_tier(resolver: GeneResolver) -> None:
+    for symbol in ("7157", "LOC", "LOCX7157", "loc7157"):
+        resolution = resolver.explain(symbol)
+        assert resolution.outcome == "unmapped", f"{symbol} must not decode"
+        assert resolution.ref is None
+
+
+# HGNC publishes entrez_id only for approved records and withdrawn.txt carries no Entrez column,
+# so a decode can never land on a merged record with real data. This builds that state directly to
+# prove the tier is genuinely wired through _carry_forward and would follow a merge if it arose.
+def test_entrez_tier_carries_forward_through_a_merge() -> None:
+    base = Snapshot.from_tsv_text(COMPLETE_SET, WITHDRAWN)
+    snapshot = replace(base, entrez_index={**base.entrez_index, "4242": "HGNC:100"})
+    resolution = GeneResolver(snapshot).explain("LOC4242")
+
+    assert resolution.outcome == "merged", "hop 2 must follow the merge, not report the dead id"
+    assert resolution.ref is not None
+    assert resolution.ref.hgnc_id == "HGNC:1", "HGNC:100 merged into HGNC:1"
+    assert resolution.ref.match_type == "entrez", "the tier that matched must survive hop 2"
+    assert resolution.ref.matched_hgnc_id == "HGNC:100"
+    assert resolution.ref.carried_forward
