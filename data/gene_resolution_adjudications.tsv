@@ -1,0 +1,6 @@
+source	original_symbol	decision	hgnc_id	approved_symbol	rationale	decided_on
+reactome	E1	exclude	-	-	HPV18 E1 replication protein; verified as Reactome complex IFIT1:HPV18 E1 (R-HSA-9691463). Candidates BCHE, SNORA73A, ENOPH1 all incorrect.	2026-08-24
+reactome	NS	exclude	-	-	Unidentified; appears in 45+ unrelated pathways spanning chromatin remodellers, viral budding and interferon response. Neither candidate (SPINK5, GNL3) explains the span. Open item in the debt log.	2026-08-24
+reactome	TRM1	exclude	-	-	Human cytomegalovirus protein (UniProt F5HC79); verified as Reactome R-HCY-9636116 and R-HCY-9605830, species Human cytomegalovirus. Resolver's tRNA-gene candidates matched on string coincidence only.	2026-08-24
+go	C18orf21	assign	HGNC:28802	RMP24	Alternative candidate RMP24P1 (HGNC:57042) is a pseudogene; GOBP_RNA_PROCESSING annotates the functional gene.	2026-08-24
+btm	AG2	exclude	-	-	Genuinely ambiguous: HGNC registers AG2 as an alias of both AGR2 (HGNC:328) and C11orf96 (HGNC:38675), both protein-coding, with no tiebreaker. Module M172's immediate-early inflammatory context does not favour AGR2.	2026-08-24

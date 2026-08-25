@@ -19,12 +19,16 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RAW = REPO_ROOT / "data" / "raw"
 DEFAULT_LOG = REPO_ROOT / "data" / "gene_resolution_log.tsv"
 DEFAULT_SPOTCHECK = REPO_ROOT / "data" / "gene_resolution_spotcheck.tsv"
+DEFAULT_ADJUDICATIONS = REPO_ROOT / "data" / "gene_resolution_adjudications.tsv"
 HGNC_RELEASE = "2026-07-07"
 
 #: Sampling seed, so the committed spot-check file is byte-stable and does not churn in git.
 SPOTCHECK_SEED = 0
 SPOTCHECK_PREVIOUS = 20
 MAX_PATHWAYS = 5
+
+#: Outcomes whose rows carry pathway context: unsettled, or settled by hand.
+_ADJUDICABLE = frozenset({"ambiguous", "adjudicated", "excluded"})
 
 LOG_COLUMNS = (
     "source",
@@ -126,12 +130,12 @@ def log_rows(
         if resolution.is_clean_approved:
             continue
         ref = resolution.ref
-        # Only ambiguous rows carry the containing sets: they are the ones adjudicated by hand,
-        # and every row carrying them would balloon the file for no gain.
+        # Only the hand-adjudicable rows carry the containing sets -- those still ambiguous, and
+        # those an adjudication has since settled. Every row carrying them would balloon the file.
         key = resolution.origin or resolution.symbol
         cell = (
             format_pathways(pathways.get(key, ()))
-            if resolution.outcome == "ambiguous"
+            if resolution.outcome in _ADJUDICABLE
             else "-"
         )
         rows.append(
@@ -296,6 +300,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help="spot-check destination (default: %(default)s)",
     )
     parser.add_argument(
+        "--adjudications",
+        type=Path,
+        default=DEFAULT_ADJUDICATIONS,
+        help="hand-settled ambiguous cases (default: %(default)s)",
+    )
+    parser.add_argument(
         "--preview", type=int, default=20, metavar="N", help="log rows to print (default: 20)"
     )
     return parser.parse_args(argv)
@@ -315,7 +325,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
 
     print(f"loading HGNC release {HGNC_RELEASE}...", file=sys.stderr)
-    resolver = GeneResolver.from_files(complete_set, withdrawn)
+    resolver = GeneResolver.from_files(complete_set, withdrawn, args.adjudications)
+    if resolver.adjudications:
+        print(f"{len(resolver.adjudications)} hand-settled adjudications loaded", file=sys.stderr)
 
     reports: dict[str, ResolutionReport] = {}
     totals: dict[str, int] = {}
@@ -331,7 +343,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         entries = read_gmt(path)
         pathways[source.key] = entries
         print(f"resolving {source.key} ({len(entries):,} entries)", file=sys.stderr)
-        _, report = resolver.resolve_set(entries)
+        _, report = resolver.resolve_set(entries, source.key)
         reports[source.key] = report
         totals[source.key] = len(report.resolutions)
         multi_counts[source.key] = len(report.multi_mapping_derived)
@@ -340,6 +352,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not reports:
         print("no sources found", file=sys.stderr)
         return 1
+
+    applied = {
+        (source, r.symbol)
+        for source, report in reports.items()
+        for r in report.resolutions
+        if r.outcome in {"adjudicated", "excluded"}
+    }
+    stale = sorted(set(resolver.adjudications) - applied)
+    if stale:
+        print(
+            "warning: adjudications that matched no ambiguous symbol in any source "
+            "(the symbol may have been dropped, or now resolves cleanly):",
+            file=sys.stderr,
+        )
+        for key in stale:
+            print(f"  {key[0]}/{key[1]}", file=sys.stderr)
 
     order = {s.key: i for i, s in enumerate(SOURCE_FILES)}
     rows.sort(key=lambda row: (order[row[0]], row[1], row[2]))

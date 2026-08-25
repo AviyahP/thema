@@ -305,3 +305,37 @@ generic string with no HGNC assignment (`IGLV` → A2NXD2, a 117-aa fragment
 Reactome labels lambda while UniProt describes it as kappa). Only the first
 kind is settled policy; the other two are judged case by case and open items
 are tracked in the debt log.
+
+Two further recovery tiers sit below the symbol tiers, each a deterministic
+rule rather than an inference. An **isoform strip** removes a trailing `.N` or single trailing lowercase letter
+and accepts the result only if the stem resolves at the approved tier
+(`FGFR2b`→FGFR2, `ROBO3.1`→ROBO3); nothing is stripped speculatively, and the
+stem guard yields zero false positives across all unmapped symbols. And
+`data/gene_resolution_adjudications.tsv` is the hand-maintained authority for
+ambiguous cases: it overrides the ambiguity refusal *and nothing else* — a
+clean tier match is never consulted against it. An Ensembl decode was
+considered and rejected: the only members carrying an `ENSG` id are
+`7SL RNA (ENSG00000222619)` and `(ENSG00000222639)`, Ensembl-only SRP RNA loci
+absent from every column of the HGNC release, so the tier could never fire.
+They stay unmapped.
+
+**Collective labels are not expanded, on the correct grounds.** An earlier
+rule — expand only if the genes would appear in the input assay — was
+withdrawn: enrichment already restricts gene sets to the measured universe, so
+a build-time discard merely bakes one assay's assumptions into a frozen
+artifact where the per-user restriction would have adapted. The real reason is
+uncertainty of reference: a family or Set label (`5S rRNA`, `HSP70`) does not
+reliably mean every member, and expanding one asserts membership we cannot
+verify.
+
+**Reactome's infection pathways carry short pathogen protein names that
+collide with human gene aliases, and pathway context reliably misleads.**
+Verified cases: `E1` is HPV18's replication protein (not a ubiquitin-activating
+enzyme, despite sitting in interferon pathways), `TRM1` is an HCMV protein
+(UniProt F5HC79, not a tRNA methyltransferase), `CVC1`/`CVC2` are HCMV capsid
+vertex components. Each was initially misread as human by inference from
+neighbouring pathways; each was settled only by opening the record. Unresolved
+entries therefore fall into four kinds, not three: non-human proteins; Set or
+Complex container names; unassigned UniProt fragments; and human proteins HGNC
+does not register (`ACOT7L`, `HSBP2`, both in human metabolic and heat-shock
+pathways).

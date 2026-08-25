@@ -3,7 +3,7 @@ from datetime import date
 
 import pytest
 
-from thema.data.genes import GeneResolver, Snapshot
+from thema.data.genes import Adjudication, GeneResolver, Snapshot, parse_adjudications
 
 # The fixture is one small HGNC release, written as the real TSV so the parser is exercised too.
 # Genes are chosen so that one release covers every case the resolver must handle.
@@ -19,6 +19,8 @@ from thema.data.genes import GeneResolver, Snapshot
 #   HGNC:21 SHARED    approved                                   -> ...and at the approved tier
 #   HGNC:30 LOC5555   approved symbol shaped like a LOC name     -> approved tier must beat entrez
 #   HGNC:31 DECOY     entrez 5555                                -> ...and this must not win
+#   HGNC:40 GENEb     approved symbol ending in a lowercase letter -> beats the isoform strip
+#   HGNC:41 GENE      the stem GENEb would strip to               -> ...and must not win
 #
 # withdrawn.txt supplies the rest: HGNC:100 merged into HGNC:1, HGNC:101 withdrawn outright,
 # HGNC:102 split into two, and HGNC:103 -> HGNC:104 -> HGNC:3 as a two-hop merge chain.
@@ -62,6 +64,10 @@ COMPLETE_SET = "\n".join(
         # tier must win: the Entrez tier is a fallback, not a shortcut.
         _row("HGNC:30", "LOC5555"),
         _row("HGNC:31", "DECOY", entrez="5555"),
+        # GENEb is HGNC:40's approved symbol while GENE is HGNC:41's: stripping the trailing
+        # lowercase letter must never pre-empt a real symbol match.
+        _row("HGNC:40", "GENEb"),
+        _row("HGNC:41", "GENE"),
         "",
     ]
 )
@@ -278,3 +284,94 @@ def test_entrez_tier_carries_forward_through_a_merge() -> None:
     assert resolution.ref.match_type == "entrez", "the tier that matched must survive hop 2"
     assert resolution.ref.matched_hgnc_id == "HGNC:100"
     assert resolution.ref.carried_forward
+
+
+def test_isoform_strip_resolves_when_the_stem_is_an_approved_symbol(
+    resolver: GeneResolver,
+) -> None:
+    resolution = resolver.explain("TP53b")
+    assert resolution.ref is not None, "a trailing isoform letter must strip to its stem"
+    assert resolution.outcome == "isoform"
+    assert (resolution.ref.hgnc_id, resolution.ref.approved_symbol) == ("HGNC:3", "TP53")
+    assert resolution.ref.match_type == "isoform"
+
+
+def test_isoform_strip_handles_the_dotted_form(resolver: GeneResolver) -> None:
+    resolution = resolver.explain("TP53.1")
+    assert resolution.ref is not None, "ROBO3.1-style labels must strip too"
+    assert resolution.outcome == "isoform"
+    assert resolution.ref.hgnc_id == "HGNC:3"
+
+
+def test_isoform_strip_refuses_when_the_stem_does_not_resolve(resolver: GeneResolver) -> None:
+    for symbol in ("NOTAGENEz", "NOTAGENE.1", "ZZTOPq"):
+        resolution = resolver.explain(symbol)
+        assert resolution.ref is None, f"{symbol} must not be stripped speculatively"
+        assert resolution.outcome == "unmapped"
+
+
+def test_isoform_strip_is_not_consulted_when_a_higher_tier_matched(resolver: GeneResolver) -> None:
+    resolution = resolver.explain("GENEb")
+    assert resolution.outcome == "approved", "a real symbol ending in a lowercase letter wins"
+    assert resolution.ref is not None
+    assert resolution.ref.hgnc_id == "HGNC:40", "must not strip to HGNC:41 GENE"
+
+
+def _adjudicating(**rulings: Adjudication) -> GeneResolver:
+    snapshot = Snapshot.from_tsv_text(COMPLETE_SET, WITHDRAWN)
+    return GeneResolver(snapshot, {(r.source, r.symbol): r for r in rulings.values()})
+
+
+def test_adjudication_assign_overrides_an_ambiguous_symbol() -> None:
+    resolver = _adjudicating(
+        dupe=Adjudication("reactome", "DUPE", "assign", "HGNC:4", "AMBIA", "picked A", "2026-08-24")
+    )
+    assert resolver.explain("DUPE").outcome == "ambiguous", "no source means no ruling applies"
+
+    resolution = resolver.explain("DUPE", "reactome")
+    assert resolution.outcome == "adjudicated"
+    assert resolution.ref is not None
+    assert (resolution.ref.hgnc_id, resolution.ref.approved_symbol) == ("HGNC:4", "AMBIA")
+    assert resolution.ref.match_type == "adjudicated"
+    assert "picked A" in resolution.note, "the rationale must reach the log"
+
+
+def test_adjudication_exclude_records_an_exclusion_not_an_ambiguity() -> None:
+    resolver = _adjudicating(
+        dupe=Adjudication("btm", "DUPE", "exclude", "", "", "genuinely ambiguous", "2026-08-24")
+    )
+    resolution = resolver.explain("DUPE", "btm")
+    assert resolution.outcome == "excluded"
+    assert resolution.ref is None, "an exclusion resolves to no gene"
+    assert "genuinely ambiguous" in resolution.note
+
+
+def test_adjudication_never_overrides_a_clean_tier_match() -> None:
+    resolver = _adjudicating(
+        klf1=Adjudication("reactome", "KLF1", "assign", "HGNC:9", "WRONG", "should not apply", "x")
+    )
+    resolution = resolver.explain("KLF1", "reactome")
+    assert resolution.outcome == "approved", "adjudications override the refusal and nothing else"
+    assert resolution.ref is not None
+    assert resolution.ref.hgnc_id == "HGNC:1"
+
+
+def test_adjudication_is_scoped_to_its_source() -> None:
+    resolver = _adjudicating(
+        dupe=Adjudication("reactome", "DUPE", "assign", "HGNC:4", "AMBIA", "reactome only", "x")
+    )
+    assert resolver.explain("DUPE", "go").outcome == "ambiguous", (
+        "a ruling for one source must not settle another's identically-named symbol"
+    )
+
+
+def test_parse_adjudications_reads_the_committed_format() -> None:
+    text = (
+        "source\toriginal_symbol\tdecision\thgnc_id\tapproved_symbol\trationale\tdecided_on\n"
+        "go\tC18orf21\tassign\tHGNC:28802\tRMP24\tpseudogene rejected\t2026-08-24\n"
+        "btm\tAG2\texclude\t-\t-\tno tiebreaker\t2026-08-24\n"
+    )
+    rulings = parse_adjudications(text)
+    assert set(rulings) == {("go", "C18orf21"), ("btm", "AG2")}
+    assert rulings[("go", "C18orf21")].hgnc_id == "HGNC:28802"
+    assert rulings[("btm", "AG2")].hgnc_id == "", "a '-' cell reads as empty, as in the log"

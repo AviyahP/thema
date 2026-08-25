@@ -29,15 +29,15 @@ reactome	DDX58	previous	HGNC:19102	RIGI	previous	no	-	-
 reactome	DEANR1	alias	HGNC:16189	LINC00261	alias	no	-	-
 reactome	DENCMEMSB	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	E	unmapped	-	-	-	-	-	no match in the HGNC release
-reactome	E1	ambiguous	-	-	-	-	Antimicrobial mechanism of IFN-stimulated genes; Cytokine Signaling in Immune system; IFIT antiviral response; Immune System; Interferon Signaling	ambiguous at the alias tier; candidates: HGNC:983|BCHE; HGNC:10115|SNORA73A; HGNC:24599|ENOPH1
+reactome	E1	excluded	-	-	-	-	Antimicrobial mechanism of IFN-stimulated genes; Cytokine Signaling in Immune system; IFIT antiviral response; Immune System; Interferon Signaling	adjudicated 2026-08-24: HPV18 E1 replication protein; verified as Reactome complex IFIT1:HPV18 E1 (R-HSA-9691463). Candidates BCHE, SNORA73A, ENOPH1 all incorrect.
 reactome	F	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	FAM83A	previous	HGNC:28210	SACK1A	previous	no	-	-
 reactome	FAM83B	previous	HGNC:21357	SACK1B	previous	no	-	-
 reactome	FAM83D	previous	HGNC:16122	SACK1D	previous	no	-	-
 reactome	FAM98B	previous	HGNC:26773	TSLIG3B	previous	no	-	-
 reactome	FCGR1B	previous	HGNC:3614	FCGR1BP	previous	no	-	-
-reactome	FGFR2b	unmapped	-	-	-	-	-	no match in the HGNC release
-reactome	FGFR2c	unmapped	-	-	-	-	-	no match in the HGNC release
+reactome	FGFR2b	isoform	HGNC:3689	FGFR2	isoform	no	-	-
+reactome	FGFR2c	isoform	HGNC:3689	FGFR2	isoform	no	-	-
 reactome	G	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	Genome polyprotein	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	HA	unmapped	-	-	-	-	-	no match in the HGNC release
@@ -71,7 +71,7 @@ reactome	NCL	previous	HGNC:7667	NUCLEOLIN	previous	no	-	-
 reactome	NEC1	previous	HGNC:8743	PCSK1	previous	no	-	-
 reactome	NEC2	previous	HGNC:8744	PCSK2	previous	no	-	-
 reactome	NP	previous	HGNC:7892	PNP	previous	no	-	-
-reactome	NS	ambiguous	-	-	-	-	ATP-dependent chromatin remodelers; Antimicrobial mechanism of IFN-stimulated genes; Budding; CHD chromatin remodelers; CHD6, CHD7, CHD8, CHD9 subfamily (+41 more)	ambiguous at the alias tier; candidates: HGNC:15464|SPINK5; HGNC:29931|GNL3
+reactome	NS	excluded	-	-	-	-	ATP-dependent chromatin remodelers; Antimicrobial mechanism of IFN-stimulated genes; Budding; CHD chromatin remodelers; CHD6, CHD7, CHD8, CHD9 subfamily (+41 more)	adjudicated 2026-08-24: Unidentified; appears in 45+ unrelated pathways spanning chromatin remodellers, viral budding and interferon response. Neither candidate (SPINK5, GNL3) explains the span. Open item in the debt log.
 reactome	NS5B	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	OPG035	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	OPG199	unmapped	-	-	-	-	-	no match in the HGNC release
@@ -91,7 +91,7 @@ reactome	RL11	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	RL8A	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	RL9A	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	RNA4.9	unmapped	-	-	-	-	-	no match in the HGNC release
-reactome	ROBO3.1	unmapped	-	-	-	-	-	no match in the HGNC release
+reactome	ROBO3.1	isoform	HGNC:13433	ROBO3	isoform	no	-	-
 reactome	RSC1A1	previous	HGNC:24578	DDI2	previous	no	-	-
 reactome	Rv1410c	unmapped	-	-	-	-	-	no match in the HGNC release
 reactome	Rv2895c	unmapped	-	-	-	-	-	no match in the HGNC release
@@ -112,7 +112,7 @@ reactome	TNFSF6	previous	HGNC:11936	FASLG	previous	no	-	-
 reactome	TNKS1BP1	previous	HGNC:19081	CNOT12	previous	no	-	-
 reactome	TRAF3IP1	previous	HGNC:17861	IFT54	previous	no	-	-
 reactome	TRL-CAG1	unmapped	-	-	-	-	-	no match in the HGNC release
-reactome	TRM1	ambiguous	-	-	-	-	Disease; HCMV Infection; HCMV Late Events; Infectious disease; Viral Infection Pathways	ambiguous at the previous tier; candidates: HGNC:12318|TRX-CAT1-2; HGNC:12322|TRX-CAT2-1
+reactome	TRM1	excluded	-	-	-	-	Disease; HCMV Infection; HCMV Late Events; Infectious disease; Viral Infection Pathways	adjudicated 2026-08-24: Human cytomegalovirus protein (UniProt F5HC79); verified as Reactome R-HCY-9636116 and R-HCY-9605830, species Human cytomegalovirus. Resolver's tRNA-gene candidates matched on string coincidence only.
 reactome	TRM2	previous	HGNC:12318	TRX-CAT1-2	previous	no	-	-
 reactome	TRM3	alias	HGNC:11568	TARBP1	alias	no	-	-
 reactome	TRS1	previous	HGNC:16292	TRS-TGA2-1	previous	no	-	-
@@ -455,7 +455,7 @@ go	C11orf54	previous	HGNC:30204	BKGD	previous	no	-	-
 go	C12orf50	previous	HGNC:26665	ZC3H11D	previous	no	-	-
 go	C15orf39	previous	HGNC:24497	PRMT2IP	previous	no	-	-
 go	C16orf92	previous	HGNC:26346	FIMP1	previous	no	-	-
-go	C18orf21	ambiguous	-	-	-	-	GOBP_RNA_PROCESSING	ambiguous at the previous tier; candidates: HGNC:28802|RMP24; HGNC:57042|RMP24P1
+go	C18orf21	adjudicated	HGNC:28802	RMP24	adjudicated	no	GOBP_RNA_PROCESSING	adjudicated 2026-08-24: Alternative candidate RMP24P1 (HGNC:57042) is a pseudogene; GOBP_RNA_PROCESSING annotates the functional gene.
 go	C1orf43	previous	HGNC:29876	LTAP1	previous	no	-	-
 go	C2CD6	previous	HGNC:14438	CATSPERT	previous	no	-	-
 go	C2orf49	previous	HGNC:28772	TSLIG2	previous	no	-	-
@@ -553,7 +553,7 @@ btm	ACSM2B	approved	HGNC:30931	ACSM2B	approved	no	-	multi-mapping component 2 of
 btm	ACSM2B	approved	HGNC:30931	ACSM2B	approved	no	-	multi-mapping component 2 of 3 in "ACSM2A /// ACSM2B /// LOC100291873"
 btm	ADORA2A	approved	HGNC:263	ADORA2A	approved	no	-	multi-mapping component 1 of 2 in "ADORA2A /// CYTSA"
 btm	AES	previous	HGNC:307	TLE5	previous	no	-	-
-btm	AG2	ambiguous	-	-	-	-	enriched for TF motif TTCNRGNNNNTTC (M172)	ambiguous at the alias tier; candidates: HGNC:328|AGR2; HGNC:38675|C11orf96
+btm	AG2	excluded	-	-	-	-	enriched for TF motif TTCNRGNNNNTTC (M172)	adjudicated 2026-08-24: Genuinely ambiguous: HGNC registers AG2 as an alias of both AGR2 (HGNC:328) and C11orf96 (HGNC:38675), both protein-coding, with no tiebreaker. Module M172's immediate-early inflammatory context does not favour AGR2.
 btm	AGPAT9	previous	HGNC:28157	GPAT3	previous	no	-	-
 btm	AHSA2	previous	HGNC:20437	AHSA2P	previous	no	-	-
 btm	ALS2CR4	previous	HGNC:14432	TMEM237	previous	no	-	-

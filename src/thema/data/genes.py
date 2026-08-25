@@ -25,6 +25,18 @@ beyond what the convention already guarantees, and because HGNC's ``entrez_id`` 
 the lookup cannot be ambiguous. Results are recorded with ``match_type="entrez"`` so they stay
 distinguishable in the log.
 
+**The isoform rule.** Reactome writes a few members as isoform labels rather than gene symbols
+(``FGFR2b``, ``FGFR2c``, ``ROBO3.1``). Consulted last, this strips a trailing ``.N`` or a single
+trailing lowercase letter and accepts the result *only* if the remainder is itself an approved
+symbol. That guard is what keeps it honest -- nothing is stripped speculatively, and across every
+unmapped symbol in all four sources it yields exactly those three and no false positives.
+
+Two kinds of member string are deliberately **not** recovered. Collective labels (``5S rRNA``,
+``HSP70``) are not expanded, because a family name does not reliably mean every member. And an
+embedded Ensembl id such as ``7SL RNA (ENSG00000222619)`` is not decoded: those two SRP RNA loci
+are Ensembl-only and appear nowhere in the HGNC release, so a decode tier for them would never
+fire.
+
 **Hop 2, carry forward.** The identifier hop 1 produced is validated against the release: a record
 that has since merged is followed to its current identifier (transitively, guarding against
 cycles), and one withdrawn without a replacement resolves to ``None``. A record that was *split*
@@ -55,19 +67,24 @@ MULTI_MAPPING_SEPARATOR = " /// "
 #: NCBI names an uncharacterized locus ``LOC<entrez id>``, so the digits decode to the id itself.
 _LOC_SYMBOL = re.compile(r"LOC(\d+)")
 
+#: Isoform labels: a trailing ``.N`` (``ROBO3.1``) or one trailing lowercase letter (``FGFR2b``).
+_ISOFORM_SUFFIXES = (re.compile(r"(.+)\.\d+"), re.compile(r"(.+[A-Za-z0-9])[a-z]"))
+
 _MULTI_VALUE_SEPARATOR = "|"
 _MERGE_TARGET_SEPARATOR = ","
 _MAX_MERGE_DEPTH = 8
 _WITHDRAWN_OUTRIGHT = "Entry Withdrawn"
 
-MatchType = Literal["approved", "previous", "alias", "entrez"]
+MatchType = Literal["approved", "previous", "alias", "entrez", "isoform", "adjudicated"]
 Outcome = Literal[
-    "approved", "previous", "alias", "entrez", "ambiguous", "unmapped", "withdrawn", "merged"
+    "approved", "previous", "alias", "entrez", "isoform", "adjudicated",
+    "merged", "ambiguous", "excluded", "withdrawn", "unmapped",
 ]
 
 TIERS: tuple[MatchType, ...] = ("approved", "previous", "alias")
 OUTCOMES: tuple[Outcome, ...] = (
-    "approved", "previous", "alias", "entrez", "merged", "ambiguous", "withdrawn", "unmapped",
+    "approved", "previous", "alias", "entrez", "isoform", "adjudicated",
+    "merged", "ambiguous", "excluded", "withdrawn", "unmapped",
 )
 
 
@@ -299,6 +316,67 @@ def parse_withdrawn(text: str) -> dict[str, WithdrawnRecord]:
     return records
 
 
+@dataclass(frozen=True, slots=True)
+class Adjudication:
+    """One ambiguous case settled by hand.
+
+    Attributes:
+        source: The source the ruling applies to; the same symbol may differ between sources.
+        symbol: The symbol as it appears in that source.
+        decision: ``assign`` to accept a gene, ``exclude`` to drop the symbol.
+        hgnc_id: The assigned identifier; empty for an exclusion.
+        approved_symbol: The assigned gene's approved symbol; empty for an exclusion.
+        rationale: Why, carried into the log so the reasoning travels with the row.
+        decided_on: ISO date of the ruling.
+    """
+
+    source: str
+    symbol: str
+    decision: str
+    hgnc_id: str = ""
+    approved_symbol: str = ""
+    rationale: str = ""
+    decided_on: str = ""
+
+
+def parse_adjudications(text: str) -> dict[tuple[str, str], Adjudication]:
+    """Parse the hand-maintained adjudications TSV, keyed by ``(source, symbol)``.
+
+    Blank lines and ``#`` comments are skipped, and ``-`` is read as an empty cell, matching the
+    convention the resolution log already uses.
+
+    Args:
+        text: The full contents of the TSV, header included.
+
+    Returns:
+        Rulings keyed by the source and symbol they apply to.
+    """
+    rulings: dict[tuple[str, str], Adjudication] = {}
+    for row in csv.DictReader(
+        (ln for ln in io.StringIO(text) if ln.strip() and not ln.startswith("#")), delimiter="\t"
+    ):
+        source = (row.get("source") or "").strip()
+        symbol = (row.get("original_symbol") or "").strip()
+        decision = (row.get("decision") or "").strip()
+        if not source or not symbol or decision not in {"assign", "exclude"}:
+            continue
+
+        def cell(name: str, row: Mapping[str, str] = row) -> str:
+            value = (row.get(name) or "").strip()
+            return "" if value == "-" else value
+
+        rulings[(source, symbol)] = Adjudication(
+            source=source,
+            symbol=symbol,
+            decision=decision,
+            hgnc_id=cell("hgnc_id"),
+            approved_symbol=cell("approved_symbol"),
+            rationale=cell("rationale"),
+            decided_on=cell("decided_on"),
+        )
+    return rulings
+
+
 def _placements(records: Mapping[str, GeneRecord]) -> Iterator[tuple[str, MatchType, str]]:
     """Yield every ``(symbol, tier, hgnc_id)`` the release defines."""
     for record in records.values():
@@ -389,53 +467,106 @@ def _format_candidates(candidates: Sequence[tuple[str, str]]) -> str:
 class GeneResolver:
     """Resolves gene symbols to HGNC identifiers against one pinned release."""
 
-    def __init__(self, snapshot: Snapshot) -> None:
+    def __init__(
+        self,
+        snapshot: Snapshot,
+        adjudications: Mapping[tuple[str, str], Adjudication] | None = None,
+    ) -> None:
         """Store the release this resolver reads through.
 
         Args:
             snapshot: The pinned HGNC release.
+            adjudications: Hand-settled ambiguous cases, keyed by ``(source, symbol)``.
         """
         self._snapshot = snapshot
+        self._adjudications: dict[tuple[str, str], Adjudication] = dict(adjudications or {})
 
     @classmethod
-    def from_files(cls, complete_set: Path, withdrawn: Path | None = None) -> "GeneResolver":
-        """Load the pinned release from disk.
+    def from_files(
+        cls,
+        complete_set: Path,
+        withdrawn: Path | None = None,
+        adjudications: Path | None = None,
+    ) -> "GeneResolver":
+        """Load the pinned release, and any hand-settled adjudications, from disk.
 
         Args:
             complete_set: Path to the pinned ``hgnc_complete_set`` TSV.
             withdrawn: Path to the matching ``withdrawn`` TSV.
+            adjudications: Path to the adjudications TSV, if one exists.
 
         Returns:
             A resolver ready to use.
         """
-        return cls(Snapshot.from_files(complete_set, withdrawn))
+        rulings = (
+            parse_adjudications(adjudications.read_text(encoding="utf-8"))
+            if adjudications is not None and adjudications.is_file()
+            else {}
+        )
+        return cls(Snapshot.from_files(complete_set, withdrawn), rulings)
+
+    @property
+    def adjudications(self) -> Mapping[tuple[str, str], Adjudication]:
+        """The hand-settled rulings this resolver will apply."""
+        return self._adjudications
 
     @property
     def snapshot(self) -> Snapshot:
         """The release this resolver reads through."""
         return self._snapshot
 
-    def resolve(self, symbol: str) -> GeneRef | None:
+    def resolve(self, symbol: str, source: str | None = None) -> GeneRef | None:
         """Resolve one symbol to a gene.
 
         Args:
             symbol: The symbol as it appears in the source.
+            source: Which source it came from, so hand-settled rulings can apply.
 
         Returns:
             The resolved gene, or None if it was ambiguous, unmappable or withdrawn. Use
             :meth:`explain` when the reason matters.
         """
-        return self.explain(symbol).ref
+        return self.explain(symbol, source).ref
 
-    def explain(self, symbol: str) -> Resolution:
+    def explain(self, symbol: str, source: str | None = None) -> Resolution:
         """Resolve one symbol and report why, including the outcomes that produce no gene.
+
+        A hand-settled ruling is consulted only when the resolver would otherwise refuse as
+        ambiguous. It overrides that refusal and nothing else: a clean tier match never reaches
+        this check, so an adjudication cannot silently redirect a symbol that already resolved.
 
         Args:
             symbol: The symbol as it appears in the source.
+            source: Which source it came from, so hand-settled rulings can apply.
 
         Returns:
             The full outcome, suitable for a row of the resolution log.
         """
+        resolution = self._match(symbol)
+        if resolution.outcome != "ambiguous" or source is None:
+            return resolution
+        ruling = self._adjudications.get((source, resolution.symbol))
+        if ruling is None:
+            return resolution
+
+        note = f"adjudicated {ruling.decided_on}: {ruling.rationale}".strip()
+        if ruling.decision == "exclude":
+            return replace(resolution, outcome="excluded", ref=None, note=note)
+        return replace(
+            resolution,
+            outcome="adjudicated",
+            ref=GeneRef(
+                hgnc_id=ruling.hgnc_id,
+                approved_symbol=ruling.approved_symbol,
+                match_type="adjudicated",
+                carried_forward=False,
+                matched_hgnc_id=ruling.hgnc_id,
+            ),
+            note=note,
+        )
+
+    def _match(self, symbol: str) -> Resolution:
+        """Run the tier cascade, before any hand-settled ruling is applied."""
         snapshot = self._snapshot
         key = symbol.strip()
         if not key:
@@ -477,6 +608,15 @@ class GeneResolver:
                 "unmapped",
                 note=f"decoded to Entrez Gene {decoded.group(1)}, which HGNC does not record",
             )
+        approved = snapshot.index["approved"]
+        for suffix in _ISOFORM_SUFFIXES:
+            trimmed = suffix.fullmatch(key)
+            if trimmed is None:
+                continue
+            stem_ids = approved.get(trimmed.group(1), ())
+            if len(stem_ids) == 1:
+                return self._carry_forward(key, stem_ids[0], "isoform")
+
         return Resolution(key, "unmapped", note="no match in the HGNC release")
 
     def _describe(self, hgnc_ids: Sequence[str]) -> tuple[tuple[str, str], ...]:
@@ -548,7 +688,9 @@ class GeneResolver:
             note=f"merge chain from {matched_hgnc_id} exceeded {_MAX_MERGE_DEPTH} hops",
         )
 
-    def resolve_set(self, symbols: Iterable[str]) -> tuple[frozenset[str], ResolutionReport]:
+    def resolve_set(
+        self, symbols: Iterable[str], source: str | None = None
+    ) -> tuple[frozenset[str], ResolutionReport]:
         """Resolve a source's symbols to a set of HGNC identifiers.
 
         Entries joined by :data:`MULTI_MAPPING_SEPARATOR` are split and each component resolved
@@ -558,6 +700,7 @@ class GeneResolver:
 
         Args:
             symbols: Symbols as they appear in the source; duplicates are resolved once.
+            source: Which source they came from, so hand-settled rulings can apply.
 
         Returns:
             The HGNC identifiers, and a report covering every symbol.
@@ -576,7 +719,7 @@ class GeneResolver:
             components = [p.strip() for p in entry.split(MULTI_MAPPING_SEPARATOR)]
             origin = entry if len(components) > 1 else ""
             for position, component in enumerate(components, start=1):
-                resolution = self.explain(component)
+                resolution = self.explain(component, source)
                 if origin:
                     provenance = (
                         f"multi-mapping component {position} of {len(components)} in "

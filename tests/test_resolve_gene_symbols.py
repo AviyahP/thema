@@ -66,7 +66,7 @@ def test_non_ambiguous_rows_leave_pathways_empty() -> None:
     _, report = resolver.resolve_set(["IL8"])
     row = log_rows("reactome", report, {"IL8": ("Pathway A",)})[0]
     assert row[LOG_COLUMNS.index("pathways")] == "-", (
-        "only ambiguous rows carry pathways; otherwise the file balloons for no gain"
+        "only unsettled or hand-settled rows carry pathways; else the file balloons"
     )
 
 
@@ -114,3 +114,35 @@ def test_written_tsv_is_stable_across_runs(tmp_path: Path) -> None:
     assert path.read_text(encoding="utf-8") == first, "log rendering is not deterministic"
     assert first.splitlines()[0] == "\t".join(LOG_COLUMNS)
     assert not list(tmp_path.glob("*.part")), "the temporary file must not survive"
+
+
+def test_adjudicated_and_excluded_rows_carry_pathway_context() -> None:
+    from thema.data.genes import Adjudication
+
+    snapshot = Snapshot.from_tsv_text(COMPLETE_SET, WITHDRAWN)
+    ruling = Adjudication("go", "DUPE", "exclude", "", "", "no tiebreaker", "2026-08-24")
+    resolver = GeneResolver(snapshot, {("go", "DUPE"): ruling})
+    _, report = resolver.resolve_set(["DUPE"], "go")
+
+    row = log_rows("go", report, {"DUPE": ("GOBP_SOMETHING",)})[0]
+    assert row[2] == "excluded"
+    assert row[LOG_COLUMNS.index("pathways")] == "GOBP_SOMETHING", (
+        "a settled row keeps the context that justified the ruling"
+    )
+    assert "no tiebreaker" in row[-1]
+
+
+def test_committed_adjudications_file_is_well_formed() -> None:
+    from resolve_gene_symbols import DEFAULT_ADJUDICATIONS
+    from thema.data.genes import parse_adjudications
+
+    rulings = parse_adjudications(DEFAULT_ADJUDICATIONS.read_text(encoding="utf-8"))
+    assert rulings, "the committed adjudications file must parse to at least one ruling"
+    for (source, symbol), ruling in rulings.items():
+        assert ruling.rationale, f"{source}/{symbol}: a ruling without a rationale is not a record"
+        assert ruling.decided_on, f"{source}/{symbol}: missing decided_on"
+        if ruling.decision == "assign":
+            assert ruling.hgnc_id.startswith("HGNC:"), f"{source}/{symbol}: assign needs an id"
+            assert ruling.approved_symbol, f"{source}/{symbol}: assign needs a symbol"
+        else:
+            assert not ruling.hgnc_id, f"{source}/{symbol}: an exclusion must not carry an id"
