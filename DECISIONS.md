@@ -267,3 +267,41 @@ Its only measurable effect was declining four names HGNC approved after 2013.
 Removing it also removed the multi-snapshot machinery that existed to serve
 it. Multi-mapping probe entries are still split and each component resolved,
 flagged in the log so a strict mode can drop them later.
+
+**Non-human and non-gene members are excluded from matching, not from the
+record.** Reactome contributes ~396 such entries — 367 pathogen proteins (HIV,
+HCMV, RSV, *E. coli*, Mtb), 8 whole-organism genome labels, 14 generic family
+labels (`5S rRNA`), 3 isoform labels (`FGFR2b`), 4 unidentifiable. HGNC
+registers human genes only, so none resolve. This is correct rather than
+lossy: a human experiment cannot measure HIV `gag`, so retaining such members
+would enlarge a pathway's gene set with genes that can never match a user's
+data — inflating the test's denominator while contributing nothing to its
+numerator, and biasing enrichment toward under-detection. Enrichment analysis
+restricts gene sets to the measured universe regardless; we do it once at
+build time. Every `Pathway` retains its source's original symbols, so nothing
+is discarded from the record, and clustering is unaffected because themes are
+built from descriptions rather than gene lists.
+
+Seven BTM symbols are pre-genomic cDNA clone-library catalogue numbers —
+`DKFZp451A211`, `DKFZp779M0652` (German Cancer Research Center), `FLJ35409`
+(NEDO Full-Length Japanese), `KIAA1659` (Kazusa Institute), `MGC31957`,
+`MGC5566` (Mammalian Gene Collection), `PRO2012`. Each names a clone rather
+than a gene and encodes no identifier to decode, so no resolution route exists
+short of a clone-registry or probe-annotation lookup. They are recorded as
+unmapped and retired from further recovery attempts.
+
+Two facts about Reactome, established by inspection during this triage and
+worth recording because both are counter-intuitive. **A Reactome pathway's
+species tag describes its clinical context, not its members' species:**
+*Action of antimicrobials* is tagged *Homo sapiens* and its entire membership
+is bacterial (`16S rRNA`, `gyrA`, `gyrB`, `mrcB`, `qnr`, `rrsA`), because it
+models the bacterial machinery an antibiotic acts on. Species tags therefore
+cannot be used to decide whether a member is human. **And unresolvable entries
+fall into three distinct kinds**, each needing a different judgment: non-human
+proteins (pathogen genes); Reactome Set or Complex *names*, whose member
+proteins are usually already listed individually in the same pathway
+(`HSP70`); and unreviewed UniProt fragments whose gene-name field holds a
+generic string with no HGNC assignment (`IGLV` → A2NXD2, a 117-aa fragment
+Reactome labels lambda while UniProt describes it as kappa). Only the first
+kind is settled policy; the other two are judged case by case and open items
+are tracked in the debt log.
