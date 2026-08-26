@@ -50,6 +50,8 @@ themes should broadly recover its top levels.
 | `ReactomePathwaysRelation.txt` | 634,259 | `fd49a624d80c14eb37ae57a02e141d574d5ede3f60022bb99edbd909448a3f1e` |
 | `ReactomePathways.gmt` | 1,032,186 | `89983d5c1f0af11c52edfeee7323eb425580ac6281d387a528562ab1787ce56b` |
 | `pathway2summation.txt` | 3,574,435 | `b036d5b81fa510bf45cd8ea213763f8c729a49ca72618bc096fb7ff46a7bf1c2` |
+| `NCBI2Reactome_All_Levels.txt` | 98,024,930 | `53bbe42b357655e341630898547af8d23badab592e6050c34d4317fbffc04ce4` |
+| `Ensembl2Reactome_All_Levels.txt` | 504,035,190 | `5af5bdcccc3a58cf8742a5013057cc87dea7ea20eefdc675d82f94b3016e11b3` |
 | `reactome_release.txt` | 2 | `d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091` |
 
 Downloaded from `https://reactome.org/download/current/`. Reactome publishes no stable

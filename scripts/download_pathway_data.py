@@ -10,6 +10,7 @@ rejected with HTTP 403 by both reactome.org and release.geneontology.org.
 """
 
 import argparse
+import gzip
 import hashlib
 import http.client
 import os
@@ -120,6 +121,27 @@ SOURCES: tuple[Source, ...] = (
         unzip_member="ReactomePathways.gmt",
         expected_bytes=1_032_186,
         note="Human pathway gene sets; archive deleted after extraction.",
+    ),
+    Source(
+        group="reactome",
+        name="NCBI2Reactome_All_Levels.txt",
+        url=f"{REACTOME_BASE}/NCBI2Reactome_All_Levels.txt",
+        license=LICENSE_REACTOME,
+        note="Entrez gene id / pathway id / URL / pathway name / evidence code / species, at every "
+        "level of the hierarchy. Reactome's identifier-level membership: the GMT names members by "
+        "display name, which is not unique across entities, so this is the only export that "
+        "distinguishes human PBRM1 from influenza PB1. Primary identity source because HGNC's "
+        "entrez_id is unique.",
+    ),
+    Source(
+        group="reactome",
+        name="Ensembl2Reactome_All_Levels.txt",
+        url=f"{REACTOME_BASE}/Ensembl2Reactome_All_Levels.txt",
+        license=LICENSE_REACTOME,
+        note="Same layout keyed by Ensembl id. Mixed granularity despite the name - ENSG, ENSP and "
+        "ENST are all present, so gene-level use must filter to ENSG. Held as a coverage "
+        "cross-check on the NCBI export, not as a second source of truth: HGNC's ensembl_gene_id "
+        "is not unique.",
     ),
     Source(
         group="reactome",
@@ -304,7 +326,7 @@ def _open_url(
     timeout: float,
     extra_headers: dict[str, str] | None = None,
 ) -> http.client.HTTPResponse:
-    headers = {"User-Agent": USER_AGENT} | (extra_headers or {})
+    headers = {"User-Agent": USER_AGENT, "Accept-Encoding": "gzip"} | (extra_headers or {})
     request = urllib.request.Request(url, headers=headers)  # noqa: S310
     return urllib.request.urlopen(request, timeout=timeout)  # noqa: S310
 
@@ -366,8 +388,11 @@ def download(
 ) -> int:
     """Download a URL to ``dest`` atomically and return the number of bytes written.
 
-    Streams to a sibling ``.part`` file and renames it into place only after the body length
-    matches what the server advertised, so an interrupted or truncated transfer never leaves a
+    Requests a gzip body and decompresses it as it streams, which is what makes reactome.org's
+    ~100 MB and ~450 MB mapping exports transferable at all; a truncated gzip stream raises
+    ``EOFError`` and is retried rather than silently accepted. Streams to a sibling ``.part`` file
+    and renames it into place only after the body length matches what the server advertised, so an
+    interrupted or truncated transfer never leaves a
     file that skip-if-exists would later accept. When a transfer is cut short and the server
     supports ranges, the retry resumes from the byte offset reached, guarded by ``If-Range`` on
     the ETag or Last-Modified value so a changed file restarts cleanly instead of splicing two
@@ -387,7 +412,9 @@ def download(
         OSError: If every attempt fails, or the body is shorter than the advertised length.
     """
     tmp = dest.with_name(dest.name + ".part")
+    tmp_gz = dest.with_name(dest.name + ".part.gz")
     tmp.unlink(missing_ok=True)
+    tmp_gz.unlink(missing_ok=True)
     last_error: Exception | None = None
     validator: str | None = None
     have = 0
@@ -399,18 +426,29 @@ def download(
             if have and validator:
                 extra = {"Range": f"bytes={have}-", "If-Range": validator}
             with _open_url(url, timeout, extra) as response:
-                resuming = getattr(response, "status", 200) == 206
+                # A gzip body is decompressed as it streams. Byte offsets then refer to the
+                # decompressed file while Range would refer to compressed bytes, so a gzip
+                # transfer is never resumed -- it restarts, which is also what these servers
+                # force by ignoring Range. Content-Length is likewise the compressed length,
+                # so it must not be used as the truncation check.
+                gzipped = "gzip" in response.headers.get("Content-Encoding", "").lower()
+                resuming = not gzipped and getattr(response, "status", 200) == 206
                 if not resuming:
                     have = 0
-                if validator is None:
+                if validator is None and not gzipped:
                     validator = response.headers.get("ETag") or response.headers.get(
                         "Last-Modified"
                     )
-                total = _full_size(response, have)
+                total = None if gzipped else _full_size(response, have)
+                # The compressed body is written to disk as it arrives and decompressed only
+                # afterwards. Decompressing inside the read loop makes a slow decompress and a
+                # stalled socket the same failure, which is what defeated the 504 MB Ensembl
+                # export: the connection was dropping mid-transfer every time.
+                target = tmp_gz if gzipped else tmp
                 show = progress and sys.stderr.isatty()
                 if show and total is not None and total < PROGRESS_MIN_BYTES:
                     show = False
-                with tmp.open("ab" if resuming else "wb") as handle:
+                with target.open("ab" if resuming else "wb") as handle:
                     if resuming:
                         handle.truncate(have)
                     while chunk := response.read(CHUNK_SIZE):
@@ -421,16 +459,26 @@ def download(
                             _render_progress(dest.name, have, total, started)
                     handle.flush()
                     os.fsync(handle.fileno())
+            if gzipped:
+                # A truncated gzip stream raises EOFError here rather than yielding a short
+                # file, which is the only completeness check available without Content-Length.
+                with gzip.open(tmp_gz, "rb") as src, tmp.open("wb") as handle:
+                    shutil.copyfileobj(src, handle, CHUNK_SIZE)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                tmp_gz.unlink(missing_ok=True)
+                have = tmp.stat().st_size
             if shown:
                 _clear_progress()
             if total is not None and have != total:
                 message = f"truncated download: {have} of {total} bytes"
                 raise OSError(message)
             tmp.replace(dest)
-        except (urllib.error.URLError, http.client.HTTPException, OSError) as exc:
+        except (urllib.error.URLError, http.client.HTTPException, OSError, EOFError) as exc:
             if shown:
                 _clear_progress()
             last_error = exc
+            tmp_gz.unlink(missing_ok=True)
             if validator is None or not tmp.exists():
                 have = 0
                 tmp.unlink(missing_ok=True)
@@ -438,10 +486,12 @@ def download(
                 time.sleep(min(2**attempt, 10))
         except BaseException:
             tmp.unlink(missing_ok=True)
+            tmp_gz.unlink(missing_ok=True)
             raise
         else:
             return have
     tmp.unlink(missing_ok=True)
+    tmp_gz.unlink(missing_ok=True)
     message = f"failed after {retries} attempts: {url} ({type(last_error).__name__}: {last_error})"
     raise OSError(message) from last_error
 

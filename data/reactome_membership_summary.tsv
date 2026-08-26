@@ -1,0 +1,42 @@
+section	key	value	note
+digest	reactome_membership.tsv	d21d36cc7bdbafe1ce7659eb81c3a16aff601781002e44a8f3261fb9fab88522	sha256 of the regenerable kept table
+input	hgnc_release	2026-07-07	
+input	evidence_codes	IEA,TAS	TAS+IEA reproduces the shipped GMT
+input	gmt_rows	142657	(symbol, pathway) rows in ReactomePathways.gmt
+test	0	3202	discard - symbol resolves to no HGNC record
+test	1	137400	keep confirmed - id paired with this pathway
+test	2	286	discard - id covered by exports, absent here
+test	3	1724	keep gmt_fill - id absent from exports, approved symbol
+test	4	45	discard - id absent from exports, non-approved match
+test	kept	139124	
+test	discarded	3533	
+provenance	confirmed	137400	
+provenance	gmt_fill	1587	
+provenance	mtdna_exempt	137	mitochondrial locus exempt from test 2 - unconfirmed keeps, kept visible
+test3_locus_type	immunoglobulin gene	836	
+test3_locus_type	RNA, micro	261	
+test3_locus_type	RNA, transfer	258	
+test3_locus_type	gene with protein product	180	
+test3_locus_type	pseudogene	107	
+test3_locus_type	T cell receptor gene	24	
+test3_locus_type	RNA, long non-coding	23	
+test3_locus_type	RNA, ribosomal	17	
+test3_locus_type	unknown	8	
+test3_locus_type	RNA, vault	5	
+test3_locus_type	RNA, small nucleolar	5	
+test2_cell	exact/infectious	20	
+test2_cell	exact/non-infectious	119	known conservative loss - probable real memberships missing from the All_Levels rollup, discarded because we prefer to err toward dropping
+test2_cell	non-approved/infectious	122	
+test2_cell	non-approved/non-infectious	25	
+sanity	PB1 kept in	2 (R-HSA-4839726; R-HSA-9932444)	expected 2 (R-HSA-4839726; R-HSA-9932444) [pass]
+sanity	PB1 discarded in	25	expected 25 [pass]
+sanity	SCP all discarded	6 rows, 0 kept	expected 0 kept [pass]
+sanity	HN all discarded	3 rows, 0 kept	expected 0 kept [pass]
+sanity	P all discarded	12 rows, 0 kept	expected 0 kept [pass]
+sanity	NP all discarded	27 rows, 1 kept (R-HSA-1643685)	expected 0 kept [FAIL]
+sanity	TRS1 all discarded	11 rows, 0 kept	expected 0 kept [pass]
+sanity	TRM3 all discarded	5 rows, 0 kept	expected 0 kept [pass]
+sanity	MT-TV all kept via test 3	12 rows, tests [3]	expected all test 3 [pass]
+sanity	MIR142 all kept via test 3	8 rows, tests [1, 2]	expected all test 3 [FAIL]
+sanity	IGKC all kept via test 3	41 rows, tests [3]	expected all test 3 [pass]
+sanity	MRPL45 all kept via test 3	7 rows, tests [3]	expected all test 3 [pass]
