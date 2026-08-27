@@ -24,8 +24,9 @@ htmlcov/
 # Data
 data/raw/
 data/cache/
-# Regenerable build artifact; its sha256 is pinned in reactome_membership_summary.tsv
+# Regenerable build artifacts; each one's sha256 is pinned in its committed summary
 data/reactome_membership.tsv
+data/pathways.tsv
 
 # OS
 .DS_Store

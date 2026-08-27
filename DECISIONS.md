@@ -339,3 +339,104 @@ entries therefore fall into four kinds, not three: non-human proteins; Set or
 Complex container names; unassigned UniProt fragments; and human proteins HGNC
 does not register (`ACOT7L`, `HSBP2`, both in human metabolic and heat-shock
 pathways).
+
+## 2026-08-27 — Pathway loader: one record per pathway, nothing filtered at load
+
+`src/thema/data/pathways.py` turns all four sources into one `Pathway` record — the
+input the clusterer embeds. 10,817 pathways: Reactome 2,883, GO:BP 7,538, Hallmark 50,
+BTM 346, over a union of 18,984 genes. `scripts/build_pathways.py` writes the
+regenerable `data/pathways.tsv` and the committed `data/pathways_summary.tsv` that pins
+its sha256, the same pattern as the membership cascade.
+
+**Two description fields, both permanent.** `description_source` holds curated prose as
+the source publishes it; `description_generated` is reserved for LLM-normalized prose and
+is null everywhere for now. This is the schema the 2026-08-21 OPEN entry needs: the
+registers really do differ by an order of magnitude — Reactome summations run to a median
+of 809 characters, GO definitions 143, Hallmark 58, BTM none — so embeddings may cluster
+partly by source. Holding both fields at once lets the clusterer run twice and the
+question be measured rather than argued.
+
+**Nothing is filtered at load time, and that is the load-time rule.** Every pathway is
+loaded however degraded, and `degradation` records what happened: `ok`, `depleted`
+(>50% of members lost), `empty_after_resolution` (had members, none survived),
+`no_source_members` (never had a GMT row at all). The last is deliberately not folded
+into the third: never having gene content is a different fact from losing it. Reactome:
+2,800 / 36 / 32 / 15; every other source is wholly `ok`. The rationale is that THEMA
+clusters on descriptions, so a gene-depleted pathway is still a valid ontology node,
+while gene content matters at the enrichment stage — where a zero-gene pathway cannot
+reach significance and is excluded there anyway. Filtering here would bake a
+statistics-layer judgement into the representation layer, and the two layers do not want
+the same rule. The 10–500-gene bound this log records for C5:GO:BP is therefore *not*
+applied by the loader either; it belongs to the ontology build, where it can be varied.
+
+**The degradation is not damage.** 65 of the 68 Reactome pathways losing more than half
+their members, and 101 of the 110 losing more than a quarter, are in the Infectious
+disease subtree — pathogen machinery HGNC cannot register, exactly what the 2026-08-24
+non-human-member policy predicts. *Uncoating of the HIV Virion* keeps 1 gene of 8.
+
+**`text_availability` — `described` / `name_only` / `no_usable_text`.** BTM alone is not
+`described` (259 / 87). 87 of its modules are named `TBA`, so they carry neither prose nor
+a real title and cannot be expanded from a name at all; the split names the three
+questions downstream code actually asks. Deliberately no length-graded tier for
+Hallmark's terseness: description length is already a number the summary reports, and a
+threshold frozen into an enum is worse than the count.
+
+**Per-source description provenance, all confirmed from the files rather than assumed.**
+Reactome: `pathway2summation.txt`, 100% coverage. GO: the obo `def:` line, joined through
+`exactSource` in `c5.go.bp.<release>.json` — all 7,538 sets carry a GO id and all 7,538
+join, so the 221 MB XML is not needed for GO at all. Hallmark: `DESCRIPTION_BRIEF` in
+`msigdb_<release>.xml` — chosen not as the richer of two options but as the only prose
+that exists, since neither MSigDB JSON has a description field and `DESCRIPTION_FULL` is
+empty for all 50. BTM: none exists; its GMT column two is a dead `mummichog.org` URL, the
+module id re-encoded.
+
+**MSigDB's XML is not well-formed and cannot be parsed as XML.** Attribute values carry
+raw unescaped `<` (`EXACT_SOURCE="Table 3S: fold change (log2) < 0"`), and
+`xml.etree.ElementTree` raises `ParseError` on line 330 — `iterparse` included, so
+streaming does not rescue it. It is strictly one self-closing `<GENESET/>` per line
+(35,361), so `read_msigdb_descriptions` scans attributes line by line and reads the file
+in 0.3 s. It matches `STANDARD_NAME` first and skips unwanted lines, because a blanket
+attribute scan would materialise every `MEMBERS` list to reach fifty descriptions. The
+regression test proves the fixture still defeats `ElementTree` before showing the reader
+succeeds, so it fails loudly if MSigDB ever ships a valid file.
+
+**Four smaller decisions, each recorded because the alternative looked reasonable.**
+Reactome names come from `ReactomePathways.txt` stripped and from nowhere else — 28 human
+names carry trailing whitespace, 11 are shared by two pathways, and the GMT (which
+`reactome_membership.tsv` inherits) disambiguates 17 by appending `_<id>`, which would go
+straight into an embedding. `R-HSA-166016` has two summation rows and they are joined in
+file order, because a plain dict assignment silently keeps the last. BTM's `source_id` is
+the module id parsed from the trailing parenthesis, matched as `[MS][\d.]*` because twelve
+modules are surface signatures `S0`–`S11` that a pattern of `M\d+` would silently drop;
+each parsed id is confirmed against the id in its own URL. And the 124 GO sets whose term
+this release flags obsolete are kept verbatim, markers and all — GO writes `obsolete` into
+the name and `OBSOLETE.` into the definition, which makes them an unusually clean worked
+example of the source-specific token normalization is supposed to erase.
+
+**Two cross-checks, because two files can quietly disagree about one fact.** The build
+re-digests `reactome_membership.tsv` and compares it to the digest the cascade committed,
+so a stale or differently-flagged cascade output cannot be built on unnoticed. And the
+symbols this build drops are compared against those `data/gene_resolution_log.tsv` records
+as resolving to nothing — same resolver, same GMTs, same HGNC release, so they must agree.
+They do exactly: go 15/15, hallmark 1/1, btm 46/46, zero differing. Reactome is excluded
+by design and the summary says so: the cascade discards rows the resolver would keep, so
+the two are not measuring one thing.
+
+**The sanity block states where its expectations came from.** Every `expected N` is the
+planning-time measurement of this same data, not an independent source, so a `[pass]`
+means the build reproduces that measurement — not that the number is right. One summary
+row says this, so the block cannot later be read as validation. It has already earned its
+keep: the expectation of zero verbatim cross-source name collisions was measured on raw
+GMT names and is 18 after loading, because BTM's loader strips the module id its names end
+in. 94 collisions after normalizing, 0 in the source files as shipped — the redundancy
+THEMA exists to collapse is largely invisible to string matching.
+
+**Two new modules rather than one.** `formats.py` holds the GMT, OBO and MSigDB readers —
+the same syntax/semantics seam `genes.py` draws between `parse_complete_set` and
+`GeneResolver` — and its readers take `lines: Iterable[str]` rather than `text: str`,
+because a 221 MB file should not become a 440 MB string. The OBO reader also carries GO's
+`is_a` edges, which nothing uses yet and which the reference-hierarchy evaluation will.
+`tables.py` holds `write_tsv`, `sha256_file` and the TSV cell conventions: those helpers
+were already copy-pasted across three scripts and had begun to drift, and a fourth copy
+would be the one whose byte behaviour is hashed into a committed file. The existing copies
+are left untouched and a test pins the two writers against each other byte for byte.

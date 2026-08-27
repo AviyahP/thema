@@ -1,0 +1,84 @@
+section	key	value	note
+digest	pathways.tsv	ac6e32cba24c67518b76b4f6e1282594614adf5c16a41c20b06d9742f7dadb00	sha256 of the regenerable pathway table
+digest	reactome_membership.tsv	d21d36cc7bdbafe1ce7659eb81c3a16aff601781002e44a8f3261fb9fab88522	cascade output this build read; pinned in reactome_membership_summary.tsv
+input	hgnc_release	2026-07-07	
+input	go_release	2026-08-05	obo data-version releases/2026-07-26
+input	msigdb_release	2026.1.Hs	
+input	btm_commit	94d5288af08320670e1337191173649a864602f8	
+source	reactome	2883	
+source	go	7538	
+source	hallmark	50	
+source	btm	346	
+source	total	10817	
+description	reactome/reactome_summation	2883/2883	
+description_chars	reactome	273/809/2599	p10/median/p90
+description	go/go_def	7538/7538	
+description_chars	go	84/143/301	p10/median/p90
+description	hallmark/msigdb_xml	50/50	
+description_chars	hallmark	40/58/95	p10/median/p90
+description	btm/none	0/346	BTM publishes no machine-readable description
+size	reactome	0/1/15/102/2612	min/p10/median/p90/max genes per pathway
+size	go	4/6/20/182/1986	min/p10/median/p90/max genes per pathway
+size	hallmark	32/42/161/200/200	min/p10/median/p90/max genes per pathway
+size	btm	8/10/14/35/342	min/p10/median/p90/max genes per pathway
+degradation	reactome/ok	2800	
+degradation	reactome/depleted	36	
+degradation	reactome/empty_after_resolution	32	
+degradation	reactome/no_source_members	15	
+degradation	go/ok	7538	
+degradation	go/depleted	0	
+degradation	go/empty_after_resolution	0	
+degradation	go/no_source_members	0	
+degradation	hallmark/ok	50	
+degradation	hallmark/depleted	0	
+degradation	hallmark/empty_after_resolution	0	
+degradation	hallmark/no_source_members	0	
+degradation	btm/ok	346	
+degradation	btm/depleted	0	
+degradation	btm/empty_after_resolution	0	
+degradation	btm/no_source_members	0	
+text_availability	reactome/described	2883	
+text_availability	reactome/name_only	0	
+text_availability	reactome/no_usable_text	0	
+text_availability	go/described	7538	
+text_availability	go/name_only	0	
+text_availability	go/no_usable_text	0	
+text_availability	hallmark/described	50	
+text_availability	hallmark/name_only	0	
+text_availability	hallmark/no_usable_text	0	
+text_availability	btm/described	0	
+text_availability	btm/name_only	259	
+text_availability	btm/no_usable_text	87	
+genes	reactome	11564	
+genes	go	18199	
+genes	hallmark	4383	
+genes	btm	3055	
+genes	union	18984	distinct across all sources
+dropped	reactome	3533	
+collapsed	reactome	35	members lost to deduplication; why n_genes is not entries minus dropped
+dropped	go	176	
+collapsed	go	0	members lost to deduplication; why n_genes is not entries minus dropped
+dropped	hallmark	1	
+collapsed	hallmark	0	members lost to deduplication; why n_genes is not entries minus dropped
+dropped	btm	82	
+collapsed	btm	3	members lost to deduplication; why n_genes is not entries minus dropped
+quality	reactome_html	982	summations containing markup, kept verbatim as part of the source's register
+quality	go_obsolete	124	sets whose GO term this release flags obsolete; the marker is inside the text
+quality	btm_placeholder	87	modules named "TBA": no description and no real name
+sanity	expectation provenance	planning measurement	every expectation below comes from the planning-time measurement of this same data, not from an independent source - a pass means this build reproduces that measurement, not that it is correct
+sanity	reactome drops are not checked against the log	by design	the cascade discards rows the resolver would keep; the two do not measure one thing
+sanity	cascade output is the one the cascade committed	d21d36cc7bdbafe1	expected d21d36cc7bdbafe1 [pass]
+sanity	reactome human pathways	2883	expected 2883 [pass]
+sanity	reactome duplicate summations	1 (R-HSA-166016)	expected 1 (R-HSA-166016) [pass]
+sanity	reactome duplicate names	11	expected 11 [pass]
+sanity	go sets carrying a term id	7538/7538	expected 7538/7538 [pass]
+sanity	go term ids joining the obo	7538/7538	expected 7538/7538 [pass]
+sanity	hallmark descriptions found	50/50	expected 50/50 [pass]
+sanity	btm module ids parsed	346/346	expected 346/346 [pass]
+sanity	btm ids agreeing with the url	346/346	expected 346/346 [pass]
+sanity	pathway key collisions	0	expected 0 [pass]
+sanity	cross-source name collisions	94	expected 94 [pass]
+sanity	cross-source name collisions, verbatim	18	expected 18 [pass] - zero in the source files; these become identical only because BTM's loader strips the module id its names end in
+sanity	go drops agree with the resolution log	15 built, 15 logged, 0 differing	expected 15 built, 15 logged, 0 differing [pass]
+sanity	hallmark drops agree with the resolution log	1 built, 1 logged, 0 differing	expected 1 built, 1 logged, 0 differing [pass]
+sanity	btm drops agree with the resolution log	46 built, 46 logged, 0 differing	expected 46 built, 46 logged, 0 differing [pass]
