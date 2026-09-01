@@ -172,6 +172,11 @@ deferred to a Phase-2 A/B on the 500-pathway set: measure source leakage
 for as-is vs normalized. Cost of full normalization if chosen: ~10-11k
 cached calls, est. $5-15.
 
+**Closed 2026-08-29** by *Description normalization* below: normalize, and embed
+the generated prose. The as-is arm is not lost -- `description_source` is retained
+on every row, so the A/B this entry specifies is still a column away. The $5-15
+estimate was optimistic; the measured figure is recorded in the closing entry.
+
 ## 2026-08-21 — Data download: stdlib urllib, pinned URLs, hashed manifest
 
 `scripts/download_pathway_data.py` fetches all source data into `data/raw/`
@@ -440,3 +445,137 @@ because a 221 MB file should not become a 440 MB string. The OBO reader also car
 were already copy-pasted across three scripts and had begun to drift, and a fourth copy
 would be the one whose byte behaviour is hashed into a committed file. The existing copies
 are left untouched and a test pins the two writers against each other byte for byte.
+
+## 2026-08-29 — Description normalization: one generated description per pathway, genes always shown
+
+Every pathway gets one LLM-written `description_generated` at a consistent length and register.
+The reason is a measurement rather than a worry: native descriptions run to a median of 809 / 143 /
+58 / 0 characters across reactome / go / hallmark / btm, so embedding them as shipped risks
+clustering by writing style rather than by biology — the exact failure THEMA claims to fix. This
+closes the 2026-08-21 OPEN entry. The A/B that entry specified still runs, because
+`description_source` is retained on every row and the as-is arm is a column away.
+
+**The model may and should use world knowledge.** Native descriptions are often too terse to carry
+thematic signal, and surfacing that context is the reason to use an LLM rather than truncating text.
+Where a native description exists it anchors the CONTENT — the result must stay faithful to it — but
+the model may extend it.
+
+**One prohibition, and it is narrow: no reference to a specific database entry.** Forbidden are GO /
+R-HSA / HALLMARK identifiers and naming another pathway or term as a database object ("the Reactome
+pathway X", "the GO term Y"). Describing functional relationships in ordinary biological language is
+*wanted* — "a subtype of apoptosis", "part of cell cycle control", "downstream of interferon
+signalling" — because that is thematic content, not a recited edge. The reason for the prohibition
+is that models have memorised GO and Reactome, and the hierarchy-recovery check is only interpretable
+if the descriptions do not state the answer. A mechanical validator flags both families over the
+output and reports the count; nothing is silently rewritten, because a rewrite would hide the rate at
+which the prompt fails. The validator deliberately does *not* match bare "hallmark": "a hallmark of
+cancer" is ordinary English and matching it would make the check useless.
+
+**The source database is not shown to the model.** It must not know whether it is looking at a
+Reactome, GO, Hallmark or BTM entry — telling it invites source-specific register, which is precisely
+what normalization exists to remove.
+
+**The gene list is shown for every pathway, not only those lacking a description.** It is what the
+pathway actually *is* for enrichment purposes, it disambiguates vague names, it grounds the model
+against hallucination, and the model may use it to derive thematic context and extend the
+description. The full list is always sent: no truncation and no subsetting. The largest set is 2,612
+genes, a few thousand tokens, and any truncation rule would hand the model a biased sample of exactly
+the pathways where the sample matters most. `genes_shown` records the count on every row, so
+"nothing was truncated" is a number rather than a claim.
+
+**Consequence, recorded plainly.** Descriptions written with genes in view partly re-encode gene
+overlap, and gene-overlap clustering is our baseline comparator. THEMA v1 is therefore a HYBRID
+text-and-membership method, not a pure text method, and must be described that way wherever it is
+compared to that baseline.
+
+**Length: 90–130 words, target ~110.** Stated in the prompt, measured by the validator, never
+enforced by truncation. The range is set from both ends of the register spread it exists to close. It
+sits above GO's 143-character median and Hallmark's 58, so those sources genuinely gain content
+instead of being restated; and below Reactome's 809-character median, so Reactome is compressed
+rather than left where it is. Normalization means every source moves, not only the poor ones. About
+110 words is roughly 150 tokens, inside BioLORD-2023's 512-token window with no truncation for any
+pathway — and truncation is the thing to avoid above all, because a length-dependent cutoff would
+silently reintroduce exactly the bias this entry exists to remove. It is enough for name, specific
+purpose, and general processes in three or four sentences, and short enough that a model with nothing
+further to say must stop rather than pad; padding is where filler and hallucination enter, which is
+the risk the 87 TBA modules invite. It is a deliberate step up from the 2024 prototype's ~75 words,
+which expanded names only and never had to absorb 809 characters of curated prose.
+
+**The prompt asks the model to repeat the pathway name**, so the description stays anchored to its
+subject, and the validator checks that it did — a name echo is cheap to measure and its absence is
+the earliest sign of drift.
+
+**Provenance on every row**, so a description's inputs can be read off the table rather than inferred:
+`description_generated_from` is `description+name+genes` (10,471 rows), `name+genes` (BTM's 259) or
+`genes` (BTM's 87 TBA modules), mapping one-to-one from `text_availability`; plus `genes_shown`,
+the model id and the prompt version.
+
+**47 Reactome pathways have no genes at all** — 32 `empty_after_resolution`, 15 `no_source_members`.
+All 47 are `described`, so they are recorded as `description+name+genes` with `genes_shown = 0`
+rather than earning a fourth enum value. The count carries the fact, for the same reason the loader
+entry refused a length-graded `text_availability` tier: a number in the summary beats a threshold
+frozen into a vocabulary. The summary reports the 47 explicitly so the row cannot be misread.
+
+**The output is COMMITTED, and this is the first build artifact that is.** `data/pathways.tsv` and
+`data/reactome_membership.tsv` are gitignored because anyone can regenerate them byte-identically
+from pinned inputs. Generated descriptions cannot: they are LLM output, non-reproducible and not
+free, and a user cloning THEMA must get them and be able to build on them. The gitignore pattern
+therefore applies only to tables that are a deterministic function of pinned inputs, and
+`data/pathway_descriptions.tsv` is a committed *input* to the regenerable table rather than a column
+inside it — the same shape as `reactome_membership_discards.tsv`. Its summary carries the digest and
+the batch ids of the run that produced it, per-source and provenance counts, validator counts and the
+length distribution.
+
+**Resumability, because 10,817 calls will be interrupted.** Calls are cached by (pathway key, prompt
+version, model), so a rerun regenerates nothing already done and a prompt change invalidates cleanly
+rather than silently mixing two prompt versions in one file. The cache is an append-only JSONL ledger
+under the already-gitignored `data/cache/`, holding full response metadata — usage, stop reason,
+model, request id, batch id — because the committed table alone would discard the token counts the
+summary needs to report what the run actually cost.
+
+## 2026-08-29 — Evaluation flagship: low-overlap recovery, not hierarchy recovery
+
+The headline structural claim is no longer hierarchy recovery. It is **low-overlap recovery**: among
+pathway pairs curators declare related — reactome2go being the primary source — stratified by
+gene-set Jaccard, what fraction does THEMA co-cluster versus gene-overlap clustering? In the
+low-overlap band gene-overlap approaches zero by construction, and that gap is the product. A tool
+that only recovers pairs which already share genes has automated nothing a Jaccard threshold could
+not do.
+
+**Hierarchy recovery demotes to a validity floor**, with two caveats that have to travel with every
+number it produces: the curators wrote both the prose and the hierarchy, so recovery is partly "the
+text encodes the tree"; and the model has memorised the hierarchy, which is why the normalization
+entry above forbids reciting database identifiers at all. A floor is still worth having — failing it
+would be disqualifying — but it is not evidence of discovery.
+
+This reorders `docs/eval-plan.md` §2, which currently names reference-hierarchy recovery (2a)
+"primary" and cross-database merging (2b) second. The stratification by Jaccard is new to both: 2b as
+written asks whether mapped pairs co-cluster more than random pairs, which a gene-overlap baseline
+can also pass. Stratifying is what separates the two methods.
+
+**Nothing is built for this now.** It is recorded so the build does not foreclose it — concretely,
+that means keeping `description_source` alongside `description_generated`, keeping the full gene sets
+per pathway, and keeping the pathway keys stable, all of which the current schema already does.
+
+## 2026-08-29 — `anthropic` as the first runtime dependency, pinned, confined to one module
+
+`anthropic==1.2.0` is now a runtime dependency — the project's first. Pinned exactly rather than
+floored, and carried in `uv.lock`, because this phase's output is committed and cannot be regenerated
+for free, so the client that produced it should be identifiable rather than "whatever resolved that
+day".
+
+**The zero-dependency state was descriptive, not chosen.** Everything until now was file parsing,
+which stdlib handles; there was never a dependency worth adding. That changes here because the tool
+now calls an external API, and hand-rolling batch submission, polling, result streaming and retry
+belongs nowhere near the one phase whose output is committed, costs money and cannot be regenerated
+for free. The invariant was also going to end within a phase or two regardless: embedding and
+clustering need numpy, scipy and a sentence-transformer model.
+
+**The SDK is confined to `src/thema/llm.py`.** Every other module stays stdlib and testable without
+it. Isolation of the third-party surface is the real benefit the zero-dependency state was buying,
+and it should survive the state. A test walks the sources and asserts `anthropic` is imported in
+exactly one file, so this is machine-checked rather than a convention that quietly erodes — the same
+move `tests/test_tables.py` makes for the duplicated TSV writers.
+
+Supersedes the `dependencies = []` invariant referenced in the 2026-08-21 downloader entry. That
+entry's other content stands, and `download_pathway_data.py` continues to use stdlib urllib.
