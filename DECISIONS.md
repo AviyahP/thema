@@ -865,3 +865,37 @@ stronger than telling it not to write any, because a prohibition competes with a
 removal leaves nothing to copy. Note this trades against the 2026-08-21 OPEN entry's premise that
 the native register is preserved for the as-is A/B arm — so strip it on the way into the *prompt*,
 not out of `description_source`, which stays verbatim on the row.
+
+## 2026-09-10 — Batch recovery: a submitted batch must be collectable by a second process
+
+Two recovery attempts on the verifier pilot were killed mid-poll, and the underlying problem was
+not the kills. It was that submission and collection lived inside one process: `run_full` submitted
+a batch, then blocked in `await_batch` until the provider finished, then read the results. Anything
+that ended that process between the two — a kill, a lost terminal, a laptop closing — stranded
+results that had already been paid for, with no way to reach them except resubmitting and paying
+twice. **A batch is billed when the provider runs it, not when its results are read.**
+
+**`--collect BATCH_ID` on both `normalize_descriptions.py` and `verify_descriptions.py`** drains an
+already-submitted batch instead of submitting a new one. It deliberately does not require
+`--submit` and is not subject to `--max-dollars`, because it bills nothing new; gating it would be
+gating the recovery, not the spend. The collected batch id is recorded in the summary like any
+other.
+
+**`--collect` asks rather than waits.** `LLMClient.batch_status` reads the processing status without
+blocking; if the batch has not ended, `--collect` says so and returns, and the operator reruns it
+later. Blocking was the whole failure: a batch has a 24-hour window, and a process held open across
+that window is the thing most likely to die. `await_batch` remains for the submit-and-drain path,
+where the process is already committed to waiting.
+
+**An unfinished batch must not look like an empty one.** A test flips the fake's status to
+`in_progress` and requires that nothing is written — a table produced from a batch that has not
+finished would be a partial table that passes every check about the rows it does contain.
+
+**Operationally: check status with a short-lived command, collect once it is ended.** Polling from a
+long-lived process is what failed twice; short commands and a status check do not accumulate risk.
+
+**The honest note.** This capability was described in writing as a hazard while the $12.83
+generation batch was in flight, and then not built until after a later run lost results to exactly
+it. The generation batch survived on luck. The lesson is that a named, understood failure mode with
+no code behind it is not mitigated, and the moment to build the recovery is before the first spend,
+not after the first loss.
