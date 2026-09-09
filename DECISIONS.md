@@ -727,9 +727,21 @@ then be used on BOTH sides of that comparison**, or representation and linkage a
 min/p10/median/p90/max, singleton count, and largest-cluster share. Ward assumes clusters of
 broadly similar size, which biology has no obligation to supply; average linkage's known failure on
 uneven density is one enormous cluster plus a tail of singletons. Both look like an ordinary tree
-from the outside. On a 400-pathway plumbing run over stand-in text, average linkage at k=5 put
-**95.8% of everything in one cluster** with two singletons, while Ward produced no singletons at
-any cut — the failure mode is real on this data and the report surfaces it immediately.
+from the outside. On a 400-pathway plumbing run, average linkage at k=5 put **95.8% of everything
+in one cluster** with two singletons, while Ward produced no singletons at any cut.
+
+**That plumbing run used native database prose as a stand-in, not generated descriptions, and its
+two halves are not equally trustworthy.** The average-linkage collapse is the more trustworthy
+half: it comes from the linkage rule meeting uneven density, which is a property of the criterion
+rather than of the specific text, so it is expected to survive the switch to generated
+descriptions. A cross-source merge on the same run (GO and BTM T-cell sets landing in one Ward
+cluster) is *weaker* evidence and is not recorded as a finding: GO and BTM native prose are written
+very differently, and normalising that difference away is precisely what the generated descriptions
+are for — so a merge that happens despite the register gap says little about one that happens after
+it is closed. `build_ontology.py` marks any such run: when the descriptions table's scope or its
+`description_generated_from` values show the text did not come from the normalizer, the summary
+leads with a `caveat` row and every tree file header carries `*** STAND-IN TEXT, NOT A RESULT ***`,
+so a plumbing tree cannot later be read as a result.
 
 **Memory, measured rather than assumed.** The condensed distance matrix is the only thing that
 grows as the square of the input: **13.6 MB at 1,844 and 468 MB at 10,817**, so the full run fits
@@ -743,3 +755,113 @@ to demonstrate.
 dump carries `scope`, the description count, and the sha256 of the descriptions table it was built
 from. The risk is not confusing two files; it is opening a tree in a fortnight and not knowing
 whether it was built on 1,844 pathways or 10,817. A tree that cannot answer that is not evidence.
+
+## 2026-09-09 — The smoke batch, what it cost, and three defects it exposed
+
+1,844 pathways generated on claude-opus-5 at prompt v3, in two batches
+(`msgbatch_01HrmiYN9PUMwFUY9aaq4aNj`, then `msgbatch_01GEexQAvKxUjU4oGkZjW3Ss` for six retries).
+**Actual cost $12.83**, against a $13.43 cached estimate and a $21.44 uncached ceiling — the
+provider's prompt cache held, 3.9M cache-read tokens against a 1,933-token system prompt, so the
+cached figure was the right one to expect and the uncached figure was the right one to gate on.
+
+**Quality is good and the numbers say so.** Length 119/128/135/142/153 words (min/p10/median/p90/max)
+against a 90–150 band, so nothing is short and four GO descriptions run 1–3 words long. Across all
+1,854 rows: **zero** identifier leaks of any family, zero database references, zero name-echo
+failures, zero unexpected stop reasons. The prohibition in the 2026-08-29 entry is holding exactly.
+
+**Defect 1 — six responses died on `max_tokens`.** `MAX_TOKENS` was 4,000 and adaptive thinking
+overran it, truncating the JSON mid-string so it could not be parsed at all. Raised to 8,000; it is
+not part of the cache key, so the retry re-sent only those six, for $0.08.
+
+**Defect 2 — 46 responses leaked their own envelope into the description, and the existing repair
+caught none of them.** 39 ended with an unmatched `"`; 7 were worse — the model escaped a quote,
+wrote `"}` *inside* the string value, and kept generating: `"}<br><br>`, `"}What is the effect of
+HSP90 inhibition on RSV replication?`, `"}Wait — I must not include escaped issues. Let me re-emit
+cleanly.{`. It parses, so only a content check sees it. The old `_TRAILING_ENVELOPE` was anchored at
+end-of-string and matched **0 of 46**, because something always followed the false close. It now
+cuts from the false close onward, and an unmatched trailing quote is stripped only when the quotes
+in the text are unbalanced — descriptions legitimately open with the pathway name in quotes, so
+balance is the test rather than position. The cut is deterministic and the prose before it was
+intact, so the fix repairs on read rather than regenerating: `envelope_repaired` reports 46.
+Note the `<br><br>` in one of them is Reactome markup surviving into generated text, which is
+precisely the source-specific token normalization exists to erase.
+
+**The ledger now normalizes on BOTH append and reload.** Repairing only on read would mean the copy
+held in memory during a generating run and the copy a resuming run loads are different strings, and
+the tables written from each differ byte for byte — the idempotence every other writer here is
+tested for. A test appends and reloads and requires the two to be equal; two consecutive rewrites
+of the real table are byte-identical.
+
+**Defect 3 — two sanity checks were themselves wrong, and had never run before.** "Every selected
+pathway has a description" counted ledger rows inside the collection, which includes the twelve from
+`--sample`; that hid six missing rows behind ten extra ones, reporting 1848 against 1844. It now
+counts over the selected set. And "genes_shown equals n_genes everywhere" had a false premise:
+`genes_shown` counts SYMBOLS while `n_genes` counts identifiers, so the two differ wherever two of a
+source's symbols met on one gene (`DDX58`/`RIGI`, `CXCL8`/`IL8`, `ROBO3`/`ROBO3.1` — seven rows).
+Truncation would show as shown < genes, which is what it now counts. A check that has never run is
+not a check, and both of these were asserting something untrue about correct data.
+
+**The summary's batch ids come from the completions, not from the run that wrote them.** A rerun
+retrying six failures would otherwise overwrite the summary with only its own batch id and silently
+drop the one that generated the other 1,838.
+
+## 2026-09-09 — A check is only as trustworthy as the set it counts over
+
+Both sanity checks that fired FAIL on the first real batch were themselves wrong, and neither had
+ever run before — `data/pathway_descriptions.tsv` had never been generated, so this was their first
+execution. Recorded as its own entry because the lesson outlives both bugs.
+
+**The first was counting the wrong population.** "Every selected pathway has a description" compared
+the number of ledger rows falling inside the collection against the size of the smoke selection. But
+the ledger also holds the twelve completions from the `--sample` model comparison, ten of which are
+outside the selection. Six selected pathways had genuinely failed. Ten stale rows minus six real
+failures reported **1848 against an expected 1844** — a confusing `+4` where the truth was `-6`. The
+stale rows partly cancelled the failures and converted a clear signal into a puzzling one. It now
+counts `ledger.get(p.key) is not None` over the SELECTED pathways and nothing else.
+
+**The second was asserting something false about correct data.** "genes_shown equals n_genes
+everywhere" — but `genes_shown` counts SYMBOLS and `n_genes` counts identifiers, and the two differ
+wherever two of a source's symbols met on one gene. Seven rows do: `DDX58`/`RIGI`, `CXCL8`/`IL8`,
+`FASLG`/`TNFSF6`, `ROBO3`/`ROBO3.1`, `PB1`/`PBRM1`, `OR1F12`/`OR1F12P`, `CYorf15A`/`CYorf15B`. That
+is exactly the multi-symbol case `Pathway.gene_symbols` was designed to record (2026-08-27), so the
+check was contradicting the schema. What it meant to assert is that nothing was truncated, and
+truncation is `shown < genes`, which is what it now counts.
+
+**Both now carry a regression test reproducing the exact condition that made them lie** — one over a
+fixture holding a stale ledger row outside the selection alongside a batch result that never came
+back, the other over a fixture where two symbols meet on one gene. Each test was confirmed to fail
+against the original check before being kept; a regression test never run against the bug is a
+guess.
+
+**The general rule, which is the part worth keeping.** A check comparing two counts is only as
+trustworthy as the set it counts over, and the failure mode is not a wrong number but a *plausible*
+one: two errors of opposite sign inside a badly chosen population net out and the check reports
+something almost right. Prefer counting over the set the claim is actually about, state that set in
+the note, and be suspicious of any check whose measured value is close to expected but not equal.
+
+**A corollary worth stating: the sanity block is now shown by `--report`, not only written to the
+summary.** Read back from the committed file rather than recomputed, so what is displayed is what
+the file says.
+
+## 2026-09-09 — HTML leaks from the prompt, not from the model's imagination (fix deferred to v4)
+
+`html_markup` is now a residue pattern in the validator, matching `</?[a-zA-Z][^>]*>` — the same
+shape `build_pathways.py` already uses to count markup in Reactome summations.
+
+Measured on the smoke batch: **3 of 1,854 raw completions carried HTML, and 0 survive into the
+committed table** — all three sat after a false envelope close and were removed by the envelope
+repair. Two of the three had markup in their own native description; the third (`go:GO:0019221`)
+did not, and produced `<br>--><br>` unprompted. Of the 1,854 prompts in this batch, **203 contained
+markup**, so the leak rate among prompts that showed the model markup is 3/203 = **1.5%**.
+
+**No prompt change now.** Bumping `PROMPT_VERSION` invalidates every cached completion and
+re-charges the full $12.83 to fix what currently reaches the committed table zero times.
+
+**The fix for v4, and the better form of it.** The obvious move is to forbid HTML in the output.
+The better move is to strip HTML from the native description *before it enters the prompt*: the
+model is copying markup because we show it markup — 982 Reactome summations carry HTML and
+2026-08-27 deliberately kept it verbatim as part of the source's register. Not showing it any is
+stronger than telling it not to write any, because a prohibition competes with an example while
+removal leaves nothing to copy. Note this trades against the 2026-08-21 OPEN entry's premise that
+the native register is preserved for the as-is A/B arm — so strip it on the way into the *prompt*,
+not out of `description_source`, which stays verbatim on the row.
