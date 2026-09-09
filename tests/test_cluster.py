@@ -167,3 +167,27 @@ def test_the_condensed_matrix_footprint_is_quadratic_and_reported_in_bytes():
 def test_the_default_cuts_span_a_range_rather_than_naming_one_answer():
     assert len(DEFAULT_CUTS) > 1
     assert list(DEFAULT_CUTS) == sorted(DEFAULT_CUTS)
+
+
+# ---------------------------------------------------- stand-in labelling
+
+
+# A plumbing run on native prose produces a tree that looks exactly like a real one and is not one.
+# The label is structural rather than a note someone remembers to write.
+def test_a_run_on_anything_other_than_generated_descriptions_is_marked_a_stand_in():
+    from build_ontology import is_stand_in
+    from thema.normalize import PROVENANCE
+
+    real = set(PROVENANCE.values())
+    assert not is_stand_in("smoke", real), "a normal smoke run is not a stand-in"
+    assert not is_stand_in("full", real)
+    assert is_stand_in("plumbing", real), "an unrecognised scope is a stand-in"
+    assert is_stand_in("smoke", {"native_stand_in"}), "unknown provenance is a stand-in"
+    assert is_stand_in("smoke", real | {"native_stand_in"}), "one odd row taints the run"
+
+
+def test_the_stand_in_warning_leads_the_stamp_so_it_cannot_be_skimmed_past():
+    from build_ontology import stamp
+
+    assert stamp("plumbing", "abc123", 400, True).startswith("*** STAND-IN TEXT, NOT A RESULT ***")
+    assert "STAND-IN" not in stamp("smoke", "abc123", 1844, False)
