@@ -139,3 +139,40 @@ def test_a_description_with_two_flags_counts_once_as_flagged_and_twice_as_flags(
     assert counts["flagged"] == 1
     assert counts["flags"] == 2
     assert counts["wrong"] == 1 and counts["unsupported"] == 1
+
+
+# ------------------------------------------------------ flag reporting
+
+
+# A flag is a claim about a claim. Summarising it would put a second layer of paraphrase between
+# the reader and the sentence they have to judge, which is the whole job.
+def test_flagged_claims_are_printed_verbatim_and_grouped_by_source(capsys):
+    from verify_descriptions import report_flags
+
+    go = _pathway("go", "GO:1", "copper ion transport")
+    reactome = _pathway("reactome", "R-HSA-1", "Alpha pathway")
+    clean = _pathway("btm", "M1", "Beta module")
+    quote = "SLC31A2 is an iron transporter that moves Fe(II) across the membrane."
+    reason = "SLC31A2 is a copper transporter; it does not carry iron."
+    results = {
+        go.key: (Flag(quote, "wrong", reason),),
+        reactome.key: (Flag("It affects 40% of patients.", "unsupported", "No source given."),),
+        clean.key: (),
+    }
+    report_flags(results, {p.key: p for p in (go, reactome, clean)})
+    out = capsys.readouterr().out
+
+    assert quote in out, "the claim must appear unedited, not summarised"
+    assert reason in out
+    assert "REACTOME" in out and "GO" in out
+    assert out.index("REACTOME") < out.index("GO"), "grouped by source, in SOURCES order"
+    assert clean.key not in out, "a description with no flags is not a finding"
+    assert "2 across 2 descriptions" in out
+
+
+def test_a_pilot_with_nothing_flagged_says_so_rather_than_printing_an_empty_heading(capsys):
+    from verify_descriptions import report_flags
+
+    pathway = _pathway("go", "GO:1", "Alpha")
+    report_flags({pathway.key: ()}, {pathway.key: pathway})
+    assert "No claims flagged." in capsys.readouterr().out

@@ -227,8 +227,14 @@ class _FakeClient:
         _FakeClient.submitted.append(list(requests))
         return "msgbatch_fake"
 
+    #: What batch_status reports; a test flips this to exercise the not-ready path.
+    status: str = "ended"
+
     def await_batch(self, batch_id):
         return "ended"
+
+    def batch_status(self, batch_id):
+        return _FakeClient.status
 
     def collect_batch(self, batch_id, requests):
         collected = []
@@ -262,6 +268,7 @@ def _data_dir(tmp_path: Path) -> tuple[Path, Path]:
 def _run(tmp_path, monkeypatch, *extra):
     data, raw = _data_dir(tmp_path)
     _FakeClient.submitted, _FakeClient.counted, _FakeClient.fails = [], [], set()
+    _FakeClient.status = "ended"
     monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
     code = main(["--smoke", "--data", str(data), "--raw", str(raw), *extra])
     return code, data
@@ -427,4 +434,48 @@ def test_two_symbols_meeting_on_one_gene_is_not_reported_as_truncation(tmp_path,
     measured, note = _summary(data)[("sanity", "no gene list was truncated")]
     assert measured == "0" and "[FAIL]" not in note, (
         "shown > genes is symbols collapsing onto a gene, not truncation"
+    )
+
+
+# A batch is billed when the provider runs it, not when its results are read. A run killed between
+# submission and collection strands paid-for results, and resubmitting pays for them twice. This
+# happened on 2026-09-09.
+def test_collect_drains_an_existing_batch_instead_of_submitting_a_new_one(tmp_path, monkeypatch):
+    data, raw = _data_dir(tmp_path)
+    _FakeClient.submitted, _FakeClient.fails, _FakeClient.status = [], set(), "ended"
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    base = ["--smoke", "--data", str(data), "--raw", str(raw)]
+
+    code = main([*base, "--collect", "msgbatch_stranded"])
+    assert code == 0
+    assert _FakeClient.submitted == [], "collecting must not submit anything"
+    assert (data / "pathway_descriptions.tsv").is_file(), "collected results must reach the table"
+    assert ("batch", "batch_1") in _summary(data), "the collected batch id must be recorded"
+
+
+def test_collect_does_not_need_submit_because_it_spends_nothing(tmp_path, monkeypatch, capsys):
+    data, raw = _data_dir(tmp_path)
+    _FakeClient.submitted, _FakeClient.fails, _FakeClient.status = [], set(), "ended"
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    # A ceiling of zero would refuse a submission; collecting is not a submission.
+    code = main(
+        ["--smoke", "--data", str(data), "--raw", str(raw), "--collect", "msgbatch_x",
+         "--max-dollars", "0"]
+    )
+    assert code == 0, "the spend gate must not block a collection, which bills nothing new"
+    assert "nothing new is billed" in capsys.readouterr().out
+
+
+# A batch that has not finished must not look like a batch with no results. Blocking until it does
+# is what got two recovery processes killed on 2026-09-09; asking and returning is what replaced it.
+def test_collecting_an_unfinished_batch_says_so_and_writes_nothing(tmp_path, monkeypatch, capsys):
+    data, raw = _data_dir(tmp_path)
+    _FakeClient.submitted, _FakeClient.fails, _FakeClient.status = [], set(), "in_progress"
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    code = main(["--smoke", "--data", str(data), "--raw", str(raw), "--collect", "msgbatch_x"])
+    _FakeClient.status = "ended"
+    assert code == 0
+    assert "in_progress" in capsys.readouterr().out
+    assert not (data / "pathway_descriptions.tsv").exists(), (
+        "an unfinished batch must not write a table that looks complete"
     )

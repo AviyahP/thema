@@ -457,6 +457,22 @@ class LLMClient:
         )
         return batch.id
 
+    def batch_status(self, batch_id: str) -> str:
+        """Read a batch's processing status without waiting for it.
+
+        Separate from :meth:`await_batch` because waiting and asking are different needs. A batch
+        can run for hours, and a process held open across that window is the thing most likely to
+        be killed -- which strands results that were already paid for. Asking is cheap and lets a
+        caller come back later instead of holding a socket.
+
+        Args:
+            batch_id: The batch.
+
+        Returns:
+            The provider's processing status.
+        """
+        return self._client.messages.batches.retrieve(batch_id).processing_status
+
     def await_batch(self, batch_id: str, *, poll_seconds: float = BATCH_POLL_SECONDS) -> str:
         """Poll a batch until it ends.
 

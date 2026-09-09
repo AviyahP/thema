@@ -293,6 +293,37 @@ def report_rates(
     )
 
 
+def report_flags(results: Mapping[str, Sequence[Flag]], by_key: Mapping[str, Pathway]) -> None:
+    """Print every flagged claim verbatim, grouped by source.
+
+    The quote and the reason are printed unedited and unabridged. A flag is a claim about a claim,
+    and summarising it would put a second layer of paraphrase between the reader and the sentence
+    they have to judge -- which is the whole job here, since several flags in the twelve-pathway run
+    were arguable rather than clear-cut.
+
+    Args:
+        results: Flags per verified key.
+        by_key: The pathways, for source and name.
+    """
+    flagged = {k: f for k, f in results.items() if f}
+    if not flagged:
+        print("\nNo claims flagged.")
+        return
+    total = sum(len(f) for f in flagged.values())
+    print(f"\nFLAGGED CLAIMS  ({total} across {len(flagged)} descriptions)")
+    for source in SOURCES:
+        theirs = sorted(k for k in flagged if by_key[k].source == source)
+        if not theirs:
+            continue
+        print(f"\n{'=' * 96}\n{source.upper()}  ({len(theirs)} descriptions)\n{'=' * 96}")
+        for key in theirs:
+            print(f"\n{key}  {by_key[key].name}")
+            for flag in flagged[key]:
+                print(f"  [{flag.kind}]")
+                print(f"    claim:  {flag.quote}")
+                print(f"    reason: {flag.reason}")
+
+
 def project(estimate: Estimate, checked: int, remaining: int) -> None:
     """Print what finishing the table would cost, from what the pilot actually cost.
 
@@ -483,6 +514,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--model", default="claude-opus-5", help="verifier (default: %(default)s)")
     parser.add_argument("--submit", action="store_true", help="actually call the API")
     parser.add_argument(
+        "--collect",
+        metavar="BATCH_ID",
+        help="drain an already-submitted batch instead of submitting a new one; use this when a "
+        "run was interrupted after submission, since resubmitting would pay for it twice",
+    )
+    parser.add_argument(
         "--max-dollars",
         type=float,
         default=DEFAULT_MAX_DOLLARS,
@@ -511,23 +548,44 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     requests = [verify_request(by_key[k], texts[k]) for k in keys]
     pending = [r for r in requests if r.key not in ledger]
+    # A batch is billed when the provider runs it, not when its results are read, so draining one
+    # that was already submitted costs nothing and resubmitting it pays twice. This path exists
+    # because a run was killed between the two on 2026-09-09 and the results were stranded.
+    if args.collect:
+        if client is None:
+            print("\nno client: cannot collect", file=sys.stderr)
+            return 1
+        print(f"\ncollecting {args.collect} (already submitted; nothing new is billed)")
+        status = client.batch_status(args.collect)
+        if status != "ended":
+            print(f"  batch is {status}; nothing to collect yet -- rerun this command later")
+            return 0
+        collected = client.collect_batch(args.collect, requests)
+        print(f"  collected {len(collected):,} of {len(requests):,}", file=sys.stderr)
+        if len(collected) < len(requests):
+            print(
+                f"  {len(requests) - len(collected):,} did not succeed; "
+                "rerun with --submit to regenerate only those",
+                file=sys.stderr,
+            )
+        pending = []
+
     estimate = price_verification(requests, pending, ledger, client, args.model)
     report_cost(estimate, args.max_dollars, "COST (billed to the API key, not a subscription)")
 
-    if not args.submit:
+    if not args.submit and not args.collect:
         print("\nnothing submitted; rerun with --submit")
         return 0
-    if not within_ceiling(estimate, args.max_dollars):
+    if not args.collect and not within_ceiling(estimate, args.max_dollars):
         print(
             f"\nrefusing: ${estimate.uncached_dollars:,.2f} exceeds --max-dollars "
             f"${args.max_dollars:,.2f}",
             file=sys.stderr,
         )
         return 1
-    if client is None:
+    if pending and client is None:
         print("\nno client: cannot submit", file=sys.stderr)
         return 1
-
     if pending:
         run_batch(client, pending, "verify")
 
@@ -538,6 +596,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             results[key] = flags
 
     report_rates(results, by_key, estimate)
+    report_flags(results, by_key)
 
     status = {k: "clean" for k, f in results.items() if not f}
     flagged = {k: f for k, f in results.items() if f}

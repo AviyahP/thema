@@ -850,6 +850,7 @@ def run_smoke(
     model: str,
     submit: bool,
     ceiling: float,
+    collect: str | None = None,
 ) -> int:
     """Select the stratified subset, report it and its price, and generate it only if told to."""
     parents, roots, terms = load_hierarchies(raw)
@@ -858,14 +859,23 @@ def run_smoke(
     pathways = [pathway for _stratum, pathway in selection]
 
     report_selection(collection, strata, selection)
-    return _generate(collection, pathways, out, model, submit, ceiling, SCOPE_SMOKE, strata)
+    return _generate(
+        collection, pathways, out, model, submit, ceiling, SCOPE_SMOKE, strata, collect
+    )
 
 
 def run_full(
-    collection: PathwayCollection, out: Path, model: str, submit: bool, ceiling: float
+    collection: PathwayCollection,
+    out: Path,
+    model: str,
+    submit: bool,
+    ceiling: float,
+    collect: str | None = None,
 ) -> int:
     """Generate all 10,817 descriptions through the batch API."""
-    return _generate(collection, list(collection), out, model, submit, ceiling, SCOPE_FULL, {})
+    return _generate(
+        collection, list(collection), out, model, submit, ceiling, SCOPE_FULL, {}, collect
+    )
 
 
 def _generate(
@@ -877,6 +887,7 @@ def _generate(
     ceiling: float,
     scope: str,
     strata: Mapping[str, Sequence[Pathway]],
+    collect: str | None = None,
 ) -> int:
     """Price a selection, then generate it through the batch API if the gate allows.
 
@@ -892,6 +903,7 @@ def _generate(
         ceiling: The ``--max-dollars`` limit.
         scope: ``smoke`` or ``full``, recorded in the summary.
         strata: The smoke partition, for the summary; empty for a full run.
+        collect: A batch id to drain instead of submitting, for a run interrupted after submission.
 
     Returns:
         0 on success, 1 when the gate refuses.
@@ -907,13 +919,30 @@ def _generate(
         except (RuntimeError, ValueError) as exc:
             print(f"pricing offline ({exc})", file=sys.stderr)
 
+    # A batch is billed when the provider runs it, not when its results are read, so draining one
+    # that was already submitted costs nothing and resubmitting it pays twice.
+    batch_ids: list[str] = []
+    if collect:
+        if client is None:
+            print("\nno client: cannot collect", file=sys.stderr)
+            return 1
+        print(f"\ncollecting {collect} (already submitted; nothing new is billed)")
+        status = client.batch_status(collect)
+        if status != "ended":
+            print(f"  batch is {status}; nothing to collect yet -- rerun this command later")
+            return 0
+        collected = client.collect_batch(collect, pending)
+        print(f"  collected {len(collected):,} of {len(pending):,}", file=sys.stderr)
+        batch_ids.append(collect)
+        pending = [r for r in requests if r.key not in ledger]
+
     estimate = price(requests, pending, ledger, client, collection, model)
     report_cost(estimate, ceiling)
 
-    if not submit:
+    if not submit and not collect:
         print("\nnothing submitted; rerun with --submit")
         return 0
-    if not within_ceiling(estimate, ceiling):
+    if not collect and not within_ceiling(estimate, ceiling):
         print(
             f"\nrefusing: ${estimate.uncached_dollars:,.2f} exceeds --max-dollars ${ceiling:,.2f}",
             file=sys.stderr,
@@ -937,7 +966,6 @@ def _generate(
         submitted.append((batch_id, chunk))
         print(f"  chunk {index}: {len(chunk):,} requests -> {batch_id}", file=sys.stderr)
 
-    batch_ids: list[str] = []
     for index, (batch_id, chunk) in enumerate(submitted, start=1):
         batch_ids.append(batch_id)
         client.await_batch(batch_id)
@@ -1388,6 +1416,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="actually call the API; without it --smoke and --full price the run and stop",
     )
     parser.add_argument(
+        "--collect",
+        metavar="BATCH_ID",
+        help="drain an already-submitted batch instead of submitting a new one; use this when a "
+        "run was interrupted after submission, since resubmitting would pay for it twice",
+    )
+    parser.add_argument(
         "--max-dollars",
         type=float,
         default=DEFAULT_MAX_DOLLARS,
@@ -1430,9 +1464,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"missing input: {path}", file=sys.stderr)
             print("run scripts/download_pathway_data.py", file=sys.stderr)
             return 1
-        return run_smoke(collection, args.raw, args.data, args.model, args.submit, args.max_dollars)
+        return run_smoke(
+            collection,
+            args.raw,
+            args.data,
+            args.model,
+            args.submit,
+            args.max_dollars,
+            args.collect,
+        )
     if args.full:
-        return run_full(collection, args.data, args.model, args.submit, args.max_dollars)
+        return run_full(
+            collection, args.data, args.model, args.submit, args.max_dollars, args.collect
+        )
 
     print("nothing to do: pass --sample, --smoke, --full or --report", file=sys.stderr)
     return 1
