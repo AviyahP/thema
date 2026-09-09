@@ -27,6 +27,10 @@ data/cache/
 # Regenerable build artifacts; each one's sha256 is pinned in its committed summary
 data/reactome_membership.tsv
 data/pathways.tsv
+# The ontology build is a deterministic function of the committed descriptions table and the
+# pinned encoder, so it follows the same rule; ontology_summary.tsv pins each artifact's sha256.
+data/ontology/*
+!data/ontology/ontology_summary.tsv
 
 # OS
 .DS_Store
