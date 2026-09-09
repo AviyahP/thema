@@ -19,7 +19,7 @@ import sys
 import time
 from collections.abc import Iterable, Iterator, Sequence
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
 import anthropic
@@ -38,7 +38,7 @@ MODELS: dict[str, dict[str, object]] = {
 
 #: Generous relative to a ~110-word answer, because on the thinking models the budget is shared with
 #: reasoning tokens and a truncated description would be worse than a slightly expensive one.
-MAX_TOKENS = 4000
+MAX_TOKENS = 8000
 
 #: Retries and capped backoff, the shape ``scripts/download_pathway_data.py`` already uses.
 RETRIES = 6
@@ -184,8 +184,7 @@ class Ledger:
                 record = json.loads(line)
             except json.JSONDecodeError:
                 continue  # A kill mid-append leaves at most one partial line; skip it.
-            record["text"] = repair_escapes(record["text"])
-            self._seen[record["key"]] = Completion(**record)
+            self._seen[record["key"]] = _normalized(Completion(**record))
 
     def get(self, key: str) -> Completion | None:
         """Return the cached completion for a key, if there is one.
@@ -204,6 +203,7 @@ class Ledger:
         Args:
             completion: What to record.
         """
+        completion = _normalized(completion)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(asdict(completion), sort_keys=True) + "\n")
@@ -226,6 +226,28 @@ class Ledger:
     def __contains__(self, key: object) -> bool:
         """Whether a key has a cached completion."""
         return key in self._seen
+
+
+def _normalized(completion: Completion) -> Completion:
+    """Apply the envelope repair, so a completion is the same whether it was just made or read back.
+
+    Both ends of the ledger go through this. Repairing only on read would mean the copy held in
+    memory during a generating run and the copy a resuming run loads were different strings, and
+    the table written from each would differ byte for byte -- which is the idempotence every other
+    writer in this repo is tested for. Repairing only on write would leave completions cached
+    before the pattern was widened uncleaned, and re-paying for them would be absurd when the cut
+    is deterministic.
+
+    Args:
+        completion: The completion.
+
+    Returns:
+        It unchanged, or a copy with the residue removed and recorded in ``repaired``.
+    """
+    text, repaired = _trimmed(completion.text)
+    if text == completion.text:
+        return completion
+    return replace(completion, text=text, repaired=completion.repaired or repaired)
 
 
 def custom_id(key: str) -> str:
@@ -509,7 +531,17 @@ def repair_escapes(text: str) -> str:
 #: is no way to tell it from content except that a description never ends in a brace. Trimmed rather
 #: than left in place, and counted rather than trimmed silently, because the rate is the interesting
 #: number: ``Completion.repaired`` carries it to the summary.
-_TRAILING_ENVELOPE = re.compile(r"[\"\u201c\u201d]\s*\}[\s\}`]*$")
+#: The model sometimes escapes a quote, closes the JSON envelope INSIDE the string value, and then
+#: keeps generating -- reasoning fragments, a stray question, or source markup it was echoing. The
+#: batch of 2026-09-09 did this on 7 of 1,842. Everything from that false close onward is envelope
+#: residue, never description, so the cut is from the first ``"}`` to the end rather than anchored
+#: at it: anchoring is why the earlier pattern matched none of them.
+_TRAILING_ENVELOPE = re.compile(r"[\"\u201c\u201d]\s*\}.*$")
+
+#: A quote closing nothing, left where the envelope's own closing quote was absorbed into the
+#: value. Only stripped when the quotes in the text are UNBALANCED -- descriptions legitimately open
+#: with the pathway name in quotes, and a balanced pair at the end is the author's, not an artifact.
+_DANGLING_QUOTE = re.compile(r"[\"\u201c\u201d]$")
 
 
 def extract_text(message: object, key: str = "description") -> tuple[str, str]:
@@ -558,12 +590,24 @@ def extract_text(message: object, key: str = "description") -> tuple[str, str]:
 
 
 def _trimmed(value: str) -> tuple[str, str]:
-    """Collapse whitespace and trim a trailing envelope artifact, reporting what was trimmed."""
+    """Collapse whitespace and trim envelope artifacts, reporting what was trimmed.
+
+    Never silently: what came off is returned so the caller can count it, because the rate at which
+    the prompt leaks its own envelope is a number worth reporting rather than one worth hiding.
+
+    Args:
+        value: The raw payload.
+
+    Returns:
+        The cleaned text, and whatever was removed ("" when nothing was).
+    """
     text = repair_escapes(" ".join(value.split()))
     match = _TRAILING_ENVELOPE.search(text)
-    if not match:
-        return text, ""
-    return text[: match.start()].rstrip(), match.group(0)
+    if match:
+        return text[: match.start()].rstrip(), match.group(0)
+    if _DANGLING_QUOTE.search(text) and text.count('"') % 2:
+        return text[:-1].rstrip(), text[-1]
+    return text, ""
 
 
 def chunked(items: Sequence[Request], size: int = BATCH_CHUNK) -> Iterator[Sequence[Request]]:

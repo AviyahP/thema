@@ -50,6 +50,7 @@ from thema.data.pathways import (
     collision_groups,
 )
 from thema.data.tables import (
+    EMPTY,
     SUMMARY_COLUMNS,
     cell,
     print_table,
@@ -488,6 +489,10 @@ def _measured_user_tokens(
     Returns:
         Mean user tokens per prompt, how many prompts were counted, and which method was used.
     """
+    if not pending:
+        # Everything is cached. Rerunning in this state is normal -- it is how the table gets
+        # rewritten after a repair -- so it must cost nothing and measure nothing.
+        return 0.0, 0, "nothing pending"
     if client is not None:
         rng = random.Random(SMOKE_SEED)
         sampled = rng.sample(list(pending), min(ESTIMATE_SAMPLE, len(pending)))
@@ -915,7 +920,9 @@ def _generate(
         )
         print("raise the ceiling deliberately if that is what you want", file=sys.stderr)
         return 1
-    if client is None:
+    # Nothing pending is not a failure and does not need a client: it is how the table gets
+    # rewritten after a repair, and it must fall straight through to the write.
+    if pending and client is None:
         print("\nno client: cannot submit", file=sys.stderr)
         return 1
 
@@ -925,7 +932,7 @@ def _generate(
     # serialise six 24-hour worst cases; submitted together they share one window, and a chunk that
     # fails still costs only itself.
     submitted: list[tuple[str, Sequence[Request]]] = []
-    for index, chunk in enumerate(chunked(pending), start=1):
+    for index, chunk in enumerate(chunked(pending) if client else (), start=1):
         batch_id = client.submit_batch(chunk)
         submitted.append((batch_id, chunk))
         print(f"  chunk {index}: {len(chunk):,} requests -> {batch_id}", file=sys.stderr)
@@ -1055,10 +1062,16 @@ def build_summary(
         rows.append(("input", "smoke_seed", str(SMOKE_SEED), "fixed; the selection never churns"))
         rows.append(("input", "smoke_floor", str(SMOKE_FLOOR), "minimum drawn from any stratum"))
         rows.append(("input", "smoke_strata", str(len(strata)), "piles the draw sampled within"))
-    for index, batch_id in enumerate(batch_ids, start=1):
+    # Taken from the completions rather than from this run's submissions. A rerun that retries a
+    # handful of failures would otherwise overwrite the summary with only its own batch id and
+    # silently drop the one that generated everything else.
+    contributing = sorted({c.batch_id for c in completions if c.batch_id} | set(batch_ids))
+    for index, batch_id in enumerate(contributing, start=1):
         rows.append(
-            ("batch", f"chunk_{index}", batch_id, "the generation run that produced these rows")
+            ("batch", f"batch_{index}", batch_id, "a generation run that contributed rows here")
         )
+    if not contributing:
+        rows.append(("batch", "batch_1", EMPTY, "no batch recorded; these came from live calls"))
 
     for source in SOURCES:
         rows.append(
@@ -1125,9 +1138,11 @@ def build_summary(
     checks = [
         Check(
             "every selected pathway has a description",
-            str(len(described)),
+            str(sum(1 for p in pathways if ledger.get(p.key) is not None)),
             str(len(pathways)),
-            "a batch result that did not parse would show here",
+            "counted over the SELECTED pathways, not the ledger: the ledger also holds the "
+            "--sample run's twelve, and comparing against it hides a missing row behind an extra "
+            "one. A batch result that did not parse shows here",
         ),
         Check(
             "every collision group is whole",
@@ -1147,10 +1162,12 @@ def build_summary(
     )
     checks += [
         Check(
-            "genes_shown equals n_genes everywhere",
-            str(sum(1 for _c, p in described if len(genes_for_prompt(p)) != p.n_genes)),
+            "no gene list was truncated",
+            str(sum(1 for _c, p in described if len(genes_for_prompt(p)) < p.n_genes)),
             "0",
-            "nothing was truncated",
+            "genes_shown counts SYMBOLS and n_genes counts identifiers, so shown >= genes and the "
+            "two differ wherever two of a source's symbols met on one gene (7 rows here, e.g. "
+            "DDX58/RIGI). Truncation would show as shown < genes, which is what this counts",
         ),
     ]
     rows.extend(check.row() for check in checks)
@@ -1173,6 +1190,25 @@ def read_descriptions(table: Path) -> dict[str, str]:
     header = lines[0].split("\t")
     key, text = header.index("key"), header.index("description_generated")
     return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
+
+
+def read_sanity(summary: Path) -> list[tuple[str, str, str]]:
+    """Read the sanity rows back out of the committed summary.
+
+    Args:
+        summary: Path to ``pathway_descriptions_summary.tsv``.
+
+    Returns:
+        ``(key, measured, note)`` per sanity row, empty when there is no summary.
+    """
+    if not summary.is_file():
+        return []
+    rows = []
+    for line in summary.read_text(encoding="utf-8").splitlines()[1:]:
+        fields = line.split("\t")
+        if len(fields) >= 4 and fields[0] == "sanity":
+            rows.append((fields[1], fields[2], fields[3]))
+    return rows
 
 
 def _marks(values: Sequence[int]) -> str:
@@ -1259,6 +1295,22 @@ def run_report(collection: PathwayCollection, out: Path, model: str) -> int:
     if not hit_rows:
         hit_rows.append(("(none)", "0", *["0"] * len(SOURCES)))
     print_table(("kind", "total", *SOURCES), hit_rows, align="<" + ">" * (len(SOURCES) + 1))
+
+    # Read back from the committed summary rather than recomputed, so what the report shows is
+    # what the file actually says. Two of these checks were themselves wrong until 2026-09-09 and
+    # reported FAIL against correct data; showing them here is how that stays visible.
+    checks = read_sanity(out / DESCRIPTIONS_SUMMARY)
+    if checks:
+        failed = [row for row in checks if "[FAIL]" in row[2]]
+        print(f"\nSANITY  ({len(checks) - len(failed)}/{len(checks)} pass)\n")
+        print_table(
+            ("check", "measured", "verdict"),
+            [
+                (key, value, "pass" if "[FAIL]" not in note else "FAIL")
+                for key, value, note in checks
+            ],
+            align="<>>",
+        )
 
     print("\nTEN DESCRIPTIONS IN FULL\n")
     for pathway in _spanning_sample(described, texts):

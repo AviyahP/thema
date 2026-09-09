@@ -245,6 +245,85 @@ def test_a_curly_quote_envelope_is_trimmed_too():
     assert repaired == "\u201d}"
 
 
+# The 2026-09-09 batch found a worse shape than the v2 one above: the model escaped a quote, closed
+# the envelope INSIDE the value, and then kept generating. 7 of 1,842 did this. Anchoring the
+# pattern at the end of the string -- which the original did -- matched none of them, because
+# something always followed the false close. Real strings from that batch.
+def test_an_envelope_followed_by_more_output_is_cut_at_the_false_close():
+    for tail, removed in (
+        ('\\"}<br><br>', '"}<br><br>'),
+        ('\\"}<br>--><br>{', '"}<br>--><br>{'),
+        ('\\"}What is the effect of HSP90 inhibition on RSV replication?',
+         '"}What is the effect of HSP90 inhibition on RSV replication?'),
+        ('\\"}Wait, let me re-emit cleanly.{', '"}Wait, let me re-emit cleanly.{'),
+    ):
+        body = '{"description": "Alpha does a thing.' + tail + '"}'
+        text, repaired = extract_text(_Message(body))
+        assert text == "Alpha does a thing.", f"{tail!r} was not cut at the false close"
+        assert repaired == removed
+
+
+# Descriptions legitimately OPEN with the pathway name in quotes, so a quote at the end is only an
+# artifact when the quotes are unbalanced. Balance is the test, not position.
+def test_an_unbalanced_trailing_quote_is_trimmed_and_a_balanced_one_is_kept():
+    text, repaired = extract_text(
+        _Message('{"description": "\\"Alpha pathway\\" is a thing.\\""}')
+    )
+    assert text == '"Alpha pathway" is a thing.'
+    assert repaired == '"'
+
+    kept, nothing = extract_text(_Message('{"description": "It is called \\"apoptosis.\\""}'))
+    assert kept == 'It is called "apoptosis."', "balanced quotes are the author's, not an artifact"
+    assert nothing == ""
+
+
+# The residue was already in the ledger when the pattern was widened, and the cut is deterministic,
+# so re-paying for those completions would be absurd. Repair on read, and record it.
+def test_a_completion_cached_before_the_pattern_widened_is_repaired_on_read(tmp_path):
+    ledger = Ledger.open(tmp_path, "claude-opus-5", "v3")
+    ledger.path.write_text(
+        json.dumps(
+            {
+                "key": "go:GO:1",
+                "model": "claude-opus-5",
+                "prompt_version": "v3",
+                "text": 'Alpha does a thing."}<br><br>',
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_read_tokens": 0,
+                "cache_creation_tokens": 0,
+                "stop_reason": "end_turn",
+                "request_id": None,
+                "batch_id": None,
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    ledger.reload()
+    completion = ledger.get("go:GO:1")
+    assert completion.text == "Alpha does a thing."
+    assert completion.repaired == '"}<br><br>', "what came off must be recorded, not just removed"
+
+
+# Both ends of the ledger normalize, so a run that generates and a run that resumes write the same
+# bytes. Repairing on only one end is how two runs of the same data diverge.
+def test_a_completion_reads_back_exactly_as_it_was_appended(tmp_path):
+    ledger = Ledger.open(tmp_path, "claude-opus-5", "v3")
+    ledger.append(
+        Completion(
+            key="go:GO:1",
+            model="claude-opus-5",
+            prompt_version="v3",
+            text='Alpha does a thing."}<br><br>',
+        )
+    )
+    in_memory = ledger.get("go:GO:1")
+    ledger.reload()
+    assert ledger.get("go:GO:1") == in_memory, "append and reload must agree on the same string"
+    assert in_memory.text == "Alpha does a thing."
+
+
 # A quoted word at the end is CONTENT, not a delimiter -- btm:M66 ended with the placeholder name.
 # Trimming it here would hide a prompt failure inside the provider layer.
 def test_a_trailing_quoted_word_is_left_alone():

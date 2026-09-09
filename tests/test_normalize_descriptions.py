@@ -18,6 +18,8 @@ from thema.data.pathways import (
     collision_groups,
 )
 from thema.data.tables import write_tsv
+from thema.llm import Completion, Ledger
+from thema.normalize import PROMPT_VERSION, genes_for_prompt
 
 
 def _pathway(
@@ -204,13 +206,18 @@ def test_all_of_hallmark_is_selected():
 
 
 class _FakeClient:
-    """Records what was asked of the provider, so a test can prove nothing billable happened."""
+    """Stands in for the provider: records what was asked of it, and fills the ledger like the real
+    client does, so a second run genuinely sees a warm cache rather than an empty one."""
 
     submitted: list = []
     counted: list = []
+    #: Keys the provider will not return a usable result for, as an unparseable batch row does.
+    fails: set = set()
 
-    def __init__(self, *args, **kwargs):
-        pass
+    def __init__(self, model, prompt_version, ledger, **kwargs):
+        self.model = model
+        self.prompt_version = prompt_version
+        self.ledger = ledger
 
     def count_tokens(self, request):
         _FakeClient.counted.append(request.key)
@@ -224,7 +231,22 @@ class _FakeClient:
         return "ended"
 
     def collect_batch(self, batch_id, requests):
-        return ()
+        collected = []
+        for request in requests:
+            if request.key in _FakeClient.fails:
+                continue
+            completion = Completion(
+                key=request.key,
+                model=self.model,
+                prompt_version=self.prompt_version,
+                text="Alpha is a biological process that does a thing in the cell. " * 20,
+                input_tokens=100,
+                output_tokens=300,
+                batch_id=batch_id,
+            )
+            self.ledger.append(completion)
+            collected.append(completion)
+        return tuple(collected)
 
 
 def _data_dir(tmp_path: Path) -> tuple[Path, Path]:
@@ -239,7 +261,7 @@ def _data_dir(tmp_path: Path) -> tuple[Path, Path]:
 
 def _run(tmp_path, monkeypatch, *extra):
     data, raw = _data_dir(tmp_path)
-    _FakeClient.submitted, _FakeClient.counted = [], []
+    _FakeClient.submitted, _FakeClient.counted, _FakeClient.fails = [], [], set()
     monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
     code = main(["--smoke", "--data", str(data), "--raw", str(raw), *extra])
     return code, data
@@ -289,3 +311,120 @@ def test_no_mode_names_all_three(tmp_path, capsys):
     data, _raw = _data_dir(tmp_path)
     assert main(["--data", str(data)]) == 1
     assert "--sample, --smoke, --full or --report" in capsys.readouterr().err
+
+
+# Rerunning with everything cached is how the table gets rewritten after a repair. It must cost
+# nothing, measure nothing, and above all not crash on an empty sample.
+def test_a_rerun_with_everything_cached_prices_at_zero_and_still_writes(tmp_path, monkeypatch):
+    data, raw = _data_dir(tmp_path)
+    _FakeClient.submitted = []
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    args = ["--smoke", "--data", str(data), "--raw", str(raw), "--submit", "--max-dollars", "1000"]
+    assert main(args) == 0
+    first = (data / "pathway_descriptions.tsv").read_bytes()
+    assert first, "the first run must write the table"
+
+    _FakeClient.submitted = []
+    assert main(args) == 0, "a fully cached rerun must succeed, not divide by an empty sample"
+    assert _FakeClient.submitted == [], "a fully cached rerun must submit nothing"
+    assert (data / "pathway_descriptions.tsv").read_bytes() == first, (
+        "the rewrite must be byte-identical when nothing changed"
+    )
+
+
+# ------------------------------------------------- the checks that lied
+
+
+def _summary(data):
+    rows = {}
+    text = (data / "pathway_descriptions_summary.tsv").read_text(encoding="utf-8")
+    for line in text.splitlines()[1:]:
+        fields = line.split("\t")
+        if len(fields) >= 4:
+            rows[(fields[0], fields[1])] = (fields[2], fields[3])
+    return rows
+
+
+# The exact condition that made this check lie. It counted every ledger row inside the collection,
+# and the ledger also holds the --sample run's twelve -- so stale rows OUTSIDE the selection
+# partly cancelled real failures INSIDE it and turned "6 missing" into a confusing "+4".
+def test_stale_ledger_rows_outside_the_selection_do_not_mask_a_missing_description(
+    tmp_path, monkeypatch
+):
+    data, raw = _data_dir(tmp_path)
+    _FakeClient.submitted, _FakeClient.fails = [], set()
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    args = ["--smoke", "--data", str(data), "--raw", str(raw), "--submit", "--max-dollars", "1000"]
+
+    collection = PathwayCollection.from_tsv_text(
+        (data / "pathways.tsv").read_text(encoding="utf-8")
+    )
+    _c, strata = _strata(collection)
+    selected = {p.key for _s, p in choose_smoke(collection, strata)}
+    outside = [p for p in collection if p.key not in selected]
+    assert outside, "the fixture must contain a pathway outside the selection to stand in for one"
+
+    # A stale row from an earlier --sample run, outside this selection entirely.
+    ledger = Ledger.open(data / "cache/descriptions", "claude-opus-5", PROMPT_VERSION)
+    ledger.append(
+        Completion(
+            key=outside[0].key,
+            model="claude-opus-5",
+            prompt_version=PROMPT_VERSION,
+            text="A stale row from the --sample run, outside this selection entirely. " * 8,
+        )
+    )
+    # And one selected pathway whose batch result never comes back, as six did on 2026-09-09.
+    missing = sorted(selected)[0]
+    _FakeClient.fails = {missing}
+    assert main(args) == 0
+
+    measured, note = _summary(data)[("sanity", "every selected pathway has a description")]
+    assert "[FAIL]" in note, "one selected pathway has no description; that must not pass"
+    assert measured == str(len(selected) - 1), (
+        f"the check must count over the selection ({len(selected) - 1}), not over the ledger -- "
+        "counting the ledger lets the stale row cancel the missing one out"
+    )
+
+
+# The other check asserted genes_shown == n_genes, which is false by design: genes_shown counts
+# SYMBOLS and n_genes counts identifiers, so they differ wherever two of a source's symbols met on
+# one gene. DDX58/RIGI is the real case. Truncation is shown < genes, and only that.
+def test_two_symbols_meeting_on_one_gene_is_not_reported_as_truncation(tmp_path, monkeypatch):
+    data, raw = _data_dir(tmp_path)
+    collection = PathwayCollection.from_tsv_text(
+        (data / "pathways.tsv").read_text(encoding="utf-8")
+    )
+    merged = Pathway(
+        source="reactome",
+        source_id="R-HSA-210",
+        name="Under root two",
+        description_source="Alpha does a thing.",
+        description_source_from="reactome_summation",
+        description_generated=None,
+        description_generated_from=None,
+        genes=frozenset({"HGNC:1"}),
+        gene_symbols=(("HGNC:1", ("DDX58", "RIGI")),),
+        n_genes=1,
+        n_dropped=0,
+        dropped_symbols=(),
+        degradation="ok",
+        drop_fraction=0.0,
+        text_availability="described",
+    )
+    rebuilt = PathwayCollection.of(
+        [p for p in collection if p.source_id != "R-HSA-210"] + [merged]
+    )
+    write_tsv(data / "pathways.tsv", PATHWAY_COLUMNS, rebuilt.to_rows())
+    assert len(genes_for_prompt(merged)) > merged.n_genes, "the fixture must exercise the case"
+
+    _FakeClient.submitted = []
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    code = main(
+        ["--smoke", "--data", str(data), "--raw", str(raw), "--submit", "--max-dollars", "1000"]
+    )
+    assert code == 0
+    measured, note = _summary(data)[("sanity", "no gene list was truncated")]
+    assert measured == "0" and "[FAIL]" not in note, (
+        "shown > genes is symbols collapsing onto a gene, not truncation"
+    )

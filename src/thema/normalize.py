@@ -102,6 +102,9 @@ RESIDUE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("self_correction", re.compile(r"\b(?:wait|oops|let me|actually,? (?:fix|redo))\b[^.]{0,30}"
                                    r"(?:fix|format|again|rewrite)", re.IGNORECASE)),
     ("dangling_quote", re.compile(r"[\"\u201c\u201d]\s*$")),
+    # 981 Reactome summations carry HTML, kept verbatim on purpose (2026-08-27), so the model is
+    # shown markup and sometimes copies it. Same shape as the HTML count in build_pathways.py.
+    ("html_markup", re.compile(r"</?[a-zA-Z][^>]*>")),
 )
 
 SYSTEM_PROMPT = f"""\
