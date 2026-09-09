@@ -579,3 +579,167 @@ move `tests/test_tables.py` makes for the duplicated TSV writers.
 
 Supersedes the `dependencies = []` invariant referenced in the 2026-08-21 downloader entry. That
 entry's other content stands, and `download_pathway_data.py` continues to use stdlib urllib.
+
+## 2026-09-09 — `--smoke`: a stratified 17% subset, and a spend gate on every mode that bills
+
+`data/pathway_descriptions.tsv` has never been generated. Going straight to `--full` would commit
+the whole budget before anyone has seen a tree, so `--smoke` generates a reproducible stratified
+subset first — enough to build the clusterer against and read a tree, at a fraction of the cost.
+
+**The selection is a function of pinned inputs and a fixed seed, and nothing else.**
+`SMOKE_FRACTION = 0.15`, `SMOKE_SEED = 0`, `SMOKE_FLOOR = 3`; each stratum contributes
+`max(floor, round(fraction * size))`. Every candidate pool is sorted by pathway key before it is
+sampled, so a clean clone draws the same subset — pinned by a test that shuffles the collection and
+compares. Measured: **1,844 of 10,817 (17.0%)** — reactome 515/2,883, go 1,209/7,538, hallmark
+50/50, btm 70/346, with 29/29 Reactome branches, 19/19 GO strata, 94/94 collision groups, 13 BTM TBA
+modules and 19 obsolete GO terms.
+
+**Four stratifications.** Reactome by top-level branch (29, derived from
+`ReactomePathwaysRelation.txt`, both endpoints filtered to `R-HSA-`); GO:BP by level-1 branch, plus
+one bucket for the 124 obsolete terms GO has detached from the DAG; BTM split into named and `TBA`;
+Hallmark not stratified and **drawn whole** — 50 sets against Reactome's 2,883 costs almost nothing
+and it is the coarsest, most-used collection there is.
+
+**Correction to an earlier figure: this GO release has 18 level-1 branches, not 34.** `GO:0008150`
+has exactly 18 direct `is_a` children in `go-basic.obo` (`data-version: releases/2026-07-26`), and
+all 18 carry at least one of our terms. Coverage is 18 of 18. The 34 came from an earlier session
+and was never re-derived; 18 is measured.
+
+**The ancestor walk accumulates ALL ancestors inclusively.** A walk returning only terminal roots
+intersects the level-1 set emptily — every path ends at `GO:0008150` itself, never at one of its
+children — which would collapse all 7,538 GO terms into one stratum while reporting no error, i.e.
+silently produce exactly the homogeneous sample stratification exists to prevent. There is a named
+regression test.
+
+**Multi-branch nodes are filed into the LARGEST branch they reach, ties broken on lowest id.**
+Neither hierarchy is a tree: 33 Reactome pathways reach two roots and 1,630 GO terms reach two or
+more level-1 branches. Above the floor, filing into the largest or the smallest gives identical
+expected unique-member coverage; they differ only where the floor bites, which is the small
+branches. There, filing shared terms into a small pile spends its quota on generalists that also
+live in the mega-pile — a branch with 2 unique and 5 shared members yields ~0.9 distinctive
+pathways under most-specific and 2 under most-general. Filing into the largest keeps each narrow
+branch's quota for the pathways only it has; the shared terms lose nothing, drawn at the same rate
+from the mega-pile. **The stratum is a sampling device and must never be read downstream as a
+biological classification** — for the 1,663 multi-branch nodes it is one arbitrary choice among
+several correct answers. Stated in the docstring, because it is the kind of column that gets
+misused later.
+
+**Both members of every cross-source name-collision group are force-included** — 94 groups, 191
+members. Without them the redundancy THEMA exists to collapse would be almost absent and the test
+could not fail. `normalized_name` and the new `collision_groups` moved from
+`scripts/build_pathways.py` into `src/thema/data/pathways.py` so there is one implementation;
+`data/pathways_summary.tsv` was verified byte-identical after the move.
+
+**Nothing bills without `--submit`, and `--max-dollars` refuses above a ceiling.** Applied to
+`--full` as well as `--smoke`: `--full` is the larger spend and needs the guard more. The price is
+**marginal** — computed over requests not already in the ledger — so a rerun after a partial batch
+shows what is left to pay for. `DEFAULT_MAX_DOLLARS = 20.00`, the credit on the account when this
+was written.
+
+**Two prices are reported, because one of them is a bet.** The system prompt is 1,933 tokens against
+about 808 of actual content, and whether the provider's prompt cache holds across a batch of
+thousands decides whether it is billed once or 1,842 times. Measured for the smoke run: **$13.43 if
+the cache holds, $21.44 if it does not.** The gate checks the uncached figure, because losing that
+bet halfway through a batch spends the money without producing the table. Input tokens are measured
+through the provider's tokenizer on a seeded random subsample of the actual pending prompts —
+unbiased by construction, and free, since token counting is metering rather than inference.
+
+**Cache reuse is real but machine-local.** `--full` after `--smoke` regenerates nothing: `run_full`
+filters against the ledger and `collect_batch` appends every succeeded completion, so the 1,844
+come back byte-identical for free. But `data/cache/` is gitignored, so a clean clone re-pays; so
+does bumping `PROMPT_VERSION` or changing `--model`. Recorded here so it is not rediscovered by
+paying twice.
+
+**Also corrected: the length band is 90–150 words, not the 90–130 this log recorded.** `MAX_WORDS`
+was widened to 150 in f649b3f and the 2026-08-29 entry was never updated. The code is authoritative.
+
+## 2026-09-09 — Descriptions are checked mechanically, then fact-checked, before anything clusters
+
+Clustering is downstream of text quality, and a bad batch looks exactly like a bad clusterer from
+the tree end. Two checks now run between generation and clustering.
+
+**`--report` is mechanical and free.** Word-count distribution, validator hits broken out by kind,
+residue and repair counts, all split per source, then ten full descriptions spanning the four
+sources and the three provenance values. No API call, so it runs the moment a batch lands and again
+after any repair.
+
+**`scripts/verify_descriptions.py` is a model pass, and it is a pipeline step rather than an ad-hoc
+one.** It runs on 1,844 now and 10,817 later and its corrections get committed, so it goes through
+the same `LLMClient` and `Ledger` as the generator: cached, resumable, priced, reproducible, and
+carrying the same `--submit` / `--max-dollars` gate. It bills the API key, not a subscription.
+
+**The verifier sees the name, the curated prose, the gene list and the candidate description — and
+never the model that wrote it, or that a model wrote it at all.** The source database is withheld
+for the same reason the generator never sees it. It returns claims that are wrong or unsupported,
+each with the sentence quoted and a one-line reason. Two kinds, kept apart because they call for
+different responses: `wrong` contradicts established biology, `unsupported` may be true but cannot
+be reached from the evidence shown. This is the method that caught `SLC31A2` called an iron
+transporter (it is a copper transporter) and `SPINT1`/`SPINT2` called proteases (they are protease
+*inhibitors*) — neither visible to a pattern-matching validator, neither wrong-looking in a cluster.
+
+**Sequenced, because the second step is the expensive one.** `--pilot N` verifies a seeded random N
+and reports the flag rate split by kind and by source with the measured cost per description, then
+projects the remainder. Measured through the tokenizer: the verify prompt is 805 system + ~1,369
+user tokens, so a **pilot of 100 costs $0.73–0.92** and **all 1,844 costs $13.48–16.94** at batch
+rates. The projection is printed as a decision, not taken as a default.
+
+**Repair never happens silently and never on the verifier's word alone.** A flagged description is
+regenerated with the specific objection appended to its prompt as a correction instruction; the
+rewrite goes back through a *fresh* verification call; if it flags again the ORIGINAL is kept and
+both the flag and the failed repair are recorded. Several flags in the twelve-pathway run were
+arguable rather than clear-cut, which is exactly why a flag is not allowed to be self-executing.
+The three passes use three distinct prompt versions so no pass is ever served another's cached
+answer — pinned by a test. `verification_status`, flag count and `repaired` are columns; flagged,
+repaired and repair-failed are all counted in the summary.
+
+**Recorded caveat: this is Opus checking Opus, so the rate carries a self-preference bias and is a
+lower bound rather than a measurement.** A different verifier would be independent and cheaper but
+weaker on exactly the single-gene detail this exists to catch. Reported with the number, in the
+summary itself. No model comparison is built now.
+
+## 2026-09-09 — First clustering: numpy/scipy/sentence-transformers, and three linkages not one
+
+Ends the single-dependency state, which the 2026-08-29 entry already anticipated. Pinned exactly
+and locked: `numpy==2.3.4`, `scipy==1.16.3`, `sentence-transformers==5.1.2` (which brings torch and
+transformers). `sentence_transformers` and torch are confined to `src/thema/embed.py`, checked by
+the same pair of tests that confine the Anthropic SDK — a grep over the sources, and an import with
+the package made unavailable — so `src/thema/cluster.py` stays testable with no model download.
+
+**BioLORD-2023, pinned by revision**, per D7 in `docs/brief.md`: its training objective makes
+embedding geometry mirror ontology structure, which is this task. Qwen3-Embedding-0.6B is the named
+comparison arm and is not built.
+
+**L2-normalize, then Euclidean.** For unit vectors `||a-b||^2 = 2 - 2*cos`, so Euclidean distance
+is monotone in cosine similarity and Ward's variance criterion — defined on Euclidean distance and
+nothing else — is legitimate. Unnormalized, distance partly reflects vector magnitude, and
+magnitude tracks text length, so the tree would encode how long a description is alongside what it
+says. That is the silent bug the 2024 prototype shipped, silent because the output still looks like
+a tree. `embed()` normalizes internally so no code path reaches a linkage unnormalized, and
+`distances()` re-checks and raises rather than trusting it.
+
+**No linkage is hard-coded.** Ward, average and complete are computed from the same condensed
+distance matrix — seconds of compute — so the comparison holds the representation fixed and varies
+only the criterion. Ward is the presumed default; **average is kept for a specific reason: it is
+what the gene-overlap baseline uses (`docs/eval-plan.md` §2), so whichever linkage wins here must
+then be used on BOTH sides of that comparison**, or representation and linkage are confounded.
+
+**The cluster-size distribution is the headline report**, per linkage per cut: cluster count,
+min/p10/median/p90/max, singleton count, and largest-cluster share. Ward assumes clusters of
+broadly similar size, which biology has no obligation to supply; average linkage's known failure on
+uneven density is one enormous cluster plus a tail of singletons. Both look like an ordinary tree
+from the outside. On a 400-pathway plumbing run over stand-in text, average linkage at k=5 put
+**95.8% of everything in one cluster** with two singletons, while Ward produced no singletons at
+any cut — the failure mode is real on this data and the report surfaces it immediately.
+
+**Memory, measured rather than assumed.** The condensed distance matrix is the only thing that
+grows as the square of the input: **13.6 MB at 1,844 and 468 MB at 10,817**, so the full run fits
+comfortably and no workaround is needed. Recorded for when it does not: `fastcluster.linkage_vector`
+computes Ward directly from the observation vectors in O(n·d) memory with no n² matrix at all. It
+supports ward but not average or complete, which would still need the full matrix. Pre-clustering
+was considered and **rejected**: it handicaps cross-source merging, which is the thing THEMA exists
+to demonstrate.
+
+**Every output states its own provenance on its face.** Each cluster table and each readable tree
+dump carries `scope`, the description count, and the sha256 of the descriptions table it was built
+from. The risk is not confusing two files; it is opening a tree in a fortnight and not knowing
+whether it was built on 1,844 pathways or 10,817. A tree that cannot answer that is not evidence.
