@@ -280,6 +280,12 @@ def scoring_rows(
             results.append(result)
             words.append(result.words)
         tally = summarize(results)
+        repaired = sum(
+            1
+            for _stratum, pathway in sample
+            for c in (completions.get((pathway.key, model)),)
+            if c is not None and c.repaired
+        )
         identifiers = sum(tally.get(name, 0) for name, _ in IDENTIFIER_PATTERNS)
         references = sum(tally.get(name, 0) for name, _ in REFERENCE_PATTERNS)
         residue = sum(tally.get(name, 0) for name, _ in RESIDUE_PATTERNS)
@@ -292,6 +298,7 @@ def scoring_rows(
                 str(identifiers),
                 str(references),
                 str(residue),
+                str(repaired),
                 str(tally["name_echo"]),
                 f"{tally['clean']}/{tally['total']}",
             )
@@ -315,7 +322,7 @@ def estimate(
 
     Prompt caching is modelled from what each model actually did rather than from what it should do.
     A model whose sample shows no cache activity is priced with none -- which is the true case for
-    Haiku 4.5, whose minimum cacheable prefix its tier sets above this system prompt's 1,678 tokens.
+    Haiku 4.5, whose minimum cacheable prefix its tier sets above this system prompt's 1,933 tokens.
     """
     chars = [len(render_user_message(p)) for p in collection]
     total_chars = sum(chars)
@@ -437,11 +444,12 @@ def run_sample(collection: PathwayCollection, out: Path, models: Sequence[str]) 
             "identifiers",
             "db refs",
             "residue",
+            "repaired",
             "no echo",
             "clean",
         ),
         scoring_rows(sample, completions, models),
-        "<^^>>>>>>",
+        "<^^>>>>>>>",
     )
 
     print(f"\n\nFULL-RUN ESTIMATE  ({len(collection):,} pathways, fitted on real sample usage)\n")
@@ -582,6 +590,15 @@ def build_summary(
             rows.append(("validator", name, str(tally[name]), ""))
     rows.append(
         ("validator", "clean", f"{tally['clean']}/{tally['total']}", "tripped no check at all")
+    )
+    repaired = [c for c in completions if c.repaired]
+    rows.append(
+        (
+            "validator",
+            "envelope_repaired",
+            str(len(repaired)),
+            "responses whose value re-closed the envelope; trimmed on parse, never silently",
+        )
     )
 
     words = sorted(v.words for v in validations)

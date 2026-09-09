@@ -15,6 +15,7 @@ counts the summary needs to report what a run actually cost.
 import json
 import os
 import re
+import sys
 import time
 from collections.abc import Iterable, Iterator, Sequence
 from concurrent.futures import ThreadPoolExecutor
@@ -39,6 +40,11 @@ MAX_TOKENS = 4000
 
 #: Retries and capped backoff, the shape ``scripts/download_pathway_data.py`` already uses.
 RETRIES = 6
+
+#: Attempts at a response that will PARSE, as opposed to a request that will send. A malformed
+#: envelope is a bad generation rather than a bad request, so it is worth one more draw; the send
+#: retry cannot see it, because parsing happens after the send has already succeeded.
+PARSE_RETRIES = 2
 BACKOFF_CAP = 30.0
 
 #: Live calls run concurrently; batch runs do not need this.
@@ -114,6 +120,8 @@ class Completion:
         stop_reason: Why generation stopped. ``max_tokens`` here means a truncated description.
         request_id: The provider's request id, for reporting a failure.
         batch_id: The batch this came from, or None for a live call.
+        repaired: What :func:`extract_text` trimmed from the end of the value, or "" if nothing.
+            Defaulted so ledgers written before this field existed still load.
     """
 
     key: str
@@ -127,6 +135,7 @@ class Completion:
     stop_reason: str = ""
     request_id: str | None = None
     batch_id: str | None = None
+    repaired: str = ""
 
 
 @dataclass
@@ -313,7 +322,7 @@ class LLMClient:
 
     def _completion(self, request: Request, message: object, batch_id: str | None) -> Completion:
         """Turn a provider response into a :class:`Completion`."""
-        text = extract_text(message)
+        text, repaired = extract_text(message)
         usage = getattr(message, "usage", None)
         return Completion(
             key=request.key,
@@ -341,8 +350,7 @@ class LLMClient:
         cached = self.ledger.get(request.key)
         if cached is not None:
             return cached
-        message = self._send_with_retry(self._params(request))
-        completion = self._completion(request, message, None)
+        completion = self._generate(request)
         self.ledger.append(completion)
         return completion
 
@@ -364,7 +372,22 @@ class LLMClient:
 
     def _fetch(self, request: Request) -> Completion:
         """Complete one prompt without touching the ledger, for the concurrent path."""
-        return self._completion(request, self._send_with_retry(self._params(request)), None)
+        return self._generate(request)
+
+    def _generate(self, request: Request) -> Completion:
+        """Send one prompt and parse the reply, redrawing a reply that will not parse.
+
+        Raises:
+            RuntimeError: If no attempt produced a parseable response.
+        """
+        params = self._params(request)
+        last: ValueError | None = None
+        for _attempt in range(PARSE_RETRIES):
+            try:
+                return self._completion(request, self._send_with_retry(params), None)
+            except ValueError as exc:
+                last = exc
+        raise RuntimeError(f"no parseable response after {PARSE_RETRIES} attempts: {last}")
 
     def count_tokens(self, request: Request) -> int:
         """Count the input tokens one prompt would cost.
@@ -433,7 +456,13 @@ class LLMClient:
             request = by_id.get(result.custom_id)
             if request is None or result.result.type != "succeeded":
                 continue
-            completion = self._completion(request, result.result.message, batch_id)
+            try:
+                completion = self._completion(request, result.result.message, batch_id)
+            except ValueError as exc:
+                # A batch result cannot be redrawn here. Skipping one keeps the other results;
+                # the run's "every pathway has a description" check then reports the gap.
+                print(f"unparseable batch result for {request.key}: {exc}", file=sys.stderr)
+                continue
             self.ledger.append(completion)
             collected.append(completion)
         return tuple(collected)
@@ -461,7 +490,16 @@ def repair_escapes(text: str) -> str:
     return _ESCAPE.sub(lambda m: chr(int(m.group(1), 16)), text)
 
 
-def extract_text(message: object) -> str:
+#: A closing delimiter the model wrote INSIDE its own JSON string value and we therefore parsed as
+#: content. Three of twelve Opus responses did this under prompt v2, on ``end_turn`` with normal
+#: token counts and a correctly closed envelope -- model corruption, not a stripping bug, and there
+#: is no way to tell it from content except that a description never ends in a brace. Trimmed rather
+#: than left in place, and counted rather than trimmed silently, because the rate is the interesting
+#: number: ``Completion.repaired`` carries it to the summary.
+_TRAILING_ENVELOPE = re.compile(r"[\"\u201c\u201d]\s*\}[\s\}`]*$")
+
+
+def extract_text(message: object) -> tuple[str, str]:
     """Pull the description out of a response, structured or not.
 
     Structured output arrives as JSON in a text block rather than as a separate field, so the
@@ -471,10 +509,13 @@ def extract_text(message: object) -> str:
         message: The provider's message object.
 
     Returns:
-        The description, whitespace-collapsed.
+        The description, whitespace-collapsed, and whatever trailing envelope artifact was trimmed
+        off it ("" when nothing was).
 
     Raises:
-        ValueError: If the response carries no text block at all.
+        ValueError: If the response carries no text block at all, or if it carries text that does
+            not parse -- a malformed envelope is never returned as though it were a description.
+            That is what put a 1,847-word brace loop into the v2 sample.
     """
     blocks = getattr(message, "content", None) or []
     texts = [b.text for b in blocks if getattr(b, "type", None) == "text"]
@@ -482,13 +523,28 @@ def extract_text(message: object) -> str:
         raise ValueError(f"response carried no text block (stop_reason={
             getattr(message, 'stop_reason', '?')})")
     raw = "\n".join(texts).strip()
+    if not raw.startswith(("{", "[")):
+        # Plain-text mode: the response IS the paragraph, and there is no envelope to parse.
+        return _trimmed(raw)
     try:
         parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        return repair_escapes(" ".join(raw.split()))
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"response was not valid JSON (stop_reason="
+            f"{getattr(message, 'stop_reason', '?')}): {error}"
+        ) from error
     if isinstance(parsed, dict) and "description" in parsed:
-        return repair_escapes(" ".join(str(parsed["description"]).split()))
-    return repair_escapes(" ".join(raw.split()))
+        return _trimmed(str(parsed["description"]))
+    raise ValueError(f"parsed response carried no 'description' key: {type(parsed).__name__}")
+
+
+def _trimmed(value: str) -> tuple[str, str]:
+    """Collapse whitespace and trim a trailing envelope artifact, reporting what was trimmed."""
+    text = repair_escapes(" ".join(value.split()))
+    match = _TRAILING_ENVELOPE.search(text)
+    if not match:
+        return text, ""
+    return text[: match.start()].rstrip(), match.group(0)
 
 
 def chunked(items: Sequence[Request], size: int = BATCH_CHUNK) -> Iterator[Sequence[Request]]:

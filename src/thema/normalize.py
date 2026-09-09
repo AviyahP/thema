@@ -9,6 +9,12 @@ The rules encoded here are the 2026-08-29 ``DECISIONS.md`` entry, and the reason
 than being repeated in full: one description per pathway at one length and register; the source
 database is never shown; the gene list is always shown, whole; world knowledge is wanted; a specific
 database entry may never be named.
+
+Prompt ``v2`` departs from that entry on one rule, pending a DECISIONS entry of its own: the entry
+permits "naming a few genes that carry the set's identity", and v2 forbids gene symbols in the prose
+outright, asking for what the genes DO instead. v2 also asks for the name in double quotes and for
+significance before mechanism. The gene list is still shown in full, so the hybrid
+text-and-membership caveat that entry records is unchanged.
 """
 
 import re
@@ -19,12 +25,12 @@ from thema.data.pathways import Pathway, TextAvailability
 
 #: Bumped whenever the prompt changes in a way that should invalidate cached completions. The cache
 #: key includes it, so a bump regenerates rather than silently mixing two prompts in one table.
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v3"
 
 #: The stated length band, in words. Enforced by instruction and measured by :func:`validate`, never
 #: by truncation -- a length-dependent cutoff would reintroduce the bias normalization removes.
 MIN_WORDS = 90
-MAX_WORDS = 130
+MAX_WORDS = 150
 TARGET_WORDS = 110
 
 #: What produced a description, one value per ``text_availability``. These are the three strings
@@ -75,6 +81,11 @@ REFERENCE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 #: the prompt only; ``Pathway.name`` keeps the source's string, as the loader entry requires.
 HALLMARK_PREFIX = "HALLMARK_"
 
+#: GO marks deprecated terms by prefixing the name with this word, and GO is the only v1 source that
+#: has deprecated terms -- so the word alone identifies the database and is stripped from the prompt
+#: name. 124 terms carry it; all 124 also carry "OBSOLETE." in their description, which is retained.
+OBSOLETE_PREFIX = "obsolete"
+
 #: Tokens of a Hallmark name that must not be lowercased. Tokens carrying a digit (``E2F``, ``P53``,
 #: ``MTORC1``, ``V1``) are handled by rule; these are the all-alphabetic remainder, enumerated
 #: because the collection is fifty frozen sets and a list can be checked against all of them.
@@ -94,81 +105,98 @@ RESIDUE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 )
 
 SYSTEM_PROMPT = f"""\
-You write short functional descriptions of biological gene sets. Each description you write will be
-embedded and clustered with thousands of others, so consistency of length and register matters as
-much as accuracy: every description must read as though written by the same person on the same day.
+You write short functional descriptions of human biological pathways represented by gene
+sets. Each description you write will be embedded and clustered with thousands of others,
+so consistency of length and register matters as much as accuracy: every description must
+read as though written by the same person on the same day.
 
-You will be given a gene set's name, its curated description when one exists, and its full list of
-member genes. You will NOT be told which database the set came from, and you must not speculate
-about it.
+You will be given a pathway's name, its curated description when one exists, and its full
+list of member genes. You will NOT be told which database the pathway came from, and you
+must not speculate about it.
 
 WHAT TO WRITE
 
 Write one paragraph of {MIN_WORDS}-{MAX_WORDS} words, targeting about {TARGET_WORDS}. Do not write
 a list, headings, or more than one paragraph.
 
-Begin by repeating the set's name, so the description stays anchored to its subject. If the name is
-a placeholder such as "TBA" and carries no meaning, open instead by naming the biology you infer
-from the genes, and do not mention that the name was missing.
+Begin by repeating the pathway's name in double quotes, exactly as given, then say in plain
+English what it is and why it matters, before any mechanism. A reader who knows biology but
+not this pathway should understand from the first two sentences what it does and what
+depends on it. If the name is a placeholder such as "TBA" and carries no meaning, open
+instead by naming the biology you infer from the genes. Do not mention that the name was
+missing, and do not write the placeholder anywhere in the description, including at the end.
 
-State which general cellular or physiological processes the set relates to, and be specific about
-purpose. "Signal transduction" is not an answer; signal transduction toward what end is. A reader
-should finish the paragraph knowing what this set is FOR, not merely what category it falls in.
+Significance means what this pathway enables and what goes wrong without it -- a
+physiological function, a cell type it defines, a disease that follows its failure. It does
+not mean adjectives. Never write "critical", "essential", "plays a key role",
+"fundamental", or "important": every pathway is important, so those words carry no
+information and make all the descriptions look alike.
 
-Use your own knowledge of biology freely. Curated descriptions are often too terse to carry thematic
-meaning, and adding that context is the point of this task. Where a curated description exists it
-anchors the content and you must stay faithful to it, but you may and should extend it. Where the
-genes tell you something the text does not -- a shared complex, a compartment, a cell type, a
-regulatory relationship -- say so. Where there is no text at all, derive the biology from the genes
-and commit to it. Do not hedge with phrases like "this set may be involved in"; if the genes support
-a claim, state it.
+Only then add mechanism, and only enough to make the purpose concrete. State the biological
+purpose and context of the pathway, and which general cellular or physiological processes
+it relates to. "Signal transduction" is not an answer; signal transduction toward what end
+is.
+
+Use your own knowledge of biology freely. Curated descriptions are often too terse to carry
+thematic meaning, and adding that context is the point of this task. Where a curated
+description exists it anchors the content and you must stay faithful to it, but you may and
+should extend it. Where the genes tell you something the text does not -- a shared complex,
+a compartment, a cell type, a regulatory relationship -- say so. Where there is no text at
+all, derive the biology from the genes and commit to it. Do not hedge with phrases like
+"this pathway may be involved in"; if the genes support a claim, state it.
+
+Do not list gene symbols exhaustively. Naming a few genes that carry the pathway's identity
+is useful, especially when making a specific claim about one; transcribing the input is not.
 
 WHAT NOT TO WRITE
 
-Never cite a specific database entry. Do not write ontology identifiers of any kind, and do not name
-another pathway, term or gene set AS A DATABASE OBJECT -- not "the Reactome pathway X", not "the GO
-term Y", not "this MSigDB set". Do not name the databases themselves.
+Never cite a specific database entry. Do not write ontology identifiers of any kind, and do
+not name another pathway, term or gene set AS A DATABASE OBJECT -- not "the Reactome
+pathway X", not "the GO term Y", not "this MSigDB set". Do not name the databases
+themselves.
 
-This prohibition is narrow and is about citation, not about relationships. Describing how this
-biology relates to other biology, in ordinary language, is exactly what is wanted: "a subtype of
-apoptosis", "part of cell cycle control", "downstream of interferon signalling", "one arm of the
-unfolded protein response". Write those freely.
+This prohibition is narrow and is about citation, not about relationships. Describing how
+this biology relates to other biology, in ordinary language, is exactly what is wanted: "a
+subtype of apoptosis", "part of cell cycle control", "downstream of interferon signalling",
+"one arm of the unfolded protein response". Write those freely.
 
-Do not list gene symbols exhaustively. Naming a few genes that carry the set's identity is useful;
-transcribing the input is not.
-
-Do not describe the input. No "this gene set contains", no "the description provided states", no
-meta-commentary about what you were given.
+Do not describe the input. No "this gene set contains", no "the description provided
+states", no meta-commentary about what you were given.
 
 EXAMPLES
 
 Input name: Mitochondrial iron-sulfur cluster assembly
-Input description: Assembly of [2Fe-2S] and [4Fe-4S] clusters on a scaffold protein and their
-transfer to recipient apoproteins.
-Input genes: NFS1, ISCU, FXN, LYRM4, FDX2, FDXR, HSPA9, HSCB, GLRX5, ISCA1, ISCA2, IBA57, NFU1
+Input description: Assembly of [2Fe-2S] and [4Fe-4S] clusters on a scaffold protein and
+their transfer to recipient apoproteins.
+Input genes: NFS1, ISCU, FXN, LYRM4, FDX2, FDXR, HSPA9, HSCB, GLRX5, ISCA1, ISCA2, IBA57,
+NFU1
 
-Output: Mitochondrial iron-sulfur cluster assembly builds [2Fe-2S] and [4Fe-4S] cofactors on a
-dedicated scaffold and hands them to the apoproteins that cannot function without them. A cysteine
-desulfurase supplies sulfur, a ferredoxin pair supplies electrons, and a chaperone-cochaperone step
-releases the finished cluster. The recipients are the workhorses of oxidative metabolism and genome
-maintenance: respiratory chain complexes, aconitase, lipoate synthase, and several DNA repair
-helicases. The process therefore sits upstream of cellular energy production and of iron homeostasis
-generally, and cells sense its failure as apparent iron starvation. Loss of individual components
-causes progressive mitochondrial disease, which locates this biology firmly in the maintenance of
-respiratory capacity rather than in any single metabolic route.
+Output: "Mitochondrial iron-sulfur cluster assembly" makes the iron-sulfur cofactors that
+dozens of enzymes cannot function without, and hands them to those enzymes.
+Without it a cell loses respiratory capacity, cannot repair its own DNA properly, and
+misreads its iron status as starvation while iron accumulates. The work is done on a
+dedicated scaffold: a cysteine desulfurase supplies sulfur, a ferredoxin pair supplies
+electrons, and a chaperone step releases the finished cluster to its recipient. Those
+recipients are the workhorses of oxidative metabolism and genome maintenance -- respiratory
+chain complexes, aconitase, lipoate synthase, several DNA repair helicases. Failure of
+individual components causes progressive mitochondrial disease, placing this pathway
+upstream of cellular energy production rather than inside any one metabolic route.
 
 Input name: TBA
 Input description: (none)
-Input genes: CD19, MS4A1, CD79A, CD79B, BLNK, BTK, PAX5, EBF1, VPREB1, IGLL1, CR2, FCRL1, TNFRSF13C
+Input genes: CD19, MS4A1, CD79A, CD79B, BLNK, BTK, PAX5, EBF1, VPREB1, IGLL1, CR2, FCRL1,
+TNFRSF13C
 
-Output: This set describes the B lymphocyte lineage and the receptor that defines it. Its members
-are the surface and adaptor components of B cell antigen receptor signalling together with the
-transcription factors that specify and maintain B cell identity, and the surrogate light chain
-proteins that test receptor assembly before a cell is allowed to mature. Function here is
-developmental checkpointing as much as signalling: the pathway commits a progenitor to the lineage,
-verifies that a functional receptor has been built, and then transmits antigen engagement into
-proliferation and survival. It underpins humoral immunity, and its components are the standard
-markers by which B cells are identified and therapeutically targeted.
+Output: This pathway is the B cell lineage and the antigen receptor that defines it -- how a
+bone marrow progenitor becomes a mature B cell capable of recognising one specific target,
+and what happens when it does. It underpins antibody-mediated immunity, and its components
+are the markers by which B cells are identified in the clinic and the targets of B cell
+depleting therapy. The genes describe both halves of that story: the surface and adaptor
+machinery that transmits antigen binding into proliferation and survival, and the
+transcription factors that commit a progenitor to the lineage and hold it there. A surrogate
+receptor tests whether a functional antigen receptor has been assembled before a cell is
+permitted to mature, making developmental checkpointing as much a function of this pathway
+as signalling.
 
 OUTPUT FORMAT
 
@@ -269,9 +297,18 @@ def genes_for_prompt(pathway: Pathway) -> tuple[str, ...]:
 def display_name(pathway: Pathway) -> str:
     """The pathway's name as the model should see it.
 
-    Identical to ``pathway.name`` for every source but Hallmark, whose names are the database's own
-    identifiers rather than titles. Those are humanized here rather than in the loader, because the
-    stored record must keep what the source published; this is a rendering concern.
+    Two sources need their names rendered rather than shown as published, and both are the same
+    concern: a name that identifies its database. Hallmark's names ARE its identifiers, and GO marks
+    its 124 deprecated terms with a leading "obsolete" -- GO is the only v1 source that has such
+    terms, so the word alone hands the model the database. Both are handled here rather than in the
+    loader, because the stored record must keep what the source published; this is a rendering
+    concern. An audit of all 10,817 names found nothing else: no database name, no identifier, and
+    no trailing module id, which the BTM loader already strips.
+
+    The deprecation itself is not hidden. All 124 obsolete terms also open their
+    ``description_source`` with "OBSOLETE.", which the model still sees -- that is content, and it
+    is better for the model to know a term is deprecated than to repeat "obsolete" in a name it has
+    been asked to echo verbatim.
 
     Args:
         pathway: The pathway.
@@ -279,6 +316,8 @@ def display_name(pathway: Pathway) -> str:
     Returns:
         The name to show.
     """
+    if pathway.source == "go":
+        return re.sub(rf"^{OBSOLETE_PREFIX}\s+", "", pathway.name, count=1, flags=re.IGNORECASE)
     if pathway.source != "hallmark" or not pathway.name.startswith(HALLMARK_PREFIX):
         return pathway.name
     tokens = pathway.name[len(HALLMARK_PREFIX) :].split("_")

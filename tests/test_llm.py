@@ -8,6 +8,7 @@ import pytest
 
 from thema import llm
 from thema.llm import Completion, Ledger, LLMClient, Request, custom_id, extract_text, spend
+from thema.normalize import PROMPT_VERSION
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -89,7 +90,9 @@ def test_the_rest_of_the_package_imports_with_the_sdk_made_unavailable():
         [sys.executable, "-c", program], capture_output=True, text=True, cwd=REPO_ROOT
     )
     assert result.returncode == 0, f"importing without the SDK failed:\n{result.stderr}"
-    assert result.stdout.strip() == "v1"
+    # Compared against the constant, not a literal: this test exists to prove the import
+    # survives without the SDK, and a prompt-version bump is not that failure.
+    assert result.stdout.strip() == PROMPT_VERSION
 
 
 # -------------------------------------------------------------- the cache
@@ -213,15 +216,54 @@ def test_chunking_covers_every_request_exactly_once():
 
 
 def test_structured_output_is_unwrapped_to_the_bare_description():
-    assert extract_text(_Message('{"description": "Alpha does a thing."}')) == "Alpha does a thing."
+    assert extract_text(_Message('{"description": "Alpha does a thing."}')) == (
+        "Alpha does a thing.",
+        "",
+    )
 
 
 def test_a_plain_text_response_falls_through_unchanged():
-    assert extract_text(_Message("Alpha does a thing.")) == "Alpha does a thing."
+    assert extract_text(_Message("Alpha does a thing.")) == ("Alpha does a thing.", "")
 
 
 def test_whitespace_is_collapsed_so_the_text_survives_a_tsv_cell():
-    assert extract_text(_Message("Alpha  does\na thing.")) == "Alpha does a thing."
+    assert extract_text(_Message("Alpha  does\na thing.")) == ("Alpha does a thing.", "")
+
+
+# Three of twelve Opus responses under prompt v2 closed the envelope a second time INSIDE the
+# description value, on end_turn with a correctly closed real envelope. It parses, so only a
+# trailing check catches it; it is trimmed rather than left in, and reported rather than trimmed.
+def test_an_envelope_the_model_wrote_into_its_own_value_is_trimmed_and_reported():
+    text, repaired = extract_text(_Message('{"description": "Alpha does a thing.\\"}"}'))
+    assert text == "Alpha does a thing."
+    assert repaired == '"}'
+
+
+def test_a_curly_quote_envelope_is_trimmed_too():
+    text, repaired = extract_text(_Message('{"description": "Alpha does a thing.\\u201d}"}'))
+    assert text == "Alpha does a thing."
+    assert repaired == "\u201d}"
+
+
+# A quoted word at the end is CONTENT, not a delimiter -- btm:M66 ended with the placeholder name.
+# Trimming it here would hide a prompt failure inside the provider layer.
+def test_a_trailing_quoted_word_is_left_alone():
+    assert extract_text(_Message('{"description": "Alpha does a thing.\\"TBA\\""}')) == (
+        'Alpha does a thing."TBA"',
+        "",
+    )
+
+
+# Returning a malformed envelope as though it were prose is what put an 1,847-word brace loop into
+# the v2 sample. It raises now, and _generate redraws.
+def test_an_unparseable_envelope_raises_rather_than_being_returned_as_prose():
+    with pytest.raises(ValueError, match="not valid JSON"):
+        extract_text(_Message('{"description":"Alpha does a thing.\u201d}```}}} } }'))
+
+
+def test_json_without_a_description_key_raises():
+    with pytest.raises(ValueError, match="no 'description' key"):
+        extract_text(_Message('{"other": 1}'))
 
 
 def test_a_response_carrying_no_text_is_an_error_rather_than_an_empty_description():

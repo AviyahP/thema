@@ -194,6 +194,20 @@ def test_a_placeholder_name_is_not_held_to_the_echo_check():
     assert validate(_body(), "TBA").name_echoed
 
 
+# The v2 prompt asks the model to open with the name in DOUBLE QUOTES. The echo check strips
+# punctuation from both sides before matching, so this passes -- but it is the one thing that
+# prompt change could plausibly have broken, so it is pinned rather than reasoned about.
+def test_a_quoted_name_still_echoes():
+    quoted = '"Alpha pathway" is what this describes. ' + " ".join(["cells"] * MIN_WORDS)
+    assert validate(quoted, "Alpha pathway").name_echoed
+
+
+# Curly quotes too: a model that types the name in typographic quotes has still echoed it.
+def test_a_curly_quoted_name_still_echoes():
+    quoted = "\u201cAlpha pathway\u201d is what this describes. " + " ".join(["cells"] * MIN_WORDS)
+    assert validate(quoted, "Alpha pathway").name_echoed
+
+
 def test_summarize_counts_every_check_including_the_ones_that_never_fired():
     results = [
         validate(_body("relates to GO:0006915 broadly"), "Alpha pathway"),
@@ -238,10 +252,26 @@ def test_the_stored_name_is_untouched_because_the_loader_owns_it():
 def test_no_other_source_has_its_name_rewritten():
     for source, name in (
         ("reactome", "Interleukin-6 signaling"),
-        ("go", "obsolete citrulline metabolic process"),
+        ("go", "citrulline metabolic process"),
         ("btm", "enriched in B cells (I)"),
     ):
         assert display_name(_pathway(source=source, name=name)) == name
+
+
+# GO is the only v1 source with deprecated terms, so "obsolete" in a name hands the model the
+# database. The 124 that carry it are stripped for the prompt only; the record keeps what GO
+# published, and the description the model sees still opens "OBSOLETE.".
+def test_an_obsolete_go_term_loses_the_marker_from_its_prompt_name():
+    pathway = _pathway(source="go", name="obsolete citrulline metabolic process")
+    assert display_name(pathway) == "citrulline metabolic process"
+    assert pathway.name == "obsolete citrulline metabolic process"
+
+
+def test_obsolete_is_stripped_only_as_a_prefix_and_only_for_go():
+    assert display_name(_pathway(source="go", name="response to obsolete signal")) == (
+        "response to obsolete signal"
+    )
+    assert display_name(_pathway(source="reactome", name="obsolete thing")) == "obsolete thing"
 
 
 # The humanized name is what the model was asked to echo, so it is what the echo check must look
