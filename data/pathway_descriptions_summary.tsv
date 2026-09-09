@@ -1,0 +1,54 @@
+section	key	value	note
+digest	pathway_descriptions.tsv	27590d35aa07ba16ddd3c200462d8b5508e50f01cd9cf142e0de37bb7860c0e8	sha256 of the committed description table
+input	scope	smoke	smoke is a stratified subset; full is every pathway
+input	model	claude-opus-5	
+input	prompt_version	v3	
+input	length_band	90-150	words, stated in the prompt
+input	rows	1854	rows in the table this summary pins
+input	collection_rows	10817	pathways in data/pathways.tsv; equal to rows only on a full run
+input	smoke_fraction	0.15	share drawn per stratum
+input	smoke_seed	0	fixed; the selection never churns
+input	smoke_floor	3	minimum drawn from any stratum
+input	smoke_strata	51	piles the draw sampled within
+batch	batch_1	msgbatch_01GEexQAvKxUjU4oGkZjW3Ss	a generation run that contributed rows here
+batch	batch_2	msgbatch_01HrmiYN9PUMwFUY9aaq4aNj	a generation run that contributed rows here
+source	reactome	518	
+source	go	1212	
+source	hallmark	50	
+source	btm	74	
+source	total	1854	
+provenance	description+name+genes	1780	
+provenance	genes	15	
+provenance	name+genes	59	
+provenance	genes_shown=0	4	described pathways that resolved to no genes; the count carries what an enum cannot
+validator	btm	0	
+validator	btm_id	0	
+validator	curation	0	
+validator	dangling_quote	0	
+validator	database_object	0	
+validator	gene_ontology	0	
+validator	go_id	0	
+validator	hallmark_id	0	
+validator	hallmark_set	0	
+validator	json_residue	0	
+validator	kegg_id	0	
+validator	length	4	
+validator	msigdb	0	
+validator	name_echo	0	
+validator	reactome	0	
+validator	reactome_id	0	
+validator	self_correction	0	
+validator	wikipathways_id	0	
+validator	clean	1850/1854	tripped no check at all
+validator	envelope_repaired	46	responses whose value re-closed the envelope; trimmed on parse, never silently
+length	words	119/128/135/142/153	min/p10/median/p90/max
+cost	input_tokens	1266418	
+cost	cache_read_tokens	3896640	
+cost	output_tokens	690870	thinking included
+cost	dollars	25.67	list price; halve for a batch run
+sanity	every selected pathway has a description	1844	expected 1844 [pass] - counted over the SELECTED pathways, not the ledger: the ledger also holds the --sample run's twelve, and comparing against it hides a missing row behind an extra one. A batch result that did not parse shows here
+sanity	every collision group is whole	94/94	expected 94/94 [pass] - one member of a pair would make the redundancy test unfailable
+sanity	btm strata represented	2/2	expected 2/2 [pass]
+sanity	go strata represented	19/19	expected 19/19 [pass]
+sanity	reactome strata represented	29/29	expected 29/29 [pass]
+sanity	no gene list was truncated	0	expected 0 [pass] - genes_shown counts SYMBOLS and n_genes counts identifiers, so shown >= genes and the two differ wherever two of a source's symbols met on one gene (7 rows here, e.g. DDX58/RIGI). Truncation would show as shown < genes, which is what this counts
