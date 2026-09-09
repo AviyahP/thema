@@ -24,6 +24,8 @@ from pathlib import Path
 
 import anthropic
 
+from thema.data.tables import print_table
+
 #: Per-model request differences. These are API constraints, not preferences: Opus 5 and Sonnet 5
 #: take adaptive thinking and an effort level; Haiku 4.5 accepts neither, so it runs with thinking
 #: omitted. The three models are therefore not configured identically and cannot be, which is stated
@@ -209,6 +211,14 @@ class Ledger:
             os.fsync(handle.fileno())
         self._seen[completion.key] = completion
 
+    def keys(self) -> tuple[str, ...]:
+        """Every key the ledger holds, sorted."""
+        return tuple(sorted(self._seen))
+
+    def completions(self) -> tuple[Completion, ...]:
+        """Every completion the ledger holds, in key order."""
+        return tuple(self._seen[key] for key in sorted(self._seen))
+
     def __len__(self) -> int:
         """How many completions the ledger holds."""
         return len(self._seen)
@@ -246,6 +256,7 @@ class LLMClient:
         *,
         api_key: str | None = None,
         response_format: dict[str, object] | None = None,
+        response_key: str = "description",
     ) -> None:
         """Build a client.
 
@@ -255,6 +266,7 @@ class LLMClient:
             ledger: The completion cache for this model and prompt version.
             api_key: The key. Read from the environment or ``.env`` when omitted.
             response_format: A structured-output schema, or None for free text.
+            response_key: Which key of that schema carries the payload.
 
         Raises:
             ValueError: If the model is not one this module knows how to configure.
@@ -265,6 +277,7 @@ class LLMClient:
         self.prompt_version = prompt_version
         self.ledger = ledger
         self.response_format = response_format
+        self._response_key = response_key
         self._api_key = api_key or load_api_key()
         self._client = anthropic.Anthropic(api_key=self._api_key, max_retries=0)
         self.calls = 0
@@ -322,7 +335,7 @@ class LLMClient:
 
     def _completion(self, request: Request, message: object, batch_id: str | None) -> Completion:
         """Turn a provider response into a :class:`Completion`."""
-        text, repaired = extract_text(message)
+        text, repaired = extract_text(message, self._response_key)
         usage = getattr(message, "usage", None)
         return Completion(
             key=request.key,
@@ -499,7 +512,7 @@ def repair_escapes(text: str) -> str:
 _TRAILING_ENVELOPE = re.compile(r"[\"\u201c\u201d]\s*\}[\s\}`]*$")
 
 
-def extract_text(message: object) -> tuple[str, str]:
+def extract_text(message: object, key: str = "description") -> tuple[str, str]:
     """Pull the description out of a response, structured or not.
 
     Structured output arrives as JSON in a text block rather than as a separate field, so the
@@ -507,10 +520,13 @@ def extract_text(message: object) -> tuple[str, str]:
 
     Args:
         message: The provider's message object.
+        key: Which key of the structured envelope carries the payload. A string payload is prose
+            and gets the envelope repair; anything else is data and is stored verbatim, because
+            collapsing whitespace inside a JSON structure would edit its contents.
 
     Returns:
-        The description, whitespace-collapsed, and whatever trailing envelope artifact was trimmed
-        off it ("" when nothing was).
+        The payload, and whatever trailing envelope artifact was trimmed off it ("" when nothing
+        was, and always for a structured payload).
 
     Raises:
         ValueError: If the response carries no text block at all, or if it carries text that does
@@ -533,9 +549,12 @@ def extract_text(message: object) -> tuple[str, str]:
             f"response was not valid JSON (stop_reason="
             f"{getattr(message, 'stop_reason', '?')}): {error}"
         ) from error
-    if isinstance(parsed, dict) and "description" in parsed:
-        return _trimmed(str(parsed["description"]))
-    raise ValueError(f"parsed response carried no 'description' key: {type(parsed).__name__}")
+    if isinstance(parsed, dict) and key in parsed:
+        value = parsed[key]
+        if isinstance(value, str):
+            return _trimmed(value)
+        return json.dumps(parsed, sort_keys=True), ""
+    raise ValueError(f"parsed response carried no {key!r} key: {type(parsed).__name__}")
 
 
 def _trimmed(value: str) -> tuple[str, str]:
@@ -595,6 +614,9 @@ def spend(completions: Iterable[Completion], model: str) -> dict[str, float]:
     }
 
 
+#: The Batch API bills at half of list price.
+BATCH_DISCOUNT = 0.5
+
 #: List prices, dollars per million tokens, as ``(input, output)``. Sonnet 5's introductory rate
 #: ($2/$10) runs through 2026-08-31; the standard rate is used here so no estimate silently expires.
 PRICES: dict[str, tuple[float, float]] = {
@@ -602,3 +624,134 @@ PRICES: dict[str, tuple[float, float]] = {
     "claude-sonnet-5": (3.0, 15.0),
     "claude-haiku-4-5": (1.0, 5.0),
 }
+
+
+@dataclass(frozen=True, slots=True)
+class Estimate:
+    """What a batch run will cost, measured before any of it is billed.
+
+    Attributes:
+        scope: How many prompts the caller selected.
+        cached: How many of those the ledger already holds, and will not be paid for again.
+        pending: The marginal count -- the only number that costs anything.
+        sampled: How many pending prompts were counted exactly through the tokenizer.
+        basis: Where the per-prompt token count came from, so the estimate carries its own method.
+        user_tokens: Mean input tokens per prompt, excluding the system prompt.
+        system_tokens: The system prompt, counted once.
+        output_tokens: Mean output tokens per completion, thinking included.
+        cached_dollars: Batch price if the provider's prompt cache holds across the run.
+        uncached_dollars: Batch price if it does not. This is the ceiling.
+    """
+
+    scope: int
+    cached: int
+    pending: int
+    sampled: int
+    basis: str
+    user_tokens: float
+    system_tokens: int
+    output_tokens: float
+    cached_dollars: float
+    uncached_dollars: float
+
+
+def price_batch(
+    scope: int,
+    pending: int,
+    user_tokens: float,
+    system_tokens: int,
+    output_tokens: float,
+    model: str,
+    *,
+    sampled: int = 0,
+    basis: str = "",
+) -> Estimate:
+    """Price a batch run two ways, because one of the two is a bet.
+
+    The system prompt is sent with every request. Whether the provider's prompt cache holds across
+    a batch of thousands decides whether it is billed once or once per request, and at 1,933 tokens
+    against roughly 800 of actual content that difference is larger than the rest of the run. Both
+    figures are returned rather than one averaged guess: the cached figure is the likely outcome,
+    the uncached figure is the ceiling, and a spend gate should check the ceiling.
+
+    Args:
+        scope: How many prompts were selected.
+        pending: How many are not already cached.
+        user_tokens: Mean input tokens per prompt, system prompt excluded.
+        system_tokens: The system prompt's size.
+        output_tokens: Mean output tokens per completion.
+        model: The model, for its rates.
+        sampled: How many prompts were counted exactly, recorded on the estimate.
+        basis: How they were counted, recorded on the estimate.
+
+    Returns:
+        The estimate, at batch prices.
+    """
+    rate_in, rate_out = PRICES[model]
+    dollars_out = pending * output_tokens * rate_out / 1e6
+    content_in = pending * user_tokens * rate_in / 1e6
+    uncached_in = pending * system_tokens * rate_in / 1e6
+    cached_in = (
+        (system_tokens * 1.25 + (pending - 1) * system_tokens * 0.1) * rate_in / 1e6
+        if pending
+        else 0.0
+    )
+    return Estimate(
+        scope=scope,
+        cached=scope - pending,
+        pending=pending,
+        sampled=sampled,
+        basis=basis,
+        user_tokens=user_tokens,
+        system_tokens=system_tokens,
+        output_tokens=output_tokens,
+        cached_dollars=(content_in + cached_in + dollars_out) * BATCH_DISCOUNT,
+        uncached_dollars=(content_in + uncached_in + dollars_out) * BATCH_DISCOUNT,
+    )
+
+
+def within_ceiling(estimate: Estimate, ceiling: float) -> bool:
+    """Whether a run may proceed.
+
+    The ceiling is checked against the uncached figure on purpose: the cached figure is a bet on
+    provider behaviour, and losing that bet halfway through a batch spends the money without
+    producing the table.
+
+    Args:
+        estimate: What :func:`price_batch` measured.
+        ceiling: The limit in dollars.
+
+    Returns:
+        True when the worst case fits.
+    """
+    return estimate.uncached_dollars <= ceiling
+
+
+def report_cost(estimate: Estimate, ceiling: float, label: str = "COST") -> None:
+    """Print the cost report, marginal rather than gross.
+
+    Args:
+        estimate: What :func:`price_batch` measured.
+        ceiling: The limit the run will be checked against.
+        label: The section heading.
+    """
+    print(f"\n{label}\n")
+    print_table(
+        ("item", "value", "note"),
+        [
+            ("selected", f"{estimate.scope:,}", ""),
+            ("already cached", f"{estimate.cached:,}", "paid for already; free to reuse"),
+            ("to generate", f"{estimate.pending:,}", "the marginal count -- what you pay for"),
+            ("input/prompt", f"{estimate.user_tokens:,.0f}", f"tok, measured by {estimate.basis}"),
+            ("system prompt", f"{estimate.system_tokens:,}", "tok, sent with every request"),
+            ("output/prompt", f"{estimate.output_tokens:,.0f}", "tok, thinking included"),
+            ("batch cost, cached", f"${estimate.cached_dollars:,.2f}", "if the prompt cache holds"),
+            (
+                "batch cost, uncached",
+                f"${estimate.uncached_dollars:,.2f}",
+                "ceiling, and what the gate checks",
+            ),
+            ("ceiling", f"${ceiling:,.2f}", "--max-dollars"),
+        ],
+        align="<><",
+    )

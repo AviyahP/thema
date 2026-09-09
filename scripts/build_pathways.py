@@ -28,10 +28,10 @@ from thema.data.pathways import (
     PATHWAY_COLUMNS,
     SOURCES,
     TEXT_AVAILABILITIES,
-    Pathway,
     PathwayCollection,
     PathwayInputs,
     btm_identity,
+    normalized_name,
 )
 from thema.data.tables import SUMMARY_COLUMNS, sha256_file, write_tsv
 
@@ -81,8 +81,6 @@ EXPECTATION_PROVENANCE = (
     "correct"
 )
 
-_NOT_NAME = re.compile(r"[^a-z0-9 ]+")
-_SPACES = re.compile(r"\s+")
 _BTM_ID = re.compile(r"^[MS][\d.]*$")
 
 
@@ -144,25 +142,6 @@ def spread(values: Sequence[int]) -> str:
             max(values),
         )
     )
-
-
-def normalized_name(pathway: Pathway) -> str:
-    """Reduce a pathway's name to the form a cross-source comparison can use.
-
-    Hallmark publishes ``HALLMARK_TNFA_SIGNALING_VIA_NFKB`` where the others publish prose, so the
-    prefix and underscores come off; BTM's module id was already removed by its loader. What
-    remains is lowercased and stripped of punctuation.
-
-    Args:
-        pathway: The pathway.
-
-    Returns:
-        The comparable form of its name.
-    """
-    name = pathway.name
-    if pathway.source == "hallmark":
-        name = name.removeprefix("HALLMARK_").replace("_", " ")
-    return _SPACES.sub(" ", _NOT_NAME.sub(" ", name.lower())).strip()
 
 
 def name_collisions(collection: PathwayCollection, normalize: bool) -> int:

@@ -76,6 +76,13 @@ BTM_MODULE_ID = re.compile(r"\s*\(([MS][\d.]*)\)$")
 #: species, so it selects pathways and must never be used to judge whether a member is human.
 HUMAN = "Homo sapiens"
 
+#: Everything a cross-source name comparison must ignore. Applied after lowercasing, so the class
+#: is deliberately narrow: anything outside ``[a-z0-9 ]`` becomes a space.
+_NOT_NAME = re.compile(r"[^a-z0-9 ]+")
+
+#: Collapses the runs of whitespace the substitution above leaves behind.
+_SPACES = re.compile(r"\s+")
+
 PATHWAY_COLUMNS: tuple[str, ...] = (
     "source",
     "source_id",
@@ -263,6 +270,50 @@ def text_availability_of(description: str | None, name_is_placeholder: bool) -> 
     if description:
         return "described"
     return "no_usable_text" if name_is_placeholder else "name_only"
+
+
+def normalized_name(pathway: "Pathway") -> str:
+    """Reduce a pathway's name to the form a cross-source comparison can use.
+
+    Hallmark publishes ``HALLMARK_TNFA_SIGNALING_VIA_NFKB`` where the others publish prose, so the
+    prefix and underscores come off; BTM's module id was already removed by its loader. What
+    remains is lowercased and stripped of punctuation.
+
+    Args:
+        pathway: The pathway.
+
+    Returns:
+        The comparable form of its name.
+    """
+    name = pathway.name
+    if pathway.source == "hallmark":
+        name = name.removeprefix("HALLMARK_").replace("_", " ")
+    return _SPACES.sub(" ", _NOT_NAME.sub(" ", name.lower())).strip()
+
+
+def collision_groups(pathways: Iterable["Pathway"]) -> dict[str, tuple["Pathway", ...]]:
+    """Group the pathways whose normalized name is carried by more than one source.
+
+    This is the redundancy THEMA exists to collapse, and it is largely invisible to string
+    matching: 94 groups after normalizing against 18 in the files as shipped. Same-source
+    duplicates are not collisions -- Reactome's own 11 duplicate names are a curation artefact,
+    not two databases describing one piece of biology -- so a group counts only when it spans two
+    or more distinct sources.
+
+    Args:
+        pathways: The pathways to group.
+
+    Returns:
+        Normalized name to its members, sorted by key, for groups spanning two or more sources.
+    """
+    by_name: dict[str, list[Pathway]] = {}
+    for pathway in pathways:
+        by_name.setdefault(normalized_name(pathway), []).append(pathway)
+    return {
+        name: tuple(sorted(members, key=lambda p: p.key))
+        for name, members in by_name.items()
+        if len({p.source for p in members}) > 1
+    }
 
 
 def _pathway(

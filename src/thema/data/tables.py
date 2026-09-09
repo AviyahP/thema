@@ -139,6 +139,25 @@ def write_tsv(path: Path, columns: Sequence[str], rows: Sequence[Sequence[str]])
     tmp.replace(path)
 
 
+def print_table(headers: Sequence[str], rows: Sequence[Sequence[str]], align: str = "") -> None:
+    """Print an aligned ASCII table, the shape ``resolve_gene_symbols.py`` established.
+
+    Args:
+        headers: Column headers.
+        rows: The rows, each as long as ``headers``.
+        align: One format character per column (``<``, ``>`` or ``^``); left-aligned by default.
+    """
+    widths = [
+        max(len(str(h)), *(len(str(r[i])) for r in rows)) if rows else len(str(h))
+        for i, h in enumerate(headers)
+    ]
+    align = align or "<" * len(headers)
+    print("  ".join(f"{h:{align[i]}{widths[i]}}" for i, h in enumerate(headers)))
+    print("  ".join("-" * w for w in widths))
+    for row in rows:
+        print("  ".join(f"{str(c):{align[i]}{widths[i]}}" for i, c in enumerate(row)))
+
+
 def sha256_file(path: Path) -> str:
     """Return the hex sha256 digest of a file, read in chunks.
 
