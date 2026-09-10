@@ -899,3 +899,58 @@ generation batch was in flight, and then not built until after a later run lost 
 it. The generation batch survived on luck. The lesson is that a named, understood failure mode with
 no code behind it is not mitigated, and the moment to build the recovery is before the first spend,
 not after the first loss.
+
+## 2026-09-10 — A theme built by our own prompt rule: the "Defective X causes Y" cluster
+
+Ward at k=50 on the smoke descriptions produces one cluster of 47 pathways that is 100% Reactome,
+33 of them named `Defective <GENE> causes <DISEASE>`. Three measurements say the cluster is held
+together by the NAME TEMPLATE rather than by biology, and the mechanism is a rule we wrote.
+
+**The mechanism.** `SYSTEM_PROMPT` (`normalize.py:125`) says *"Begin by repeating the pathway's name
+in double quotes, exactly as given."* Reactome names this entire family to a template, so 33 of the
+47 descriptions open with a near-identical string, and 22 continue `" describes what` — a phrasing
+that does not appear in the top four openings table-wide (`is the` 625, `covers the` 301,
+`describes the` 100, `describes how` 90). The rule anchors a description to its subject, which is
+what it is for; for a templated family it anchors them all to the SAME subject.
+
+**Test 1 — shared opening.** 33/47 openings echo `"Defective ...` verbatim. 99.2% of all 1,854
+descriptions open with a quoted name, so quoting is universal; what is special here is that the
+quoted strings are near-identical to each other.
+
+**Test 2 — remove the first sentence and re-embed (the direct test).** All 1,854 re-embedded with
+their first sentence stripped, Ward k=50. The Defective family **shatters: 47 members across 17
+clusters, the largest holding 11 (23%)**. A size-matched control (the 37-member lipid/lipoprotein
+cluster) **holds: 9 clusters, largest 25 (68%)**. Overall partition agreement between the two runs
+is 96.2% on random pairs, so stripping first sentences did not destabilise the clustering in
+general — it dissolved this cluster specifically.
+
+**Test 3 — gene overlap.** Mean within-cluster gene-set Jaccard is **0.0047, the LOWEST of all 50
+clusters**, against a random cross-tree pair background of 0.0034. It is 1.4x background where the
+all-cluster median is 0.0225 (6.6x) and the lipid control is 0.0329 (9.7x). Tight in embedding
+space, essentially unrelated in genes.
+
+**The honest qualification.** There is a real shared property — these are all inherited disease
+pathways, and 14 of the 47 are not named `Defective`. But "inherited disease" is a register, not a
+biological process: the cluster spans glycosylation, membrane transport, DNA repair, carbohydrate
+metabolism and steroidogenesis, and the gene-set union over it is incoherent. For enrichment
+purposes a theme like this cannot carry a claim. Both things are true — the family shares a real
+category AND the template amplifies it into a cluster far tighter than its biology warrants.
+
+**This is a source-leakage finding, and belongs in `docs/eval-plan.md` 2c.** That section plans to
+measure leakage by predicting the source database from the embedding. This is a worked instance
+with a named cause, and it suggests the check should be run per-source-per-name-template rather
+than only in aggregate: a single templated family can produce a pure-source cluster without moving
+an aggregate leakage score much.
+
+**Constraint recorded for the v4 prompt; nothing changed now.** The requirement to repeat the name
+should be decoupled from the requirement to OPEN with it — the name anchors the description
+wherever it appears, and the validator's `name_echo` check already tests presence rather than
+position. Leading with the biology and placing the name later would keep the anchor and remove the
+shared prefix. As with the HTML fix, the stronger form acts on the input rather than the
+instruction: a templated name is a property of the source's naming convention, and what the model
+copies is what it is shown. Not changed yet because a `PROMPT_VERSION` bump invalidates the cache
+and re-charges the full run.
+
+**Method note for whoever repeats this.** `data/ontology/clusters_*.tsv` holds scipy's raw fcluster
+label; `tree_*_k*.txt` numbers clusters by RANK, largest first. They are different numbering schemes
+and the tree's `[14]` is not label `14`. I read the wrong cluster first because of it.
