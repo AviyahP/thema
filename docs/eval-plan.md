@@ -38,6 +38,84 @@ The ontology-first pivot makes this the flagship evaluation, and it's the one no
 
 **2d. Comparability with the field:** run THEMA's pipeline on MAPA's public 44/12 benchmark set and report ARI beside their published numbers (MAPA 0.95, aPEAR 0.33, PAVER 0.23) — small and partly circular, but the only number that lets a reader place us on the existing map.
 
+
+---
+
+### REVISION 2026-09-10 — what we actually measure now
+
+*Added after the first ontology was built on the 1,854-pathway smoke set. Nothing above is deleted:
+where a decision changed, the change is recorded here with why, in the 27 Aug style. The evaluation
+code is `scripts/compare_baselines.py`, `scripts/evaluation_pairs.py`, `scripts/containment.py`,
+`scripts/name_strip_test.py` and `scripts/encoder_stability.py`; every number lands in a committed
+TSV under `data/ontology/`.*
+
+**Four pair sources, each labelled with what it is worth, never pooled.** §2b named reactome2go
+alone. It supplies only 76 usable pairs at smoke scale and **3** in the low-overlap band, so it is
+an illustration here, not a statistic — at full scale it becomes 689 pairs and 71 low-overlap. Three
+more sources were added and are reported separately because their evidential strength differs:
+
+| source | strength | why |
+|---|---|---|
+| reactome2go | strong | cross-database: Reactome prose judged against GO curation |
+| cross-source name collisions | redundancy | positives are *defined* by a shared name, so circular for any arm that sees the name |
+| Reactome siblings | weak | same curators wrote the hierarchy *and* the prose we embed |
+| GO siblings | weak | same, plus broad parents manufacture unrelated pairs |
+
+**57 of the 76 reactome2go pairs at smoke scale are also name collisions**, so the independent
+subset is 19. It is reported as its own row.
+
+**Band-matched nulls replace a single global chance rate.** A rate without its null is unreadable:
+average-linkage-on-Jaccard once showed 98.9% co-clustering against a 94.86% chance rate — lift 1×,
+because everything was in one cluster. Both nulls are now printed side by side, because the
+band-matched null removes exactly the variable the gene arms cluster on and reads as stacked against
+them if shown alone.
+
+**Four gene measures, not "gene-overlap Jaccard".** §2b's baseline (i) said Jaccard + average
+linkage. That is not the classic method: DAVID and Metascape use **Cohen's kappa**, and Metascape
+merges above kappa 0.3. We now run Jaccard, Ochiai, the overlap coefficient and kappa, and every
+band names its **best gene arm**. Linkage per measure is decided by whether the distance embeds in
+L2, since scipy runs Ward on anything without complaining: Ochiai is cosine on binary vectors and is
+Euclidean directly; 1−Jaccard is a metric but not L2-embeddable while √(1−J) is, so Ward sees the
+square root; the overlap coefficient is 1 for any containment so distinct sets sit at distance 0;
+kappa can go negative. The last two get average linkage. Kappa's universe is the run's gene union
+and is stated in the output — the same sets score 0.375 over 10 genes and 0.500 over 20,000.
+
+**D-matched added beside D.** Cutting average-linkage-on-Jaccard where it has collapsed is not how
+the method is used. It is now also re-cut at the depth where its largest cluster matches THEMA's:
+**k=293** gives 4.2% against THEMA's 4.3% at k=50.
+
+**The containment finding (new, and a property of the formula).** All **2,852** Reactome
+parent–child edges have an overlap coefficient of **1.000 at every quartile** — perfect containment,
+the most direct relationship a curator asserts here. Jaccard's median on the same edges is 0.250 and
+**15% fall below 0.05**. Jaccard divides by the union, so a small pathway wholly inside a large one
+scores the same as an unrelated pair. A Jaccard-based method is therefore blind *by arithmetic* to
+the relationship the classic dendrograms claim to display. No threshold fixes this.
+
+**A cut-free metric is now the primary structural number (this supersedes the reliance on ARI/k in
+§2a Metric 2).** Every clustered number depends on choosing k, and 48.1% of pathways change cluster
+under a small text edit. AUROC and Cliff's δ separating curated pairs from random pairs **of the
+same overlap band**, computed on the embeddings directly, needs no cut and sidesteps the arm-D
+specification argument. On GO siblings the description arm scores 0.74–0.82 AUROC across every band
+(highest, 0.82, in the zero-overlap band) while every gene measure sits at 0.45–0.70.
+
+**Encoder stability (new check).** BioLORD-2023 vs Qwen3-Embedding-0.6B on identical text:
+partition **ARI 0.31–0.37** across cuts — the same magnitude as deleting the pathway name (0.348).
+The exact partition is substantially encoder-dependent and we say so. But the cut-free metric is
+**not**: the two encoders agree within 0.01–0.06 AUROC in every band. The claim survives the
+encoder swap even where the tree does not, which is the reason the cut-free metric is now primary.
+
+**THEMA's own limit, stated by us.** Recovery falls as gene overlap falls even for the description
+arms. That is what §2 already predicted: descriptions are written with the gene list in view
+(DECISIONS 2026-08-29), so v1 is a **hybrid text-and-membership method**, not a pure text method,
+and its advantage is largest exactly where it shares the baseline's information. Lift holds because
+chance falls too, but the absolute decline is real and is ours to report.
+
+**Name-defined ground truth cannot referee A vs C.** ARI(descriptions, name-only) = 0.266 shows the
+descriptions *change* the structure relative to names alone. It does not show they *improve* it,
+because the collision ground truth is name-defined. Arm C is excluded from every recovery table for
+the same reason and kept only in the agreement table.
+
+
 **Baselines for all of 2a–2b:** (i) gene-overlap Jaccard + average-linkage (the Metascape-style classic), (ii) name-only embeddings without descriptions, (iii) random trees (floor). LLM methods look good against nothing; these make the comparison honest.
 
 ## 3. Claim 2 — Naming: are theme names faithful?
