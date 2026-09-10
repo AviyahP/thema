@@ -7,6 +7,7 @@ from thema.normalize import (
     genes_for_prompt,
     provenance_of,
     render_user_message,
+    strip_name,
     summarize,
     validate,
     word_count,
@@ -306,3 +307,51 @@ def test_a_dangling_quote_at_the_end_is_caught():
 # Ordinary prose must not trip it, or the check is worthless at 10,817 rows.
 def test_ordinary_prose_carries_no_residue():
     assert validate(_body("the beta-catenin destruction complex"), "Alpha pathway").clean
+
+
+# --------------------------------------------------------- name stripping
+
+
+# The v3 prompt makes every description open with its own name, and the collision test defines its
+# positives BY name. Both members of a pair therefore carry the same string in the embedded text,
+# so the score is inflated by an unknown amount until the name is removed and it is re-measured.
+def test_the_quoted_name_is_removed():
+    text = '"Chylomicron assembly" is how the small intestine packages dietary fat.'
+    assert strip_name(text, "Chylomicron assembly") == (
+        "is how the small intestine packages dietary fat."
+    )
+
+
+def test_an_unquoted_repeat_later_in_the_text_goes_too():
+    text = '"Alpha pathway" is a thing. Alpha pathway also needs APOB.'
+    out = strip_name(text, "Alpha pathway")
+    assert "Alpha pathway" not in out
+    assert "needs APOB" in out
+
+
+# GO publishes lowercase names and the model often capitalises the first letter when quoting them.
+def test_a_case_changed_echo_is_still_removed():
+    text = '"Angiogenesis involved in wound healing" is the sprouting of new capillaries.'
+    out = strip_name(text, "angiogenesis involved in wound healing")
+    assert "ngiogenesis involved in wound healing" not in out
+
+
+def test_curly_quotes_are_handled_like_straight_ones():
+    text = "“Alpha pathway” is a thing."
+    assert strip_name(text, "Alpha pathway") == "is a thing."
+
+
+# Nothing is paraphrased: the name is deleted and the surrounding words fall where they fall.
+# Rewriting the sentence would substitute one intervention for another and measure that instead.
+def test_the_rest_of_the_sentence_is_left_exactly_as_it_was():
+    text = '"Alpha pathway" is the canonical route, requiring ATP and Mg2+.'
+    assert strip_name(text, "Alpha pathway") == "is the canonical route, requiring ATP and Mg2+."
+
+
+def test_a_description_that_never_names_itself_is_returned_unchanged():
+    text = "This module has no title and is described from its genes alone."
+    assert strip_name(text, "TBA") == text
+
+
+def test_an_empty_name_changes_nothing():
+    assert strip_name("Alpha does a thing.", "") == "Alpha does a thing."

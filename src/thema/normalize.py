@@ -266,6 +266,50 @@ class Validation:
         return (*self.identifiers, *self.references, *self.residue, *extra)
 
 
+def strip_name(description: str, name: str) -> str:
+    """Remove the pathway's own name from its description.
+
+    The v3 prompt mandates that a description OPEN by repeating its pathway name in double quotes
+    (``normalize.py`` SYSTEM_PROMPT). That makes the name part of the embedded text, which inflates
+    any evaluation whose ground truth is name-defined -- the cross-source collision test is exactly
+    that, so both members of every collision pair carry the same string inside the text being
+    compared. Stripping the name is how the inflation gets measured instead of assumed.
+
+    The quoted occurrence goes first, then any unquoted verbatim repeat, then a case-insensitive
+    pass for sources like GO that publish lowercase names the model may have capitalised. What is
+    left is a sentence fragment rather than a rewritten sentence: nothing is paraphrased, because
+    paraphrasing would substitute one intervention for another.
+
+    Args:
+        description: The generated description.
+        name: The pathway name as it was shown to the model.
+
+    Returns:
+        The description with the name removed and whitespace collapsed.
+    """
+    if not name:
+        return description
+    text = description
+    for quoted in (f'"{name}"', f"\u201c{name}\u201d", f"'{name}'"):
+        text = text.replace(quoted, " ")
+    text = text.replace(name, " ")
+    lowered = text.lower()
+    target = name.lower()
+    while target in lowered:
+        start = lowered.index(target)
+        text = text[:start] + " " + text[start + len(target):]
+        lowered = text.lower()
+    text = _WHITESPACE_RUN.sub(" ", text).strip()
+    return _LEADING_ORPHAN.sub("", text).strip()
+
+
+#: Collapses the gaps a removal leaves behind.
+_WHITESPACE_RUN = re.compile(r"\s+")
+
+#: Punctuation stranded at the front once the name it followed is gone.
+_LEADING_ORPHAN = re.compile(r'^[\s,;:"\u201c\u201d\'-]+')
+
+
 def word_count(text: str) -> int:
     """Count words the way the length instruction means them.
 
