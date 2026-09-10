@@ -160,6 +160,19 @@ SOURCES: tuple[Source, ...] = (
         "the file's own data-version differs from the directory date.",
     ),
     Source(
+        group="go",
+        name="reactome2go",
+        url=f"{GO_BASE}/external2go/reactome2go",
+        license=LICENSE_GO,
+        expected_bytes=611_589,
+        note="Curated Reactome-pathway to GO-term mappings, the strongest non-circular gold "
+        "standard docs/eval-plan.md 2b names: the mapping is human-curated and external to the "
+        "prose THEMA embeds, unlike the cross-source name collisions, whose positives are defined "
+        f"by the very names the descriptions repeat. Pinned to the same dated {GO_RELEASE} "
+        "directory as go-basic.obo rather than the floating current alias, which serves a "
+        "byte-identical file today and something else after the next release.",
+    ),
+    Source(
         group="msigdb",
         name=f"h.all.v{MSIGDB_RELEASE}.symbols.gmt",
         url=f"{MSIGDB_BASE}/h.all.v{MSIGDB_RELEASE}.symbols.gmt",

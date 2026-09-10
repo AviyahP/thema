@@ -89,11 +89,18 @@ carries its own versioned DOI, obtainable from the Zenodo record for this releas
 | File | Bytes | sha256 |
 |---|---:|---|
 | `go-basic.obo` | 32,227,785 | `b08d45b268b8c24ccb2513dbbbc7d4df9f6521c099b413f79eb31e06e0fa3bcc` |
+| `reactome2go` | 611,589 | `8675b683aa861d7ced93e589926a36f91b41a35c7d2cbecf48b1eb54949f7d36` |
 
-Downloaded from `https://release.geneontology.org/2026-08-05/ontology/go-basic.obo` — a pinned
-dated release directory, never the floating `current.geneontology.org` alias. Note that the file's
-own `data-version` header reads `releases/2026-07-26`, which differs from the directory date; both
-are recorded in `VERSIONS.txt`.
+Downloaded from `https://release.geneontology.org/2026-08-05/ontology/` — a pinned dated release
+directory, never the floating `current.geneontology.org` alias. Note that `go-basic.obo`'s own
+`data-version` header reads `releases/2026-07-26`, which differs from the directory date; both are
+recorded in `VERSIONS.txt`.
+
+`reactome2go` is the GO Consortium's curated mapping from Reactome pathways to GO terms, in the
+`external2go` format (`Reactome:R-HSA-nnn > GO:term name ; GO:nnnnnnn`). THEMA uses it as an
+evaluation gold standard only — it is never an input to the ontology build. It is the strongest
+non-circular structural test `docs/eval-plan.md` 2b names: the mapping is human-curated and
+external to the prose THEMA embeds.
 
 ---
 
