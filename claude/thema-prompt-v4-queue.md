@@ -49,6 +49,19 @@ component is a property of the source's naming and stays.
 
 ---
 
+## 1b. ARM NAMING — "pre-writing verification", not "self-critique"
+
+The third experimental arm writes its checks BEFORE the description, in a two-field schema
+`{checks, description}`. That is **pre-writing verification**, not self-critique: nothing is
+critiqued, because nothing has been written yet. The accurate label is used in the code, the output
+and here, so a later reader does not conclude we tested a revision step that we did not test.
+
+`checks` is scoring scaffolding, not output: it never enters a descriptions table, is never
+embedded, and never reaches a downstream consumer. Only `description` is graded, so the arm gets no
+credit for what its checks say — only for what it finally wrote.
+
+---
+
 ## 2. NAME-FREE ABLATION — a new experiment, not a prompt change
 
 **What.** Generate ~100 descriptions with the name withheld from the prompt entirely, so the prose

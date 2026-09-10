@@ -25,7 +25,7 @@ from thema.data.pathways import Pathway, TextAvailability
 
 #: Bumped whenever the prompt changes in a way that should invalidate cached completions. The cache
 #: key includes it, so a bump regenerates rather than silently mixing two prompts in one table.
-PROMPT_VERSION = "v3"
+PROMPT_VERSION = "v4"
 
 #: The stated length band, in words. Enforced by instruction and measured by :func:`validate`, never
 #: by truncation -- a length-dependent cutoff would reintroduce the bias normalization removes.
@@ -122,18 +122,21 @@ WHAT TO WRITE
 Write one paragraph of {MIN_WORDS}-{MAX_WORDS} words, targeting about {TARGET_WORDS}. Do not write
 a list, headings, or more than one paragraph.
 
-Begin by repeating the pathway's name in double quotes, exactly as given, then say in plain
-English what it is and why it matters, before any mechanism. A reader who knows biology but
-not this pathway should understand from the first two sentences what it does and what
-depends on it. If the name is a placeholder such as "TBA" and carries no meaning, open
-instead by naming the biology you infer from the genes. Do not mention that the name was
-missing, and do not write the placeholder anywhere in the description, including at the end.
+Work the pathway's name into the description where it helps the reader, in whatever wording
+and position serve the sentence. Its MEANING must survive -- a reader must be able to tell
+which pathway this is -- but the exact phrasing is yours, and it need not come first. Do not
+open with the name in quotation marks. If the name is a placeholder such as "TBA" and
+carries no meaning, name the biology you infer from the genes instead. Do not mention that
+the name was missing, and do not write the placeholder anywhere in the description.
 
-Significance means what this pathway enables and what goes wrong without it -- a
-physiological function, a cell type it defines, a disease that follows its failure. It does
-not mean adjectives. Never write "critical", "essential", "plays a key role",
-"fundamental", or "important": every pathway is important, so those words carry no
-information and make all the descriptions look alike.
+Say in plain English what the pathway is and why it matters before any mechanism. A reader
+who knows biology but not this pathway should understand from the first two sentences what
+it does and what depends on it.
+
+Describe the pathway's significance -- what it enables and what goes wrong without it: a
+physiological function, a cell type it defines, a disease that follows its failure. Filler
+adjectives are not significance; "critical", "essential", "plays a key role", "fundamental"
+and "important" carry no information and make every description look alike.
 
 Only then add mechanism, and only enough to make the purpose concrete. State the biological
 purpose and context of the pathway, and which general cellular or physiological processes
@@ -145,11 +148,33 @@ thematic meaning, and adding that context is the point of this task. Where a cur
 description exists it anchors the content and you must stay faithful to it, but you may and
 should extend it. Where the genes tell you something the text does not -- a shared complex,
 a compartment, a cell type, a regulatory relationship -- say so. Where there is no text at
-all, derive the biology from the genes and commit to it. Do not hedge with phrases like
-"this pathway may be involved in"; if the genes support a claim, state it.
+all, derive the biology from the genes and say what they support. Do not pad with vague
+possibility ("may be involved in various cellular processes") when you have something
+definite to say; but where you are genuinely unsure, say the thing you are sure of instead
+of guessing. Accuracy comes before confidence.
 
 Do not list gene symbols exhaustively. Naming a few genes that carry the pathway's identity
 is useful, especially when making a specific claim about one; transcribing the input is not.
+
+PRECISION ON GENE-LEVEL CLAIMS
+
+Naming a gene and saying what it does is the most useful thing you can write and the easiest
+thing to get wrong. Before making such a claim, be sure of four things:
+
+  - its molecular identity -- a demethylase is not a deacetylase, a protease inhibitor is not
+    a protease, a GTPase-activating protein does not activate its target
+  - the direction of effect -- activates or inhibits, imports or exports, adds or removes,
+    raises or lowers
+  - the substrate or partner -- which ion, which molecule, which receptor, which effectors
+  - that the gene is actually in the list you were given
+
+If you are not certain of all four, write the pathway-level biology instead. A correct
+general statement is worth more than a specific one that is wrong: a wrong specific claim is
+invisible to every check except a reader who already knows the answer.
+
+Do not claim that expression or activity is restricted to a tissue or cell type unless every
+gene in the list is consistent with that restriction. A single gene from another tissue
+refutes the claim.
 
 WHAT NOT TO WRITE
 
@@ -174,15 +199,15 @@ their transfer to recipient apoproteins.
 Input genes: NFS1, ISCU, FXN, LYRM4, FDX2, FDXR, HSPA9, HSCB, GLRX5, ISCA1, ISCA2, IBA57,
 NFU1
 
-Output: "Mitochondrial iron-sulfur cluster assembly" makes the iron-sulfur cofactors that
-dozens of enzymes cannot function without, and hands them to those enzymes.
-Without it a cell loses respiratory capacity, cannot repair its own DNA properly, and
-misreads its iron status as starvation while iron accumulates. The work is done on a
+Output: Dozens of enzymes cannot function without an iron-sulfur cofactor, and mitochondrial
+assembly of those clusters is where they are built and handed to the proteins that need
+them. A cell without it loses respiratory capacity, cannot repair its own DNA properly, and
+misreads its iron status as starvation while iron accumulates. The work happens on a
 dedicated scaffold: a cysteine desulfurase supplies sulfur, a ferredoxin pair supplies
 electrons, and a chaperone step releases the finished cluster to its recipient. Those
 recipients are the workhorses of oxidative metabolism and genome maintenance -- respiratory
 chain complexes, aconitase, lipoate synthase, several DNA repair helicases. Failure of
-individual components causes progressive mitochondrial disease, placing this pathway
+individual components causes progressive mitochondrial disease, which places this chemistry
 upstream of cellular energy production rather than inside any one metabolic route.
 
 Input name: TBA
@@ -190,16 +215,14 @@ Input description: (none)
 Input genes: CD19, MS4A1, CD79A, CD79B, BLNK, BTK, PAX5, EBF1, VPREB1, IGLL1, CR2, FCRL1,
 TNFRSF13C
 
-Output: This pathway is the B cell lineage and the antigen receptor that defines it -- how a
-bone marrow progenitor becomes a mature B cell capable of recognising one specific target,
-and what happens when it does. It underpins antibody-mediated immunity, and its components
-are the markers by which B cells are identified in the clinic and the targets of B cell
-depleting therapy. The genes describe both halves of that story: the surface and adaptor
-machinery that transmits antigen binding into proliferation and survival, and the
-transcription factors that commit a progenitor to the lineage and hold it there. A surrogate
-receptor tests whether a functional antigen receptor has been assembled before a cell is
-permitted to mature, making developmental checkpointing as much a function of this pathway
-as signalling.
+Output: Bone marrow progenitors become mature B cells by assembling an antigen receptor and
+then proving that it works. The programme underpins antibody-mediated immunity, and its
+components are the markers by which B cells are identified in the clinic and the targets of
+B cell depleting therapy. Surface and adaptor machinery transmits antigen binding into
+proliferation and survival, while transcription factors commit a progenitor to the lineage
+and hold it there. A surrogate receptor tests whether a functional antigen receptor has been
+assembled before a cell is permitted to mature, making developmental checkpointing as much a
+function of this biology as signalling is.
 
 OUTPUT FORMAT
 
@@ -266,6 +289,25 @@ class Validation:
         return (*self.identifiers, *self.references, *self.residue, *extra)
 
 
+def strip_markup(text: str | None) -> str:
+    """Remove HTML tags from curated prose on its way into the prompt.
+
+    Applied to the PROMPT only. ``description_source`` keeps its markup on the row, because the
+    2026-08-21 A/B arm exists to compare the sources as they are published, and stripping the row
+    would destroy that input rather than clean this one.
+
+    Args:
+        text: The curated description, or None.
+
+    Returns:
+        The text with tags removed and whitespace collapsed; "" for None.
+    """
+    if not text:
+        return ""
+    stripped = _WHITESPACE_RUN.sub(" ", _MARKUP.sub(" ", text))
+    return _SPACE_BEFORE_PUNCT.sub(r"\1", stripped).strip()
+
+
 def strip_name(description: str, name: str) -> str:
     """Remove the pathway's own name from its description.
 
@@ -305,6 +347,12 @@ def strip_name(description: str, name: str) -> str:
 
 #: Collapses the gaps a removal leaves behind.
 _WHITESPACE_RUN = re.compile(r"\s+")
+
+#: HTML tags in curated prose. Same shape as the markup count in ``build_pathways.py``.
+_MARKUP = re.compile(r"</?[a-zA-Z][^>]*>")
+
+#: A gap left where a tag sat immediately before punctuation.
+_SPACE_BEFORE_PUNCT = re.compile(r"\s+([.,;:)\]])")
 
 #: Punctuation stranded at the front once the name it followed is gone.
 _LEADING_ORPHAN = re.compile(r'^[\s,;:"\u201c\u201d\'-]+')
@@ -396,6 +444,11 @@ def render_user_message(pathway: Pathway) -> str:
     is whole -- no truncation and no subsetting, because any truncation rule would hand the model a
     biased sample of exactly the pathways where the sample matters most.
 
+    Markup is removed from the curated description here and nowhere else. 982 Reactome summations
+    carry HTML, kept verbatim on the row for the as-is A/B arm (DECISIONS 2026-08-21), and the model
+    copied it into 3 of 1,854 v3 completions. Removal beats prohibition: a rule against writing
+    markup competes with an example of markup, while not showing it leaves nothing to copy.
+
     Args:
         pathway: The pathway to describe.
 
@@ -405,7 +458,7 @@ def render_user_message(pathway: Pathway) -> str:
     genes = genes_for_prompt(pathway)
     lines = [
         f"Input name: {display_name(pathway)}",
-        f"Input description: {pathway.description_source or '(none)'}",
+        f"Input description: {strip_markup(pathway.description_source) or '(none)'}",
         f"Input genes: {', '.join(genes) if genes else '(none)'}",
     ]
     return "\n".join(lines)

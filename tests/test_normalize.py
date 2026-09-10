@@ -1,12 +1,17 @@
+import re
+
 from thema.data.pathways import Pathway
 from thema.normalize import (
     MAX_WORDS,
     MIN_WORDS,
+    PROMPT_VERSION,
     PROVENANCE,
+    SYSTEM_PROMPT,
     display_name,
     genes_for_prompt,
     provenance_of,
     render_user_message,
+    strip_markup,
     strip_name,
     summarize,
     validate,
@@ -355,3 +360,77 @@ def test_a_description_that_never_names_itself_is_returned_unchanged():
 
 def test_an_empty_name_changes_nothing():
     assert strip_name("Alpha does a thing.", "") == "Alpha does a thing."
+
+
+# ------------------------------------------------------------ v4 prompt
+
+
+def _flat(text=None):
+    """The prompt with line wrapping collapsed, so assertions match sentences not line breaks."""
+    return re.sub(r"\s+", " ", SYSTEM_PROMPT if text is None else text)
+
+
+# 982 Reactome summations carry HTML, kept verbatim on the row for the as-is A/B arm. The model
+# copied it into 3 of 1,854 v3 completions, so v4 stops showing it any: removal beats prohibition,
+# because a rule against writing markup competes with an example of markup.
+def test_markup_is_stripped_from_the_prompt_but_not_from_the_row():
+    pathway = _pathway(description="Alpha does a thing.<br><br>Then <i>another</i>.")
+    message = render_user_message(pathway)
+    assert "<br>" not in message and "<i>" not in message
+    assert "Alpha does a thing. Then another." in message
+    assert pathway.description_source == "Alpha does a thing.<br><br>Then <i>another</i>.", (
+        "the row keeps its markup; the 2026-08-21 A/B arm compares sources as published"
+    )
+
+
+def test_stripping_markup_leaves_no_gap_before_punctuation():
+    assert strip_markup("Gamma (see <b>note</b>), then delta.") == "Gamma (see note), then delta."
+    assert strip_markup("<i>Emphasis</i> and <a href='x'>a link</a>.") == "Emphasis and a link."
+
+
+def test_a_description_with_no_markup_is_untouched():
+    assert strip_markup("plain prose, unchanged") == "plain prose, unchanged"
+    assert strip_markup(None) == ""
+    assert strip_markup("") == ""
+
+
+# The v3 rule "Begin by repeating the pathway's name in double quotes" put the same string inside
+# both members of every collision pair and gave 33/47 of one family a shared opening.
+def test_the_prompt_no_longer_mandates_a_quoted_name_first():
+    assert "Begin by repeating the pathway's name in double quotes" not in _flat()
+    assert "Do not open with the name in quotation marks." in _flat()
+    assert "it need not come first" in _flat()
+
+
+# "If the genes support a claim, state it" is the diagnosed cause of the 27 wrong claims. Two
+# opposing rules would leave the model weighing them, so the anti-hedging rule is gone outright.
+def test_the_anti_hedging_rule_is_gone_rather_than_softened():
+    assert "if the genes support a claim, state it" not in _flat()
+    assert "Do not hedge" not in _flat()
+    assert "Accuracy comes before confidence." in _flat()
+
+
+def test_the_precision_section_names_the_four_things_to_be_sure_of():
+    assert "PRECISION ON GENE-LEVEL CLAIMS" in _flat()
+    for rule in ("molecular identity", "direction of effect", "substrate or partner"):
+        assert rule in _flat(), f"{rule!r} missing from the precision section"
+    assert "that the gene is actually in the list you were given" in _flat()
+    assert "A single gene from another tissue refutes the claim." in _flat()
+
+
+# Models copy examples more reliably than they follow prose, so a worked example that opens with
+# the shape the prompt now forbids would undo the instruction.
+def test_neither_worked_example_opens_with_a_forbidden_template():
+    pattern = r"^Output: (.+?)(?=\n\nInput name|\n\nOUTPUT FORMAT)"
+    outputs = re.findall(pattern, SYSTEM_PROMPT, re.S | re.M)
+    assert len(outputs) == 2
+    for text in outputs:
+        assert not text.lstrip().startswith('"'), "no example may open with the quoted name"
+        assert not text.lstrip().startswith("This pathway is"), "nor with the v3 second template"
+        assert MIN_WORDS <= len(text.split()) <= MAX_WORDS, "an example must obey its own band"
+    first, second = (t.split()[0].lower() for t in outputs)
+    assert first != second, "the two openings must not share a first word"
+
+
+def test_bumping_the_prompt_version_is_what_separates_the_caches():
+    assert PROMPT_VERSION == "v4"
