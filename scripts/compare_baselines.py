@@ -1,65 +1,82 @@
-"""Compare THEMA's ontology against the baselines a reader will ask about, on identical inputs.
+"""Compare THEMA against the baselines a reader will ask about, on identical inputs.
 
-Four arms over the same pathways, the same cuts, and -- for three of the four -- the same linkage,
-so that what differs between arms is one thing at a time:
+Five arms over the same pathways, the same cuts, and -- for four of the five -- the same linkage,
+so what differs between arms is one thing at a time:
 
-  A  thema         embeddings of ``description_generated``, L2-normalised, Ward
-  B  gene overlap  binary gene-presence vectors, L2-normalised, Ward
-  C  name only     embeddings of the pathway name alone, no description, Ward
-  D  gene overlap  the same vectors as B, average linkage
+  A   thema        embeddings of ``description_generated``, L2-normalised, Ward
+  A'  name-strip   the same descriptions with the pathway's own name removed, Ward
+  B   gene binary  binary gene-presence vectors, L2-normalised, Ward
+  B'  gene sqrt-J  sqrt(Jaccard distance), Ward
+  D   gene avg-J   Jaccard distance, average linkage -- the classic method as practised
 
-A vs B isolates the REPRESENTATION: same algorithm, same normalization, same cuts, different
-description of what a pathway is. A vs C asks what the generated prose buys over the name it was
-written from -- if the answer is "little", the prose is not worth what it costs. D is separate
-because average linkage over gene overlap is what the field actually does (``docs/eval-plan.md``
-section 2), and a reader will ask for it even though this project's own measurements reject that
-linkage.
+A vs B isolates the REPRESENTATION: same algorithm, same cuts, different account of what a pathway
+is. A vs A' measures how much of A's score is the pathway's own name, which the v3 prompt requires
+every description to repeat and which the collision test defines its positives by.
 
-B is binary presence L2-normalised rather than a Jaccard distance matrix, deliberately. Cosine
-between L2-normalised binary set vectors is the Ochiai coefficient, a close kin of Jaccard, and it
-is genuinely Euclidean -- which is what Ward's variance criterion requires and what a Jaccard matrix
-cannot promise. Feeding Ward a non-Euclidean matrix fails silently rather than loudly.
+B and B' are two encodings of one idea and are both run because they can disagree. Jaccard distance
+is NOT Euclidean, so Ward on it minimises nothing -- and scipy will run it anyway without
+complaining, which is the dangerous part. The square root of Jaccard distance IS isometrically
+embeddable in L2, so Ward on sqrt(J) is legitimate. If B and B' diverge, the gene baseline is
+sensitive to representation and no single number should be quoted for it. Average linkage (D) has no
+Euclidean requirement, so raw Jaccard is proper there.
 
-The headline is the cross-source name-collision test: pathways that different databases give the
-same name are the redundancy THEMA exists to collapse, and whether an arm puts them together is a
-question with an answer. The stratification by gene-set Jaccard is the part that separates the
-methods rather than the part that flatters them, and it carries two caveats the output states
-rather than buries.
+Arm C (name-only embeddings) is deliberately ABSENT from the recovery metric and present only in the
+partition-agreement table. The reason is in the output, not only here.
+
+Every observed rate is printed beside a BAND-MATCHED chance rate: random pairs drawn from the same
+gene-overlap band, so the null controls for the thing being stratified on. A rate without its null
+is unreadable -- on this data the classic gene baseline once showed 98.9% co-clustering against a
+94.86% chance rate, a lift of 1x, because everything was in one cluster.
+
+Pair sources are never pooled. They differ in evidential strength and a combined number would hide
+that; each is reported separately with its caveat.
 """
 
 import argparse
+import collections
 import random
-import statistics
 import sys
 from pathlib import Path
 
 import numpy as np
+import scipy.sparse as sp
 from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import squareform
 from sklearn.metrics import adjusted_rand_score
 
-from thema.data.pathways import Pathway, PathwayCollection, collision_groups
-from thema.data.tables import SUMMARY_COLUMNS, print_table, write_tsv
+from thema.data.formats import parse_obo_terms
+from thema.data.hierarchy import read_reactome_relation
+from thema.data.pathways import Pathway, PathwayCollection
+from thema.data.tables import print_table
 from thema.embed import embed, l2_normalize
-from thema.normalize import display_name
+from thema.evaluation import (
+    BANDS,
+    QUOTABLE,
+    PairSource,
+    band_label,
+    band_of,
+    collision_pairs,
+    go_parents,
+    jaccard,
+    reactome2go_pairs,
+    restrict,
+    shares_name,
+    sibling_pairs,
+)
+from thema.normalize import display_name, strip_name
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATA = REPO_ROOT / "data"
+DEFAULT_RAW = REPO_ROOT / "data" / "raw"
 
-PATHWAY_TABLE = "pathways.tsv"
-DESCRIPTIONS_TABLE = "pathway_descriptions.tsv"
-BASELINE_SUMMARY = "ontology/baseline_comparison.tsv"
-
-#: The cuts every arm is compared at.
 CUTS = (25, 50, 100)
 
-#: Gene-set Jaccard bands for the stratified report. The first is exact zero -- pairs sharing no
-#: gene at all -- because that is the band where gene-overlap clustering cannot succeed by
-#: construction, and it deserves to be visible rather than averaged into a neighbouring bin.
-BANDS = ((0.0, 0.0), (0.0, 0.01), (0.01, 0.05), (0.05, 0.15), (0.15, 1.01))
+#: Random pairs drawn to estimate the band-matched chance rate. Large because the rarest band holds
+#: a small share of all pairs and its null needs enough draws to be stable.
+NULL_DRAWS = 400_000
 
-#: How many random pairs estimate the chance co-clustering rate.
-BASELINE_DRAWS = 200_000
+#: Fan-out cap for the precision-filtered sibling arms.
+SIBLING_FANOUT = 6
 
 
 def read_descriptions(table: Path) -> dict[str, str]:
@@ -77,65 +94,154 @@ def read_descriptions(table: Path) -> dict[str, str]:
     return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
 
 
-def gene_vectors(pathways: list[Pathway]) -> np.ndarray:
-    """Build L2-normalised binary gene-presence vectors.
+def gene_matrix(pathways: list[Pathway]) -> sp.csr_matrix:
+    """Build the sparse binary gene-presence matrix.
+
+    Sparse because the dense form is ``n x 19,000`` and most rows hold a few dozen genes; at the
+    full collection the dense float32 form alone would be most of a gigabyte before any distance is
+    computed.
 
     Args:
-        pathways: The pathways, in the order the rest of the comparison uses.
+        pathways: The pathways, in the order the comparison uses.
 
     Returns:
-        A ``(n, genes)`` float32 array of unit vectors. A pathway with no genes stays all-zero;
-        :func:`~thema.embed.l2_normalize` leaves it alone rather than producing NaN, and it simply
-        sits at distance sqrt(2) from everything.
+        A CSR matrix, one row per pathway, one column per gene in the union.
     """
     genes = sorted({g for p in pathways for g in p.genes})
     index = {g: i for i, g in enumerate(genes)}
-    matrix = np.zeros((len(pathways), len(genes)), dtype=np.float32)
+    rows, cols = [], []
     for row, pathway in enumerate(pathways):
         for gene in pathway.genes:
-            matrix[row, index[gene]] = 1.0
-    return l2_normalize(matrix)
+            rows.append(row)
+            cols.append(index[gene])
+    data = np.ones(len(rows), dtype=np.float32)
+    return sp.csr_matrix((data, (rows, cols)), shape=(len(pathways), len(genes)), dtype=np.float32)
 
 
-def condensed_from_unit(vectors: np.ndarray) -> np.ndarray:
-    """Condensed Euclidean distances for unit vectors, via the Gram matrix.
-
-    ``pdist`` is O(n^2 * d) and the gene-presence vectors are ~14,000-dimensional, which makes the
-    direct route slow enough to matter. For unit vectors ||a-b||^2 = 2 - 2*(a.b), so one BLAS matrix
-    multiply gives every distance at once.
+def gene_distances(matrix: sp.csr_matrix) -> tuple[np.ndarray, np.ndarray]:
+    """Compute Euclidean-on-L2-normalised and Jaccard distances from one sparse matrix.
 
     Args:
-        vectors: A ``(n, dim)`` array of unit vectors.
+        matrix: The binary gene matrix.
 
     Returns:
-        The condensed distance matrix.
+        The condensed cosine-derived Euclidean distances, and the condensed Jaccard distances.
+
+    Raises:
+        ValueError: If fewer than two rows are given.
     """
-    gram = np.clip(vectors @ vectors.T, -1.0, 1.0)
-    square = np.sqrt(np.maximum(2.0 - 2.0 * gram, 0.0))
-    np.fill_diagonal(square, 0.0)
-    return squareform(square, checks=False)
+    if matrix.shape[0] < 2:
+        raise ValueError("need at least two pathways to compare")
+    intersection = np.asarray((matrix @ matrix.T).todense(), dtype=np.float32)
+    sizes = np.asarray(matrix.sum(axis=1), dtype=np.float32).ravel()
+    union = sizes[:, None] + sizes[None, :] - intersection
+    with np.errstate(divide="ignore", invalid="ignore"):
+        similarity = np.where(union > 0, intersection / np.maximum(union, 1e-9), 0.0)
+        norms = np.sqrt(np.outer(sizes, sizes))
+        cosine = np.where(norms > 0, intersection / np.maximum(norms, 1e-9), 0.0)
+    euclid = np.sqrt(np.maximum(2.0 - 2.0 * np.clip(cosine, -1.0, 1.0), 0.0))
+    jac = 1.0 - similarity
+    for square in (euclid, jac):
+        np.fill_diagonal(square, 0.0)
+    return squareform(euclid, checks=False), squareform(jac, checks=False)
 
 
-def labels_for(vectors: np.ndarray, method: str, cuts: tuple[int, ...]) -> dict[int, np.ndarray]:
-    """Cluster one arm and cut it at each depth.
+def cluster(condensed: np.ndarray, method: str) -> dict[int, np.ndarray]:
+    """Cluster one arm and cut it at every depth.
 
     Args:
-        vectors: Unit vectors for this arm.
+        condensed: The condensed distance matrix.
         method: The linkage.
-        cuts: The depths.
 
     Returns:
         Cut size to a label per observation.
     """
-    tree = linkage(condensed_from_unit(vectors), method=method)
-    return {k: fcluster(tree, t=k, criterion="maxclust") for k in cuts}
+    tree = linkage(condensed, method=method)
+    return {k: fcluster(tree, t=k, criterion="maxclust") for k in CUTS}
 
 
-def jaccard(a: Pathway, b: Pathway) -> float | None:
-    """Gene-set Jaccard, or None when either set is empty and the ratio is undefined."""
-    if not a.genes or not b.genes:
-        return None
-    return len(a.genes & b.genes) / len(a.genes | b.genes)
+def null_by_band(
+    pathways: list[Pathway], labels: dict[int, np.ndarray], cut: int, seed: int = 0
+) -> dict[tuple[float, float], float]:
+    """Estimate the chance co-clustering rate separately within each gene-overlap band.
+
+    A single overall chance rate is the wrong null for a stratified table: low-overlap pairs are
+    rarer and differently distributed, and comparing an observed low-overlap rate against an
+    all-pairs null flatters or punishes an arm for reasons unrelated to the arm.
+
+    Args:
+        pathways: The pathways, in label order.
+        labels: The arm's labels per cut.
+        cut: Which cut to estimate for.
+        seed: RNG seed.
+
+    Returns:
+        Band to its chance co-clustering rate; a band with no draws maps to 0.0.
+    """
+    rng = random.Random(seed)
+    label = labels[cut]
+    hits: collections.Counter = collections.Counter()
+    draws: collections.Counter = collections.Counter()
+    count = len(pathways)
+    for _ in range(NULL_DRAWS):
+        i, j = rng.randrange(count), rng.randrange(count)
+        if i == j:
+            continue
+        value = jaccard(pathways[i], pathways[j])
+        if value is None:
+            continue
+        band = band_of(value)
+        draws[band] += 1
+        hits[band] += label[i] == label[j]
+    return {b: (hits[b] / draws[b] if draws[b] else 0.0) for b in BANDS}
+
+
+def recovery_table(
+    source: PairSource,
+    arms: dict[str, dict[int, np.ndarray]],
+    position: dict[str, int],
+    pathways: list[Pathway],
+    cut: int,
+) -> None:
+    """Print one source's band-stratified recovery, with a band-matched null beside every rate.
+
+    Args:
+        source: The pair source, restricted to present pairs.
+        arms: Arm name to labels per cut.
+        position: Pathway key to row index.
+        pathways: The pathways, in row order.
+        cut: Which cut to report.
+    """
+    banded: dict[tuple[float, float], list[tuple[str, str]]] = {b: [] for b in BANDS}
+    undefined = 0
+    for a, b in source.pairs:
+        value = jaccard(pathways[position[a]], pathways[position[b]])
+        if value is None:
+            undefined += 1
+            continue
+        banded[band_of(value)].append((a, b))
+
+    nulls = {name: null_by_band(pathways, labels, cut) for name, labels in arms.items()}
+    rows: list[tuple[str, ...]] = []
+    for band in reversed(BANDS):
+        pairs = banded[band]
+        if not pairs:
+            continue
+        cells: list[str] = []
+        for name, labels in arms.items():
+            label = labels[cut]
+            hit = sum(1 for a, b in pairs if label[position[a]] == label[position[b]])
+            observed = f"{hit}/{len(pairs)}" if len(pairs) < QUOTABLE else f"{hit / len(pairs):.0%}"
+            cells += [observed, f"{nulls[name][band]:.1%}"]
+        note = "n too small to quote" if len(pairs) < QUOTABLE else ""
+        rows.append((band_label(*band), str(len(pairs)), *cells, note))
+    if undefined:
+        rows.append(("undefined J", str(undefined), *["-"] * (2 * len(arms)), "no genes"))
+    headers = ["band", "n"]
+    for name in arms:
+        headers += [name, "chance"]
+    headers.append("")
+    print_table(headers, rows, align="<>" + ">" * (2 * len(arms)) + "<")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -144,172 +250,134 @@ def main(argv: list[str] | None = None) -> int:
         prog="compare_baselines.py", description=__doc__.splitlines()[0]
     )
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA, help="data directory")
+    parser.add_argument("--raw", type=Path, default=DEFAULT_RAW, help="raw data directory")
+    parser.add_argument("--cut", type=int, default=50, help="cut for the stratified tables")
     args = parser.parse_args(argv)
 
-    pathways_table = args.data / PATHWAY_TABLE
-    descriptions = args.data / DESCRIPTIONS_TABLE
-    for path in (pathways_table, descriptions):
-        if not path.is_file():
-            print(f"missing input: {path}", file=sys.stderr)
-            return 1
-
-    collection = PathwayCollection.from_tsv_text(pathways_table.read_text(encoding="utf-8"))
+    collection = PathwayCollection.from_tsv_text(
+        (args.data / "pathways.tsv").read_text(encoding="utf-8")
+    )
     by_key = collection.by_key
-    texts = {k: v for k, v in read_descriptions(descriptions).items() if k in by_key and v.strip()}
+    texts = {
+        k: v
+        for k, v in read_descriptions(args.data / "pathway_descriptions.tsv").items()
+        if k in by_key and v.strip()
+    }
     keys = sorted(texts)
     pathways = [by_key[k] for k in keys]
     position = {k: i for i, k in enumerate(keys)}
-    print(f"\nBASELINE COMPARISON  ({len(keys):,} pathways, cuts {'/'.join(map(str, CUTS))})\n")
+    print(f"\nBASELINE COMPARISON  ({len(keys):,} pathways, stratified tables at k={args.cut})")
 
-    print("embedding descriptions (arm A)", file=sys.stderr)
-    thema = embed([texts[k] for k in keys])
-    print("embedding names only (arm C)", file=sys.stderr)
-    names = embed([display_name(p) for p in pathways])
-    print("building gene-presence vectors (arms B and D)", file=sys.stderr)
-    genes = gene_vectors(pathways)
+    print("embedding descriptions (A)", file=sys.stderr)
+    a_vec = embed([texts[k] for k in keys])
+    print("embedding name-stripped descriptions (A')", file=sys.stderr)
+    a_strip = embed([strip_name(texts[k], display_name(by_key[k])) for k in keys])
+    print("embedding names only (C, ARI table only)", file=sys.stderr)
+    c_vec = embed([display_name(p) for p in pathways])
+    print("building gene distances (B, B', D)", file=sys.stderr)
+    euclid, jac = gene_distances(gene_matrix(pathways))
+
+    from thema.cluster import distances as unit_distances
 
     arms = {
-        "A thema": labels_for(thema, "ward", CUTS),
-        "B gene-overlap": labels_for(genes, "ward", CUTS),
-        "C name-only": labels_for(names, "ward", CUTS),
-        "D gene-overlap avg": labels_for(genes, "average", CUTS),
+        "A thema": cluster(unit_distances(a_vec), "ward"),
+        "A' strip": cluster(unit_distances(a_strip), "ward"),
+        "B binary": cluster(euclid, "ward"),
+        "B' sqrtJ": cluster(np.sqrt(jac), "ward"),
+        "D avg-J": cluster(jac, "average"),
     }
+    c_arm = cluster(unit_distances(l2_normalize(c_vec)), "ward")
 
-    groups = {
-        n: m for n, m in collision_groups(collection).items() if all(p.key in position for p in m)
-    }
-    print(f"cross-source name-collision groups usable here: {len(groups)}\n")
+    relation = read_reactome_relation(
+        (args.raw / "ReactomePathwaysRelation.txt").read_text(encoding="utf-8").splitlines()
+    )
+    with (args.raw / "go-basic.obo").open("r", encoding="utf-8") as handle:
+        terms = parse_obo_terms(handle, namespace="biological_process")
 
-    rng = random.Random(0)
-    rows: list[tuple[str, ...]] = []
-    for name, cuts in arms.items():
-        for k in CUTS:
-            labels = cuts[k]
-            together = sum(
-                1
-                for members in groups.values()
-                if len({labels[position[p.key]] for p in members}) == 1
-            )
-            chance = (
-                sum(
-                    1
-                    for _ in range(BASELINE_DRAWS)
-                    if labels[rng.randrange(len(keys))] == labels[rng.randrange(len(keys))]
-                )
-                / BASELINE_DRAWS
-            )
-            rows.append(
-                (
-                    name,
-                    str(k),
-                    f"{together}/{len(groups)}",
-                    f"{together / len(groups):.1%}",
-                    f"{chance:.2%}",
-                    f"{(together / len(groups)) / chance:.0f}x",
-                )
-            )
-    print("COLLISION-PAIR CO-CLUSTERING\n")
-    print_table(("arm", "k", "together", "rate", "chance", "lift"), rows, align="<>>>>>")
-
-    # ---- stratification by gene-set Jaccard
-    banded: dict[tuple[float, float], list[tuple[str, ...]]] = {b: [] for b in BANDS}
-    undefined = 0
-    for name, members in groups.items():
-        pairs = [
-            jaccard(a, b)
-            for i, a in enumerate(members)
-            for b in members[i + 1 :]
-            if a.source != b.source
-        ]
-        usable = [j for j in pairs if j is not None]
-        if not usable:
-            undefined += 1
-            continue
-        value = statistics.mean(usable)
-        for low, high in BANDS:
-            if (low == high == 0.0 and value == 0.0) or (low < value <= high and high > 0):
-                banded[(low, high)].append((name, members))
-                break
-
-    print("\nGENE-SET JACCARD ACROSS THE COLLISION GROUPS\n")
-    dist = [
-        (
-            "exactly 0" if low == high == 0.0 else f"{low:g} < J <= {min(high, 1.0):g}",
-            str(len(banded[(low, high)])),
-            f"{len(banded[(low, high)]) / max(len(groups), 1):.0%}",
-        )
-        for low, high in BANDS
+    mapped = reactome2go_pairs((args.raw / "reactome2go").read_text(encoding="utf-8").splitlines())
+    independent = PairSource(
+        "reactome2go (independent)",
+        tuple(
+            p
+            for p in mapped.pairs
+            if p[0] in by_key and p[1] in by_key and not shares_name(by_key[p[0]], by_key[p[1]])
+        ),
+        "strong",
+        "the subset that is NOT also a name collision -- the only structural evidence here that is "
+        "independent of the collision test",
+    )
+    sources = [
+        collision_pairs(collection),
+        mapped,
+        independent,
+        sibling_pairs(relation, "reactome:", "reactome-siblings", "same-curator hierarchy"),
+        sibling_pairs(
+            relation,
+            "reactome:",
+            f"reactome-siblings (fan-out<={SIBLING_FANOUT})",
+            "same-curator hierarchy, broad parents dropped",
+            max_children=SIBLING_FANOUT,
+        ),
+        sibling_pairs(go_parents(terms), "go:", "go-siblings", "same-curator hierarchy"),
+        sibling_pairs(
+            go_parents(terms),
+            "go:",
+            f"go-siblings (fan-out<={SIBLING_FANOUT})",
+            "same-curator hierarchy, broad parents dropped",
+            max_children=SIBLING_FANOUT,
+        ),
     ]
-    dist.append(("undefined (a member has no genes)", str(undefined), ""))
-    print_table(("band", "groups", "share"), dist, align="<>>")
 
-    print("\nCO-CLUSTERING BY OVERLAP BAND (k=50)\n")
-    strat_rows: list[tuple[str, ...]] = []
-    for low, high in BANDS:
-        members_in_band = banded[(low, high)]
-        label = "exactly 0" if low == high == 0.0 else f"{low:g} < J <= {min(high, 1.0):g}"
-        if not members_in_band:
-            strat_rows.append((label, "0", *["-"] * len(arms)))
+    for source in sources:
+        here = restrict(source, keys)
+        print(f"\n{'=' * 100}")
+        print(f"{here.name.upper()}  [{here.strength}]  n={len(here.pairs):,} pairs, k={args.cut}")
+        print(f"caveat: {here.caveat}")
+        print("=" * 100 + "\n")
+        if not here.pairs:
+            print("  no pairs present in this run\n")
             continue
-        cells = []
-        for arm in arms:
-            labels = arms[arm][50]
-            hit = sum(
-                1 for _name, m in members_in_band if len({labels[position[p.key]] for p in m}) == 1
-            )
-            cells.append(
-                f"{hit}/{len(members_in_band)}"
-                if len(members_in_band) < 10
-                else f"{hit / len(members_in_band):.0%}"
-            )
-        strat_rows.append((label, str(len(members_in_band)), *cells))
-    print_table(("band", "n", *arms), strat_rows, align="<>" + ">" * len(arms))
+        recovery_table(here, arms, position, pathways, args.cut)
 
-    # The collision test selects its positives BY NAME IDENTITY, and arm C embeds only the name.
-    # C is therefore guaranteed to score near-perfectly on it by construction, and its result there
-    # measures the metric rather than the method. Partition agreement is the fair A-vs-C comparison:
-    # it asks whether the two arms build the same tree, using no name-defined ground truth at all.
-    print("\nPARTITION AGREEMENT BETWEEN ARMS (adjusted Rand, k=50)\n")
-    names_list = list(arms)
-    agree_rows = [
-        (
-            a,
-            *[
-                "-" if a == b else f"{adjusted_rand_score(arms[a][50], arms[b][50]):.3f}"
-                for b in names_list
-            ],
-        )
-        for a in names_list
-    ]
-    print_table(("arm", *names_list), agree_rows, align="<" + ">" * len(names_list))
-    print(
-        "\n  A vs C is the number that answers 'what did the descriptions buy?'. The collision\n"
-        "  test cannot answer it: its pairs are DEFINED by having the same name, and arm C embeds\n"
-        "  the name, so C scores near-perfectly there by construction rather than by merit."
+    print(f"\n{'=' * 100}\nPARTITION AGREEMENT (adjusted Rand, k={args.cut})\n{'=' * 100}\n")
+    everything = {**arms, "C name-only": c_arm}
+    names = list(everything)
+    def ari(a: str, b: str) -> str:
+        """Adjusted Rand between two arms at the reported cut."""
+        if a == b:
+            return "-"
+        return f"{adjusted_rand_score(everything[a][args.cut], everything[b][args.cut]):.3f}"
+
+    print_table(
+        ("arm", *names),
+        [(a, *[ari(a, b) for b in names]) for a in names],
+        align="<" + ">" * len(names),
     )
 
-    print("\nTWO CAVEATS, STATED RATHER THAN BURIED\n")
+    bb = adjusted_rand_score(arms["B binary"][args.cut], arms["B' sqrtJ"][args.cut])
+    ac = adjusted_rand_score(arms["A thema"][args.cut], c_arm[args.cut])
+    print("\nWHAT THESE NUMBERS DO AND DO NOT ESTABLISH\n")
     for line in (
-        "1. Gene-overlap clustering CANNOT group a pair sharing no genes. In the zero",
-        "   band its failure is structural, not a tuning fault, so a THEMA win there is",
-        "   expected rather than surprising. What is informative is the SIZE of the gap",
-        "   and how fast it opens as overlap falls -- not the win itself.",
-        "2. THEMA's descriptions were written with the gene lists in view (DECISIONS,",
-        "   2026-08-29), so its embeddings partly re-encode gene overlap. That confound",
-        "   is strongest in the HIGH band and weakest in the LOW band -- which is the",
-        "   band the product claim rests on.",
+        f"  ARI(B, B') = {bb:.3f}. Jaccard distance is not Euclidean, so Ward on it minimises",
+        "    nothing and scipy runs it silently; sqrt(Jaccard) IS L2-embeddable, so B' is the",
+        "    legitimate encoding. If these two disagree the gene baseline is sensitive to",
+        "    representation and no single number should be quoted for it.",
+        "",
+        f"  ARI(A, C) = {ac:.3f}. This establishes that the descriptions CHANGE the structure",
+        "    relative to names alone. It does NOT establish that they IMPROVE it: the ground",
+        "    truth used here is name-defined, so it cannot referee between a tree built from",
+        "    names and a tree built from prose written to repeat those names.",
+        "",
+        "  Arm C is excluded from every recovery table above. The collision pairs are DEFINED by",
+        "    a shared name and arm C embeds only the name, so it would score at ceiling by",
+        "    construction -- measuring the metric rather than the method. It is kept in the ARI",
+        "    table, where it is informative.",
+        "",
+        "  Sibling sources are WEAK evidence: the curators who declared the relationship also",
+        "    wrote the prose being embedded, so recovery is partly 'the text encodes the tree'.",
+        "    They are supplementary and must never carry the headline.",
     ):
         print(line)
-
-    summary = [("input", "pathways", str(len(keys)), "same set in every arm")]
-    summary += [
-        ("input", "collision_groups", str(len(groups)), "cross-source, both members present")
-    ]
-    summary += [
-        (f"arm_{r[0].split()[0]}", f"k{r[1]}", r[3], f"chance {r[4]}, lift {r[5]}") for r in rows
-    ]
-    write_tsv(args.data / BASELINE_SUMMARY, SUMMARY_COLUMNS, summary)
-    print(f"\n-> {args.data / BASELINE_SUMMARY}")
     return 0
 
 

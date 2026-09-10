@@ -1,62 +1,95 @@
 import numpy as np
 import pytest
-from scipy.spatial.distance import pdist
+import scipy.sparse as sp
+from scipy.spatial.distance import pdist, squareform
 
-from compare_baselines import condensed_from_unit, gene_vectors, jaccard
+from compare_baselines import gene_distances, gene_matrix
 from test_normalize_descriptions import _pathway
 
 
-def _with_genes(key_id, genes):
-    p = _pathway("reactome", key_id, f"Pathway {key_id}")
-    symbols = tuple((g, (g.replace("HGNC:", "SYM"),)) for g in sorted(genes))
-    return type(p)(
-        **{
-            **{f.name: getattr(p, f.name) for f in p.__dataclass_fields__.values()},
-            "genes": frozenset(genes),
-            "gene_symbols": symbols,
-            "n_genes": len(genes),
-        }
+def _with_genes(source_id, genes):
+    p = _pathway("reactome", source_id, f"Pathway {source_id}")
+    fields = {f: getattr(p, f) for f in p.__dataclass_fields__}
+    fields.update(
+        genes=frozenset(genes),
+        gene_symbols=tuple((g, (g.replace("HGNC:", "SYM"),)) for g in sorted(genes)),
+        n_genes=len(genes),
     )
+    return type(p)(**fields)
 
 
-# Ward needs Euclidean input. Binary presence vectors, L2-normalised, give the Ochiai coefficient
-# under cosine -- a close kin of Jaccard that IS Euclidean, which a Jaccard matrix is not.
-def test_gene_vectors_are_unit_length_and_mark_the_right_genes():
+def test_the_gene_matrix_is_sparse_and_marks_the_right_cells():
     a = _with_genes("R-HSA-1", {"HGNC:1", "HGNC:2"})
     b = _with_genes("R-HSA-2", {"HGNC:2", "HGNC:3"})
-    vectors = gene_vectors([a, b])
-    assert vectors.shape == (2, 3), "one column per gene in the union"
-    assert np.allclose(np.linalg.norm(vectors, axis=1), 1.0)
-    # Cosine between them is the Ochiai coefficient: |A n B| / sqrt(|A| |B|) = 1/2.
-    assert float(vectors[0] @ vectors[1]) == pytest.approx(0.5)
+    matrix = gene_matrix([a, b])
+    assert sp.issparse(matrix), "the dense form is n x 19,000 and does not scale to the full run"
+    assert matrix.shape == (2, 3)
+    assert matrix.toarray().sum() == 4
 
 
-# A zero row cannot be normalised. It must not become NaN, which would poison every distance it
-# takes part in rather than only its own.
-def test_a_pathway_with_no_genes_produces_a_zero_row_not_nan():
-    empty = _with_genes("R-HSA-3", set())
-    vectors = gene_vectors([_with_genes("R-HSA-1", {"HGNC:1"}), empty])
-    assert not np.isnan(vectors).any()
-    assert float(np.linalg.norm(vectors[1])) == 0.0
-
-
-# The Gram-matrix route exists because pdist is O(n^2 d) and the gene vectors are ~14,000-dim.
-# It has to agree with pdist exactly, or the speedup is a silent change of answer.
-def test_the_gram_route_agrees_with_pdist_on_unit_vectors():
-    rng = np.random.default_rng(0)
-    raw = rng.normal(size=(40, 12)).astype(np.float32)
-    unit = raw / np.linalg.norm(raw, axis=1, keepdims=True)
-    assert np.allclose(condensed_from_unit(unit), pdist(unit, metric="euclidean"), atol=1e-5)
-
-
-def test_the_gram_route_gives_zero_distance_between_identical_vectors():
-    unit = np.array([[1.0, 0.0], [1.0, 0.0]], dtype=np.float32)
-    assert float(condensed_from_unit(unit)[0]) == pytest.approx(0.0, abs=1e-6)
-
-
-def test_jaccard_is_undefined_rather_than_zero_when_a_set_is_empty():
+# The two encodings of gene overlap must be computed from one matrix and must be what they claim:
+# cosine on binary sets is Ochiai, and Jaccard is intersection over union.
+def test_both_distance_encodings_match_their_definitions():
     a = _with_genes("R-HSA-1", {"HGNC:1", "HGNC:2"})
+    b = _with_genes("R-HSA-2", {"HGNC:2", "HGNC:3"})
+    euclid, jac = gene_distances(gene_matrix([a, b]))
+    # Ochiai = 1/2, so Euclidean on unit vectors = sqrt(2 - 2*0.5) = 1.
+    assert float(euclid[0]) == pytest.approx(1.0, abs=1e-5)
+    # Jaccard = 1/3, so Jaccard distance = 2/3.
+    assert float(jac[0]) == pytest.approx(2 / 3, abs=1e-6)
+
+
+def test_disjoint_sets_are_maximally_far_under_both_encodings():
+    a = _with_genes("R-HSA-1", {"HGNC:1"})
     b = _with_genes("R-HSA-2", {"HGNC:2"})
-    empty = _with_genes("R-HSA-3", set())
-    assert jaccard(a, b) == pytest.approx(0.5)
-    assert jaccard(a, empty) is None, "0/0 is undefined, and reporting it as 0 would be a claim"
+    euclid, jac = gene_distances(gene_matrix([a, b]))
+    assert float(euclid[0]) == pytest.approx(np.sqrt(2.0), abs=1e-5)
+    assert float(jac[0]) == pytest.approx(1.0, abs=1e-6)
+
+
+def test_identical_sets_are_at_zero_under_both_encodings():
+    a = _with_genes("R-HSA-1", {"HGNC:1", "HGNC:2"})
+    b = _with_genes("R-HSA-2", {"HGNC:1", "HGNC:2"})
+    euclid, jac = gene_distances(gene_matrix([a, b]))
+    assert float(euclid[0]) == pytest.approx(0.0, abs=1e-5)
+    assert float(jac[0]) == pytest.approx(0.0, abs=1e-6)
+
+
+# A pathway with no genes must not produce NaN, which would poison every distance it takes part in
+# rather than only its own.
+def test_a_gene_free_pathway_produces_finite_distances():
+    pathways = [_with_genes("R-HSA-1", {"HGNC:1"}), _with_genes("R-HSA-2", set())]
+    euclid, jac = gene_distances(gene_matrix(pathways))
+    assert np.isfinite(euclid).all() and np.isfinite(jac).all()
+
+
+# The Gram route replaces pdist because pdist is O(n^2 d) on ~19,000-dimensional rows. It has to
+# agree with pdist exactly, or the speedup is a silent change of answer.
+def test_the_gram_route_agrees_with_pdist():
+    rng = np.random.default_rng(0)
+    sets = [set(rng.choice(30, size=8, replace=False).tolist()) for _ in range(25)]
+    pathways = [_with_genes(f"R-HSA-{i}", {f"HGNC:{g}" for g in s}) for i, s in enumerate(sets)]
+    matrix = gene_matrix(pathways)
+    euclid, _jac = gene_distances(matrix)
+    dense = matrix.toarray()
+    unit = dense / np.linalg.norm(dense, axis=1, keepdims=True)
+    assert np.allclose(euclid, pdist(unit, metric="euclidean"), atol=1e-5)
+
+
+# sqrt(Jaccard) is what makes arm B' legitimate: Jaccard distance is not Euclidean, so Ward on it
+# minimises nothing, while sqrt(Jaccard) is isometrically embeddable in L2.
+def test_sqrt_jaccard_is_a_metric_where_raw_jaccard_distance_need_not_be():
+    sets = [{"a", "b"}, {"b", "c"}, {"c", "d"}]
+    pathways = [_with_genes(f"R-HSA-{i}", {f"HGNC:{g}" for g in s}) for i, s in enumerate(sets)]
+    _euclid, jac = gene_distances(gene_matrix(pathways))
+    square = squareform(np.sqrt(jac))
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                assert square[i, j] <= square[i, k] + square[k, j] + 1e-6
+    assert gene_distances(gene_matrix(pathways))[1].shape == (3,)
+
+
+def test_fewer_than_two_pathways_is_an_error():
+    with pytest.raises(ValueError, match="at least two"):
+        gene_distances(gene_matrix([_with_genes("R-HSA-1", {"HGNC:1"})]))
