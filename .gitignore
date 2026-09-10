@@ -32,13 +32,9 @@ data/pathways.tsv
 data/ontology/*
 !data/ontology/ontology_summary.tsv
 !data/ontology/baseline_comparison.tsv
-
-# OS
-.DS_Store
-
-data/ontology/embeddings.npy
-data/ontology/embedding_keys.txt
-data/ontology/tree_*.txt
 !data/ontology/clusters_ward.tsv
 !data/ontology/clusters_average.tsv
 !data/ontology/clusters_complete.tsv
+
+# OS
+.DS_Store
