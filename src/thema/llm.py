@@ -244,6 +244,15 @@ def _normalized(completion: Completion) -> Completion:
     Returns:
         It unchanged, or a copy with the residue removed and recorded in ``repaired``.
     """
+    # The envelope repair is for PROSE payloads only. A structured payload is JSON, and JSON is
+    # full of the very sequence the repair cuts at: every object inside a list ends `"}`. Applying
+    # it to a verifier reply truncated 69 of 100 at the first claim -- and only the replies that
+    # actually carried a flag, because `{"claims": []}` contains no `"}` at all. The failure was
+    # therefore invisible in the count of successful calls and destroyed exactly the results the
+    # run existed to produce. A description never begins with a brace or a bracket; a payload that
+    # does is data, and data is returned untouched.
+    if completion.text.lstrip()[:1] in ("{", "["):
+        return completion
     text, repaired = _trimmed(completion.text)
     if text == completion.text:
         return completion

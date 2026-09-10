@@ -427,3 +427,35 @@ def test_a_stored_completion_written_before_the_fix_is_repaired_on_read(tmp_path
         + "\n"
     )
     assert Ledger.open(tmp_path, "claude-opus-5", "v1").get("go:GO:1").text == "embryos — WNT"
+
+
+# The envelope repair cuts at the first `"}`. JSON is full of that sequence -- every object in a
+# list ends with it -- so applying the repair to a structured payload truncates it at the first
+# element. On 2026-09-10 this destroyed 69 of 100 verifier replies, and only the ones that carried
+# a finding: an empty `{"claims": []}` contains no `"}` and survived, so the corruption was
+# invisible in the success count and hit precisely the results the run existed to produce.
+def test_a_structured_payload_is_never_put_through_the_prose_repair(tmp_path):
+    payload = (
+        '{"claims": [{"kind": "wrong", "quote": "It is an iron transporter.", "reason": "No."}]}'
+    )
+    ledger = Ledger.open(tmp_path, "claude-opus-5", "verify-v1")
+    ledger.append(
+        Completion(key="go:GO:1", model="claude-opus-5", prompt_version="verify-v1", text=payload)
+    )
+    assert ledger.get("go:GO:1").text == payload, "structured data must survive the ledger intact"
+    ledger.reload()
+    assert ledger.get("go:GO:1").text == payload, "and survive a reload too"
+    assert json.loads(ledger.get("go:GO:1").text)["claims"], "the finding must still be readable"
+
+
+def test_prose_is_still_repaired_so_the_guard_did_not_disable_the_fix(tmp_path):
+    ledger = Ledger.open(tmp_path, "claude-opus-5", "v3")
+    ledger.append(
+        Completion(
+            key="go:GO:2",
+            model="claude-opus-5",
+            prompt_version="v3",
+            text='Alpha does a thing."}<br><br>',
+        )
+    )
+    assert ledger.get("go:GO:2").text == "Alpha does a thing."
