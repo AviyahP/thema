@@ -31,6 +31,7 @@ data/pathways.tsv
 # pinned encoder, so it follows the same rule; ontology_summary.tsv pins each artifact's sha256.
 data/ontology/*
 !data/ontology/ontology_summary.tsv
+!data/ontology/baseline_comparison.tsv
 
 # OS
 .DS_Store

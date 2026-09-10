@@ -1,0 +1,30 @@
+section	key	value	note
+caveat	text_provenance	generated	descriptions written by the normalizer, as intended
+input	description_generated_from	description+name+genes;genes;name+genes	provenance values found in the descriptions table
+input	scope	smoke	which generation run the descriptions came from
+input	description_rows	1854	descriptions clustered
+input	collection_rows	10817	pathways in data/pathways.tsv
+input	descriptions_sha256	27590d35aa07ba16ddd3c200462d8b5508e50f01cd9cf142e0de37bb7860c0e8	the table these trees were built from
+input	embedding_model	FremyCompany/BioLORD-2023@main	pinned by revision
+input	embedding_dim	768	
+input	normalization	l2	unit vectors, so Euclidean distance is monotone in cosine and Ward is legitimate
+digest	embeddings.npy	d2b67a4783832253965f1fd910f3e39bcac07ee8a446e2ce276b9f240ea6c151	regenerable from the descriptions table and the pinned encoder; gitignored
+digest	clusters_ward.tsv	662aaccdd4dadf6c8bd3f36179c990f4e834b5a77520aef9057751911495492f	regenerable from the descriptions table and the pinned encoder; gitignored
+digest	clusters_average.tsv	8bdb739a610925c9b041e1c7db91076b3cb2ad3a2b2e96c46dcea0c4099789e9	regenerable from the descriptions table and the pinned encoder; gitignored
+digest	clusters_complete.tsv	424de26e8149ee7e01065e5773d8ab1a2a9bb362dffb225f278c33a940da9cdd	regenerable from the descriptions table and the pinned encoder; gitignored
+memory	condensed_matrix_mb	13.7	468.0 MB at the full 10,817; above roughly 2 GB, ward can be built by fastcluster.linkage_vector from the vectors directly, which needs no n^2 matrix. average and complete still need one
+size	ward_k10	70/70/143/277/330	clusters=10 largest=17.8%
+size	ward_k25	24/29/62/117/148	clusters=25 largest=8.0%
+size	ward_k50	11/17/29/69/80	clusters=50 largest=4.3%
+size	ward_k100	6/8/16/30/61	clusters=100 largest=3.3%
+size	ward_k200	3/4/8/15/32	clusters=200 largest=1.7%
+size	average_k10	1/1/8/203/1572	clusters=10 largest=84.8%
+size	average_k25	1/1/15/134/759	clusters=25 largest=40.9%
+size	average_k50	1/1/9/91/390	clusters=50 largest=21.0%
+size	average_k100	1/1/7/58/205	clusters=100 largest=11.1%
+size	average_k200	1/1/5/23/155	clusters=200 largest=8.4%
+size	complete_k10	73/73/146/333/354	clusters=10 largest=19.1%
+size	complete_k25	15/18/50/138/202	clusters=25 largest=10.9%
+size	complete_k50	2/9/26/67/163	clusters=50 largest=8.8%
+size	complete_k100	2/5/15/33/132	clusters=100 largest=7.1%
+size	complete_k200	1/3/7/18/35	clusters=200 largest=1.9%

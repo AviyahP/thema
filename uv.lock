@@ -1382,6 +1382,7 @@ source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
     { name = "numpy" },
+    { name = "scikit-learn" },
     { name = "scipy" },
     { name = "sentence-transformers" },
 ]
@@ -1396,6 +1397,7 @@ dev = [
 requires-dist = [
     { name = "anthropic", specifier = "==1.2.0" },
     { name = "numpy", specifier = "==2.3.4" },
+    { name = "scikit-learn", specifier = ">=1.9.0" },
     { name = "scipy", specifier = "==1.16.3" },
     { name = "sentence-transformers", specifier = "==5.1.2" },
 ]
