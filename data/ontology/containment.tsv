@@ -1,0 +1,7 @@
+section	key	value	note
+input	edges	2852	Reactome parent-child, both members present
+input	dropped	47	a member resolved to no genes
+jaccard	min_q1_median_q3_max	0.0014/0.0863/0.2500/0.5651/1.0000	
+jaccard	below_0.05	420/2852	14.7%
+overlap_coefficient	min_q1_median_q3_max	1.0000/1.0000/1.0000/1.0000/1.0000	
+overlap_coefficient	below_0.05	0/2852	0.0%
