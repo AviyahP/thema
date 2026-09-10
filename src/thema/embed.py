@@ -29,6 +29,12 @@ BIOLORD_MODEL = "FremyCompany/BioLORD-2023"
 #: reference and is recorded as such in the ontology summary so a run is never silently unpinned.
 BIOLORD_REVISION = "main"
 
+#: The comparison arm named in docs/brief.md D7. A strong general-purpose embedder with no
+#: biomedical training, so agreement between the two trees is evidence the structure is in the
+#: biology rather than in one encoder's idiosyncrasy.
+QWEN_MODEL = "Qwen/Qwen3-Embedding-0.6B"
+QWEN_REVISION = "main"
+
 #: BioLORD-2023 is a MPNet-family encoder with a 512-token window. Descriptions are written to
 #: 90-150 words, roughly 200 tokens, so nothing truncates -- which matters more than it sounds,
 #: because a length-dependent cutoff would reintroduce exactly the length bias normalization and

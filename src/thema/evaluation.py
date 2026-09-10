@@ -241,3 +241,74 @@ def restrict(source: PairSource, keys: Iterable[str]) -> PairSource:
         source.strength,
         source.caveat,
     )
+
+
+#: The gene-set similarity measures the baselines are built from, with whether Ward is legitimate
+#: on each and why. Ward's variance criterion is defined on squared Euclidean distance and on
+#: nothing else; scipy will run Ward on any condensed matrix without complaining, so "does this
+#: distance embed in L2" has to be decided here rather than discovered from a silently wrong tree.
+GENE_MEASURES: dict[str, str] = {
+    "jaccard": "shared/union. 1-J is a metric but is NOT L2-embeddable; sqrt(1-J) IS "
+    "(Gower & Legendre 1986), so Ward runs on sqrt(1-J) and never on 1-J.",
+    "ochiai": "shared/sqrt(n1*n2). This is cosine between binary indicator vectors, so the "
+    "L2-normalised vectors are literally Euclidean points and Ward is legitimate directly.",
+    "overlap": "shared/min(n1,n2). Not a metric at all -- it is 1 for any containment, so "
+    "distinct sets sit at distance 0 and the triangle inequality fails. Average linkage only.",
+    "kappa": "chance-corrected agreement on membership. Can go NEGATIVE, so 1-kappa is not a "
+    "distance and no monotone transform makes it one. Average linkage only.",
+}
+
+#: Which measures may be given to Ward, after the reasoning in GENE_MEASURES.
+WARD_SAFE: frozenset[str] = frozenset({"ochiai", "jaccard_sqrt"})
+
+
+def gene_similarity(
+    intersection: "object", sizes: "object", universe: int, measure: str
+) -> "object":
+    """Compute one gene-set similarity matrix from precomputed intersection and set sizes.
+
+    Kappa is computed over the UNIVERSE the caller states rather than over the genome, and the
+    choice moves the number substantially. Kappa's chance term is dominated by shared ABSENCE: over
+    a large universe almost every pair of small pathways "agrees" about almost every gene by not
+    containing it. Measured on two 2-gene sets sharing one gene, kappa is 0.375 over a 10-gene
+    universe and 0.500 over 20,000 -- same sets, same overlap, different coefficient. DAVID computes
+    kappa over the user's submitted list rather than the genome for this reason, and THEMA's
+    background is the measured universe (DECISIONS, 2026-08-21), so the union of genes across the
+    run is the consistent choice here. Whichever is used has to be stated, which is why this
+    function takes it as an argument rather than assuming one.
+
+    Args:
+        intersection: ``(n, n)`` array of shared gene counts.
+        sizes: ``(n,)`` array of set sizes.
+        universe: How many genes the chance term is computed over.
+        measure: One of :data:`GENE_MEASURES`.
+
+    Returns:
+        An ``(n, n)`` similarity array.
+
+    Raises:
+        ValueError: If the measure is unknown.
+    """
+    import numpy as np
+
+    inter = np.asarray(intersection, dtype=np.float64)
+    n = np.asarray(sizes, dtype=np.float64)
+    a, b = n[:, None], n[None, :]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        if measure == "jaccard":
+            union = a + b - inter
+            return np.where(union > 0, inter / np.maximum(union, 1e-12), 0.0)
+        if measure == "ochiai":
+            norm = np.sqrt(a * b)
+            return np.where(norm > 0, inter / np.maximum(norm, 1e-12), 0.0)
+        if measure == "overlap":
+            smaller = np.minimum(a, b)
+            return np.where(smaller > 0, inter / np.maximum(smaller, 1e-12), 0.0)
+        if measure == "kappa":
+            # Cohen's kappa over the stated universe, on membership as a binary label.
+            both = inter
+            neither = universe - a - b + inter
+            observed = (both + neither) / universe
+            expected = (a * b + (universe - a) * (universe - b)) / (universe**2)
+            return np.where(expected < 1.0, (observed - expected) / (1.0 - expected), 0.0)
+    raise ValueError(f"unknown measure {measure!r}; known: {', '.join(sorted(GENE_MEASURES))}")
