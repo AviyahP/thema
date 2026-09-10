@@ -1,0 +1,34 @@
+section	key	value	note
+input	descriptions	1854	identical text to both encoders
+input	biolord	FremyCompany/BioLORD-2023@main	dim 768
+input	qwen3	Qwen/Qwen3-Embedding-0.6B@main	dim 1024
+ari	k10	0.3060	adjusted Rand, biolord vs qwen3
+largest_share	k10	0.1780/0.1564	biolord/qwen3
+ari	k25	0.3546	adjusted Rand, biolord vs qwen3
+largest_share	k25	0.0798/0.0814	biolord/qwen3
+ari	k50	0.3693	adjusted Rand, biolord vs qwen3
+largest_share	k50	0.0431/0.0545	biolord/qwen3
+ari	k100	0.3391	adjusted Rand, biolord vs qwen3
+largest_share	k100	0.0329/0.0232	biolord/qwen3
+ari	k200	0.3688	adjusted Rand, biolord vs qwen3
+largest_share	k200	0.0173/0.0151	biolord/qwen3
+auroc	reactome-siblings/biolord/0.15 < J <= 1	0.7518	cut-free
+auroc	reactome-siblings/qwen3/0.15 < J <= 1	0.7489	cut-free
+auroc	reactome-siblings/biolord/0.05 < J <= 0.15	0.8178	cut-free
+auroc	reactome-siblings/qwen3/0.05 < J <= 0.15	0.7882	cut-free
+auroc	reactome-siblings/biolord/0.01 < J <= 0.05	0.8369	cut-free
+auroc	reactome-siblings/qwen3/0.01 < J <= 0.05	0.8477	cut-free
+auroc	reactome-siblings/biolord/0 < J <= 0.01	0.8488	cut-free
+auroc	reactome-siblings/qwen3/0 < J <= 0.01	0.8650	cut-free
+auroc	reactome-siblings/biolord/exactly 0	0.9097	cut-free
+auroc	reactome-siblings/qwen3/exactly 0	0.9213	cut-free
+auroc	go-siblings/biolord/0.15 < J <= 1	0.7534	cut-free
+auroc	go-siblings/qwen3/0.15 < J <= 1	0.7383	cut-free
+auroc	go-siblings/biolord/0.05 < J <= 0.15	0.7324	cut-free
+auroc	go-siblings/qwen3/0.05 < J <= 0.15	0.7425	cut-free
+auroc	go-siblings/biolord/0.01 < J <= 0.05	0.7594	cut-free
+auroc	go-siblings/qwen3/0.01 < J <= 0.05	0.7741	cut-free
+auroc	go-siblings/biolord/0 < J <= 0.01	0.7431	cut-free
+auroc	go-siblings/qwen3/0 < J <= 0.01	0.7997	cut-free
+auroc	go-siblings/biolord/exactly 0	0.8235	cut-free
+auroc	go-siblings/qwen3/exactly 0	0.8618	cut-free
