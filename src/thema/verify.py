@@ -263,3 +263,118 @@ _WHITESPACE = re.compile(r"\s+")
 def _collapse(text: str) -> str:
     """Flatten whitespace so a flag can live in a TSV cell."""
     return _WHITESPACE.sub(" ", text).strip()
+
+
+#: Cache-key component for the adjudication pass. A separate namespace from every verification
+#: version, so an adjudication is never served from a verifier's entry or the reverse.
+ADJUDICATE_PROMPT_VERSION = "adjudicate-v1"
+
+#: How clear-cut a flag is. This is a judgement about the FLAG, not a second opinion on the
+#: description: the verifier decides whether a claim is wrong, this decides whether reasonable
+#: people would agree that it is.
+ADJUDICATE_LABELS = ("unambiguous", "arguable")
+
+#: ``basis`` is a LIST so the client stores the whole envelope rather than extracting one string,
+#: which is what keeps the reasoning on the ledger record beside the verdict. Same device arm C
+#: uses to keep its checks.
+ADJUDICATE_FORMAT: dict[str, object] = {
+    "type": "json_schema",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "basis": {"type": "array", "items": {"type": "string"}},
+            "label": {"type": "string", "enum": list(ADJUDICATE_LABELS)},
+        },
+        "required": ["basis", "label"],
+        "additionalProperties": False,
+    },
+}
+
+#: The key the client stores the adjudication envelope under.
+ADJUDICATE_KEY = "basis"
+
+ADJUDICATE_SYSTEM_PROMPT = """You are grading a FLAG raised against one sentence of a description \
+of a biological gene set. Someone read that sentence, judged it factually wrong, and gave a reason.
+Your only job is to say how clear-cut that flag is.
+
+You will be shown the gene set's name, its gene list, the flagged sentence, and the reason given.
+You will NOT be told who or what wrote the sentence, or how it was produced, and you must not
+speculate about it.
+
+WHAT THE TWO LABELS MEAN
+
+unambiguous -- the flagged sentence is wrong and no competent biologist would defend it. A
+molecular identity, a direction of effect, a substrate, a partner or a location is simply
+incorrect, and there is no reading under which the sentence stands.
+
+arguable -- the flag has a point, but the sentence is defensible under some reading. The objection
+may turn on emphasis, on a simplification that is normal in a one-paragraph summary, on a detail
+that varies between members of a family, or on a distinction a specialist would draw and a general
+reader would not. A flag whose own reason hedges belongs here.
+
+HOW TO JUDGE
+
+Judge the FLAG, and judge only the sentence quoted -- not the description it came from, not what
+was left out, not how it is written. If the reason given is itself mistaken, the flag is arguable
+at best. If the sentence contains several claims and only one is wrong, that still makes the flag
+unambiguous, provided the wrong one is unambiguously wrong.
+
+Do not aim for any particular balance between the two labels. Most flags of this kind are
+unambiguous, and saying so is the correct answer when it is the true one.
+
+OUTPUT FORMAT
+
+Return an object with "basis", a short list of the considerations that decided it, and "label",
+either "unambiguous" or "arguable"."""
+
+
+def render_adjudicate_message(pathway: Pathway, quote: str, reason: str) -> str:
+    """Build the adjudication prompt for one flag.
+
+    Blind by construction: the arm, the prompt version and the authoring model appear nowhere, and
+    neither does the rest of the description the sentence came from.
+
+    Args:
+        pathway: The pathway the claim is about.
+        quote: The flagged sentence.
+        reason: Why the verifier flagged it.
+
+    Returns:
+        The user message.
+    """
+    genes = genes_for_prompt(pathway)
+    return "\n".join(
+        (
+            f"Name: {display_name(pathway)}",
+            f"Genes: {', '.join(genes) or '(none)'}",
+            "",
+            f"FLAGGED SENTENCE: {quote}",
+            f"REASON GIVEN: {reason}",
+        )
+    )
+
+
+def parse_label(text: str) -> tuple[str, str]:
+    """Read an adjudication reply into a label and its basis.
+
+    Args:
+        text: The stored completion text, a JSON object with ``label`` and ``basis``.
+
+    Returns:
+        The label and its basis, joined.
+
+    Raises:
+        ValueError: If the reply is not the shape the schema requires. An unreadable reply is never
+            defaulted to a label -- that would put a guess into a calibration gate.
+    """
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError as error:
+        raise ValueError(f"adjudication reply was not valid JSON: {error}") from error
+    if not isinstance(parsed, dict):
+        raise ValueError(f"adjudication reply was not an object: {type(parsed).__name__}")
+    label = str(parsed.get("label", ""))
+    if label not in ADJUDICATE_LABELS:
+        raise ValueError(f"adjudication reply had unknown label {label!r}")
+    basis = parsed.get("basis", ())
+    return label, _collapse(" | ".join(str(b) for b in basis))
