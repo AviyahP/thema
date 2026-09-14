@@ -30,7 +30,14 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 
 from thema.data.pathways import SOURCES, Pathway, PathwayCollection
-from thema.data.tables import SUMMARY_COLUMNS, cell, print_table, sha256_file, write_tsv
+from thema.data.tables import (
+    SUMMARY_COLUMNS,
+    cell,
+    flatten,
+    print_table,
+    sha256_file,
+    write_tsv,
+)
 from thema.llm import (
     Estimate,
     Ledger,
@@ -64,6 +71,7 @@ DEFAULT_DATA = REPO_ROOT / "data"
 PATHWAY_TABLE = "pathways.tsv"
 DESCRIPTIONS_TABLE = "pathway_descriptions.tsv"
 VERIFICATION_TABLE = "pathway_verification.tsv"
+FLAGS_TABLE = "pathway_verification_flags.tsv"
 VERIFICATION_SUMMARY = "pathway_verification_summary.tsv"
 CACHE_DIR = "cache/verifications"
 
@@ -83,15 +91,15 @@ ESTIMATE_SAMPLE = 40
 #: Fallback output size for a verifier reply, used only before any reply exists to measure.
 ASSUMED_OUTPUT_TOKENS = 300
 
-VERIFICATION_COLUMNS = (
-    "key",
-    "verification_status",
-    "flags",
-    "repaired",
-    "flag_kinds",
-    "flag_quotes",
-    "flag_reasons",
-)
+#: One row per DESCRIPTION. The flags themselves live in their own table: three parallel
+#: delimiter-joined lists in one row survive only while no quote contains the delimiter and while
+#: every consumer splits all three the same way and pairs them by index. That is a lot of luck to
+#: depend on, and a consumer that filters one list before indexing into another silently reads the
+#: wrong quote. Normalising costs one join and removes the whole class.
+VERIFICATION_COLUMNS = ("key", "verification_status", "flags", "repaired")
+
+#: One row per FLAG.
+FLAGS_COLUMNS = ("key", "kind", "quote", "reason")
 
 
 def read_descriptions(table: Path) -> dict[str, str]:
@@ -431,6 +439,7 @@ def write_verification(
         scope: ``pilot`` or ``all``.
     """
     rows: list[tuple[str, ...]] = []
+    flag_rows: list[tuple[str, ...]] = []
     for key in sorted(results):
         flags = results[key]
         rows.append(
@@ -439,13 +448,14 @@ def write_verification(
                 status.get(key, "clean" if not flags else "flagged"),
                 str(len(flags)),
                 "yes" if status.get(key) == "repaired" else "no",
-                cell(";".join(f.kind for f in flags)),
-                cell(" | ".join(f.quote for f in flags)),
-                cell(" | ".join(f.reason for f in flags)),
             )
+        )
+        flag_rows.extend(
+            (key, f.kind, cell(flatten(f.quote)), cell(flatten(f.reason))) for f in flags
         )
     table = data / VERIFICATION_TABLE
     write_tsv(table, VERIFICATION_COLUMNS, rows)
+    write_tsv(data / FLAGS_TABLE, FLAGS_COLUMNS, flag_rows)
 
     counts = tally(results.values())
     summary: list[tuple[str, ...]] = [
@@ -495,6 +505,7 @@ def write_verification(
         )
     write_tsv(data / VERIFICATION_SUMMARY, SUMMARY_COLUMNS, summary)
     print(f"\n{len(rows):,} verifications -> {table}")
+    print(f"{len(flag_rows):,} flags -> {data / FLAGS_TABLE}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
