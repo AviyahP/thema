@@ -17,14 +17,17 @@ import os
 import re
 import sys
 import time
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
+from typing import TypeVar
 
 import anthropic
 
 from thema.data.tables import print_table
+
+_T = TypeVar("_T")
 
 #: Per-model request differences. These are API constraints, not preferences: Opus 5 and Sonnet 5
 #: take adaptive thinking and an effort level; Haiku 4.5 accepts neither, so it runs with thinking
@@ -344,8 +347,21 @@ class LLMClient:
         self.calls += 1
         return self._client.messages.create(**params)  # type: ignore[arg-type]
 
-    def _send_with_retry(self, params: dict[str, object]) -> object:
-        """Send, retrying the failures that are worth retrying.
+    def _retrying(self, call: Callable[[], _T], what: str) -> _T:
+        """Run one provider call, retrying the failures that are worth retrying.
+
+        Every network-touching call goes through here, not just message sends. A batch is polled
+        for as long as the provider takes to run it, which on 2026-09-10 meant a single transient
+        SSL error killed a run that had already paid for its batch -- the results survived only
+        because ``--collect`` existed to drain them afterwards. An unretried poll is a run that
+        fails for a reason unrelated to the work.
+
+        Args:
+            call: The provider call, as a thunk.
+            what: What is being attempted, for the error message.
+
+        Returns:
+            Whatever the call returned.
 
         Raises:
             RuntimeError: If every attempt failed.
@@ -353,7 +369,7 @@ class LLMClient:
         last: Exception | None = None
         for attempt in range(RETRIES):
             try:
-                return self._send(params)
+                return call()
             except (anthropic.RateLimitError, anthropic.APIConnectionError) as exc:
                 last = exc
             except anthropic.APIStatusError as exc:
@@ -362,7 +378,15 @@ class LLMClient:
                 last = exc
             if attempt < RETRIES - 1:
                 time.sleep(min(2.0**attempt, BACKOFF_CAP))
-        raise RuntimeError(f"failed after {RETRIES} attempts: {last}")
+        raise RuntimeError(f"{what} failed after {RETRIES} attempts: {last}")
+
+    def _send_with_retry(self, params: dict[str, object]) -> object:
+        """Send one prompt, retrying the failures that are worth retrying.
+
+        Raises:
+            RuntimeError: If every attempt failed.
+        """
+        return self._retrying(lambda: self._send(params), "send")
 
     def _completion(self, request: Request, message: object, batch_id: str | None) -> Completion:
         """Turn a provider response into a :class:`Completion`."""
@@ -458,11 +482,14 @@ class LLMClient:
         Returns:
             The batch id.
         """
-        batch = self._client.messages.batches.create(
+        batch = self._retrying(
+            lambda: self._client.messages.batches.create(
             requests=[
                 {"custom_id": custom_id(r.key), "params": self._params(r)}  # type: ignore[misc]
-                for r in requests
-            ]
+                    for r in requests
+                ]
+            ),
+            "submit_batch",
         )
         return batch.id
 
@@ -480,7 +507,9 @@ class LLMClient:
         Returns:
             The provider's processing status.
         """
-        return self._client.messages.batches.retrieve(batch_id).processing_status
+        return self._retrying(
+            lambda: self._client.messages.batches.retrieve(batch_id), "batch_status"
+        ).processing_status
 
     def await_batch(self, batch_id: str, *, poll_seconds: float = BATCH_POLL_SECONDS) -> str:
         """Poll a batch until it ends.
@@ -493,7 +522,9 @@ class LLMClient:
             The terminal processing status.
         """
         while True:
-            batch = self._client.messages.batches.retrieve(batch_id)
+            batch = self._retrying(
+                lambda: self._client.messages.batches.retrieve(batch_id), "await_batch"
+            )
             if batch.processing_status == "ended":
                 return batch.processing_status
             time.sleep(poll_seconds)
@@ -512,7 +543,10 @@ class LLMClient:
         """
         by_id = {custom_id(r.key): r for r in requests}
         collected: list[Completion] = []
-        for result in self._client.messages.batches.results(batch_id):
+        results = self._retrying(
+            lambda: list(self._client.messages.batches.results(batch_id)), "collect_batch"
+        )
+        for result in results:
             request = by_id.get(result.custom_id)
             if request is None or result.result.type != "succeeded":
                 continue

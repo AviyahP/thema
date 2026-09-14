@@ -459,3 +459,62 @@ def test_prose_is_still_repaired_so_the_guard_did_not_disable_the_fix(tmp_path):
         )
     )
     assert ledger.get("go:GO:2").text == "Alpha does a thing."
+
+
+class _Response:
+    """Minimal stand-in for the httpx response an APIStatusError carries."""
+
+    def __init__(self, status_code):
+        self.status_code = status_code
+        self.headers = {}
+        self.request = None
+
+
+# ------------------------------------------------- retry on every call
+
+
+# A batch is polled for as long as the provider takes to run it. On 2026-09-10 one transient SSL
+# error during that poll killed a run whose batch was already paid for; the results survived only
+# because --collect existed to drain them afterwards. Polling without retry is a run that fails for
+# a reason unrelated to the work.
+def test_a_transient_connection_error_while_polling_is_retried(tmp_path, monkeypatch):
+    client = _client(tmp_path, monkeypatch=monkeypatch)
+    monkeypatch.setattr(llm.time, "sleep", lambda _s: None)
+    calls = []
+
+    class _Batch:
+        processing_status = "ended"
+
+    def flaky(batch_id):
+        calls.append(batch_id)
+        if len(calls) < 3:
+            raise llm.anthropic.APIConnectionError(request=None)
+        return _Batch()
+
+    monkeypatch.setattr(client._client.messages.batches, "retrieve", flaky)
+    assert client.await_batch("msgbatch_x", poll_seconds=0) == "ended"
+    assert len(calls) == 3, "the two failures must be retried rather than raised"
+
+
+def test_a_client_error_while_polling_is_raised_rather_than_retried(tmp_path, monkeypatch):
+    client = _client(tmp_path, monkeypatch=monkeypatch)
+    monkeypatch.setattr(llm.time, "sleep", lambda _s: None)
+
+    def forbidden(batch_id):
+        raise llm.anthropic.APIStatusError("no", response=_Response(403), body=None)
+
+    monkeypatch.setattr(client._client.messages.batches, "retrieve", forbidden)
+    with pytest.raises(llm.anthropic.APIStatusError):
+        client.batch_status("msgbatch_x")
+
+
+def test_retrying_gives_up_and_names_what_failed(tmp_path, monkeypatch):
+    client = _client(tmp_path, monkeypatch=monkeypatch)
+    monkeypatch.setattr(llm.time, "sleep", lambda _s: None)
+
+    def always(batch_id):
+        raise llm.anthropic.APIConnectionError(request=None)
+
+    monkeypatch.setattr(client._client.messages.batches, "retrieve", always)
+    with pytest.raises(RuntimeError, match="batch_status failed after"):
+        client.batch_status("msgbatch_x")
