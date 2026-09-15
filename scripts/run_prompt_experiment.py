@@ -33,7 +33,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from thema.data.pathways import Pathway, PathwayCollection
-from thema.data.tables import cell, flatten, print_table, write_tsv
+from thema.data.tables import cell, flatten, merge_tsv, print_table, write_tsv
 from thema.experiment import ARMS, Arm
 from thema.llm import (
     Estimate,
@@ -45,16 +45,19 @@ from thema.llm import (
     within_ceiling,
 )
 from thema.normalize import display_name, render_user_message
+from thema.stats import describe, mcnemar
 from thema.verify import (
     ADJUDICATE_FORMAT,
     ADJUDICATE_KEY,
     ADJUDICATE_PROMPT_VERSION,
     ADJUDICATE_SYSTEM_PROMPT,
+    REPAIR_PROMPT_VERSION,
     VERIFY_PROMPT_VERSION,
     Flag,
     parse_flags,
     parse_label,
     render_adjudicate_message,
+    render_repair_message,
     render_verify_message,
     tally,
 )
@@ -322,7 +325,9 @@ def generate(
     return out, estimate
 
 
-def write_arm(data: Path, arm: Arm, produced: dict[str, Generated], model: str) -> Path:
+def write_arm(
+    data: Path, arm: Arm, produced: dict[str, Generated], model: str, suffix: str = ""
+) -> Path:
     """Write one arm's output to the experiment directory.
 
     Never to ``pathway_descriptions.tsv``: ``choose_pilot`` samples from that table, so adding rows
@@ -339,13 +344,16 @@ def write_arm(data: Path, arm: Arm, produced: dict[str, Generated], model: str) 
         arm: The arm.
         produced: Its output.
         model: The model.
+        suffix: Distinguishes samples. Without it a fresh-sample run overwrites the pilot run's
+            file, which is the same overwrite class that has already cost this experiment three
+            separate reruns.
 
     Returns:
         The path written.
     """
     out = data / EXPERIMENT_DIR
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"v4_{arm.name.split()[0].lower()}.tsv"
+    path = out / f"v4_{arm.name.split()[0].lower()}{suffix}.tsv"
     rows = [
         (
             g.key,
@@ -411,17 +419,8 @@ def write_worksheet(data: Path) -> tuple[Path, int]:
     by_key = collection.by_key
     flags = list(csv.DictReader((data / FLAGS_TABLE).open(encoding="utf-8"), delimiter="\t"))
 
-    # Hand labels are the one thing here a rerun must never destroy. They cost human attention,
-    # they cannot be regenerated, and this function is called on every step-3 run -- which silently
-    # blanked all 27 of them once. Existing labels are read back by ROW NUMBER and carried forward.
     out = data / EXPERIMENT_DIR
-    existing: dict[str, str] = {}
     worksheet = out / "adjudication_worksheet.tsv"
-    if worksheet.is_file():
-        for row in csv.DictReader(worksheet.open(encoding="utf-8"), delimiter="\t"):
-            if row.get("label"):
-                existing[row["n"]] = row["label"]
-
     rows: list[tuple[str, ...]] = []
     for flag in flags:
         if flag["kind"] != "wrong":
@@ -436,12 +435,14 @@ def write_worksheet(data: Path) -> tuple[Path, int]:
                 flag["kind"],
                 cell(flatten(flag["quote"])),
                 cell(flatten(flag["reason"])),
-                existing.get(str(len(rows) + 1), ""),
+                "",
                 LABEL_PROVENANCE,
             )
         )
     out.mkdir(parents=True, exist_ok=True)
-    write_tsv(worksheet, WORKSHEET_COLUMNS, rows)
+    # `label` belongs to a human: a regeneration leaves it empty, and merge_tsv keeps whatever is
+    # already there. Blanking 27 hand labels is how this function first went wrong.
+    merge_tsv(worksheet, WORKSHEET_COLUMNS, rows, key=("n",), preserve=("label",))
     return worksheet, len(rows)
 
 
@@ -713,6 +714,256 @@ def run_gate(args: argparse.Namespace, by_key: dict[str, Pathway]) -> int:
     return 0
 
 
+def adjudicate_arm(args: argparse.Namespace, by_key: dict[str, Pathway], arm_name: str) -> int:
+    """Split one arm's `wrong` flags into unambiguous and arguable.
+
+    Uses the same ``adjudicate-v1`` prompt, model and cache namespace as the calibration gate, so
+    the split applied to v4 is the one the gate measured against the hand labels. Whatever the gate
+    says about that adjudicator's calibration applies here unchanged, and is printed with the
+    result rather than left in a previous message.
+
+    Args:
+        args: Parsed arguments.
+        by_key: Pathways by key.
+        arm_name: Which arm's flags to adjudicate.
+
+    Returns:
+        0, or 1 when the arm has no flags file.
+    """
+    path = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
+    if not path.is_file():
+        print(f"missing input: {path}", file=sys.stderr)
+        return 1
+    rows = [
+        r
+        for r in csv.DictReader(path.open(encoding="utf-8"), delimiter="\t")
+        if r["kind"] == "wrong" and r["arm"] == arm_name
+    ]
+    ledger, client = build_client(
+        args.data, args.model, ADJUDICATE_PROMPT_VERSION, ADJUDICATE_FORMAT, ADJUDICATE_KEY
+    )
+    requests = [
+        Request(
+            key=text_key(r["key"], r["quote"] + r["reason"]),
+            system=ADJUDICATE_SYSTEM_PROMPT,
+            user=render_adjudicate_message(by_key[r["key"]], r["quote"], r["reason"]),
+        )
+        for r in rows
+    ]
+    pending = [r for r in requests if r.key not in ledger]
+    estimate = price(requests, pending, ledger, client, args.model, ADJUDICATE_SYSTEM_PROMPT, 200)
+    print(f"\nADJUDICATING {arm_name}: {len(rows)} wrong claims, {len(pending)} to send")
+    print(
+        f"  cost: ${estimate.cached_dollars:,.2f} cached"
+        f" / ${estimate.uncached_dollars:,.2f} ceiling"
+    )
+    if not args.submit:
+        print("  nothing submitted; rerun with --submit")
+        return 0
+    if pending and client is not None:
+        if not within_ceiling(estimate, args.max_dollars):
+            print("  refusing: over --max-dollars", file=sys.stderr)
+            return 1
+        run_batch(client, pending, "adjudicate")
+
+    labelled: list[tuple[str, ...]] = []
+    counts: collections.Counter = collections.Counter()
+    for index, (row, request) in enumerate(zip(rows, requests, strict=True), start=1):
+        completion = ledger.get(request.key)
+        label, basis = "unread", ""
+        if completion is not None:
+            try:
+                label, basis = parse_label(completion.text)
+            except ValueError as exc:
+                print(f"  unreadable adjudication for {row['key']}: {exc}", file=sys.stderr)
+        counts[label] += 1
+        labelled.append(
+            (
+                str(index),
+                row["key"],
+                display_name(by_key[row["key"]]),
+                label,
+                row["quote"],
+                row["reason"],
+                basis,
+            )
+        )
+
+    print(f"\n{'=' * 96}")
+    print(f"{arm_name.upper()} -- {len(rows)} WRONG CLAIMS, ADJUDICATED")
+    print("=" * 96 + "\n")
+    print(f"  unambiguous : {counts['unambiguous']}")
+    print(f"  arguable    : {counts['arguable']}")
+    if counts["unread"]:
+        print(f"  unread      : {counts['unread']}")
+    for n, key, name, label, quote, reason, basis in labelled:
+        print(f"\n{'-' * 96}")
+        print(f"{n:>2}. {key}  {name}   [{label}]")
+        print(f"    claim : {quote}")
+        print(f"    reason: {reason}")
+        if basis:
+            print(f"    basis : {basis[:200]}")
+    write_tsv(
+        args.data / EXPERIMENT_DIR / "v4_adjudicated.tsv",
+        ("n", "key", "name", "label", "quote", "reason", "basis"),
+        [tuple(cell(flatten(c)) for c in row) for row in labelled],
+    )
+    print(f"\n  {LABEL_PROVENANCE.upper()}.")
+    print("  Whatever the calibration gate says about this adjudicator applies to these numbers")
+    print("  unchanged: it was measured against labels a model drafted and a human accepted.")
+    return 0
+
+
+def repair_arm(
+    args: argparse.Namespace,
+    by_key: dict[str, Pathway],
+    base: dict[str, Generated],
+    flags: dict[str, tuple[Flag, ...]],
+) -> tuple[dict[str, Generated], Estimate, int]:
+    """Regenerate every flagged description with the verifier's objection appended.
+
+    The rewrite replaces the original UNCONDITIONALLY. The alternative -- rewrite, re-check, and
+    keep the original when the rewrite still flags -- would consult verify-v1 a third time, once to
+    find the fault, once to decide whether the repair took, and once to score. That compounds the
+    circularity this arm already carries rather than reducing it, so the repair is applied and the
+    single scoring pass is left to judge it.
+
+    Args:
+        args: Parsed arguments.
+        by_key: Pathways by key.
+        base: The arm's descriptions before repair.
+        flags: Flags per pathway key from the scoring pass over ``base``.
+
+    Returns:
+        The repaired descriptions (unflagged ones carried through unchanged), the estimate, and how
+        many were actually repaired. The count is not decoration: a pricing run repairs nothing, and
+        a caller that wrote the result out anyway would persist arm A's text under arm B's name and
+        then "verify" it from cache, producing a perfect score for a pass that never ran.
+    """
+    flagged = {k: f for k, f in flags.items() if f and k in base}
+    ledger, client = build_client(
+        args.data, args.model, REPAIR_PROMPT_VERSION, ARMS["A plain"].response_format, "description"
+    )
+    requests = [
+        Request(
+            key=text_key(k, base[k].description),
+            system=ARMS["A plain"].system,
+            user=render_repair_message(by_key[k], base[k].description, flagged[k]),
+        )
+        for k in sorted(flagged)
+    ]
+    pending = [r for r in requests if r.key not in ledger]
+    estimate = price(requests, pending, ledger, client, args.model, ARMS["A plain"].system, 420)
+    print(f"\nREPAIR PASS: {len(flagged)} flagged of {len(base)}, {len(pending)} to send")
+    print(
+        f"  cost: ${estimate.cached_dollars:,.2f} cached"
+        f" / ${estimate.uncached_dollars:,.2f} ceiling"
+    )
+    if args.submit and pending and client is not None:
+        if not within_ceiling(estimate, args.max_dollars):
+            print("  refusing: over --max-dollars", file=sys.stderr)
+            return {}, estimate, 0
+        run_batch(client, pending, "repair")
+    if not args.submit:
+        print("  nothing submitted; rerun with --submit")
+        return {}, estimate, 0
+
+    out: dict[str, Generated] = dict(base)
+    repaired = 0
+    for key, request in zip(sorted(flagged), requests, strict=True):
+        completion = ledger.get(request.key)
+        if completion is None:
+            continue
+        out[key] = Generated(key, completion.text, "")
+        repaired += 1
+    print(f"  {repaired}/{len(flagged)} descriptions repaired; the rest carried through")
+    return out, estimate, repaired
+
+
+def fresh_keys(data: Path, exclude: list[str], count: int, seed: int = 1) -> list[str]:
+    """Draw a fresh sample by the same method as the original, excluding it.
+
+    The original hundred was NOT stratified -- ``choose_pilot`` is a uniform draw from the described
+    keys -- so "the same stratification" means the same uniform draw with the first hundred removed.
+    A different seed is used so the two samples cannot coincide by construction.
+
+    Args:
+        data: The data directory.
+        exclude: Keys already used.
+        count: How many to draw.
+        seed: The RNG seed.
+
+    Returns:
+        The chosen keys, sorted.
+    """
+    pool = sorted(set(read_descriptions(data / DESCRIPTIONS_TABLE)) - set(exclude))
+    return sorted(random.Random(seed).sample(pool, min(count, len(pool))))
+
+
+def carries_wrong(data: Path, arm: str, keys: list[str]) -> dict[str, bool]:
+    """Whether each pathway's description carries at least one `wrong` claim.
+
+    Args:
+        data: The data directory.
+        arm: ``v3`` for the baseline, otherwise an arm name in the flags table.
+        keys: The pathways in scope.
+
+    Returns:
+        Pathway key to outcome, over exactly ``keys``.
+    """
+    if arm == "v3":
+        path, key_col, arm_col = data / "pathway_verification_flags.tsv", "key", None
+    else:
+        path, key_col, arm_col = data / EXPERIMENT_DIR / "v4_flags.tsv", "key", "arm"
+    wrong: set[str] = set()
+    if path.is_file():
+        for row in csv.DictReader(path.open(encoding="utf-8"), delimiter="\t"):
+            if row["kind"] != "wrong":
+                continue
+            if arm_col and row[arm_col] != arm:
+                continue
+            wrong.add(row[key_col])
+    return {k: k in wrong for k in keys}
+
+
+def report_stats(args: argparse.Namespace, keys: list[str]) -> int:
+    """Run the paired comparisons and print them.
+
+    The arms describe the SAME pathways, so the comparison is paired: an unpaired test would
+    discard that structure and answer a question nobody asked. The discordant counts are printed
+    before the p-value because they are what the result actually rests on -- a net improvement built
+    from many fixes and many new errors is a different finding from one built from fixes alone.
+
+    Args:
+        args: Parsed arguments.
+        keys: The pathways in scope for this sample.
+
+    Returns:
+        0.
+    """
+    print(f"\n{'=' * 96}")
+    print(f"PAIRED COMPARISON -- {args.sample} sample, n={len(keys)}")
+    print("=" * 96)
+    print("\n  outcome: does the description carry at least one 'wrong' claim, per frozen")
+    print("  verify-v1. This is the metric the decision rule uses; it needs no adjudicator.\n")
+
+    v3 = carries_wrong(args.data, "v3", keys)
+    for arm in ("A plain", "B repair"):
+        other = carries_wrong(args.data, arm, keys)
+        if not any(other.values()) and not any(v3.values()):
+            continue
+        try:
+            result = mcnemar(v3, other)
+        except ValueError as exc:
+            print(f"  {arm}: {exc}")
+            continue
+        print(f"\n  v3 vs {arm}")
+        print("\n".join(describe(result, "v3", arm.split()[0])))
+        if ARMS[arm].caveat:
+            print(f"\n  {ARMS[arm].caveat}")
+    return 0
+
+
 def name_conditions(produced: dict[str, Generated], by_key: dict[str, Pathway]) -> tuple[str, str]:
     """Measure the two name done-conditions from the queue.
 
@@ -751,6 +1002,22 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--submit", action="store_true", help="actually call the API")
     parser.add_argument(
         "--max-dollars", type=float, default=4.0, help="per-run ceiling (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--stats",
+        action="store_true",
+        help="run the paired comparisons over whatever has been scored",
+    )
+    parser.add_argument(
+        "--sample",
+        choices=("pilot", "fresh"),
+        default="pilot",
+        help="which hundred to act on: the original sample or a fresh draw excluding it",
+    )
+    parser.add_argument(
+        "--adjudicate",
+        action="store_true",
+        help="split one arm's wrong claims into unambiguous and arguable",
     )
     parser.add_argument(
         "--gate",
@@ -793,12 +1060,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     by_key = collection.by_key
     keys = pilot_keys(args.data)
+    if args.sample == "fresh":
+        keys = fresh_keys(args.data, keys, len(keys))
     pathways = [by_key[k] for k in keys]
-    print(f"\nV4 PROMPT EXPERIMENT -- STEP {args.step}")
-    print(f"{len(keys)} pathways, the same hundred that produced 27 wrong claims under v3.\n")
+    print(f"\nV4 PROMPT EXPERIMENT -- STEP {args.step}  [{args.sample} sample]")
+    if args.sample == "pilot":
+        print(f"{len(keys)} pathways, the same hundred that produced 27 wrong claims under v3.\n")
+    else:
+        print(f"{len(keys)} pathways drawn by the same uniform method, none of them in the")
+        print("original hundred. The v3 control on this sample is what says whether it is")
+        print("simply an easier draw.\n")
 
+    if args.stats:
+        return report_stats(args, keys)
+    if args.adjudicate:
+        return adjudicate_arm(args, by_key, args.arm[0])
     if args.gate:
         return run_gate(args, by_key)
+    suffix = "" if args.sample == "pilot" else f"_{args.sample}"
     if args.step == 3:
         return run_step_3(args, by_key, keys)
 
@@ -808,6 +1087,10 @@ def main(argv: list[str] | None = None) -> int:
         if arm.name == "B repair":
             # B is A plus a repair pass, so it starts from A's text by construction rather than by
             # a second generation that could differ. The repair pass itself is step 2b.
+            continue
+        if arm.name not in args.arm:
+            # Arm C is parked. Generating it because the loop happens to reach it would spend money
+            # on an arm the operator did not ask for.
             continue
         produced[arm.name], estimates[arm.name] = generate(
             args.data,
@@ -854,7 +1137,7 @@ def main(argv: list[str] | None = None) -> int:
 
     for arm in ARMS.values():
         if arm.name in produced:
-            path = write_arm(args.data, arm, produced[arm.name], args.model)
+            path = write_arm(args.data, arm, produced[arm.name], args.model, suffix)
             print(f"{len(produced[arm.name]):,} descriptions -> {path}")
 
     print("\nNAME DONE-CONDITIONS (both should fall substantially versus v3)\n")
@@ -896,6 +1179,34 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
     estimates: dict[str, Estimate] = {}
     for arm_name in args.arm:
         table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}.tsv"
+        if ARMS[arm_name].repairs and not table.is_file():
+            # Arm B is arm A plus a repair pass, so it is built here rather than generated: it must
+            # start from arm A's exact text, and a second generation could not guarantee that.
+            base_table = args.data / EXPERIMENT_DIR / "v4_a.tsv"
+            flags_table = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
+            for required in (base_table, flags_table):
+                if not required.is_file():
+                    print(f"missing input: {required}", file=sys.stderr)
+                    print("arm B needs arm A generated and verified first", file=sys.stderr)
+                    return 1
+            base = {
+                r["key"]: Generated(r["key"], r["description"], "")
+                for r in csv.DictReader(base_table.open(encoding="utf-8"), delimiter="\t")
+                if r["key"] in by_key
+            }
+            base_flags: dict[str, list[Flag]] = {}
+            for row in csv.DictReader(flags_table.open(encoding="utf-8"), delimiter="\t"):
+                if row["arm"] == "A plain":
+                    base_flags.setdefault(row["key"], []).append(
+                        Flag(row["quote"], row["kind"], row["reason"])
+                    )
+            repaired, _estimate, count = repair_arm(
+                args, by_key, base, {k: tuple(v) for k, v in base_flags.items()}
+            )
+            if not count:
+                print("\nno descriptions were repaired; arm B is not written", file=sys.stderr)
+                return 0
+            write_arm(args.data, ARMS[arm_name], repaired, args.model)
         if not table.is_file():
             print(f"missing input: {table}", file=sys.stderr)
             print("run --step 2 first", file=sys.stderr)
@@ -960,8 +1271,8 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
                 )
     if flag_rows:
         out = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
-        write_tsv(out, FLAG_COLUMNS, flag_rows)
-        print(f"\n{len(flag_rows):,} flags -> {out}")
+        held = merge_tsv(out, FLAG_COLUMNS, flag_rows, key=("key", "arm", "quote"))
+        print(f"\n{held:,} flags -> {out}  (every arm previously scored is kept)")
     for found in results.values():
         compare_to_baseline(args.data, found, by_key)
     return 0

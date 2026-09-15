@@ -4,10 +4,11 @@ import json
 import pytest
 
 from run_prompt_experiment import Generated, name_conditions, text_key, unpack
-from test_normalize_descriptions import _pathway
-from thema.data.pathways import PATHWAY_COLUMNS
+from test_normalize_descriptions import _data_dir, _FakeClient, _pathway
+from thema.data.pathways import PATHWAY_COLUMNS, PathwayCollection
 from thema.experiment import ARMS, PRE_CHECK_FORMAT
 from thema.normalize import PROMPT_VERSION, RESPONSE_FORMAT, SYSTEM_PROMPT
+from thema.verify import Flag
 
 
 def _row():
@@ -210,3 +211,94 @@ def test_every_worksheet_row_records_where_its_label_came_from(tmp_path):
     rows = list(csv.DictReader(path.open(encoding="utf-8"), delimiter="\t"))
     assert rows[0]["label_source"] == LABEL_PROVENANCE
     assert "not independent human labels" in rows[0]["label_source"]
+
+
+# ------------------------------------------- overwrite hazards in the runner
+
+
+# A pricing run repairs nothing. Writing its result out anyway persisted arm A's text under arm B's
+# name, and the next run then "verified" it from cache -- a perfect score for a pass that never ran.
+def test_a_dry_run_repair_reports_nothing_repaired_and_writes_no_arm(tmp_path, monkeypatch):
+    import argparse
+
+    from run_prompt_experiment import repair_arm
+
+    monkeypatch.setattr(
+        "run_prompt_experiment.build_client", lambda *a, **k: (_EmptyLedger(), None)
+    )
+    args = argparse.Namespace(
+        data=tmp_path, model="claude-opus-5", submit=False, max_dollars=1.0
+    )
+    pathway = _pathway("go", "GO:1", "Alpha")
+    base = {pathway.key: Generated(pathway.key, "Alpha does a thing.", "")}
+    flags = {pathway.key: (Flag("Alpha does a thing.", "wrong", "It does not."),)}
+    out, _estimate, count = repair_arm(args, {pathway.key: pathway}, base, flags)
+    assert count == 0, "a dry run repairs nothing and must say so"
+    assert out == {}, "and must not hand back text that looks repaired"
+
+
+class _EmptyLedger:
+    """A ledger holding nothing, for exercising the no-client paths."""
+
+    def __contains__(self, key):
+        return False
+
+    def get(self, key):
+        return None
+
+    def completions(self):
+        return ()
+
+
+# Each run processes only the arms it was asked for. Writing just those rows deleted every other
+# arm's flags, which is how arm A's 16 wrong claims vanished when arm B was first scored.
+def test_writing_one_arms_flags_does_not_delete_another_arms(tmp_path):
+    from run_prompt_experiment import FLAG_COLUMNS
+    from thema.data.tables import write_tsv
+
+    path = tmp_path / "v4_flags.tsv"
+    write_tsv(path, FLAG_COLUMNS, [("go:GO:1", "A plain", "wrong", "q", "r")])
+    existing = list(csv.DictReader(path.open(encoding="utf-8"), delimiter="\t"))
+    assert len(existing) == 1
+
+    # the merge the runner performs: keep every arm it did not touch
+    new_rows = [("go:GO:2", "B repair", "wrong", "q2", "r2")]
+    touched = {r[1] for r in new_rows}
+    kept = [
+        tuple(r[c] for c in FLAG_COLUMNS)
+        for r in csv.DictReader(path.open(encoding="utf-8"), delimiter="\t")
+        if r["arm"] not in touched
+    ]
+    write_tsv(path, FLAG_COLUMNS, kept + new_rows)
+    after = list(csv.DictReader(path.open(encoding="utf-8"), delimiter="\t"))
+    assert {r["arm"] for r in after} == {"A plain", "B repair"}
+    assert len(after) == 2
+
+
+# A pricing run that writes anything is how v4_b.tsv came to hold arm A's text, which made the real
+# run skip the repair and produce a complete, plausible scoreline for a pass that never happened.
+def test_a_pricing_run_writes_nothing_at_all(tmp_path, monkeypatch):
+    from run_prompt_experiment import main
+
+    data, _raw = _data_dir(tmp_path)
+    collection = PathwayCollection.from_tsv_text(
+        (data / "pathways.tsv").read_text(encoding="utf-8")
+    )
+    (data / "pathway_verification.tsv").write_text(
+        "key\tverification_status\tflags\trepaired\n"
+        + "".join(f"{p.key}\tclean\t0\tno\n" for p in collection),
+        encoding="utf-8",
+    )
+    experiments = data / "experiments"
+    experiments.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr("run_prompt_experiment.LLMClient", _FakeClient)
+    _FakeClient.submitted, _FakeClient.fails, _FakeClient.status = [], set(), "ended"
+
+    before = {p: p.read_bytes() for p in sorted(experiments.rglob("*")) if p.is_file()}
+    code = main(["--step", "2", "--data", str(data), "--arm", "A plain"])
+    assert code == 0
+    after = {p: p.read_bytes() for p in sorted(experiments.rglob("*")) if p.is_file()}
+    assert after == before, (
+        "a run without --submit must leave every output byte-identical; files written here are "
+        f"new or changed: {sorted(str(p) for p in set(after) ^ set(before))}"
+    )
