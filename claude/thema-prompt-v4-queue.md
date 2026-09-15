@@ -62,6 +62,33 @@ credit for what its checks say — only for what it finally wrote.
 
 ---
 
+## 1c. ARM C STUB FAILURE — the fix, and what it says arm C costs
+
+14 of 99 arm C completions emitted `description: "placeholder"` with full, correct checks written
+above them, and one more was lost to `max_tokens` when checks plus description overran 8,000. The
+verification worked; the emission failed. Recorded, not yet built -- arm C stays parked.
+
+**The fix is three things, not one.**
+
+1. **The addendum never says how long the description must be.** It says `"checks" is working notes
+   and is discarded. Only "description" is kept`, which tells the model the description matters but
+   not that it is the full 90-150 word paragraph. Add: *"description" must be the complete paragraph
+   specified above -- not a placeholder, a stub, or a summary.*
+2. **A stub validator with a redraw.** A schema cannot enforce a word count. `_generate` already
+   redraws `PARSE_RETRIES` times on an unparseable reply; a description under `MIN_WORDS` should
+   trigger the same redraw rather than being stored.
+3. **A token budget.** Checks plus description overran the ceiling once in 100. Either cap the
+   number of checks or raise the ceiling for this arm.
+
+**That scaffolding is part of what arm C would cost to ship**, and it is a fair argument against the
+arm even though the mechanism works. A pre-writing verification step that needs a length
+instruction, an output validator and a retry loop to be reliable is three more things to maintain
+than a prompt that does not. The checks themselves were correct, so the mechanism is not what
+failed -- but "the mechanism works once you build a harness around it" is a different claim from
+"the mechanism works".
+
+---
+
 ## 2. NAME-FREE ABLATION — a new experiment, not a prompt change
 
 **What.** Generate ~100 descriptions with the name withheld from the prompt entirely, so the prose
