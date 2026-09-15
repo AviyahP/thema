@@ -1,6 +1,8 @@
 import hashlib
 from pathlib import Path
 
+import pytest
+
 import filter_reactome_membership as cascade
 from thema.data.tables import (
     EMPTY,
@@ -8,6 +10,7 @@ from thema.data.tables import (
     flatten,
     join_bindings,
     join_items,
+    merge_tsv,
     optional,
     sha256_file,
     split_bindings,
@@ -90,3 +93,66 @@ def test_sha256_file_agrees_with_the_copy_in_filter_reactome_membership(tmp_path
     path = tmp_path / "t.tsv"
     write_tsv(path, COLUMNS, ROWS)
     assert sha256_file(path) == cascade.sha256_file(path)
+
+
+# --------------------------------------------------- merge_tsv
+
+# Three different scripts deleted rows they did not produce, each silently, each producing a file
+# that looked correct (DECISIONS, 2026-09-15). merge_tsv is the one writer for shared files.
+SHARED = ("key", "arm", "kind", "label")
+
+
+def _merged(path):
+    lines = path.read_text(encoding="utf-8").splitlines()
+    return [dict(zip(SHARED, line.split("\t"), strict=True)) for line in lines[1:]]
+
+
+def test_writing_one_runs_rows_keeps_every_other_runs(tmp_path):
+    path = tmp_path / "shared.tsv"
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key", "arm"))
+    merge_tsv(path, SHARED, [("p2", "B", "wrong", "")], key=("key", "arm"))
+    rows = _merged(path)
+    assert {r["arm"] for r in rows} == {"A", "B"}, "arm A's rows must survive arm B's write"
+    assert len(rows) == 2
+
+
+def test_rerunning_the_same_run_replaces_its_own_rows_rather_than_duplicating(tmp_path):
+    path = tmp_path / "shared.tsv"
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key", "arm"))
+    held = merge_tsv(path, SHARED, [("p1", "A", "unsupported", "")], key=("key", "arm"))
+    assert held == 1, "a rerun owns its own key and replaces it"
+    assert _merged(path)[0]["kind"] == "unsupported"
+
+
+# A human's label cannot be regenerated. A regeneration leaves the column empty and must not win.
+def test_a_regeneration_never_overwrites_a_human_column(tmp_path):
+    path = tmp_path / "shared.tsv"
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key",), preserve=("label",))
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "unambiguous")], key=("key",))
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key",), preserve=("label",))
+    assert _merged(path)[0]["label"] == "unambiguous", "the hand label must survive a regeneration"
+
+
+def test_a_human_column_can_still_be_changed_deliberately(tmp_path):
+    path = tmp_path / "shared.tsv"
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "arguable")], key=("key",), preserve=("label",))
+    merge_tsv(
+        path, SHARED, [("p1", "A", "wrong", "unambiguous")], key=("key",), preserve=("label",)
+    )
+    assert _merged(path)[0]["label"] == "unambiguous", "a non-empty new value is a real edit"
+
+
+# Naming a column that does not exist would make the merge a blind replace, which is the failure.
+def test_an_unknown_key_column_is_an_error_rather_than_a_silent_replace(tmp_path):
+    with pytest.raises(ValueError, match="not in the table"):
+        merge_tsv(tmp_path / "s.tsv", SHARED, [("p1", "A", "w", "")], key=("pathway",))
+    with pytest.raises(ValueError, match="not in the table"):
+        merge_tsv(tmp_path / "s.tsv", SHARED, [("p1", "A", "w", "")], key=("key",),
+                  preserve=("verdict",))
+
+
+def test_a_table_whose_header_changed_is_rebuilt_rather_than_misread(tmp_path):
+    path = tmp_path / "shared.tsv"
+    path.write_text("old\tshape\n1\t2\n", encoding="utf-8")
+    merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key", "arm"))
+    assert _merged(path) == [{"key": "p1", "arm": "A", "kind": "wrong", "label": ""}]

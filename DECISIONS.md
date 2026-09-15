@@ -954,3 +954,72 @@ and re-charges the full run.
 **Method note for whoever repeats this.** `data/ontology/clusters_*.tsv` holds scipy's raw fcluster
 label; `tree_*_k*.txt` numbers clusters by RANK, largest first. They are different numbering schemes
 and the tree's `[14]` is not label `14`. I read the wrong cluster first because of it.
+
+## 2026-09-14 — Decision rule changed because the instrument failed calibration, not because of a number
+
+The v4 prompt experiment pre-registered its decision rule before any result: **adopt the arm with
+the lowest UNAMBIGUOUS-error rate on the fresh 100; if two arms are within 2 points, take the
+cheaper one.** That rule depends on an adjudicator to split wrong claims into unambiguous and
+arguable, and the adjudicator has now been measured against a hand-labelled split.
+
+**It failed its gate. `adjudicate-v1` agreed with 19 of 27 hand labels (70%), and all eight
+disagreements ran in the same direction** -- the human called the claim unambiguous, the adjudicator
+called it arguable. Only one of the eight was a row the labeller had flagged as a close call; the
+other seven were clear-cut. Its stated bases follow one shape throughout: *"X is incorrect |
+However, [a reading under which the sentence survives]"*.
+
+A one-directional error lands exactly on the quantity the rule turns on. An adjudicator that
+systematically moves claims from unambiguous to arguable inflates every arm's arguable count and
+deflates the number the decision is made on, and it does so by an unknown amount that need not be
+equal across arms.
+
+**New rule, fixed before any arm-B or fresh-100 result was seen: decide on RAW WRONG CLAIMS PER 100
+as counted by the frozen `verify-v1`. If two arms are within 3 claims, take the cheaper one.**
+`verify-v1` needs no adjudicator, has one commit and has never been modified, and produced the v3
+baseline and every v4 arm under byte-identical conditions. The adjudicated split is still reported
+beside it, marked as coming from an adjudicator that failed its gate in the lenient direction.
+
+**Recorded plainly because the distinction matters to whether this is honest.** The rule changed
+because the measuring instrument was measured and found unfit, and the replacement is a coarser
+instrument that needed no calibration because nothing about it changed between the arms. It did not
+change because anyone disliked a result: the change was made and written down before arm B was
+priced, let alone run, and the raw metric it moves to already favoured the same direction (27 -> 16)
+under the old instrument.
+
+**The weaker half of the evidence, stated.** The hand labels the gate was measured against were
+themselves drafted by a model and then reviewed and accepted by a human, not produced independently.
+So 70% agreement is partly two models agreeing, and is an upper bound on what a purely human split
+would have given. That makes the gate's verdict -- unfit -- more secure, not less.
+
+## 2026-09-15 — Convention: no writer replaces rows it did not produce
+
+**The rule.** A script that writes a shared output file must either MERGE its own rows into what is
+already there, or write to a path namespaced to that run. A dry run or pricing run writes nothing
+at all.
+
+**Three instances in three different places, which is what makes it a convention rather than a
+maxim.** All three were silent: each produced a file that looked correct.
+
+1. **The adjudication worksheet, blanked by a rerun.** `write_worksheet` ran on every step-3
+   invocation and regenerated the file with empty `label` cells, destroying 27 hand labels that had
+   cost human attention and could not be regenerated. Caught only because the next report said
+   "AGAINST THE 0 HAND-LABELLED ERRORS".
+
+2. **`v4_b.tsv` written by the pricing run as a verbatim copy of arm A.** `repair_arm` returned the
+   unmodified base when nothing had been submitted, and the caller wrote it out. The subsequent real
+   run saw the file already existed, SKIPPED THE REPAIR ENTIRELY, and verified arm A's text under
+   arm B's name -- hitting the text-addressed cache and returning arm A's verdicts at zero cost.
+   The result was a complete, plausible arm B scoreline for a pass that never ran. Caught only
+   because every cell matched arm A exactly.
+
+3. **`v4_flags.tsv` rewritten with only the current arm**, deleting arm A's 90 flags when arm B was
+   scored. Recovered free from the verification ledger, but nothing in the code noticed.
+
+**Made mechanical, not just documented.** `thema.data.tables.merge_tsv` is the one writer for any
+file more than one run contributes to: rows are identified by key columns, new rows replace only
+their own keys, every other row is kept, and named columns can be marked as belonging to a human so
+a regeneration never overwrites them. The three patches above are replaced by calls to it.
+
+**Why this is worth a convention now rather than later.** The demo writes cluster names, enrichment
+results and page data from separate scripts into one directory. That is precisely the shape that
+produced all three failures, and the third one only surfaced because a number looked too good.

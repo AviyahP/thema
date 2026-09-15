@@ -158,6 +158,76 @@ def print_table(headers: Sequence[str], rows: Sequence[Sequence[str]], align: st
         print("  ".join(f"{str(c):{align[i]}{widths[i]}}" for i, c in enumerate(row)))
 
 
+def merge_tsv(
+    path: Path,
+    columns: Sequence[str],
+    rows: Sequence[Sequence[str]],
+    key: Sequence[str],
+    preserve: Sequence[str] = (),
+) -> int:
+    """Write rows into a shared table without destroying rows this run did not produce.
+
+    The one writer for any file more than one run contributes to. A blind :func:`write_tsv` of just
+    the current run's rows silently deletes every other run's, which happened three times in three
+    different places before this existed (DECISIONS, 2026-09-15) -- each time producing a file that
+    looked correct.
+
+    Two protections, because the three failures were not all the same shape:
+
+    Rows are identified by ``key``. A new row replaces the existing row with the same key; an
+    existing row whose key is not among the new ones is KEPT. That is what stops one arm's results
+    deleting another's.
+
+    Columns named in ``preserve`` keep their existing value when the new row leaves them empty.
+    That is for fields a human fills in -- hand labels, adjudications, review notes -- which a
+    regeneration must never overwrite because they cannot be regenerated.
+
+    Args:
+        path: The table.
+        columns: Its header.
+        rows: The rows this run produced.
+        key: Which columns identify a row.
+        preserve: Columns whose existing value wins when the new value is empty.
+
+    Returns:
+        How many rows the table holds afterwards.
+
+    Raises:
+        ValueError: If a key or preserve column is not in ``columns``, which would silently make
+            the merge a blind replace.
+    """
+    unknown = [c for c in (*key, *preserve) if c not in columns]
+    if unknown:
+        raise ValueError(f"column(s) not in the table: {', '.join(unknown)}")
+    index = {name: position for position, name in enumerate(columns)}
+    indices = [index[c] for c in key]
+
+    def identity(row: Sequence[str]) -> tuple[str, ...]:
+        return tuple(row[i] for i in indices)
+
+    existing: dict[tuple[str, ...], list[str]] = {}
+    if path.is_file():
+        lines = path.read_text(encoding="utf-8").splitlines()
+        if lines and lines[0].split("\t") == list(columns):
+            for line in lines[1:]:
+                if line:
+                    fields = line.split("\t")
+                    existing[identity(fields)] = fields
+
+    merged: dict[tuple[str, ...], list[str]] = dict(existing)
+    for row in rows:
+        fields = list(row)
+        was = existing.get(identity(fields))
+        if was is not None:
+            for name in preserve:
+                if not fields[index[name]]:
+                    fields[index[name]] = was[index[name]]
+        merged[identity(fields)] = fields
+
+    write_tsv(path, columns, [merged[k] for k in sorted(merged)])
+    return len(merged)
+
+
 def sha256_file(path: Path) -> str:
     """Return the hex sha256 digest of a file, read in chunks.
 
