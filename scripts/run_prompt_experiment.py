@@ -455,6 +455,7 @@ def verify_arm(
     submit: bool,
     ceiling: float,
     collect: str | None = None,
+    namespace: str = "",
 ) -> tuple[dict[str, tuple[Flag, ...]], Estimate]:
     """Verify one arm with the frozen protocol.
 
@@ -472,11 +473,15 @@ def verify_arm(
         submit: Whether to actually call the API.
         ceiling: The per-run ``--max-dollars`` limit.
         collect: A batch id to drain instead of submitting.
+        namespace: Appended to the cache version. The model already files its own ledger, so this
+            exists only to keep a second grader's verdicts from ever being read as the first's.
 
     Returns:
         Flags per pathway key, and what the run was priced at.
     """
-    ledger, client = build_client(data, model, VERIFY_PROMPT_VERSION, VERIFY_FORMAT, VERIFY_KEY)
+    ledger, client = build_client(
+        data, model, VERIFY_PROMPT_VERSION + namespace, VERIFY_FORMAT, VERIFY_KEY
+    )
     requests = [
         Request(
             key=text_key(g.key, g.description),
@@ -964,6 +969,68 @@ def report_stats(args: argparse.Namespace, keys: list[str]) -> int:
     return 0
 
 
+def repair_from_other_grader(args: argparse.Namespace, by_key: dict[str, Pathway]) -> int:
+    """Repair an arm's text against wrong claims a DIFFERENT grader recorded.
+
+    A checker finds only a fraction of what is present, so an arm repaired against one grader still
+    carries the errors a second grader found. Those are known, named and unfixed until this runs.
+
+    Only ``wrong`` claims are used. The ``unsupported`` ones are a judgement about what the evidence
+    supports rather than about what is true, and rewriting on their account would trade a possible
+    overreach for a possible new error at the 30% collateral rate the repair pass already shows.
+
+    Args:
+        args: Parsed arguments.
+        by_key: Pathways by key.
+
+    Returns:
+        0, or 1 when an input is missing.
+    """
+    arm_name = args.arm[0]
+    suffix = "" if args.sample == "pilot" else f"_{args.sample}"
+    table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}{suffix}.tsv"
+    flags_table = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
+    for required in (table, flags_table):
+        if not required.is_file():
+            print(f"missing input: {required}", file=sys.stderr)
+            return 1
+
+    base = {
+        r["key"]: Generated(r["key"], r["description"], "")
+        for r in csv.DictReader(table.open(encoding="utf-8"), delimiter="\t")
+        if r["key"] in by_key
+    }
+    found: dict[str, list[Flag]] = {}
+    for row in csv.DictReader(flags_table.open(encoding="utf-8"), delimiter="\t"):
+        if row["arm"] == args.repair_from and row["kind"] == "wrong" and row["key"] in base:
+            found.setdefault(row["key"], []).append(Flag(row["quote"], row["kind"], row["reason"]))
+    if not found:
+        print(f"no 'wrong' claims recorded under {args.repair_from!r}", file=sys.stderr)
+        return 1
+
+    print(f"\nREPAIRING {arm_name} AGAINST {args.repair_from}")
+    print(f"  {len(found)} descriptions carry a wrong claim that grader found:")
+    for key in sorted(found):
+        print(f"    {key}  {display_name(by_key[key])}")
+        for flag in found[key]:
+            print(f"        {flag.reason[:110]}")
+
+    repaired, _estimate, count = repair_arm(
+        args, by_key, base, {k: tuple(v) for k, v in found.items()}
+    )
+    if not count:
+        return 0
+    changed = [k for k in found if repaired[k].description != base[k].description]
+    print(f"\n  {len(changed)}/{len(found)} descriptions rewritten")
+    out = write_arm(args.data, ARMS[arm_name], repaired, args.model, f"{suffix}_plus")
+    print(f"  -> {out}")
+    for key in sorted(changed):
+        print(f"\n  {key}")
+        print(f"    before: {base[key].description[:170]}")
+        print(f"    after : {repaired[key].description[:170]}")
+    return 0
+
+
 def name_conditions(produced: dict[str, Generated], by_key: dict[str, Pathway]) -> tuple[str, str]:
     """Measure the two name done-conditions from the queue.
 
@@ -999,9 +1066,23 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA, help="data directory")
     parser.add_argument("--step", type=int, default=2, choices=(2, 3), help="which step to run")
     parser.add_argument("--model", default="claude-opus-5", help="model (default: %(default)s)")
+    parser.add_argument(
+        "--verify-model",
+        default=None,
+        help="grade with a DIFFERENT model, same verify-v1 prompt. Arm B repairs against verify-v1 "
+        "and is graded by verify-v1; a second model grading the same text is the only independent "
+        "check available inside this experiment",
+    )
     parser.add_argument("--submit", action="store_true", help="actually call the API")
     parser.add_argument(
         "--max-dollars", type=float, default=4.0, help="per-run ceiling (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--repair-from",
+        metavar="GRADER_LABEL",
+        help="repair an arm's text against flags already recorded under another grader's label. "
+        "A single checker finds only part of what is there, so errors a second grader found are "
+        "still in the text until this is run",
     )
     parser.add_argument(
         "--stats",
@@ -1071,6 +1152,8 @@ def main(argv: list[str] | None = None) -> int:
         print("original hundred. The v3 control on this sample is what says whether it is")
         print("simply an easier draw.\n")
 
+    if args.repair_from:
+        return repair_from_other_grader(args, by_key)
     if args.stats:
         return report_stats(args, keys)
     if args.adjudicate:
@@ -1079,7 +1162,7 @@ def main(argv: list[str] | None = None) -> int:
         return run_gate(args, by_key)
     suffix = "" if args.sample == "pilot" else f"_{args.sample}"
     if args.step == 3:
-        return run_step_3(args, by_key, keys)
+        return run_step_3(args, by_key, keys, suffix)
 
     produced: dict[str, dict[str, Generated]] = {}
     estimates: dict[str, Estimate] = {}
@@ -1158,13 +1241,16 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[str]) -> int:
+def run_step_3(
+    args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[str], suffix: str = ""
+) -> int:
     """Verify the named arms with the frozen protocol, and emit the adjudication worksheet.
 
     Args:
         args: Parsed arguments.
         by_key: Pathways by key.
-        keys: The pilot pathway keys.
+        keys: The pathway keys for this sample.
+        suffix: Distinguishes the fresh sample's files from the pilot's.
 
     Returns:
         0, or 1 when an arm's descriptions are missing.
@@ -1177,12 +1263,29 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
     collecting = dict(pair.split("=", 1) for pair in args.collect)
     results: dict[str, dict[str, tuple[Flag, ...]]] = {}
     estimates: dict[str, Estimate] = {}
+    grader = args.verify_model or args.model
     for arm_name in args.arm:
-        table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}.tsv"
+        if arm_name == "v3 control":
+            # Not a v4 arm: the baseline's descriptions already exist in the committed table, so
+            # this only scores them. It is what says whether a fresh sample is simply easier.
+            v3 = read_descriptions(args.data / DESCRIPTIONS_TABLE)
+            produced = {k: Generated(k, v3[k], "") for k in keys if k in v3}
+            results[arm_name], estimates[arm_name] = verify_arm(
+                args.data,
+                arm_name,
+                produced,
+                by_key,
+                grader,
+                args.submit,
+                args.max_dollars,
+                namespace="" if not args.verify_model else "-alt",
+            )
+            continue
+        table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}{suffix}.tsv"
         if ARMS[arm_name].repairs and not table.is_file():
             # Arm B is arm A plus a repair pass, so it is built here rather than generated: it must
             # start from arm A's exact text, and a second generation could not guarantee that.
-            base_table = args.data / EXPERIMENT_DIR / "v4_a.tsv"
+            base_table = args.data / EXPERIMENT_DIR / f"v4_a{suffix}.tsv"
             flags_table = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
             for required in (base_table, flags_table):
                 if not required.is_file():
@@ -1206,7 +1309,7 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
             if not count:
                 print("\nno descriptions were repaired; arm B is not written", file=sys.stderr)
                 return 0
-            write_arm(args.data, ARMS[arm_name], repaired, args.model)
+            write_arm(args.data, ARMS[arm_name], repaired, args.model, suffix)
         if not table.is_file():
             print(f"missing input: {table}", file=sys.stderr)
             print("run --step 2 first", file=sys.stderr)
@@ -1222,10 +1325,11 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
             arm_name,
             produced,
             by_key,
-            args.model,
+            grader,
             args.submit,
             args.max_dollars,
             collecting.get(arm_name),
+            namespace="" if not args.verify_model else "-alt",
         )
 
     print("VERIFICATION COST (frozen verify-v1 protocol; only the cache key differs)\n")
@@ -1255,15 +1359,19 @@ def run_step_3(args: argparse.Namespace, by_key: dict[str, Pathway], keys: list[
     flag_rows: list[tuple[str, ...]] = []
     for arm_name, found in results.items():
         report_flags(arm_name, found, by_key)
-        arm = ARMS[arm_name]
-        if arm.caveat:
+        arm = ARMS.get(arm_name)
+        if arm is not None and arm.caveat:
             print(f"\n  {arm.caveat}")
+        # The grader is part of the row's identity. Two models scoring the same arm write rows that
+        # differ only in their quotes, so without this they merge into one label and the table holds
+        # a blend of two graders that cannot afterwards be separated.
+        label = arm_name if grader == args.model else f"{arm_name} @{grader}"
         for key in sorted(found):
             for flag in found[key]:
                 flag_rows.append(
                     (
                         key,
-                        arm_name,
+                        label,
                         flag.kind,
                         cell(flatten(flag.quote)),
                         cell(flatten(flag.reason)),
