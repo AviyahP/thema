@@ -1023,3 +1023,88 @@ a regeneration never overwrites them. The three patches above are replaced by ca
 **Why this is worth a convention now rather than later.** The demo writes cluster names, enrichment
 results and page data from separate scripts into one directory. That is precisely the shape that
 produced all three failures, and the third one only surfaced because a number looked too good.
+
+## 2026-09-16 — Two graders on the same text: the rate replicates, the identification does not
+
+Arm B's 100 repaired descriptions were scored twice with the byte-identical `verify-v1` prompt, by
+`claude-opus-5` (the grader arm B was repaired against) and by `claude-sonnet-5` (independent).
+
+**The rate replicates. The identification does not.**
+
+| | Opus | Sonnet |
+|---|---|---|
+| descriptions with a wrong claim | 5 | 4 |
+
+Flagged by both: **1**. Only Opus: 4. Only Sonnet: 3. Neither: 92.
+
+Raw agreement is 93%, which is meaningless here -- 92 of those agreements are both graders saying
+"fine" about a clean description, and chance alone gives 91%. **Cohen's kappa is 0.19**: slight, well
+above chance but poor. The overlap is 12% of everything either flagged, against 0.2 expected if both
+were guessing, so they are detecting something real -- just not the same instances.
+
+**Consequences, and they cut in both directions.**
+
+*The circularity objection against arm B largely fails.* An independent model found FEWER errors (4)
+than the grader arm B was optimised against (5). Had arm B's low score been mostly the grader
+recognising its own corrections, the independent grader should have found substantially more.
+
+*But the absolute number is not what it appears.* Treating the two gradings as capture-recapture:
+each grader detects roughly **22%** of what is present, and the true count is plausibly **14-20 per
+100**, not 5. That estimate rests on a single overlapping description and its interval is very wide
+-- at an overlap of 2 rather than 1 it would read 9 rather than 14. It is also a floor: the two
+graders share a prompt and are both language models, so an error class neither is built to see is
+invisible to the method entirely.
+
+**What may be claimed.** Rates, measured consistently: "27 -> 16 -> 8 per 100 on the same pathways,
+same grader throughout" is sound, because a grader catching ~22% catches ~22% in every arm and the
+ratio survives. **Per-description claims are not sound**: point at a description and say "this one
+is wrong" and a second grader would probably disagree. Any such claim needs two graders or a human.
+
+**No human has read any of it.** Every number in this experiment is a model checking a model. The
+only route to an absolute rate is a person reading descriptions against gene lists; that was offered
+and declined, and the numbers are reported as detections rather than as truth accordingly.
+
+## 2026-09-16 — One round of check-and-repair, and no more
+
+The repair pass fixes what it is shown: it corrected 16 of arm A's 16 flagged claims. The limit is
+DETECTION, not repair, and detection is what does not scale.
+
+| | 100 | 1,854 (demo) | 10,817 (full) |
+|---|---|---|---|
+| generate only | $0.70 | $13 | $75 |
+| + one round of grade and repair | $1.86 | $35 | $200 |
+| + a second round | $3.02 | $57 | $326 |
+
+The first round takes detected errors from 16 per 100 to 5. A second round costs the same again for
+perhaps 5 to 3-4. **One round is adopted; further rounds are rejected on cost per error removed**,
+not on whether they work.
+
+A decomposed verifier -- enumerate every gene-level claim, verdict each -- is the untested idea with
+the best case behind it: **92% of all 52 wrong claims found across v3 and every v4 arm name a
+specific gene**, so checking claims atomically targets essentially the whole error population, and
+the task is simple enough that a cheap model might do it (which would cut full-corpus verification
+from $111 to $22). Not built. Recorded because it is the obvious next lever if the error rate ever
+needs to come down further.
+
+**Union repair applied.** Arm B was repaired against Opus's findings only, so the three errors only
+Sonnet found were still in the committed text: `PRDM6` called a methyltransferase, `CDKN1A` listed
+among genes driving a cycle it arrests, and SLC12 transporters described as importing potassium when
+several export it. All four of Sonnet's flagged descriptions were rewritten for $0.03 and written to
+`data/experiments/v4_b_plus.tsv`. The lesson is general: repairing against one grader leaves the
+other grader's findings in place, and they are known, named and unfixed until someone acts.
+
+## 2026-09-16 — The overwrite convention was written, then violated the same day
+
+The 2026-09-15 convention says no writer replaces rows it did not produce. A fourth instance
+followed within hours, and it is recorded because the convention did not prevent it.
+
+Scoring arm B with a second grader wrote its rows under the SAME `arm` label as the first grader's.
+`merge_tsv` behaved exactly as specified -- it merged, replacing only matching keys -- but the
+grader was not part of the key, so one arm's label came to hold a blend of two graders' verdicts
+reported as one number. Nothing was replaced; the identity was wrong.
+
+**The rule needs its converse: a writer must also identify its rows by everything that makes them
+different.** Merging protects against deleting another run's rows; it does nothing when two runs
+claim the same identity. Both ledgers were separate, so the blend was recoverable at zero cost, and
+it was caught only because the totals disagreed with what the run had just printed -- the same way
+three of the four were caught.
