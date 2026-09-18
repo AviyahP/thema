@@ -20,6 +20,8 @@ uv run scripts/normalize_descriptions.py --sample          # 12-pathway, three-m
 uv run scripts/normalize_descriptions.py --smoke           # price a stratified ~17% subset
 uv run scripts/normalize_descriptions.py --smoke --submit  # generate it
 uv run scripts/normalize_descriptions.py --report          # check the descriptions; no API call
+uv run scripts/normalize_descriptions.py --keys FILE       # top up a generation: the keys named in FILE
+uv run scripts/check_demo_datasets.py --candidates         # check worked-example datasets; metadata only
 uv run scripts/verify_descriptions.py --pilot 100          # price a fact-check of 100
 uv run scripts/verify_descriptions.py --pilot 100 --submit # run it, and report the flag rate
 uv run scripts/build_ontology.py                           # embed, cluster, write the trees

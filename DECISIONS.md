@@ -1474,3 +1474,70 @@ selection, cutting the run from 1,844 to 1,646 and the price from $14.84 to $10.
 reported discrepancy between the smoke selection (1,844) and the table (1,854) was **not drift**:
 the committed summary always recorded 1,844 selected plus the `--sample` run's twelve, two of which
 overlap. `pathways.tsv`'s sha256 still matches what that summary pinned.
+
+## 2026-09-18 — Master specification logged
+
+`docs/spec/thema-master-spec.md` — product shape and input ladder, pluggable ontology builders
+(`ward_tree`, `recurrent_dag`), analysis engine and three-test protocol on a DAG, landing-page
+handoff. For the record; nothing in it is authorised until approved section by section.
+
+## 2026-09-18 — Master specification review answered; addendum logged
+
+`docs/spec/addendum-2026-09-18.md` — Aviyah's answers to the spec review. Each supersedes the
+corresponding spec text. Not authorised to build.
+
+**One clarification belongs here rather than only in the addendum, because it qualifies the
+no-overwrite convention recorded on 2026-09-15.**
+
+`merge_tsv` — merge, never replace — protects **shared tables** where two runs contribute different
+rows that must coexist: the descriptions table across prompt generations, the experiment flags table
+across arms, graders and samples. It is the wrong semantic for a **versioned build artefact**. A
+rebuilt ontology legitimately supersedes its predecessor in full, and merging on a per-build
+generated node id would accumulate stale nodes that no run produced and nothing would notice.
+
+**Versioned build artefacts are replace-within-version: build to a temp directory, validate, swap
+atomically.** The version in the path is what keeps an older build from being destroyed, which is
+the protection merging provides elsewhere.
+
+## 2026-09-18 — `--keys`, and why the smoke scope alone would not have completed the generation
+
+The smoke draw selects 1,844; `pathway_descriptions.tsv` holds 1,854. The difference is the
+12-pathway `--sample` run, ten of whose pathways the draw never picked. **The ontology was built on
+all 1,854**, so regenerating with `--smoke` alone leaves those ten on v3 — and `read()` returns only
+the current generation, so the ontology would silently lose them.
+
+It would not in fact have been silent: `restamp` refuses to let an 1,844-row generation supersede an
+1,854-row one, so the run would have stopped with v3 still current after ~$11 was spent. The shrink
+guard was written for interrupted runs; it catches a scope mismatch too, which is the better
+argument for it.
+
+**`--keys FILE` generates a named list of pathway keys** — a top-up, not a scope. It refuses unknown
+keys rather than dropping them, deduplicates without reordering, and obeys the same pricing gate.
+New scope `keys`, added to `build_ontology`'s allowlist: a top-up is the same prompt and model
+producing real descriptions, so it is a legitimate scope rather than an unknown one.
+
+`data/keys/v4_topup.txt` holds the ten. Two of them already have v4 descriptions (they were in the
+experiment's 200), so eight remain. The arithmetic closes: 200 cached + 8 + 1,646 = **1,854**.
+
+## 2026-09-18 — Worked-example datasets: verified, and two candidates rejected
+
+B7 makes rung 3 a hard requirement — the universe must be derived from a deposited count matrix,
+never assumed. `scripts/check_demo_datasets.py` checks four things per accession: sequencing rather
+than array, accession exists, processed matrix deposited, sample-group labels present.
+
+| accession | contrast | outcome |
+|---|---|---|
+| `GSE157103` | COVID-19 severity, leukocyte RNA-seq, n=126 | passes — `GSE157103_genes.tpm.tsv.gz` |
+| `GSE62944` | TCGA tumour vs matched normal, RNA-seq recount | passes — nine matrices incl. FeatureCounts |
+| `GSE129705` | biologic-naive rheumatoid arthritis, whole-blood RNA-seq, n=128 | passes — processed data file |
+
+**Rejected: `GSE93272`** (the prototype's arthritis set) and **`GSE138458`** (the first replacement
+offered) — both arrays. An array gives a PLATFORM-derived universe, what the chip carries, not a
+DETECTION-derived one. That is the distinction B7 turns on.
+
+**The checker had two bugs that only running it exposed**, both fixed and worth recording because
+they are the same failure in different clothes — a heuristic returning a verdict it could not
+support. It never checked `Series_type`, so it judged an array against the wrong criterion; and its
+filename heuristic hard-rejected `GSE129705_c12-ra-wb-bl-mo3-processed-data-file.txt.gz`, a usable
+matrix named unconventionally. It now reports `UNCLEAR — inspect these filenames` instead of `NO`
+when nothing matches but non-raw files exist.
