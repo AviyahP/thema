@@ -16,21 +16,47 @@ def _row():
     return _pathway("reactome", "R-HSA-1", "Alpha pathway").to_row()
 
 
-def test_the_three_arms_are_the_three_the_experiment_specifies():
-    assert set(ARMS) == {"A plain", "B repair", "C pre-check"}
+def test_the_arms_are_the_ones_the_experiment_specifies():
+    assert set(ARMS) == {"A plain", "B repair (all flags)", "C pre-check", "D repair (errors only)"}
 
 
 # B is A plus a repair pass. Sharing the generation cache namespace is what guarantees the two
 # start from identical text rather than from two generations that could differ.
 def test_a_and_b_share_a_generation_namespace_and_c_does_not():
-    assert ARMS["A plain"].prompt_version == ARMS["B repair"].prompt_version == PROMPT_VERSION
+    b = ARMS["B repair (all flags)"]
+    assert ARMS["A plain"].prompt_version == b.prompt_version == PROMPT_VERSION
     assert ARMS["C pre-check"].prompt_version != PROMPT_VERSION, (
         "arm C sends a different system prompt, so it must not share A's cache"
     )
 
 
-def test_only_arm_b_repairs():
-    assert [a.name for a in ARMS.values() if a.repairs] == ["B repair"]
+def test_the_repairing_arms_are_b_and_d():
+    repairing = [a.name for a in ARMS.values() if a.repairs]
+    assert repairing == ["B repair (all flags)", "D repair (errors only)"]
+
+
+# Arm B rewrote 59 descriptions to fix 9 because every flag triggered a rewrite, and all 11 of its
+# collateral errors across both samples came from rewriting text that carried no error at all.
+# Arm D is the same mechanism scoped to the rule this project recorded and applied elsewhere.
+def test_only_arm_d_restricts_repairs_to_factual_errors():
+    assert ARMS["D repair (errors only)"].repair_kinds == ("wrong",)
+    assert "unsupported" in ARMS["B repair (all flags)"].repair_kinds, (
+        "arm B's as-tested behaviour must stay reproducible, not be silently corrected"
+    )
+    assert all(not a.repair_kinds for a in ARMS.values() if not a.repairs)
+
+
+def test_a_repair_key_changes_when_the_objections_change():
+    """The prompt contains the flags, so the cache key must too."""
+    from run_prompt_experiment import repair_key
+    from thema.verify import Flag
+
+    wrong = (Flag("q", "wrong", "r"),)
+    both = (Flag("q", "wrong", "r"), Flag("q2", "unsupported", "r2"))
+    assert repair_key("go:1", "text", wrong) != repair_key("go:1", "text", both), (
+        "repairing the same text against different objections must not collide"
+    )
+    assert repair_key("go:1", "text", wrong) == repair_key("go:1", "text", wrong)
 
 
 # The arm is pre-writing verification, not self-critique: the checks are written before the
@@ -47,8 +73,8 @@ def test_arm_c_is_named_and_described_as_pre_writing_verification():
 # Arm B is scored by the same verifier it repaired against. That cannot be designed away, so it is
 # carried on the arm itself and printed wherever the score is.
 def test_arm_b_carries_the_circularity_caveat():
-    assert "GRADED AGAINST WHAT IT WAS OPTIMISED FOR" in ARMS["B repair"].caveat
-    assert "may not generalise" in ARMS["B repair"].caveat
+    assert "GRADED AGAINST WHAT IT WAS OPTIMISED FOR" in ARMS["B repair (all flags)"].caveat
+    assert "may not generalise" in ARMS["B repair (all flags)"].caveat
     assert ARMS["A plain"].caveat == "", "arm A has no such caveat and must not imply one"
 
 
@@ -262,7 +288,7 @@ def test_writing_one_arms_flags_does_not_delete_another_arms(tmp_path):
     assert len(existing) == 1
 
     # the merge the runner performs: keep every arm it did not touch
-    new_rows = [("go:GO:2", "B repair", "wrong", "q2", "r2")]
+    new_rows = [("go:GO:2", "B repair (all flags)", "wrong", "q2", "r2")]
     touched = {r[1] for r in new_rows}
     kept = [
         tuple(r[c] for c in FLAG_COLUMNS)
@@ -271,7 +297,7 @@ def test_writing_one_arms_flags_does_not_delete_another_arms(tmp_path):
     ]
     write_tsv(path, FLAG_COLUMNS, kept + new_rows)
     after = list(csv.DictReader(path.open(encoding="utf-8"), delimiter="\t"))
-    assert {r["arm"] for r in after} == {"A plain", "B repair"}
+    assert {r["arm"] for r in after} == {"A plain", "B repair (all flags)"}
     assert len(after) == 2
 
 
@@ -302,3 +328,48 @@ def test_a_pricing_run_writes_nothing_at_all(tmp_path, monkeypatch):
         "a run without --submit must leave every output byte-identical; files written here are "
         f"new or changed: {sorted(str(p) for p in set(after) ^ set(before))}"
     )
+
+
+# The repair stage submits its own batch and, until 2026-09-16, had no way to be drained: a run
+# killed between its submission and its collection stranded paid-for results, and the only way
+# forward was to resubmit and pay twice. That is exactly what --collect exists to prevent for
+# verification; the protection simply did not reach this stage.
+def test_collect_defaults_to_the_verification_stage():
+    from run_prompt_experiment import parse_collect
+
+    parsed, bad = parse_collect(["A plain=msgbatch_x"])
+    assert not bad
+    assert parsed == {("A plain", "verify"): "msgbatch_x"}
+
+
+def test_collect_can_name_the_repair_stage():
+    from run_prompt_experiment import parse_collect
+
+    parsed, bad = parse_collect(["B repair (all flags):repair=msgbatch_y"])
+    assert not bad
+    assert parsed == {("B repair (all flags)", "repair"): "msgbatch_y"}
+
+
+def test_both_stages_of_one_arm_can_be_collected_in_one_invocation():
+    """Two stages of one arm are two different things to drain and must not collide."""
+    from run_prompt_experiment import parse_collect
+
+    parsed, bad = parse_collect(
+        ["B repair (all flags):repair=msgbatch_y", "B repair (all flags)=msgbatch_z"]
+    )
+    assert not bad
+    assert parsed[("B repair (all flags)", "repair")] == "msgbatch_y"
+    assert parsed[("B repair (all flags)", "verify")] == "msgbatch_z"
+
+
+def test_collect_names_which_part_was_wrong():
+    """A typo'd arm and an unsupported stage are different mistakes."""
+    from run_prompt_experiment import parse_collect
+
+    _parsed, bad = parse_collect(
+        ["Z nonsense=msgbatch_x", "B repair (all flags):polish=msgbatch_y", "B repair (all flags)"]
+    )
+    assert len(bad) == 3
+    assert "unknown arm" in bad[0]
+    assert "unknown stage" in bad[1]
+    assert "ARM=BATCH_ID" in bad[2]

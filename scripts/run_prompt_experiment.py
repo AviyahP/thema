@@ -32,6 +32,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from thema.data import descriptions as descriptions_table
 from thema.data.pathways import Pathway, PathwayCollection
 from thema.data.tables import cell, flatten, merge_tsv, print_table, write_tsv
 from thema.experiment import ARMS, Arm
@@ -128,6 +129,31 @@ def text_key(pathway_key: str, description: str) -> str:
     return f"{pathway_key}#{digest}"
 
 
+def repair_key(pathway_key: str, description: str, flags: tuple[Flag, ...]) -> str:
+    """Build a repair cache key that carries the objections being repaired against.
+
+    ``text_key`` digests only the text. The repair PROMPT also contains the flags, so two runs that
+    repair the same description against different objections -- which is exactly what changing
+    ``Arm.repair_kinds`` does -- collide on one key: the second returns the FIRST run's rewrite,
+    makes zero API calls, and reports it as the new arm's output. That is the stale-verdict bug
+    this experiment text-addressed the verification cache to prevent, still live in the repair path
+    until 2026-09-17.
+
+    Args:
+        pathway_key: The pathway.
+        description: The text being repaired.
+        flags: The objections the repair is being asked to address.
+
+    Returns:
+        A key digesting the text AND the objections, so neither can outlive the other.
+    """
+    material = description + "\x00" + "\x00".join(
+        sorted(f"{f.kind}|{f.quote}|{f.reason}" for f in flags)
+    )
+    digest = hashlib.sha256(material.encode("utf-8")).hexdigest()[:12]
+    return f"{pathway_key}#{digest}"
+
+
 def pilot_keys(data: Path) -> list[str]:
     """Read the exact 100 pathway keys the baseline was measured on.
 
@@ -145,12 +171,23 @@ def pilot_keys(data: Path) -> list[str]:
     return sorted(line.split("\t")[index] for line in lines[1:] if line)
 
 
+#: The generation this experiment is defined against. Pinned, NOT "whatever is current": the
+#: fresh-100 draw is a function of this pool, and the v3 control is the thing being improved
+#: upon. If this followed the current generation, promoting v4 would redraw the sample and
+#: silently replace the control with the arm it is supposed to be compared against.
+BASELINE_VERSION = "v3"
+
+
 def read_descriptions(table: Path) -> dict[str, str]:
-    """Read generated descriptions out of a table with ``key`` and ``description_generated``."""
-    lines = table.read_text(encoding="utf-8").splitlines()
-    header = lines[0].split("\t")
-    key, text = header.index("key"), header.index("description_generated")
-    return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
+    """Read the v3 baseline descriptions, whatever generation is current.
+
+    Args:
+        table: Path to ``pathway_descriptions.tsv``.
+
+    Returns:
+        Pathway key to its v3 description.
+    """
+    return descriptions_table.read(table, version=BASELINE_VERSION)
 
 
 @dataclass(frozen=True, slots=True)
@@ -353,7 +390,7 @@ def write_arm(
     """
     out = data / EXPERIMENT_DIR
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"v4_{arm.name.split()[0].lower()}{suffix}.tsv"
+    path = out / f"v4_{arm.slug}{suffix}.tsv"
     rows = [
         (
             g.key,
@@ -824,6 +861,7 @@ def repair_arm(
     by_key: dict[str, Pathway],
     base: dict[str, Generated],
     flags: dict[str, tuple[Flag, ...]],
+    collect: str | None = None,
 ) -> tuple[dict[str, Generated], Estimate, int]:
     """Regenerate every flagged description with the verifier's objection appended.
 
@@ -838,6 +876,9 @@ def repair_arm(
         by_key: Pathways by key.
         base: The arm's descriptions before repair.
         flags: Flags per pathway key from the scoring pass over ``base``.
+        collect: A repair batch id to drain instead of submitting, for a run interrupted after
+            submission. A batch is billed when the provider runs it, not when its results are read,
+            so draining one already submitted costs nothing while resubmitting pays for it twice.
 
     Returns:
         The repaired descriptions (unflagged ones carried through unchanged), the estimate, and how
@@ -851,7 +892,7 @@ def repair_arm(
     )
     requests = [
         Request(
-            key=text_key(k, base[k].description),
+            key=repair_key(k, base[k].description, flagged[k]),
             system=ARMS["A plain"].system,
             user=render_repair_message(by_key[k], base[k].description, flagged[k]),
         )
@@ -864,12 +905,25 @@ def repair_arm(
         f"  cost: ${estimate.cached_dollars:,.2f} cached"
         f" / ${estimate.uncached_dollars:,.2f} ceiling"
     )
-    if args.submit and pending and client is not None:
+    if collect and pending:
+        if client is None:
+            print("  no client, cannot collect", file=sys.stderr)
+            return {}, estimate, 0
+        status = client.batch_status(collect)
+        if status != "ended":
+            # Not a reason to spend again: an unrecoverable or unfinished batch is a fact to
+            # report. Resubmission is a separate, explicit decision.
+            print(f"  repair batch {collect} is {status}; rerun this command later")
+            return {}, estimate, 0
+        collected = client.collect_batch(collect, pending)
+        print(f"  repair: collected {len(collected):,}/{len(pending):,}", file=sys.stderr)
+        pending = [r for r in requests if r.key not in ledger]
+    elif args.submit and pending and client is not None:
         if not within_ceiling(estimate, args.max_dollars):
             print("  refusing: over --max-dollars", file=sys.stderr)
             return {}, estimate, 0
         run_batch(client, pending, "repair")
-    if not args.submit:
+    if not args.submit and not collect:
         print("  nothing submitted; rerun with --submit")
         return {}, estimate, 0
 
@@ -903,6 +957,90 @@ def fresh_keys(data: Path, exclude: list[str], count: int, seed: int = 1) -> lis
     """
     pool = sorted(set(read_descriptions(data / DESCRIPTIONS_TABLE)) - set(exclude))
     return sorted(random.Random(seed).sample(pool, min(count, len(pool))))
+
+
+def sample_label(name: str, sample: str) -> str:
+    """Qualify a flags-table label with the sample the rows describe.
+
+    ``v4_flags.tsv`` holds every arm of every sample in one file, and rows are keyed by
+    ``(key, arm, quote)``. Two samples never share a pathway key, so nothing is ever overwritten --
+    but without this the pilot's "A plain" and the fresh draw's "A plain" sit under one label, and
+    any count grouped by arm silently becomes a blend of two experiments over two hundred pathways.
+
+    That is the same failure as the grader blend recorded on 2026-09-16, on a different axis: the
+    rule that a writer must identify its rows by everything that makes them different was applied to
+    the grader and not to the sample. This function is the scheme, defined once, so the next axis
+    has one place to be added rather than two places to be kept in step.
+
+    Args:
+        name: The arm or baseline label.
+        sample: Which hundred the rows describe.
+
+    Returns:
+        The label to write and to read back by.
+    """
+    return name if sample == "pilot" else f"{name} [{sample}]"
+
+
+def was_scored(data: Path, arm: str) -> bool:
+    """Whether this label has ever been written to the flags table.
+
+    :func:`carries_wrong` returns booleans, and all-False is ambiguous: it means EITHER the arm was
+    scored and nothing was found, OR the arm was never scored at all. Those are opposite findings
+    and the second one renders as a perfect score -- "v3 19% vs B 0%, p = 0.000" for an arm that
+    does not exist on this sample. Absence must not read as a result, so it is tested separately.
+
+    Args:
+        data: The data directory.
+        arm: The label as it would appear in the flags table.
+
+    Returns:
+        True when at least one row carries this label.
+    """
+    path = data / EXPERIMENT_DIR / "v4_flags.tsv"
+    if not path.is_file():
+        return False
+    with path.open(encoding="utf-8") as handle:
+        return any(row["arm"] == arm for row in csv.DictReader(handle, delimiter="\t"))
+
+
+#: The stages of one arm that submit their own batch and can therefore be interrupted between
+#: submission and collection. Two stages of one arm are two different things to drain, so they must
+#: be nameable separately -- the same identity rule as :func:`sample_label`.
+COLLECT_STAGES = ("verify", "repair")
+
+
+def parse_collect(pairs: list[str]) -> tuple[dict[tuple[str, str], str], list[str]]:
+    """Read ``--collect`` arguments into batch ids keyed by arm and stage.
+
+    Accepts ``ARM=BATCH_ID``, which means the verification stage for backward compatibility, and
+    ``ARM:STAGE=BATCH_ID`` for any stage. The repair stage needed this: it submits a batch of its
+    own and had no way to be drained, so an interruption there forced a resubmission that paid for
+    the same requests twice -- exactly what the flag exists to prevent for verification.
+
+    Args:
+        pairs: The raw ``--collect`` values.
+
+    Returns:
+        Batch id per ``(arm, stage)``, and one message per value that could not be read. The
+        messages name which part was wrong: a typo'd arm and an unsupported stage are different
+        mistakes and an operator recovering a stranded batch should not have to guess which.
+    """
+    out: dict[tuple[str, str], str] = {}
+    bad: list[str] = []
+    for pair in pairs:
+        name, sep, batch = pair.partition("=")
+        arm, _, stage = name.partition(":")
+        stage = stage or "verify"
+        if not sep or not batch:
+            bad.append(f"{pair}: expected ARM=BATCH_ID or ARM:STAGE=BATCH_ID")
+        elif arm not in ARMS:
+            bad.append(f"{pair}: unknown arm {arm!r}; known: {', '.join(ARMS)}")
+        elif stage not in COLLECT_STAGES:
+            bad.append(f"{pair}: unknown stage {stage!r}; known: {', '.join(COLLECT_STAGES)}")
+        else:
+            out[(arm, stage)] = batch
+    return out, bad
 
 
 def carries_wrong(data: Path, arm: str, keys: list[str]) -> dict[str, bool]:
@@ -952,11 +1090,26 @@ def report_stats(args: argparse.Namespace, keys: list[str]) -> int:
     print("\n  outcome: does the description carry at least one 'wrong' claim, per frozen")
     print("  verify-v1. This is the metric the decision rule uses; it needs no adjudicator.\n")
 
-    v3 = carries_wrong(args.data, "v3", keys)
-    for arm in ("A plain", "B repair"):
-        other = carries_wrong(args.data, arm, keys)
-        if not any(other.values()) and not any(v3.values()):
+    # The baseline lives in a different place for each sample. The pilot's v3 verification is the
+    # committed `pathway_verification_flags.tsv`; the fresh draw's v3 control was scored into the
+    # experiment's own flags table and holds NONE of the pilot's keys. Reading the pilot file for a
+    # fresh comparison returns an all-clean baseline and reports v4 as a regression against nothing.
+    if args.sample == "pilot":
+        baseline, v3 = "v3", carries_wrong(args.data, "v3", keys)
+    else:
+        baseline = sample_label("v3 control", args.sample)
+        v3 = carries_wrong(args.data, baseline, keys)
+    if not any(v3.values()):
+        print(f"  no baseline 'wrong' claims recorded under {baseline!r} for this sample;")
+        print("  score the v3 control first or the comparison has nothing to compare against.\n")
+        return 0
+
+    for arm in ("A plain", "B repair (all flags)", "D repair (errors only)"):
+        label = sample_label(arm, args.sample)
+        if not was_scored(args.data, label):
+            print(f"\n  {arm}: not scored on the {args.sample} sample -- no comparison.")
             continue
+        other = carries_wrong(args.data, label, keys)
         try:
             result = mcnemar(v3, other)
         except ValueError as exc:
@@ -988,7 +1141,7 @@ def repair_from_other_grader(args: argparse.Namespace, by_key: dict[str, Pathway
     """
     arm_name = args.arm[0]
     suffix = "" if args.sample == "pilot" else f"_{args.sample}"
-    table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}{suffix}.tsv"
+    table = args.data / EXPERIMENT_DIR / f"v4_{ARMS[arm_name].slug}{suffix}.tsv"
     flags_table = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
     for required in (table, flags_table):
         if not required.is_file():
@@ -1116,19 +1269,19 @@ def main(argv: list[str] | None = None) -> int:
         metavar="ARM=BATCH_ID",
         action="append",
         default=[],
-        help="drain an already-submitted batch for one arm instead of submitting a new one; "
-        "repeatable. Use after a run is interrupted between submission and collection, since "
-        "resubmitting pays for the same batch twice",
+        help="drain an already-submitted batch instead of submitting a new one; repeatable. "
+        "ARM=BATCH_ID drains that arm's verification; ARM:repair=BATCH_ID drains its repair "
+        "batch. Use after a run is interrupted between submission and collection, since a batch "
+        "is billed when the provider runs it and resubmitting pays for the same requests twice",
     )
     args = parser.parse_args(argv)
     if not args.arm:
         args.arm = ["A plain"]
 
-    collecting = dict(pair.split("=", 1) for pair in args.collect)
-    unknown = [name for name in collecting if name not in ARMS]
-    if unknown:
-        print(f"unknown arm(s) in --collect: {', '.join(unknown)}", file=sys.stderr)
-        print(f"known: {', '.join(ARMS)}", file=sys.stderr)
+    collecting, bad = parse_collect(args.collect)
+    if bad:
+        for problem in bad:
+            print(f"bad --collect value: {problem}", file=sys.stderr)
         return 1
 
     for required in (PATHWAY_TABLE, VERIFICATION_TABLE):
@@ -1167,7 +1320,7 @@ def main(argv: list[str] | None = None) -> int:
     produced: dict[str, dict[str, Generated]] = {}
     estimates: dict[str, Estimate] = {}
     for arm in ARMS.values():
-        if arm.name == "B repair":
+        if arm.name.startswith("B repair"):
             # B is A plus a repair pass, so it starts from A's text by construction rather than by
             # a second generation that could differ. The repair pass itself is step 2b.
             continue
@@ -1182,7 +1335,7 @@ def main(argv: list[str] | None = None) -> int:
             args.model,
             args.submit,
             args.max_dollars,
-            collecting.get(arm.name),
+            collecting.get((arm.name, "verify")),
         )
 
     print("COST BY ARM (marginal -- anything already cached is free)\n")
@@ -1204,7 +1357,10 @@ def main(argv: list[str] | None = None) -> int:
         total_cached += estimate.cached_dollars
         total_uncached += estimate.uncached_dollars
     rows.append(
-        ("B repair", "100", "-", "-", "-", "-", "shares A's generation", "repair pass is step 2b")
+        (
+            "B repair (all flags)", "100", "-", "-", "-", "-",
+            "shares A's generation", "repair pass is step 2b",
+        )
     )
     rows.append(("TOTAL", "", "", "", "", "", f"${total_cached:,.2f}", f"${total_uncached:,.2f}"))
     print_table(
@@ -1260,7 +1416,7 @@ def run_step_3(
     print("  Mark each row's `label` column `unambiguous` or `arguable`. The calibration gate")
     print("  compares adjudicate-v1 against those labels before it scores anything.\n")
 
-    collecting = dict(pair.split("=", 1) for pair in args.collect)
+    collecting, _bad = parse_collect(args.collect)
     results: dict[str, dict[str, tuple[Flag, ...]]] = {}
     estimates: dict[str, Estimate] = {}
     grader = args.verify_model or args.model
@@ -1281,7 +1437,7 @@ def run_step_3(
                 namespace="" if not args.verify_model else "-alt",
             )
             continue
-        table = args.data / EXPERIMENT_DIR / f"v4_{arm_name.split()[0].lower()}{suffix}.tsv"
+        table = args.data / EXPERIMENT_DIR / f"v4_{ARMS[arm_name].slug}{suffix}.tsv"
         if ARMS[arm_name].repairs and not table.is_file():
             # Arm B is arm A plus a repair pass, so it is built here rather than generated: it must
             # start from arm A's exact text, and a second generation could not guarantee that.
@@ -1297,14 +1453,26 @@ def run_step_3(
                 for r in csv.DictReader(base_table.open(encoding="utf-8"), delimiter="\t")
                 if r["key"] in by_key
             }
+            # Arm A's flags for THIS sample. Hardcoding "A plain" here fed a fresh-sample repair the
+            # pilot's flags, whose keys are not in `base` at all -- the repair would have found
+            # nothing to fix and arm B would have been arm A under a different name.
+            base_arm = sample_label("A plain", args.sample)
+            # Which flag kinds may trigger a rewrite is the arm's own declaration. Taking every
+            # flag -- the implicit behaviour until 2026-09-17 -- rewrote 59 descriptions to fix 9
+            # and caused every one of the collateral errors.
+            kinds = ARMS[arm_name].repair_kinds
             base_flags: dict[str, list[Flag]] = {}
             for row in csv.DictReader(flags_table.open(encoding="utf-8"), delimiter="\t"):
-                if row["arm"] == "A plain":
+                if row["arm"] == base_arm and row["kind"] in kinds:
                     base_flags.setdefault(row["key"], []).append(
                         Flag(row["quote"], row["kind"], row["reason"])
                     )
             repaired, _estimate, count = repair_arm(
-                args, by_key, base, {k: tuple(v) for k, v in base_flags.items()}
+                args,
+                by_key,
+                base,
+                {k: tuple(v) for k, v in base_flags.items()},
+                collecting.get((arm_name, "repair")),
             )
             if not count:
                 print("\nno descriptions were repaired; arm B is not written", file=sys.stderr)
@@ -1328,7 +1496,7 @@ def run_step_3(
             grader,
             args.submit,
             args.max_dollars,
-            collecting.get(arm_name),
+            collecting.get((arm_name, "verify")),
             namespace="" if not args.verify_model else "-alt",
         )
 
@@ -1362,10 +1530,12 @@ def run_step_3(
         arm = ARMS.get(arm_name)
         if arm is not None and arm.caveat:
             print(f"\n  {arm.caveat}")
-        # The grader is part of the row's identity. Two models scoring the same arm write rows that
-        # differ only in their quotes, so without this they merge into one label and the table holds
-        # a blend of two graders that cannot afterwards be separated.
-        label = arm_name if grader == args.model else f"{arm_name} @{grader}"
+        # The grader AND the sample are part of the row's identity. Two models scoring the same arm,
+        # or the same arm scored on two different hundreds, write rows that differ only in their
+        # quotes; without both, one label comes to hold a blend that cannot afterwards be separated.
+        label = sample_label(
+            arm_name if grader == args.model else f"{arm_name} @{grader}", args.sample
+        )
         for key in sorted(found):
             for flag in found[key]:
                 flag_rows.append(
@@ -1381,8 +1551,17 @@ def run_step_3(
         out = args.data / EXPERIMENT_DIR / "v4_flags.tsv"
         held = merge_tsv(out, FLAG_COLUMNS, flag_rows, key=("key", "arm", "quote"))
         print(f"\n{held:,} flags -> {out}  (every arm previously scored is kept)")
-    for found in results.values():
-        compare_to_baseline(args.data, found, by_key)
+    # The worksheet holds the PILOT's hand-labelled v3 errors. Run against a fresh draw it shares no
+    # pathway with the arm being scored, so it would report every labelled error "fixed" and every
+    # flag found "new" -- a table of zeroes and novelties that says nothing and reads as a result.
+    if args.sample == "pilot":
+        for found in results.values():
+            compare_to_baseline(args.data, found, by_key)
+    else:
+        print(
+            f"\n  against-the-hand-labelled-v3-errors comparison skipped: those {args.sample} "
+            "pathways are not in the worksheet, which covers the pilot hundred only."
+        )
     return 0
 
 
