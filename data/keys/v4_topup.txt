@@ -1,0 +1,13 @@
+# The ten pathways in pathway_descriptions.tsv that the smoke draw never selected.
+# They came from the 12-pathway --sample run; two of the twelve also fell in the draw.
+# Without these, a v4 --smoke run covers 1,844 of the 1,854 the ontology was built on.
+btm:M177.1
+btm:M47.0
+btm:M66
+btm:M95.1
+go:GO:0033002
+go:GO:0048646
+go:GO:0072584
+reactome:R-HSA-156580
+reactome:R-HSA-8852405
+reactome:R-HSA-9013425

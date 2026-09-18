@@ -99,7 +99,9 @@ def is_stand_in(scope: str, provenance: set[str]) -> bool:
     Returns:
         True when this run must be labelled a stand-in.
     """
-    return scope not in ("smoke", "full") or not provenance <= set(PROVENANCE.values())
+    # "keys" is a top-up run: same prompt, same model, real descriptions -- a legitimate scope,
+    # not an unknown one. The provenance check below is what actually catches stand-in text.
+    return scope not in ("smoke", "full", "keys") or not provenance <= set(PROVENANCE.values())
 
 
 def read_scope(summary: Path) -> str:

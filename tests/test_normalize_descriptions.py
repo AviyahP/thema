@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 
 from normalize_descriptions import (
@@ -314,10 +315,10 @@ def test_the_gate_guards_full_as_well_as_smoke(tmp_path, monkeypatch, capsys):
     assert _FakeClient.submitted == []
 
 
-def test_no_mode_names_all_three(tmp_path, capsys):
+def test_no_mode_names_every_mode(tmp_path, capsys):
     data, _raw = _data_dir(tmp_path)
     assert main(["--data", str(data)]) == 1
-    assert "--sample, --smoke, --full or --report" in capsys.readouterr().err
+    assert "--sample, --smoke, --keys, --full or --report" in capsys.readouterr().err
 
 
 # Rerunning with everything cached is how the table gets rewritten after a repair. It must cost
@@ -479,3 +480,96 @@ def test_collecting_an_unfinished_batch_says_so_and_writes_nothing(tmp_path, mon
     assert not (data / "pathway_descriptions.tsv").exists(), (
         "an unfinished batch must not write a table that looks complete"
     )
+
+
+# ------------------------------------------------------ --keys, the top-up scope
+#
+# The smoke draw and the descriptions table are not the same set: the table also holds the twelve
+# the --sample run produced, ten of which the draw never picked. Regenerating with --smoke alone
+# leaves those ten on the old prompt, and the ontology -- built on the whole table -- loses them.
+# --keys is how a generation gets completed to cover exactly what an earlier one missed.
+
+
+def test_keys_resolves_named_pathways_in_collection_order(tmp_path):
+    from normalize_descriptions import read_keys
+    from thema.data.pathways import PathwayCollection
+
+    data, _raw = _data_dir(tmp_path)
+    collection = PathwayCollection.from_tsv_text((data / "pathways.tsv").read_text())
+    keys = sorted(collection.by_key)[:2]
+    path = tmp_path / "keys.txt"
+    path.write_text("# a comment\n\n" + "\n".join(keys) + "\n  \n")
+    found, unknown = read_keys(path, collection)
+    assert [p.key for p in found] == keys
+    assert unknown == []
+
+
+def test_keys_deduplicates_without_reordering(tmp_path):
+    from normalize_descriptions import read_keys
+    from thema.data.pathways import PathwayCollection
+
+    data, _raw = _data_dir(tmp_path)
+    collection = PathwayCollection.from_tsv_text((data / "pathways.tsv").read_text())
+    key = sorted(collection.by_key)[0]
+    path = tmp_path / "keys.txt"
+    path.write_text(f"{key}\n{key}\n")
+    found, _unknown = read_keys(path, collection)
+    assert [p.key for p in found] == [key], "a key named twice is one pathway, not two"
+
+
+def test_keys_refuses_an_unknown_key_rather_than_silently_dropping_it(tmp_path, capsys):
+    data, _raw = _data_dir(tmp_path)
+    path = tmp_path / "keys.txt"
+    path.write_text("go:GO:9999999\n")
+    assert main(["--keys", str(path), "--data", str(data)]) == 1
+    assert "unknown pathway key" in capsys.readouterr().err
+
+
+def test_keys_pricing_writes_nothing(tmp_path):
+    """The no-overwrite convention: a run without --submit prices and touches no file."""
+    data, _raw = _data_dir(tmp_path)
+    before = {p: p.read_bytes() for p in sorted(data.rglob("*")) if p.is_file()}
+    from thema.data.pathways import PathwayCollection
+
+    collection = PathwayCollection.from_tsv_text((data / "pathways.tsv").read_text())
+    path = tmp_path / "keys.txt"
+    path.write_text("\n".join(sorted(collection.by_key)[:2]) + "\n")
+    assert main(["--keys", str(path), "--data", str(data)]) == 0
+    after = {p: p.read_bytes() for p in sorted(data.rglob("*")) if p.is_file()}
+    assert after == before, "a dry pricing run must write nothing at all"
+
+
+def test_keys_merges_into_the_table_and_replaces_no_other_generation(tmp_path, monkeypatch):
+    """A top-up adds its rows; every row it did not produce survives untouched."""
+    from thema.data import descriptions as D
+
+    data, _raw = _data_dir(tmp_path)
+    table = data / "pathway_descriptions.tsv"
+    from normalize_descriptions import DESCRIPTION_COLUMNS
+    from thema.data.tables import write_tsv
+
+    # An earlier generation already in the table, for pathways this run does not name.
+    write_tsv(
+        table,
+        DESCRIPTION_COLUMNS,
+        [("go:GO:OLD", "older text", "description+name+genes", "3", "claude-opus-5", "v3",
+          D.STATUS_CURRENT)],
+    )
+
+    _FakeClient.submitted = []
+    monkeypatch.setattr("normalize_descriptions.LLMClient", _FakeClient)
+    from thema.data.pathways import PathwayCollection
+
+    collection = PathwayCollection.from_tsv_text((data / "pathways.tsv").read_text())
+    keys = sorted(collection.by_key)[:2]
+    path = tmp_path / "keys.txt"
+    path.write_text("\n".join(keys) + "\n")
+    assert main(["--keys", str(path), "--data", str(data), "--submit"]) == 0
+
+    rows = list(csv.DictReader(table.open(encoding="utf-8"), delimiter="\t"))
+    by_key = {r["key"]: r for r in rows}
+    assert "go:GO:OLD" in by_key, (
+        "merge, never replace: a row this run did not produce must survive"
+    )
+    assert by_key["go:GO:OLD"]["description_generated"] == "older text"
+    assert set(keys) <= set(by_key), "the named pathways must reach the table"

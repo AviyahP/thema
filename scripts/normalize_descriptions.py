@@ -141,6 +141,13 @@ ASSUMED_OUTPUT_TOKENS = 383
 SCOPE_SMOKE = "smoke"
 SCOPE_FULL = "full"
 
+#: A named list of pathway keys. Exists because the smoke draw and the descriptions table are not
+#: the same set: the table also holds the twelve the --sample run produced, ten of which the draw
+#: never picked. Regenerating under a new prompt with --smoke alone therefore leaves those ten on
+#: the old prompt, and the ontology -- built on the whole table -- loses them. `restamp` refuses the
+#: resulting shrink, so the failure is loud rather than silent, but the run is still wasted.
+SCOPE_KEYS = "keys"
+
 #: One row per (pathway, prompt_version, model). Every generation is kept; ``status`` names the one
 #: consumers read. Before 2026-09-18 this table held one row per pathway and was rewritten whole,
 #: so generating under a new prompt destroyed the previous generation -- paid for, and the only
@@ -871,6 +878,69 @@ def run_smoke(
     )
 
 
+def read_keys(path: Path, collection: PathwayCollection) -> tuple[list[Pathway], list[str]]:
+    """Read a file of pathway keys and resolve them against the collection.
+
+    Args:
+        path: A file of keys, one per line. Blank lines and ``#`` comments are ignored.
+        collection: All pathways.
+
+    Returns:
+        The pathways named, in collection order, and any keys that matched nothing.
+    """
+    wanted: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        key = line.split("#", 1)[0].strip()
+        if key:
+            wanted.append(key)
+    by_key = collection.by_key
+    unknown = [k for k in wanted if k not in by_key]
+    seen: set[str] = set()
+    found = [by_key[k] for k in wanted if k in by_key and not (k in seen or seen.add(k))]
+    return found, unknown
+
+
+def run_keys(
+    collection: PathwayCollection,
+    keys_file: Path,
+    out: Path,
+    model: str,
+    submit: bool,
+    ceiling: float,
+    collect: Sequence[str] = (),
+) -> int:
+    """Generate descriptions for a named list of pathway keys.
+
+    A top-up, not a scope: it exists so a generation can be completed to cover exactly what an
+    earlier one missed, without redrawing a selection or regenerating anything already cached.
+
+    Args:
+        collection: All pathways.
+        keys_file: File of keys, one per line.
+        out: The data directory.
+        model: The model.
+        submit: Whether to actually call the API.
+        ceiling: The per-run --max-dollars limit.
+        collect: Batch ids to drain instead of submitting.
+
+    Returns:
+        0, or 1 when a key names no pathway.
+    """
+    pathways, unknown = read_keys(keys_file, collection)
+    if unknown:
+        for key in unknown:
+            print(f"unknown pathway key: {key}", file=sys.stderr)
+        print(f"{len(unknown)} of the keys match nothing in the collection", file=sys.stderr)
+        return 1
+    if not pathways:
+        print(f"no keys in {keys_file}", file=sys.stderr)
+        return 1
+    print(f"\nKEYS: {len(pathways):,} pathways named in {keys_file}")
+    return _generate(
+        collection, pathways, out, model, submit, ceiling, SCOPE_KEYS, {}, collect
+    )
+
+
 def run_full(
     collection: PathwayCollection,
     out: Path,
@@ -1430,6 +1500,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--full", action="store_true", help="generate all pathways through the batch API"
     )
     parser.add_argument(
+        "--keys",
+        type=Path,
+        metavar="FILE",
+        help="generate the pathways named in FILE, one key per line. A top-up for completing a "
+        "generation to cover what an earlier selection missed; obeys the same pricing gate",
+    )
+    parser.add_argument(
         "--raw",
         type=Path,
         default=DEFAULT_RAW,
@@ -1504,12 +1581,25 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.max_dollars,
             args.collect,
         )
+    if args.keys:
+        if not args.keys.is_file():
+            print(f"missing input: {args.keys}", file=sys.stderr)
+            return 1
+        return run_keys(
+            collection,
+            args.keys,
+            args.data,
+            args.model,
+            args.submit,
+            args.max_dollars,
+            args.collect,
+        )
     if args.full:
         return run_full(
             collection, args.data, args.model, args.submit, args.max_dollars, args.collect
         )
 
-    print("nothing to do: pass --sample, --smoke, --full or --report", file=sys.stderr)
+    print("nothing to do: pass --sample, --smoke, --keys, --full or --report", file=sys.stderr)
     return 1
 
 
