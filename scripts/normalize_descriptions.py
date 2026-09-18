@@ -35,6 +35,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from thema.data import descriptions as descriptions_table
 from thema.data.formats import OboTerm, parse_obo_terms
 from thema.data.hierarchy import (
     go_ancestors,
@@ -53,6 +54,7 @@ from thema.data.tables import (
     EMPTY,
     SUMMARY_COLUMNS,
     cell,
+    merge_tsv,
     print_table,
     sha256_file,
     write_tsv,
@@ -139,6 +141,10 @@ ASSUMED_OUTPUT_TOKENS = 383
 SCOPE_SMOKE = "smoke"
 SCOPE_FULL = "full"
 
+#: One row per (pathway, prompt_version, model). Every generation is kept; ``status`` names the one
+#: consumers read. Before 2026-09-18 this table held one row per pathway and was rewritten whole,
+#: so generating under a new prompt destroyed the previous generation -- paid for, and the only
+#: record of what that prompt produced.
 DESCRIPTION_COLUMNS = (
     "key",
     "description_generated",
@@ -146,6 +152,7 @@ DESCRIPTION_COLUMNS = (
     "genes_shown",
     "model",
     "prompt_version",
+    "status",
 )
 
 SAMPLE_COLUMNS = (
@@ -850,7 +857,7 @@ def run_smoke(
     model: str,
     submit: bool,
     ceiling: float,
-    collect: str | None = None,
+    collect: Sequence[str] = (),
 ) -> int:
     """Select the stratified subset, report it and its price, and generate it only if told to."""
     parents, roots, terms = load_hierarchies(raw)
@@ -870,7 +877,7 @@ def run_full(
     model: str,
     submit: bool,
     ceiling: float,
-    collect: str | None = None,
+    collect: Sequence[str] = (),
 ) -> int:
     """Generate all 10,817 descriptions through the batch API."""
     return _generate(
@@ -887,7 +894,7 @@ def _generate(
     ceiling: float,
     scope: str,
     strata: Mapping[str, Sequence[Pathway]],
-    collect: str | None = None,
+    collect: Sequence[str] = (),
 ) -> int:
     """Price a selection, then generate it through the batch API if the gate allows.
 
@@ -926,15 +933,24 @@ def _generate(
         if client is None:
             print("\nno client: cannot collect", file=sys.stderr)
             return 1
-        print(f"\ncollecting {collect} (already submitted; nothing new is billed)")
-        status = client.batch_status(collect)
-        if status != "ended":
-            print(f"  batch is {status}; nothing to collect yet -- rerun this command later")
+        # One id per chunk. A full run emits several, so draining must handle several -- a
+        # single-valued flag could not recover anything past the first chunk, and every request in
+        # the rest was already billed.
+        print(f"\ncollecting {len(collect)} batch(es) (already submitted; nothing new is billed)")
+        unfinished = []
+        for batch_id in collect:
+            status = client.batch_status(batch_id)
+            if status != "ended":
+                print(f"  {batch_id}: {status}; not collectable yet")
+                unfinished.append(batch_id)
+                continue
+            collected = client.collect_batch(batch_id, pending)
+            print(f"  {batch_id}: collected {len(collected):,}", file=sys.stderr)
+            batch_ids.append(batch_id)
+            pending = [r for r in requests if r.key not in ledger]
+        if unfinished:
+            print(f"  {len(unfinished)} batch(es) still running -- rerun this command later")
             return 0
-        collected = client.collect_batch(collect, pending)
-        print(f"  collected {len(collected):,} of {len(pending):,}", file=sys.stderr)
-        batch_ids.append(collect)
-        pending = [r for r in requests if r.key not in ledger]
 
     estimate = price(requests, pending, ledger, client, collection, model)
     report_cost(estimate, ceiling)
@@ -1018,10 +1034,19 @@ def write_descriptions(
                 str(len(genes_for_prompt(pathway))),
                 completion.model,
                 completion.prompt_version,
+                descriptions_table.STATUS_CURRENT,
             )
         )
     table = out / DESCRIPTIONS_TABLE
-    write_tsv(table, DESCRIPTION_COLUMNS, rows)
+    # Merge, never replace: rows this run did not produce belong to another generation and are the
+    # record of what that prompt wrote. Then restamp, because merging leaves every other
+    # generation's status saying "current" and two current generations is an unreadable table.
+    held = merge_tsv(table, DESCRIPTION_COLUMNS, rows, key=descriptions_table.ROW_KEY)
+    marked, superseded = descriptions_table.restamp(table, DESCRIPTION_COLUMNS, PROMPT_VERSION)
+    print(
+        f"{held:,} rows in {table.name}: {marked:,} current ({PROMPT_VERSION}), "
+        f"{superseded:,} earlier generations kept"
+    )
     write_tsv(
         out / DESCRIPTIONS_SUMMARY,
         SUMMARY_COLUMNS,
@@ -1029,7 +1054,7 @@ def write_descriptions(
             collection, pathways, ledger, table, model, batch_ids, completions, scope, strata
         ),
     )
-    print(f"{len(rows):,} descriptions -> {table}")
+    print(f"  -> {table}")
 
 
 def build_summary(
@@ -1418,8 +1443,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--collect",
         metavar="BATCH_ID",
-        help="drain an already-submitted batch instead of submitting a new one; use this when a "
-        "run was interrupted after submission, since resubmitting would pay for it twice",
+        action="append",
+        default=[],
+        help="drain an already-submitted batch instead of submitting a new one; REPEATABLE. Use "
+        "after a run is interrupted between submission and collection, since a batch is billed "
+        "when the provider runs it and resubmitting pays for the same requests twice. A full run "
+        "is split into chunks of "
+        f"{BATCH_CHUNK:,} and emits one id per chunk, so recovering it needs one --collect per id "
+        "-- a single-valued flag could not recover anything past the first chunk",
     )
     parser.add_argument(
         "--max-dollars",

@@ -15,6 +15,7 @@ import argparse
 import collections
 from pathlib import Path
 
+from thema.data import descriptions as descriptions_table
 from thema.data.formats import parse_obo_terms
 from thema.data.hierarchy import read_reactome_relation
 from thema.data.pathways import PathwayCollection
@@ -42,18 +43,18 @@ LOW_BANDS = (BANDS[0], BANDS[1])
 
 
 def read_descriptions(table: Path) -> dict[str, str]:
-    """Read the generated descriptions out of the committed table.
+    """Read the CURRENT generation of descriptions.
+
+    Delegates to the one shared reader. The table now keeps every generation, so a local
+    reader that took whichever row came last would silently mix prompts.
 
     Args:
         table: Path to ``pathway_descriptions.tsv``.
 
     Returns:
-        Pathway key to its generated description.
+        Pathway key to its generated description, current generation only.
     """
-    lines = table.read_text(encoding="utf-8").splitlines()
-    header = lines[0].split("\t")
-    key, text = header.index("key"), header.index("description_generated")
-    return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
+    return descriptions_table.read(table)
 
 
 def profile(source: PairSource, by_key: dict) -> tuple[dict, int, int]:

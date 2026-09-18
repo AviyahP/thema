@@ -29,11 +29,13 @@ import sys
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 
+from thema.data import descriptions as descriptions_table
 from thema.data.pathways import SOURCES, Pathway, PathwayCollection
 from thema.data.tables import (
     SUMMARY_COLUMNS,
     cell,
     flatten,
+    merge_tsv,
     print_table,
     sha256_file,
     write_tsv,
@@ -103,18 +105,18 @@ FLAGS_COLUMNS = ("key", "kind", "quote", "reason")
 
 
 def read_descriptions(table: Path) -> dict[str, str]:
-    """Read the generated descriptions out of the committed table.
+    """Read the CURRENT generation of descriptions.
+
+    Delegates to the one shared reader. The table now keeps every generation, so a local
+    reader that took whichever row came last would silently mix prompts.
 
     Args:
         table: Path to ``pathway_descriptions.tsv``.
 
     Returns:
-        Pathway key to its generated description.
+        Pathway key to its generated description, current generation only.
     """
-    lines = table.read_text(encoding="utf-8").splitlines()
-    header = lines[0].split("\t")
-    key, text = header.index("key"), header.index("description_generated")
-    return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
+    return descriptions_table.read(table)
 
 
 def choose_pilot(keys: Sequence[str], count: int, seed: int = PILOT_SEED) -> tuple[str, ...]:
@@ -454,8 +456,11 @@ def write_verification(
             (key, f.kind, cell(flatten(f.quote)), cell(flatten(f.reason))) for f in flags
         )
     table = data / VERIFICATION_TABLE
-    write_tsv(table, VERIFICATION_COLUMNS, rows)
-    write_tsv(data / FLAGS_TABLE, FLAGS_COLUMNS, flag_rows)
+    # Merge, never replace. `rows` holds only THIS run's results, so a full rewrite deletes every
+    # pathway verified by an earlier run -- and this table is what the experiment reads back as the
+    # first hundred's v3 baseline.
+    merge_tsv(table, VERIFICATION_COLUMNS, rows, key=("key",))
+    merge_tsv(data / FLAGS_TABLE, FLAGS_COLUMNS, flag_rows, key=("key", "kind", "quote"))
 
     counts = tally(results.values())
     summary: list[tuple[str, ...]] = [

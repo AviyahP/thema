@@ -25,6 +25,7 @@ from scipy.cluster.hierarchy import fcluster, linkage
 from sklearn.metrics import adjusted_rand_score
 
 from thema.cluster import distances
+from thema.data import descriptions as descriptions_table
 from thema.data.pathways import PathwayCollection, collision_groups
 from thema.data.tables import print_table
 from thema.embed import embed
@@ -42,18 +43,18 @@ BASELINE_DRAWS = 200_000
 
 
 def read_descriptions(table: Path) -> dict[str, str]:
-    """Read the generated descriptions out of the committed table.
+    """Read the CURRENT generation of descriptions.
+
+    Delegates to the one shared reader. The table now keeps every generation, so a local
+    reader that took whichever row came last would silently mix prompts.
 
     Args:
         table: Path to ``pathway_descriptions.tsv``.
 
     Returns:
-        Pathway key to its generated description.
+        Pathway key to its generated description, current generation only.
     """
-    lines = table.read_text(encoding="utf-8").splitlines()
-    header = lines[0].split("\t")
-    key, text = header.index("key"), header.index("description_generated")
-    return {row[key]: row[text] for row in (line.split("\t") for line in lines[1:] if line)}
+    return descriptions_table.read(table)
 
 
 def band_of(value: float) -> tuple[float, float]:
