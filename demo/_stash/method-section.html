@@ -1,0 +1,25 @@
+<section class="method">
+    <h2>How the hierarchy was built</h2>
+    <div class="mgrid">
+      <div class="mcol">
+        <h4>Sources</h4>
+        <div class="dblist">
+          <div class="db"><span class="src reactome">reactome</span><span>Reactome pathways</span><span class="dv">v97</span></div>
+          <div class="db"><span class="src go">go</span><span>GO biological process</span><span class="dv">2026-08</span></div>
+          <div class="db"><span class="src hallmark">hallmark</span><span>MSigDB Hallmark</span><span class="dv">2026.1</span></div>
+          <div class="db"><span class="src btm">btm</span><span>Blood transcription modules</span><span class="dv">Li 2014</span></div>
+        </div>
+        <p>Gene symbols from every source are resolved to HGNC identifiers, and members that cannot be resolved to a human gene are discarded and recorded.</p>
+      </div>
+      <div class="mcol">
+        <h4>Descriptions</h4>
+        <p>Each pathway gets a short functional description written from its curated text and its full gene list, so that pathways described tersely in one database and fully in another become comparable. The source database is never shown to the writer.</p>
+        <p>Descriptions are machine-written and under continuing review. If one looks wrong, please report it — corrections are incorporated in the next release.</p>
+      </div>
+      <div class="mcol">
+        <h4>Clustering</h4>
+        <p>Descriptions are embedded with a biomedical language model and clustered by Ward linkage on the normalised vectors. The tree is cut at several levels, and those cuts are what you navigate above.</p>
+        <p>The ontology is frozen before any experiment is analysed, so theme-level testing is no more circular than standard over-representation analysis.</p>
+      </div>
+    </div>
+  </section>

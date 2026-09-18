@@ -23,6 +23,7 @@ uv run scripts/normalize_descriptions.py --report          # check the descripti
 uv run scripts/verify_descriptions.py --pilot 100          # price a fact-check of 100
 uv run scripts/verify_descriptions.py --pilot 100 --submit # run it, and report the flag rate
 uv run scripts/build_ontology.py                           # embed, cluster, write the trees
+uv run scripts/export_demo.py                              # write demo/ontology.{json,js} for demo/prototype.html
 ```
 
 ## Conventions

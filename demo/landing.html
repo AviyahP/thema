@@ -1,0 +1,818 @@
+<title>THEMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#F6F8F7; --card:#FFFFFF; --sunk:#EDF1EF; --sunk2:#E4EAE8;
+  --ink:#111A1D; --slate:#55646A; --faint:#859196;
+  --rule:#DCE3E1; --rule-hard:#C3CDCA;
+  --accent:#0D6B66; --accent-soft:#E2F0EE; --accent-ink:#FFFFFF;
+  --up:#A63E28; --down:#2B5C87; --flag:#8A6110; --flag-soft:#F7EEDC;
+  --reactome:#7A4E9E; --go:#1F7A52; --hallmark:#96560F; --btm:#1F5F87;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1214; --card:#141C1F; --sunk:#101719; --sunk2:#182124;
+    --ink:#E7EDEB; --slate:#9BA9AE; --faint:#6C7A80;
+    --rule:#243033; --rule-hard:#35474D;
+    --accent:#4FB5AC; --accent-soft:#12312F; --accent-ink:#06201E;
+    --up:#DE7C60; --down:#7BAAD6; --flag:#D3A548; --flag-soft:#2B2311;
+    --reactome:#B893D6; --go:#6BC79A; --hallmark:#D89A55; --btm:#82B4DE;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1214; --card:#141C1F; --sunk:#101719; --sunk2:#182124;
+  --ink:#E7EDEB; --slate:#9BA9AE; --faint:#6C7A80;
+  --rule:#243033; --rule-hard:#35474D;
+  --accent:#4FB5AC; --accent-soft:#12312F; --accent-ink:#06201E;
+  --up:#DE7C60; --down:#7BAAD6; --flag:#D3A548; --flag-soft:#2B2311;
+  --reactome:#B893D6; --go:#6BC79A; --hallmark:#D89A55; --btm:#82B4DE;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  padding-left:20px;padding-right:20px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:24px 60px;display:flex;flex-direction:column;gap:0}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- masthead ---------- */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 26px;
+  padding-bottom:16px;border-bottom:1px solid var(--rule-hard)}
+.mark{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:.055em;line-height:1}
+.mark em{font-style:normal;color:var(--accent)}
+.expansion{font-family:var(--mono);font-size:11px;letter-spacing:.055em;color:var(--faint);
+  text-transform:uppercase;margin-top:7px}
+.build{margin-left:auto;font-family:var(--mono);font-size:11px;line-height:1.75;color:var(--faint);
+  text-align:right;font-variant-numeric:tabular-nums}
+.build b{font-weight:500;color:var(--slate)}
+@media (max-width:760px){.build{margin-left:0;text-align:left}}
+
+.mock{margin-top:16px;display:flex;gap:10px;align-items:flex-start;
+  background:var(--flag-soft);border-left:3px solid var(--flag);
+  padding:10px 14px;border-radius:0 5px 5px 0;font-size:13px}
+.mock b{font-weight:600}
+
+/* ---------- intro ---------- */
+.intro{margin-top:32px}
+.intro .ask{font-family:var(--serif);font-optical-sizing:auto;
+  font-size:clamp(26px,5.1vw,56px);line-height:1.16;font-weight:600;
+  letter-spacing:-.018em;color:var(--ink)}
+.mk{position:relative;display:inline-block;white-space:nowrap;color:var(--accent)}
+.mk .mkt{position:relative;color:var(--ink)}
+.mk .swipe{position:absolute;left:-.16em;top:-.06em;width:calc(100% + .32em);height:112%;
+  overflow:visible;pointer-events:none;transform:rotate(-.7deg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mk .swipe{opacity:.8}}
+:root[data-theme="dark"] .mk .swipe{opacity:.8}
+.intro p.close{margin-top:30px;padding-top:22px;border-top:1px solid var(--rule);
+  color:var(--ink);font-size:17px;line-height:1.62}
+.intro p.close2{margin-top:13px;color:var(--slate);font-size:15px;line-height:1.6}
+.methodlink{margin-top:16px;font-size:14px}
+.methodlink a{text-decoration:underline;text-underline-offset:3px;font-weight:500}
+.methodlink a::after{content:" \2192"}
+
+/* the cases: compact cards, detail on hover */
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-top:24px}
+.mode{background:var(--card);border:1px solid var(--rule);border-radius:9px;
+  padding:15px 16px 16px;display:flex;flex-direction:column;position:relative}
+.mode:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.kind{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.005em;
+  align-self:flex-start;margin-bottom:11px;color:var(--ink)}
+.hint{position:absolute;top:15px;right:16px;font-family:var(--mono);font-size:9px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--faint);transition:opacity .18s ease}
+.stack{display:flex;flex-direction:column;gap:2px}
+.hit{display:grid;grid-template-columns:58px 1fr auto;gap:8px;align-items:center;
+  background:var(--sunk);border-radius:4px;padding:5px 8px;font-size:12px}
+.hit.d{grid-template-columns:58px 1fr auto auto}
+.hit .hn{overflow-wrap:anywhere;color:var(--slate);line-height:1.35}
+.hit .hg{font-family:var(--mono);font-size:10px;color:var(--faint);white-space:nowrap}
+.hit .hd{font-family:var(--mono);font-size:10px;white-space:nowrap;min-width:64px;text-align:right;
+  color:var(--ink)}
+.hit .hd.zero{color:var(--faint)}
+.hit .hd.base{color:var(--faint);opacity:.75}
+.hit .src{font-size:8.5px;padding:2px 0}
+.short{margin-top:9px;font-size:12.5px;line-height:1.45;color:var(--ink)}
+.short .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--accent);margin-right:6px}
+/* face and explanation occupy the same box; hover swaps them, size never changes */
+.cardbody{position:relative;flex:1}
+.face{transition:opacity .16s ease}
+.explain{position:absolute;inset:0;overflow:auto;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:0;visibility:hidden;font-size:13px;line-height:1.55;color:var(--slate);
+  transition:opacity .18s ease,visibility .18s}
+.explain b{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--ink)}
+.explain p + p{margin-top:9px}
+.mode:hover .face,.mode:focus-within .face{opacity:0;pointer-events:none}
+.mode:hover .explain,.mode:focus-within .explain{opacity:1;visibility:visible}
+.mode:hover .hint,.mode:focus-within .hint{opacity:0}
+.hint .tp{display:none}
+@media (hover:none){.hint .hv{display:none}.hint .tp{display:inline}}
+@media (prefers-reduced-motion:reduce){.face,.explain{transition:none}}
+.themechip{margin-top:10px;display:flex;align-items:center;gap:10px;
+  background:var(--accent-soft);border:1px solid var(--accent);border-radius:6px;padding:8px 11px}
+.themechip .tl{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--accent);line-height:1.2}
+.themechip .tc{font-family:var(--mono);font-size:10px;color:var(--accent);margin-left:auto;white-space:nowrap;opacity:.8}
+
+.cta{margin-top:44px;padding:34px 0 8px;border-top:1px solid var(--rule-hard);text-align:center}
+.cta h2{font-family:var(--serif);font-size:clamp(24px,3.2vw,34px);font-weight:600;letter-spacing:-.015em;line-height:1.16}
+.cta p{margin:12px auto 0;max-width:58ch;font-size:15px;color:var(--slate);line-height:1.55}
+.ctabtns{margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.ctabtns .btn{text-decoration:none;display:inline-block}
+.howto{margin-top:16px;font-size:13.5px;color:var(--slate)}
+
+/* ---------- explorer ---------- */
+.exhead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:10px;margin-top:40px;padding-top:26px;border-top:1px solid var(--rule-hard)}
+.exhead h2{font-family:var(--serif);font-size:clamp(27px,3.6vw,38px);font-weight:600;
+  letter-spacing:-.015em;line-height:1.14}
+.exhead p{font-size:14px;color:var(--slate);max-width:60ch;margin-top:4px}
+
+.extools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px}
+.exsearch{position:relative;flex:1;min-width:220px;max-width:340px}
+.exsearch input{width:100%;font:inherit;font-size:13.5px;background:var(--card);color:var(--ink);
+  border:1px solid var(--rule-hard);border-radius:6px;padding:8px 11px 8px 30px}
+.exsearch input::placeholder{color:var(--faint)}
+.exsearch input:focus{outline:none;border-color:var(--accent)}
+.exsearch .mag{position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  width:13px;height:13px;color:var(--faint);pointer-events:none}
+.exbtn{background:none;border:1px solid var(--rule-hard);border-radius:6px;padding:8px 12px;
+  font-size:12.5px;color:var(--slate)}
+.exbtn:hover{border-color:var(--accent);color:var(--accent)}
+.exstat{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);
+  font-variant-numeric:tabular-nums}
+
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,405px);gap:20px;margin-top:12px;align-items:start}
+@media (max-width:980px){.split{grid-template-columns:1fr}}
+
+.tree{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:9px 10px 12px}
+/* dendrogram connectors: a rail down the left of each child block, a tick into every row,
+   and the rail stops at the last child's midpoint */
+.kids{margin-left:16px;padding-left:16px;position:relative;animation:unfold .2s ease both}
+.branch{position:relative}
+.branch::before{content:"";position:absolute;left:-16px;top:0;bottom:0;width:1px;background:var(--rule-hard)}
+.branch:last-child::before{display:none}
+.branch:last-child > .trow::before{content:"";position:absolute;left:-16px;top:0;height:50%;width:1px;background:var(--rule-hard)}
+.kids > .branch > .trow::after{content:"";position:absolute;left:-16px;top:50%;width:14px;height:1px;background:var(--rule-hard)}
+@keyframes unfold{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.kids{animation:none}}
+
+.trow{display:grid;grid-template-columns:16px minmax(0,1fr) auto auto;gap:10px;align-items:center;
+  width:100%;background:none;border:0;text-align:left;padding:7px 9px;border-radius:6px;
+  position:relative;line-height:1.3}
+.trow:hover{background:var(--sunk)}
+.trow[aria-current="true"]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.trow .chev{width:16px;height:16px;color:var(--faint);transition:transform .18s ease;flex:none}
+.trow[aria-expanded="true"] .chev{transform:rotate(90deg);color:var(--accent)}
+.trow .nm{font-family:var(--serif);font-size:14.5px;overflow-wrap:anywhere}
+.trow[aria-current="true"] .nm{color:var(--accent);font-weight:600}
+.trow[data-d="0"] .nm{font-size:16px;font-weight:600}
+.trow.leaf .nm{font-family:var(--sans);font-size:13px;color:var(--slate)}
+.trow.leaf[aria-current="true"] .nm{color:var(--accent)}
+.trow .ct{font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;line-height:1.35}
+
+.comp{display:flex;width:74px;height:6px;border-radius:3px;overflow:hidden;background:var(--sunk2)}
+.comp i{display:block;height:100%}
+.comp i.reactome{background:var(--reactome)} .comp i.go{background:var(--go)}
+.comp i.hallmark{background:var(--hallmark)} .comp i.btm{background:var(--btm)}
+.trow.leaf .comp{background:none}
+.srcdot{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:3px;padding:2px 5px;opacity:.85;white-space:nowrap}
+.stub{margin:2px 0 6px;padding:8px 10px;font-size:12.5px;color:var(--faint);
+  background:var(--sunk);border-radius:6px;max-width:52ch}
+.nores{padding:16px 10px;font-size:13px;color:var(--faint)}
+.hitmark{background:var(--accent-soft);border-radius:2px;padding:0 2px}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:10px;
+  font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.legend .sw{display:inline-block;width:10px;height:6px;border-radius:2px;margin-right:5px;vertical-align:1px}
+.legend .sw.reactome{background:var(--reactome)} .legend .sw.go{background:var(--go)}
+.legend .sw.hallmark{background:var(--hallmark)} .legend .sw.btm{background:var(--btm)}
+.legend .what{color:var(--slate);font-family:var(--sans);font-size:12px}
+.more{margin:2px 0 4px;padding:6px 9px;font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.showall{margin:3px 0 4px;background:none;border:0;padding:5px 9px;font-family:var(--mono);font-size:10.5px;
+  color:var(--accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.alsochip{display:inline-block;margin-left:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;
+  color:var(--accent);border:1px dashed var(--accent);border-radius:3px;padding:0 5px;vertical-align:1px}
+.alsorow{cursor:pointer}
+.alsorow .rn{color:var(--accent)}
+
+/* detail */
+.detail{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:20px 22px 22px;
+  position:sticky;top:14px}
+@media (max-width:980px){.detail{position:static}}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;color:var(--faint);text-transform:uppercase}
+.detail h3.dn{font-family:var(--serif);font-size:26px;font-weight:600;margin-top:6px;line-height:1.22}
+.provisional{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.04em;background:var(--flag-soft);color:var(--flag);padding:3px 8px;border-radius:3px}
+
+.facts{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.fact{background:var(--sunk);border-radius:5px;padding:7px 12px}
+.fact .k{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+.fact .v{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;margin-top:2px}
+
+h4.sec{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);
+  font-weight:600;margin-top:26px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.secnote{font-size:12.5px;color:var(--faint);margin-top:7px;max-width:62ch}
+
+.rows{margin-top:10px;display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.row{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;
+  background:var(--card);padding:10px 13px;border:0;text-align:left;width:100%}
+.row:hover{background:var(--sunk)}
+.row .rn{font-size:13.5px;overflow-wrap:anywhere}
+.row .rg{font-family:var(--mono);font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums}
+.src{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 0;border-radius:3px;text-align:center;border:1px solid currentColor;opacity:.9}
+.src.reactome{color:var(--reactome)} .src.go{color:var(--go)}
+.src.hallmark{color:var(--hallmark)} .src.btm{color:var(--btm)}
+
+.prose{font-family:var(--serif);font-size:15.5px;line-height:1.62;margin-top:10px;max-width:64ch}
+.prose.curated{font-family:var(--sans);font-size:14px;color:var(--slate);line-height:1.55}
+
+.genes{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;max-height:140px;overflow-y:auto}
+.gene{font-family:var(--mono);font-size:11px;background:var(--sunk);border-radius:3px;padding:3px 7px;color:var(--slate)}
+.genemore{font-family:var(--mono);font-size:11px;color:var(--faint);padding:3px 2px}
+
+.reportbar{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule);
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.reportbar p{font-size:12.5px;color:var(--faint);max-width:52ch}
+.report{background:none;border:1px solid var(--rule-hard);border-radius:5px;
+  padding:7px 14px;font-size:13px;color:var(--slate);white-space:nowrap}
+.report:hover{border-color:var(--accent);color:var(--accent)}
+
+.empty{color:var(--faint);font-size:14px;margin-top:14px;max-width:56ch}
+
+/* ---------- report overlay ---------- */
+.overlay{position:fixed;inset:0;background:rgba(10,18,20,.55);display:flex;
+  align-items:center;justify-content:center;padding:20px;z-index:50}
+.overlay[hidden]{display:none}
+.sheet{background:var(--card);border:1px solid var(--rule-hard);border-radius:10px;
+  padding:22px 24px 24px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto}
+.sheet h3{font-family:var(--serif);font-size:20px;font-weight:600}
+.sheet .ctx{margin-top:12px;background:var(--sunk);border-radius:6px;padding:11px 13px;
+  font-family:var(--mono);font-size:12px;color:var(--slate);overflow-wrap:anywhere}
+.sheet ul{margin:14px 0 0;padding-left:18px;font-size:14px;color:var(--slate);line-height:1.6}
+.sheet .foot{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:5px;
+  padding:9px 18px;font-weight:600;font-size:14px}
+.btn.ghost{background:none;color:var(--slate);border:1px solid var(--rule-hard);font-weight:400}
+.notwired{font-family:var(--mono);font-size:11px;color:var(--flag)}
+
+/* ---------- method ---------- */
+.method{margin-top:44px;padding-top:24px;border-top:1px solid var(--rule-hard)}
+.method h2{font-family:var(--serif);font-size:20px;font-weight:600}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:16px}
+.mcol h4{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);font-weight:600}
+.mcol p{font-size:13.5px;color:var(--slate);margin-top:8px;line-height:1.55}
+.dblist{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.db{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:baseline;font-size:13px}
+.db .dv{font-family:var(--mono);font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* ---------- examples ---------- */
+.examples{margin-top:42px;padding-top:24px;border-top:1px solid var(--rule-hard)}
+.examples h2{font-family:var(--serif);font-size:20px;font-weight:600}
+.exgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
+.ex{background:var(--card);border:1px dashed var(--rule-hard);border-radius:8px;padding:16px 17px 17px;
+  text-align:left;display:flex;flex-direction:column;gap:8px;opacity:.85}
+.ex .extag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.ex .exname{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.28}
+.ex .exwhy{font-size:12.5px;color:var(--slate);line-height:1.5}
+.ex .exstate{font-family:var(--mono);font-size:10.5px;color:var(--flag);margin-top:2px}
+
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--faint);max-width:78ch;line-height:1.65}
+footer code{font-family:var(--mono);font-size:11.5px}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="mark">T<em>H</em>EMA</div>
+      <div class="expansion">Thematic Hierarchy for Enrichment Merging and Attribution</div>
+    </div>
+    <div class="build">
+      ontology <b>v0.1</b> &middot; smoke build<br>
+      <b>1,854</b> of 10,817 pathways &middot; <b>4</b> databases<br>
+      reactome 97 &middot; go 2026-08 &middot; msigdb 2026.1 &middot; btm 2013
+    </div>
+  </header>
+
+  <div class="mock">
+    <span aria-hidden="true">▲</span>
+    <span><b>Design mockup.</b> The two examples below are real — those pathways do cluster together in the current 1,854-pathway build. Everything in the explorer further down is illustrative, used to show the layout. All theme labels are provisional: naming has not been run.</span>
+  </div>
+
+  <section class="intro">
+    <p class="ask">Ever run pathway enrichment and got back a list&nbsp;you&nbsp;<span class="mk"><svg class="swipe" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M1 21C58 11 131 26 204 16 274 6 338 23 399 11L397 84C331 96 257 79 186 89 116 98 57 83 3 92Z" fill="currentColor" fill-opacity=".19"/><path d="M5 60C72 52 149 68 223 59 291 51 347 65 396 55L394 86C329 97 253 80 183 90 113 99 56 85 5 92Z" fill="currentColor" fill-opacity=".15"/><path d="M8 88C64 81 128 95 196 87 268 79 330 93 392 83" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg><span class="mkt">couldn&rsquo;t make sense of</span></span>?</p>
+
+    <div class="modes">
+      <div class="mode" tabindex="0">
+        <span class="kind">Names that look unrelated</span>
+        <span class="hint"><span class="hv">hover</span><span class="tp">tap</span> for detail</span>
+        <div class="cardbody">
+          <div class="face">
+            <div class="stack">
+              <div class="hit"><span class="src go">go</span><span class="hn">positive regulation of JNK cascade</span><span class="hg">104 genes</span></div>
+              <div class="hit"><span class="src reactome">reactome</span><span class="hn">TNFR1-mediated ceramide production</span><span class="hg">6 genes</span></div>
+              <div class="hit"><span class="src reactome">reactome</span><span class="hn">NIK&rarr;noncanonical NF-kB signaling</span><span class="hg">46 genes</span></div>
+              <div class="hit"><span class="src hallmark">hallmark</span><span class="hn">TNFA_SIGNALING_VIA_NFKB</span><span class="hg">200 genes</span></div>
+            </div>
+            <div class="themechip"><span class="tl">Innate receptor signalling to NF-&kappa;B</span><span class="tc">15 pathways</span></div>
+            <p class="short"><span class="tag">grouped</span>Four independent lines of evidence for one biology &mdash; and nothing in the names told you to look.</p>
+          </div>
+          <div class="explain">
+            <p>All six pairs score <b>below &kappa; 0.04</b>, and two of them share <b>no gene at all</b>. Neither the names nor the gene lists connect these pathways, so no gene-overlap tool groups them.</p>
+            <p>Because they barely overlap, each one is a separate observation. Four of them landing on the same theme is stronger support than any one of them alone.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mode" tabindex="0">
+        <span class="kind">Names that look alike</span>
+        <span class="hint"><span class="hv">hover</span><span class="tp">tap</span> for detail</span>
+        <div class="cardbody">
+          <div class="face">
+            <div class="stack">
+              <div class="hit d"><span class="src go">go</span><span class="hn">insulin secretion</span><span class="hg">204 genes</span><span class="hd base">baseline</span></div>
+              <div class="hit d"><span class="src go">go</span><span class="hn">regulation of insulin secretion</span><span class="hg">167 genes</span><span class="hd zero">+0 new</span></div>
+              <div class="hit d"><span class="src reactome">reactome</span><span class="hn">Regulation of insulin secretion</span><span class="hg">78 genes</span><span class="hd">+57 new</span></div>
+            </div>
+            <div class="themechip"><span class="tl">Insulin secretion and glucose homeostasis</span><span class="tc">18 pathways</span></div>
+            <p class="short"><span class="tag">told apart</span>Three names you could not rank by reading them. Only one of the two is a second observation.</p>
+          </div>
+          <div class="explain">
+            <p>Every one of the second pathway&rsquo;s <b>167</b> genes is already in the first. It brings <b>nothing of its own</b> &mdash; given the first, it could not have come out any other way.</p>
+            <p>The third shares only <b>21</b> genes with the first and carries <b>57</b> that GO does not have. Its enrichment is real added support. The names give you no way to tell which is which.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="close">THEMA groups pathways by their thematic meaning, not by the genes they share &mdash; so related biology scattered across seemingly unrelated pathways can be pulled together into meaningful clusters.</p>
+    <p class="close2">The ontology is built over 10,817 pathways over four databases (Reactome, Gene Ontology, MSigDB Hallmark and the Blood Transcriptional Modules) before any experiment meets it. Your enrichment is laid over that pre-computed hierarchy, not used to build it.</p>
+    <p class="close2">Every cluster carries the union of its pathways&rsquo; gene lists. Given a gene list and the universe you measured, enrichment can therefore be computed at every level of the hierarchy &mdash; and what a parent theme adds beyond its enriched members can be tested directly.</p>
+    <p class="methodlink"><a href="#">Learn how the THEMA ontology was built</a></p>
+  </section>
+
+  <div class="exhead">
+    <div>
+      <h2><span class="mk"><svg class="swipe" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M1 21C58 11 131 26 204 16 274 6 338 23 399 11L397 84C331 96 257 79 186 89 116 98 57 83 3 92Z" fill="currentColor" fill-opacity=".19"/><path d="M5 60C72 52 149 68 223 59 291 51 347 65 396 55L394 86C329 97 253 80 183 90 113 99 56 85 5 92Z" fill="currentColor" fill-opacity=".15"/><path d="M8 88C64 81 128 95 196 87 268 79 330 93 392 83" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg><span class="mkt">Explore the ontology</span></span></h2>
+      <p>Start at the broadest themes and work down: theme, sub-theme, then the individual pathways that compose it.</p>
+    </div>
+  </div>
+
+  <div class="extools">
+    <div class="exsearch">
+      <svg class="mag" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.6 10.6L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search themes and pathways" aria-label="Search the ontology">
+    </div>
+    <button class="exbtn" id="collapse" type="button">Collapse all</button>
+    <span class="exstat" id="exstat"></span>
+  </div>
+  <div class="legend" aria-label="Legend">
+    <span class="what">Bar on a theme = which databases its pathways come from:</span>
+    <span><i class="sw reactome"></i>Reactome</span>
+    <span><i class="sw go"></i>Gene Ontology</span>
+    <span><i class="sw hallmark"></i>MSigDB Hallmark</span>
+    <span><i class="sw btm"></i>Blood transcription modules</span>
+  </div>
+
+  <div class="split">
+    <div class="tree" id="tree" role="tree" aria-label="Pathway ontology"></div>
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+
+<section class="cta">
+    <h2>Want to run THEMA on your own data?</h2>
+    <p>Paste your differential expression or enrichment data, or start from a worked example, to overlay them on the ontology.</p>
+    <div class="ctabtns">
+      <a class="btn" href="#">Use your own data</a>
+      <a class="btn ghost" href="#">Try a worked example</a>
+    </div>
+  </section>
+
+  <footer>
+    THEMA is a research tool under active development. The hierarchy is rebuilt as its source databases are updated, and each build is versioned. Pathway descriptions are generated by a language model from curated source text and gene membership, then checked by an automated verification pass; they are not a substitute for the curated descriptions they were written from, and both are shown side by side for every pathway. <code>github.com/AviyahP/thema</code>
+  </footer>
+
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheettitle">
+    <h3 id="sheettitle">Report a problem</h3>
+    <p class="secnote" style="margin-top:8px">Tell us what looks wrong. Reports are read before each release and corrections are incorporated in the next build.</p>
+    <div class="ctx" id="sheetctx"></div>
+    <ul>
+      <li>What is wrong — a factual error, a pathway in the wrong theme, a theme that should be split</li>
+      <li>What it should say instead, if you know</li>
+      <li>A reference, if you have one</li>
+      <li>Your email, only if you would like a reply</li>
+    </ul>
+    <div class="foot">
+      <button class="btn" type="button" id="openform">Open the report form</button>
+      <button class="btn ghost" type="button" id="closesheet">Cancel</button>
+      <span class="notwired">form not connected yet</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   MOCKUP DATA — illustrative, not the current build's output.
+   Replace DATA with a fetch() of the exported ontology.
+   Node shape:    {id, label, provisional, n, children?, pathways?}
+   Pathway shape: {id, name, source, sid, n, genes[], curated, thema}
+   --------------------------------------------------------------------------- */
+
+/* memberships: a pathway's primary home is where it sits in the tree; `also` lists
+   secondary memberships {node, label, w} — the contract in thema-soft-membership-plan.md §6.
+   Every real pathway today has none; one illustrative example is set below.        */
+const P = (id,name,source,sid,genes,curated,thema,n,also) =>
+  ({id,name,source,sid,genes,curated,thema,n:n||genes.length,also:also||[]});
+
+const DATA = {
+  id:"root", label:"All themes", n:1854,
+  children:[
+    {id:"t1", label:"Immune and inflammatory response", provisional:true, n:243, g:2910, children:[
+      {id:"t1a", label:"Type I interferon response", provisional:true, n:34, g:412, pathways:[
+        P("p1","Interferon alpha/beta signaling","reactome","R-HSA-909733",
+          ["IFNAR1","IFNAR2","JAK1","TYK2","STAT1","STAT2","IRF9","ISG15","MX1","MX2","OAS1","OAS2","OAS3","IFIT1","IFIT3","RSAD2","USP18","BST2","IFI6","IRF1"],
+          "Interferon alpha and beta bind a common receptor and signal through JAK-STAT to induce interferon-stimulated genes.",
+          "Detection of viral nucleic acid drives secretion of type I interferon, which binds a shared receptor on neighbouring cells and switches on a defensive programme through JAK-STAT signalling. The induced genes restrict viral replication in several ways at once: nucleic acid sensing and degradation, conjugation of ISG15 to host and viral proteins, restriction of viral entry and release, and a general slowing of translation. The same programme runs without a virus in several autoimmune conditions, where its magnitude tracks disease activity.",
+          134),
+        P("p2","type I interferon-mediated signaling pathway","go","GO:0060337",
+          ["IFNAR1","IFNAR2","STAT1","STAT2","IRF9","JAK1","TYK2","PTPN2","USP18","IFI35","SOCS1","SOCS3","ISG15","MX1","OAS1"],
+          "A series of molecular signals initiated by the binding of a type I interferon to a receptor on the cell surface.",
+          "The receptor-to-nucleus arm of the antiviral response: a type I interferon engages its receptor, receptor-associated kinases phosphorylate two signal transducers, and these assemble with a third factor into the complex that binds interferon-stimulated response elements. Several members are negative regulators, which matters because the response is designed to be transient and its failure to resolve is what turns host defence into tissue damage.",
+          96, [{node:"t1c", label:"Antigen receptor signalling and lymphocyte activation", w:0.31}]),
+        P("p3","INTERFERON_ALPHA_RESPONSE","hallmark","M5911",
+          ["ISG15","MX1","OAS1","IFIT1","IFIT3","IFI44","IFI44L","IFI6","IRF7","STAT1","STAT2","BST2","LY6E","SAMD9","HERC5","RSAD2","USP18","EPSTI1"],
+          "Genes up-regulated in response to alpha interferon proteins.",
+          "An empirically derived signature of cells that have recently seen type I interferon, assembled from expression data rather than curated mechanism. It overlaps heavily with the curated interferon pathways but is defined by co-expression, which makes it a useful check: a contrast that lights up the curated pathway and not this one, or the reverse, is worth a second look.",
+          97),
+        P("p4","type I interferon response (M127)","btm","M127",
+          ["IFI44L","IFI44","IFI6","ISG15","MX1","OAS1","OAS2","OAS3","OASL","RSAD2","IFIT1","IFIT3","HERC5","USP18","SIGLEC1","EPSTI1","LY6E","SPATS2L"],
+          "",
+          "A blood transcription module derived from whole-blood expression across many vaccine and infection studies, capturing the set of genes that move together when circulating cells have been exposed to type I interferon. Because it was defined in blood rather than from curated biology, it is the module most likely to be detected in a whole-blood contrast, and its members are the markers used clinically to score interferon activity.",
+          42)
+      ]},
+      {id:"t1b", label:"Neutrophil activation and granule release", provisional:true, n:29, g:620, pathways:[
+        P("p5","Neutrophil degranulation","reactome","R-HSA-6798695",
+          ["ELANE","MPO","PRTN3","CTSG","DEFA1","DEFA4","LCN2","LTF","CAMP","MMP8","MMP9","CEACAM8","OLFM4","ITGAM","FCGR3B","CYBB","NCF1","NCF2"],
+          "Release of the contents of neutrophil granules into the phagosome or the extracellular space.",
+          "Neutrophils carry their weapons pre-made, packaged into distinct granule populations during development in the bone marrow and released in sequence at the site of infection. The earliest granules hold proteases and myeloperoxidase; later ones hold antimicrobial peptides, iron-sequestering proteins and the components of the oxidative burst. Because the granule contents are made before the cell ever leaves the marrow, their abundance in blood reflects how recently granulocytes were produced as much as how activated they are.",
+          479),
+        P("p6","neutrophil degranulation","go","GO:0043312",
+          ["ELANE","MPO","PRTN3","CTSG","DEFA1","DEFA3","LCN2","LTF","CAMP","CD63","ITGAM","FCGR3B","STOM","VAMP8","SNAP23"],
+          "The regulated exocytosis of secretory granules containing preformed mediators by a neutrophil.",
+          "The exocytosis machinery of the neutrophil rather than the cargo it delivers: granule membranes docking at the plasma membrane and the vesicle fusion proteins that commit the step. The distinction matters, because a contrast can raise granule cargo without raising the machinery that releases it, which usually means immature cells in circulation rather than degranulating ones.",
+          485),
+        P("p7","enriched in neutrophils (M37.1)","btm","M37.1",
+          ["ELANE","MPO","DEFA4","CTSG","AZU1","BPI","LCN2","CAMP","CEACAM8","OLFM4","MS4A3","RNASE3"],
+          "",
+          "A blood module dominated by transcripts of immature granulocytes — the proteins of the azurophilic granule, made during a narrow window of promyelocyte development and not transcribed again in mature cells. Its appearance in whole blood therefore points to emergency granulopoiesis, where the marrow releases cells before they finish maturing, which is characteristic of severe infection and severe inflammatory disease.",
+          38)
+      ]},
+      {id:"t1c", label:"Antigen receptor signalling and lymphocyte activation", provisional:true, n:41, g:705, pathways:[
+        P("p8","TCR signaling","reactome","R-HSA-202403",
+          ["CD3D","CD3E","CD3G","CD247","LCK","ZAP70","LAT","LCP2","PLCG1","PRKCQ","CARD11","BCL10","MALT1","NFKB1","VAV1","ITK"],
+          "Signal transduction from the T cell receptor complex following peptide-MHC engagement.",
+          "Engagement of the antigen receptor by a peptide displayed on a major histocompatibility molecule triggers a kinase cascade at the membrane, building a scaffold that couples receptor occupancy to calcium release, transcription factor activation and the decision to proliferate. The pathway is deliberately hard to trigger — several steps require simultaneous costimulation — because a T cell that activates on weak signals becomes autoreactive.",
+          121),
+        P("p9","B cell receptor signaling pathway","go","GO:0050853",
+          ["CD79A","CD79B","BLNK","BTK","SYK","LYN","PLCG2","PIK3CD","CARD11","VAV1","CD19","CR2","MS4A1"],
+          "A series of molecular signals generated as a consequence of the B cell receptor binding to its antigen.",
+          "The B cell equivalent of antigen recognition: surface immunoglobulin transmits binding through associated signalling chains to a kinase whose loss causes a well-defined immunodeficiency, then onward to calcium flux and transcriptional activation. A co-receptor complex lowers the threshold when antigen arrives already tagged by complement, which links innate recognition to the strength of the antibody response that follows.",
+          94)
+      ]}
+    ]},
+
+    {id:"t2", label:"Cell cycle, replication and chromosome maintenance", provisional:true, n:198, g:1860, children:[
+      {id:"t2a", label:"DNA replication initiation", provisional:true, n:22, g:210, pathways:[
+        P("p10","Activation of the pre-replicative complex","reactome","R-HSA-68962",
+          ["MCM2","MCM3","MCM4","MCM5","MCM6","MCM7","CDC45","GINS1","GINS2","CDC6","CDT1","ORC1","ORC2","CDK2","CCNE1","DBF4"],
+          "Conversion of the licensed origin into an active replication fork.",
+          "Origins of replication are licensed in one phase of the cycle and fired in the next, and the separation is what prevents a stretch of DNA being copied twice. Firing converts a loaded, inactive helicase ring into a working one by recruiting two activating factors, and the kinases that drive the step are active only after the licensing window has closed. Loss of that separation produces re-replication and the genome instability that follows from it.",
+          38),
+        P("p11","DNA replication initiation","go","GO:0006270",
+          ["ORC1","ORC2","ORC3","ORC4","ORC5","ORC6","CDC6","CDT1","MCM2","MCM3","MCM4","MCM5","MCM6","MCM7","GMNC","MCIDAS"],
+          "The process in which DNA-dependent DNA replication is started.",
+          "Assembly at the origin, from the recognition complex that marks where copying will begin to the loading of the helicase that will unwind the duplex. Two members of this set are better known for a second role in the differentiation of multiciliated cells, where the same amplification machinery is redirected from origins to centrioles — a reminder that a gene set can carry more than one biology.",
+          42)
+      ]},
+      {id:"t2b", label:"Mitotic spindle and chromosome segregation", provisional:true, n:31, g:340, pathways:[
+        P("p12","Mitotic Spindle Checkpoint","reactome","R-HSA-69618",
+          ["MAD1L1","MAD2L1","BUB1","BUB1B","BUB3","CDC20","AURKB","INCENP","PLK1","TTK","ZW10","CENPE"],
+          "Surveillance mechanism that delays anaphase until all kinetochores are correctly attached.",
+          "A single unattached kinetochore is enough to hold the entire cell in metaphase, which is how a cell avoids dividing its chromosomes unequally. The checkpoint works by catalytic amplification: the unattached site converts a diffusible inhibitor into a form that sequesters the activator of the machinery that would otherwise dissolve sister-chromatid cohesion. Drugs that disturb the spindle kill dividing cells precisely because this checkpoint holds them there.",
+          98)
+      ]}
+    ]},
+
+    {id:"t3", label:"Lipid metabolism and transport", provisional:true, n:167, g:1140, children:[
+      {id:"t3a", label:"Fatty acid oxidation", provisional:true, n:19, g:150, pathways:[
+        P("p13","Mitochondrial Fatty Acid Beta-Oxidation","reactome","R-HSA-77289",
+          ["CPT1A","CPT2","SLC25A20","ACADVL","ACADM","ACADS","HADHA","HADHB","ECHS1","HADH","ACAA2","ETFA","ETFB","ETFDH"],
+          "Successive removal of two-carbon units from fatty acyl-CoA within the mitochondrial matrix.",
+          "Long-chain fats cannot cross the inner mitochondrial membrane unaided, so they are handed across on a carnitine shuttle and then dismantled two carbons at a time by a repeating four-step cycle, each turn feeding electrons into the respiratory chain and releasing acetyl-CoA. Inherited defects in individual steps present as hypoglycaemia during fasting, when the tissues that normally switch to fat cannot do so — which is why newborn screening tests for several of them.",
+          36)
+      ]},
+      {id:"t3b", label:"Plasma lipoprotein assembly and clearance", provisional:true, n:24, g:190, pathways:[
+        P("p14","Plasma lipoprotein assembly","reactome","R-HSA-8963898",
+          ["APOA1","APOB","APOC3","APOE","MTTP","LCAT","ABCA1","SAR1B","PLTP","CETP"],
+          "Assembly of triglyceride-rich and cholesterol-rich lipoprotein particles.",
+          "Fats are insoluble, so the body ships them in particles with a lipid core and a protein shell, assembled in the liver and intestine. The identity of the shell protein determines where the particle goes and what receptor takes it up, and the transfer proteins that move lipid between particles in circulation set the balance measured in a standard lipid panel. Several members are the direct targets of lipid-lowering therapy.",
+          29)
+      ]}
+    ]},
+
+    {id:"t4", label:"Signal transduction by receptor kinases", provisional:true, n:212, g:2380},
+    {id:"t5", label:"Gene expression and RNA processing", provisional:true, n:186, g:2210},
+    {id:"t6", label:"Protein folding, transport and degradation", provisional:true, n:174, g:1930},
+    {id:"t7", label:"Extracellular matrix and cell adhesion", provisional:true, n:121, g:1410},
+    {id:"t8", label:"Neuronal signalling and synaptic function", provisional:true, n:143, g:1620},
+    {id:"t9", label:"Development and cell fate specification", provisional:true, n:238, g:2650},
+    {id:"t10", label:"Small molecule transport across membranes", provisional:true, n:172, g:1880}
+  ]
+};
+
+const SOURCE_NAME = {reactome:"Reactome", go:"GO biological process", hallmark:"MSigDB Hallmark", btm:"Blood transcription module"};
+
+/* ---------------------------------------------------------------------------
+   unfolding tree: branches stay open beside their siblings; the card on the
+   right always describes the node most recently clicked.
+   --------------------------------------------------------------------------- */
+const open = new Set(["root"]);
+const showAll = new Set();          /* nodes whose full pathway list is expanded */
+const PREVIEW = 8;                  /* pathways shown before "show all" */
+let sel = DATA;
+let query = "";
+
+const kidsOf = n => n.children || n.pathways || [];
+const isLeaf = n => !!n.name;
+
+const CHEV = '<svg class="chev" viewBox="0 0 16 16" aria-hidden="true" focusable="false">'+
+  '<path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" '+
+  'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CHEVGAP = '<span class="chev" aria-hidden="true"></span>';
+
+function srcCounts(n){
+  const c = {};
+  (function walk(x){
+    if(x.name){ c[x.source] = (c[x.source]||0)+1; return; }
+    kidsOf(x).forEach(walk);
+  })(n);
+  return c;
+}
+const ORDER = ["reactome","go","hallmark","btm"];
+
+function compBar(n){
+  const c = srcCounts(n), tot = ORDER.reduce((s,k)=>s+(c[k]||0),0);
+  if(!tot) return '<span class="comp" aria-hidden="true"></span>';
+  const title = ORDER.filter(k=>c[k]).map(k=>c[k]+" "+SOURCE_NAME[k]).join(", ");
+  return '<span class="comp" title="'+title+'">'+
+    ORDER.filter(k=>c[k]).map(k=>'<i class="'+k+'" style="flex:'+c[k]+'"></i>').join("")+
+    '</span>';
+}
+
+/* search ------------------------------------------------------------------ */
+function matches(n){
+  const q = query.toLowerCase();
+  return (n.label||n.name||"").toLowerCase().includes(q);
+}
+function keep(n){                    /* node itself matches, or any descendant does */
+  if(!query) return true;
+  if(matches(n)) return true;
+  return kidsOf(n).some(keep);
+}
+function mark(text){
+  if(!query) return text;
+  const i = text.toLowerCase().indexOf(query.toLowerCase());
+  if(i < 0) return text;
+  return text.slice(0,i)+'<span class="hitmark">'+text.slice(i,i+query.length)+'</span>'+text.slice(i+query.length);
+}
+
+/* tree -------------------------------------------------------------------- */
+function rowHTML(n, depth){
+  const leaf = isLeaf(n);
+  const kids = kidsOf(n);
+  const expandable = !leaf;
+  const isOpen = open.has(n.id) || (query && keep(n) && !leaf);
+  return '<button class="trow'+(leaf?" leaf":"")+'" type="button" data-id="'+n.id+'" data-d="'+depth+'"'+
+    (expandable ? ' aria-expanded="'+(isOpen?"true":"false")+'"' : '')+
+    ' aria-current="'+(sel && sel.id === n.id ? "true":"false")+'">'+
+    (expandable ? CHEV : CHEVGAP)+
+    '<span class="nm">'+mark(n.label || n.name)+
+      (leaf && n.also.length ? '<span class="alsochip" title="this pathway is a member of '+(n.also.length+1)+' themes; see the card">in '+(n.also.length+1)+' themes</span>' : '')+
+    '</span>'+
+    (leaf ? '<span class="srcdot '+n.source+'">'+n.source+'</span>' : compBar(n))+
+    '<span class="ct">'+(leaf ? n.n+" genes" : n.n+" pathways<br>"+(n.g ? n.g.toLocaleString()+" genes" : "&mdash; genes"))+'</span>'+
+    '</button>';
+}
+
+function branchHTML(n, depth){
+  const leaf = isLeaf(n);
+  const kids = kidsOf(n).filter(keep);
+  const isOpen = open.has(n.id) || (query && !leaf && kids.length);
+  let html = '<div class="branch">' + rowHTML(n, depth);
+  if(!leaf && isOpen){
+    const leaves = !!n.pathways;
+    const missing = leaves ? n.n - n.pathways.length : 0;
+    const full = !leaves || query || showAll.has(n.id) || kids.length <= PREVIEW;
+    const shown = full ? kids : kids.slice(0, PREVIEW);
+    html += '<div class="kids'+(leaves ? " leaves" : "")+'">'+
+      (kids.length
+        ? shown.map(k => branchHTML(k, depth+1)).join("") +
+          (!full ? '<div class="branch"><button class="showall" type="button" data-showall="'+n.id+'">Show all '+kids.length+' pathways</button></div>'
+                 : (leaves && kids.length > PREVIEW && !query ? '<div class="branch"><button class="showall" type="button" data-showall="'+n.id+'">Show fewer</button></div>' : '')) +
+          (missing > 0 && !query ? '<div class="branch"><p class="more">+ '+missing+' more in the build &mdash; not in this mockup</p></div>' : '')
+        : '<p class="stub">Not populated in this mockup. In the build this theme continues down to the '+n.n+' pathways it contains.</p>')+
+      '</div>';
+  }
+  return html + '</div>';
+}
+
+function drawTree(){
+  const el = document.getElementById("tree");
+  const roots = DATA.children.filter(keep);
+  el.innerHTML = roots.length
+    ? roots.map(n => branchHTML(n, 0)).join("")
+    : '<p class="nores">Nothing in the ontology matches that.</p>';
+
+  el.querySelectorAll(".trow").forEach(b => {
+    b.addEventListener("click", () => {
+      const id = b.dataset.id;
+      const n = find(id, DATA);
+      sel = n;
+      if(!isLeaf(n)){ open.has(id) ? open.delete(id) : open.add(id); }
+      render();
+      const again = document.querySelector('.trow[data-id="'+id+'"]');
+      if(again) again.focus({preventScroll:true});
+    });
+  });
+
+  el.querySelectorAll(".showall").forEach(b => b.addEventListener("click", e => {
+    e.stopPropagation();
+    const id = b.dataset.showall;
+    showAll.has(id) ? showAll.delete(id) : showAll.add(id);
+    drawTree();
+  }));
+
+  document.getElementById("exstat").textContent =
+    query ? roots.length+" of 10 themes match" : "10 themes · 1,854 pathways";
+}
+
+function find(id, n){
+  if(n.id === id) return n;
+  for(const k of kidsOf(n)){ const r = find(id,k); if(r) return r; }
+  return null;
+}
+
+/* detail card ------------------------------------------------------------- */
+function genesBlock(genes, total){
+  const shown = genes.slice(0,28);
+  let html = '<div class="genes">' + shown.map(g => '<span class="gene">'+g+'</span>').join("");
+  if(total > shown.length) html += '<span class="genemore">+ '+(total-shown.length)+' more</span>';
+  return html + '</div>';
+}
+
+function drawDetail(){
+  if(!sel || sel.id === "root") return detailForRoot();
+  if(isLeaf(sel)) return detailForPathway(sel);
+  detailForNode(sel);
+}
+
+function detailForRoot(){
+  document.getElementById("detail").innerHTML =
+    '<div class="eyebrow">the ontology</div>'+
+    '<h3 class="dn">1,854 pathways, ten broad themes</h3>'+
+    '<p class="prose">Every pathway from four databases sits somewhere in this tree. Open a theme to see the sub-themes inside it, and a sub-theme to see its pathways. Whatever you open last is described here.</p>'+
+    '<div class="facts">'+
+      '<div class="fact"><div class="k">pathways</div><div class="v">1,854</div></div>'+
+      '<div class="fact"><div class="k">sources</div><div class="v">4</div></div>'+
+      '<div class="fact"><div class="k">levels shown</div><div class="v">3</div></div>'+
+      '<div class="fact"><div class="k">build</div><div class="v">v0.1</div></div>'+
+    '</div>';
+}
+
+function detailForNode(n){
+  const kids = kidsOf(n);
+  const kindWord = n.children ? "sub-themes" : "pathways";
+  const c = srcCounts(n);
+  const srcs = ORDER.filter(k => c[k]);
+  document.getElementById("detail").innerHTML =
+    '<div class="eyebrow">theme</div>'+
+    '<h3 class="dn">'+n.label+'</h3>'+
+    (n.provisional ? '<span class="provisional">provisional label — naming not yet run</span>' : '')+
+    '<div class="facts">'+
+      '<div class="fact"><div class="k">pathways</div><div class="v">'+n.n+'</div></div>'+
+      '<div class="fact"><div class="k">'+kindWord+'</div><div class="v">'+(kids.length||"—")+'</div></div>'+
+      '<div class="fact"><div class="k">genes in union</div><div class="v">'+(n.g ? n.g.toLocaleString() : "—")+'</div></div>'+
+      '<div class="fact"><div class="k">sources</div><div class="v">'+(srcs.length||"—")+'</div></div>'+
+    '</div>'+
+    (srcs.length
+      ? '<h4 class="sec">Where its pathways come from</h4>'+
+        '<div class="rows">'+ srcs.map(k =>
+          '<div class="row"><span class="src '+k+'">'+k+'</span>'+
+          '<span class="rn">'+SOURCE_NAME[k]+'</span>'+
+          '<span class="rg">'+c[k]+'</span></div>').join("") +'</div>'
+      : '<p class="empty">This branch is not populated in the mockup — in the build it carries '+n.n+' pathways.</p>')+
+    reportBar("theme", n.label);
+  wireReport("Theme: "+n.label+"  ("+n.n+" pathways)");
+}
+
+function detailForPathway(p){
+  document.getElementById("detail").innerHTML =
+    '<div class="eyebrow">pathway</div>'+
+    '<h3 class="dn">'+p.name+'</h3>'+
+    '<div class="facts">'+
+      '<div class="fact"><div class="k">source</div><div class="v" style="font-size:12.5px">'+SOURCE_NAME[p.source]+'</div></div>'+
+      '<div class="fact"><div class="k">identifier</div><div class="v" style="font-size:12.5px">'+p.sid+'</div></div>'+
+      '<div class="fact"><div class="k">genes</div><div class="v">'+p.n+'</div></div>'+
+    '</div>'+
+    '<h4 class="sec">Description in the source database</h4>'+
+    (p.curated
+      ? '<p class="prose curated">'+p.curated+'</p>'
+      : '<p class="empty" style="margin-top:10px">This source provides no description — the set is defined by its members alone. Pathways like this are the reason the step below exists.</p>')+
+    '<h4 class="sec">Description written for THEMA</h4>'+
+    '<p class="secnote">Machine-written from the curated text above and the full gene list.</p>'+
+    '<p class="prose">'+p.thema+'</p>'+
+    (p.also.length
+      ? '<h4 class="sec">Also a member of</h4>'+
+        '<p class="secnote">Secondary membership: this pathway routes into more than one theme. It is counted in that theme\u2019s gene union and tests, and shown there with the same weight.</p>'+
+        '<div class="rows">'+ p.also.map(a =>
+          '<button class="row alsorow" type="button" data-goto="'+a.node+'">'+
+          '<span class="src" style="border-color:transparent;color:var(--faint)">theme</span>'+
+          '<span class="rn">'+a.label+'</span>'+
+          '<span class="rg">w '+a.w.toFixed(2)+'</span></button>').join("") +'</div>'
+      : '')+
+    '<h4 class="sec">Genes</h4>'+
+    genesBlock(p.genes, p.n)+
+    reportBar("pathway", p.name);
+  document.querySelectorAll(".alsorow").forEach(b => b.addEventListener("click", () => {
+    const n = find(b.dataset.goto, DATA); if(!n) return;
+    /* open every ancestor so the target is visible, then select it */
+    (function openPath(x, target){
+      if(x.id === target) return true;
+      for(const k of kidsOf(x)){ if(openPath(k, target)){ open.add(x.id); return true; } }
+      return false;
+    })(DATA, n.id);
+    sel = n; render();
+    const row = document.querySelector('.trow[data-id="'+n.id+'"]');
+    if(row) row.scrollIntoView({block:"nearest"});
+  }));
+  wireReport("Pathway: "+p.name+"  ["+p.source+" "+p.sid+"]");
+}
+
+function reportBar(kind, label){
+  return '<div class="reportbar">'+
+    '<p>'+(kind === "pathway"
+      ? "Descriptions are machine-written and reviewed continuously. If something here is wrong, telling us is the fastest way to fix it."
+      : "If these pathways do not belong together, or one is missing, we would like to know.")+'</p>'+
+    '<button class="report" type="button" id="reportbtn">Report a problem</button>'+
+    '</div>';
+}
+
+function wireReport(ctx){
+  const b = document.getElementById("reportbtn");
+  if(!b) return;
+  b.addEventListener("click", () => {
+    document.getElementById("sheetctx").textContent = ctx;
+    document.getElementById("overlay").hidden = false;
+    document.getElementById("closesheet").focus();
+  });
+}
+
+/* chrome ------------------------------------------------------------------ */
+document.getElementById("closesheet").addEventListener("click", () => {
+  document.getElementById("overlay").hidden = true;
+});
+document.getElementById("overlay").addEventListener("click", e => {
+  if(e.target.id === "overlay") document.getElementById("overlay").hidden = true;
+});
+document.getElementById("openform").addEventListener("click", () => {
+  document.getElementById("openform").textContent = "Form not connected yet";
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") document.getElementById("overlay").hidden = true;
+});
+document.getElementById("q").addEventListener("input", e => {
+  query = e.target.value.trim(); drawTree();
+});
+document.getElementById("collapse").addEventListener("click", () => {
+  open.clear(); sel = DATA; render();
+});
+
+function render(){ drawTree(); drawDetail(); }
+render();
+</script>

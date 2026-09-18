@@ -1,0 +1,424 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>THEMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#F6F8F7; --card:#FFFFFF; --sunk:#EDF1EF;
+  --ink:#111A1D; --slate:#5B6A70; --faint:#8B979C;
+  --rule:#DCE3E1; --rule-hard:#C3CDCA;
+  --accent:#0D6B66; --accent-soft:#E2F0EE;
+  --up:#A63E28; --up-soft:#F6E6E1;
+  --down:#2B5C87; --down-soft:#E3ECF4;
+  --flag:#96690F; --flag-soft:#F7EEDC;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1214; --card:#141C1F; --sunk:#101719;
+    --ink:#E7EDEB; --slate:#9BA9AE; --faint:#6C7A80;
+    --rule:#243033; --rule-hard:#33444A;
+    --accent:#4FB5AC; --accent-soft:#12312F;
+    --up:#DE7C60; --up-soft:#331A13;
+    --down:#7BAAD6; --down-soft:#132635;
+    --flag:#D3A548; --flag-soft:#2B2311;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1214; --card:#141C1F; --sunk:#101719;
+  --ink:#E7EDEB; --slate:#9BA9AE; --faint:#6C7A80;
+  --rule:#243033; --rule-hard:#33444A;
+  --accent:#4FB5AC; --accent-soft:#12312F;
+  --up:#DE7C60; --up-soft:#331A13;
+  --down:#7BAAD6; --down-soft:#132635;
+  --flag:#D3A548; --flag-soft:#2B2311;
+}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;
+     margin:0;padding-block:0;padding-left:20px;padding-right:20px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-block:22px 56px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---- masthead ---------------------------------------------------- */
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;
+     padding-bottom:14px;border-bottom:1px solid var(--rule-hard)}
+.mark{font-family:var(--serif);font-size:27px;font-weight:600;letter-spacing:.055em}
+.mark em{font-style:normal;color:var(--accent)}
+.tagline{font-size:13.5px;color:var(--slate);max-width:46ch}
+.build{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);
+       text-align:right;line-height:1.7;font-variant-numeric:tabular-nums}
+
+.demo-note{margin-top:14px;display:flex;gap:9px;align-items:flex-start;
+  background:var(--flag-soft);border-left:3px solid var(--flag);
+  padding:9px 13px;border-radius:0 5px 5px 0;font-size:13px;color:var(--ink)}
+.demo-note b{font-weight:600}
+
+/* ---- input ------------------------------------------------------- */
+.input-block{margin-top:22px;background:var(--card);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);background:var(--sunk)}
+.tab{background:none;border:0;padding:10px 17px;font-size:13.5px;color:var(--slate);
+     border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);background:var(--card);font-weight:500}
+.pane{padding:15px 16px 16px}
+textarea{width:100%;min-height:88px;resize:vertical;background:var(--sunk);color:var(--ink);
+  border:1px solid var(--rule);border-radius:5px;padding:10px 12px;
+  font-family:var(--mono);font-size:12.5px;line-height:1.65}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:11px}
+button.go{background:var(--accent);color:#fff;border:0;border-radius:5px;padding:8px 20px;font-weight:600;font-size:14px}
+button.go[disabled]{background:var(--rule-hard);color:var(--faint);cursor:not-allowed}
+.tier{font-family:var(--mono);font-size:11.5px;color:var(--slate)}
+.tier b{color:var(--accent);font-weight:500}
+
+/* ---- summary ----------------------------------------------------- */
+.summary{margin-top:24px;display:flex;flex-wrap:wrap;gap:0;
+  border-top:1px solid var(--rule-hard);border-bottom:1px solid var(--rule-hard)}
+.stat{padding:13px 24px 13px 0;margin-right:24px;border-right:1px solid var(--rule);flex:0 0 auto}
+.stat:last-child{border-right:0}
+.stat .n{font-family:var(--mono);font-size:23px;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat .l{font-size:11.5px;color:var(--slate);letter-spacing:.05em;text-transform:uppercase;margin-top:3px}
+.stat .n small{font-size:14px;color:var(--faint)}
+
+/* ---- split ------------------------------------------------------- */
+.split{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:26px;margin-top:26px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.panel-head h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);font-weight:600}
+.linky{background:none;border:0;padding:0;font-size:12px;color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+
+/* tree */
+.tree{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:7px 5px}
+.node{display:grid;grid-template-columns:1fr 46px 30px;align-items:center;gap:7px;width:100%;
+  background:none;border:0;text-align:left;padding:6px 9px;border-radius:5px;line-height:1.3}
+.node:hover{background:var(--sunk)}
+.node[aria-current="true"]{background:var(--accent-soft)}
+.node[aria-current="true"] .nm{color:var(--accent);font-weight:600}
+.nm{font-family:var(--serif);font-size:14.5px;overflow-wrap:anywhere}
+.node.d1 .nm{padding-left:15px} .node.d2 .nm{padding-left:30px}
+.node.d0 .nm{font-weight:600} .node[disabled]{cursor:default}
+.node.dim .nm{color:var(--faint);font-style:italic}
+.bar{height:5px;border-radius:2px;background:var(--rule);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;display:block;border-radius:2px}
+.node .ct{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px;padding:0 4px;
+  font-size:11px;color:var(--faint);font-family:var(--mono)}
+.swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* detail */
+.detail{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:20px 22px 22px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint);text-transform:uppercase}
+.detail h3{font-family:var(--serif);font-size:25px;font-weight:600;margin-top:5px;line-height:1.2}
+.blurb{font-family:var(--serif);font-size:15.5px;line-height:1.62;color:var(--slate);margin-top:11px;max-width:64ch}
+
+.metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.metric{background:var(--sunk);border-radius:5px;padding:7px 12px}
+.metric .k{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+.metric .v{font-family:var(--mono);font-size:14.5px;font-variant-numeric:tabular-nums;margin-top:1px}
+
+h4.sec{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);
+  font-weight:600;margin-top:26px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.sec-note{font-size:12.5px;color:var(--faint);margin-top:7px;max-width:62ch}
+
+/* three tests */
+.tests{margin-top:11px;display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.test{display:grid;grid-template-columns:130px 1fr auto;gap:12px;align-items:baseline;
+  background:var(--card);padding:10px 13px}
+@media (max-width:560px){.test{grid-template-columns:1fr auto}.test .tq{grid-column:1/-1}}
+.test .tn{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink)}
+.test .tq{font-size:13px;color:var(--slate)}
+.test .tv{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--up);font-weight:500} .no{color:var(--faint)}
+
+/* members */
+.members{margin-top:11px;display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.mem{display:grid;grid-template-columns:66px 1fr auto auto;gap:12px;align-items:baseline;
+  background:var(--card);padding:9px 13px}
+@media (max-width:560px){.mem{grid-template-columns:66px 1fr auto}.mem .mfdr{display:none}}
+.src{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 0;border-radius:3px;text-align:center;border:1px solid currentColor;opacity:.85}
+.src.reactome{color:#7A4E9E} .src.go{color:#1F7A52} .src.hallmark{color:#9E5B12} .src.btm{color:#1F5F87}
+
+/* not computed — one look for every value nothing has produced yet */
+.pending{color:var(--faint);font-style:italic;font-family:var(--sans);font-size:12.5px}
+.stat .n.pending{font-size:15px;line-height:1.75}
+.prov{display:inline-block;margin-left:8px;vertical-align:3px;font-family:var(--mono);
+  font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--flag);
+  border:1px solid currentColor;border-radius:3px;padding:1px 5px;font-style:normal}
+
+/* nearest member — a real description of a real pathway, not of the theme */
+.exemplar{margin-top:11px;background:var(--sunk);border-radius:6px;padding:13px 15px}
+.exemplar .exhead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.exemplar .exnm{font-family:var(--serif);font-size:15px;font-weight:600}
+.exemplar .extext{font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--slate);
+  margin-top:8px;max-width:64ch}
+
+/* examples */
+.examples{margin-top:44px;padding-top:22px;border-top:1px solid var(--rule-hard)}
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:14px;margin-top:14px}
+.ex{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 16px 16px;
+    text-align:left;display:flex;flex-direction:column;gap:7px}
+.ex:hover{border-color:var(--accent)}
+.ex .exsrc{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.ex .exname{font-family:var(--serif);font-size:16.5px;font-weight:600;line-height:1.28}
+.ex .exwhy{font-size:12.5px;color:var(--slate);line-height:1.5}
+.ex .exhit{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:2px}
+
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);
+  font-size:12px;color:var(--faint);max-width:74ch;line-height:1.65}
+footer code{font-family:var(--mono);font-size:11.5px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="mark">T<em>H</em>EMA</div>
+      <p class="tagline">Thematic Hierarchical Enrichment Mapping &amp; Analysis</p>
+    </div>
+    <div class="build" id="build"></div>
+  </header>
+
+  <div class="demo-note">
+    <span>&#9650;</span>
+    <span><b>Ontology is real; the analysis layer is not built.</b>
+      The tree, the pathway counts, the gene counts, the member lists and the member descriptions below are
+      the actual output of the smoke build. <b>Everything statistical is absent</b>: no enrichment has been run,
+      so every p-value, FDR, direction arrow and membership score reads <i>not computed</i>. Theme names are
+      provisional keyword labels, not written names. The two input boxes hold illustrative example input
+      and are not wired to anything.</span>
+  </div>
+
+  <section class="input-block">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-table" aria-selected="true" aria-controls="pane-table">Enrichment table</button>
+      <button class="tab" role="tab" id="tab-genes" aria-selected="false" aria-controls="pane-genes">Gene list</button>
+    </div>
+    <div class="pane" id="pane-table" role="tabpanel" aria-labelledby="tab-table">
+      <textarea id="in-table" spellcheck="false" aria-label="Enrichment table input">Interferon alpha/beta signaling	R-HSA-909733	1.2e-14	0.0000000041
+type I interferon-mediated signaling pathway	GO:0060337	4.4e-13	0.0000000094
+HALLMARK_INTERFERON_ALPHA_RESPONSE	M5911	8.1e-12	0.000000082
+type I interferon response (M127)	M127	2.0e-11	0.00000017
+Interferon Signaling	R-HSA-913531	7.7e-11	0.00000053
+ISG15 antiviral mechanism	R-HSA-1169408	3.4e-9	0.0000191
+neutrophil degranulation	GO:0043312	9.8e-9	0.0000462</textarea>
+      <div class="controls">
+        <button class="go" disabled>Find themes</button>
+        <span class="tier">tier <b>B</b> &mdash; table only, descriptive. <span class="pending">Not wired: no analysis runs from this box.</span></span>
+      </div>
+    </div>
+    <div class="pane" id="pane-genes" role="tabpanel" aria-labelledby="tab-genes" hidden>
+      <textarea id="in-genes" spellcheck="false" aria-label="Gene list input">IFI44L	IFI44	IFI6	ISG15	MX1	MX2	OAS1	OAS2	OAS3	OASL
+RSAD2	IFIT1	IFIT3	HERC5	USP18	SIGLEC1	EPSTI1	LY6E	SPATS2L
+CD79A	MS4A1	TNFRSF17	MZB1	DERL3	JCHAIN	IGKC	IGHG1
+ELANE	MPO	DEFA4	CTSG	LCN2	CEACAM8	OLFM4	CAMP</textarea>
+      <div class="controls">
+        <button class="go" disabled>Find themes</button>
+        <span class="tier">tier <b>A2</b> &mdash; 35 genes, over-representation, hypergeometric. <span class="pending">Not wired: no analysis runs from this box.</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="summary" id="summary" aria-label="Result summary"></section>
+
+  <div class="split">
+    <div>
+      <div class="panel-head">
+        <h2>Theme tree</h2>
+        <button class="linky" id="toggle-tree"></button>
+      </div>
+      <nav class="tree" id="tree" aria-label="Theme hierarchy"></nav>
+      <div class="legend" id="legend"></div>
+    </div>
+    <article class="detail" id="detail" aria-live="polite"></article>
+  </div>
+
+  <section class="examples">
+    <div class="panel-head"><h2>Worked examples</h2></div>
+    <p class="sec-note">Published contrasts with a known answer, so you can judge the output against biology you already believe. <span class="pending">None of the three has been run: no enrichment exists for any of them yet.</span></p>
+    <div class="ex-grid">
+      <button class="ex">
+        <span class="exsrc">GSE93272 &middot; whole blood &middot; n=232</span>
+        <span class="exname">Rheumatoid arthritis vs healthy</span>
+        <span class="exwhy">The interferon signature that four databases each describe separately, collapsed into one theme &mdash; plus the plasma-cell expansion that tracks autoantibody titre.</span>
+        <span class="exhit pending">not computed</span>
+      </button>
+      <button class="ex">
+        <span class="exsrc">GSE157103 &middot; whole blood &middot; n=126</span>
+        <span class="exname">Severe vs moderate COVID-19</span>
+        <span class="exwhy">Neutrophil and emergency-granulopoiesis themes dominate, while adaptive themes fall &mdash; the split that made severity predictable in 2020.</span>
+        <span class="exhit pending">not computed</span>
+      </button>
+      <button class="ex">
+        <span class="exsrc">TCGA-BRCA &middot; tumour vs normal</span>
+        <span class="exname">Breast tumour vs matched normal</span>
+        <span class="exwhy">Proliferation themes rise and oxidative phosphorylation falls. The obvious answer, which is the point: a tool that misses it is not worth trusting on a subtle one.</span>
+        <span class="exhit pending">not computed</span>
+      </button>
+    </div>
+  </section>
+
+  <footer>
+    Themes come from a frozen ontology built before any experiment is analysed, so theme-level testing is no more circular than standard over-representation analysis. The ontology on this page is real: <span id="f-count">&hellip;</span> pathways from <span id="f-sources">&hellip;</span> databases, described by an LLM from each pathway's curated text and gene list, embedded with BioLORD-2023 and cut from one Ward tree at three depths. What is <i>designed but not built</i>, and therefore shown as not computed throughout: soft membership, so that a pathway which is half proliferation and half DNA repair is recorded as both rather than assigned to one; Benjamini&ndash;Hochberg significance across the whole tree in one family, with attribution tests in their own family; and the written theme names that will replace the keyword labels. <code>github.com/AviyahP/thema</code>
+  </footer>
+
+</div>
+
+<script src="ontology.js"></script>
+<script>
+/* ---------------------------------------------------------------------------
+   REAL DATA — demo/ontology.js, written by scripts/export_demo.py.
+
+   THEMES and TREE keep the shapes the hand-made prototype used, so the render
+   functions below are the prototype's. Everything nothing has computed carries
+   the string "not computed"; nothing here invents a plausible-looking figure.
+   --------------------------------------------------------------------------- */
+const DATA   = window.THEMA_ONTOLOGY;
+const THEMES = DATA ? DATA.themes : {};
+const TREE   = DATA ? DATA.tree   : [];
+const NC     = "not computed";
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const nc  = v => v === NC ? '<span class="pending">'+NC+'</span>' : esc(v);
+
+/* Enrichment is not built. When it is, these flip and the bars, the direction
+   words and the enriched-only filter start meaning something. */
+const HAS_ENRICHMENT = !!(DATA && DATA.build.computed.enrichment);
+const NAMED          = !!(DATA && DATA.build.computed.theme_names);
+
+/* Depths 0 and 1 by default; the toggle reveals the finest cut. Before
+   enrichment there is nothing to filter on, so the control collapses the tree
+   rather than pretending to select significant nodes. */
+const TREE_DEPTH = 2;
+let showAll  = false;
+let current  = null;
+
+function visible(){
+  return showAll ? TREE : TREE.filter(n => n.depth < TREE_DEPTH);
+}
+
+const colourFor = d => d==="up"?"var(--up)":d==="down"?"var(--down)":d==="flag"?"var(--flag)":"var(--rule-hard)";
+
+function drawTree(sel){
+  const el = document.getElementById("tree");
+  el.innerHTML = "";
+  visible().forEach(n=>{
+    const b = document.createElement("button");
+    // Dim marks a node the reader can skip. Before enrichment nothing has been ruled out,
+    // so only an unnamed node earns it; dimming everything would mean nothing.
+    b.className = "node d"+n.depth + (n.dir==="flag"||(HAS_ENRICHMENT&&n.dir==="none")?" dim":"");
+    if(n.id) b.setAttribute("aria-current", n.id===sel ? "true":"false");
+    b.disabled = !n.id;
+    b.innerHTML =
+      '<span class="nm">'+esc(n.label)+'</span>'+
+      (HAS_ENRICHMENT
+        ? '<span class="bar"><i style="width:'+Math.max(n.mag*100,3)+'%;background:'+colourFor(n.dir)+'"></i></span>'
+        : '<span class="bar" title="enrichment not computed"></span>')+
+      '<span class="ct">'+esc(n.ct)+'</span>';
+    if(n.id) b.addEventListener("click",()=>select(n.id));
+    el.appendChild(b);
+  });
+}
+
+function select(id){
+  const t = THEMES[id];
+  if(!t) return;
+  current = id;
+  const d = document.getElementById("detail");
+  const dirWord = t.dir==="up"?"enriched":t.dir==="down"?"depleted":t.dir==="flag"?"unnamed node":
+                  t.dir==="na"?"enrichment not computed":"not significant";
+  const ex = t.exemplar;
+  d.innerHTML =
+    '<div class="eyebrow">theme &middot; depth '+t.depth+' &middot; '+dirWord+'</div>'+
+    '<h3>'+esc(t.name)+(t.provisional&&!NAMED?'<span class="prov">provisional label</span>':'')+'</h3>'+
+    '<p class="blurb">'+esc(t.blurb)+'</p>'+
+    '<div class="metrics">'+t.metrics.map(function(m){
+      return '<div class="metric"><div class="k">'+esc(m.k)+'</div><div class="v">'+nc(m.v)+'</div></div>';}).join("")+'</div>'+
+    (ex && ex.description
+      ? '<h4 class="sec">Nearest member to the centre of this cluster</h4>'+
+        '<p class="sec-note">Its own generated description, shown because no description of the theme exists. This is one member, not a summary of the '+t.members.length+'.</p>'+
+        '<div class="exemplar"><div class="exhead"><span class="src '+esc(ex.source)+'">'+esc(ex.source)+'</span>'+
+          '<span class="exnm">'+esc(ex.name)+'</span></div>'+
+          '<p class="extext">'+esc(ex.description)+'</p></div>'
+      : '')+
+    '<h4 class="sec">Attribution &mdash; three tests</h4>'+
+    '<p class="sec-note">Every node is to be tested on its full gene set, then asked whether it earns its place beside its children. Siblings never subtract from each other. <span class="pending">None of the three is implemented.</span></p>'+
+    '<div class="tests">'+t.tests.map(function(r){
+      return '<div class="test"><span class="tn">'+esc(r[0])+'</span><span class="tq">'+esc(r[1])+'</span><span class="tv '+(r[3]?"yes":"no")+'">'+nc(r[2])+'</span></div>';}).join("")+'</div>'+
+    '<h4 class="sec">What this theme merged &mdash; '+t.members.length+' pathways</h4>'+
+    '<p class="sec-note">Source and pathway name are real. The last two columns are the membership score and the pathway&rsquo;s own p-value in your input; <span class="pending">neither is computed</span>.</p>'+
+    '<div class="members">'+t.members.map(function(m){
+      return '<div class="mem"><span class="src '+esc(m[0])+'">'+esc(m[0])+'</span><span class="mn">'+esc(m[1])+'</span><span class="msc">'+esc(m[2])+'</span><span class="mfdr">'+esc(m[3])+'</span></div>';}).join("")+'</div>'+
+    '<p class="sec-note" style="margin-top:12px">'+esc(t.note)+'</p>';
+  drawTree(id);
+}
+
+function drawChrome(){
+  const b = DATA.build;
+  document.getElementById("build").innerHTML =
+    'ontology v0.1 &middot; smoke build<br>'+
+    b.pathways.toLocaleString()+' of '+b.collection.toLocaleString()+' pathways<br>'+
+    b.sources.map(s=>esc(s[0])+' '+s[1]).join(' &middot; ')+'<br>'+
+    esc(b.linkage)+' tree, cut at k='+b.levels.join('/');
+
+  document.getElementById("summary").innerHTML = DATA.summary.map(function(s){
+    return '<div class="stat"><div class="n'+(s.n===NC?" pending":"")+'">'+esc(s.n)+'</div>'+
+      '<div class="l">'+esc(s.l)+(s.small?' <small>'+s.small+'</small>':'')+'</div></div>';
+  }).join("");
+
+  document.getElementById("legend").innerHTML = HAS_ENRICHMENT
+    ? '<span><span class="swatch" style="background:var(--up)"></span>enriched</span>'+
+      '<span><span class="swatch" style="background:var(--down)"></span>depleted</span>'+
+      '<span><span class="swatch" style="background:var(--rule-hard)"></span>not significant</span>'
+    : '<span>bars are blank: enrichment not computed</span>';
+
+  document.getElementById("f-count").textContent = b.pathways.toLocaleString();
+  document.getElementById("f-sources").textContent = b.sources.length;
+  drawToggle();
+}
+
+function drawToggle(){
+  const t = document.getElementById("toggle-tree");
+  t.textContent = showAll
+    ? "Show top two levels ("+TREE.filter(n=>n.depth<TREE_DEPTH).length+")"
+    : "Show all "+TREE.length+" nodes";
+}
+
+document.querySelectorAll(".tab").forEach(function(tab){
+  tab.addEventListener("click",function(){
+    document.querySelectorAll(".tab").forEach(function(t){
+      const on = t===tab;
+      t.setAttribute("aria-selected",on);
+      document.getElementById(t.id.replace("tab-","pane-")).hidden = !on;
+    });
+  });
+});
+
+document.getElementById("toggle-tree").addEventListener("click",function(){
+  showAll = !showAll;
+  drawToggle();
+  drawTree(current);
+});
+
+if(!DATA){
+  document.getElementById("detail").innerHTML =
+    '<div class="eyebrow">no data</div><h3>ontology.js did not load</h3>'+
+    '<p class="blurb">Run <code>uv run scripts/export_demo.py</code>, then open this file from the '+
+    'same directory as <code>ontology.js</code>.</p>';
+}else{
+  drawChrome();
+  const first = TREE.find(n=>n.id);
+  if(first) select(first.id);
+}
+</script>
+</body></html>
