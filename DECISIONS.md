@@ -1108,3 +1108,369 @@ different.** Merging protects against deleting another run's rows; it does nothi
 claim the same identity. Both ledgers were separate, so the blend was recoverable at zero cost, and
 it was caught only because the totals disagreed with what the run had just printed -- the same way
 three of the four were caught.
+
+## 2026-09-16 — The demo renders the real ontology; everything statistical says "not computed"
+
+`demo/prototype.html` was written against hand-made `THEMES` and `TREE` literals with a banner
+saying every figure was illustrative. Those two literals are now filled from
+`scripts/export_demo.py`, which reads `data/ontology/clusters_ward.tsv`, `data/pathways.tsv` and
+the committed descriptions and writes `demo/ontology.json` plus a `demo/ontology.js` twin. The
+shapes are unchanged: the page's contract was the constants, so the export was built to match them
+rather than a new shape designed and the page rewritten around it.
+
+**Three ward cuts become three depths: k=10, k=50, k=200.** The cuts are checked to refine one
+another before anything is drawn (`check_nested`), because a tree assembled from cuts that crossed
+would look like an ordinary tree and be wrong. 260 nodes, 250 of them clickable; depth 0 groups and
+is not offered as a theme, matching the prototype.
+
+**A single constant, `NOT_COMPUTED`, stands in every slot nothing has produced.** Enrichment, soft
+membership and the three attribution tests are designed and unbuilt, so p-values, FDRs, direction
+arrows, membership scores, the enriched count and the BH family all render the words *not computed*
+in a distinct style. The alternative -- leaving a plausible figure, or hiding the row -- is
+indistinguishable from a real result to any reader, including us in a month.
+
+**Theme labels are the three most distinctive terms in the member names, joined by ` · `.** No
+theme has been named; the namer has not been run and is priced separately. The separator is
+deliberately not a word, so the label reads as machine output at a glance, and each theme carries a
+`provisional label` tag. Alongside it the page shows the member nearest the cluster centre and that
+member's own generated description, labelled as one member and not a summary -- a real pathway name
+anchors a cluster better than three keywords and costs nothing.
+
+**Two bugs in the prototype's own CSS, found only once real data arrived.** The `.go` rule for the
+"Find themes" button also matched the `src go` badge on every GO member row, painting it a solid
+accent block with no legible text; the prototype's illustrative data had too few GO rows for it to
+be noticed. Scoped to `button.go`. Depth-0 nodes, being disabled, had nothing marking them as
+headings once every node's label was machine-generated rather than hand-written prose.
+
+## 2026-09-16 — v4 replicates on a fresh hundred: +10 points, twice
+
+The v4 prompt was confirmed on 100 pathways drawn by the same uniform method with the original
+hundred excluded, graded by the byte-identical frozen `verify-v1`. The outcome is the one the
+decision rule names: does a description carry at least one `wrong` claim.
+
+| | pilot 100 | fresh 100 |
+|---|---|---|
+| v3 | 26% | 19% |
+| v4 arm A | 16% | 9% |
+| difference | +10% [-1, +21] | +10% [+1, +19] |
+| exact McNemar p | 0.110 | 0.052 |
+| raw wrong claims | 27 -> 16 | 20 -> 9 |
+
+**The replication is the result, not either p-value.** Neither draw clears p<0.05 alone. The same
++10-point effect appearing on two independent hundreds is stronger evidence than one significant
+test would have been, and it is what the two-stage design was for. Pooled post hoc across 200
+paired pathways -- legitimate, since the samples are independent and the protocol frozen, but NOT
+pre-registered and reported as supplementary -- the discordant pairs are 37 only-v3 against 17
+only-v4, exact McNemar **p = 0.0091**.
+
+**The baseline moved and the effect did not.** v3 scored 26% on one draw and 19% on the other, a
+7-point swing on the thing being improved against. Any single-sample comparison here was always
+going to be reading partly the draw; the improvement holding at +10 across both is what separates
+the two.
+
+### Arm B: the repair pass, confirmed on fresh data and still undecided
+
+| | pilot 100 | fresh 100 |
+|---|---|---|
+| arm A (prompt only) | 16% | 9% |
+| arm B (prompt + repair) | 5% | 7% |
+| A vs B, head to head | +11% [+2, +20], p = 0.027 | +2% [-5, +9], p = 0.791 |
+| repair fixed / repair broke | 16 / 5 | 8 / 6 |
+
+**The head-to-head is the number that matters, and it did not replicate.** Arm B beat arm A by 11
+points on the pilot and by 2 points on the fresh draw. Pooled across both, 24 repair-fixed against
+11 repair-broke over 35 discordant pairs, exact p = 0.041 -- which leans toward the repair helping.
+
+**We cannot say the repair does not help. We also cannot say it does.** Stating either from these
+numbers would be overreach. What can be said is that its pilot advantage was not reproduced, and
+that the honest interval on fresh data includes zero in both directions.
+
+**The collateral rate is decision-relevant independently of significance.** The repair rewrites
+roughly 60 descriptions per 100 and introduces a new wrong claim into 8-10% of what it touches:
+fresh, 59 rewritten to fix 8 and break 6; pilot, 65 rewritten to fix 16 and break 5. A mechanism
+that damages a tenth of the clean text it rewrites needs a large win to be worth running, and on
+fresh data the win was two pathways.
+
+**More of the same test cannot settle it.** McNemar's evidence is the discordant pairs alone, and
+the two arms disagree on about 14 pathways per 100. Detecting the fresh split (8:6) at 80% power
+needs ~382 discordant pairs, about **2,700 pathways**; even the optimistic pooled split (24:11)
+needs ~54 pairs, about **390 pathways**. Another hundred adds fourteen pairs and decides nothing.
+
+**And precision is not the binding constraint -- bias is.** Arm B repairs against `verify-v1`
+findings and is then graded by `verify-v1`, so a larger sample under the same protocol measures a
+favourable estimate more precisely rather than testing whether the advantage is real. The 2026-09-16
+two-grader result is the warning: Opus and Sonnet found similar RATES on the same text and agreed on
+which descriptions only once out of four or five. The informative next experiment is therefore a
+DIFFERENT grader on fresh arms A and B, not a fourth hundred under the same one.
+
+---
+
+## 2026-09-16 — Four label and baseline defects, found in one afternoon, all one failure
+
+Completing the fresh-100 comparison surfaced four bugs. Every one is the same underlying failure --
+**a value that nothing produced rendering as a value** -- and it is the same failure the demo's
+`not computed` constant exists to prevent. They are recorded together because the pattern is the
+finding; individually each looks like an oversight.
+
+**1. Arm labels omitted the sample.** `label = arm_name if grader == args.model else f"{arm_name}
+@{grader}"` carried the grader but not which hundred. Grading arm A on the fresh draw would have
+written rows under `"A plain"`, the label already holding 90 pilot flags. Keys are disjoint so
+nothing is overwritten, but any count grouped by arm becomes a blend of two experiments over two
+hundred pathways. **This is the 2026-09-16 grader blend on a different axis**: the rule that a
+writer must identify its rows by everything that makes them different was applied to the grader and
+not to the sample. The scheme now lives in one function, `sample_label`, so the next axis has one
+place to be added rather than two to be kept in step. The 101 already-written `v3 control` rows were
+relabelled `v3 control [fresh]` after asserting every one was a fresh-sample key.
+
+**2. The paired comparison read the wrong baseline file.** `report_stats` called
+`carries_wrong(data, "v3", keys)`, which reads the committed `pathway_verification_flags.tsv` --
+a file containing **none** of the fresh hundred's keys. On the fresh sample it returned an all-clean
+baseline, so McNemar would have compared v4 against a v3 with zero errors and reported v4 as a
+regression against nothing. This was the one that would have produced a wrong headline. Fixed, with
+a guard that refuses to print a comparison when the baseline is empty.
+
+**3. An arm that was never run rendered as a perfect score.** The first corrected run printed
+`v3 19% vs B 0% ... exact McNemar p = 0.000 -- significant` for an arm that does not exist on the
+fresh sample. `carries_wrong` returns booleans, and all-False is ambiguous between *scored and
+found nothing* and *never scored* -- opposite findings, one of which is a flawless result with a
+significant p-value attached. `was_scored` now tests label presence separately.
+
+**4. Arm B's construction hardcoded `"A plain"`.** Arm B is built from arm A's text plus arm A's
+flags. On the fresh sample it would have collected the pilot's flags, whose keys are not in the
+fresh base at all: the repair would have found nothing to fix and **arm B would have been arm A
+under a different name**, silently. Caught by pricing before submission, and confirmed fixed by the
+repair pass then finding 59 flagged descriptions -- arm A fresh's own count -- rather than the
+pilot's 65.
+
+**What the pattern says.** Three of the four were invisible in the output: they produce a number,
+not an error. Only the pricing dry-run caught the fourth before it spent money. The defence that
+worked every time was refusing to accept a number without asking which rows it came from.
+
+## 2026-09-16 — The fifth defect: the repair stage could be interrupted but not recovered
+
+A sixth run today was killed between submitting its repair batch and collecting it. Batches are
+billed when the provider runs them, not when their results are read, so those 59 completions were
+already paid for and stranded.
+
+`--collect ARM=BATCH_ID` exists precisely for this and was added after it happened twice on
+2026-09-10. **It reached `verify_arm` and not `repair_arm`.** The repair stage submits its own
+batch through the same `run_batch`, is exactly as interruptible, and had none of the recovery — so
+the only way forward was to resubmit and pay for the same 59 requests a second time. The flag's own
+help text promises that resubmitting "pays for the same batch twice"; the promise did not extend to
+this stage.
+
+**This is the first of the day's defects that cost money rather than producing a wrong number.**
+The other four rendered something nothing had computed; this one silently removed the option not to
+spend.
+
+**The fix names the stage, not just the arm.** `--collect` now accepts `ARM:STAGE=BATCH_ID`, with a
+bare `ARM=` still meaning verification. Two stages of one arm are two different things to drain and
+must be nameable separately — the same identity rule that produced the sample-label and grader-label
+defects. `parse_collect` says which part of a bad value was wrong, because an operator recovering a
+stranded batch should not have to guess between a typo'd arm and an unsupported stage.
+
+**An unfinished or unrecoverable batch stops the run.** `repair_arm` reports the status and returns
+rather than falling through to a submission. Confirmed on the first recovery attempt, which printed
+`repair batch ... is in_progress; rerun this command later` and spent nothing. Resubmission is a
+separate, explicit decision, never a fallback.
+
+## 2026-09-18 — CONCLUSION of the v4 prompt experiment: adopt the prompt, treat the repair pass as unproven
+
+Four arms over two independent hundreds, scored by the frozen `verify-v1` protocol. The outcome is
+"does this description carry at least one `wrong` claim". Arm labels here are the post-rename ones;
+the flags table carries the same labels.
+
+### The numbers
+
+| configuration | rewrites/100 | first 100 | second 100 |
+|---|---|---|---|
+| v3 (previous prompt) | — | 26% (27 claims) | 19% (20 claims) |
+| **A plain** — v4 prompt alone | 0 | 16% | **9%** |
+| **B repair (all flags)** — repair on every flag | 59–65 | 5% | 7% |
+| **D repair (errors only)** — repair on `wrong` flags only | 9–16 | 2% | **2%** |
+
+Paired McNemar, same pathways, exact test:
+
+```
+v3 vs A          first 100   +10% [-1,+21]   p = 0.110
+v3 vs A          second 100  +10% [+1,+19]   p = 0.052
+v3 vs A          pooled n=200, 37:17 discordant      p = 0.0091   (post hoc)
+A  vs B          first 100   +11% [+2,+20]   p = 0.027
+A  vs B          second 100  +2%  [-5,+9]    p = 0.791
+A  vs D          second 100  +7%  [+2,+12]   p = 0.016     fixed 7, broke 0
+B  vs D          second 100  +5%  [-1,+11]   p = 0.180
+```
+
+### Conclusion 1 — the v4 prompt is adopted. This is the solid result.
+
+A beat v3 by the same +10 points on two independent samples. Neither sample clears p<0.05 alone
+(0.110, 0.052); the replication is the evidence, and the pooled figure is p = 0.0091. The v3
+baseline itself moved 7 points between draws (26% → 19%), which is why the stability of the
+*difference* matters more than either p-value.
+
+### Conclusion 2 — arm B was defective, not merely worse
+
+B rewrote on every flag, including `unsupported`, which is the verifier saying the gene list does
+not support a claim rather than that the claim is false. It therefore rewrote 59 of 100 descriptions
+to fix 9. **All 11 descriptions it broke across both samples came from rewriting text that carried
+no error; none came from text carrying one.** Its 7 remaining errors on the second hundred are 1 it
+never fixed plus 6 it created. The rule it violated was already recorded in this file and applied in
+the other repair path. Fixed by making `Arm.repair_kinds` explicit; B's behaviour is preserved so
+its published numbers stay reproducible.
+
+### Conclusion 3 — the repair gain is real but mostly NOT transferable
+
+The second hundred's arm A and arm D texts were re-scored by `claude-sonnet-5` under the identical
+`verify-v1` prompt. This is the decisive test, because D repairs against what `claude-opus-5` flags
+and is then graded by `claude-opus-5`.
+
+| grader | A | D | difference | p |
+|---|---|---|---|---|
+| opus-5 (the grader D optimises against) | 9% | 2% | +7% [+2,+12] | **0.016** |
+| sonnet-5 (independent) | 7% | 5% | +2% [-1,+5] | **0.500** |
+
+**The two graders agree on the rate and not on the instances.** On arm A, opus flagged 9 and sonnet
+flagged 7, overlapping on **2** — Jaccard 0.14, **Cohen's kappa 0.19**, the same figure the earlier
+two-grader comparison produced. The repair cleared 7 of opus's 9 (78%) and only 2 of sonnet's 7
+(29%), because 5 of sonnet's were never flagged by opus and the repair was never asked to touch them.
+
+**Neither grader found the repair made anything worse** — only-D was 0 under both. The repair is
+safe; it is simply narrow. Its measured +7 is largely the measurement agreeing with itself, and the
+transferable gain is about +2 points.
+
+### What this means for spending
+
+Arm D is not a prompt, it is a three-stage pipeline, and the middle stage is the expensive one:
+generation ~$0.0130/pathway, verification ~$0.0078, repair ~$0.0126. Verification must run over
+EVERYTHING to find the errors. At 1,854 that is ~$14 to buy roughly two transferable points; at
+10,817, ~$84. **Generation alone delivers the replicated 19%→9%; the verify-and-repair stage buys a
+further ~2 points by an independent measure and ~7 by its own.** Those are separate purchases and
+should be decided separately.
+
+### Recorded limits
+
+- Both hundreds are ~100, so every interval here is wide. The A-vs-D discordant set is 7 pathways.
+- `adjudicate-v1` failed its calibration gate (19/27, all 8 disagreements lenient), so the metric
+  throughout is raw `wrong` claims by `verify-v1`, not an adjudicated severity split.
+- No third grader was run. Two graders at kappa 0.19 bound the instance-level agreement; they do not
+  establish a true error rate, and capture-recapture on the earlier pair suggested 14–20 where each
+  grader saw 4–5.
+
+## 2026-09-18 — Is the cross-grader trustworthy? Its flags were read, not assumed
+
+The cross-model result rests on `claude-sonnet-5`, a smaller model than the `claude-opus-5` grader
+used throughout. The objection is fair on its face -- a weaker judge could simply be noisier -- so
+its five remaining `wrong` flags on the repaired second hundred were read and assessed rather than
+taken on trust.
+
+**Three of five are genuine**, and all three are the error class v4 exists to prevent: influenza B
+described as using dicistronic termination-reinitiation (a calicivirus mechanism via TURBS);
+`ADPRM` credited with processing ADP-ribose-1''-phosphate from tRNA splicing (a different enzyme);
+`DHX58`/LGP2 described as a cofactor that amplifies RIG-I signalling when it frequently inhibits it.
+**Two are weak**: `UHRF1` "not a methyl-CpG reader" is pedantic given its SRA domain, and the `SYT1`
+objection is a relevance complaint filed as a factual error.
+
+**So Sonnet is noisier, and that does not rescue the repair pass.** A merely degraded grader would
+find a SUBSET of the stronger grader's errors. These sets are nearly disjoint (overlap 2 of 14,
+kappa 0.19), and **opus flagged none of the five**. Two graders finding real but different errors
+means the true count exceeds what either sees -- which makes a repair driven by one grader's flags
+cover an even smaller share of what is there. The finding is strengthened, not weakened.
+
+Recorded precedent: the 2026-09-16 two-grader comparison produced the same kappa, and Sonnet's
+unique finds then (`CDKN1A` listed among genes driving a cycle it arrests; SLC12 transporters
+described as importing potassium when several export it) were accepted as real and repaired.
+
+**Not established:** a second grader is not ground truth. Both counts are probably undercounts, and
+the claim here is about the TRANSFERABILITY of the repair, not about an absolute error rate.
+
+## 2026-09-18 — Where v4's remaining headroom is, and why it is not in the prompt
+
+All 32 `wrong` claims surviving in arm A across both hundreds and both graders were read and
+grouped. Two are grader mistakes (one reason ends "actually correct, not an error"). The other 30:
+
+- **confusable gene identity** -- `FBXO5` called securin (it is Emi1; securin is `PTTG1`, caught by
+  both graders); `PNOC` rendered "prochineurin", conflating it with prokineticin; `ADPRM` vs
+  `ADPRHL2`; myomaker called a micropeptide (myomerger is one); `GPIHBP1` called secreted when it is
+  GPI-anchored
+- **direction of effect** -- `MN1` coactivator called a corepressor; `TMPRSS6` loss given the wrong
+  iron phenotype; leptin and adiponectin called insulin-opposing when they are insulin-sensitizing
+- **wrong partner** -- `TRADD`/`TRAF2` assigned to FAS/TRAIL rather than TNFR1; `BMPR1A` routed to
+  SMAD2/3 rather than SMAD1/5/8; `TIRAP` placed in IL-1R signalling
+- **invention** -- "amelophobic", not a word; miR-21 discussed when it is not in the gene set
+
+**Those four groups are exactly the four bullets v4's PRECISION ON GENE-LEVEL CLAIMS section already
+names.** The instruction exists, is specific, and is violated anyway. The failures are recall, not
+comprehension, and a v5 restating the same rule more firmly should not be expected to move them.
+Prompt text has reached diminishing returns on this axis.
+
+**What v4 did fix, it fixed completely.** Its two structural done-conditions, measured:
+
+| | shared 8-word opening | pathway name verbatim |
+|---|---|---|
+| v3, all 1,854 | 22/1854 (1%) | 1837/1854 (99%) |
+| v4 arm A, first 100 | 0/100 | 28/100 (28%) |
+| v4 arm A, second 100 | 0/100 | 34/100 (34%) |
+
+The name rule that inflated the collision metric is gone.
+
+**The headroom that remains, in order of cost:**
+
+1. **A gene-presence check, free and unbuilt.** `validate` checks identifier patterns, references and
+   residues but never that a gene NAMED in a description appears in that pathway's gene list. Pure
+   string matching, catches the miR-21 class outright. Note it REPORTS rather than gates: `validate`
+   feeds the summary, and only unparseable replies trigger a redraw (`PARSE_RETRIES`). It is
+   therefore equally useful before or after a generation run and does not block one.
+2. **Grounding.** The confusable-identity group is the model working from parametric memory. Supplying
+   authoritative per-gene text would attack it at the root. An architecture change, not a prompt
+   change, and the only option with real expected return.
+3. **The name-free ablation**, queue item 2, still unrun -- and cheaper to argue now that the name
+   appears in ~30% of descriptions rather than 99%.
+
+## 2026-09-18 — Adopt v4 and generate; do not optimise first
+
+**Decision: generate the 1,854 under v4 as it stands.**
+
+Three reasons. The prompt is proven -- +10 points replicated on two independent hundreds, pooled
+p = 0.0091. Prompt optimisation has low expected return, because the surviving errors are violations
+of instructions v4 already contains. And nothing worth doing first blocks generation: the one free
+improvement reports rather than gates, so it is equally useful afterwards.
+
+**The alternative, recorded so it is not lost:** grounding is the change with real upside, and it
+would warrant regenerating anyway. The cost of proceeding now is that ~$11 is spent twice if
+grounding is later built. That is accepted deliberately, against working with 9%-error descriptions
+instead of 19%-error ones in the meantime.
+
+**Cost, after reclaiming the 198 already-paid-for v4 descriptions: $10.90 cached, $19.53 ceiling --
+below the $20 default, so no raised ceiling is needed.**
+
+## 2026-09-18 — The descriptions table keeps every generation; one reader exposes the current one
+
+Generating under a new prompt used to destroy the previous generation: `pathway_descriptions.tsv`
+held one row per pathway and was rewritten whole, so a v4 run would have replaced 1,854 paid-for v3
+descriptions, and an interrupted one would have replaced them with a partial set.
+
+- **One row per `(key, prompt_version, model)`, merged, never replaced.** Nothing is deleted. A
+  `status` column names the generation consumers read.
+- **One reader, `src/thema/data/descriptions.py`.** Six scripts each had their own local reader; with
+  several generations in the table each would have silently taken whichever row came last. They now
+  delegate. `run_prompt_experiment` pins `BASELINE_VERSION = "v3"` rather than following current --
+  otherwise promoting v4 would redraw the fresh-100 sample AND replace the control with the arm it
+  is compared against.
+- **A partial generation may not supersede a complete one.** `restamp` refuses when the incoming
+  generation is smaller, unless `allow_shrink` is passed. An interrupted run is indistinguishable
+  from a successful small one to anything reading the table afterwards.
+- **`verify_descriptions` now merges both its tables too**, keyed `(key)` and `(key, kind, quote)`.
+  It previously rewrote them from the current run's results alone, so verifying a different hundred
+  deleted the previous hundred's rows -- and that file is the first hundred's v3 baseline.
+- **`--collect` is repeatable.** A full run is chunked at 2,000 and emits one batch id per chunk; a
+  single-valued flag could not recover anything past the first chunk, and every request in the rest
+  is already billed.
+
+**Two things reclaimed or corrected in the process.** The 200 v4 completions generated during the
+experiment were written to `cache/experiment/` while `normalize_descriptions.py` reads
+`cache/descriptions/`. They are byte-identical in format -- same fields, plain pathway keys,
+`prompt_version='v4'` -- and were copied across after asserting all three. 198 fall inside the smoke
+selection, cutting the run from 1,844 to 1,646 and the price from $14.84 to $10.90. Separately, a
+reported discrepancy between the smoke selection (1,844) and the table (1,854) was **not drift**:
+the committed summary always recorded 1,844 selected plus the `--sample` run's twelve, two of which
+overlap. `pathways.tsv`'s sha256 still matches what that summary pinned.
