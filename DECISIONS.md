@@ -1541,3 +1541,56 @@ support. It never checked `Series_type`, so it judged an array against the wrong
 filename heuristic hard-rejected `GSE129705_c12-ra-wb-bl-mo3-processed-data-file.txt.gz`, a usable
 matrix named unconventionally. It now reports `UNCLEAR — inspect these filenames` instead of `NO`
 when nothing matches but non-raw files exist.
+
+## 2026-09-21 — `recurrent_dag`: seven decisions from measuring it on the real build
+
+The algorithm as specified in `thema-master-spec.md` §10 was implemented and measured on the 1,854
+build. `docs/spec/addendum-2026-09-21.md` is now the current specification and supersedes §10
+wherever they differ. The decisions behind it:
+
+**(a) The null gate compares counts, never a maximum.** §10.6 set `m = max(0.20, 3 x null_max)`,
+where `null_max` is the highest support any scrambled grouping reached. Over 43,625 groupings that
+is an extreme-value statistic: it measures the luckiest draw, not the property. It returned 0.247,
+forcing `m = 0.742` — above the 0.5 ceiling — and reading as "resampling produces recurrent
+structure by chance, the method is not discriminating". Counted instead: **0 scrambled groupings
+reach m=0.25 against 3,457 real ones**, and no scrambled grouping of 10 or more members reaches even
+m=0.10. The entire null signal is 35 groupings of 5-9 members. The same error had already been
+caught in the containment diagnostic hours earlier and was still sitting in the null gate.
+
+**(b) Each run's full draw is excluded as a grouping.** §10.2 records every dendrogram node of at
+least `min_size`, which includes the root -- the whole 80% draw. It recurs at support 1.0 by
+construction, and reappears as a node holding every pathway: exactly the synthetic root that
+addendum A3 removed from `ward_tree`.
+
+**(c) The null re-normalises rows after the column permutation.** Permuting each dimension
+independently destroys row unit-length, and `cluster.distances` refuses non-unit input -- correctly,
+since Ward on non-Euclidean input is silently meaningless. The rows are re-normalised and the
+manifest records it. A deviation from §10.6's wording, made because the alternative is a crash or a
+meaningless tree.
+
+**(d) Twins are handled by a merge step after thresholding, not by widening the matching.** The
+working hypothesis was that boundary pathways fracture a cluster into variant groupings, each too
+weak to survive, and that raising `tol` would merge them. Measured, `tol` does the opposite: nodes
+go 321 -> 450 and near-twins 40% -> 51% as `tol` goes 0.05 -> 0.20, because more slack admits more
+distinct groupings as matches and absorption then seeds more nodes. The merge now happens explicitly
+on kept groupings, before the DAG is built, and is where soft membership is produced.
+
+**(e) `m` is chosen from the null count table**, at the lowest `m` where the scrambled count is
+approximately zero -- not from a formula over a maximum.
+
+**(f) Whether `tol` is needed at all is under test.** The grid runs tol 0 and 0.05 across five `m`
+values on the v4 embeddings. If the two agree, `tol` is dropped and the matching rule becomes
+exact-on-shared.
+
+**(g) Per-node cohesion is not measured, and is logged in `docs/debt.md`.** Neither builder reports
+whether a node is tight or ragged. Deferred because the grid decides whether this method ships at
+all.
+
+## 2026-09-21 — v4 descriptions complete: 1,854, promoted
+
+All 1,854 pathways now carry a v4 description; `restamp` promoted v4 to current and v3 is kept as
+`superseded`. The generation took three submissions -- 1,646 in the smoke batch, 8 in a `--keys`
+top-up, 15 in a retry -- because two batches returned partial results. The 15 stragglers were the
+largest gene lists in the collection (one of 1,351 genes) and failed twice before succeeding.
+
+Total spend for the v4 generation: **~$11**, against the $12 ceiling for the whole experiment.
