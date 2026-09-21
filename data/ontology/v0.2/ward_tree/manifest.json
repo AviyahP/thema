@@ -1,0 +1,32 @@
+{
+ "collection_rows": 10817,
+ "descriptions_generations": {
+  "v3": 1854,
+  "v4": 1854
+ },
+ "descriptions_sha256": "f4f69f355a2432e81e77f5e620c7baf8cef3a5ee1ed5b2a02eec15fa5a2540d2",
+ "embedder": "FremyCompany/BioLORD-2023@main",
+ "embedding_dim": 768,
+ "method": "ward_tree",
+ "n_edges": 375,
+ "n_nodes": 385,
+ "n_pathways": 1854,
+ "n_roots": 10,
+ "n_unplaced": 0,
+ "normalization": "l2",
+ "params": {
+  "levels": [
+   10,
+   25,
+   50,
+   100,
+   200
+  ],
+  "min_size": null,
+  "seed": 0,
+  "seed_effective": false
+ },
+ "prompt_version": "v4",
+ "supersedes": "v0.1 (prompt_version v3); v0.1 is untouched",
+ "version": "0.2"
+}

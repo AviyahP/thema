@@ -35,6 +35,15 @@ data/ontology/*
 !data/ontology/baseline_cutfree.tsv
 !data/ontology/containment.tsv
 !data/ontology/encoder_stability.tsv
+# Versioned builds are committed (addendum-2026-09-18 A2). Git cannot re-include a file whose
+# parent directory is excluded, so the directories are un-ignored before the files.
+!data/ontology/v*/
+!data/ontology/v*/*/
+!data/ontology/v*/*/*.tsv
+!data/ontology/v*/*/*.json
+# ...except the regenerable matrices, which stay out at ~5.7 MB each.
+data/ontology/v*/*.npy
+data/ontology/v*/embedding_keys.txt
 !data/ontology/clusters_ward.tsv
 !data/ontology/clusters_average.tsv
 !data/ontology/clusters_complete.tsv
