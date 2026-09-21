@@ -4,6 +4,8 @@ Structure on synthetic vectors, and fidelity to the committed v0.1 build.
 """
 
 import csv
+import json
+import pathlib
 from pathlib import Path
 
 import numpy as np
@@ -15,9 +17,14 @@ from thema.ontology.registry import BUILDERS, builder
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA = REPO_ROOT / "data"
 CLUSTERS = DATA / "ontology" / "clusters_ward.tsv"
-EMBEDDINGS = DATA / "ontology" / "embeddings.npy"
-EMBEDDING_KEYS = DATA / "ontology" / "embedding_keys.txt"
+# The v0.1 embeddings live under their own version directory. Before 2026-09-21 these tests read
+# the flat `data/ontology/embeddings.npy`, which a v0.2 rebuild overwrites -- so they would have
+# compared a v4 build against the committed v3 partition and failed for the wrong reason.
+EMBEDDINGS = DATA / "ontology" / "v0.1" / "embeddings.npy"
+EMBEDDING_KEYS = DATA / "ontology" / "v0.1" / "embedding_keys.txt"
 V01_LEVELS = (10, 25, 50, 100, 200)
+V02 = DATA / "ontology" / "v0.2" / "ward_tree"
+FIXTURES = pathlib.Path(__file__).resolve().parent / "fixtures"
 
 
 def blobs(axes=(0, 1, 2), per=20, dim=8, spread=0.05, seed=0):
@@ -134,3 +141,60 @@ def test_the_v01_build_is_a_forest_of_ten_roots_with_repeated_memberships_allowe
     assert repeated > 0, "cuts that do not split repeat a membership; that is legitimate here"
     with pytest.raises(ValueError, match="identical members"):
         check_distinct_members(built)
+
+
+# ------------------------------------------------------ the algorithm, on a committed fixture
+#
+# Independent of which description generation is live. The v0.1 and v0.2 tests below pin the
+# builder against real data and will legitimately change when the data does; this one pins the
+# ALGORITHM and must not. If it fails, the clustering changed -- not the corpus.
+
+
+def test_the_algorithm_reproduces_its_committed_fixture_partition():
+    expected = json.loads((FIXTURES / "blobs_ward.json").read_text())
+    keys = [line for line in (FIXTURES / "blobs_keys.txt").read_text().split("\n") if line]
+    built = builder("ward_tree").build(
+        np.load(FIXTURES / "blobs.npy"), keys, {"levels": expected["levels"]}
+    )
+    assert {n.id: sorted(n.keys) for n in built.nodes} == expected["nodes"]
+    assert {n.id: list(n.parents) for n in built.nodes} == expected["parents"]
+
+
+def test_the_fixture_is_small_enough_to_read_and_big_enough_to_nest():
+    expected = json.loads((FIXTURES / "blobs_ward.json").read_text())
+    assert len(expected["levels"]) >= 3, "a fixture with one level cannot test nesting"
+    assert any(parents for parents in expected["parents"].values()), "no edges, nothing pinned"
+
+
+# ------------------------------------------------------ v0.2: the committed build matches the code
+
+
+@pytest.mark.skipif(
+    not (V02 / "members.tsv").is_file()
+    or not (DATA / "ontology" / "v0.2" / "embeddings.npy").is_file(),
+    reason="needs the v0.2 build; its embeddings are gitignored and regenerable",
+)
+def test_rebuilding_from_the_v4_embeddings_reproduces_the_committed_v02_files():
+    from thema.ontology import export
+
+    root = DATA / "ontology" / "v0.2"
+    keys = [line for line in (root / "embedding_keys.txt").read_text().split("\n") if line]
+    built = builder("ward_tree").build(
+        np.load(root / "embeddings.npy"), keys, {"levels": list(V01_LEVELS)}
+    )
+    on_disk = export.read_members(V02)
+    assert {n.id: sorted(n.keys) for n in built.nodes} == {
+        node: sorted(members) for node, members in on_disk.items()
+    }
+
+
+@pytest.mark.skipif(
+    not (V02 / "manifest.json").is_file(), reason="needs the v0.2 build"
+)
+def test_the_v02_manifest_records_which_descriptions_it_was_built_from():
+    """Two ontologies from v3 and v4 text are indistinguishable without this (addendum A5)."""
+    manifest = json.loads((V02 / "manifest.json").read_text())
+    assert manifest["prompt_version"] == "v4"
+    assert len(manifest["descriptions_sha256"]) == 64
+    assert manifest["method"] == "ward_tree"
+    assert manifest["n_roots"] == 10, "a forest of the ten k=10 clusters, not a synthetic root"
