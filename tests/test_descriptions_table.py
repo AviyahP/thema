@@ -96,3 +96,25 @@ def test_restamp_refuses_to_leave_nothing_current(tmp_path):
     p = table(tmp_path, row("go:1", "v3 text", "v3"))
     with pytest.raises(ValueError, match="no current generation"):
         D.restamp(p, COLUMNS, "v9")
+
+
+def test_an_incomplete_generation_never_ends_up_marked_current(tmp_path):
+    """The 2026-09-18 failure: merge promoted rows, then restamp refused, leaving two currents.
+
+    Rows are written superseded and promoted only by `restamp`. If promotion is declined the table
+    must still have exactly one current generation -- not the incoming one, and not both.
+    """
+    p = table(
+        tmp_path,
+        *(row(f"go:{i}", "v3", "v3", D.STATUS_CURRENT) for i in range(10)),
+        *(row(f"go:{i}", "v4", "v4", D.STATUS_SUPERSEDED) for i in range(3)),
+    )
+    with pytest.raises(ValueError, match="would supersede a generation of"):
+        D.restamp(p, COLUMNS, "v4")
+    import csv
+
+    rows = list(csv.DictReader(p.open(encoding="utf-8"), delimiter="\t"))
+    current = {r["prompt_version"] for r in rows if r["status"] == D.STATUS_CURRENT}
+    assert current == {"v3"}, "exactly one generation may be current when promotion is declined"
+    assert len(D.read(p)) == 10, "the readable set must not be a mixture of two generations"
+    assert len(D.read(p, version="v4")) == 3, "the incomplete generation is kept, just not current"

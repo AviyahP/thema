@@ -1104,7 +1104,12 @@ def write_descriptions(
                 str(len(genes_for_prompt(pathway))),
                 completion.model,
                 completion.prompt_version,
-                descriptions_table.STATUS_CURRENT,
+                # NOT current. A row becomes current only when `restamp` promotes it, and it
+                # promotes only a COMPLETE generation. Writing `current` here and promoting
+                # afterwards meant that when restamp refused an incomplete generation, the merge
+                # had already promoted it -- leaving two generations both claiming current and
+                # `read()` silently returning a mixture of the two.
+                descriptions_table.STATUS_SUPERSEDED,
             )
         )
     table = out / DESCRIPTIONS_TABLE
@@ -1112,11 +1117,19 @@ def write_descriptions(
     # record of what that prompt wrote. Then restamp, because merging leaves every other
     # generation's status saying "current" and two current generations is an unreadable table.
     held = merge_tsv(table, DESCRIPTION_COLUMNS, rows, key=descriptions_table.ROW_KEY)
-    marked, superseded = descriptions_table.restamp(table, DESCRIPTION_COLUMNS, PROMPT_VERSION)
-    print(
-        f"{held:,} rows in {table.name}: {marked:,} current ({PROMPT_VERSION}), "
-        f"{superseded:,} earlier generations kept"
-    )
+    # Promotion is a separate step and may legitimately decline. A top-up run is smaller than the
+    # generation it is completing by definition, so refusing is the NORMAL outcome until the last
+    # run lands -- a message, not a failure. The rows are saved either way.
+    try:
+        marked, superseded = descriptions_table.restamp(table, DESCRIPTION_COLUMNS, PROMPT_VERSION)
+        print(
+            f"{held:,} rows in {table.name}: {marked:,} current ({PROMPT_VERSION}), "
+            f"{superseded:,} earlier generations kept"
+        )
+    except ValueError as exc:
+        print(f"{held:,} rows in {table.name}; {PROMPT_VERSION} NOT promoted:")
+        print(f"  {exc}")
+        print("  the descriptions are saved; finish the generation and the next run promotes them")
     write_tsv(
         out / DESCRIPTIONS_SUMMARY,
         SUMMARY_COLUMNS,
