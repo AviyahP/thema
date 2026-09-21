@@ -1594,3 +1594,30 @@ top-up, 15 in a retry -- because two batches returned partial results. The 15 st
 largest gene lists in the collection (one of 1,351 genes) and failed twice before succeeding.
 
 Total spend for the v4 generation: **~$11**, against the $12 ceiling for the whole experiment.
+
+## 2026-09-21 — Changing the descriptions changed two-thirds of the ontology
+
+The v4 descriptions were embedded with the same encoder and clustered with the same linkage at the
+same cuts as v3, over the identical 1,854 pathways in the identical order. Only the text differed.
+
+**ARI between the v3 and v4 ward trees: k=10 0.334, k=30 0.416, k=100 0.367.**
+
+About two-thirds of the co-clustering structure changed. For scale, the encoder-stability experiment
+(BioLORD vs Qwen3-Embedding-0.6B on identical text) produced ARI 0.306-0.369 across cuts:
+**rewriting the descriptions moved the ontology about as much as swapping the embedding model.**
+
+**Description quality is a primary input, not a finishing step.** Two consequences follow.
+
+**Ontology-level evaluation is now a priority.** Ancestor-pair F1 against Reactome and GO, and
+reactome2go recovery (`docs/eval-plan.md` §2a, §2b) are the measurements that would say whether v4's
+tree is *better* rather than merely *different*. Neither has ever been run. Until they are, "v4
+improved the ontology" is an assumption resting on the descriptions' own error rate, which measures
+the text and not the structure.
+
+**Anything measured on a v3 ontology needs re-measuring**, and the eventual 10,817 build will be a
+different artifact rather than a larger version of this one.
+
+**Visible consequence.** Both landing-page example cards survive but move: the insulin three tighten
+from an 18-pathway node to a 12-pathway one; the NF-kB four, together at every cut under v3, now
+split at k=200 and their smallest shared node in the page's exported levels grows from 15 to 36.
+Kept at 36 for now; both cards revisited after the DAG decision.
