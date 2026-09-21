@@ -5,11 +5,14 @@ agree on what names exist and none of them carries its own list.
 """
 
 from thema.ontology.base import OntologyBuilder
+from thema.ontology.recurrent import RecurrentDag
 from thema.ontology.ward import WardTree
 
-#: Every shipped method. `recurrent_dag` joins this once it passes the spec's §14 go/no-go.
+#: Every shipped method. `recurrent_dag` is registered so it can be built and evaluated; the demo
+#: stays on `ward_tree` until it passes the spec's §14 go/no-go.
 BUILDERS: dict[str, type[OntologyBuilder]] = {
     WardTree.method: WardTree,
+    RecurrentDag.method: RecurrentDag,
 }
 
 
