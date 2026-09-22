@@ -1,0 +1,32 @@
+{
+ "descriptions_sha256": "f4f69f355a2432e81e77f5e620c7baf8cef3a5ee1ed5b2a02eec15fa5a2540d2",
+ "directory": "recurrent_dag_ward_t15_m33",
+ "embedder": "FremyCompany/BioLORD-2023",
+ "embedder_revision": "main",
+ "frozen": false,
+ "linkage": "ward",
+ "m": 0.33,
+ "method": "recurrent_dag",
+ "n_edges": 256,
+ "n_near_members": 869,
+ "n_nodes": 391,
+ "n_roots": 158,
+ "n_unplaced": 148,
+ "note": "CANDIDATE. Settings not frozen; min_size and umbrella-set work may move them.",
+ "params": {
+  "embedder_split": false,
+  "inclusion_threshold": 0.5,
+  "linkage": "ward",
+  "m": 0.33,
+  "merge_rounds": 3,
+  "min_shared": 3,
+  "min_size": 5,
+  "runs": 100,
+  "subsample": 0.8,
+  "tol": 0.15
+ },
+ "pathways_sha256": "ac6e32cba24c67518b76b4f6e1282594614adf5c16a41c20b06d9742f7dadb00",
+ "prompt_version": "v4",
+ "tol": 0.15,
+ "version": "0.2"
+}
