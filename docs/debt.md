@@ -25,3 +25,21 @@ reported per node in `nodes.tsv` and surfaced on the node card. The gene-overlap
 (`eval-plan.md` §14 item 2) is the independent check; cohesion is the cheap internal one, and being
 internal it is circular on its own — a node is cohesive in the space it was clustered in. It is a
 triage signal, not evidence.
+
+## Cohesion must be measured on mean-centred embeddings
+
+*Logged 2026-09-21.*
+
+Measure cohesion on **mean-centred** embeddings -- for the cohesion calculation only, never for the
+vectors Ward clusters -- before using it for any decision.
+
+**Why.** BioLORD vectors occupy a narrow cone: mean pairwise cosine over 100 random 1,639-pathway
+subsets was 0.2734 with a standard deviation of 0.0009. Against that, the runaway node scored 0.2827
+-- z = 10.8, and meaningless, since the node was 88% of the collection and could not have been
+anything else. The statistic has almost no dynamic range because every pair starts out similar.
+Centring removes the shared component and lets a real difference in tightness show.
+
+**Not yet needed.** It was used once, to confirm the runaway node was not a genuine theme, and the
+answer did not rest on it: no grouping within 20 of that size existed in the pool before the merge,
+which settled it. The next use -- ranking nodes by quality, or gating the namer -- is the one that
+needs the centred version first.

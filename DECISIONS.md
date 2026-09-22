@@ -1621,3 +1621,51 @@ different artifact rather than a larger version of this one.
 from an 18-pathway node to a 12-pathway one; the NF-kB four, together at every cut under v3, now
 split at k=200 and their smallest shared node in the page's exported levels grows from 15 to 36.
 Kept at 36 for now; both cards revisited after the DAG decision.
+
+## 2026-09-22 — Matching is two-sided: missing members count, not only extras
+
+The §10 matching rule looked for the smallest cluster CONTAINING every shared member of a grouping,
+then counted extras. Anything not fully contained was "not found" before its extras were ever
+counted. The rule was therefore one-sided in a way its description did not admit: it tested for
+contamination and silently treated dispersal as fatal.
+
+**Measured on the five largest immune-majority groupings: 99 of 100 eligible runs failed as
+"missing", zero as "extras".** The extras test — the only test the rule actually describes — never
+executed once on any of them. 4,771 groupings in the pool are majority-immune.
+
+**The rule is now two-sided.** Walk the ancestor chains of the grouping's shared members, take the
+cluster with the best overlap (ties to the smaller), and require BOTH sides within tolerance:
+missing members ≤ `tol x |A_R|`, extras ≤ `tol x |A_R|`.
+
+**What it recovered.** A 221-member node, 96% immune, support 0.42, labelled
+`activation · production · interleukin`. This is the theme the one-sided rule rejected in 99 runs
+out of 100, and it is the same set whose complement the earlier runaway node was built from.
+
+**Why this was not obvious.** An initial estimate put the change at +2% of matched pairs globally,
+and concluded two-sided matching was a correctness fix with no practical effect. That estimate was
+taken over whole groupings, where a coherent core is averaged with contamination that moves every
+run. Split apart, immune members scatter at 2% and their non-immune companions at 68% -- a 34-fold
+difference the aggregate hid completely. **The lesson is the aggregate: a rate over a mixed
+population measured the mixture, not either part of it.**
+
+## 2026-09-22 — Member cutoff raised from 0.25 to 0.5, and what it costs
+
+A member is kept when its inclusion — the share of the family's matched copies holding it — is at
+least **0.5**, a majority. Previously 0.25.
+
+**Why.** At 0.25 a pathway appearing in a quarter of the evidence became a full member, which let
+weakly-attached material accumulate on a theme. It is the complement of two-sided matching: the
+match is now permissive enough to recognise a theme despite its contaminants, so membership has to
+be strict enough to leave them out. Measured together on the immune theme, they work: the
+non-immune members that survive sit at 0.54-1.00, and the 68%-scattering material is gone.
+
+**What it costs, stated plainly.** The cutoff bounds what the DAG can express. A membership below
+0.5 can no longer exist — it is dropped, not recorded as weak. On the straddler fixture a pathway
+sitting between two groups went from **three nodes at 0.31 / 0.40 / 0.69 to one node at 0.69**.
+
+That matters because soft membership is the method's stated reason for existing: a pathway that is
+half one theme and half another should be recorded as both. At a 0.5 cutoff, "half" is the boundary
+and anything genuinely balanced falls out. **This is a real trade of expressiveness for tightness,
+not a free improvement**, and it is pinned by
+`tests/ontology/test_recurrent.py::test_raising_the_member_cutoff_trades_soft_membership_for_tighter_nodes`
+so it cannot quietly disappear.
