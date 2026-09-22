@@ -1669,3 +1669,140 @@ and anything genuinely balanced falls out. **This is a real trade of expressiven
 not a free improvement**, and it is pinned by
 `tests/ontology/test_recurrent.py::test_raising_the_member_cutoff_trades_soft_membership_for_tighter_nodes`
 so it cannot quietly disappear.
+
+## 2026-09-22 — v4 confirmed as the prompt; the v3/v4 gap was the pathway name
+
+The v3-to-v4 comparison had looked like a regression: rebuilt on v4 text, ancestor-pair F1 against
+Reactome fell from 0.2423 to 0.2114. Four text arms, re-embedded in one run and scored with
+bootstrap intervals, show that the deficit is not the prompt.
+
+| arm | name verbatim in text | F1 Reactome | F1 GO | reactome2go k=100 | random |
+|---|---|---|---|---|---|
+| v3 plain | 99% | 0.2423 [0.2231, 0.2661] | 0.2046 [0.1986, 0.2108] | 90.8% [84.2, 97.4] | 0.84% |
+| v3 name-stripped | 0% | 0.2090 [0.1925, 0.2262] | 0.2204 [0.2130, 0.2285] | 84.2% [76.3, 92.1] | 0.88% |
+| v4 plain | 27% | 0.2114 [0.1932, 0.2299] | 0.1936 [0.1901, 0.1978] | 82.9% [73.7, 90.8] | 0.95% |
+| v4 name-added | 100% | 0.2575 [0.2320, 0.2876] | 0.2360 [0.2291, 0.2421] | 90.8% [84.2, 97.4] | 0.74% |
+
+**What the arms say.** v3 repeated the pathway name verbatim in 99% of its descriptions; v4, which
+was written to paraphrase rather than restate, does so in 27%. Strip the name from v3 and it falls
+to v4's level. Give v4 the name and it beats v3 on both metrics, with non-overlapping intervals on
+GO. **The v3 advantage was the name, not the prompt** — and the v3-plain vs v4-plain intervals
+overlap, so that comparison was never significant in the first place.
+
+**Decision: v4 is confirmed as the prompt.** The $3.87 stability run is cancelled; it was there to
+size a difference that turns out not to exist.
+
+**Name-prepending is not yet adopted.** It is the better text on every number above, but
+`name. description` reintroduces the restatement v4 was written to remove, and the ontology is
+supposed to cluster on biology rather than on shared vocabulary in titles. Carried as an open
+decision, with the card check below as evidence in its favour.
+
+### The landing cards survive it, and tighten
+
+Spec B8: an example card shows the smallest node containing every pathway it lists. Rebuilt under
+each arm:
+
+| arm | NF-kB card (4 pathways) | insulin card (3 pathways) |
+|---|---|---|
+| v3 plain | `k200:11`, 12 pathways | `k100:74`, 11 pathways |
+| v4 plain | `k100:6`, 31 pathways | `k100:73`, 12 pathways |
+| v4 name-added | `k100:5`, 25 pathways | `k200:185`, 11 pathways |
+
+Both groups hold under all three arms — no card loses a member. Prepending names shrinks the NF-kB
+node from 31 to 25 and moves the insulin card a level deeper, to a node of 11. **The cards argue
+for name-prepending rather than against it**, which is why the decision is open rather than closed.
+
+## 2026-09-22 — Embedding is deterministic; `v0.1/embeddings.npy` is not reproducible
+
+Re-embedding the same v3 text gave F1 0.2614 in one measurement and 0.2423 in another. Chased to
+the bottom, because a metric that moves on its own is not a metric.
+
+**Embedding is deterministic.** The same 50 texts twice: max abs difference **0.000e+00**, bitwise
+identical. Reversed batch order: 0.000e+00. Split across two calls at a different batch boundary:
+0.000e+00. CPU against MPS: 3.7e-07. `data/ontology/v0.2/embeddings.npy` reproduces from today's
+pipeline **bitwise**.
+
+**`data/ontology/v0.1/embeddings.npy` does not.** Against a fresh embedding of v3 text it differs on
+**1,839 of 1,854 rows** (median per-row max difference 0.020, diagonal cosine 0.9868). The rows are
+correctly aligned — every sampled row's nearest neighbour is itself — so it is not a key-order bug.
+The v3 text is byte-identical to its original commit `e03b366`, only one v3 generation has ever
+existed, and only one model snapshot is cached, so it is neither the text, nor the table, nor the
+weights.
+
+**The 15 rows that DO match are all named `TBA`** — the BTM modules with no meaningful name. So the
+v0.1 matrix was produced by a name-handling step that is a no-op when there is no name, and which no
+current code path reproduces: not plain text, not `strip_name`, not `name. description`. The file is
+untracked, carries no manifest, and predates the versioned layout.
+
+**Resolution.** 0.2614 came from that stale matrix; 0.2423 comes from a re-embedding that reproduces
+bitwise, and the four ablation arms above were all embedded in a single run, so they are mutually
+comparable whatever v0.1 was. **`v0.1/embeddings.npy` is not to be read by any evaluation, and no metric may be compared
+across it** — v0.1's frozen reference is `clusters_ward.tsv`, which is tracked and unchanged.
+The one legitimate reader is
+`tests/ontology/test_ward.py`, which pairs the matrix with the tree built FROM it to check that
+`WardTree` still reproduces `clusters_ward.tsv`. That test is self-consistent — stale matrix,
+stale tree — and stays.
+
+## 2026-09-22 — Name-prepending rejected: the gain was circular, and it builds a syntax theme
+
+The `v4 name-added` arm beat every other arm on ancestor-pair F1 and reactome2go recovery
+(entry above). **Both references are name-structured**: Reactome's and GO's sibling structure
+tracks their naming conventions, so handing the clusterer the pathway name can raise both scores
+by teaching it the convention rather than the biology, and neither metric can tell the difference.
+Two checks that owe nothing to names were run on `ward_tree` at k=100, plain v4 against
+`name. v4`. Same pathways, same gene sets, same names — only the partition differs.
+
+### 1. Gene coherence — no gain
+
+Mean pairwise gene Jaccard within themes. Bootstrap over themes (2,000 resamples); the random
+baseline permutes theme labels, preserving the size distribution exactly (200 replicates).
+
+| arm | within-theme Jaccard | bootstrap 95% | size-matched random | ratio |
+|---|---|---|---|---|
+| v4 plain | 0.03064 | [0.02648, 0.03570] | 0.00272 [0.00255, 0.00296] | 11.3x |
+| v4 name-added | 0.02875 | [0.02483, 0.03326] | 0.00272 [0.00251, 0.00299] | 10.6x |
+
+Both partitions are an order of magnitude more gene-coherent than chance, which is the
+reassuring half. But **name-prepending is nominally LOWER and the intervals overlap almost
+entirely**. On the one axis that cannot be inflated by naming convention, the F1 gain does not
+appear at all. (4 of 1,854 pathways have no genes after resolution and score Jaccard 0 against
+everything, equally in both arms.)
+
+### 2. Template grouping — flat in aggregate, concentrated in one theme
+
+Share of within-theme pairs whose names share a template phrase (`regulation of`,
+`positive/negative regulation`, `process`, `pathway`) and **no content word**.
+
+| arm | template-pair share | bootstrap 95% | random baseline |
+|---|---|---|---|
+| v4 plain | 0.0638 | [0.0496, 0.0783] | 0.0606 |
+| v4 name-added | 0.0768 | [0.0459, 0.1159] | 0.0606 |
+
+As one number this decides nothing — name-added's interval contains plain's value. **The width
+is the finding.** It is wide because the effect sits in a few themes instead of spreading over
+100, and averaging across 100 themes dilutes it to invisibility. Top 3 themes' share of all
+template pairs: plain **10%**, name-added **20%**. The worst theme in each arm is a different
+kind of object:
+
+- plain v4, `k100:97`, share 0.31 — osteoblast differentiation, phosphate ion homeostasis, tissue
+  remodeling, BMP signalling. Template-heavy titles, but real bone biology.
+- name-added, `k100:81`, share **0.93**, 23 members — **22 of them begin "negative regulation
+  of"**: actin nucleation, apoptotic signalling, mitophagy, calcineurin, cardiac muscle growth,
+  cytoplasmic translation, DNA metabolism, GTPase activity, intracellular transport, membrane
+  potential, mitochondrial fission, ion transmembrane transport, nucleotide biosynthesis,
+  post-translational modification, potassium transport, nuclear protein export, muscle relaxation,
+  striated muscle contraction, transport, tRNA metabolism. **These share no biology. The theme is
+  the word "negative".** Under plain v4 the same 23 pathways scatter across **12** themes, each to
+  its actual subject.
+
+### Decision
+
+**Name-prepending is rejected.** It buys nothing measurable in gene space and manufactures a theme
+that the name-free text does not produce. v0.2 stays on plain v4 description text, which is what it
+already uses — no rebuild.
+
+**The methodological point, because it is the second time in this work.** The aggregate template
+share would have cleared name-prepending: 0.0768 vs 0.0638, overlapping intervals, "no significant
+difference". It is the same error as the immune-scatter rate: **a rate over a mixed population
+measures the mixture, not either part of it.** Report the decomposition beside the aggregate, or
+the aggregate will hide the failure it is averaging away.
