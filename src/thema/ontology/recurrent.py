@@ -809,6 +809,7 @@ def assemble(
     settings: dict[str, object],
     timing: Timing | None = None,
     eligible_mask: np.ndarray | None = None,
+    collect: list[dict[str, object]] | None = None,
 ) -> tuple[list[np.ndarray], list[float], list[list[float]], list[int], int]:
     """Families first, then the threshold, then membership merged to a fixed point.
 
@@ -832,6 +833,11 @@ def assemble(
         settings: Parameters, already defaulted.
         timing: Collector for stage durations.
         eligible_mask: ``(groupings, runs)`` eligibility; required for family support.
+        collect: If given, cleared and filled with one dict per returned node, in the same order,
+            holding ``family`` (the grouping indices) and ``inclusions`` (EVERY candidate's
+            inclusion, including those below ``inclusion_threshold``). The return value carries
+            only surviving members, so a pathway the cutoff drops is otherwise unrecoverable
+            without recomputing the build; ``near_members.tsv`` is written from this.
 
     Returns:
         Member bitsets, node supports, inclusion values aligned to each bitset's set bits, each
@@ -870,6 +876,7 @@ def assemble(
                 "support": family_support(family, pool, eligible_mask),
                 "seed_size": int(raw_sizes[seed]),
                 "incl": {p: inclusions[p] for p in members},
+                "all_incl": dict(inclusions),
             }
         )
 
@@ -912,6 +919,7 @@ def assemble(
                     "support": family_support(family, pool, eligible_mask),
                     "seed_size": node["seed_size"],
                     "incl": {p: inclusions[p] for p in members},
+                    "all_incl": dict(inclusions),
                 }
             )
         nodes = rebuilt
@@ -928,6 +936,12 @@ def assemble(
         final.values(),
         key=lambda node: (-bits.count(node["bits"]), bits.key(node["bits"])),  # type: ignore[arg-type]
     )
+    if collect is not None:
+        collect.clear()
+        collect.extend(
+            {"family": list(node["family"]), "inclusions": dict(node["all_incl"])}  # type: ignore[arg-type]
+            for node in ordered
+        )
     return (
         [node["bits"] for node in ordered],  # type: ignore[misc]
         [float(node["support"]) for node in ordered],  # type: ignore[arg-type]

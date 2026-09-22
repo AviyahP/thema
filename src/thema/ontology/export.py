@@ -21,14 +21,27 @@ offer without a transactional filesystem.
 import csv
 import json
 import shutil
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 
 from thema.data.tables import write_tsv
 from thema.ontology.base import Ontology
 
-NODE_COLUMNS = ("id", "support", "n_members", "n_genes", "label", "provisional")
-MEMBER_COLUMNS = ("key", "node", "inclusion", "gene_support")
+#: Widened 22 Sep 2026. ``parents``/``children`` duplicate ``edges.tsv`` on purpose: a reader
+#: inspecting one node should not have to join a second table to see where it sits. ``size`` was
+#: ``n_members``; ``node`` was ``id``.
+NODE_COLUMNS = (
+    "node", "size", "support", "parents", "children", "n_genes", "label", "provisional",
+)
+
+#: ``source``, ``name`` and ``n_genes`` come from the pathway collection, not the ontology, and are
+#: empty when :func:`write` is called without ``info``. Carrying them makes a member row readable
+#: on its own, which is what the theme-inspection work actually needs.
+MEMBER_COLUMNS = ("node", "key", "source", "name", "n_genes", "inclusion", "gene_support")
+
+#: The memberships the ``inclusion_threshold`` cutoff drops. Same columns as ``members.tsv`` minus
+#: the gene-support placeholder.
+NEAR_MEMBER_COLUMNS = ("node", "key", "source", "name", "n_genes", "inclusion")
 EDGE_COLUMNS = ("child", "parent")
 UNPLACED_COLUMNS = ("key",)
 
@@ -64,23 +77,32 @@ def gene_counts(
 
 
 def rows_for(
-    ontology: Ontology, genes: dict[str, frozenset[str]]
+    ontology: Ontology,
+    genes: dict[str, frozenset[str]],
+    info: Mapping[str, tuple[str, str, int]] | None = None,
 ) -> dict[str, list[tuple[str, ...]]]:
     """Render an ontology as the four tables.
 
     Args:
         ontology: The built ontology.
         genes: Pathway key to its gene identifiers, for the union counts.
+        info: Pathway key to ``(source, name, n_genes)``. Omitted leaves those member columns
+            empty rather than inventing them.
 
     Returns:
         Table stem to its rows, each already stringified.
     """
     unions = gene_counts(ontology, genes)
+    children: dict[str, list[str]] = {}
+    for child, parent in ontology.edges:
+        children.setdefault(parent, []).append(child)
     nodes = [
         (
             node.id,
-            f"{node.support:.4f}",
             str(len(node.members)),
+            f"{node.support:.4f}",
+            " ".join(sorted(node.parents)),
+            " ".join(sorted(children.get(node.id, ()))),
             str(unions[node.id]),
             # Naming has not run. `label` is null in the contract and empty here; `provisional`
             # says so explicitly rather than leaving a reader to infer it from the blank.
@@ -90,13 +112,40 @@ def rows_for(
         for node in ontology.nodes
     ]
     members = [
-        (key, node.id, f"{inclusion:.4f}", "")
+        (node.id, key, *_about(key, info), f"{inclusion:.4f}", "")
         for node in ontology.nodes
         for key, inclusion in node.members
     ]
     edges = [(child, parent) for child, parent in ontology.edges]
     unplaced = [(key,) for key in ontology.unplaced]
     return {"nodes": nodes, "members": members, "edges": edges, "unplaced": unplaced}
+
+
+def _about(key: str, info: Mapping[str, tuple[str, str, int]] | None) -> tuple[str, str, str]:
+    """A pathway's ``(source, name, n_genes)`` as strings, empty when nothing supplied them."""
+    if info is None or key not in info:
+        return ("", "", "")
+    source, name, n_genes = info[key]
+    return (source, name, str(n_genes))
+
+
+def near_member_rows(
+    near: Mapping[str, Mapping[str, float]], info: Mapping[str, tuple[str, str, int]] | None = None
+) -> list[tuple[str, ...]]:
+    """Render the memberships the inclusion cutoff dropped.
+
+    Args:
+        near: Node id to ``{pathway key: inclusion}``, already filtered to the band of interest.
+        info: Pathway key to ``(source, name, n_genes)``.
+
+    Returns:
+        Rows in :data:`NEAR_MEMBER_COLUMNS` order, sorted by node then descending inclusion.
+    """
+    return [
+        (node, key, *_about(key, info), f"{inclusion:.4f}")
+        for node in sorted(near)
+        for key, inclusion in sorted(near[node].items(), key=lambda kv: (-kv[1], kv[0]))
+    ]
 
 
 def write(
@@ -106,6 +155,9 @@ def write(
     genes: dict[str, frozenset[str]],
     manifest: dict[str, object],
     dry_run: bool = False,
+    info: Mapping[str, tuple[str, str, int]] | None = None,
+    near: Mapping[str, Mapping[str, float]] | None = None,
+    directory: str | None = None,
 ) -> Path:
     """Write an ontology to its versioned directory, validated before the swap.
 
@@ -117,6 +169,13 @@ def write(
         manifest: Provenance to record alongside the build's own parameters.
         dry_run: Price and validate without writing anything. Nothing is created, including the
             ``.part`` directory.
+        info: Pathway key to ``(source, name, n_genes)``, for the member columns.
+        near: Node id to ``{pathway key: inclusion}`` for memberships the build's inclusion cutoff
+            dropped. Written to ``near_members.tsv``; omitted writes no such file, rather than an
+            empty one that would read as "nothing was dropped".
+        directory: Directory name under ``v<version>/``. Defaults to the method name. Set it when
+            writing a CANDIDATE build whose settings are not yet frozen, so the method name stays
+            free for the build that is.
 
     Returns:
         The directory that was written, or would have been.
@@ -124,8 +183,8 @@ def write(
     Raises:
         ValueError: If the rendered tables disagree with the ontology they came from.
     """
-    target = root / f"v{version}" / ontology.method
-    tables = rows_for(ontology, genes)
+    target = root / f"v{version}" / (directory or ontology.method)
+    tables = rows_for(ontology, genes, info)
     _validate(ontology, tables)
     if dry_run:
         return target
@@ -138,6 +197,8 @@ def write(
     write_tsv(part / "members.tsv", MEMBER_COLUMNS, tables["members"])
     write_tsv(part / "edges.tsv", EDGE_COLUMNS, tables["edges"])
     write_tsv(part / "unplaced.tsv", UNPLACED_COLUMNS, tables["unplaced"])
+    if near is not None:
+        write_tsv(part / "near_members.tsv", NEAR_MEMBER_COLUMNS, near_member_rows(near, info))
     (part / "manifest.json").write_text(
         json.dumps(
             {
@@ -148,6 +209,10 @@ def write(
                 "n_roots": len(ontology.roots),
                 "n_edges": len(ontology.edges),
                 "n_unplaced": len(ontology.unplaced),
+                "directory": directory or ontology.method,
+                "n_near_members": (
+                    sum(len(v) for v in near.values()) if near is not None else None
+                ),
                 **manifest,
             },
             indent=1,
@@ -225,6 +290,7 @@ def expected_columns() -> dict[str, Sequence[str]]:
     return {
         "nodes": NODE_COLUMNS,
         "members": MEMBER_COLUMNS,
+        "near_members": NEAR_MEMBER_COLUMNS,
         "edges": EDGE_COLUMNS,
         "unplaced": UNPLACED_COLUMNS,
     }
