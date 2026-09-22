@@ -40,14 +40,17 @@ NO_DIRECTION = "na"
 #: like prose invites being mistaken for a curated name.
 LABEL_SEPARATOR = " · "
 
-#: Structural words carried by pathway names in every source. Inverse document frequency already
-#: demotes the common biological vocabulary; this list only removes words that carry no topic at
-#: all, so that the scoring is not spent on them.
+#: Words that carry no topic. Inverse document frequency already demotes common biological
+#: vocabulary, so this list only holds what IDF cannot see: grammar, the placeholder ``TBA``, the
+#: filler ``involved`` (as in "involved in"), and the SOURCE NAMES themselves -- "hallmark" scores
+#: as highly distinctive inside a node full of Hallmark sets while saying only which database the
+#: members came from.
 STOPWORDS = frozenset(
     """
     a an and as at by for from in into of on or the to via with within without
     hsa homo sapiens human
-    tba
+    tba involved
+    hallmark reactome gobp btm msigdb
     """.split()
 )
 
@@ -88,6 +91,7 @@ def distinctive_terms(
     total: int,
     limit: int = 3,
     floor: float = 0.15,
+    ceiling: float = 1.0,
 ) -> tuple[str, ...]:
     """Rank a cluster's member names by what they say that other clusters' names do not.
 
@@ -102,9 +106,14 @@ def distinctive_terms(
         total: How many names the background was counted over.
         limit: How many terms to return.
         floor: The smallest share of members a term may appear in and still be considered.
+        ceiling: The largest share of the WHOLE collection a term may appear in. Inverse document
+            frequency alone does not keep "regulation" (27% of all names) out of a large node's
+            label: its within-node share is high enough to outweigh its low IDF, so every broad
+            node ends up labelled "signaling · regulation". Excluding the collection's most common
+            words outright is what lets the specific ones surface.
 
     Returns:
-        Up to ``limit`` terms, most distinctive first. Empty when no term clears ``floor``.
+        Up to ``limit`` terms, most distinctive first. Empty when no term clears the bounds.
     """
     if not members:
         return ()
@@ -117,6 +126,8 @@ def distinctive_terms(
     for term, count in within.items():
         share = count / len(members)
         if share < floor:
+            continue
+        if background.get(term, 0) / max(total, 1) > ceiling:
             continue
         idf = math.log(total / max(background.get(term, 1), 1))
         scored.append((share * idf, term))

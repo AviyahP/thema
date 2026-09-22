@@ -301,11 +301,7 @@ footer code{font-family:var(--mono);font-size:11.5px}
       <div class="mark">T<em>H</em>EMA</div>
       <div class="expansion">Thematic Hierarchy for Enrichment Merging and Attribution</div>
     </div>
-    <div class="build">
-      ontology <b>v0.1</b> &middot; smoke build<br>
-      <b>1,854</b> of 10,817 pathways &middot; <b>4</b> databases<br>
-      reactome 97 &middot; go 2026-08 &middot; msigdb 2026.1 &middot; btm 2013
-    </div>
+    <div class="build" id="build"></div>
   </header>
 
   <div class="mock">
@@ -328,7 +324,7 @@ footer code{font-family:var(--mono);font-size:11.5px}
               <div class="hit"><span class="src reactome">reactome</span><span class="hn">NIK&rarr;noncanonical NF-kB signaling</span><span class="hg">46 genes</span></div>
               <div class="hit"><span class="src hallmark">hallmark</span><span class="hn">TNFA_SIGNALING_VIA_NFKB</span><span class="hg">200 genes</span></div>
             </div>
-            <div class="themechip"><span class="tl">Innate receptor signalling to NF-&kappa;B</span><span class="tc">15 pathways</span></div>
+            <div class="themechip" data-card="nfkb"><span class="tl"></span><span class="tc"></span></div>
             <p class="short"><span class="tag">grouped</span>Four independent lines of evidence for one biology &mdash; and nothing in the names told you to look.</p>
           </div>
           <div class="explain">
@@ -348,7 +344,7 @@ footer code{font-family:var(--mono);font-size:11.5px}
               <div class="hit d"><span class="src go">go</span><span class="hn">regulation of insulin secretion</span><span class="hg">167 genes</span><span class="hd zero">+0 new</span></div>
               <div class="hit d"><span class="src reactome">reactome</span><span class="hn">Regulation of insulin secretion</span><span class="hg">78 genes</span><span class="hd">+57 new</span></div>
             </div>
-            <div class="themechip"><span class="tl">Insulin secretion and glucose homeostasis</span><span class="tc">18 pathways</span></div>
+            <div class="themechip" data-card="insulin"><span class="tl"></span><span class="tc"></span></div>
             <p class="short"><span class="tag">told apart</span>Three names you could not rank by reading them. Only one of the two is a second observation.</p>
           </div>
           <div class="explain">
@@ -426,125 +422,20 @@ footer code{font-family:var(--mono);font-size:11.5px}
   </div>
 </div>
 
+<script src="ontology.js"></script>
 <script>
 /* ---------------------------------------------------------------------------
-   MOCKUP DATA — illustrative, not the current build's output.
-   Replace DATA with a fetch() of the exported ontology.
-   Node shape:    {id, label, provisional, n, children?, pathways?}
-   Pathway shape: {id, name, source, sid, n, genes[], curated, thema}
+   REAL DATA -- demo/ontology.js, written by scripts/export_landing.py from the
+   versioned ontology export. Node shape is the mockup's own contract:
+     node    {id, label, provisional, n, g, children?|pathways?}
+     pathway {id, name, source, sid, n, genes[], curated, thema, also[]}
+   Theme labels are PROVISIONAL: naming has not run, so a node is labelled by its
+   most central members and carries the amber chip.
    --------------------------------------------------------------------------- */
-
-/* memberships: a pathway's primary home is where it sits in the tree; `also` lists
-   secondary memberships {node, label, w} — the contract in thema-soft-membership-plan.md §6.
-   Every real pathway today has none; one illustrative example is set below.        */
-const P = (id,name,source,sid,genes,curated,thema,n,also) =>
-  ({id,name,source,sid,genes,curated,thema,n:n||genes.length,also:also||[]});
-
-const DATA = {
-  id:"root", label:"All themes", n:1854,
-  children:[
-    {id:"t1", label:"Immune and inflammatory response", provisional:true, n:243, g:2910, children:[
-      {id:"t1a", label:"Type I interferon response", provisional:true, n:34, g:412, pathways:[
-        P("p1","Interferon alpha/beta signaling","reactome","R-HSA-909733",
-          ["IFNAR1","IFNAR2","JAK1","TYK2","STAT1","STAT2","IRF9","ISG15","MX1","MX2","OAS1","OAS2","OAS3","IFIT1","IFIT3","RSAD2","USP18","BST2","IFI6","IRF1"],
-          "Interferon alpha and beta bind a common receptor and signal through JAK-STAT to induce interferon-stimulated genes.",
-          "Detection of viral nucleic acid drives secretion of type I interferon, which binds a shared receptor on neighbouring cells and switches on a defensive programme through JAK-STAT signalling. The induced genes restrict viral replication in several ways at once: nucleic acid sensing and degradation, conjugation of ISG15 to host and viral proteins, restriction of viral entry and release, and a general slowing of translation. The same programme runs without a virus in several autoimmune conditions, where its magnitude tracks disease activity.",
-          134),
-        P("p2","type I interferon-mediated signaling pathway","go","GO:0060337",
-          ["IFNAR1","IFNAR2","STAT1","STAT2","IRF9","JAK1","TYK2","PTPN2","USP18","IFI35","SOCS1","SOCS3","ISG15","MX1","OAS1"],
-          "A series of molecular signals initiated by the binding of a type I interferon to a receptor on the cell surface.",
-          "The receptor-to-nucleus arm of the antiviral response: a type I interferon engages its receptor, receptor-associated kinases phosphorylate two signal transducers, and these assemble with a third factor into the complex that binds interferon-stimulated response elements. Several members are negative regulators, which matters because the response is designed to be transient and its failure to resolve is what turns host defence into tissue damage.",
-          96, [{node:"t1c", label:"Antigen receptor signalling and lymphocyte activation", w:0.31}]),
-        P("p3","INTERFERON_ALPHA_RESPONSE","hallmark","M5911",
-          ["ISG15","MX1","OAS1","IFIT1","IFIT3","IFI44","IFI44L","IFI6","IRF7","STAT1","STAT2","BST2","LY6E","SAMD9","HERC5","RSAD2","USP18","EPSTI1"],
-          "Genes up-regulated in response to alpha interferon proteins.",
-          "An empirically derived signature of cells that have recently seen type I interferon, assembled from expression data rather than curated mechanism. It overlaps heavily with the curated interferon pathways but is defined by co-expression, which makes it a useful check: a contrast that lights up the curated pathway and not this one, or the reverse, is worth a second look.",
-          97),
-        P("p4","type I interferon response (M127)","btm","M127",
-          ["IFI44L","IFI44","IFI6","ISG15","MX1","OAS1","OAS2","OAS3","OASL","RSAD2","IFIT1","IFIT3","HERC5","USP18","SIGLEC1","EPSTI1","LY6E","SPATS2L"],
-          "",
-          "A blood transcription module derived from whole-blood expression across many vaccine and infection studies, capturing the set of genes that move together when circulating cells have been exposed to type I interferon. Because it was defined in blood rather than from curated biology, it is the module most likely to be detected in a whole-blood contrast, and its members are the markers used clinically to score interferon activity.",
-          42)
-      ]},
-      {id:"t1b", label:"Neutrophil activation and granule release", provisional:true, n:29, g:620, pathways:[
-        P("p5","Neutrophil degranulation","reactome","R-HSA-6798695",
-          ["ELANE","MPO","PRTN3","CTSG","DEFA1","DEFA4","LCN2","LTF","CAMP","MMP8","MMP9","CEACAM8","OLFM4","ITGAM","FCGR3B","CYBB","NCF1","NCF2"],
-          "Release of the contents of neutrophil granules into the phagosome or the extracellular space.",
-          "Neutrophils carry their weapons pre-made, packaged into distinct granule populations during development in the bone marrow and released in sequence at the site of infection. The earliest granules hold proteases and myeloperoxidase; later ones hold antimicrobial peptides, iron-sequestering proteins and the components of the oxidative burst. Because the granule contents are made before the cell ever leaves the marrow, their abundance in blood reflects how recently granulocytes were produced as much as how activated they are.",
-          479),
-        P("p6","neutrophil degranulation","go","GO:0043312",
-          ["ELANE","MPO","PRTN3","CTSG","DEFA1","DEFA3","LCN2","LTF","CAMP","CD63","ITGAM","FCGR3B","STOM","VAMP8","SNAP23"],
-          "The regulated exocytosis of secretory granules containing preformed mediators by a neutrophil.",
-          "The exocytosis machinery of the neutrophil rather than the cargo it delivers: granule membranes docking at the plasma membrane and the vesicle fusion proteins that commit the step. The distinction matters, because a contrast can raise granule cargo without raising the machinery that releases it, which usually means immature cells in circulation rather than degranulating ones.",
-          485),
-        P("p7","enriched in neutrophils (M37.1)","btm","M37.1",
-          ["ELANE","MPO","DEFA4","CTSG","AZU1","BPI","LCN2","CAMP","CEACAM8","OLFM4","MS4A3","RNASE3"],
-          "",
-          "A blood module dominated by transcripts of immature granulocytes — the proteins of the azurophilic granule, made during a narrow window of promyelocyte development and not transcribed again in mature cells. Its appearance in whole blood therefore points to emergency granulopoiesis, where the marrow releases cells before they finish maturing, which is characteristic of severe infection and severe inflammatory disease.",
-          38)
-      ]},
-      {id:"t1c", label:"Antigen receptor signalling and lymphocyte activation", provisional:true, n:41, g:705, pathways:[
-        P("p8","TCR signaling","reactome","R-HSA-202403",
-          ["CD3D","CD3E","CD3G","CD247","LCK","ZAP70","LAT","LCP2","PLCG1","PRKCQ","CARD11","BCL10","MALT1","NFKB1","VAV1","ITK"],
-          "Signal transduction from the T cell receptor complex following peptide-MHC engagement.",
-          "Engagement of the antigen receptor by a peptide displayed on a major histocompatibility molecule triggers a kinase cascade at the membrane, building a scaffold that couples receptor occupancy to calcium release, transcription factor activation and the decision to proliferate. The pathway is deliberately hard to trigger — several steps require simultaneous costimulation — because a T cell that activates on weak signals becomes autoreactive.",
-          121),
-        P("p9","B cell receptor signaling pathway","go","GO:0050853",
-          ["CD79A","CD79B","BLNK","BTK","SYK","LYN","PLCG2","PIK3CD","CARD11","VAV1","CD19","CR2","MS4A1"],
-          "A series of molecular signals generated as a consequence of the B cell receptor binding to its antigen.",
-          "The B cell equivalent of antigen recognition: surface immunoglobulin transmits binding through associated signalling chains to a kinase whose loss causes a well-defined immunodeficiency, then onward to calcium flux and transcriptional activation. A co-receptor complex lowers the threshold when antigen arrives already tagged by complement, which links innate recognition to the strength of the antibody response that follows.",
-          94)
-      ]}
-    ]},
-
-    {id:"t2", label:"Cell cycle, replication and chromosome maintenance", provisional:true, n:198, g:1860, children:[
-      {id:"t2a", label:"DNA replication initiation", provisional:true, n:22, g:210, pathways:[
-        P("p10","Activation of the pre-replicative complex","reactome","R-HSA-68962",
-          ["MCM2","MCM3","MCM4","MCM5","MCM6","MCM7","CDC45","GINS1","GINS2","CDC6","CDT1","ORC1","ORC2","CDK2","CCNE1","DBF4"],
-          "Conversion of the licensed origin into an active replication fork.",
-          "Origins of replication are licensed in one phase of the cycle and fired in the next, and the separation is what prevents a stretch of DNA being copied twice. Firing converts a loaded, inactive helicase ring into a working one by recruiting two activating factors, and the kinases that drive the step are active only after the licensing window has closed. Loss of that separation produces re-replication and the genome instability that follows from it.",
-          38),
-        P("p11","DNA replication initiation","go","GO:0006270",
-          ["ORC1","ORC2","ORC3","ORC4","ORC5","ORC6","CDC6","CDT1","MCM2","MCM3","MCM4","MCM5","MCM6","MCM7","GMNC","MCIDAS"],
-          "The process in which DNA-dependent DNA replication is started.",
-          "Assembly at the origin, from the recognition complex that marks where copying will begin to the loading of the helicase that will unwind the duplex. Two members of this set are better known for a second role in the differentiation of multiciliated cells, where the same amplification machinery is redirected from origins to centrioles — a reminder that a gene set can carry more than one biology.",
-          42)
-      ]},
-      {id:"t2b", label:"Mitotic spindle and chromosome segregation", provisional:true, n:31, g:340, pathways:[
-        P("p12","Mitotic Spindle Checkpoint","reactome","R-HSA-69618",
-          ["MAD1L1","MAD2L1","BUB1","BUB1B","BUB3","CDC20","AURKB","INCENP","PLK1","TTK","ZW10","CENPE"],
-          "Surveillance mechanism that delays anaphase until all kinetochores are correctly attached.",
-          "A single unattached kinetochore is enough to hold the entire cell in metaphase, which is how a cell avoids dividing its chromosomes unequally. The checkpoint works by catalytic amplification: the unattached site converts a diffusible inhibitor into a form that sequesters the activator of the machinery that would otherwise dissolve sister-chromatid cohesion. Drugs that disturb the spindle kill dividing cells precisely because this checkpoint holds them there.",
-          98)
-      ]}
-    ]},
-
-    {id:"t3", label:"Lipid metabolism and transport", provisional:true, n:167, g:1140, children:[
-      {id:"t3a", label:"Fatty acid oxidation", provisional:true, n:19, g:150, pathways:[
-        P("p13","Mitochondrial Fatty Acid Beta-Oxidation","reactome","R-HSA-77289",
-          ["CPT1A","CPT2","SLC25A20","ACADVL","ACADM","ACADS","HADHA","HADHB","ECHS1","HADH","ACAA2","ETFA","ETFB","ETFDH"],
-          "Successive removal of two-carbon units from fatty acyl-CoA within the mitochondrial matrix.",
-          "Long-chain fats cannot cross the inner mitochondrial membrane unaided, so they are handed across on a carnitine shuttle and then dismantled two carbons at a time by a repeating four-step cycle, each turn feeding electrons into the respiratory chain and releasing acetyl-CoA. Inherited defects in individual steps present as hypoglycaemia during fasting, when the tissues that normally switch to fat cannot do so — which is why newborn screening tests for several of them.",
-          36)
-      ]},
-      {id:"t3b", label:"Plasma lipoprotein assembly and clearance", provisional:true, n:24, g:190, pathways:[
-        P("p14","Plasma lipoprotein assembly","reactome","R-HSA-8963898",
-          ["APOA1","APOB","APOC3","APOE","MTTP","LCAT","ABCA1","SAR1B","PLTP","CETP"],
-          "Assembly of triglyceride-rich and cholesterol-rich lipoprotein particles.",
-          "Fats are insoluble, so the body ships them in particles with a lipid core and a protein shell, assembled in the liver and intestine. The identity of the shell protein determines where the particle goes and what receptor takes it up, and the transfer proteins that move lipid between particles in circulation set the balance measured in a standard lipid panel. Several members are the direct targets of lipid-lowering therapy.",
-          29)
-      ]}
-    ]},
-
-    {id:"t4", label:"Signal transduction by receptor kinases", provisional:true, n:212, g:2380},
-    {id:"t5", label:"Gene expression and RNA processing", provisional:true, n:186, g:2210},
-    {id:"t6", label:"Protein folding, transport and degradation", provisional:true, n:174, g:1930},
-    {id:"t7", label:"Extracellular matrix and cell adhesion", provisional:true, n:121, g:1410},
-    {id:"t8", label:"Neuronal signalling and synaptic function", provisional:true, n:143, g:1620},
-    {id:"t9", label:"Development and cell fate specification", provisional:true, n:238, g:2650},
-    {id:"t10", label:"Small molecule transport across membranes", provisional:true, n:172, g:1880}
-  ]
-};
+const EXPORT = window.THEMA_LANDING;
+const DATA = EXPORT ? EXPORT.data : {id:"root", n:0, children:[]};
+const MANIFEST = EXPORT ? EXPORT.manifest : null;
+const CARDS = EXPORT ? EXPORT.cards : {};
 
 const SOURCE_NAME = {reactome:"Reactome", go:"GO biological process", hallmark:"MSigDB Hallmark", btm:"Blood transcription module"};
 
@@ -557,6 +448,31 @@ const showAll = new Set();          /* nodes whose full pathway list is expanded
 const PREVIEW = 8;                  /* pathways shown before "show all" */
 let sel = DATA;
 let query = "";
+
+const fmt = v => (v == null ? "—" : Number(v).toLocaleString());
+const esc = v => String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+/* Chrome the mockup hardcoded. Every figure here comes from the manifest so the page cannot state
+   an ontology it is not showing. */
+function drawChrome(){
+  if(!MANIFEST) return;
+  document.getElementById("build").innerHTML =
+    'ontology <b>v'+MANIFEST.version+'</b> &middot; '+MANIFEST.method.replace("_"," ")+'<br>'+
+    '<b>'+fmt(MANIFEST.n_pathways)+'</b> of '+fmt(MANIFEST.collection_rows)+' pathways &middot; '+
+    '<b>'+MANIFEST.n_sources+'</b> databases<br>'+
+    'descriptions '+MANIFEST.prompt_version+' &middot; '+MANIFEST.descriptions_sha256.slice(0,12);
+  /* The example cards' theme chips: the smallest node containing all the pathways each card
+     lists, recomputed at export time. The label is provisional until naming runs. */
+  document.querySelectorAll("[data-card]").forEach(el => {
+    const card = CARDS[el.dataset.card];
+    if(!card) return;
+    const tl = el.querySelector(".tl"), tc = el.querySelector(".tc");
+    if(tl) tl.innerHTML = card.node_label
+      ? esc(card.node_label)+'<span class="provisional">provisional</span>'
+      : 'no single theme contains all of them';
+    if(tc) tc.textContent = card.node_size == null ? "" : fmt(card.node_size)+" pathways";
+  });
+}
 
 const kidsOf = n => n.children || n.pathways || [];
 const isLeaf = n => !!n.name;
@@ -695,13 +611,13 @@ function drawDetail(){
 function detailForRoot(){
   document.getElementById("detail").innerHTML =
     '<div class="eyebrow">the ontology</div>'+
-    '<h3 class="dn">1,854 pathways, ten broad themes</h3>'+
-    '<p class="prose">Every pathway from four databases sits somewhere in this tree. Open a theme to see the sub-themes inside it, and a sub-theme to see its pathways. Whatever you open last is described here.</p>'+
+    '<h3 class="dn">'+fmt(MANIFEST.n_pathways)+' pathways, '+DATA.children.length+' broad themes</h3>'+
+    '<p class="prose">Every pathway from '+MANIFEST.n_sources+' databases sits somewhere in this tree. Open a theme to see the sub-themes inside it, and a sub-theme to see its pathways. Whatever you open last is described here.</p>'+
     '<div class="facts">'+
-      '<div class="fact"><div class="k">pathways</div><div class="v">1,854</div></div>'+
-      '<div class="fact"><div class="k">sources</div><div class="v">4</div></div>'+
-      '<div class="fact"><div class="k">levels shown</div><div class="v">3</div></div>'+
-      '<div class="fact"><div class="k">build</div><div class="v">v0.1</div></div>'+
+      '<div class="fact"><div class="k">pathways</div><div class="v">'+fmt(MANIFEST.n_pathways)+'</div></div>'+
+      '<div class="fact"><div class="k">sources</div><div class="v">'+MANIFEST.n_sources+'</div></div>'+
+      '<div class="fact"><div class="k">levels shown</div><div class="v">'+MANIFEST.levels.length+'</div></div>'+
+      '<div class="fact"><div class="k">build</div><div class="v">v'+MANIFEST.version+'</div></div>'+
     '</div>';
 }
 
@@ -814,5 +730,12 @@ document.getElementById("collapse").addEventListener("click", () => {
 });
 
 function render(){ drawTree(); drawDetail(); }
-render();
+if(!EXPORT){
+  document.getElementById("tree").innerHTML =
+    '<p class="nores">ontology.js did not load. Run <code>uv run scripts/export_landing.py</code>, '+
+    'then open this file from the same directory.</p>';
+}else{
+  drawChrome();
+  render();
+}
 </script>
