@@ -1986,3 +1986,183 @@ a risk to be bounded (an unsupported claim is unfalsifiable against the source a
 without the verifier being able to tell), or something to be separated into its own field. The
 style test bears on it: swapping curated text for the v4 description keeps only ~4 of 10 nearest
 neighbours, so the added context is doing much of the embedding work, not decorating it.
+
+## 2026-09-23 — Universe rule: a pathway with no genes is not in the universe
+
+**DECIDED.** A pathway with `n_genes = 0` is **excluded from the universe**. A pathway with
+`n_genes >= 1` **stays**, however small.
+
+**Why.** A set with no genes cannot be a member of a gene set, cannot be tested for enrichment, and
+contributes only its text. It would occupy a theme and carry weight in the hierarchy while being
+incapable of ever being enriched. Keeping it costs correctness and buys nothing.
+
+**Why small sets stay.** One gene is a real set with a real test. Dropping small sets would remove
+most of Reactome's disease pathways and bias every cross-source comparison. Their statistical
+treatment is **acknowledged debt** (`docs/debt.md`), not grounds for deletion now.
+
+**The universe: 10,817 -> 10,770.** `data/pathways.tsv` still holds 10,817 rows -- the rule is a
+filter applied at build time, not a change to the table, so statements about the TABLE remain true
+and statements about the UNIVERSE change.
+
+**The 47, all Reactome, in two kinds:**
+
+| degradation | n | cause |
+|---|---|---|
+| `empty_after_resolution` | **32** | Reactome lists only pathogen protein names -- `NS`, `1a`, `rep`, and literally "SARS coronavirus, complete genome". Gene resolution **correctly refused** to map them to HGNC. |
+| `no_source_members` | **15** | No gene products in Reactome at all: zero human rows in `NCBI2Reactome_All_Levels.txt` and `Ensembl2Reactome_All_Levels.txt`. |
+
+**The resolver is right in every case.** It was checked and is not changed. Independently verified:
+of the 443 pathways with 1-2 genes, 410 were that small in the source; the 33 that shrank lost only
+pathogen symbols (E. coli, Mtb, influenza, HIV, RSV, SARS, Salmonella) and **no human gene was lost
+in any of them**. Those 33 stay.
+
+**Implementation.** `partition_universe()` in `src/thema/data/pathways.py` returns
+`(kept, excluded)` -- excluded is RETURNED, not discarded, so a build records which rows it dropped.
+`export.write` takes them and writes `n_excluded_no_genes` plus a per-pathway list of
+`{key, reason, degradation}` into the manifest. `normalize_descriptions.py --full` applies the
+filter, so they are never regenerated.
+
+**Their descriptions are kept, not deleted.** 44 rows held `prompt_version = v4, status = current`;
+they are now `status = out_of_universe` -- a status distinct from `superseded`, which means "a newer
+generation exists". This means "there is nothing left to describe". `read()` no longer returns them
+(10,801 -> 10,757) and `restamp()` was fixed to leave them alone: it previously rewrote every row's
+status unconditionally, so the marking would have survived only until the next generation landed.
+Pinned by `test_restamp_leaves_out_of_universe_rows_alone`.
+
+**A false field, corrected.** Those rows carried `description_generated_from =
+"description+name+genes"` while `genes_shown = 0`. `provenance_of()` keyed off `text_availability`
+alone, which describes the TEXT and says nothing about genes. This was a deliberate earlier choice
+-- the old test read *"A zero-gene pathway is still `described`, so it is still
+description+name+genes; genes_shown carries the fact that no genes were shown"* -- and it is now
+withdrawn: the field names what the model was actually given, and the prompt showed
+`Input genes: (none)`. `PROVENANCE_NO_GENES` was added, 48 rows corrected (44 keys; 44 v4 + 4 v3).
+**No other rows in the table are mislabelled this way**, and no row omits genes it was shown.
+
+## 2026-09-23 — The 13 refused pathways go out as `v4-alt`, and are promoted
+
+Sixteen pathways were refused by the v4 batch. **Three of them — `reactome:R-HSA-168305`,
+`reactome:R-HSA-9682708`, `reactome:R-HSA-9683439` — have no genes and are therefore excluded by
+the universe rule** (see "Universe rule" above). They are not "deliberately undescribed" and carry
+no special case: they are simply not in the universe, so they cannot be unplaced, cannot be
+regenerated, and cannot appear in `unplaced.tsv`. An earlier draft of this entry treated them as a
+hand-made exception; the universe rule subsumes it and that framing is withdrawn.
+
+**The remaining 13 all have genes and all remain in the universe.** Answers obtained outside the
+v4 batch are recorded with `prompt_version = v4-alt`, **the model that actually produced each row
+in that row's `model` column**, and `status = superseded`. One row may name a different model from
+the next, which is the point: a generation is the record of what one prompt-and-model wrote, and
+mixing models under one label would destroy that. Nothing is promoted without a separate decision.
+`data/keys/refused_13_prompts.md` carries the exact v4 request per pathway, byte-identical to what
+the API received.
+
+### Provenance of the `v4-alt` rows — NOT written by the model that wrote the rest of the table
+
+Stated in full, because a generation is only auditable if how it was made is on the record.
+
+| | |
+|---|---|
+| produced | 2026-09-23 |
+| interface | **ChatGPT web app at chatgpt.com**, Plus account, driven by browser automation. **Not an API call.** |
+| model | **`gpt-5-6-thinking`** — slug read from the page's own message metadata, not inferred from a UI label |
+| reasoning effort | **High** (the app default), where the Anthropic v4 batch used `output_config.effort = low` |
+| isolation | one fresh **temporary** chat per pathway, Unpersonalized, memory/plugins/custom instructions off, nothing saved to history. No pathway shared a context with another. |
+| interaction | one user message, one reply. **No follow-ups, no regeneration — the first reply was taken in every case.** |
+| input | the system prompt and user block from `data/keys/refused_13_prompts.md`, pasted as one message with a line containing only `---` between them |
+| output | every reply came back as `{"description": "..."}` **by instruction only — no JSON schema was enforced and no `max_tokens` was set**. The wrapper was stripped when the TSV was written; nothing else was edited. |
+| length | all 13 are **108–123 words** against the 90–150 target |
+
+**One deviation from byte-identity, stated rather than glossed.** The user blocks are byte-identical
+to `render_user_message()`. **The system prompt is not:** its hard line-wrapping was re-flowed to one
+line per paragraph. No wording changed, both worked examples were kept, and the OUTPUT FORMAT line
+was kept as written — but it is a different byte sequence from what the Anthropic batch received.
+
+**Two rows were re-run.** `botA` (`reactome:R-HSA-5250968`) and `botB` (`reactome:R-HSA-5250958`)
+had been produced earlier under a different, flattened rendering of the prompt. **Those answers were
+discarded** and both were re-run under the procedure above, so all 13 rows come from one identical
+procedure.
+
+**Verification:** verify-v1 was run against this generation — **0 of 9 checked, 4 refused by the
+verifier**. No further verification; the v4 batch was never verified row by row either.
+
+**PROMOTED to `status = current`.** These 13 are readable. `read()` is now **10,770 — the whole
+universe, every pathway described**: 10,757 rows by `claude-opus-5` and 13 by `gpt-5-6-thinking`.
+`prompt_version = v4-alt` and the per-row `model` are kept precisely so the table records that
+these 13 were written by a different model from the rest; the distinction lives in those columns
+rather than in the readability of the row.
+
+**Consequence for `restamp()`, recorded because it is a live hazard.** The readable generation now
+spans **two** `prompt_version` values. `restamp(table, columns, "v4")` marks every row whose
+version is not `v4` as superseded, so the next promotion would silently demote these 13 and take
+`read()` back to 10,757. Nothing in the code prevents it. Either the next promotion names both
+versions, or `restamp` is taught to take a set — not done here, and flagged rather than left to be
+discovered.
+
+### Undescribed pathways must be UNPLACED, never silently absent
+
+**The bug this fixes.** `unplaced` was computed as `set(embedded keys) - placed`. A pathway with no
+description never entered the embedded key set, so it appeared in neither the nodes nor `unplaced`
+— it simply vanished from the build, and nothing counted it. A pathway with no current
+description would have been indistinguishable from one the method examined and rejected.
+
+`unplaced.tsv` now carries a **`reason`** column, `no_description` or `not_recurrent`, and the
+manifest records `n_undescribed` beside `n_unplaced`. Pinned by
+`tests/ontology/test_base.py::test_unplaced_says_why_a_pathway_is_absent`.
+
+**Stated plainly, because it is not finished:** `export.write` supports this, and the test pins it,
+but **`scripts/build_ontology.py` does not call `export.write` at all** — it still writes the flat
+v0.1-style `clusters_ward.tsv`, and every versioned export so far has come from analysis scripts.
+Wiring the versioned export into the build CLI (master spec §15.3) remains outstanding, and until
+it is done the guarantee holds only where `export.write` is actually called. The 16 undescribed
+pathways are not in the 1,854-pathway v0.2 build, so nothing already written is wrong; this matters
+for the first build over the full universe.
+
+**Which pathways this now covers.** Not the zero-gene three -- those never enter the universe, so
+they can never reach `unplaced`. It covers the **13** refused pathways that DO have genes: their
+`v4-alt` rows are `superseded`, so `read()` returns no description for them and they are absent
+from the embedded set. Those are the ones that must appear with reason `no_description`.
+
+## 2026-09-23 — Tightness threshold solved from the error rate; percentile formulation withdrawn
+
+**PRE-REGISTERED. Written before the calibration was run.** Recorded here so the result cannot be
+graded after the fact.
+
+**What is withdrawn.** The tightness cut was "the null's 95th percentile at the same size". That
+admits 5% of scrambled themes **by construction**, so the 3–4 band's false rate was pinned near
+0.141 by a constant nobody derived. 95 was conventional. It cannot be defended and it is gone.
+
+**What replaces it.** A threshold solved for from the error rate already declared:
+
+- **Statistic, FIXED:** centred cohesion — mean pairwise cosine of member embeddings after
+  subtracting the universe mean embedding. **It may not be changed in response to any result.**
+- **Strata:** size 3 and size 4, separately, never pooled.
+- **FDR(s,c) = F(s,c) / R(s,c)**, where F is the mean over calibration scrambles of scrambled
+  themes of size *s* passing recurrence with cohesion ≥ *c*, and R the real count.
+- **c\*(s) = the smallest c with FDR ≤ 0.02**, over **every distinct cohesion value in the null**
+  — no grid, no rounding.
+- **20 calibration scrambles**, because this is a tail estimate and five is too thin.
+- **One evaluation on a fresh held-out scramble set.** Whatever comes out is reported.
+
+**Recurrence for this band is set at the grid floor, m = 0.20**, and this is a consequence of the
+finding below rather than a choice: if recurrence carries no information, raising it deletes real
+and scrambled themes in equal proportion, leaving FDR unchanged and the real count smaller.
+
+**Failure branches, fixed now:**
+
+| condition | consequence |
+|---|---|
+| held-out FDR > 0.02 | the 3–4 band is **dropped** from the frozen ontology |
+| leave-one-out retained counts span > 20% | the estimate is unstable, the band is **dropped** |
+
+In neither case is the statistic changed, a stratum added, another rule searched for, or the target
+relaxed. The build is reported without the band and with an explicit account of what is lost —
+including the four glued-theme fixes, all of which are 3–4 members.
+
+### The band rests on geometry, not recurrence — recorded whatever the outcome
+
+**Without the tightness test the 3–4 band is 285 real / 286 scrambled.** Recurrence carries no
+information at this size, and the band is decided entirely by cohesion geometry — a different
+criterion from the one used above 5 members.
+
+Any small set of mutual nearest neighbours recurs across resampling whether or not it means
+anything: at this size stability is a property of the metric space, not of the biology. Every theme
+in the band is admitted by geometry alone, and any claim about the band must carry that sentence.
