@@ -1,51 +1,58 @@
 section	key	value	note
-digest	pathway_descriptions.tsv	f4f69f355a2432e81e77f5e620c7baf8cef3a5ee1ed5b2a02eec15fa5a2540d2	sha256 of the committed description table
+digest	pathway_descriptions.tsv	c80c205f5e3076e37e149aaea81167ff0dde41d0dad8600c162911f6eb81e445	sha256 of the committed description table
 input	scope	keys	smoke is a stratified subset; full is every pathway
 input	model	claude-opus-5	
 input	prompt_version	v4	
 input	length_band	90-150	words, stated in the prompt
-input	rows	1854	rows in the table this summary pins
+input	rows	10801	rows in the table this summary pins
 input	collection_rows	10817	pathways in data/pathways.tsv; equal to rows only on a full run
-batch	batch_1	msgbatch_01AwzDicfkdM9tfMdnearNeg	a generation run that contributed rows here
-batch	batch_2	msgbatch_01CpghyqTaLSkfc1c9WN2Y4U	a generation run that contributed rows here
-batch	batch_3	msgbatch_01K81K8VxWGHCLdkKgVPJMzt	a generation run that contributed rows here
-batch	batch_4	msgbatch_01PxUh97njrm6YHacC189bar	a generation run that contributed rows here
-batch	batch_5	msgbatch_01Q5FhDCmt6oEsR2SMYDxtdY	a generation run that contributed rows here
-source	reactome	518	
-source	go	1212	
+batch	batch_1	msgbatch_0134yyfQYtt55FRnhybceoXM	a generation run that contributed rows here
+batch	batch_2	msgbatch_01AwzDicfkdM9tfMdnearNeg	a generation run that contributed rows here
+batch	batch_3	msgbatch_01BcwWB2mL6CqjXwJjyupDqc	a generation run that contributed rows here
+batch	batch_4	msgbatch_01CpghyqTaLSkfc1c9WN2Y4U	a generation run that contributed rows here
+batch	batch_5	msgbatch_01D2V1J9kqLNtPeT5xqBqq87	a generation run that contributed rows here
+batch	batch_6	msgbatch_01EdnMGaCqVkBi96tuoq2Pqe	a generation run that contributed rows here
+batch	batch_7	msgbatch_01K81K8VxWGHCLdkKgVPJMzt	a generation run that contributed rows here
+batch	batch_8	msgbatch_01KEKJ7QZ2AfD1zosg3CuaHM	a generation run that contributed rows here
+batch	batch_9	msgbatch_01Lo8wk2uTLzzTEUC8o5KN3c	a generation run that contributed rows here
+batch	batch_10	msgbatch_01PxUh97njrm6YHacC189bar	a generation run that contributed rows here
+batch	batch_11	msgbatch_01Q5FhDCmt6oEsR2SMYDxtdY	a generation run that contributed rows here
+batch	batch_12	msgbatch_01QnPhF7oD7jf3b7UPv7qm5a	a generation run that contributed rows here
+source	reactome	2867	
+source	go	7538	
 source	hallmark	50	
-source	btm	74	
-source	total	1854	
-provenance	description+name+genes	1780	
-provenance	genes	15	
-provenance	name+genes	59	
-provenance	genes_shown=0	4	described pathways that resolved to no genes; the count carries what an enum cannot
-validator	btm	1	
-validator	btm_id	0	
+source	btm	346	
+source	total	10801	
+provenance	description+name+genes	10455	
+provenance	genes	87	
+provenance	name+genes	259	
+provenance	genes_shown=0	44	described pathways that resolved to no genes; the count carries what an enum cannot
+validator	btm	2	
+validator	btm_id	2	
 validator	curation	0	
-validator	dangling_quote	0	
+validator	dangling_quote	4	
 validator	database_object	0	
 validator	gene_ontology	0	
 validator	go_id	0	
 validator	hallmark_id	0	
 validator	hallmark_set	0	
-validator	html_markup	35	
-validator	json_residue	16	
+validator	html_markup	194	
+validator	json_residue	72	
 validator	kegg_id	0	
-validator	length	24	
+validator	length	126	
 validator	msigdb	0	
-validator	name_echo	256	
+validator	name_echo	1680	
 validator	reactome	0	
 validator	reactome_id	0	
-validator	self_correction	0	
+validator	self_correction	1	
 validator	wikipathways_id	0	
-validator	clean	1556/1854	tripped no check at all
-validator	envelope_repaired	0	responses whose value re-closed the envelope; trimmed on parse, never silently
-length	words	115/128/135/142/1788	min/p10/median/p90/max
-cost	input_tokens	1264032	
-cost	cache_read_tokens	4642839	
-cost	output_tokens	696419	thinking included
-cost	dollars	26.13	list price; halve for a batch run
-sanity	every selected pathway has a description	15	expected 15 [pass] - counted over the SELECTED pathways, not the ledger: the ledger also holds the --sample run's twelve, and comparing against it hides a missing row behind an extra one. A batch result that did not parse shows here
+validator	clean	8853/10801	tripped no check at all
+validator	envelope_repaired	1	responses whose value re-closed the envelope; trimmed on parse, never silently
+length	words	114/128/135/142/2446	min/p10/median/p90/max
+cost	input_tokens	6564337	
+cost	cache_read_tokens	27088668	
+cost	output_tokens	4016201	thinking included
+cost	dollars	146.98	list price; halve for a batch run
+sanity	every selected pathway has a description	1	expected 1 [pass] - counted over the SELECTED pathways, not the ledger: the ledger also holds the --sample run's twelve, and comparing against it hides a missing row behind an extra one. A batch result that did not parse shows here
 sanity	every collision group is whole	0/94	expected 94/94 [FAIL] - one member of a pair would make the redundancy test unfailable
 sanity	no gene list was truncated	0	expected 0 [pass] - genes_shown counts SYMBOLS and n_genes counts identifiers, so shown >= genes and the two differ wherever two of a source's symbols met on one gene (7 rows here, e.g. DDX58/RIGI). Truncation would show as shown < genes, which is what this counts
