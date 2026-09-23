@@ -119,6 +119,28 @@ def read_descriptions(table: Path) -> dict[str, str]:
     return descriptions_table.read(table)
 
 
+def read_key_file(path: Path) -> tuple[set[str], list[str]]:
+    """Read a file of pathway keys, one per line, ignoring blanks and ``#`` comments.
+
+    Args:
+        path: The file.
+
+    Returns:
+        The distinct keys named, and any lines that survived stripping but hold whitespace.
+    """
+    wanted: set[str] = set()
+    unparseable: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        key = line.split("#", 1)[0].strip()
+        if not key:
+            continue
+        if " " in key:
+            unparseable.append(key)
+        else:
+            wanted.add(key)
+    return wanted, unparseable
+
+
 def choose_pilot(keys: Sequence[str], count: int, seed: int = PILOT_SEED) -> tuple[str, ...]:
     """Draw the pilot subset, seeded and recorded so it is the same subset every time.
 
@@ -526,6 +548,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="verify a seeded random N first (default: %(default)s)",
     )
     parser.add_argument("--all", action="store_true", help="verify every described pathway")
+    parser.add_argument(
+        "--keys",
+        type=Path,
+        metavar="FILE",
+        help="restrict the pool to the pathway keys named in FILE, one per line; --pilot then "
+        "samples within it. Without this the pool is every described pathway, so a table holding "
+        "several generations would mix them and a rate could not be attributed to either.",
+    )
     parser.add_argument("--repair", action="store_true", help="regenerate and re-check what flags")
     parser.add_argument("--model", default="claude-opus-5", help="verifier (default: %(default)s)")
     parser.add_argument("--submit", action="store_true", help="actually call the API")
@@ -554,8 +584,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     collection = PathwayCollection.from_tsv_text(pathways.read_text(encoding="utf-8"))
     by_key = collection.by_key
     texts = {k: v for k, v in read_descriptions(table).items() if k in by_key}
+    if args.keys:
+        wanted, unknown = read_key_file(args.keys)
+        missing = [k for k in wanted if k not in texts]
+        texts = {k: v for k, v in texts.items() if k in wanted}
+        note = (
+            f"; {len(unknown)} unparseable, {len(missing)} not described"
+            if unknown or missing
+            else ""
+        )
+        print(f"restricted to {len(texts):,} of the {len(wanted):,} keys in {args.keys.name}{note}")
+        if not texts:
+            print(f"no described pathway among the keys in {args.keys}", file=sys.stderr)
+            return 1
 
-    scope = "all" if args.all else "pilot"
+    scope = "keys" if args.keys else ("all" if args.all else "pilot")
     keys = sorted(texts) if args.all else list(choose_pilot(sorted(texts), args.pilot))
     print(f"\nVERIFICATION  ({len(keys):,} of {len(texts):,} descriptions, scope={scope})")
 

@@ -810,6 +810,7 @@ def assemble(
     timing: Timing | None = None,
     eligible_mask: np.ndarray | None = None,
     collect: list[dict[str, object]] | None = None,
+    grouped: list[tuple[int, list[int]]] | None = None,
 ) -> tuple[list[np.ndarray], list[float], list[list[float]], list[int], int]:
     """Families first, then the threshold, then membership merged to a fixed point.
 
@@ -838,6 +839,9 @@ def assemble(
             inclusion, including those below ``inclusion_threshold``). The return value carries
             only surviving members, so a pathway the cutoff drops is otherwise unrecoverable
             without recomputing the build; ``near_members.tsv`` is written from this.
+        grouped: Precomputed variant families, as :func:`families` returns them. Families do not
+            depend on ``m``, so a threshold sweep that recomputes them per value pays for the most
+            expensive stage of the build once per point for no gain. Omitted, they are computed.
 
     Returns:
         Member bitsets, node supports, inclusion values aligned to each bitset's set bits, each
@@ -850,8 +854,9 @@ def assemble(
     if eligible_mask is None:
         raise ValueError("family support needs the eligibility mask")
 
-    evaluable = [g for g in range(len(pool.groupings)) if not np.isnan(pool.support[g])]
-    grouped = families(evaluable, None, pool, clock)
+    if grouped is None:
+        evaluable = [g for g in range(len(pool.groupings)) if not np.isnan(pool.support[g])]
+        grouped = families(evaluable, None, pool, clock)
 
     start = time.perf_counter()
     kept = [
