@@ -46,7 +46,8 @@ needs the centred version first.
 
 ## Statistics engine: umbrella members dominate theme gene unions
 
-*Logged 2026-09-22. **Open question, not a decision.** Nothing is implemented, and no rule is
+*Logged 2026-09-22; **still open** as of 2026-09-23 -- nothing has been implemented and no rule is
+adopted in the ontology. **Open question, not a decision.** Nothing is implemented, and no rule is
 adopted in the ontology.*
 
 Theme gene unions are dominated by one member in **265 of 391 nodes**; in **93%** the dominant
@@ -93,3 +94,29 @@ A fixed gene-count cut was measured and rejected as insufficient rather than wro
 No fixed count reaches most cases, because the effect is **relative** -- a member's size against
 *its own theme's* union -- and a global threshold cannot express that. A relative criterion would
 target it better, which is an observation about the shape of the problem, not a proposal.
+
+## A cache of `family_members` output drove the machine into swap
+
+*Logged 2026-09-23. **Fixed**; recorded because the shape of the mistake will recur.*
+
+The first strict-target rebuild cached `family_members()` output for all ~57,000 groupings so that
+both membership cutoffs could complete from one pass, instead of recomputing it per cutoff. It ran
+the machine out of memory: **swap 31 GB of 32 GB, zero free**, and the job stalled for roughly two
+hours producing nothing before it was killed. Even `ps` was timing out by then.
+
+**Why it was so much bigger than it looked.** `family_members()` returns `(candidate bitset,
+inclusions)` — and the inclusion dict covers **every candidate**, not just the members that survive
+the cutoff. For a large grouping that is hundreds of entries. Across 57,000 groupings, held
+simultaneously, it reaches tens of GB. The mental model was "one small tuple per grouping"; the
+reality was a dict per grouping over a much larger set than the one being kept.
+
+**The fix is to recompute, not to cache.** Completion costs **~0.09 ms per grouping, about 4 s per
+side** — roughly 10 s for two cutoffs. The cache traded gigabytes to save ten seconds. Null sides
+now retain only `(size, support, cohesion)` tuples; only the real side keeps member sets, and only
+because the build needs them. Peak RSS after the fix: **0.6 GB**, against a run that had been
+heading into the tens.
+
+**What to carry forward.** Before caching a per-item result across tens of thousands of items, size
+one item first — and size what it actually holds, not what it is named for. The long-running scripts
+in this work now print peak RSS per stage, so the next such mistake is visible within a stage
+rather than after two silent hours.

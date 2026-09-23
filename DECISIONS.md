@@ -1806,3 +1806,183 @@ share would have cleared name-prepending: 0.0768 vs 0.0638, overlapping interval
 difference". It is the same error as the immune-scatter rate: **a rate over a mixed population
 measures the mixture, not either part of it.** Report the decomposition beside the aggregate, or
 the aggregate will hide the failure it is averaging away.
+
+## 2026-09-23 — Single-merge order: complete each grouping before building families
+
+Groupings are **completed from their own matched copies before families are built**, so variants
+are judged on full member sets rather than on whatever each origin run happened to draw.
+
+**Why the old order needed two merges.** Families were formed on RAW grouping sets, the threshold
+applied, and membership recomputed afterwards from the family's pooled copies. Recomputing
+membership can turn two non-variant nodes into variants, so a fixed-point merge had to run after
+it. That second merge was treating a symptom: the sets being compared were incomplete at the moment
+they were compared. Completing first removes the cause, and the merge's no-variant guarantee then
+survives to the output because nothing edits a seed's set afterwards.
+
+**Evidence.**
+
+| | |
+|---|---|
+| cost of completion, ~47k groupings | **4 s** (~0.09 ms each) |
+| real groupings that GREW on completion | **30,636 of 47,251 (65%)** |
+| scrambled groupings that grew | **3,593 of 57,240 (6%)** |
+| pooling discriminator (real ÷ null ratio) | **1.93** (2.89 / 1.50), against 1.32 for the two-merge order at the same min_size |
+| variant pairs in the output, no second merge | **0** |
+| the 5-9 band | **passes at m=0.30** where the two-merge order could not reach the target below the 0.5 ceiling |
+
+**Completion is itself a discriminator, and that was not the reason for the change.** 65% of real
+groupings gain members against 6% of scrambled ones: a real grouping is genuinely incomplete
+because its origin run did not draw everything, while a scrambled one has nothing to recover. The
+step was adopted to remove the second merge and happened to separate signal from noise as well.
+
+**Variant pairs are 0 by construction, not by luck.** A seed claims every unclaimed variant of its
+own set; no two seeds can therefore be variants; and the band threshold only deletes families, which
+cannot create one. The one way it could fail is the size window -- `families()` walks only
+`2 x max(2, 10% of seed size)` around each seed, and completion can move a set outside it. Measured:
+0.
+
+## 2026-09-23 — Size-banded thresholds: one number cannot serve bands that differ 100-fold
+
+`m` is chosen per size band (3-4, 5-9, 10-29, 30+) rather than once for the build.
+
+**Why.** At `min_size` 3 the small and large bands have false rates two orders of magnitude apart.
+A single threshold either admits the noise in the small band or discards real themes in the large
+one. The min_size control, at tol 0.15 / m 0.33, counting assembled themes:
+
+| min_size | band | real | scrambled | false rate |
+|---|---|---|---|---|
+| 3 | 3-4 | 157 | **315** | **2.006** |
+| 3 | 5-9 | 260 | 21 | 0.081 |
+| 3 | 10+ | 174 | **0** | 0.000 |
+| 4 | 3-4 | 60 | **217** | **3.617** |
+| 4 | 5-9 | 283 | 15 | 0.053 |
+| 4 | 10+ | 167 | **0** | 0.000 |
+| 5 | 5-9 | 213 | 6 | 0.028 |
+| 5 | 10+ | 178 | **0** | 0.000 |
+
+**Recurrence alone carries no signal at 3-4 members.** Swept from m=0.20 to m=0.48, the real and
+scrambled counts fall in lockstep -- **285 real against 286 scrambled at m=0.48**, a ratio of 1.00.
+No threshold separates them, because raising `m` deletes true and false themes at the same rate.
+**Three independent confirmations:** the min_size control above, the two-merge banded sweep, and the
+single-merge sweep. The band is not rescuable by thresholding and must be judged another way, or
+dropped.
+
+Conversely the 10-29 and 30+ bands produce **zero** scrambled themes at every threshold tested, so
+holding them to the small bands' `m` discarded real themes for nothing.
+
+## 2026-09-23 — Tightness test for small themes: recurrence is geometric, cohesion is not
+
+For the 3-4 and 5-9 bands only, a family must also be **tighter than the null's families of the
+SAME SIZE** -- centred cohesion above the null's **95th percentile at that size**.
+
+**Why recurrence fails at small sizes.** Any small set of mutual nearest neighbours recurs across
+resampling, whether or not it means anything: if four points sit closest to each other, Ward puts
+them together in most draws that contain them. Stability at that scale is a property of the
+geometry, not of the biology. It is the same reason the scrambled null produces small recurrent
+groupings at nearly the real rate -- permuting the dimensions destroys the semantics but leaves a
+metric space in which some points are still nearest neighbours.
+
+**Cohesion is not confounded that way**: it asks how tight the set is relative to what tightness
+looks like at that size under no structure at all.
+
+| 3-4 band | real | scrambled | ratio |
+|---|---|---|---|
+| recurrence only, m=0.48 | 285 | 286 | **1.00** |
+| recurrence m=0.34 + tightness | 313 | 44 | **0.14** |
+
+**The cut costs nothing real.** Measured per size 3-9, it rejected **zero** real families: the
+distributions barely overlap. At size 3 the cut is 0.1153, real themes sit at a median of 0.6402,
+and random real pathway sets sit at -0.0119. The cut removes 95% of the null by construction while
+leaving the real side intact; the residual false rate is arithmetic, since 5% of a 38,195-family
+null pool is still ~44 themes.
+
+Cohesion is on MEAN-CENTRED embeddings (`docs/debt.md`), each side centred on its own matrix --
+the null's families live in the permuted space and must be scored there.
+
+## 2026-09-23 — Error target 0.05 -> 0.01, and no band above 0.02
+
+**Why the target moved.** A 5% false-discovery rate is a reasonable price for a one-off analysis,
+where the cost of a false positive is one wasted follow-up. **This ontology is frozen and reused**:
+every future enrichment run is scored against these themes, so a false theme does not mislead once,
+it misleads every analysis that ever touches it. The asymmetry justifies a stricter target than
+an ordinary FDR.
+
+**Why the 5% build could not simply be kept.** The joint optimiser maximised real themes subject to
+the budget, so it **saturated the constraint exactly -- 60/1201 = 0.0500 in-sample** -- leaving no
+margin at all. On a held-out scramble it returned **64/1201 = 0.0533**, above target. The per-band
+diagnosis matters: the 3-4 band was stable (44 -> 43) and the drift came from the 5-9 band
+(16 -> 21). **The tightness cuts generalised; the failure was an optimisation with zero headroom**,
+not an overfitted criterion.
+
+**What changed.** Calibration now uses the **mean scrambled count over five scrambles**, and the
+tightness cuts pool all five at each size. A mean over five cannot be gamed by one scramble's
+geometry, which is exactly what a single seed permitted.
+
+## 2026-09-23 — Descriptions complete at v4: 10,801 of 10,817
+
+**10,801 / 10,817 (99.85%)**, ~$58 of a $110 ceiling, seven hours over five batch chunks. v3's
+1,854 rows are preserved as `superseded`; v4 was promoted only once complete.
+
+**Accuracy held at scale.** verify-v1 on a random 100 of the 8,912 NEWLY described pathways:
+**13 wrong claims per 100**, against **16** and **9** on the two smoke-set hundreds. The two earlier
+measurements differed by 7 points at identical settings, so 13 sits inside their spread. The sample
+was restricted to the new descriptions with a `--keys` flag added to `verify_descriptions.py`;
+without it `--pilot` samples the whole table and would have mixed ~17% pre-existing descriptions
+into the comparison, making it uninterpretable.
+
+**Failures.** 51 initially, of which only 2 were API errors -- the batches reported 8,961/8,963
+succeeded, so 49 were content failures in parsing. 34 truncations and API errors were retried and
+**all 34 recovered**; one more (`go:GO:0050994`) was a transient refusal that also recovered.
+
+**The 16 that remain, all one subject:**
+
+```
+reactome:R-HSA-168305  Neurotoxicity of clostridium toxins
+reactome:R-HSA-5250955 Toxicity of botulinum toxin type B (botB)
+reactome:R-HSA-5250958 Toxicity of botulinum toxin type E (botE)
+reactome:R-HSA-5250968 Toxicity of botulinum toxin type C (botC)
+reactome:R-HSA-5250971 Toxicity of botulinum toxin type G (botG)
+reactome:R-HSA-5250981 Toxicity of botulinum toxin type D (botD)
+reactome:R-HSA-5250989 Toxicity of botulinum toxin type A (botA)
+reactome:R-HSA-5250992 Toxicity of botulinum toxin type F (botF)
+reactome:R-HSA-168799  Inhibition of Interferon Synthesis
+reactome:R-HSA-9682706 Replication of the SARS-CoV-1 genome
+reactome:R-HSA-9682708 Transcription of SARS-CoV-1 sgRNAs
+reactome:R-HSA-9683439 Assembly of the SARS-CoV-1 RTC
+reactome:R-HSA-9683610 Maturation of nucleoprotein
+reactome:R-HSA-9683673 Maturation of protein 3a
+reactome:R-HSA-9683686 Maturation of spike protein
+reactome:R-HSA-9692913 SARS-CoV-1-mediated effects on programmed cell death
+```
+
+**The `v4-scoped` fallback rule.** A refused pathway is retried once under `v4-scoped`: the v4
+system prompt plus a clause restricting the answer to the normal cell biology and molecular
+mechanism the member genes carry out in human cells, excluding preparation, handling, dosing,
+delivery and weaponisation, and asking for the HOST machinery where a pathway is named for a toxin
+or virus. Results are written as `prompt_version = v4-scoped`, `status = superseded` -- a recorded
+generation of its own, never promoted silently.
+
+**It barely worked: 1 of 16.** Only `Maturation of spike protein` succeeded, and it is the only one
+of the sixteen whose NAME describes a host process rather than a toxin, a pathogen genome or an act
+of damage. **The refusal tracks the pathway name more than the requested content**, so rewording the
+instruction is not the lever. These 16 need a different model, a hand-written description, or
+acceptance of a 0.15% gap.
+
+### Open question: may a description contain biology not derivable from its input?
+
+**68 of the 81 verifier flags are `unsupported`, not `wrong`** -- true, textbook biology that simply
+is not derivable from the gene list and curated text the verifier was shown. Examples: "Loss of
+CARD9 causes inherited susceptibility to invasive fungal infection"; "as in von Willebrand disease
+or Bernard-Soulier syndrome"; "elevated HVA:5-HIAA in CSF".
+
+The v4 prompt explicitly invites this -- *"Use your own knowledge of biology freely... Curated
+descriptions are often too terse to carry thematic meaning, and adding that context is the point of
+this task"* -- because thin GO one-liners cluster badly. So `unsupported` is currently measuring
+the prompt working as designed, and the flag rate of 58% is not a quality figure.
+
+**Unresolved, and it should be settled before the verifier's output is used as a quality gate:**
+whether added-but-true biology is a feature to be kept (it is what makes thin sources embeddable),
+a risk to be bounded (an unsupported claim is unfalsifiable against the source and can be wrong
+without the verifier being able to tell), or something to be separated into its own field. The
+style test bears on it: swapping curated text for the v4 description keeps only ~4 of 10 nearest
+neighbours, so the added context is doing much of the embedding work, not decorating it.
