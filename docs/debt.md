@@ -120,3 +120,100 @@ heading into the tens.
 one item first — and size what it actually holds, not what it is named for. The long-running scripts
 in this work now print peak RSS per stage, so the next such mistake is visible within a stage
 rather than after two silent hours.
+
+## `pathway_descriptions.tsv` will need splitting, at the third live generation
+
+*Logged 2026-09-23. **Decided, not yet acted on.** The trigger is stated so this is picked up on
+time rather than under pressure.*
+
+The table holds one row per `(key, prompt_version, model)` and is rewritten whole on every merge,
+including a one-row top-up. At two generations (v3 superseded, v4 current) it is 13 MB.
+
+**History growth is NOT the reason to act.** Measured, not estimated:
+
+| | |
+|---|---|
+| table raw | 13 MB |
+| as git stores it (zlib) | 3.9 MB |
+| one generation's 10,817 rows, raw | 10.8 MB |
+| **the same rows compressed -- what a generation actually costs in history** | **~3.4 MB** |
+| measured pack growth over a simulated second generation | +3.8 MB |
+
+Earlier generations delta almost perfectly against the previous commit, so only genuinely new prose
+is paid for. Four more generations would add ~15 MB of history. That is not a problem.
+
+**The WORKING FILE is the reason.** It grows ~10.8 MB per generation:
+
+| live generations | file size | note |
+|---|---|---|
+| 2 (today) | 13 MB | |
+| 3 | 24 MB | uncomfortable to diff |
+| 4 | 35 MB | |
+| **5** | **46 MB** | GitHub warns above 50 MB |
+| 9 | ~90 MB | GitHub **blocks** above 100 MB |
+
+Before any limit is reached it is already unpleasant: `git diff` is unusable on a 30 MB TSV, and
+`merge_tsv` reads and rewrites the entire file to change one row -- the `go:GO:0050994` retry
+rewrote 13 MB to fix a single description.
+
+**Decision: one file per prompt version** -- `pathway_descriptions.v4.tsv`, `.v3.tsv` -- with
+`descriptions.read()` reading the current one and `versions()` globbing the directory. **Trigger:
+the third LIVE generation**, meaning a third `prompt_version` that consumers read, which includes
+`v4-scoped` or `v4-alt` if either is ever promoted.
+
+Why not the alternatives:
+
+- **Compression** (`.tsv.gz`) halves the symptom and makes the file opaque to `git diff`, `grep`
+  and eyeballing. The repo already stores it compressed, so nothing is gained in history and the
+  auditability that makes this table trustworthy is lost.
+- **Git LFS** solves the size ceiling but breaks `grep`/`diff`, adds a dependency and a bandwidth
+  quota, and is disproportionate for ~40 MB of text.
+
+**The cost of splitting, stated up front:** `restamp()` and the `status` column currently express
+"which generation is current" WITHIN one file. Split, that becomes a naming convention or a pointer
+file. That is a real, small piece of work, and it is precisely why this is scheduled for the third
+generation rather than improvised at the fifth.
+
+**Unrelated, free:** this repo has never been garbage-collected -- 649 loose objects, no packfiles.
+`git gc --aggressive` on a clone took `.git` from 9.8 MB to 4.0 MB.
+
+## Small gene sets are untreated, and they are almost all Reactome
+
+*Logged 2026-09-23. **Open, no action now.** It must not be forgotten before anything is claimed
+about cross-source agreement.*
+
+The universe rule keeps every pathway with at least one gene (`DECISIONS.md`, 23 Sep). That is the
+right call -- they are real sets with real tests -- but it leaves a large population whose
+statistics nothing has yet addressed, and that population is **not distributed evenly across
+sources**.
+
+| | count | sources |
+|---|---|---|
+| fewer than 3 genes (incl. the 47 zero-gene, now excluded) | **490** | all Reactome |
+| fewer than 3 genes, in the universe | 443 | all Reactome |
+| fewer than 5 genes (incl. zero-gene) | **717** | 714 Reactome, **3 GO** |
+| fewer than 5 genes, in the universe | 670 | 667 Reactome, 3 GO |
+
+Smallest set per source: **Reactome 1, GO 4, BTM 8, Hallmark 32.**
+
+**This makes any Reactome-vs-GO comparison confounded by construction**, the `reactome2go` F1
+included. Reactome can produce a one-gene set and GO cannot. Any measure sensitive to set size --
+gene overlap, Jaccard, kappa, enrichment power -- is therefore partly measuring which database a
+pathway came from. A cross-source agreement figure computed without stratifying by size is not
+interpretable.
+
+**Where they concentrate.** 478 of the 717 sit under Reactome's **Disease** branch. Of the 308
+one-gene sets, **130** are named `Defective X causes Y` and **8** `X variants cause Y` -- 138 under
+those two patterns exactly; **244 of 308** match a broader disease-name pattern (`Defective`,
+`causes`, `variants`, `mutant`, `deficiency`, `MPS`, `syndrome`, `disease`). So the small-set
+population is largely **one gene, one disease** entries, which is a different kind of object from a
+50-gene process and probably should not be scored as though it were the same.
+
+*(Three figures here differ from the ones I was given: the "<5 genes" total is 717 rather than 714,
+and 3 of them are GO rather than all Reactome -- 714 is the Reactome-only count. The
+"Defective/variants" count is 138 under the two named patterns, not 238; 244 matches the broader
+disease-name pattern, which is probably what the 238 referred to.)*
+
+**Nothing is proposed yet.** Candidate directions, none chosen: stratify every cross-source metric
+by set size; set a minimum size for enrichment reporting while keeping the sets in the ontology;
+treat one-gene disease entries as a separate class.
