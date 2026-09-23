@@ -64,7 +64,7 @@ def test_restamp_moves_current_and_keeps_everything(tmp_path):
         *(row(f"go:{i}", "v3", "v3") for i in range(3)),
         *(row(f"go:{i}", "v4", "v4", D.STATUS_SUPERSEDED) for i in range(3)),
     )
-    marked, superseded = D.restamp(p, COLUMNS, "v4")
+    marked, superseded = D.restamp(p, COLUMNS, "v4")[:2]
     assert (marked, superseded) == (3, 3)
     assert D.read(p) == {f"go:{i}": "v4" for i in range(3)}
     assert len(D.read(p, version="v3")) == 3, "the superseded generation must still be there"
@@ -82,14 +82,25 @@ def test_a_partial_generation_may_not_supersede_a_complete_one(tmp_path):
     assert len(D.read(p)) == 10, "the complete generation must still be the readable one"
 
 
-def test_shrinking_is_possible_when_it_is_deliberate(tmp_path):
+def test_a_partial_generation_promotes_without_blanking_what_it_omits(tmp_path):
+    """CHANGED 23 Sep 2026. This previously asserted that promoting a one-key generation over ten
+    left read() returning ONLY that key -- the other nine silently lost their descriptions, with
+    nothing in the table recording it. A generation can miss pathways for ordinary reasons (a
+    refusal, a truncation, an interrupted chunk), so a key the incoming generation does not cover
+    now keeps the current row it already has.
+    """
     p = table(
         tmp_path,
         *(row(f"go:{i}", "v3", "v3") for i in range(10)),
         row("go:0", "v4", "v4", D.STATUS_SUPERSEDED),
     )
-    D.restamp(p, COLUMNS, "v4", allow_shrink=True)
-    assert D.read(p) == {"go:0": "v4"}
+    promotion = D.restamp(p, COLUMNS, "v4", allow_shrink=True)
+    assert promotion.marked == 1
+    assert promotion.retained == 9, "the nine keys v4 says nothing about must keep their rows"
+    assert promotion.retained_versions == {"v3": 9}
+    text = D.read(p)
+    assert text["go:0"] == "v4", "the key the new generation covers is promoted"
+    assert len(text) == 10, "and nothing it omits was blanked"
 
 
 def test_restamp_refuses_to_leave_nothing_current(tmp_path):
@@ -134,6 +145,36 @@ def test_restamp_leaves_out_of_universe_rows_alone(tmp_path) -> None:
         ("gone", "text", "description+name", "0", "m", "v4", D.STATUS_OUT_OF_UNIVERSE),
     ]
     write_tsv(table, COLUMNS, rows)
-    marked, superseded = D.restamp(table, COLUMNS, "v4")
+    marked, superseded = D.restamp(table, COLUMNS, "v4")[:2]
     assert (marked, superseded) == (2, 0), "the held row must count as neither"
     assert D.read(table) == {"a": "text", "b": "text"}, "read() must not return it"
+
+
+def test_promoting_v4_does_not_blank_the_thirteen_v4_alt_pathways(tmp_path):
+    """The real hazard, in miniature: v4 has no row for the 13 refused pathways.
+
+    The readable generation spans two prompt_versions -- v4 for almost everything, v4-alt for the
+    13 the v4 batch refused. Promoting v4 must not demote them, or read() silently loses 13
+    pathways and the universe stops being fully described. This replaces a note in DECISIONS.md
+    with a guarantee: the rule holds whether or not anyone remembers to name both versions.
+    """
+    universe = [f"go:{i}" for i in range(10_757)]
+    refused = [f"reactome:R-{i}" for i in range(13)]
+    p = table(
+        tmp_path,
+        *(row(k, "v4 text", "v4") for k in universe),
+        *(
+            row(k, "alt text", "v4-alt", D.STATUS_CURRENT, model="gpt-5-6-thinking")
+            for k in refused
+        ),
+    )
+    assert len(D.read(p)) == 10_770, "precondition: the whole universe is described"
+
+    promotion = D.restamp(p, COLUMNS, "v4")
+
+    assert promotion.marked == 10_757
+    assert promotion.retained == 13, "v4 says nothing about the 13, so it may not demote them"
+    assert promotion.retained_versions == {"v4-alt": 13}
+    text = D.read(p)
+    assert len(text) == 10_770, "read() must still return the whole universe"
+    assert all(text[k] == "alt text" for k in refused), "and the 13 keep their own descriptions"

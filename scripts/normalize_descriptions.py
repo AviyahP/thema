@@ -1131,11 +1131,19 @@ def write_descriptions(
     # generation it is completing by definition, so refusing is the NORMAL outcome until the last
     # run lands -- a message, not a failure. The rows are saved either way.
     try:
-        marked, superseded = descriptions_table.restamp(table, DESCRIPTION_COLUMNS, PROMPT_VERSION)
+        promotion = descriptions_table.restamp(table, DESCRIPTION_COLUMNS, PROMPT_VERSION)
         print(
-            f"{held:,} rows in {table.name}: {marked:,} current ({PROMPT_VERSION}), "
-            f"{superseded:,} earlier generations kept"
+            f"{held:,} rows in {table.name}: {promotion.marked:,} current ({PROMPT_VERSION}), "
+            f"{promotion.superseded:,} earlier generations kept"
         )
+        if promotion.retained:
+            versions = ", ".join(
+                f"{n:,} from {v}" for v, n in sorted(promotion.retained_versions.items())
+            )
+            print(
+                f"  {promotion.retained:,} key(s) kept the description they already had, because "
+                f"{PROMPT_VERSION} has no row for them: {versions}"
+            )
     except ValueError as exc:
         print(f"{held:,} rows in {table.name}; {PROMPT_VERSION} NOT promoted:")
         print(f"  {exc}")

@@ -18,6 +18,7 @@ written last. There is one reader, and it is this one.
 import csv
 from collections.abc import Iterable, Sequence
 from pathlib import Path
+from typing import NamedTuple
 
 from thema.data.tables import write_tsv
 
@@ -37,6 +38,23 @@ STATUS_OUT_OF_UNIVERSE = "out_of_universe"
 #: What identifies one row. Two prompts, or two models, describing the same pathway are two
 #: different facts and must not overwrite one another.
 ROW_KEY = ("key", "prompt_version", "model")
+
+
+class Promotion(NamedTuple):
+    """What a promotion did.
+
+    Attributes:
+        marked: Rows set current from the incoming generation.
+        superseded: Rows set superseded because a newer row for the same key arrived.
+        retained: Keys whose current row was LEFT ALONE because the incoming generation had no
+            row for them. These are the pathways a partial generation would otherwise blank.
+        retained_versions: Which generations those retained rows belong to, and how many each.
+    """
+
+    marked: int
+    superseded: int
+    retained: int
+    retained_versions: dict[str, int]
 
 
 def read(
@@ -93,26 +111,37 @@ def versions(path: Path) -> dict[str, int]:
 
 def restamp(
     path: Path, columns: Sequence[str], current: str, *, allow_shrink: bool = False
-) -> tuple[int, int]:
-    """Mark one generation current and every other superseded.
+) -> Promotion:
+    """Promote one generation, without ever leaving a universe key unreadable.
 
     Run after rows are merged in, because merging replaces only the rows it carries and leaves
     every other generation's ``status`` saying whatever it said before -- which, the moment a new
     generation lands, is a second table claiming to be current.
 
+    **A key the incoming generation does not cover keeps the current row it already has.** The
+    earlier rule -- everything not in ``current`` becomes superseded -- meant a generation that
+    missed some pathways silently blanked them: they would have no current row at all and
+    :func:`read` would stop returning them, with nothing in the table recording that anything had
+    been lost. A generation can miss pathways for entirely ordinary reasons (a refusal, a
+    truncation, an interrupted chunk), so the invariant is enforced here rather than left to
+    whoever runs the next promotion to remember.
+
     Args:
         path: Path to ``pathway_descriptions.tsv``.
         columns: The table's columns, in order.
         current: The ``prompt_version`` consumers should read.
-        allow_shrink: Permit a smaller generation to supersede a larger one. Off by default: an
-            interrupted run leaves a partial generation behind, and promoting it would silently
-            shrink what every consumer sees -- 200 current rows superseding 1,854 complete ones
-            looks exactly like a successful run to anything reading the table afterwards.
+        allow_shrink: Permit a smaller generation to be promoted over a larger one. Off by
+            default: an interrupted run leaves a partial generation behind, and promoting it makes
+            the readable table a mixture of generations. Since retention landed this no longer
+            LOSES anything -- omitted keys keep their rows -- but a mixture is rarely what a
+            promotion intends, so it stays something you have to ask for.
 
-    Rows already marked :data:`STATUS_OUT_OF_UNIVERSE` are left alone and counted as neither.
+    Rows already marked :data:`STATUS_OUT_OF_UNIVERSE` are left alone and counted as neither: a
+    pathway that left the universe stays out of it.
 
     Returns:
-        How many rows were marked current and how many superseded.
+        A :class:`Promotion` -- rows marked, rows superseded, keys retained from an older
+        generation, and which generations those came from.
 
     Raises:
         ValueError: If no row carries ``current``, or if promoting it would shrink the readable
@@ -132,10 +161,14 @@ def restamp(
     if outgoing > counts[current] and not allow_shrink:
         raise ValueError(
             f"{current!r} has {counts[current]:,} rows but would supersede a generation of "
-            f"{outgoing:,}. An interrupted run looks exactly like this. Finish the generation, or "
-            "pass allow_shrink=True if the smaller set is genuinely what consumers should read."
+            f"{outgoing:,}. An interrupted run looks exactly like this. Nothing would be BLANKED "
+            "-- keys the smaller generation omits keep the rows they have -- but the readable "
+            "table would become a mixture of generations, which is rarely what a promotion "
+            "intends. Finish the generation, or pass allow_shrink=True if the mixture is."
         )
-    marked = 0
+    covered = {row["key"] for row in rows if row.get("prompt_version") == current}
+    marked = superseded = 0
+    retained_versions: dict[str, int] = {}
     for row in rows:
         # A pathway that left the universe stays out of it. Without this, the next promotion
         # rewrites every status unconditionally and silently restores rows whose pathway no
@@ -143,12 +176,18 @@ def restamp(
         # generation landed.
         if row.get("status") == STATUS_OUT_OF_UNIVERSE:
             continue
+        if row["key"] not in covered:
+            # The incoming generation says nothing about this key, so it may not demote it.
+            if row.get("status") == STATUS_CURRENT:
+                version = row.get("prompt_version", "?")
+                retained_versions[version] = retained_versions.get(version, 0) + 1
+            continue
         is_current = row.get("prompt_version") == current
         row["status"] = STATUS_CURRENT if is_current else STATUS_SUPERSEDED
         marked += is_current
-    held = sum(1 for row in rows if row.get("status") == STATUS_OUT_OF_UNIVERSE)
+        superseded += not is_current
     write_tsv(path, columns, [tuple(row.get(c, "") for c in columns) for row in rows])
-    return marked, len(rows) - marked - held
+    return Promotion(marked, superseded, sum(retained_versions.values()), retained_versions)
 
 
 def _rows(path: Path) -> Iterable[dict[str, str]]:
