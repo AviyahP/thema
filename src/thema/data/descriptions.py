@@ -27,6 +27,13 @@ STATUS_CURRENT = "current"
 #: A generation kept for the record. Never deleted, never read by default.
 STATUS_SUPERSEDED = "superseded"
 
+#: The pathway itself is no longer in the universe, so no generation of its description may be
+#: read, promoted or regenerated -- but the rows are kept, because they are the record of what was
+#: written and paid for. Distinct from ``superseded``: that means a NEWER generation exists, this
+#: means there is nothing left to describe. Set for the zero-gene pathways excluded by the
+#: universe rule (DECISIONS.md, 23 Sep 2026).
+STATUS_OUT_OF_UNIVERSE = "out_of_universe"
+
 #: What identifies one row. Two prompts, or two models, describing the same pathway are two
 #: different facts and must not overwrite one another.
 ROW_KEY = ("key", "prompt_version", "model")
@@ -102,6 +109,8 @@ def restamp(
             shrink what every consumer sees -- 200 current rows superseding 1,854 complete ones
             looks exactly like a successful run to anything reading the table afterwards.
 
+    Rows already marked :data:`STATUS_OUT_OF_UNIVERSE` are left alone and counted as neither.
+
     Returns:
         How many rows were marked current and how many superseded.
 
@@ -128,11 +137,18 @@ def restamp(
         )
     marked = 0
     for row in rows:
+        # A pathway that left the universe stays out of it. Without this, the next promotion
+        # rewrites every status unconditionally and silently restores rows whose pathway no
+        # longer exists to describe -- the marking would survive exactly until the next
+        # generation landed.
+        if row.get("status") == STATUS_OUT_OF_UNIVERSE:
+            continue
         is_current = row.get("prompt_version") == current
         row["status"] = STATUS_CURRENT if is_current else STATUS_SUPERSEDED
         marked += is_current
+    held = sum(1 for row in rows if row.get("status") == STATUS_OUT_OF_UNIVERSE)
     write_tsv(path, columns, [tuple(row.get(c, "") for c in columns) for row in rows])
-    return marked, len(rows) - marked
+    return marked, len(rows) - marked - held
 
 
 def _rows(path: Path) -> Iterable[dict[str, str]]:

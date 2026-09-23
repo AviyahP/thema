@@ -49,6 +49,7 @@ from thema.data.pathways import (
     Pathway,
     PathwayCollection,
     collision_groups,
+    partition_universe,
 )
 from thema.data.tables import (
     EMPTY,
@@ -949,9 +950,18 @@ def run_full(
     ceiling: float,
     collect: Sequence[str] = (),
 ) -> int:
-    """Generate all 10,817 descriptions through the batch API."""
+    """Generate a description for every pathway in the UNIVERSE, through the batch API.
+
+    The universe rule excludes zero-gene pathways (``data/pathways.tsv`` still holds them; the
+    filter is applied here). Their existing rows are kept at ``out_of_universe`` and must never be
+    regenerated -- there is nothing to describe, and paying for it again would also restore them to
+    a readable status.
+    """
+    universe, excluded = partition_universe(collection)
+    if excluded:
+        print(f"universe rule: {len(excluded)} zero-gene pathways excluded, not generated")
     return _generate(
-        collection, list(collection), out, model, submit, ceiling, SCOPE_FULL, {}, collect
+        collection, list(universe), out, model, submit, ceiling, SCOPE_FULL, {}, collect
     )
 
 

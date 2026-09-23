@@ -13,7 +13,7 @@ an ordinary tree from the outside and both are obvious in the size table.
 Every output file states, on its face, the scope it was built from and the sha256 of the
 descriptions table behind it. The risk this guards against is not confusing two files; it is
 opening a tree in a fortnight and not knowing whether it was built on the smoke subset or on all
-10,817. A tree that cannot answer that question is not evidence of anything.
+10,770. A tree that cannot answer that question is not evidence of anything.
 """
 
 import argparse

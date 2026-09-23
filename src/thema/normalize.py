@@ -41,6 +41,17 @@ PROVENANCE: dict[TextAvailability, str] = {
     "no_usable_text": "genes",
 }
 
+#: The same three, for a pathway whose gene list is EMPTY. ``text_availability`` describes the
+#: TEXT and says nothing about genes, so keying provenance off it alone labelled 47 zero-gene
+#: pathways "description+name+genes" while ``genes_shown`` was 0 -- a field asserting an input the
+#: prompt never carried. ``no_usable_text`` with no genes has nothing left and is recorded as
+#: ``name`` alone, which is all :func:`render_user_message` can put in front of the model.
+PROVENANCE_NO_GENES: dict[TextAvailability, str] = {
+    "described": "description+name",
+    "name_only": "name",
+    "no_usable_text": "name",
+}
+
 #: The response is a single field, so no model can prepend "Here is the description:".
 RESPONSE_FORMAT: dict[str, object] = {
     "type": "json_schema",
@@ -431,9 +442,12 @@ def provenance_of(pathway: Pathway) -> str:
         pathway: The pathway.
 
     Returns:
-        One of the three :data:`PROVENANCE` values.
+        One of :data:`PROVENANCE`, or of :data:`PROVENANCE_NO_GENES` when the pathway has no
+        genes at all -- the prompt then shows ``Input genes: (none)`` and claiming otherwise
+        would make the stored provenance false.
     """
-    return PROVENANCE[pathway.text_availability]
+    table = PROVENANCE if pathway.genes else PROVENANCE_NO_GENES
+    return table[pathway.text_availability]
 
 
 def render_user_message(pathway: Pathway) -> str:

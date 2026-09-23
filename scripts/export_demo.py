@@ -156,7 +156,9 @@ def build(
         vectors: The description embeddings, in the same order as ``rows``.
         levels: The cuts to export, coarsest first.
         provenance: The stamp the ontology build wrote onto its files.
-        collection_size: How many pathways ``data/pathways.tsv`` holds in total.
+        collection_size: How many pathways are in the UNIVERSE -- the table's rows minus the
+            zero-gene pathways the universe rule excludes. The page renders this as what the
+            ontology is built over, so it must be the universe and not the raw row count.
 
     Returns:
         The object the page renders: ``build``, ``summary``, ``tree`` and ``themes``.
@@ -371,7 +373,9 @@ def main(argv: list[str] | None = None) -> int:
 
     genes = read_genes(args.data / PATHWAYS)
     descriptions = descriptions_table.read(args.data / DESCRIPTIONS)
-    collection_size = len(genes)
+    # The universe, not the row count: a zero-gene pathway is excluded from the build, so
+    # reporting it as covered would overstate what the ontology contains (DECISIONS.md, 23 Sep).
+    collection_size = sum(1 for gs in genes.values() if gs)
     provenance = next((row["provenance"] for row in rows if row["provenance"]), "")
 
     payload = build(rows, genes, descriptions, vectors, levels, provenance, collection_size)

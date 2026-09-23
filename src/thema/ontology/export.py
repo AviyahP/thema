@@ -21,9 +21,10 @@ offer without a transactional filesystem.
 import csv
 import json
 import shutil
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection, Mapping, Sequence
 from pathlib import Path
 
+from thema.data.pathways import EXCLUDED_NO_GENES
 from thema.data.tables import write_tsv
 from thema.ontology.base import Ontology
 
@@ -43,7 +44,18 @@ MEMBER_COLUMNS = ("node", "key", "source", "name", "n_genes", "inclusion", "gene
 #: the gene-support placeholder.
 NEAR_MEMBER_COLUMNS = ("node", "key", "source", "name", "n_genes", "inclusion")
 EDGE_COLUMNS = ("child", "parent")
-UNPLACED_COLUMNS = ("key",)
+#: ``reason`` was added 23 Sep 2026. A pathway can fail to reach the ontology two ways, and they
+#: are not the same finding: the method saw it and could not place it recurrently, or it never
+#: reached the method at all because it has no description. Collapsing both into a bare key hides
+#: the second, which is how three undescribed pathways were silently absent from a build rather
+#: than reported.
+UNPLACED_COLUMNS = ("key", "reason")
+
+#: A pathway the clusterer never saw, because no current description exists for it.
+REASON_NO_DESCRIPTION = "no_description"
+
+#: A pathway that was embedded and clustered but recurred in too few runs to form or join a node.
+REASON_NOT_RECURRENT = "not_recurrent"
 
 #: Written while the directory is being built, and never seen by a reader: the swap only happens
 #: once validation has passed.
@@ -80,6 +92,7 @@ def rows_for(
     ontology: Ontology,
     genes: dict[str, frozenset[str]],
     info: Mapping[str, tuple[str, str, int]] | None = None,
+    undescribed: Collection[str] = (),
 ) -> dict[str, list[tuple[str, ...]]]:
     """Render an ontology as the four tables.
 
@@ -88,6 +101,7 @@ def rows_for(
         genes: Pathway key to its gene identifiers, for the union counts.
         info: Pathway key to ``(source, name, n_genes)``. Omitted leaves those member columns
             empty rather than inventing them.
+        undescribed: Keys with no current description, used only to label the ``unplaced`` reason.
 
     Returns:
         Table stem to its rows, each already stringified.
@@ -117,7 +131,13 @@ def rows_for(
         for key, inclusion in node.members
     ]
     edges = [(child, parent) for child, parent in ontology.edges]
-    unplaced = [(key,) for key in ontology.unplaced]
+    unplaced = [
+        (
+            key,
+            REASON_NO_DESCRIPTION if key in undescribed else REASON_NOT_RECURRENT,
+        )
+        for key in ontology.unplaced
+    ]
     return {"nodes": nodes, "members": members, "edges": edges, "unplaced": unplaced}
 
 
@@ -158,6 +178,8 @@ def write(
     info: Mapping[str, tuple[str, str, int]] | None = None,
     near: Mapping[str, Mapping[str, float]] | None = None,
     directory: str | None = None,
+    undescribed: Collection[str] = (),
+    excluded: Sequence[tuple[str, str, str]] = (),
 ) -> Path:
     """Write an ontology to its versioned directory, validated before the swap.
 
@@ -176,6 +198,13 @@ def write(
         directory: Directory name under ``v<version>/``. Defaults to the method name. Set it when
             writing a CANDIDATE build whose settings are not yet frozen, so the method name stays
             free for the build that is.
+        undescribed: Keys that never reached the clusterer because no current description exists.
+            They must already be in ``ontology.unplaced``; this only labels WHY, so that a pathway
+            absent for want of text is distinguishable from one the method declined to place.
+        excluded: ``(key, reason, degradation)`` per pathway the UNIVERSE RULE removed before the
+            build began. These are not unplaced -- they were never candidates -- but a universe
+            that shrinks without saying which rows left is one nobody can audit, so each is named
+            in the manifest rather than counted.
 
     Returns:
         The directory that was written, or would have been.
@@ -184,7 +213,7 @@ def write(
         ValueError: If the rendered tables disagree with the ontology they came from.
     """
     target = root / f"v{version}" / (directory or ontology.method)
-    tables = rows_for(ontology, genes, info)
+    tables = rows_for(ontology, genes, info, undescribed)
     _validate(ontology, tables)
     if dry_run:
         return target
@@ -209,6 +238,14 @@ def write(
                 "n_roots": len(ontology.roots),
                 "n_edges": len(ontology.edges),
                 "n_unplaced": len(ontology.unplaced),
+                "n_undescribed": len(set(undescribed) & set(ontology.unplaced)),
+                "n_excluded_no_genes": sum(
+                    1 for _k, reason, _d in excluded if reason == EXCLUDED_NO_GENES
+                ),
+                "excluded": [
+                    {"key": key, "reason": reason, "degradation": degradation}
+                    for key, reason, degradation in excluded
+                ],
                 "directory": directory or ontology.method,
                 "n_near_members": (
                     sum(len(v) for v in near.values()) if near is not None else None

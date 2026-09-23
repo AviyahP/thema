@@ -691,6 +691,40 @@ class PathwayInputs:
         return tuple(path for path in self.paths if not path.is_file())
 
 
+#: The universe rule (DECISIONS.md, 23 Sep 2026). A pathway with NO genes cannot be a member of a
+#: gene set, cannot be tested for enrichment, and contributes only its text -- so it is excluded
+#: from the universe. Everything with at least one gene stays, however small: small-set statistics
+#: are acknowledged debt (``docs/debt.md``), not grounds for dropping real sets.
+#:
+#: 47 of 10,817 are excluded, all Reactome: 32 ``empty_after_resolution`` (the source lists only
+#: pathogen protein names -- NS, 1a, rep, "SARS coronavirus, complete genome" -- which gene
+#: resolution correctly refused to map to HGNC) and 15 ``no_source_members`` (no gene products in
+#: Reactome at all). The resolver is right in every case; the sets are genuinely empty.
+UNIVERSE_MIN_GENES = 1
+
+#: Why a pathway was left out of the universe. One value today; named so the manifest does not
+#: have to be reinterpreted if a second reason is ever added.
+EXCLUDED_NO_GENES = "no_genes"
+
+
+def partition_universe(
+    collection: "PathwayCollection",
+) -> tuple[tuple[Pathway, ...], tuple[Pathway, ...]]:
+    """Split a collection into the universe and what the universe rule excludes.
+
+    Args:
+        collection: Every pathway read from ``pathways.tsv``.
+
+    Returns:
+        ``(kept, excluded)``, each in collection order. ``excluded`` is returned rather than
+        discarded so a build can record WHICH pathways it dropped and why; a universe that
+        silently shrinks is one nobody can audit.
+    """
+    kept = tuple(p for p in collection if len(p.genes) >= UNIVERSE_MIN_GENES)
+    excluded = tuple(p for p in collection if len(p.genes) < UNIVERSE_MIN_GENES)
+    return kept, excluded
+
+
 @dataclass(frozen=True, slots=True)
 class PathwayCollection:
     """Every pathway from every source, in one deterministic order.

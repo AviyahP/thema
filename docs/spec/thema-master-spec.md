@@ -438,7 +438,7 @@ The mockup banner at the top of the page (`.mock`) says exactly this. It is remo
 
 ## 19. Page structure to preserve
 
-1. Masthead — mark, expansion, build line (ontology version, n of 10,817, source versions). The build line is generated from the ontology manifest, never typed.
+1. Masthead — mark, expansion, build line (ontology version, n of the universe, source versions). The build line is generated from the ontology manifest, never typed.
 2. Headline with the marker swipe on "couldn't make sense of".
 3. The two example cards, hover swaps content for explanation without changing size. Their numbers come from a script over the ontology + `pathways.tsv`; when the ontology changes (v0.2), recompute and show the method beside the chip.
 4. Three intro paragraphs (approved copy — do not edit without Aviyah) and the method-page link.

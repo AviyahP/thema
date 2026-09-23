@@ -124,7 +124,7 @@ def main(argv: list[str] | None = None) -> int:
 
     scopes = {
         "smoke 1,854": described,
-        "full 10,817": sorted(by_key),
+        "universe 10,770": sorted(by_key),
     }
     for scope, keys in scopes.items():
         print(f"\n{'=' * 92}\nPAIR SUPPLY -- {scope}\n{'=' * 92}\n")

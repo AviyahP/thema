@@ -118,3 +118,22 @@ def test_an_incomplete_generation_never_ends_up_marked_current(tmp_path):
     assert current == {"v3"}, "exactly one generation may be current when promotion is declined"
     assert len(D.read(p)) == 10, "the readable set must not be a mixture of two generations"
     assert len(D.read(p, version="v4")) == 3, "the incomplete generation is kept, just not current"
+
+
+def test_restamp_leaves_out_of_universe_rows_alone(tmp_path) -> None:
+    """A pathway that left the universe must not be resurrected by the next promotion.
+
+    ``restamp`` rewrites every row's status, so without an exemption the out-of-universe marking
+    would survive only until the next generation landed -- and a zero-gene pathway excluded by the
+    universe rule would quietly become ``current`` again.
+    """
+    table = tmp_path / "d.tsv"
+    rows = [
+        ("a", "text", "description+name+genes", "5", "m", "v4", D.STATUS_CURRENT),
+        ("b", "text", "description+name+genes", "5", "m", "v4", D.STATUS_CURRENT),
+        ("gone", "text", "description+name", "0", "m", "v4", D.STATUS_OUT_OF_UNIVERSE),
+    ]
+    write_tsv(table, COLUMNS, rows)
+    marked, superseded = D.restamp(table, COLUMNS, "v4")
+    assert (marked, superseded) == (2, 0), "the held row must count as neither"
+    assert D.read(table) == {"a": "text", "b": "text"}, "read() must not return it"

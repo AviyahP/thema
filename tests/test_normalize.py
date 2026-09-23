@@ -100,18 +100,28 @@ def test_provenance_has_exactly_the_three_values_the_decision_names():
     assert set(PROVENANCE.values()) == {"description+name+genes", "name+genes", "genes"}
 
 
-def test_provenance_follows_text_availability_and_nothing_else():
+def test_provenance_follows_text_availability_when_there_are_genes():
     assert provenance_of(_pathway(text_availability="described")) == "description+name+genes"
     assert provenance_of(_pathway(text_availability="name_only")) == "name+genes"
     assert provenance_of(_pathway(text_availability="no_usable_text")) == "genes"
 
 
-# A zero-gene pathway is still `described`, so it is still description+name+genes. genes_shown
-# carries the fact that no genes were shown, rather than a fourth enum value.
-def test_a_zero_gene_described_pathway_keeps_its_provenance_and_shows_no_genes():
+# CHANGED 23 Sep 2026. This previously asserted the opposite -- that a zero-gene pathway is still
+# `described` and so still "description+name+genes", with genes_shown carrying the absence instead
+# of a fourth enum value. That left 48 rows in the table asserting an input the prompt never
+# carried: description_generated_from said "genes" while genes_shown said 0. The field names what
+# the model was actually given, so it must answer to the gene list as well as to the text.
+def test_a_zero_gene_pathway_does_not_claim_genes_it_was_never_shown():
     pathway = _pathway(symbols=())
-    assert provenance_of(pathway) == "description+name+genes"
     assert genes_for_prompt(pathway) == ()
+    assert provenance_of(pathway) == "description+name"
+    assert "genes" not in provenance_of(pathway)
+
+
+def test_a_zero_gene_pathway_with_no_text_is_name_only():
+    """Nothing but the name is left, and the provenance may not imply otherwise."""
+    assert provenance_of(_pathway(symbols=(), text_availability="no_usable_text")) == "name"
+    assert provenance_of(_pathway(symbols=(), text_availability="name_only")) == "name"
 
 
 # ------------------------------------------------------------- validator

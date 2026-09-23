@@ -118,3 +118,41 @@ def test_settled_separates_agreed_members_from_contested_ones():
     n = Node(id="n", parents=(), members=(("a", 1.0), ("b", 0.6)), support=0.8)
     assert n.keys == {"a", "b"}
     assert n.settled == {"a"}
+
+
+def test_unplaced_says_why_a_pathway_is_absent() -> None:
+    """A pathway with no description must be REPORTED, not silently missing.
+
+    Two different things put a pathway outside the ontology and they are not the same finding:
+    the method saw it and could not place it recurrently, or it never reached the method because
+    no description exists. Before the ``reason`` column the second was invisible -- an undescribed
+    pathway never entered the embedded key set, so it was in neither the nodes nor ``unplaced``.
+    """
+    from thema.ontology import export
+    from thema.ontology.base import Node, Ontology
+
+    ontology = Ontology(
+        method="recurrent_dag",
+        params={},
+        nodes=(Node(id="n0", parents=(), members=(("a", 1.0), ("b", 1.0)), support=1.0),),
+        unplaced=("c", "d"),
+    )
+    tables = export.rows_for(ontology, {}, None, undescribed={"d"})
+    assert tables["unplaced"] == [
+        ("c", export.REASON_NOT_RECURRENT),
+        ("d", export.REASON_NO_DESCRIPTION),
+    ]
+
+
+def test_unplaced_defaults_to_not_recurrent_when_nothing_is_undescribed() -> None:
+    """Omitting ``undescribed`` must not silently relabel every unplaced pathway."""
+    from thema.ontology import export
+    from thema.ontology.base import Node, Ontology
+
+    ontology = Ontology(
+        method="recurrent_dag",
+        params={},
+        nodes=(Node(id="n0", parents=(), members=(("a", 1.0),), support=1.0),),
+        unplaced=("z",),
+    )
+    assert export.rows_for(ontology, {})["unplaced"] == [("z", export.REASON_NOT_RECURRENT)]
