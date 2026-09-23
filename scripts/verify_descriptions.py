@@ -549,6 +549,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("--all", action="store_true", help="verify every described pathway")
     parser.add_argument(
+        "--generation",
+        metavar="PROMPT_VERSION",
+        help="verify a generation other than the current one, e.g. v4-alt. A generation written "
+        "as `superseded` is invisible to the default reader, so without this a non-promoted "
+        "generation cannot be checked at all -- and checking it is exactly what decides whether "
+        "it should be promoted.",
+    )
+    parser.add_argument(
         "--keys",
         type=Path,
         metavar="FILE",
@@ -583,7 +591,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     collection = PathwayCollection.from_tsv_text(pathways.read_text(encoding="utf-8"))
     by_key = collection.by_key
-    texts = {k: v for k, v in read_descriptions(table).items() if k in by_key}
+    if args.generation:
+        source = descriptions_table.read(table, version=args.generation)
+        print(f"reading the {args.generation!r} generation ({len(source):,} rows), "
+              f"not the current one")
+    else:
+        source = read_descriptions(table)
+    texts = {k: v for k, v in source.items() if k in by_key}
     if args.keys:
         wanted, unknown = read_key_file(args.keys)
         missing = [k for k in wanted if k not in texts]

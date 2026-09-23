@@ -1,18 +1,16 @@
 section	key	value	note
-digest	pathway_verification.tsv	8f551ada593d46f48ecf94afc8513172828189fb8a5a5fda9a069222c47d2494	sha256 of the committed table
+digest	pathway_verification.tsv	654252632fb256f7b204a1d0bb7bb1fb6f706a2b5c2a21790c46d96f5a82c067	sha256 of the committed table
 input	scope	keys	pilot is a seeded subset; all is every described pathway
-input	rows	100	descriptions verified
+input	rows	9	descriptions verified
 input	model	claude-opus-5	the verifier
 input	prompt_version	verify-v1	
 input	pilot_seed	0	fixed; the pilot never churns
 method	self_preference_bias	stated	this is Opus checking Opus; the rate is a lower bound, not a measurement. A different verifier would be independent and cheaper but weaker on single-gene detail
-flags	wrong	13	
-flags	unsupported	68	
-flags	total	81	
-flags	descriptions_flagged	58/100	
-source	reactome	17/27	flagged/checked
-source	go	40/70	flagged/checked
-source	btm	1/3	flagged/checked
+flags	wrong	0	
+flags	unsupported	0	
+flags	total	0	
+flags	descriptions_flagged	0/9	
+source	reactome	0/9	flagged/checked
 repair	repaired	0	rewrite came back clean and replaces the original
 repair	repair_failed	0	rewrite flagged again; the ORIGINAL is kept
-repair	flagged	58	flagged but not yet repaired
+repair	flagged	0	flagged but not yet repaired
