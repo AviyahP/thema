@@ -11,7 +11,22 @@ Last updated: 2026-09-24
 
 Nothing.
 
-## BLOCKING DECISION — the encoder reads 55% of every description
+## RESOLVED — the encoder is replaced
+
+`BioLORD-2023` read only the first **128** tokens; the median description is **231**, so all 1,850
+were truncated and ~45% of each was discarded. **Replaced by `ncbi/MedCPT-Article-Encoder`, pinned
+to `d05a736da4bb84ee4057b7f7999485be6ed85465`**, CLS pooling, `max_length=512`, description text
+only. Basis: a Nature Communications 2026 benchmark on gene-set / GO-BP functional descriptions;
+OpenAI-TE3 scored higher and was refused because a frozen ontology needs a pinnable open-weights
+embedder. **No in-project benchmark was run.**
+
+**Checked this time:** across all 10,770, median **180** MedCPT tokens, max **247**, nothing
+truncates, 265 tokens of headroom. Asserted in `tests/ontology/test_universe.py`.
+
+**Every earlier build and E are labelled a truncated-text baseline.** The selection rule is
+unchanged; only the vectors. E is being re-run under the identical rule.
+
+### How it was found, in full
 
 `BioLORD-2023` truncates at **128 tokens**. The median description is **231**; **all 1,850 exceed
 the cap**, so roughly **45% of every description has never been embedded**. The 90-150 word band

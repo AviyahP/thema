@@ -2417,3 +2417,75 @@ needed a priced regeneration of 66 rows. Both were wrong. The rules existed, the
 205, and the repair was free — 152 truncations at the closing tag and 53 markup/quote strips, with
 every original kept as `superseded` and every repair written as a new `v4-repaired` row naming the
 row it came from.
+
+## 2026-09-24 — The embedder is replaced: BioLORD-2023 out, MedCPT article encoder in
+
+### The error, named
+
+**The 90-150 word band was declared without checking the encoder's window.** That is a reviewer's
+error and it is mine to record: `embed.py` carried a comment asserting BioLORD had "a 512-token
+window" so "nothing truncates". The architecture does carry 514 positions. The shipped
+sentence-transformers config caps `max_seq_length` at **128**, and the cap is what runs. The claim
+was made from the model card's architecture and never measured against the loaded object.
+
+**Measured, once it was checked: the median description is 231 tokens and ALL 1,850 exceed 128.
+Roughly 45% of every description — around 60 of ~135 words — was discarded before embedding.** The
+second half of each description, where the specific mechanism usually sits, was never in the
+ontology. Nothing warned: `embed()` is silent and the tokenizer's `194 > 128` goes to stderr from
+inside a library call.
+
+Found by accident. A naming call returned "Nokia 5 launch and specifications" for a glycosylation
+theme; repairing that description and re-embedding moved its vector by **exactly zero**, because
+the appended junk sat past token 128.
+
+### The second error: the wrong kind of embedder
+
+**BioLORD-2023 is a concept/definition embedder.** Its objective aligns short ontology terms with
+their definitions, and it was chosen precisely for that ontology-mirroring property (brief D7).
+But the input here is not a term or a definition — it is a 135-word paragraph of generated prose.
+The model was selected for an objective that matched the *output* we wanted while mismatching the
+*input* we feed it, and the window it reads was never examined.
+
+### Consequence for everything already measured
+
+**Every build to date, and E, ran on the first 128 tokens of each description. They are labelled a
+truncated-text baseline.** They are not withdrawn: the pipeline, the thresholds, the matching and
+families proofs and the 41x speed-up are unaffected, and E2 confirmed the description corruption
+changed nothing. But they describe an ontology built on roughly half of each description, and any
+claim made from them must say so.
+
+### The replacement
+
+**`ncbi/MedCPT-Article-Encoder`, pinned to `d05a736da4bb84ee4057b7f7999485be6ed85465`.** CLS-token
+pooling as the model specifies, `max_length=512`, CPU, description text only as a single segment —
+no pathway name, no title field, the same stripping rule as before.
+
+**Basis: a Nature Communications 2026 benchmark of embedders on gene-set / GO-BP functional
+descriptions, which places the MedCPT article encoder in the top tier with OpenAI-TE3 and Gemini
+when fed free text, with pubmedbert-base-embeddings measured below it.** This is published
+evidence, cited as Aviyah supplied it; **no in-project benchmark was run** and none is claimed.
+MedCPT is also the right shape for the input: trained on PubMed title+abstract pairs, which are
+paragraphs of literature prose.
+
+**OpenAI-TE3 scored higher in that benchmark and was refused.** A frozen ontology needs an embedder
+that can be pinned and re-run years later; an API model behind a moving endpoint cannot be, and no
+sha can be recorded for it. Reproducibility outranks the margin.
+
+**Checked rather than assumed, this time:** across all 10,770 descriptions the median is **180**
+MedCPT tokens and the maximum **247**, so **nothing truncates**, with 265 tokens of headroom at the
+worst case. `tests/ontology/test_universe.py` asserts it on token counts, not on the advertised
+window.
+
+**Pinned to a commit, not to `main`.** Every earlier manifest records BioLORD as `main`, a floating
+reference, so those artifacts cannot be reproduced from their manifests alone. This one can.
+
+**The loader now refuses to load retired vectors.** `universe.py` raises on any artifact recording
+a `RETIRED_EMBEDDERS` id, and verifies the vectors on disk against a recorded hash — the universe
+digest covers KEYS only and could not see either the description repair or the encoder swap.
+
+### What did NOT change
+
+**Only the vectors.** The selection rule is untouched: recurrence the only gate, declared m = 0.33,
+per-size floor solved at FDR <= 0.01, Jaccard theta = 0.70, 20 calibration and 10 held-out
+scrambles, single-size strata at 3-6, cohesion descriptive and never a gate. E is re-run under the
+identical rule with nothing re-solved.
