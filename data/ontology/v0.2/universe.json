@@ -22,9 +22,28 @@
    "keys": "embedding_keys_1850_pre_repair_20260924.txt",
    "n": 1850,
    "vectors_sha256_16": "cc96525adda489f9"
+  },
+  {
+   "reason": "BioLORD-2023 read only the first 128 tokens; all 1,850 descriptions were truncated",
+   "vectors": "embeddings_1850_biolord_truncated_20260924.npy",
+   "keys": "embedding_keys.txt",
+   "n": 1850,
+   "embedder": {
+    "id": "FremyCompany/BioLORD-2023",
+    "revision": "main",
+    "effective_max_tokens": 128
+   },
+   "vectors_sha256_16": "4153584aff5197f1"
   }
  ],
- "embeddings_sha256_16": "4153584aff5197f1",
+ "embeddings_sha256_16": "e15070710a36a0fa",
  "descriptions_digest": "0c826d92c2d968fa",
- "descriptions_note": "content digest over the 1,850 CURRENT descriptions. The universe digest covers KEYS only, so it cannot detect a description being repaired; this can."
+ "descriptions_note": "content digest over the 1,850 CURRENT descriptions. The universe digest covers KEYS only, so it cannot detect a description being repaired; this can.",
+ "embedder": {
+  "id": "ncbi/MedCPT-Article-Encoder",
+  "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+  "pooling": "cls",
+  "max_length": 512,
+  "input": "description text only, single segment"
+ }
 }

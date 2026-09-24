@@ -1,5 +1,7 @@
 """Analysis must not reach embeddings except through the verifying loader."""
 
+import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -82,3 +84,87 @@ def test_the_real_artifact_is_the_universe() -> None:
     e = load_embedded(ROOT / "data/ontology/v0.2", ROOT / "data/pathways.tsv")
     assert isinstance(e, Embedded)
     assert len(e.keys) == e.vectors.shape[0] == 1850
+
+# ------------------------------------------- the encoder swap (DECISIONS.md, 24 Sep 2026)
+
+
+def _artifact(directory: Path, keys: list[str], meta: dict, vectors: np.ndarray) -> Path:
+    """Write a versioned artifact the loader will accept or refuse."""
+    directory.mkdir(parents=True, exist_ok=True)
+    (directory / "embedding_keys.txt").write_text("\n".join(keys) + "\n", encoding="utf-8")
+    np.save(directory / "embeddings.npy", vectors)
+    meta.setdefault(
+        "embeddings_sha256_16",
+        hashlib.sha256((directory / "embeddings.npy").read_bytes()).hexdigest()[:16],
+    )
+    (directory / "universe.json").write_text(json.dumps(meta), encoding="utf-8")
+    return directory
+
+
+def _real_keys() -> list[str]:
+    path = ROOT / "data/ontology/v0.2/embedding_keys.txt"
+    return [line for line in path.read_text(encoding="utf-8").split("\n") if line]
+
+
+def _real_universe_digest() -> str:
+    """The WHOLE universe's digest, which is what the loader recomputes -- not the subset's."""
+    meta = json.loads((ROOT / "data/ontology/v0.2/universe.json").read_text(encoding="utf-8"))
+    return meta["universe_digest"]
+
+
+def test_a_retired_encoder_is_refused_rather_than_loaded(tmp_path) -> None:
+    """BioLORD read 128 tokens of a 231-token description; its vectors must never load again."""
+    keys = _real_keys()
+    vectors = np.zeros((len(keys), 4), dtype=np.float32)
+    vectors[:, 0] = 1.0
+    directory = _artifact(
+        tmp_path / "v", keys,
+        {"universe_digest": _real_universe_digest(),
+         "embedder": {"id": "FremyCompany/BioLORD-2023", "revision": "main"}},
+        vectors,
+    )
+    with pytest.raises(ValueError, match="retired encoder"):
+        load_embedded(directory, ROOT / "data/pathways.tsv")
+
+
+def test_vectors_that_do_not_match_their_recorded_hash_are_refused(tmp_path) -> None:
+    """The universe digest covers KEYS, so it cannot see the vectors swapped underneath it."""
+    keys = _real_keys()
+    vectors = np.zeros((len(keys), 4), dtype=np.float32)
+    vectors[:, 0] = 1.0
+    directory = _artifact(
+        tmp_path / "v", keys,
+        {"universe_digest": _real_universe_digest(),
+         "embedder": {"id": "ncbi/MedCPT-Article-Encoder", "revision": "d05a736"}},
+        vectors,
+    )
+    swapped = np.zeros((len(keys), 4), dtype=np.float32)
+    swapped[:, 1] = 1.0
+    np.save(directory / "embeddings.npy", swapped)
+    with pytest.raises(ValueError, match="not the ones this artifact describes"):
+        load_embedded(directory, ROOT / "data/pathways.tsv")
+
+
+def test_the_committed_artifact_records_a_pinned_encoder() -> None:
+    """A frozen ontology needs a reproducible embedder: a commit sha, never a floating ref."""
+    meta = json.loads(
+        (ROOT / "data/ontology/v0.2/universe.json").read_text(encoding="utf-8")
+    )
+    embedder = meta["embedder"]
+    assert embedder["id"] == "ncbi/MedCPT-Article-Encoder"
+    assert len(embedder["revision"]) == 40, "pin to a commit sha, not to 'main'"
+    assert embedder["pooling"] == "cls"
+    assert embedder["max_length"] == 512
+
+
+def test_no_description_is_truncated_by_the_encoder_window() -> None:
+    """The claim that killed the last artifact was 'nothing truncates', asserted and never checked.
+
+    Checked here on token counts, not on the architecture's advertised window.
+    """
+    from thema.data import descriptions as descriptions_table
+    from thema.embed import MODEL_MAX_TOKENS, medcpt_token_counts
+
+    texts = descriptions_table.read(ROOT / "data/pathway_descriptions.tsv")
+    counts = medcpt_token_counts([texts[k] for k in _real_keys()])
+    assert max(counts) <= MODEL_MAX_TOKENS, f"max {max(counts)} exceeds {MODEL_MAX_TOKENS}"
