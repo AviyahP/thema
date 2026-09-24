@@ -3,11 +3,28 @@
  "n_embedded": 1850,
  "universe_digest": "c54319cdfbbe9eb7",
  "rule": "n_genes >= 1",
- "superseded_artifact": "embeddings_1854_pre_universe_20260921.npy",
  "dropped": [
   "reactome:R-HSA-1222541",
   "reactome:R-HSA-1660510",
   "reactome:R-HSA-9679509",
   "reactome:R-HSA-9727281"
- ]
+ ],
+ "superseded_artifacts": [
+  {
+   "reason": "pre universe rule (contained 4 zero-gene pathways)",
+   "vectors": "embeddings_1854_pre_universe_20260921.npy",
+   "keys": "embedding_keys_1854_pre_universe_20260921.txt",
+   "n": 1854
+  },
+  {
+   "reason": "pre description repair (12 rows embedded from contaminated descriptions, 3 severe)",
+   "vectors": "embeddings_1850_pre_repair_20260924.npy",
+   "keys": "embedding_keys_1850_pre_repair_20260924.txt",
+   "n": 1850,
+   "vectors_sha256_16": "cc96525adda489f9"
+  }
+ ],
+ "embeddings_sha256_16": "4153584aff5197f1",
+ "descriptions_digest": "0c826d92c2d968fa",
+ "descriptions_note": "content digest over the 1,850 CURRENT descriptions. The universe digest covers KEYS only, so it cannot detect a description being repaired; this can."
 }
