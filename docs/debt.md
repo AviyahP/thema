@@ -306,3 +306,22 @@ Step 1 is what closes the scratch-script hole; steps 2-4 stop it reopening. **Ev
 currently under `data/ontology/` was built before the rule and contains the 4** — enumerated in
 `docs/status/OPEN.md` so none is quoted by accident. `v0.1` is exempt: it is the frozen v3-era
 reference and its contents are history, not a current claim.
+
+
+## Descriptions can end in scraped web text, and nothing checks for it
+
+**66 of 10,770 (0.61%)** carry content appended after a correct description: 64 with HTML tags, one
+with a URL and blog timestamp, one with a Nokia 5 smartphone review (`go:GO:0010560`, 10,752
+characters against a median of 969). All are v4/opus-5 with `stop_reason: end_turn` -- the model
+ran on and the API treated it as a normal completion, output reaching 4,651 tokens against a
+typical 330.
+
+**Why it matters:** these descriptions were embedded, so they are in the ontology, and they would
+reach the public demo. Found only because a naming call dutifully returned "Nokia 5 launch and
+specifications" for a glycosylation theme.
+
+**Why it was missed:** the validator tests content, not shape. It has no length ceiling, no markup
+rule, and no test for a second topic starting mid-text. `--report` passed them. The `verify-v1`
+fact-check measures truthfulness of the *first* paragraph and would not look at the tail.
+
+**The fix:** regenerate the 66 via `--keys`, and add the three shape rules. Not done.

@@ -9,29 +9,37 @@ Last updated: 2026-09-24
 
 ## RUNNING
 
-**E — the confirmatory calibration**, pre-registered in `docs/spec/amendment-2026-09-24c.md`.
-Real + 30 scrambles (20 calibration, 10 held-out) over the corrected **1,850** universe.
+**The 31-side rerun on the fast matcher**, into `conf_fast/`, 12 concurrent. Same embeddings, same
+seeds, same sides. Every `.tsv` must come back byte-identical to the original E: that is the
+end-to-end gate, and **nothing runs on 10,770 until it passes**.
 
-- **ONE arm, theta = 0.70.** It was launched with three arms (0.70 / 0.74 / 0.80) and killed at
-  ~15 min. The sensitivity arms were exploration, and exploration is closed: theta is a *declared*
-  parameter, so arms at other values can only invite re-choosing it after seeing the result. The
-  one-arm run is also 3x cheaper — ~8.5 CPU hours against ~26.
-- 4 concurrent, `nice -n 5`. Real side done: **prepare 18 s + match 353 s = 371 s, 15,630 rows.**
-  Null sides are slower (~970 s) because a scramble produces far more groupings — **58,540** against
-  the real side's fewer. Projected **~2 h 05 min wall**.
-- **Pool persistence was added mid-run** (below). Sides 4–29 write their pool; `real` and sides 0–3
-  were already in flight and do not, so `pool_topup.sh` waits for `ALLDONE` and recomputes just
-  those five for their pools.
+## DONE — E, the confirmatory calibration
 
-**Profiling one null side**, to decide whether the 10,770 run can be made shorter before it
-launches. Through completion: prepare 17.1 s (Ward 16.9), **matching 616.6 s**, completion 3.5 s.
-Families still to land. Matching is the target and it is not close.
+**986 themes, overall held-out FDR 0.0030 against a 0.01 cap, no stratum dropped.** Sizes 3 and 4
+survive on recurrence alone at m = 0.94 / 0.90. Full table and the declared-m sensitivity in
+`docs/status/2026-09-24-matching-performance.md`. Ran 2 h 05 min at four concurrent on the original
+code. **Not freezable**: 12 of the 1,850 embeddings carry contaminated descriptions (below).
 
-**Nothing is spending money.** The naming smoke test is stopped — see below.
+**Nothing is spending money.** The naming smoke test is finished — Sonnet, 50 themes, $0.34.
+
+**Matching is now the sparse-product implementation** and is proven byte-identical on two sides.
+**Families is NOT changed and still runs the old code** — profiled at 342 s, 35% of a side. Its
+change and its own three proofs are proposed and not written.
 
 ## NEXT ACTION
 
-1. **Re-run the naming smoke test.** The first attempt **failed completely and produced nothing**:
+0. **In this order, and the order matters.** The byte-identical proof of the fast code exists only
+   while the inputs are unchanged, so the 31-side rerun on the *current* embeddings comes first.
+   Then repair the descriptions; then snapshot and re-embed; then re-run E and compare the two.
+
+0b. **Repair 66 corrupted descriptions.** No API cost — 30 truncate at a stray `</description>`
+   tag (all 7 severe cases among them) and 36 need a trailing `</br>` or `</p>` stripped. Nothing
+   needs regenerating. `go:GO:0010560` ends in a Nokia 5 phone review; 64 more
+   carry trailing HTML, one a blog URL. All v4/opus-5, all `end_turn`. They fed the embeddings.
+   The validator needs three rules — a length ceiling, a markup test, and stop-at-tag in the
+   extractor. See `docs/status/2026-09-24-naming-smoke.md`.
+
+1. ~~Re-run the naming smoke test.~~ **Done** -- Sonnet, 50 themes, $0.34. The first attempt **failed completely and produced nothing**:
    the per-model `LLMClient` in the two-model loop was constructed without `response_key`, so every
    call parsed against the default `"description"` key and failed. 100 theme-model pairs x 2
    attempts = **200 failed calls, roughly $2, zero usable output.** Fixed in
@@ -48,7 +56,8 @@ Families still to land. Matching is the target and it is not close.
 | 2 | membership cutoff **0.25 or 0.50** — 0.25 wins on every structural measure; test 8 would settle it | blocks the freeze |
 | 3 | approve **enrichment datasets** (validation plan test 5) | blocks that test only |
 | 4 | accept or refuse the **matching optimisation** (output-identical, must be proven on a side) | blocks the 10,770 runtime |
-| 5 | re-run the naming smoke test at ~$2 | blocks the naming decision |
+| 5 | approve the 66-description repair (price first, as always) | blocks the freeze and the demo |
+| 6 | **collapse single-child chains?** measured: 0 of 12 were genuine pass-throughs, so probably not | blocks nothing |
 
 ## NEEDED BEFORE ANY FREEZE, in order
 
