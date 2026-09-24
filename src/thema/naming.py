@@ -61,7 +61,11 @@ from thema.normalize import IDENTIFIER_PATTERNS
 
 #: Bumped whenever the prompt changes in a way that should invalidate cached names. Part of the
 #: cache key, so a bump renames rather than silently mixing two prompts in one table.
-NAME_PROMPT_VERSION = "name-v1"
+# name-v2: Task B now states a node's DIRECT members -- those in no child. Under v1 an internal
+# node saw only child names and three samples, so a single-child node was indistinguishable from
+# its child and could only be refused as a restatement. That was 8 of 12 refusals in the first
+# smoke run. Bumped rather than edited in place: the prompt changed, so the cache must not answer.
+NAME_PROMPT_VERSION = "name-v2"
 
 #: A name is a noun phrase a biologist would accept as a heading. Bounds are enforced by
 #: instruction and MEASURED here, never by truncation.
@@ -244,6 +248,25 @@ class NameCheck:
         )
 
 
+#: Stereochemical and positional locants that legitimately capitalise the head of a word:
+#: O-glycosylation, N-linked, C-terminal, S-nitrosylation. They are chemistry, not sentence case.
+CHEMICAL_PREFIX = re.compile(r"^[ONCS]-(?=[a-z])")
+
+
+def _has_chemical_prefix(word: str) -> bool:
+    """Whether a word opens with a chemical locant and is otherwise lowercase.
+
+    Args:
+        word: One word of a name.
+
+    Returns:
+        True for "O-glycosylation" or "N-linked"; False for "O-GlcNAc", which :func:`_is_symbol`
+        already covers on its internal capital.
+    """
+    stripped = word.strip("(),/")
+    return bool(CHEMICAL_PREFIX.match(stripped)) and stripped[2:].islower()
+
+
 def _is_symbol(word: str) -> bool:
     """Whether a word may legitimately carry capitals inside a sentence-case name.
 
@@ -285,7 +308,9 @@ def check(
     parts = name.split()
     words = len(parts)
     lowered = _norm(name)
-    tokens = set(re.findall(r"[a-z]+", lowered))
+    # A hyphenated compound is one content word: "hemophilia-associated" is a single modifier
+    # and splitting it flags the fragment "associated" as contentless, which it is not here.
+    tokens = {t for t in re.findall(r"[a-z]+(?:-[a-z]+)*", lowered) if t}
     later = parts[1:]
     return NameCheck(
         words=words,
@@ -295,7 +320,7 @@ def check(
         sentence_case=(
             bool(parts)
             and (parts[0][:1].isupper() or _is_symbol(parts[0]))
-            and all(w.islower() or _is_symbol(w) for w in later)
+            and all(w.islower() or _is_symbol(w) or _has_chemical_prefix(w) for w in later)
         ),
         identifiers=tuple(
             label for label, pattern in IDENTIFIER_PATTERNS if pattern.search(name)
@@ -443,8 +468,9 @@ def render_internal(
     samples: Sequence[tuple[str, str, str]],
     total_members: int,
     unnamed_children: int = 0,
+    direct: Sequence[tuple[str, str]] = (),
 ) -> str:
-    """Task B. Render an internal node: its children's names and a few member descriptions.
+    """Task B. Render an internal node: its children, its DIRECT members, and a few descriptions.
 
     Args:
         child_names: The already-assigned names of this node's children.
@@ -453,6 +479,10 @@ def render_internal(
         total_members: How many pathways the theme holds in total.
         unnamed_children: Children that came back unnameable. Stated, because they are a hole in
             the evidence: the parent must cover them too and has only the samples to go on.
+        direct: ``(source, name)`` for every member belonging to NO child. These are what make a
+            parent broader than its children. Without them a single-child node looks identical to
+            its child and can only be refused as a restatement, which is what the first smoke run
+            did on eight of twelve refusals.
 
     Returns:
         The user message.
@@ -460,16 +490,23 @@ def render_internal(
     lines = [
         INTERNAL_EXAMPLES,
         "",
-        f"This theme contains {total_members} pathways, organised into the child themes below,",
-        "which are already named. A few representative member descriptions follow.",
-        "Name the parent.",
+        f"This theme contains {total_members} pathways: the child themes below, which are already",
+        "named, PLUS the direct members listed after them. Name the parent.",
         "",
-        "The name must satisfy two constraints at once. Broad enough to cover every child, and",
-        "not a repeat of any child's name. And it must be the SMALLEST umbrella that does so:",
-        "tight enough to exclude what none of the children are about. Broader than the children",
-        "is required; broader than necessary is a fault. If the only name covering every child is",
-        "near-vacuous, or if the parent is really just its largest child with a few extras,",
-        "return nameable false and say so -- that is useful information, not a failure.",
+        "The name must satisfy two constraints at once. Broad enough to cover every child AND",
+        "every direct member, and not a repeat of any child's name. And it must be the SMALLEST",
+        "umbrella that does so: tight enough to exclude what none of them are about. Broader than",
+        "the children is required; broader than necessary is a fault.",
+        "",
+        "THE DIRECT MEMBERS ARE WHY THIS NODE EXISTS. They belong to no child, so they are exactly",
+        "what the parent adds. Name the union of children and direct members. Do not refuse",
+        "merely because there is one child: a node with one child and direct members is broader",
+        "than that child, and the direct members tell you how.",
+        "",
+        "Return nameable false only when the union is genuinely incoherent -- unrelated biology",
+        "with no honest umbrella short of a near-vacuous word -- or when there are NO direct",
+        "members and a single child, so the parent really would just restate it. Saying so is",
+        "useful information, not a failure.",
         "",
         "Child themes:",
     ]
@@ -480,6 +517,12 @@ def render_internal(
             f"  - ({unnamed_children} further child theme(s) could not be named; the samples "
             "below are your only evidence for what they contain)"
         )
+    lines += ["", f"Direct members ({len(direct)}) -- in this theme but in NO child:"]
+    if direct:
+        for source, name in direct:
+            lines.append(f"  - [{source}] {name}")
+    else:
+        lines.append("  (none -- every member of this theme sits in one of the children above)")
     lines += ["", "Representative members:", ""]
     for source, name, description in samples:
         lines.append(f"  [{source}] {name}")

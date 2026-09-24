@@ -15,6 +15,7 @@ import csv
 import json
 import sys
 from collections import defaultdict
+from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -91,17 +92,23 @@ def internal_request(
     unnamed: int,
     by_key: dict,
     texts: dict[str, str],
+    direct_keys: Sequence[str] = (),
 ) -> Request:
-    """Build the Task B prompt for one internal node."""
+    """Build the Task B prompt for one internal node.
+
+    ``direct_keys`` are the members belonging to no child -- what makes the parent broader than
+    its children, and without which a single-child node can only be refused as a restatement.
+    """
     samples = [
         (by_key[k].source, by_key[k].name, texts.get(k, "(no description)"))
         for k in member_keys[:INTERNAL_SAMPLES]
         if k in by_key
     ]
+    direct = [(by_key[k].source, by_key[k].name) for k in direct_keys if k in by_key]
     return Request(
-        key=theme_key(member_keys, child_names),
+        key=theme_key(member_keys, [*child_names, f"direct:{len(direct)}"]),
         system=SYSTEM_PROMPT,
-        user=render_internal(child_names, samples, len(member_keys), unnamed),
+        user=render_internal(child_names, samples, len(member_keys), unnamed, direct),
     )
 
 
@@ -169,7 +176,9 @@ def generate(
         for node in level:
             cs = kids.get(node, [])
             if not cs:
-                requests.append(leaf_request(node, members.get(node, []), by_key, texts))
+                leaf = leaf_request(node, members.get(node, []), by_key, texts)
+                back[leaf.key] = node
+                requests.append(leaf)
                 continue
             named = [
                 got[c]["name"]
@@ -179,9 +188,13 @@ def generate(
             if dry_run:  # the real child names do not exist yet; length is what pricing needs
                 named = [f"child theme {i}" for i, _ in enumerate(cs)]
             unnamed = len(cs) - len(named)
-            requests.append(
-                internal_request(node, members.get(node, []), named, unnamed, by_key, texts)
+            covered = {k for c in cs for k in members.get(c, [])}
+            direct_keys = [k for k in members.get(node, []) if k not in covered]
+            internal = internal_request(
+                node, members.get(node, []), named, unnamed, by_key, texts, direct_keys
             )
+            back[internal.key] = node
+            requests.append(internal)
         every.extend(requests)
         if dry_run:
             continue

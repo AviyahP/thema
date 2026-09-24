@@ -134,7 +134,7 @@ def test_container_nouns_are_contentless() -> None:
 
 
 def test_prompt_version_is_part_of_the_contract() -> None:
-    assert NAME_PROMPT_VERSION == "name-v1"
+    assert NAME_PROMPT_VERSION == "name-v2"
 
 
 def test_an_internal_nodes_key_includes_its_childrens_names() -> None:
@@ -188,3 +188,28 @@ def test_gene_symbols_and_acronyms_survive_the_sentence_case_check() -> None:
         "mTOR signalling",
     ):
         assert check(name, ["other"]).sentence_case, name
+
+
+def test_a_chemical_locant_is_not_a_capitalisation_error() -> None:
+    """O-, N-, C- and S- prefixes are chemistry; only the locant may be upper-case."""
+    assert check("Protein O-glycosylation", ["x"]).sentence_case
+    assert check("N-linked glycan trimming", ["x"]).sentence_case
+    assert not check("Protein Glycosylation", ["x"]).sentence_case
+
+
+def test_a_hyphenated_compound_is_one_content_word() -> None:
+    """Splitting it flagged the fragment "associated" as contentless, which it is not."""
+    assert check("Hemophilia-associated factor VIII defects", ["x"]).empty_words == ()
+    # standalone, it is still contentless -- only the hyphenated compound is spared
+    assert check("Regulation of associated processes", ["x"]).empty_words == (
+        "associated", "processes",
+    )
+
+
+def test_an_internal_node_states_its_direct_members() -> None:
+    """A single-child node is broader than its child exactly by the members no child holds."""
+    rendered = render_internal(["Notch receptor processing"], [], 8, 0,
+                               [("gobp", "regulation of Notch signaling pathway")])
+    assert "Direct members (1)" in rendered
+    assert "regulation of Notch signaling pathway" in rendered
+    assert "(none" in render_internal(["A child"], [], 3, 0, [])
