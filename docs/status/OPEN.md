@@ -9,9 +9,14 @@ Last updated: 2026-09-24
 
 ## RUNNING
 
-**The 31-side rerun on the fast matcher**, into `conf_fast/`, 12 concurrent. Same embeddings, same
-seeds, same sides. Every `.tsv` must come back byte-identical to the original E: that is the
-end-to-end gate, and **nothing runs on 10,770 until it passes**.
+Nothing.
+
+## THE END-TO-END GATE HAS PASSED
+
+The 31-side calibration was rerun twice, same embeddings and same seeds, and **every `.tsv` came
+back byte-identical to the original E both times**: 31/31 on fast matching (24 min 13 s) and 31/31
+on fast matching plus fast families (**3 min 03 s**, against the original 2 h 05 min -- **41x**).
+The gate on the 10,770 universe is satisfied.
 
 ## DONE — E, the confirmatory calibration
 
@@ -22,9 +27,10 @@ code. **Not freezable**: 12 of the 1,850 embeddings carry contaminated descripti
 
 **Nothing is spending money.** The naming smoke test is finished — Sonnet, 50 themes, $0.34.
 
-**Matching is now the sparse-product implementation** and is proven byte-identical on two sides.
-**Families is NOT changed and still runs the old code** — profiled at 342 s, 35% of a side. Its
-change and its own three proofs are proposed and not written.
+**Matching is the sparse-product implementation and families is the prefix-filtered one.** Both
+carry their three proofs and both keep the original callable (`matching="tree"`,
+`families="pairwise"`). A null side is 64 s, of which `prepare` is 25 s — **Ward is now the floor**
+and nothing further is proposed.
 
 ## NEXT ACTION
 

@@ -97,13 +97,8 @@ any of this existed.
 A null side goes 979 s -> **~370 s**, an overall **2.6x** -- not the 3-6x estimated before the
 profile, because families is untouched and now dominates.
 
-**Families is NOT changed here and still runs the old code.** It was profiled at 342 s, 35% of a
-side, and the same treatment was proposed for it as a separate step with its own three proofs.
-Neither the change nor the proofs exist yet, so everything below and every timing above is the
-fast matcher with the original families.
-
-The end-to-end proof is a full 31-side rerun, same embeddings and same seeds, with every `.tsv`
-byte-identical to the original E. Until it passes, nothing runs on the 10,770 universe.
+Families was then given the same treatment on its own branch, with its own three proofs -- see
+"Families" below.
 
 ## The matched pool is now persisted
 
@@ -181,3 +176,69 @@ them. The sequence is: prove the fast code byte-identical on these same embeddin
 that proof is only possible while the inputs are unchanged; then repair the descriptions, snapshot
 and rebuild the embeddings, and re-run E. Comparing the two runs then measures directly whether
 the contamination mattered.
+
+
+---
+
+## Families, on the same discipline
+
+**The rule, before anything was rewritten.** Two groupings are *variants* when their intersection
+is non-empty and each one's members outside the intersection number at most
+`max(2, int(0.10 x |A n B|))`; seeds are taken in order of **descending support, then descending
+size, then ascending bitset key**, and each still-unclaimed seed claims every still-unclaimed
+variant **of the seed's own set** -- never of the growing family -- with the family's member set
+being **the seed's set**. Pooling buys evidence, not membership.
+
+**What was wrong with the old search.** The pairwise version walks a window in size order around
+each seed, `max(2, int(0.10 x |seed|)) x 2` wide, testing `is_variant` on everything in it. Size is
+a weak filter: two groupings of identical size may share nothing at all, and at ~57,000 groupings
+most of the window is wasted.
+
+**The prefix filter, which is exact and not a heuristic.** If `|A \ B| <= k` then among ANY `k + 1`
+members of `A` at least one must lie in `B`, since `k + 1` members all outside `B` would already
+exceed the allowance. The intersection can never exceed `|A|`, so `k = max(2, int(0.10 x |A|))`
+bounds the allowance from above, and a grouping holding none of `A`'s `k + 1` rarest members cannot
+qualify. Rarest-first only makes the list short -- any other `k + 1` members would be equally
+correct and slower. `is_variant` still decides every surviving pair; the shortlist is a superset,
+never a filter on the rule. The size window is applied unchanged.
+
+**One detail that mattered:** the pairwise walk emits a family *ordered* -- smaller side
+descending, then larger side ascending. That ordering is reproduced, so family LISTS match, not
+merely family partitions.
+
+**The three proofs.** `families = "pairwise" | "indexed"`, default `indexed`; the walk is not
+deleted.
+
+**a.** A hand-computed fixture covering the three cases that decide faithfulness: a **support tie
+broken by size** (two groupings at 0.90, the larger seeds first), a variant at **exactly** the
+boundary (`|A n B| = 30`, allowance 3, three extras qualify and four do not), and a grouping
+**claimed by an earlier seed** so a later seed's family is itself alone. Both return
+`[(2, [2, 1]), (0, [0]), (3, [3, 4])]`. Three randomised pools also agree exactly.
+
+**b/c.** Both sides, off one `Prepared`:
+
+| | real side | null side 7 |
+|---|---|---|
+| families, pairwise | 36.4 s | 310.3 s |
+| **families, indexed** | **7.0 s** | **18.7 s** |
+| speed-up | 5.2x | **16.6x** |
+| families | 15,630 = 15,630 | 38,327 = 38,327 |
+| seeds, **lists including order**, member sets, support | identical | identical |
+| **side `.tsv` byte-identical** | **yes** | **yes** |
+| peak RSS | 1,023 MB | 1,340 MB |
+
+## End to end
+
+The full 31-side calibration, same embeddings, same seeds, **every `.tsv` byte-identical to the
+original E**, run three ways:
+
+| run | wall | sides identical |
+|---|---|---|
+| original, 4 concurrent | **2 h 05 min** | -- |
+| fast matching, 12 concurrent | **24 min 13 s** | 31 / 31 |
+| **fast matching + fast families, 12 concurrent** | **3 min 03 s** | **31 / 31** |
+
+**41x end to end.** Peak combined RSS 7.9 GB of 39 GB at 12 concurrent.
+
+A null side is now 64 s, of which **`prepare` is 25 s**. Ward is the floor: ~100 clusterings per
+side, and every other stage is now small beside it. Nothing further is proposed here.
