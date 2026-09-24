@@ -135,7 +135,25 @@ def run_over(n, present, clusters):
         for p in members:
             if leaf[p] == -1:
                 leaf[p] = index
-    return Run(present=B.pack(present, n), clusters=packed, parent=parent, leaf_cluster=leaf)
+    indptr = np.zeros(n + 1, dtype=np.int64)
+    chain = []
+    for p in range(n):
+        at = int(leaf[p])
+        this = []
+        while at != -1:
+            this.append(at)
+            at = int(parent[at])
+        chain.extend(this)
+        indptr[p + 1] = indptr[p] + len(this)
+    return Run(
+        present=B.pack(present, n),
+        clusters=packed,
+        parent=parent,
+        leaf_cluster=leaf,
+        sizes=B.count_rows(packed),
+        chain_indptr=indptr,
+        chain_idx=np.asarray(chain, dtype=np.int64),
+    )
 
 
 N = 32
@@ -385,6 +403,8 @@ def test_the_build_reports_where_its_time_went():
     x, keys = two_groups_and_a_straddler(noise=0)
     dag = builder("recurrent_dag").build(x, keys, {"runs": 20, "min_size": 5, "m": 0.5}, seed=0)
     stages = dag.params["timing_seconds"]
-    wanted = {"runs (ward x N)", "matching (ancestor walk)", "families (seed absorption)"}
+    wanted = {"runs (ward x N)", "families (seed absorption)"}
     assert wanted <= set(stages)
+    # Named for the implementation that ran: "ancestor walk" or "sparse products".
+    assert any(name.startswith("matching") for name in stages)
     assert all(v >= 0 for v in stages.values())

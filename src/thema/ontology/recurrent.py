@@ -32,6 +32,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 
 import numpy as np
+from scipy import sparse
 from scipy.cluster.hierarchy import linkage
 
 from thema.cluster import distances
@@ -44,6 +45,14 @@ from thema.ontology.base import (
 )
 
 #: Defaults from spec §10.1. Every one is recorded in the manifest, set or not.
+#: Which matching implementation :func:`score` uses. "matrix" poses the whole stage as two sparse
+#: products; "tree" is the original per-pair ancestor walk, kept as the reference it is proved
+#: against. They must agree exactly -- see tests/ontology/test_matching_equivalence.py.
+DEFAULT_MATCHING = "matrix"
+
+#: Groupings per block in the matrix matcher. Bounds the sparse product's peak allocation.
+MATCH_ROWS = 8192
+
 DEFAULTS: dict[str, object] = {
     "runs": 100,
     "subsample": 0.80,
@@ -113,12 +122,22 @@ class Run:
             containing it, or -1. Ancestor walks climb this.
         leaf_cluster: For each pathway index, the smallest recorded cluster containing it, or -1
             for a pathway this run did not draw or which no recorded cluster holds.
+        sizes: Popcount of every recorded cluster, computed once. The matching loop asked for
+            ``bits.count(clusters[c])`` on every (grouping, run) pair, recomputing the same few
+            hundred numbers millions of times.
+        chain_indptr: CSR offsets into ``chain_idx``, indexed by PATHWAY, length ``n + 1``.
+        chain_idx: For each pathway, the recorded clusters containing it, smallest first. The
+            dendrogram makes the nodes containing a pathway a chain, so this is exactly what the
+            ancestor walk rebuilt per pair.
     """
 
     present: np.ndarray
     clusters: np.ndarray
     parent: np.ndarray
     leaf_cluster: np.ndarray
+    sizes: np.ndarray
+    chain_indptr: np.ndarray
+    chain_idx: np.ndarray
 
 
 @dataclass(frozen=True, slots=True)
@@ -136,6 +155,9 @@ class Prepared:
         origins: Per grouping, the runs it came from.
         eligible_mask: ``(g, runs)`` -- whether a run had enough of a grouping to judge it.
         eligible_count: Per grouping, how many runs were eligible.
+        overlap: ``(g, runs)`` -- how many of each grouping's members each run drew. Eligibility
+            was already computing this and throwing it away; matching needs the same numbers.
+        cluster_pool: Per run, the pool row of each of its recorded clusters.
         timing: Wall time per stage.
     """
 
@@ -145,6 +167,8 @@ class Prepared:
     origins: list[set[int]]
     eligible_mask: np.ndarray
     eligible_count: np.ndarray
+    overlap: np.ndarray
+    cluster_pool: list[np.ndarray]
     timing: Timing
 
 
@@ -253,15 +277,38 @@ def _one_run(
     for local, global_index in enumerate(subset):
         leaf_cluster[global_index] = nearest_recorded(local)
 
+    clusters = node_bits[recorded].copy()
+    # The ancestor chain of every drawn pathway, built once by climbing `parent`. Nodes containing
+    # a given pathway form a chain in the dendrogram, so this is the complete candidate list for
+    # that pathway and nothing is lost by precomputing it.
+    chain_indptr = np.zeros(n + 1, dtype=np.int64)
+    chains: list[list[int]] = []
+    for pathway in range(n):
+        at = int(leaf_cluster[pathway])
+        chain: list[int] = []
+        while at != -1:
+            chain.append(at)
+            at = int(parent[at])
+        chains.append(chain)
+        chain_indptr[pathway + 1] = chain_indptr[pathway] + len(chain)
+    chain_idx = np.fromiter(
+        (c for chain in chains for c in chain), dtype=np.int64, count=int(chain_indptr[-1])
+    )
+
     return Run(
         present=present,
-        clusters=node_bits[recorded].copy(),
+        clusters=clusters,
         parent=parent,
         leaf_cluster=leaf_cluster,
+        sizes=bits.count_rows(clusters),
+        chain_indptr=chain_indptr,
+        chain_idx=chain_idx,
     )
 
 
-def _dedup(runs: list[Run], n: int) -> tuple[np.ndarray, list[set[int]]]:
+def _dedup(
+    runs: list[Run], n: int
+) -> tuple[np.ndarray, list[set[int]], list[np.ndarray]]:
     """Collapse identical groupings across runs into one candidate each (§10.3).
 
     A grouping that is stable appears in many runs with exactly the same members, once every member
@@ -273,23 +320,31 @@ def _dedup(runs: list[Run], n: int) -> tuple[np.ndarray, list[set[int]]]:
         n: Universe size.
 
     Returns:
-        The distinct grouping bitsets, and the set of runs each came from.
+        The distinct grouping bitsets, the set of runs each came from, and -- per run -- the pool
+        row each of its recorded clusters became. Every candidate the matcher can pick is one of
+        the run's recorded clusters, so that mapping is what lets matching be posed over pool rows
+        instead of over per-run trees.
     """
     seen: dict[bytes, int] = {}
     rows: list[np.ndarray] = []
     origins: list[set[int]] = []
+    cluster_pool: list[np.ndarray] = []
     for index, run in enumerate(runs):
-        for cluster in run.clusters:
+        where = np.empty(len(run.clusters), dtype=np.int64)
+        for local, cluster in enumerate(run.clusters):
             identity = bits.key(cluster)
             at = seen.get(identity)
             if at is None:
-                seen[identity] = len(rows)
+                at = len(rows)
+                seen[identity] = at
                 rows.append(cluster)
                 origins.append({index})
             else:
                 origins[at].add(index)
+            where[local] = at
+        cluster_pool.append(where)
     stacked = np.vstack(rows) if rows else np.zeros((0, bits.words_for(n)), dtype=np.uint64)
-    return stacked, origins
+    return stacked, origins, cluster_pool
 
 
 def _best_overlap(run: Run, target: np.ndarray) -> int:
@@ -311,14 +366,12 @@ def _best_overlap(run: Run, target: np.ndarray) -> int:
     """
     seen: set[int] = set()
     for p in bits.unpack(target):
-        at = int(run.leaf_cluster[p])
-        while at != -1 and at not in seen:
-            seen.add(at)
-            at = int(run.parent[at])
+        # The chain was built once in _one_run; climbing `parent` here rebuilt it per pair.
+        seen.update(run.chain_idx[run.chain_indptr[p] : run.chain_indptr[p + 1]].tolist())
     best, best_cover, best_size = -1, -1, 0
     for candidate in seen:
         cover = bits.count(run.clusters[candidate] & target)
-        size = bits.count(run.clusters[candidate])
+        size = int(run.sizes[candidate])
         if cover > best_cover or (cover == best_cover and size < best_size):
             best, best_cover, best_size = candidate, cover, size
     return best
@@ -427,7 +480,7 @@ def prepare(
     clock.record("runs (ward x N)", time.perf_counter() - start)
 
     start = time.perf_counter()
-    groupings, origins = _dedup(records, n)
+    groupings, origins, cluster_pool = _dedup(records, n)
     clock.record("dedup", time.perf_counter() - start)
 
     present = np.vstack([r.present for r in records])
@@ -438,14 +491,20 @@ def prepare(
     # ancestor walk does not. Filtering first is what keeps the walk off most of the pairs.
     start = time.perf_counter()
     eligibility: list[np.ndarray] = []
+    overlaps: list[np.ndarray] = []
     for begin in range(0, total, CHUNK):
         block = groupings[begin : begin + CHUNK]
         overlap = np.bitwise_count(block[:, None, :] & present[None, :, :]).sum(axis=2)
         eligibility.append(overlap >= min_shared)
+        overlaps.append(overlap.astype(np.int32))
         eligible_count[begin : begin + CHUNK] = (overlap >= min_shared).sum(axis=1)
     eligible_mask = np.vstack(eligibility) if eligibility else np.zeros((0, runs), dtype=bool)
+    drawn = np.vstack(overlaps) if overlaps else np.zeros((0, runs), dtype=np.int32)
     clock.record("eligibility", time.perf_counter() - start)
-    return Prepared(records, present, groupings, origins, eligible_mask, eligible_count, clock)
+    return Prepared(
+        records, present, groupings, origins, eligible_mask, eligible_count, drawn,
+        cluster_pool, clock,
+    )
 
 
 def score(ready: Prepared, settings: dict[str, object]) -> Pool:
@@ -453,10 +512,38 @@ def score(ready: Prepared, settings: dict[str, object]) -> Pool:
 
     The only tol-dependent stage. Everything it needs was computed by :func:`prepare`.
 
+    Two implementations, chosen by ``matching``. They are required to agree exactly; ``"tree"`` is
+    the original per-pair ancestor walk and is kept callable so the equivalence test can run both
+    on one :class:`Prepared`.
+
     Args:
         ready: The tol-independent work.
-        settings: Parameters, already defaulted; ``tol``, ``min_shared`` and optional ``theta``
-            are read here. ``theta`` switches matching to Jaccard and supersedes ``tol``.
+        settings: Parameters, already defaulted; ``tol``, ``min_shared``, optional ``theta`` and
+            optional ``matching`` are read here. ``theta`` switches matching to Jaccard and
+            supersedes ``tol``.
+
+    Returns:
+        The scored pool.
+
+    Raises:
+        ValueError: If ``matching`` is neither ``"matrix"`` nor ``"tree"``.
+    """
+    mode = str(settings.get("matching", DEFAULT_MATCHING))
+    if mode == "tree":
+        return _score_tree(ready, settings)
+    if mode == "matrix":
+        return _score_matrix(ready, settings)
+    raise ValueError(f"matching must be 'matrix' or 'tree', not {mode!r}")
+
+
+def _score_tree(ready: Prepared, settings: dict[str, object]) -> Pool:
+    """Match by walking each run's ancestor chains, one (grouping, run) pair at a time.
+
+    The original implementation, kept as the reference the matrix path is proved against.
+
+    Args:
+        ready: The tol-independent work.
+        settings: Parameters, already defaulted.
 
     Returns:
         The scored pool.
@@ -495,6 +582,160 @@ def score(ready: Prepared, settings: dict[str, object]) -> Pool:
         support = np.where(eligible_count > 0, found_count / np.maximum(eligible_count, 1), 0.0)
     # A grouping too small for most runs to judge is not evaluable, and is dropped rather than
     # scored on a handful of runs (§10.5).
+    support = np.where(eligible_count >= runs / 2, support, np.nan)
+    return Pool(groupings, support, eligible_count, copies, origins, clock)
+
+
+def _csr_from_bitsets(packed: np.ndarray, width: int, chunk: int = 20000) -> "sparse.csr_matrix":
+    """Turn a block of bitsets into a binary CSR matrix.
+
+    Chunked so the dense intermediate stays bounded regardless of how many groupings there are.
+
+    Args:
+        packed: ``(rows, words)`` uint64 bitsets.
+        width: Number of columns, i.e. ``words * bits.WORD``.
+        chunk: Rows converted at a time.
+
+    Returns:
+        A ``(rows, width)`` CSR matrix of int32 ones.
+    """
+    counts = np.empty(packed.shape[0], dtype=np.int64)
+    parts: list[np.ndarray] = []
+    for begin in range(0, packed.shape[0], chunk):
+        block = np.ascontiguousarray(packed[begin : begin + chunk])
+        flat = np.unpackbits(block.view(np.uint8), axis=1, bitorder="little")
+        rows, cols = np.nonzero(flat)
+        counts[begin : begin + block.shape[0]] = np.bincount(rows, minlength=block.shape[0])
+        parts.append(cols.astype(np.int32))
+        del flat, rows, cols
+    indptr = np.zeros(packed.shape[0] + 1, dtype=np.int64)
+    np.cumsum(counts, out=indptr[1:])
+    indices = np.concatenate(parts) if parts else np.empty(0, dtype=np.int32)
+    data = np.ones(indices.shape[0], dtype=np.int32)
+    return sparse.csr_matrix((data, indices, indptr), shape=(packed.shape[0], width))
+
+
+def _score_matrix(ready: Prepared, settings: dict[str, object]) -> Pool:
+    """Match every eligible pair at once, as two sparse products per run (§10.4-§10.5).
+
+    The tree walk asked one question per (grouping, run) pair: which of this run's recorded
+    clusters overlaps this grouping most? Every quantity that question needs is a set
+    intersection, and all of them are rows of two products:
+
+    - ``C = M @ D.T`` -- how many of each grouping's members each run drew. :func:`prepare`
+      already computes this for eligibility, so it is read from ``ready.overlap``.
+    - ``I = M @ M.T`` -- pairwise intersections. Only the columns belonging to run *j*'s recorded
+      clusters are ever needed, and every such cluster is itself a pool row, so the whole stage is
+      one sparse product per run against a few hundred columns.
+
+    With ``B`` the candidate cluster and ``i`` the grouping's origin run
+    (:func:`_origin_present`), and using ``B`` subset of ``present[j]`` and ``A`` subset of
+    ``present[i]``::
+
+        cover  = |A & B|                      = I[A, B]
+        shared = |A & present[j]|             = C[A, j]
+        extras = |B & present[i] & ~A|        = C[B, i] - I[A, B]
+        union  = shared + extras              = C[A, j] + C[B, i] - I[A, B]
+
+    so the Jaccard test is ``cover / union >= theta`` with no bitset arithmetic left in the loop.
+
+    The sparse product visits only pairs sharing at least one pathway, which is the inverted index
+    the ancestor walk was approximating: a cluster is a candidate exactly when it contains one of
+    the grouping's members, and the nodes containing a given pathway form a chain.
+
+    **The selection rule is copied, not chosen:** greatest intersection with the grouping's members
+    that this run drew, ties broken toward the smaller cluster. It is NOT greatest Jaccard --
+    Jaccard decides only whether the winner is accepted.
+
+    Args:
+        ready: The tol-independent work.
+        settings: Parameters, already defaulted.
+
+    Returns:
+        The scored pool, identical to :func:`_score_tree`.
+    """
+    clock = ready.timing
+    groupings, origins = ready.groupings, ready.origins
+    eligible_mask, eligible_count = ready.eligible_mask, ready.eligible_count
+    runs = len(ready.records)
+    tol = float(settings["tol"])  # type: ignore[arg-type]
+    theta_raw = settings.get("theta")
+    theta = None if theta_raw is None else float(theta_raw)  # type: ignore[arg-type]
+    total = len(groupings)
+    found_count = np.zeros(total, dtype=np.int64)
+    copies: list[dict[int, np.ndarray]] = [{} for _ in range(total)]
+
+    start = time.perf_counter()
+    if total:
+        width = int(ready.present.shape[1]) * bits.WORD
+        member = _csr_from_bitsets(groupings, width)
+        pool_size = np.diff(member.indptr).astype(np.int64)
+        origin_run = np.fromiter((min(o) for o in origins), dtype=np.int64, count=total)
+        drawn = ready.overlap
+
+        # One sortable key per candidate, so the winner is a vectorised max instead of a Python
+        # scan: cover first, then SMALLER size, then lowest index purely to be deterministic.
+        size_shift = np.int64(1) << np.int64(21)
+        cover_shift = np.int64(1) << np.int64(42)
+        cap = np.int64((1 << 21) - 1)
+
+        for run_index in range(runs):
+            columns = ready.cluster_pool[run_index]
+            if not len(columns):
+                continue
+            # A grouping recorded BY this run is found in it by definition (§10.4), and those
+            # groupings are exactly this run's recorded clusters.
+            own = columns[eligible_mask[columns, run_index]]
+            found_count[own] += 1
+            for g in own.tolist():
+                copies[g][run_index] = groupings[g]
+
+            judged = np.flatnonzero(eligible_mask[:, run_index])
+            judged = judged[~np.isin(judged, columns, assume_unique=False)]
+            if not len(judged):
+                continue
+            candidates = member[columns]
+            candidate_size = pool_size[columns]
+
+            for begin in range(0, len(judged), MATCH_ROWS):
+                rows = judged[begin : begin + MATCH_ROWS]
+                product = (member[rows] @ candidates.T).tocsr()
+                counts = np.diff(product.indptr)
+                filled = np.flatnonzero(counts)
+                if not len(filled):
+                    continue
+                cover = product.data.astype(np.int64)
+                local = product.indices
+                key = (
+                    cover * cover_shift
+                    + (cap - candidate_size[local]) * size_shift
+                    + (cap - local.astype(np.int64))
+                )
+                best = np.maximum.reduceat(key, product.indptr[filled])
+                where = np.flatnonzero(key == np.repeat(best, counts[filled]))
+                if len(where) != len(filled):  # pragma: no cover - keys are unique within a row
+                    raise AssertionError("tie key failed to identify one winner per row")
+
+                left = rows[filled]
+                right = columns[local[where]]
+                hit_cover = cover[where]
+                shared = drawn[left, run_index].astype(np.int64)
+                extras = drawn[right, origin_run[left]].astype(np.int64) - hit_cover
+                if theta is not None:
+                    union = shared + extras
+                    ok = (union > 0) & (hit_cover / np.maximum(union, 1) >= theta)
+                else:
+                    allowed = tol * shared
+                    ok = ((shared - hit_cover) <= allowed) & (extras <= allowed)
+
+                found_count[left[ok]] += 1
+                for g, b in zip(left[ok].tolist(), right[ok].tolist(), strict=True):
+                    copies[g][run_index] = groupings[b]
+                del product, cover, local, key
+    clock.record("matching (sparse products)", time.perf_counter() - start)
+
+    with np.errstate(invalid="ignore", divide="ignore"):
+        support = np.where(eligible_count > 0, found_count / np.maximum(eligible_count, 1), 0.0)
     support = np.where(eligible_count >= runs / 2, support, np.nan)
     return Pool(groupings, support, eligible_count, copies, origins, clock)
 
