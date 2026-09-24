@@ -11,6 +11,17 @@ Last updated: 2026-09-24
 
 Nothing.
 
+## BLOCKING DECISION — the encoder reads 55% of every description
+
+`BioLORD-2023` truncates at **128 tokens**. The median description is **231**; **all 1,850 exceed
+the cap**, so roughly **45% of every description has never been embedded**. The 90-150 word band
+the prompt and validator enforce describes text the encoder never sees.
+
+Raising the cap to 512 works (MPNet has 514 position embeddings) but **changes the nearest
+neighbour for 43% of pathways** — a different embedding space, so every threshold and the whole
+calibration would be redone against it. Four options and a no-cost AUC test to decide between them
+are in `docs/status/2026-09-24-embedding-truncation.md`. **Nothing chosen; nothing run.**
+
 ## THE END-TO-END GATE HAS PASSED
 
 The 31-side calibration was rerun twice, same embeddings and same seeds, and **every `.tsv` came
@@ -38,7 +49,17 @@ and nothing further is proposed.
    while the inputs are unchanged, so the 31-side rerun on the *current* embeddings comes first.
    Then repair the descriptions; then snapshot and re-embed; then re-run E and compare the two.
 
-0b. **Repair 66 corrupted descriptions.** No API cost — 30 truncate at a stray `</description>`
+0a. **DONE — descriptions repaired.** **205 rows**, not the 66 first reported: 152 truncations at a
+   stray closing tag, 53 markup or trailing-quote strips. No regeneration, no API cost. Every
+   original kept as `superseded`; every repair is a new `v4-repaired` row naming the row it came
+   from. `read()` still returns 10,770 and **0 rows trip the validator**. The write gate is in:
+   `normalize_descriptions.py` now refuses a row the validator rejects and keeps it in the ledger.
+
+0c. **DONE — E2.** The calibration re-run on the repaired embeddings reproduces E exactly: 986
+   themes, held-out 0.0030, no stratum dropped, all 31 sides byte-identical on `(arm, size,
+   support)`. **The corruption's measured effect is zero**, because the junk sat past token 128.
+
+0z. ~~Repair 66 corrupted descriptions.~~ No API cost — 30 truncate at a stray `</description>`
    tag (all 7 severe cases among them) and 36 need a trailing `</br>` or `</p>` stripped. Nothing
    needs regenerating. `go:GO:0010560` ends in a Nokia 5 phone review; 64 more
    carry trailing HTML, one a blog URL. All v4/opus-5, all `end_turn`. They fed the embeddings.

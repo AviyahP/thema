@@ -325,3 +325,15 @@ rule, and no test for a second topic starting mid-text. `--report` passed them. 
 fact-check measures truthfulness of the *first* paragraph and would not look at the tail.
 
 **The fix:** regenerate the 66 via `--keys`, and add the three shape rules. Not done.
+
+## 103 descriptions run past the 150-word ceiling
+
+Separate from the corruption above and **not caused by it**: 103 of 10,770 current descriptions sit
+outside the declared 90–150 word band, all of them over, ranging **151 to 163 words**. Three of
+them were among the repaired rows and were written anyway, because the repair strictly improves
+them and the overflow predates it.
+
+This is a generation-quality matter, not a data defect: the descriptions are correct, just long.
+Fixing it requires regeneration, which is a priced run, so it is recorded rather than done. The
+validator flags them today via `in_range`; the new write gate refuses on `residue` only, so an
+over-length row is still written and still reported.

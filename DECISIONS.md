@@ -2387,3 +2387,33 @@ formats therefore key on a boolean (`nameable`, `revise`). This is a property of
 getting it wrong costs money silently: the first smoke attempt ran 200 calls that all failed to
 parse, for roughly $2 and no output, because one of the two clients was built without
 `response_key`.
+
+## 2026-09-24 — The description validator's rules existed all along; nothing acted on them
+
+**What happened.** 205 of 10,770 current descriptions carried text appended after a correct
+description: a stray `</description>` closing tag, trailing HTML, dangling quote characters, and in
+seven cases a whole appended passage — a smartphone review, a fictional gospel preface, Java API
+documentation, Zulu-language chatbot output. The worst ran to 12,834 characters against a median of
+969. All were `v4`, `claude-opus-5`, `stop_reason: end_turn`: the model closed its tag and kept
+generating, and the extractor took everything.
+
+**The part that matters.** `normalize.validate()` already had `html_markup` in `RESIDUE_PATTERNS`
+and a 90–150 word `in_range` check. **Both fired on every one of the 205 rows.** No rule was
+missing. The rows were written, merged, promoted to current, embedded, clustered, and used to
+calibrate E — because the validator only ever *reported*, and the report was a count nobody read.
+The 2026-08-29 decision that a failing check is "reported, never repaired" was right about not
+repairing silently and was taken to mean the run should proceed regardless. It should not.
+
+**Found by accident.** A naming call returned "Nokia 5 launch and specifications" for a
+glycosylation theme. The model was reading its prompt correctly.
+
+**Decision. `normalize_descriptions.py` now REFUSES to write a row the validator rejects.** The
+completion stays in the ledger, so nothing paid for is lost and `--keys` can regenerate it, and the
+run prints what it refused. Reporting is not a control; a gate is. Tested in
+`tests/test_normalize_descriptions.py`.
+
+**Also corrected here:** I twice told Aviyah the validator lacked a markup rule and that the repair
+needed a priced regeneration of 66 rows. Both were wrong. The rules existed, the true count was
+205, and the repair was free — 152 truncations at the closing tag and 53 markup/quote strips, with
+every original kept as `superseded` and every repair written as a new `v4-repaired` row naming the
+row it came from.
