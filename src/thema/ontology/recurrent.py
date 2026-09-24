@@ -330,6 +330,7 @@ def found_in(
     origin_present: np.ndarray,
     min_shared: int,
     tol: float,
+    theta: float | None = None,
 ) -> tuple[bool, np.ndarray | None]:
     """Decide whether one run found a grouping, and which of its clusters is the copy (§10.4).
 
@@ -343,7 +344,14 @@ def found_in(
             never had do not count either way.
         min_shared: Below this many shared members the run is not eligible to judge at all.
         tol: Extra shared members allowed, as a fraction of the shared size. ``0`` is
-            exact-on-shared.
+            exact-on-shared. Ignored when ``theta`` is given.
+        theta: Jaccard threshold. When set, the rule becomes ``|A n C| / |A u C| >= theta``
+            applied identically at every size, replacing the proportional tolerance. The
+            tolerance rule computes ``tol * shared`` as a float and compares it against integer
+            counts, so its effective slack is ``floor(0.15 * size)`` -- ZERO for sizes 3 to 6 and
+            3 members at size 20. "Recurs" therefore means exact repetition at small sizes and
+            15% drift at large ones, which is a rounding artefact rather than a decision.
+            Jaccard is continuous and size-uniform. See docs/spec/amendment-2026-09-24.md.
 
     Returns:
         Whether it was found, and the matched cluster bitset when it was. ``(False, None)`` covers
@@ -365,6 +373,11 @@ def found_in(
     # rejected before its extras were ever counted.
     missing = shared_count - bits.count(cluster & g_s)
     extras = bits.count(cluster & origin_present & ~grouping)
+    if theta is not None:
+        # |A n C| = shared - missing;  |A u C| = shared + extras, both restricted to what the
+        # origin run had, exactly as the tolerance rule restricts them.
+        union = shared_count + extras
+        return (union > 0 and (shared_count - missing) / union >= theta), cluster
     return (missing <= allowed and extras <= allowed), cluster
 
 
@@ -442,7 +455,8 @@ def score(ready: Prepared, settings: dict[str, object]) -> Pool:
 
     Args:
         ready: The tol-independent work.
-        settings: Parameters, already defaulted; ``tol`` and ``min_shared`` are read here.
+        settings: Parameters, already defaulted; ``tol``, ``min_shared`` and optional ``theta``
+            are read here. ``theta`` switches matching to Jaccard and supersedes ``tol``.
 
     Returns:
         The scored pool.
@@ -453,6 +467,8 @@ def score(ready: Prepared, settings: dict[str, object]) -> Pool:
     runs = len(records)
     min_shared = int(settings["min_shared"])  # type: ignore[arg-type]
     tol = float(settings["tol"])  # type: ignore[arg-type]
+    theta_raw = settings.get("theta")
+    theta = None if theta_raw is None else float(theta_raw)  # type: ignore[arg-type]
     total = len(groupings)
     found_count = np.zeros(total, dtype=np.int64)
     copies: list[dict[int, np.ndarray]] = [{} for _ in range(total)]
@@ -468,7 +484,7 @@ def score(ready: Prepared, settings: dict[str, object]) -> Pool:
                 copies[g][int(s)] = target_all
                 continue
             hit, copy = found_in(
-                run, target_all, _origin_present(records, origins[g]), min_shared, tol
+                run, target_all, _origin_present(records, origins[g]), min_shared, tol, theta
             )
             if hit and copy is not None:
                 found_count[g] += 1
