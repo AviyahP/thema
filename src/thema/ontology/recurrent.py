@@ -28,7 +28,7 @@ computes them once so several thresholds can be assembled from one pass.
 
 import hashlib
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -52,6 +52,11 @@ DEFAULT_MATCHING = "matrix"
 
 #: Groupings per block in the matrix matcher. Bounds the sparse product's peak allocation.
 MATCH_ROWS = 8192
+
+#: Which families implementation runs. "indexed" restricts comparison to groupings that can
+#: possibly be variants, via a prefix filter on the rarest members; "pairwise" is the original
+#: walk over the size window. They must agree exactly -- tests/ontology/test_families_equivalence.py
+DEFAULT_FAMILIES = "indexed"
 
 DEFAULTS: dict[str, object] = {
     "runs": 100,
@@ -883,11 +888,66 @@ def is_variant(a: np.ndarray, b: np.ndarray) -> bool:
     return bits.count(a & ~b) <= allowed and bits.count(b & ~a) <= allowed
 
 
+def _variant_shortlist(
+    candidates: "Sequence[int]",
+    of: "Callable[[int], np.ndarray]",
+    sizes: dict[int, int],
+) -> dict[int, list[int]]:
+    r"""Every grouping that could possibly be a variant of each candidate.
+
+    A SUPERSET, never a filter on the rule: :func:`is_variant` still decides. The point is to stop
+    comparing pairs that cannot qualify, which the size window alone does not achieve -- two
+    groupings of equal size may share nothing at all.
+
+    The bound is the prefix filter from set-similarity joins, and it is exact. If ``|A \ B|`` is at
+    most ``k``, then among ANY ``k + 1`` members of ``A`` at least one must lie in ``B``, since
+    ``k + 1`` members all outside ``B`` would already exceed the allowance. The allowance is
+    ``max(TWIN_FLOOR, TWIN_FRACTION x |A n B|)`` and the intersection cannot exceed ``|A|``, so
+    ``k = max(TWIN_FLOOR, int(TWIN_FRACTION x |A|))`` bounds it from above. Taking the ``k + 1``
+    RAREST members makes the candidate list small; taking any other ``k + 1`` would be equally
+    correct and slower.
+
+    Args:
+        candidates: Grouping indices being organised.
+        of: Member bitset for a grouping.
+        sizes: Member count per candidate.
+
+    Returns:
+        Candidate to the groupings it must be compared against, each list in ascending grouping
+        order so the result does not depend on set iteration.
+    """
+    members = {g: bits.unpack(of(g)) for g in candidates}
+    frequency: dict[int, int] = {}
+    for held in members.values():
+        for pathway in held:
+            frequency[pathway] = frequency.get(pathway, 0) + 1
+
+    holders: dict[int, list[int]] = {}
+    prefixes: dict[int, list[int]] = {}
+    for g in candidates:
+        # Rarest first, ties by pathway index so the prefix is deterministic.
+        ordered = sorted(members[g], key=lambda pathway: (frequency[pathway], pathway))
+        keep = max(TWIN_FLOOR, int(TWIN_FRACTION * sizes[g])) + 1
+        prefixes[g] = ordered[:keep]
+        for pathway in ordered:
+            holders.setdefault(pathway, []).append(g)
+
+    out: dict[int, list[int]] = {}
+    for g in candidates:
+        near: set[int] = set()
+        for pathway in prefixes[g]:
+            near.update(holders[pathway])
+        near.discard(g)
+        out[g] = sorted(near)
+    return out
+
+
 def families(
     candidates: Sequence[int],
     member_bits: dict[int, np.ndarray] | None,
     pool: Pool,
     timing: Timing | None = None,
+    settings: dict[str, object] | None = None,
 ) -> list[tuple[int, list[int]]]:
     """Group groupings into variant families by seed absorption, without chaining.
 
@@ -906,10 +966,17 @@ def families(
         member_bits: Bitset per candidate, or None to use the raw grouping bitsets.
         pool: The scored pool, for support and the raw bitsets.
         timing: Collector for stage durations.
+        settings: Parameters; ``families`` selects the implementation. Both must agree exactly,
+            and ``"pairwise"`` is kept callable as the reference the indexed path is proved
+            against.
 
     Returns:
         ``(seed, family including the seed)``, in rank order.
+
+    Raises:
+        ValueError: If ``families`` is neither ``"indexed"`` nor ``"pairwise"``.
     """
+    mode = str(settings.get("families", DEFAULT_FAMILIES)) if settings else DEFAULT_FAMILIES
     clock = timing if timing is not None else Timing()
     start = time.perf_counter()
     of = (lambda g: member_bits[g]) if member_bits is not None else (lambda g: pool.groupings[g])
@@ -918,6 +985,11 @@ def families(
     ranked = sorted(candidates, key=lambda g: (-support[g], -sizes[g], bits.key(of(g))))
     by_size = sorted(candidates, key=lambda g: sizes[g])
     order_of = {g: i for i, g in enumerate(by_size)}
+
+    shortlist = _variant_shortlist(candidates, of, sizes) if mode == "indexed" else None
+    if mode not in ("indexed", "pairwise"):
+        raise ValueError(f"families must be 'indexed' or 'pairwise', not {mode!r}")
+
     claimed: set[int] = set()
     out: list[tuple[int, list[int]]] = []
     for seed in ranked:
@@ -930,19 +1002,34 @@ def families(
         # sizes cannot differ by more than twice it. Walking only that window is what keeps this
         # off the 800 million pairs a 40,000-grouping pool would otherwise need.
         slack = max(TWIN_FLOOR, int(TWIN_FRACTION * seed_size)) * 2
-        family = [seed]
         index = order_of[seed]
-        for step in (-1, 1):
-            at = index + step
-            while 0 <= at < len(by_size):
-                other = by_size[at]
-                if abs(sizes[other] - seed_size) > slack:
-                    break
-                if other not in claimed and is_variant(seed_bits, of(other)):
-                    claimed.add(other)
-                    family.append(other)
-                at += step
-        out.append((seed, family))
+        taken: list[int] = []
+        if shortlist is None:
+            for step in (-1, 1):
+                at = index + step
+                while 0 <= at < len(by_size):
+                    other = by_size[at]
+                    if abs(sizes[other] - seed_size) > slack:
+                        break
+                    if other not in claimed and is_variant(seed_bits, of(other)):
+                        claimed.add(other)
+                        taken.append(other)
+                    at += step
+            out.append((seed, [seed, *taken]))
+            continue
+        # Same set, reached without touching the rest of the window: only groupings holding one
+        # of the seed's rarest members can differ from it by few enough elements to qualify.
+        for other in shortlist.get(seed, ()):  # already size-filtered and deterministically ordered
+            if other in claimed or abs(sizes[other] - seed_size) > slack:
+                continue
+            if is_variant(seed_bits, of(other)):
+                claimed.add(other)
+                taken.append(other)
+        # The pairwise walk emits the window outward from the seed: smaller side first, descending,
+        # then the larger side ascending. Reproduced so family LISTS match, not merely family sets.
+        below = sorted((g for g in taken if order_of[g] < index), key=order_of.get, reverse=True)
+        above = sorted((g for g in taken if order_of[g] > index), key=order_of.get)
+        out.append((seed, [seed, *below, *above]))
     clock.record("families (seed absorption)", time.perf_counter() - start)
     return out
 
