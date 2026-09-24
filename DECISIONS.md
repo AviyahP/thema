@@ -2238,3 +2238,152 @@ Recorded rather than quietly fixed.
 | **`pkill` did not stop the workers** — four survived two `pkill` invocations and kept running after a replacement was launched | six concurrent workers while reporting two, on a machine already being watched for memory pressure. Fixed by killing explicitly by PID and verifying; `pkill` is not to be trusted for this job |
 | **`restamp()` rewrote every row's status unconditionally** | the next promotion would have silently demoted the 13 `v4-alt` rows and the 44 `out_of_universe` rows, taking `read()` from 10,770 back to 10,757 with nothing recording the loss |
 | **`provenance_of()` keyed off `text_availability` alone** | 48 rows asserting `description+name+genes` while `genes_shown = 0` — a provenance field claiming an input the prompt never carried |
+
+## 2026-09-24 — Recurrence is the only gate; the route there, in full
+
+**The decision is the design from two days ago with two mechanical defects fixed.** Everything
+between is recorded below as the route by which that was established, not as progress. Attribution
+is given because most of the withdrawn reasoning is the reviewer's, and a record that quietly
+loses track of who proposed what is not a record.
+
+### Chronology
+
+**1. Original state.** Recurrence gated every band. The 3–4 band sat at ~14% false rate, flat
+across recurrence thresholds — "285 real / 286 scrambled" — read as *recurrence carries no
+information at this size*. A tightness test at the null's 95th percentile was bolted onto 3–4 only.
+
+**2. Pre-registered fix.** The percentile was replaced by c\* solved from FDR ≤ 0.02, "smallest
+qualifying c", 20 calibration scrambles, 10 held out. **Result: FAIL** — held-out 0.0264 and 0.0220
+at sizes 3 and 4. Band dropped under the declared branch.
+
+**3. The distributions were disjoint.** Null max 0.137 against real min 0.218 at size 3. The
+failure was **procedural**: "smallest c" lands on the boundary by construction and spends all the
+margin. *Claude attributed this to the search grid; the reviewer said the grid was inert and the
+rule was the defect; Claude verified the reviewer was right* — 77 qualifying values, none above the
+null max, an unbounded grid picks the same c.
+
+**4. Withdrawn (reviewer):** a threshold at the null's **maximum**. A maximum is the least stable
+statistic in a sample, and this project had already rejected one null gate on that ground.
+
+**5. Found:** **98% of size 3–4 themes are subsets of a larger theme.** They are refinements inside
+accepted structure, not free-standing discoveries.
+
+**6. Found:** `allowed = floor(0.15 × size)` is **ZERO for sizes 3 to 6**. "Recurs" meant exact
+repetition at small sizes and 3 members of drift at size 20. So "285/286" showed only that
+**recurrence-under-exact-repetition** is uninformative — not that recurrence is.
+
+**7. Redesign (reviewer's, since withdrawn).** One statistic = support; size-conditioned empirical
+null; per-theme p-value; BH and BY at q = 0.02; cohesion demoted on the argument that Ward
+optimises tightness so cohesion is not independent evidence; Jaccard matching, theta declared 0.70,
+sensitivity 0.74 / 0.77 / 0.80 plus the floor rule.
+
+**8. The sweep killed it.**
+(a) Support **overlaps heavily at every size** — real and null both run 0.01 to the top.
+(b) **BY passes zero themes and BH passes 4,716 on ties**: with no threshold every family is a
+hypothesis, m ≈ 16,000, the correction needs p ≈ 1e-7, and an empirical p cannot go below
+1/(N+1) ≈ 1e-3.
+(c) **theta 0.77 and 0.80 are identical** because Jaccard is discrete at small sizes.
+
+*Two reviewer errors, recorded as such:* demoting cohesion **conflated "the algorithm selects for
+X" with "X carries no information"** — the level achieved still discriminates, and the data showed
+it; and the per-theme design **multiplied the hypothesis count by ~14 while leaving p-value
+resolution fixed.**
+
+**9. Found:** cohesion separates real from scrambled at **every** size, 3 to 200+, once the 30+ bin
+is split (30–49, 50–99, 100–199, 200+ all disjoint). **Zero** real themes of 30+ are at risk; the 13
+that looked exposed were candidate families of 443–1,045 members.
+
+**10. Found:** a cohesion-only gate **does not select** — 15,783 of 15,783 candidate families pass
+at held-out FDR 0.0106. Cohesion distinguishes clusters-from-real-data from
+clusters-from-scrambled-data, which is true of every real family; it does not rank real candidates
+against each other.
+
+**11. Confirmed:** support at the old band thresholds reproduces **275 / 446 / 75 = 796 exactly**.
+The earlier recurrence results stand.
+
+**12. Considered and rejected:** two gates — cohesion for error control, recurrence as a declared
+"granularity" parameter. A declared `m` with no anchor is a hand-chosen parameter. And **a cohesion
+gate, applied to the null as it must be, removes every null candidate**, so recurrence has nothing
+left to be solved from. Cohesion as a gate does not merely fail to select; **it destroys the other
+gate's anchor.**
+
+### What was learned
+
+- **Recurrence and cohesion answer different questions.** Recurrence: is this grouping *stable*?
+  Cohesion: is this grouping *distinguishable from chance*? Only the first selects.
+- **A gate that passes every real candidate is not a gate.** Cohesion is descriptive.
+- **Per-theme inference is the wrong instrument here:** the p-value floor is set by the number of
+  null draws and cannot reach the correction needed for ~16,000 hypotheses at any feasible compute.
+  **Build-level count FDR has no such floor.**
+- **The two real defects were mechanical** — a match rule that rounded to zero for small sizes, and
+  a threshold rule that sat on the boundary. **Neither was a reason to change the statistic.**
+- **"Uniform" means one RULE at every size, with values solved per stratum from a size-matched
+  null.** It does not mean one value. Stratification is correct; a different criterion per band is
+  what was wrong.
+
+### Decision
+
+**RECURRENCE IS THE ONLY GATE.**
+
+- **Statistic:** support, with **Jaccard matching at theta = 0.70**, declared, applied identically
+  to real and scrambled data. theta is **not** chosen by its effect on 3–4; 0.74 and 0.77 are
+  reported as sensitivity only.
+- **Null:** the scramble through the identical pipeline, size-stratified, **intact** — no cohesion
+  filter on either side.
+- **Threshold:** `m(size)` solved on calibration scrambles at count-based **FDR ≤ 0.01** (half the
+  0.02 ceiling, so there is margin), evaluated **ONCE** on held-out scrambles against **0.02 per
+  stratum** and **0.01 overall**. **Never the smallest qualifying value without margin again.**
+- **Scrambles:** 20 calibration, 10 held-out, for the confirmatory run.
+- **Failure branches, declared now:** a stratum whose held-out rate exceeds 0.02 is **dropped**; the
+  overall build must be ≤ 0.01 or **it is not frozen**. **No re-solving after held-out.**
+
+**COHESION IS NOT A GATE.** It is reported per theme as a descriptive number. The spec carries one
+sentence: *at every size, no scrambled candidate reaches the tightness of any real one.*
+
+**THE 3–4 BAND** lives or dies on recurrence against the null under Jaccard matching, by the same
+rule as every other stratum. **Nothing rescues it if it fails.**
+
+### Amended the same day — the sensitivity arms are dropped
+
+The confirmatory run was launched with three arms (theta 0.70 / 0.74 / 0.80) and killed at ~15
+minutes. The clause above says 0.74 and 0.77 "are reported as sensitivity only"; that is withdrawn.
+
+theta is a **declared** parameter. Reporting the result at three values invites reading the three and
+preferring one, which is the exact move that was refused when 0.74 was proposed as "the permissive
+end of the equivalence range". Sensitivity arms are only meaningful for a parameter that was
+*estimated*; for a declared one they are an invitation to re-choose after seeing the outcome.
+
+It is also 3x cheaper — ~8.5 CPU hours against ~26 — but that is not why. If the arms were the right
+instrument the cost would be worth paying.
+
+## 2026-09-24 — Cluster naming: bottom-up, then a top-down disambiguation pass
+
+**Decision.** A theme is named from its members and, for an internal node, from its already-named
+children — so naming runs **bottom-up**, level by level. A second **top-down** pass then revises any
+name that is ambiguous against its parents and siblings.
+
+**Why not top-down.** Naming a parent before its children means naming it from a member list it only
+partly explains, and the children then have to be named around whatever the parent claimed. Naming
+upward means every internal node is named from names, which is the same summarisation problem one
+level up rather than a different one.
+
+**Why the second pass is separate.** Sibling distinctness is not knowable during the bottom-up pass:
+a node's siblings under a *different* parent may not be named yet. Folding distinctness into the
+first pass would make the result depend on traversal order. The disambiguation pass sees the whole
+named DAG and is ordered by longest path from a root, so a multi-parent node waits for all of its
+parents.
+
+**Cache keys are content keys, not node ids.** `theme_key(members, child_names)` and
+`disambiguation_key(name, parents, siblings)`. Keying on the node id would return a stale name after
+a rebuild moved members, silently — the failure would look like a naming error rather than a cache
+error.
+
+**Declared limits, not learned ones:** 1–6 words; no source name; no bare category word; no leading
+article. A name that cannot meet them is returned as **unnameable with a reason** rather than forced
+— an honest gap is worth more than a name the members do not support.
+
+**Structured output returns the whole object only when the keyed field is not a string.** Both
+formats therefore key on a boolean (`nameable`, `revise`). This is a property of `extract_text`, and
+getting it wrong costs money silently: the first smoke attempt ran 200 calls that all failed to
+parse, for roughly $2 and no output, because one of the two clients was built without
+`response_key`.
