@@ -43,7 +43,9 @@ data/ontology/*
 !data/ontology/v*/*/*.json
 # ...except the regenerable matrices, which stay out at ~5.7 MB each.
 data/ontology/v*/*.npy
-data/ontology/v*/embedding_keys.txt
+# Key lists are as derived as the vectors they index, including the dated copies kept
+# beside a superseded build. v*/universe.json is the committed record of what changed.
+data/ontology/v*/embedding_keys*.txt
 !data/ontology/clusters_ward.tsv
 !data/ontology/clusters_average.tsv
 !data/ontology/clusters_complete.tsv

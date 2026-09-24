@@ -257,3 +257,52 @@ comparison is not like for like" remains a live possibility rather than a findin
 Candidate direction, none chosen: condition the null on the parent, so a size-3 theme is tested
 against scrambled triples *drawn from within a theme of comparable size* rather than from the whole
 universe.
+
+## Analysis paths bypass the pipeline's own filters
+
+*Logged 2026-09-24. **A class of error, recorded because it has now happened twice with the same
+cause.** Proposal in this entry; not yet implemented.*
+
+**The incidents.** The universe rule excludes 47 zero-gene pathways, 4 of which are in the
+1,854-pathway subset. The 31-side tightness calibration ran on embeddings containing all 4. That
+was noticed, written up as a caveat — and then **the very next script, the theta sweep, repeated
+it exactly.** Noticing an instance does not prevent the next one.
+
+**The cause is structural, not attentional.** `partition_universe()` takes a `PathwayCollection`,
+read from `data/pathways.tsv`. Every analysis script instead enters through:
+
+```python
+keys = (V / "embedding_keys.txt").read_text().split("\n")
+x = np.load(V / "embeddings.npy")
+```
+
+There is no `PathwayCollection` anywhere on that path, so **the filter is not merely unused, it is
+unreachable**. The pipeline gained a rule that its own analysis code has no way to obey. Anything
+written this way will silently use a superseded universe, and the defect is invisible because the
+arrays are the right shape and the code runs cleanly.
+
+**The general form:** *a rule enforced at one entry point, while a second entry point exists that
+does not pass through it.* Others of this class to watch for — `descriptions.read()` versus reading
+the TSV directly; `restamp()`'s status semantics versus a script writing `status` itself;
+`export.write`'s validation versus a script writing `members.tsv` by hand. Each is a place where
+the guarantee lives in a function rather than in the data.
+
+**Why policing the accessor is not enough.** Scratch and one-off analysis scripts live outside the
+repository and cannot be linted, tested, or code-reviewed. A convention they can ignore is not a
+guarantee. **The durable fix is to make the ARTIFACT correct**, so that a script which bypasses the
+loader still reads the right thing:
+
+1. **Fix the data.** `embeddings.npy` and `embedding_keys.txt` under a version directory should
+   contain the universe and nothing else. Dropping 4 rows needs no re-embedding.
+2. **Add a verifying loader** (proposed: `src/thema/ontology/universe.py`) that reads those files,
+   recomputes the universe from `pathways.tsv`, and **raises** if they disagree — so later drift is
+   caught rather than absorbed.
+3. **Add a repo test** that fails if any committed file loads an embeddings path outside that
+   loader.
+4. Record the universe digest in every build manifest, so an artifact can be checked against the
+   universe it claims.
+
+Step 1 is what closes the scratch-script hole; steps 2-4 stop it reopening. **Every artifact
+currently under `data/ontology/` was built before the rule and contains the 4** — enumerated in
+`docs/status/OPEN.md` so none is quoted by accident. `v0.1` is exempt: it is the frozen v3-era
+reference and its contents are history, not a current claim.
