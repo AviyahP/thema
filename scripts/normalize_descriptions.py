@@ -1101,9 +1101,20 @@ def write_descriptions(
     """
     rows: list[tuple[str, ...]] = []
     completions: list[Completion] = []
+    rejected: list[tuple[str, str]] = []
     for pathway in collection:
         completion = ledger.get(pathway.key)
         if completion is None:
+            continue
+        # THE GATE. The validator's rules were always there and always fired; nothing acted on
+        # them, so 205 descriptions carrying markup, a stray closing tag or a whole appended web
+        # page were written, embedded and clustered (docs/debt.md, DECISIONS.md 24 Sep 2026).
+        # Reporting a rejection is not enough: a row the validator rejects does not enter the
+        # table. It stays in the ledger, so nothing that was paid for is lost and `--keys` can
+        # regenerate it.
+        verdict = validate(completion.text, display_name(pathway))
+        if verdict.residue:
+            rejected.append((pathway.key, ", ".join(f.kind for f in verdict.residue)))
             continue
         completions.append(completion)
         rows.append(
@@ -1122,6 +1133,14 @@ def write_descriptions(
                 descriptions_table.STATUS_SUPERSEDED,
             )
         )
+    if rejected:
+        print(f"\nREFUSED {len(rejected)} row(s) the validator rejects; they are NOT in the table.")
+        for key, kinds in rejected[:20]:
+            print(f"  {key}: {kinds}")
+        if len(rejected) > 20:
+            print(f"  ... and {len(rejected) - 20} more")
+        print("Their completions are still in the ledger. Regenerate with --keys.")
+
     table = out / DESCRIPTIONS_TABLE
     # Merge, never replace: rows this run did not produce belong to another generation and are the
     # record of what that prompt wrote. Then restamp, because merging leaves every other

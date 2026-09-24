@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 
+import normalize_descriptions as nd
 from normalize_descriptions import (
     SMOKE_FLOOR,
     SMOKE_FRACTION,
@@ -10,6 +11,7 @@ from normalize_descriptions import (
     smoke_strata,
 )
 from test_hierarchy import OBO, RELATION
+from thema.data import descriptions as descriptions_table
 from thema.data.formats import parse_obo_terms
 from thema.data.hierarchy import reactome_roots, read_reactome_relation
 from thema.data.pathways import (
@@ -20,7 +22,7 @@ from thema.data.pathways import (
 )
 from thema.data.tables import write_tsv
 from thema.llm import Completion, Ledger
-from thema.normalize import PROMPT_VERSION, genes_for_prompt
+from thema.normalize import PROMPT_VERSION, genes_for_prompt, validate
 
 
 def _pathway(
@@ -573,3 +575,59 @@ def test_keys_merges_into_the_table_and_replaces_no_other_generation(tmp_path, m
     )
     assert by_key["go:GO:OLD"]["description_generated"] == "older text"
     assert set(keys) <= set(by_key), "the named pathways must reach the table"
+
+# ------------------------------------------------- the gate (DECISIONS.md, 24 Sep 2026)
+
+
+def _completion(key, text):
+    """A completion as the ledger hands one back."""
+    return Completion(
+        key=key, model="claude-opus-5", prompt_version=PROMPT_VERSION, text=text,
+        input_tokens=10, output_tokens=10, cache_read_tokens=0, cache_creation_tokens=0,
+        stop_reason="end_turn", request_id=None, batch_id=None,
+    )
+
+
+CLEAN = (
+    "Ribosome production begins with transcription of the ribosomal DNA repeats and proceeds "
+    "through cleavage and modification of the pre-ribosomal RNA before export. "
+) * 3
+
+
+def test_a_row_the_validator_rejects_never_reaches_the_table(tmp_path, monkeypatch, capsys):
+    """The rules always fired and nothing acted on them; 205 bad descriptions got written.
+
+    The fix is the GATE, not a new rule. A completion carrying residue must stay in the ledger --
+    so nothing paid for is lost and ``--keys`` can regenerate it -- and must not enter the table.
+    """
+    dirty = CLEAN.strip() + "</description>Buy the new phone today."
+    assert not validate(CLEAN, "x").residue, "the clean fixture must itself pass"
+    assert validate(dirty, "x").residue, "the dirty fixture must be rejected"
+
+    first = _pathway("reactome", "R-HSA-900", "Clean one")
+    second = _pathway("reactome", "R-HSA-901", "Dirty one")
+    collection = PathwayCollection((first, second))
+
+    ledger = Ledger(path=tmp_path / "ledger.jsonl")
+    ledger.append(_completion(first.key, CLEAN.strip()))
+    ledger.append(_completion(second.key, dirty))
+
+    captured: dict[str, list] = {}
+
+    def fake_merge(table, columns, rows, key):
+        captured["rows"] = list(rows)
+        return len(captured["rows"])
+
+    monkeypatch.setattr(nd, "merge_tsv", fake_merge)
+    monkeypatch.setattr(nd.descriptions_table, "restamp",
+                        lambda *a, **k: descriptions_table.Promotion(0, 0, 0, {}))
+    # The summary reads the merged table, which the fake merge never wrote; it is not under test.
+    monkeypatch.setattr(nd, "build_summary", lambda *a, **k: [])
+
+    nd.write_descriptions(collection, [first, second], ledger, tmp_path,
+                          "claude-opus-5", [], "full", {})
+
+    assert [r[0] for r in captured["rows"]] == [first.key], "the rejected row must not be written"
+    out = capsys.readouterr().out
+    assert "REFUSED 1 row" in out and second.key in out
+    assert ledger.get(second.key) is not None, "the completion stays in the ledger"
