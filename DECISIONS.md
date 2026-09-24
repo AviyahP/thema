@@ -2166,3 +2166,75 @@ criterion from the one used above 5 members.
 Any small set of mutual nearest neighbours recurs across resampling whether or not it means
 anything: at this size stability is a property of the metric space, not of the biology. Every theme
 in the band is admitted by geometry alone, and any claim about the band must carry that sentence.
+
+## 2026-09-24 — Threshold structure replaced by an empirical null test
+
+**Full statement in `docs/spec/amendment-2026-09-24.md`. Runs behind it in
+`docs/status/2026-09-24-runs-performed.md`. `addendum-2026-09-21.md` is NOT rewritten — it records
+the rule that was pre-registered and what it produced, and that history is the point.**
+
+**Decided:** one statistic (support) for every theme, no size bands in the criteria, cohesion
+demoted from gate to reported descriptor, selection by **empirical null p-value** conditioned on
+size with **one** correction across the build at **q = 0.02**, reporting **BH and BY with their
+actual cost**. Matching becomes **Jaccard ≥ theta**, applied identically at every size, with
+**theta = 0.70 declared as the primary** and a sensitivity sweep at 0.74, 0.77, 0.80 plus the
+current `floor` rule as reference.
+
+### The reasoning chain, including the steps that were discarded
+
+1. The tightness cut began as **the null's 95th percentile** — a constant that admits 5% of the
+   null **by construction**, pinning the 3–4 band near FDR 0.141 for reasons nobody derived.
+2. It was replaced by **c\*(s) solved from a declared FDR ≤ 0.02**, calibrated on 20 scrambles.
+   That failed held-out: 0.0264 at size 3, 0.0220 at size 4.
+3. **The failure was procedural, not evidential.** The real and scrambled cohesion distributions
+   are **disjoint** — scrambled max 0.1370 against real min 0.2179 at size 3. At any threshold
+   between them, all real themes are kept and the false rate is 0.0000 held out.
+4. The defect is the **"smallest c"** rule, which takes the worst acceptable point on a plateau
+   where real survival is flat at 100%, spending the entire margin for no gain. **Verified:** 77
+   null values qualify at size 3, none above the null maximum, so an unbounded grid picks the same
+   value. *(An earlier diagnosis blamed the search grid. That was wrong and is recorded as wrong.)*
+5. A rule based on the **null's MAXIMUM** was proposed and **withdrawn**: a maximum is the least
+   stable statistic in a sample, grows with the number of draws, and **this project had already
+   rejected one null gate for exactly that reason** (`3 × null_max` gave m = 0.742 from 35 tiny
+   groupings). It is not to be reintroduced.
+6. The replacement is a **per-theme empirical null p-value with a single correction**, because it
+   **removes every chosen parameter** — four band boundaries, four thresholds, and the cohesion
+   gate — leaving only `q`, declared weeks earlier.
+7. **Cohesion is demoted from gate to descriptor** because **Ward's objective function is
+   within-cluster tightness**: recurrence and cohesion are not independent evidence, and gating on
+   both double-counts one signal.
+8. `allowed = floor(0.15 × size)` is **zero for sizes 3–6**, so "recurs" meant *exact repetition*
+   at small sizes and 15% drift at large ones. The earlier finding **"285 real / 286 scrambled"
+   therefore showed only that recurrence-under-exact-repetition is uninformative at this size — not
+   that recurrence is.**
+
+### theta is declared, not derived
+
+The Jaccard equivalent to `tol = 0.15` is **a range** (0.7391–0.8095 over sizes 15–30) because
+`floor()` is discontinuous, and **a range cannot determine a parameter**. Choosing 0.74 — the
+permissive end — *because* it admits the size-3 case would be selecting the value that produces the
+desired outcome and calling it a derivation. Proposed in conversation, **refused on those grounds**.
+
+**theta = 0.70 is primary**, justified as a round, interpretable value clear of every size-3
+boundary case so no conclusion turns on a tie, and **explicitly not justified by equivalence**.
+**Known dependency: the size-3 result is conditional on theta ≤ 0.75.** If a different theta is
+adopted after the sensitivity table is seen, **that is a post-hoc choice and must be recorded as
+one.**
+
+### Small themes are refinements, not discoveries
+
+**98% of size 3–4 themes sit inside a larger theme** (176/179 at size 3, 132/134 at size 4, against
+86% at size 10+). A small theme is therefore not a free-standing discovery but **a claim of finer
+structure inside an already-accepted node**, which is part of why such themes clear a
+whole-universe null so easily. Recorded; not acted on. See `docs/debt.md`.
+
+### Errors found in this line of work
+
+Recorded rather than quietly fixed.
+
+| error | what it would have caused |
+|---|---|
+| the 31-side calibration ran on **21 Sep embeddings**, still containing 4 pathways the universe rule excludes | a threshold calibrated on a superseded universe, presented as current. Caught after the run; the margin is far larger than 4 pathways, so the conclusion stands, but the numbers are provisional |
+| **`pkill` did not stop the workers** — four survived two `pkill` invocations and kept running after a replacement was launched | six concurrent workers while reporting two, on a machine already being watched for memory pressure. Fixed by killing explicitly by PID and verifying; `pkill` is not to be trusted for this job |
+| **`restamp()` rewrote every row's status unconditionally** | the next promotion would have silently demoted the 13 `v4-alt` rows and the 44 `out_of_universe` rows, taking `read()` from 10,770 back to 10,757 with nothing recording the loss |
+| **`provenance_of()` keyed off `text_availability` alone** | 48 rows asserting `description+name+genes` while `genes_shown = 0` — a provenance field claiming an input the prompt never carried |

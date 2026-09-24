@@ -217,3 +217,43 @@ disease-name pattern, which is probably what the 238 referred to.)*
 **Nothing is proposed yet.** Candidate directions, none chosen: stratify every cross-source metric
 by set size; set a minimum size for enrichment reporting while keeping the sets in the ontology;
 treat one-gene disease entries as a separate class.
+
+## Support is granular, so BH/BY will lose power
+
+*Logged 2026-09-24. **Open, no action now.***
+
+Support is `runs found / runs eligible` over **100 runs**, so it takes **at most 101 distinct
+values**. Under the empirical null test (`docs/spec/amendment-2026-09-24.md`) p-values will
+therefore **tie heavily**, and both BH and BY lose power against tied p-values — many themes share
+a rank and are accepted or rejected together rather than individually.
+
+**The lever, if power becomes the binding constraint, is the run count.** 100 runs → 101 support
+levels; 500 runs → 501. Nothing else in the design changes. Cost scales linearly with runs and
+`prepare` is already the expensive stage (~400 s per side at 100 runs), so a 5× increase is a real
+decision and not a free one.
+
+Not acted on. Recorded so that, if the correction rejects more than expected, granularity is
+checked before the design is blamed.
+
+## Small themes are refinements inside accepted nodes, not free-standing discoveries
+
+*Logged 2026-09-24. **Open, no action now.***
+
+**98% of size 3–4 themes are subsets of a larger theme** — 176/179 at size 3 and 132/134 at size 4,
+against 86% at size 10+ (measured on the 1,201-theme build; see
+`docs/status/2026-09-24-runs-performed.md` §3).
+
+This means a small theme asserts **finer structure inside a node that has already been accepted**,
+not a new grouping in the universe. A null built over the whole universe is therefore answering a
+question the theme is not asking: it asks "could this triple arise by chance anywhere?", when the
+claim is "these three belong together *within this larger theme*". That is part of why small themes
+clear a whole-universe null so easily, and it is a reason the null may be **too lenient** for them
+rather than too strict.
+
+**The scrambled side of this comparison has not been measured** — scrambled member sets were not
+persisted, so whether scrambled small themes are *also* 98% nested is unknown. Until it is, "the
+comparison is not like for like" remains a live possibility rather than a finding.
+
+Candidate direction, none chosen: condition the null on the parent, so a size-3 theme is tested
+against scrambled triples *drawn from within a theme of comparable size* rather than from the whole
+universe.
