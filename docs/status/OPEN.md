@@ -11,6 +11,14 @@ Last updated: 2026-09-24
 
 Nothing.
 
+## CURRENT BUILD — `recurrent_dag_consensus`
+
+**808 themes, 998 edges, 16 roots, 24% multi-parent, depth 17 (median 4), 0 unplaced.** MedCPT
+vectors, the locked selection rule, plus the greedy-consensus pass
+(`docs/spec/amendment-2026-09-25.md`, STRAY 0.10 / JACCARD 0.70). Held-out FDR **0.0037**, every
+stratum under 0.02. `recurrent_dag_confirmatory` (844 themes, 39 roots) is kept as the
+pre-consensus baseline.
+
 ## RESOLVED — the encoder is replaced
 
 `BioLORD-2023` read only the first **128** tokens; the median description is **231**, so all 1,850
