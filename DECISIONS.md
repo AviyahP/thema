@@ -2489,3 +2489,40 @@ digest covers KEYS only and could not see either the description repair or the e
 per-size floor solved at FDR <= 0.01, Jaccard theta = 0.70, 20 calibration and 10 held-out
 scrambles, single-size strata at 3-6, cohesion descriptive and never a gate. E is re-run under the
 identical rule with nothing re-solved.
+
+## 2026-09-24 — Member cutoff reverted to 0.25; the 22 Sep move to 0.5 is withdrawn
+
+**The 22 Sep entry above stands as the record of why 0.5 was tried. It is superseded here, and it
+is not rewritten.**
+
+**The decision: the membership cutoff is 0.25.** A member is kept when its inclusion — the share of
+the family's matched copies holding it — is at least 0.25.
+
+**Why, measured.** The 31-side calibration computed **both** cutoffs per side (`docs/status/
+2026-09-24-runs-performed.md`, which records `membership cutoffs 0.25 and 0.50 both computed per
+side`). At **0.50 the small strata failed the declared cap**: size 3 held-out **0.0260** and size 4
+held-out **0.0237**, both above the 0.02 ceiling. At **0.25 they passed.** The cutoff was not
+chosen on preference; the stricter value could not meet the error target the project had already
+declared, and a parameter that fails the declared target is not available whatever its other
+merits.
+
+**What 0.5 was bought for, and why it was not enough.** The 22 Sep reasoning was sound in its own
+terms — at 0.25 a pathway appearing in a quarter of the evidence becomes a full member, and
+majority membership is the complement of permissive two-sided matching. But it costs
+expressiveness, and the 22 Sep entry says so explicitly: a straddling pathway went from three nodes
+at 0.31/0.40/0.69 to one at 0.69. Soft membership is the method's stated reason for existing. The
+measurement then showed the trade also failed on the error target, so it loses on both sides.
+
+**The record was left inconsistent, and that is the actual defect here.** `DEFAULTS
+["inclusion_threshold"]` still reads 0.5; the calibration harness and every build since have used
+0.25; `docs/status/OPEN.md` listed the cutoff as an open question "blocking the freeze" when it had
+been settled. The reversion was made in the runs and never written down. **A decision that exists
+only in a script is not a decision**, and the gap is what made it possible to mistake the build for
+a bug against the spec. `DEFAULTS` is left at 0.5 deliberately for now: it is the library default
+for callers that pass nothing, and changing it is a separate change with its own test, not a line
+in a decisions file.
+
+**Consequence for `test_raising_the_member_cutoff_trades_soft_membership_for_tighter_nodes`:** it
+pins the *behaviour* — that raising the cutoff trades soft membership for tighter nodes — which
+remains true and remains worth pinning. It does not pin the project's chosen value, and is not
+withdrawn.

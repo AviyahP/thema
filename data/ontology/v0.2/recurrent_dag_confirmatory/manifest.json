@@ -1,0 +1,336 @@
+{
+ "calibration": "20 calibration + 10 held-out scrambles; overall held-out FDR 0.0036",
+ "declared_m": 0.33,
+ "descriptions_digest": "0c826d92c2d968fa",
+ "directory": "recurrent_dag_confirmatory",
+ "embedder": {
+  "id": "ncbi/MedCPT-Article-Encoder",
+  "input": "description text only, single segment",
+  "max_length": 512,
+  "pooling": "cls",
+  "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465"
+ },
+ "embeddings_sha256_16": "e15070710a36a0fa",
+ "excluded": [
+  {
+   "degradation": "Tolerance of reactive oxygen produced by macrophages",
+   "key": "reactome:R-HSA-1222387",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Tolerance by Mtb to nitric oxide produced by macrophages",
+   "key": "reactome:R-HSA-1222538",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Cell redox homeostasis",
+   "key": "reactome:R-HSA-1222541",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Synthesis of BMP",
+   "key": "reactome:R-HSA-1483171",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "PIPs transport between early and late endosome membranes",
+   "key": "reactome:R-HSA-1660502",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "PIPs transport between late endosome and Golgi membranes",
+   "key": "reactome:R-HSA-1660508",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "PIPs transport between Golgi and plasma membranes",
+   "key": "reactome:R-HSA-1660510",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "PIPs transport between plasma and early endosome membranes",
+   "key": "reactome:R-HSA-1660524",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "PIPs transport between early endosome and Golgi membranes",
+   "key": "reactome:R-HSA-1660537",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Fusion and Uncoating of the Influenza Virion",
+   "key": "reactome:R-HSA-168270",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Fusion of the Influenza Virion to the Host Cell Endosome",
+   "key": "reactome:R-HSA-168288",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Release",
+   "key": "reactome:R-HSA-168298",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Budding",
+   "key": "reactome:R-HSA-168302",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Packaging of Eight RNA Segments",
+   "key": "reactome:R-HSA-168303",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Inhibition of Interferon Synthesis",
+   "key": "reactome:R-HSA-168305",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Uncoating of the Influenza Virion",
+   "key": "reactome:R-HSA-168336",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Transport of HA trimer, NA tetramer and M2 tetramer from the endoplasmic reticulum to the Golgi Apparatus",
+   "key": "reactome:R-HSA-168874",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Inhibition of IFN-beta",
+   "key": "reactome:R-HSA-168888",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "IPs transport between ER lumen and nucleus",
+   "key": "reactome:R-HSA-1855156",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "IPs transport between cytosol and ER lumen",
+   "key": "reactome:R-HSA-1855184",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "IPs transport between nucleus and ER lumen",
+   "key": "reactome:R-HSA-1855192",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "IPs transport between ER lumen and cytosol",
+   "key": "reactome:R-HSA-1855215",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "cRNA Synthesis",
+   "key": "reactome:R-HSA-192869",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Formation of selenosugars for excretion",
+   "key": "reactome:R-HSA-2408499",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Escape of Mtb from the phagocyte",
+   "key": "reactome:R-HSA-9637679",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Phagocyte cell death caused by cytosolic Mtb",
+   "key": "reactome:R-HSA-9637698",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Iron assimilation using enterobactin",
+   "key": "reactome:R-HSA-9638334",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Action of antimicrobials and antimicrobial resistance",
+   "key": "reactome:R-HSA-9638737",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Action of antimicrobials",
+   "key": "reactome:R-HSA-9638771",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Antimicrobial action and antimicrobial resistance in Mtb",
+   "key": "reactome:R-HSA-9639775",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Virion Assembly and Release",
+   "key": "reactome:R-HSA-9679509",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Transcription of SARS-CoV-1 sgRNAs",
+   "key": "reactome:R-HSA-9682708",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Assembly of the SARS-CoV-1 Replication-Transcription Complex (RTC)",
+   "key": "reactome:R-HSA-9683439",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Maturation of protein M",
+   "key": "reactome:R-HSA-9683612",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Maturation of replicase proteins",
+   "key": "reactome:R-HSA-9684325",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Assembly of the SARS-CoV-2 Replication-Transcription Complex (RTC)",
+   "key": "reactome:R-HSA-9694271",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Virion Assembly and Release",
+   "key": "reactome:R-HSA-9694322",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Maturation of protein M",
+   "key": "reactome:R-HSA-9694594",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Transcription of SARS-CoV-2 sgRNAs",
+   "key": "reactome:R-HSA-9694786",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Translation of Accessory Proteins",
+   "key": "reactome:R-HSA-9727281",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Reversible DNA damage induced by alkylating chemotherapeutic drugs",
+   "key": "reactome:R-HSA-9729902",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Alkylating DNA damage induced by chemotherapeutic drugs",
+   "key": "reactome:R-HSA-9730737",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Drug-induced formation of DNA interstrand crosslinks",
+   "key": "reactome:R-HSA-9750126",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Secretion of toxins",
+   "key": "reactome:R-HSA-9760173",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Translation of respiratory syncytial virus mRNAs",
+   "key": "reactome:R-HSA-9828721",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Antimicrobial resistance",
+   "key": "reactome:R-HSA-9913143",
+   "reason": "reactome"
+  },
+  {
+   "degradation": "Developmental Lineage of Pancreatic Acinar Cells",
+   "key": "reactome:R-HSA-9925561",
+   "reason": "reactome"
+  }
+ ],
+ "floors": [
+  [
+   3,
+   3,
+   0.976744
+  ],
+  [
+   4,
+   4,
+   0.909091
+  ],
+  [
+   5,
+   5,
+   0.72
+  ],
+  [
+   6,
+   6,
+   0.608247
+  ],
+  [
+   7,
+   9,
+   0.45
+  ],
+  [
+   10,
+   14,
+   0.10101
+  ],
+  [
+   15,
+   29,
+   0.020202
+  ],
+  [
+   30,
+   49,
+   0.02
+  ],
+  [
+   50,
+   99,
+   0.02
+  ],
+  [
+   100,
+   199,
+   0.02
+  ],
+  [
+   200,
+   1000000000,
+   0.02
+  ]
+ ],
+ "inclusion_threshold": 0.25,
+ "method": "recurrent_dag",
+ "n_edges": 1317,
+ "n_embedded": 1850,
+ "n_excluded_no_genes": 47,
+ "n_near_members": null,
+ "n_nodes": 844,
+ "n_roots": 39,
+ "n_undescribed": 0,
+ "n_universe": 10770,
+ "n_unplaced": 0,
+ "params": {
+  "embedder_split": false,
+  "inclusion_threshold": 0.5,
+  "linkage": "ward",
+  "m": "per-size, see manifest.floors",
+  "min_shared": 3,
+  "min_size": 3,
+  "runs": 100,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "tol": 0.15
+ },
+ "rule": "amendment-2026-09-24c: recurrence only; max(declared 0.33, per-size floor)",
+ "theta": 0.7,
+ "truncated_text_baseline": false,
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.2"
+}
