@@ -135,7 +135,8 @@ and nothing further is proposed.
 - umbrella members dominating gene unions
 - small-set statistics, almost all Reactome
 - splitting `pathway_descriptions.tsv` at the third live generation
-- `recurrent_dag_single_banded/` — deliberately uncommitted, superseded by the rebuild
+- `recurrent_dag_single_banded/` — committed 25 Sep as a historical build; superseded, on the
+  1,854 pre-universe subset and on truncated BioLORD vectors. Do not quote it.
 
 ## ARTIFACTS BUILT ON THE SUPERSEDED UNIVERSE — DO NOT QUOTE
 

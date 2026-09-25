@@ -1,0 +1,42 @@
+{
+ "calibration_null_false_rate": 0.05,
+ "descriptions_sha256": "f4f69f355a2432e81e77f5e620c7baf8cef3a5ee1ed5b2a02eec15fa5a2540d2",
+ "directory": "recurrent_dag_single_banded",
+ "embedder": "FremyCompany/BioLORD-2023",
+ "embedder_revision": "main",
+ "fresh_null_false_rate": 0.0533,
+ "frozen": false,
+ "method": "recurrent_dag",
+ "n_edges": 1850,
+ "n_near_members": 1388,
+ "n_nodes": 1201,
+ "n_roots": 116,
+ "n_unplaced": 0,
+ "note": "CANDIDATE, single-merge banded pipeline. Not frozen.",
+ "params": {
+  "bands": {
+   "10-29": 0.2,
+   "3-4": 0.34,
+   "30+": 0.2,
+   "5-9": 0.2
+  },
+  "embedder_split": false,
+  "inclusion_threshold": 0.5,
+  "linkage": "ward",
+  "min_shared": 3,
+  "min_size": 3,
+  "order": "single-merge: complete, then families, then band thresholds",
+  "runs": 100,
+  "subsample": 0.8,
+  "tightness_bands": [
+   "3-4",
+   "5-9"
+  ],
+  "tightness_pctl": 95.0,
+  "tol": 0.15
+ },
+ "pathways_sha256": "ac6e32cba24c67518b76b4f6e1282594614adf5c16a41c20b06d9742f7dadb00",
+ "prompt_version": "v4",
+ "variant_pairs": 0,
+ "version": "0.2"
+}
