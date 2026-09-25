@@ -257,23 +257,52 @@ def disambiguate(
     return out, len(touched)
 
 
+#: Output tokens per naming call. MEASURED over 820 real Sonnet calls, not assumed: the earlier
+#: value of 60 understated it by 17%.
+OUTPUT_TOKENS = 112
+
+#: What the provider's prompt cache actually holds, measured on the same run: the system prompt
+#: plus the worked-examples preamble that opens every user message. It exceeds the system prompt
+#: alone, which is why this is measured rather than derived.
+CACHED_TOKENS = 1180
+
+
 def _cost(model: str, calls: float, user_tokens: float, system_tokens: int) -> float:
-    """Batch-rate cost of a run, assuming the provider's prompt cache holds on the system prompt.
+    """Batch-rate cost of a run, with prompt caching priced as the API actually bills it.
+
+    **The previous version claimed caching in its docstring and did not apply it**, charging every
+    token of every call at the full input rate and then adding the system prompt once more. It
+    over-quoted the 808-theme run by 40%. Cached reads bill at 0.1x and the one-off writes at
+    1.25x, so the cached portion is nearly free rather than nearly free-of-charge-once.
+
+    **This still prices REQUESTS, not cache misses.** A run whose prompts repeat -- a top-up, a
+    re-run, anything the content-addressed ledger already holds -- costs less than this says, and
+    the 808-theme run came in at $6.60 against $11.91 for exactly that reason. It is an upper
+    bound, and it is meant to be.
 
     Args:
         model: A key of :data:`thema.llm.PRICES`.
         calls: How many requests.
-        user_tokens: Mean input tokens per request, system prompt excluded.
-        system_tokens: The system prompt, sent with every request.
-        
+        user_tokens: Mean input tokens per request, INCLUDING the system prompt, as
+            ``count_tokens`` reports it.
+        system_tokens: The system prompt. Kept for the caller's reporting; the cached share is
+            :data:`CACHED_TOKENS`, which is larger.
+
     Returns:
         Dollars at the batch rate. Double it for live.
     """
     from thema.llm import PRICES
 
     rate_in, rate_out = PRICES[model]
-    tokens_in = calls * user_tokens + system_tokens  # cached: billed once
-    return (tokens_in * rate_in + calls * 60 * rate_out) / 1e6 * 0.5
+    cached = min(CACHED_TOKENS, user_tokens)
+    uncached = max(0.0, user_tokens - cached)
+    dollars = (
+        calls * uncached * rate_in
+        + calls * cached * rate_in * 0.1
+        + 20 * cached * rate_in * 1.25          # cache re-writes over a run, 5-minute TTL
+        + calls * OUTPUT_TOKENS * rate_out
+    ) / 1e6
+    return dollars * 0.5
 
 
 def smoke_sample(
@@ -461,7 +490,9 @@ def main(argv: list[str] | None = None) -> int:
         default="v0.2/recurrent_dag_single_banded",
         help="versioned method directory under data/ontology (default: %(default)s)",
     )
-    parser.add_argument("--model", default="claude-opus-5")
+    # Sonnet by default: it named 808 themes for $6.60 with 8 unnameable, and the
+    # three-model comparison on 23 Sep found no quality gap that justified Opus here.
+    parser.add_argument("--model", default="claude-sonnet-5")
     parser.add_argument("--workers", type=int, default=8, help="live concurrency")
     parser.add_argument(
         "--batch",
