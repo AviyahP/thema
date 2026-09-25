@@ -2526,3 +2526,77 @@ in a decisions file.
 pins the *behaviour* — that raising the cutoff trades soft membership for tighter nodes — which
 remains true and remains worth pinning. It does not pin the project's chosen value, and is not
 withdrawn.
+
+## 2026-09-25 — Greedy consensus before the DAG; the larger theme grows
+
+**Decision: a one-pass consensus step runs after the per-size gate and before `hasse`.** Full rules
+in `docs/spec/amendment-2026-09-25.md`, which amends §10.7/§10.8. `hasse` stays strict; `families()`
+is untouched.
+
+**Why.** The confirmatory export had 39 roots. Eleven were near-nested pairs broken by one member
+landing on opposite sides of the 0.25 cutoff in two different vote populations — `n0610` (302) and
+`n0431` (342) share 301 members, and `Signaling by MST1` scored 0.269 in one vote and 0.229 in the
+other. Nothing enforced compatibility between accepted clusters. This is the step every consensus
+method in phylogenetics has (**Bryant 2003**, "A classification of consensus methods for
+phylogenetics"; **Felsenstein 2004**, *Inferring Phylogenies* ch. 30), extended from exact
+compatibility to fuzzy voted clusters.
+
+**Two parameters, declared before the run: `STRAY = 0.10`, `JACCARD = 0.70`.** JACCARD is theta,
+reused rather than re-chosen so "the same set" means one thing across the method.
+
+**The first attempt failed and the failure is the reason for the final shape.** Rejecting the loser
+of each conflict took 39 roots to **108** and stranded **87 pathways**. Support is anti-correlated
+with size here — **Spearman −0.583, p = 4e-78**, median support 0.94 at sizes 3–5 against 0.49 at
+100+ — so seating by support let 12- and 9-member themes evict the 953- and 503-member umbrellas.
+Classical consensus assumes support is comparable across clusters; in THEMA it is confounded with
+size. **So the larger theme grows to absorb the sub-theme, and nothing is ever rejected for being
+big.** Rule 2 is additive, which is why coverage does not fall.
+
+**Withdrawn:** the `is_variant` allowance band as a consensus rule (it stays correct inside
+`families()`), and the minimum-overlap conflict test with its parameter `delta`.
+
+**One clause not in the brief, added deliberately:** identical member sets fall to rule 3 and one is
+superseded, rather than rule 1. Rule 1 is satisfied by equality, but two nodes with the same members
+get no edge from `hasse` and both remain roots — the defect this pass exists to remove.
+
+**Result.** Roots **39 → 16**, nodes 844 → 808, depth 12 → 17 with median 2 → 4, **0 pathways
+unplaced**, held-out FDR **0.0037** against E's 0.0036 with **no floor re-solved**. The sensitivity
+grid is flat (roots 15–19, FDR 0.0036–0.0039, unplaced 0 in all nine cells) and on the scrambled
+sides the pass does essentially nothing — 0.0 members inherited, 0.018 themes superseded per side.
+
+**Proved to the standard matching and families were held to:** 17 tests covering every rule, the tie
+order, a two-level propagation and a rule-3 tie, with `consensus_pairwise` kept callable as the
+reference and `vector ≡ pairwise` on the fixtures, 5 random pools and the real side.
+
+## 2026-09-25 — What "frozen" means, and what it does not
+
+Test 9 was given power over this word in advance: *"if the theme-set Jaccard is low, the word
+'frozen' is not used, because what would be frozen is a seed and not a finding."* It has now been
+run, and the answer is neither yes nor no, so the word is **narrowed rather than used or withheld**.
+
+**Measured** — the 1,850 rebuilt at master seed 1, everything else identical, best-match Jaccard
+over themes:
+
+| | pre-consensus | consensus |
+|---|---|---|
+| mean | 0.845 | **0.841** |
+| median | 0.881 | 0.875 |
+| matching >= 0.9 | 45.1% | **44.6%** |
+| matching >= 0.7 | 84.7% | **84.4%** |
+| matching >= 0.5 | 96.7% | **96.5%** |
+
+**"Frozen" applies to the theme set and its nesting.** 97% of themes reappear at Jaccard >= 0.5 and
+85% at >= 0.7 under a different subsample seed, at the declared theta. What the build asserts —
+that these groups of pathways exist, and that they nest this way — reproduces.
+
+**"Frozen" does NOT apply to exact member lists.** Only **45%** of themes match at >= 0.9, so a
+theme's precise boundary moves with the seed. A member list is not a frozen object and must never
+be quoted as one. **The uncertainty is already carried per member by `inclusion`**, which is what
+that field is for: a member at 0.31 is telling the reader it is a boundary case, and the seed
+sensitivity is the same fact measured a second way.
+
+**Consequence for anything written about a build.** A theme may be cited. Its nesting may be cited.
+A claim of the form "theme X contains exactly these N pathways" may not be made without the
+inclusions beside it. The consensus pass does not change this either way -- it is indistinguishable
+from the pre-consensus build on every stability statistic, which is the correct result for a pass
+that reconciles themes rather than finding them.

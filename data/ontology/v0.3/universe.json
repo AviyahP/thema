@@ -1,0 +1,19 @@
+{
+ "n_universe": 10770,
+ "n_embedded": 10770,
+ "universe_digest": "c54319cdfbbe9eb7",
+ "rule": "n_genes >= 1",
+ "embedder": {
+  "id": "ncbi/MedCPT-Article-Encoder",
+  "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+  "pooling": "cls",
+  "max_length": 512,
+  "input": "description text only, single segment"
+ },
+ "embeddings_sha256_16": "e75e97cec2af0501",
+ "descriptions_digest": "7fa24853293f536f",
+ "embed_seconds": 161.3,
+ "note": "the FULL universe. v0.2 is the 1,850-pathway subset.",
+ "dropped": [],
+ "superseded_artifacts": []
+}

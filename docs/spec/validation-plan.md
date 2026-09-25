@@ -7,6 +7,10 @@ must be recorded as an amendment with its date and reason, not silently revised.
 **Gate** = must pass before the ontology is called frozen. **Informational** = reported, argued
 about, never used to justify a freeze on its own.
 
+> **AMENDED 25 Sep 2026.** Tests 7 and 8 are withdrawn and the running order is fixed. The original
+> text of every section below is left exactly as written; the amendment is at the end of this file
+> and supersedes the table above where they differ. Nothing here is silently revised.
+
 | # | test | kind | build | runtime |
 |---|---|---|---|---|
 | 1 | scramble error rate | **gate** | either | ~20 min/scramble |
@@ -263,3 +267,88 @@ rank the flagship example in the bottom decile.
 **Genes are the right evidence used differently:** as the *independent axis* in tests 3 and 4
 (banding, so recovery is measured where gene methods are blind), and as the *within-theme* three-way
 comparison in test 8. Neither scores a theme on how much gene overlap it has.
+
+
+---
+
+# Amendment, 25 Sep 2026
+
+*Supersedes the table at the top and the marked sections. Their original text stands unrevised.*
+
+## Withdrawn
+
+### Test 7, wrong-description control — WITHDRAWN AS A GATE
+
+**Reason: the declared pass condition cannot occur, so the test cannot fail.**
+
+Test 7 shuffles the description-to-pathway assignment and requires that **"nothing survives"**. But
+the pipeline sees *only text*. It embeds descriptions, clusters the embeddings, and measures how
+often those clusters recur. Shuffling which pathway a description is attached to does not change
+the multiset of descriptions, so it does not change the embedding cloud, so it does not change the
+clustering — it changes only the *labels* on the points. A shuffled build therefore produces
+themes that are just as recurrent as the real one, carrying the wrong members.
+
+The pass condition was written as though the clustering could notice the mismatch. It cannot: there
+is nothing in the pipeline that ever compares a description to the pathway it belongs to. A test
+whose failure mode is unreachable measures nothing, and grading the build against it would produce
+a pass that means nothing.
+
+**What survives.** The shuffled build is kept as the **chance baseline for tests 3 and 4**, which is
+what it is actually good for: it says what `reactome2go` recovery and sibling recovery look like
+when the descriptions carry no true pathway identity, which is exactly the null those two gates
+need. **Not implemented as a test in its own right.**
+
+*What would actually test this* is a gate on the descriptions themselves — the `verify-v1` fact
+check already measures it at 13 wrong per 100 — not a gate on the ontology built from them. Noted,
+not scheduled.
+
+### Test 8, contested-member validation — WITHDRAWN
+
+**Reason: it grades soft membership by gene overlap, which this plan already rejects as a quality
+measure.** The section "Rejected: mean gene overlap within themes" at the end of the original plan
+rules out gene overlap as a measure of theme quality, on the ground that THEMA's premise is that
+themes are *not* driven by gene overlap — measured directly on 24 Sep at Spearman(n_sources,
+Jaccard) = **-0.272, p = 7e-22**, with the NF-kB showcase theme at 0.0076, **6.5x below median**.
+Test 8 applies that same rejected statistic to individual members and would inherit the same
+defect: a contested member of a genuinely non-overlapping theme would score as noise.
+
+**Consequence, stated plainly:** the membership cutoff of 0.25 over 0.50 now has **no test that
+adjudicates it**. The original section says test 8 "is the test that would justify membership cutoff
+0.25 over 0.50 -- nothing else currently adjudicates that choice." That remains true, and
+withdrawing test 8 leaves the choice resting on the measured error rates recorded in `DECISIONS.md`
+(25 Sep) rather than on a validation test. This is a real gap and it is recorded as one.
+
+## Kept, in this running order — on the 10,770
+
+| order | test | kind | note |
+|---|---|---|---|
+| 1 | **3** — `reactome2go` recovery, with the TF-IDF control | **gate — headline** | |
+| 2 | **4** — sibling recovery, GO and Reactome **separately** | **gate** | |
+| 3 | **9** — seed stability | informational | **decides whether the word "frozen" is used** |
+| 4 | **6** — blind human rating | **gate** | Aviyah's time |
+| 5 | **naming test 1** — sorting by name | **gate** | on the NAMED build, after naming |
+| 6 | **naming test 2** — DAG reconstruction from names | **gate** | disagreements are also a review list for the hierarchy |
+| 7 | **5** — the enrichment task | **gate** | once Aviyah approves the datasets |
+| — | **2** — shape vs GO / Reactome | informational | run alongside, throughout |
+
+Tests 1 (scramble error rate) is already discharged by the confirmatory calibration and its
+held-out FDR, reported per stratum and overall.
+
+**Naming tests 1 and 2 are promoted to gates here.** They were designed as quality checks on the
+namer; they are gates on the named build because a hierarchy whose names cannot be sorted back into
+it is not usable as an ontology whatever its member sets look like. Test 2's disagreements are kept
+as a review list for the hierarchy itself, not only for the names.
+
+
+## Test 9, run 25 Sep 2026 — and what it decided about the word "frozen"
+
+Run on the 1,850, master seed 0 against seed 1, everything else identical. Mean best-match Jaccard
+**0.841** (consensus) and 0.845 (pre-consensus); **97%** of themes match at >= 0.5, **85%** at
+>= 0.7, **45%** at >= 0.9; member agreement 0.841.
+
+The plan declared in advance that a low theme-set Jaccard would forbid the word "frozen". The
+result is neither clearly high nor clearly low, so **the word is narrowed**: it applies to the theme
+set and its nesting, which reproduce, and **not** to exact member lists, which do not. Per-member
+uncertainty is carried by `inclusion`. Recorded in full in `DECISIONS.md`, 25 Sep 2026.
+
+**The two builds are indistinguishable on this test**, so it does not adjudicate between them.
