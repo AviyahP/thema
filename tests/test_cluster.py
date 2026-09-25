@@ -10,6 +10,7 @@ from thema.cluster import (
     DEFAULT_CUTS,
     LINKAGES,
     condensed_bytes,
+    condensed_subset,
     cut,
     distances,
     size_distribution,
@@ -191,3 +192,45 @@ def test_the_stand_in_warning_leads_the_stamp_so_it_cannot_be_skimmed_past():
 
     assert stamp("plumbing", "abc123", 400, True).startswith("*** STAND-IN TEXT, NOT A RESULT ***")
     assert "STAND-IN" not in stamp("smoke", "abc123", 1844, False)
+
+
+# ------------------------------------- the shared distance matrix (25 Sep 2026)
+
+
+def test_a_gathered_subset_is_bit_identical_to_pdist_on_that_subset() -> None:
+    """Not `allclose`. BIT-identical, because a flipped Ward merge cascades through everything.
+
+    `pdist` was 93% of every resampled tree. Computing the full matrix once and gathering from it
+    is the same arithmetic -- a pairwise distance does not depend on which other points are
+    present -- but "should be the same" is what this project has been burned by, so it is asserted
+    exactly.
+    """
+    rng = np.random.default_rng(0)
+    for n, dim in ((40, 8), (200, 16), (501, 4)):
+        x = rng.normal(size=(n, dim))
+        x = x / np.linalg.norm(x, axis=1, keepdims=True)
+        full = distances(x)
+        for _ in range(5):
+            take = int(np.ceil(0.8 * n))
+            subset = np.sort(rng.choice(n, size=take, replace=False))
+            assert np.array_equal(condensed_subset(full, n, subset), distances(x[subset]))
+
+
+def test_gathering_a_pair_and_the_whole_set_are_the_same() -> None:
+    """The degenerate ends: two points, and every point."""
+    rng = np.random.default_rng(1)
+    x = rng.normal(size=(12, 3))
+    x = x / np.linalg.norm(x, axis=1, keepdims=True)
+    full = distances(x)
+    assert np.array_equal(condensed_subset(full, 12, np.arange(12)), full)
+    pair = np.array([3, 9])
+    assert np.array_equal(condensed_subset(full, 12, pair), distances(x[pair]))
+
+
+def test_an_unsorted_subset_is_refused_rather_than_silently_transposed() -> None:
+    rng = np.random.default_rng(2)
+    x = rng.normal(size=(10, 3))
+    x = x / np.linalg.norm(x, axis=1, keepdims=True)
+    full = distances(x)
+    with pytest.raises(ValueError, match="sorted"):
+        condensed_subset(full, 10, np.array([5, 2, 7]))

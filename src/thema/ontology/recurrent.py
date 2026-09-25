@@ -29,13 +29,14 @@ computes them once so several thresholds can be assembled from one pass.
 import hashlib
 import time
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
 import numpy as np
 from scipy import sparse
 from scipy.cluster.hierarchy import linkage
 
-from thema.cluster import distances
+from thema.cluster import condensed_subset, distances
 from thema.ontology import bitset as bits
 from thema.ontology.base import (
     Node,
@@ -52,6 +53,19 @@ DEFAULT_MATCHING = "matrix"
 
 #: Groupings per block in the matrix matcher. Bounds the sparse product's peak allocation.
 MATCH_ROWS = 8192
+
+#: Threads used to build the resampled trees. **ONE, and that is a measurement, not an oversight.**
+#:
+#: Threading these was worth 4.45x while ``pdist`` was 93% of a tree, because ``pdist`` releases the
+#: GIL. ``shared_distances`` then removed ``pdist`` entirely, and what remains --
+#: ``scipy.cluster.hierarchy.linkage`` -- HOLDS the GIL. Measured after that change: 8 trees take
+#: 3.96s serially and 4.62s on twelve threads, and a full 10,770 prepare takes 69.2s serially
+#: against 75.8s on twelve. The pool is pure contention once the distances are shared.
+#:
+#: The machinery is kept because it is still a large win for a caller that sets
+#: ``shared_distances=False`` -- a universe too big for one condensed matrix would have to. Raising
+#: this with the shared matrix in place will make a build SLOWER.
+DEFAULT_TREE_WORKERS = 1
 
 #: Which families implementation runs. "indexed" restricts comparison to groupings that can
 #: possibly be variants, via a prefix filter on the rarest members; "pairwise" is the original
@@ -222,6 +236,7 @@ def _one_run(
     min_size: int,
     seed: int,
     method: str = "ward",
+    full: np.ndarray | None = None,
 ) -> Run:
     """Draw a subset, cluster it, and record every grouping of at least ``min_size``.
 
@@ -234,6 +249,10 @@ def _one_run(
         method: Linkage criterion. Ward is only legitimate on Euclidean distances, which
             :func:`thema.cluster.distances` enforces by refusing non-unit vectors; average and
             complete carry no such requirement.
+        full: The condensed distance matrix over ALL ``n`` points, computed once by the caller.
+            When given, this run gathers its subsample's distances from it instead of calling
+            ``pdist`` again -- bit-identical arithmetic (``tests/test_cluster.py``) and 134-181x
+            faster, because a pairwise distance does not depend on which other points are present.
 
     Returns:
         The run's record.
@@ -244,7 +263,8 @@ def _one_run(
     words = bits.words_for(n)
 
     present = bits.pack(subset.tolist(), n)
-    z = linkage(distances(x[subset]), method=method)
+    condensed = condensed_subset(full, n, subset) if full is not None else distances(x[subset])
+    z = linkage(condensed, method=method)
 
     # Bitsets for every dendrogram node: leaves 0..take-1, internal take..2*take-2. Merges arrive
     # in increasing order, so a node's children are always built before it.
@@ -478,10 +498,29 @@ def prepare(
 
     start = time.perf_counter()
     method = str(settings.get("linkage", "ward"))
-    records = [
-        _one_run(x, n, float(settings["subsample"]), min_size, s, method)  # type: ignore[arg-type]
-        for s in _seeds(seed, runs)
-    ]
+    seeds = _seeds(seed, runs)
+    workers = int(settings.get("tree_workers", DEFAULT_TREE_WORKERS))  # type: ignore[arg-type]
+    subsample = float(settings["subsample"])  # type: ignore[arg-type]
+
+    # ONE distance matrix for the whole embedding, gathered from by every tree. A pairwise distance
+    # does not depend on which other points are present, so this is the same arithmetic as calling
+    # pdist per subsample -- proved bit-identical, not merely close -- and pdist was 93% of a tree.
+    # 464 MB at 10,770, shared read-only across the threads.
+    full = distances(x) if bool(settings.get("shared_distances", True)) else None
+
+    def build(run_seed: int) -> Run:
+        return _one_run(x, n, subsample, min_size, run_seed, method, full)
+
+    # Serial by default: see DEFAULT_TREE_WORKERS. With the distances shared, the only thing left
+    # per tree is `linkage`, which holds the GIL, so a pool costs 9% rather than saving anything.
+    #
+    # `map` preserves order, so the records are identical to the serial path whatever the threads
+    # do -- each run is seeded independently and nothing is shared but the read-only matrix.
+    if workers > 1 and runs > 1:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            records = list(pool.map(build, seeds))
+    else:
+        records = [build(s) for s in seeds]
     clock.record("runs (ward x N)", time.perf_counter() - start)
 
     start = time.perf_counter()
