@@ -11,7 +11,17 @@ Last updated: 2026-09-24
 
 Nothing.
 
-## CURRENT BUILD — `recurrent_dag_consensus`
+## CURRENT BUILD — `recurrent_dag_consensus` (1,850 SUBSET, not the ontology)
+
+Full report: `docs/status/2026-09-25-consensus-dag-1850.md`. **"Frozen" applies to the theme set
+and its nesting, not to exact member lists** (test 9: 45% of themes match at >= 0.9 across seeds) —
+`DECISIONS.md`, 25 Sep.
+
+**The 10,770 is embedded (`data/ontology/v0.3/`, MedCPT, nothing truncated) and priced: 14.4 min
+and 8.64 GB peak per side, so 12 concurrent is impossible and 3 is the recommendation.** Not
+launched.
+
+## CURRENT BUILD — the numbers
 
 **808 themes, 998 edges, 16 roots, 24% multi-parent, depth 17 (median 4), 0 unplaced.** MedCPT
 vectors, the locked selection rule, plus the greedy-consensus pass

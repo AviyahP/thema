@@ -2567,3 +2567,36 @@ sides the pass does essentially nothing — 0.0 members inherited, 0.018 themes 
 **Proved to the standard matching and families were held to:** 17 tests covering every rule, the tie
 order, a two-level propagation and a rule-3 tie, with `consensus_pairwise` kept callable as the
 reference and `vector ≡ pairwise` on the fixtures, 5 random pools and the real side.
+
+## 2026-09-25 — What "frozen" means, and what it does not
+
+Test 9 was given power over this word in advance: *"if the theme-set Jaccard is low, the word
+'frozen' is not used, because what would be frozen is a seed and not a finding."* It has now been
+run, and the answer is neither yes nor no, so the word is **narrowed rather than used or withheld**.
+
+**Measured** — the 1,850 rebuilt at master seed 1, everything else identical, best-match Jaccard
+over themes:
+
+| | pre-consensus | consensus |
+|---|---|---|
+| mean | 0.845 | **0.841** |
+| median | 0.881 | 0.875 |
+| matching >= 0.9 | 45.1% | **44.6%** |
+| matching >= 0.7 | 84.7% | **84.4%** |
+| matching >= 0.5 | 96.7% | **96.5%** |
+
+**"Frozen" applies to the theme set and its nesting.** 97% of themes reappear at Jaccard >= 0.5 and
+85% at >= 0.7 under a different subsample seed, at the declared theta. What the build asserts —
+that these groups of pathways exist, and that they nest this way — reproduces.
+
+**"Frozen" does NOT apply to exact member lists.** Only **45%** of themes match at >= 0.9, so a
+theme's precise boundary moves with the seed. A member list is not a frozen object and must never
+be quoted as one. **The uncertainty is already carried per member by `inclusion`**, which is what
+that field is for: a member at 0.31 is telling the reader it is a boundary case, and the seed
+sensitivity is the same fact measured a second way.
+
+**Consequence for anything written about a build.** A theme may be cited. Its nesting may be cited.
+A claim of the form "theme X contains exactly these N pathways" may not be made without the
+inclusions beside it. The consensus pass does not change this either way -- it is indistinguishable
+from the pre-consensus build on every stability statistic, which is the correct result for a pass
+that reconciles themes rather than finding them.
