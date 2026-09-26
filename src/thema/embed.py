@@ -204,6 +204,39 @@ def embed(
     return l2_normalize(np.asarray(vectors, dtype=np.float32))
 
 
+def centre_and_renormalise(vectors: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Subtract the set's mean, then put every row back on the unit sphere.
+
+    **This is what Ward clusters on** (spec amendment 2026-09-26). Mean subtraction alone cannot
+    change a Ward tree -- squared Euclidean distance is translation-invariant, so every pairwise
+    distance survives it untouched. The operative step is the renormalisation: each row is
+    divided by its own distance from the mean, so rows are rescaled by different factors and
+    pairwise distances do move. That removes the embedding's dominant shared direction, which is
+    what makes the space anisotropic and produces hubs -- pathways that everything is near without
+    being near anything in particular. Measured at k=10 on the 1,850: 25 pathways sat in
+    50-149 neighbourhoods before, none above 50 after. Mu & Viswanath 2018, "All-but-the-Top".
+
+    Each set centres on ITS OWN mean. A scramble centred on the real universe's mean would carry the
+    real geometry into the null.
+
+    Args:
+        vectors: An ``(n, dim)`` array. Need not be unit length.
+
+    Returns:
+        The centred, renormalised vectors, and the mean that was subtracted -- returned so a build
+        can record it in its manifest and be reproduced.
+
+    Raises:
+        ValueError: If any row coincides with the mean, which has no direction to normalise.
+    """
+    mean = vectors.mean(axis=0, keepdims=True)
+    centred = vectors - mean
+    lengths = np.linalg.norm(centred, axis=1, keepdims=True)
+    if not np.all(lengths > 0):
+        raise ValueError("a row equals the set mean; it has no direction to renormalise")
+    return centred / lengths, mean[0]
+
+
 def l2_normalize(vectors: np.ndarray) -> np.ndarray:
     """Scale every row to unit length.
 

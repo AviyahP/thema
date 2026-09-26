@@ -16,6 +16,7 @@ here: re-solving a threshold at build time against the data being built is the d
 """
 
 import argparse
+import hashlib
 import json
 from collections.abc import Sequence
 from pathlib import Path
@@ -24,6 +25,7 @@ import numpy as np
 
 from thema.data import descriptions as descriptions_table
 from thema.data.pathways import PathwayCollection, partition_universe
+from thema.embed import centre_and_renormalise
 from thema.ontology import bitset as bits
 from thema.ontology import export
 from thema.ontology.base import Node, Ontology
@@ -62,26 +64,29 @@ RUNS = 100
 #: 10/11 = 0.909090909... is reported as 0.909091 there and admitted; compared at full precision
 #: here it would fall just below the same floor and be dropped. :data:`SUPPORT_DECIMALS` keeps the
 #: two in the same representation. Two more themes.
-FLOORS: tuple[tuple[int, int, float], ...] = (
-    (3, 3, 0.976744),
-    (4, 4, 0.909091),
-    (5, 5, 0.720000),
-    (6, 6, 0.608247),
-    (7, 9, 0.450000),
-    (10, 14, 0.101010),
-    (15, 29, 0.020202),
-    (30, 49, 0.020000),
-    (50, 99, 0.020000),
-    (100, 199, 0.020000),
-    (200, 10**9, 0.020000),
-)
+#: Solved IN-ARM: a floor derived against one clustering space does not transfer to another, so the
+#: centred build re-solved its own on its own 20 calibration scrambles. The raw set is kept because
+#: the superseded v0.2 build must stay reproducible.
+FLOORS_BY_SPACE: dict[str, tuple[tuple[int, int, float], ...]] = {
+    "centred": (
+        (3, 3, 0.838000), (4, 4, 0.890000), (5, 5, 0.670000), (6, 6, 0.530000), (7, 9, 0.370000),
+        (10, 14, 0.101010), (15, 29, 0.020202), (30, 49, 0.020000), (50, 99, 0.020000),
+        (100, 199, 0.020000), (200, 10**9, 0.020000),
+    ),
+    "raw": (
+        (3, 3, 0.976744), (4, 4, 0.909091), (5, 5, 0.720000), (6, 6, 0.608247), (7, 9, 0.450000),
+        (10, 14, 0.101010), (15, 29, 0.020202), (30, 49, 0.020000), (50, 99, 0.020000),
+        (100, 199, 0.020000), (200, 10**9, 0.020000),
+    ),
+}
 
 
-def threshold_for(size: int) -> float:
+def threshold_for(size: int, space: str = "centred") -> float:
     """The effective threshold for a family of this size: ``max(declared, floor)``.
 
     Args:
         size: The family's completed member count.
+        space: Which clustering space's floors to use. They are not interchangeable.
 
     Returns:
         The support a family of that size must reach.
@@ -89,7 +94,7 @@ def threshold_for(size: int) -> float:
     Raises:
         ValueError: If no stratum covers the size, which would mean the strata are not exhaustive.
     """
-    for low, high, floor in FLOORS:
+    for low, high, floor in FLOORS_BY_SPACE[space]:
         if low <= size <= high:
             return max(DECLARED_M, floor)
     raise ValueError(f"no stratum covers size {size}")
@@ -102,6 +107,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--version", default="0.2")
     parser.add_argument("--directory", default="recurrent_dag_consensus")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--space", choices=("centred", "raw"), default="centred",
+                        help="vectors handed to Ward (amendment 2026-09-26)")
     parser.add_argument("--stray", type=float, default=DEFAULT_STRAY)
     parser.add_argument("--jaccard", type=float, default=DEFAULT_JACCARD)
     parser.add_argument("--dry-run", action="store_true")
@@ -111,12 +118,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     embedded = load_embedded(root / f"v{args.version}", args.data / "pathways.tsv")
     keys = list(embedded.keys)
     n = len(keys)
+    # The clustering space. Centred-and-renormalised as of the 2026-09-26 amendment; "raw" is kept
+    # callable so the superseded builds remain reproducible from this script.
+    universe_mean = None
+    matrix = embedded.vectors
+    if args.space == "centred":
+        matrix, universe_mean = centre_and_renormalise(matrix)
+        matrix = np.ascontiguousarray(matrix.astype(np.float32))
     settings = {
         **DEFAULTS, "runs": RUNS, "tol": 0.15, "linkage": "ward",
         "min_size": MIN_SIZE, "theta": THETA,
     }
 
-    ready = prepare(embedded.vectors, n, settings, seed=args.seed)
+    ready = prepare(matrix, n, settings, seed=args.seed)
     pool = score(ready, settings)
     words = ready.present.shape[1] * bits.WORD
 
@@ -138,7 +152,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             continue
         member_bits = completed[seed_grouping]
         size = bits.count(member_bits)
-        if round(float(support), SUPPORT_DECIMALS) < threshold_for(size):
+        if round(float(support), SUPPORT_DECIMALS) < threshold_for(size, args.space):
             continue
         # The SELECTION vote -- the seed's own completed copies, which is what chose the members
         # (addendum step 7). The family vote is a different number, and reporting it was what put
@@ -203,8 +217,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         "theta": THETA,
         "declared_m": DECLARED_M,
         "inclusion_threshold": INCLUSION_CUT,
-        "floors": [[low, high, floor] for low, high, floor in FLOORS],
-        "calibration": "20 calibration + 10 held-out scrambles; overall held-out FDR 0.0036",
+        "floors": [[low, high, floor] for low, high, floor in FLOORS_BY_SPACE[args.space]],
+        "calibration": (
+            "20 calibration + 10 held-out scrambles, floors solved in-arm; overall held-out "
+            "FDR 0.0051 (centred) / 0.0036 (raw)"
+        ),
+        "space": ("centred-renormalised" if args.space == "centred" else "raw"),
+        "universe_mean_sha256_16": (
+            hashlib.sha256(universe_mean.tobytes()).hexdigest()[:16]
+            if universe_mean is not None else None
+        ),
         "truncated_text_baseline": False,
         "consensus": {
             "rules": "greedy consensus, spec amendment 2026-09-25 (Bryant 2003; Felsenstein 2004)",
