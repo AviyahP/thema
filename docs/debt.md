@@ -337,3 +337,11 @@ This is a generation-quality matter, not a data defect: the descriptions are cor
 Fixing it requires regeneration, which is a priced run, so it is recorded rather than done. The
 validator flags them today via `in_range`; the new write gate refuses on `residue` only, so an
 over-length row is still written and still reported.
+
+
+## SUPERSEDED 26 Sep 2026 — "centre for cohesion only"
+
+The 21 Sep note recorded that embeddings were centred for the cohesion statistic and left raw for
+Ward, as a deliberate scoping decision. **That is superseded**: Ward now clusters
+centred-and-renormalised vectors (`docs/spec/amendment-2026-09-26.md`). Centring is the clustering
+input, and cohesion continues to be reported in the clustering space.

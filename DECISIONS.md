@@ -2600,3 +2600,44 @@ A claim of the form "theme X contains exactly these N pathways" may not be made 
 inclusions beside it. The consensus pass does not change this either way -- it is indistinguishable
 from the pre-consensus build on every stability statistic, which is the correct result for a pass
 that reconciles themes rather than finding them.
+
+## 2026-09-26 — Ward clusters centred-and-renormalised vectors; RAW is superseded
+
+**Decision: `distances()` receives the universe mean subtracted and each row L2-renormalised.** Full
+evidence in `docs/spec/amendment-2026-09-26.md`; the question and its reading were recorded before
+any measurement in `docs/spec/open-question-ward-space-2026-09-26.md`.
+
+**This was a new decision, not a correction.** The 21 Sep note centred embeddings **for cohesion
+only** and left Ward on raw deliberately. That note is now superseded.
+
+**Mean subtraction alone could not have mattered.** Ward minimises within-cluster variance on squared
+Euclidean distances, which are translation-invariant. The operative step is **renormalising after
+centring**, which rescales each point by its distance from the universe mean and removes the
+embedding's dominant shared direction — standard post-processing for anisotropic spaces, **Mu &
+Viswanath 2018, "All-but-the-Top"**.
+
+**Hubness was a measured artefact.** At k = 10, RAW had **25 pathways sitting in 50 to 149
+neighbourhoods each, maximum 149**, and they were narrow GO terms rather than central biology.
+CENTRED's worst is **36** and none exceeds 50; count skewness falls 4.76 to 0.93 and antihubs 3.0%
+to 0.5%.
+
+**CENTRED is at least as good on every DECLARED criterion:** hubness; curated-pair AUROC (better in
+7 of 10 gene-overlap bands, Reactome no-shared-gene Cliff's delta **0.632 -> 0.809**); the error
+caps (overall held-out FDR **0.0051**, every stratum under 0.02); test 9 stability (0.849 against
+0.841); test 2 shape inside the curated range (6.1% roots, depth 12, 23% multi-parent). Cohesion is
+a tie, and that comparison is biased toward CENTRED since CENTRED's cohesion is measured in the
+space it clustered in.
+
+**One clause of my own reading is withdrawn as mis-specified.** It required CENTRED to be "at least
+as good on measurement 3", which compared the two arms **against each other**. No criterion in
+`validation-plan.md` does that — the plan's conditions are absolute, and CENTRED meets all of them. A
+rule invented for one comparison should not decide it. **The split it pointed at is recorded rather
+than argued away:** RAW has 16 roots and depth 17, CENTRED 53 and 12. Part of RAW's depth was hub
+glue — **96% of the 959 members of RAW's largest theme have a home of <= 30 members in CENTRED**.
+
+**The eight unnameable RAW themes, traced member by member: five dissolved along the seams the namer
+itself named** (n0517 polyamine vs PTM, n0398 Hippo vs MAPK, and three more). **The honest cost is
+n0327**: its two nucleotide-transport members gain a 14-member theme, and **its four blood-brain
+barrier and drug-response members have no home smaller than 391, at inclusions of 0.25 to 0.43.**
+Four pathways moved from a bad small theme to a vague large one. That is the result on the 1,850 and
+is to be re-checked on the 10,770.
