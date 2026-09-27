@@ -61,16 +61,28 @@ from thema.normalize import IDENTIFIER_PATTERNS
 
 #: Bumped whenever the prompt changes in a way that should invalidate cached names. Part of the
 #: cache key, so a bump renames rather than silently mixing two prompts in one table.
+# name-v3 (27 Sep): "overview" joins the contentless list; a worked NEGATIVE example for over-reach;
+# names must be unique across the WHOLE DAG, not only against parents and siblings; member
+# INCLUSIONS are shown and coverage is stated in terms of them; Task C tests sibling discrimination
+# against each sibling's MEMBERS rather than its name alone. Nothing from name-v2 carries over: the
+# prompt changed, so the content-addressed cache must not answer.
+#
 # name-v2: Task B now states a node's DIRECT members -- those in no child. Under v1 an internal
 # node saw only child names and three samples, so a single-child node was indistinguishable from
 # its child and could only be refused as a restatement. That was 8 of 12 refusals in the first
 # smoke run. Bumped rather than edited in place: the prompt changed, so the cache must not answer.
-NAME_PROMPT_VERSION = "name-v2"
+NAME_PROMPT_VERSION = "name-v3"
 
-#: A name is a noun phrase a biologist would accept as a heading. Bounds are enforced by
-#: instruction and MEASURED here, never by truncation.
+#: A name is a phrase a biologist would accept as a heading. Bounds are enforced by instruction and
+#: MEASURED here, never by truncation.
 MIN_WORDS = 1
-MAX_WORDS = 6
+MAX_WORDS = 10
+
+#: Above this the name is longer than a heading wants to be, but it is not wrong. The hard bound is
+#: :data:`MAX_WORDS`; this is the length the prompt asks for and is not a check -- a name that is
+#: seven words because seven words are what the members share is a better name than a six-word one
+#: that is broader than they are.
+PREFERRED_WORDS = 6
 
 #: How many member names the prompt shows. A theme of 250 members cannot be pasted whole, and the
 #: medoid-first ordering means the ones shown are the ones nearest the theme's centre.
@@ -88,6 +100,9 @@ LEADING_ARTICLES = frozenset({"the", "a", "an"})
 EMPTY_WORDS = frozenset(
     {"various", "diverse", "multiple", "several", "miscellaneous", "general", "generic",
      "assorted", "related", "associated", "other", "misc",
+     # "overview" names the act of summarising rather than the biology summarised. "General ER
+     # stress and UPR overview" was a real name; two of its three content words said nothing.
+     "overview",
      # Plural container nouns. "Cell cycle processes" says no more than "Cell cycle" and reads
      # as padding; the theme is the biology, not the fact that it is a set of pathways.
      "processes", "pathways", "mechanisms", "functions", "activities"}
@@ -197,7 +212,9 @@ class NameCheck:
 
     Attributes:
         words: Word count.
-        in_range: Whether ``words`` is within :data:`MIN_WORDS`-:data:`MAX_WORDS`.
+        in_range: Whether ``words`` is within :data:`MIN_WORDS`-:data:`MAX_WORDS`. The prompt asks
+            for fewer than :data:`PREFERRED_WORDS`, which is a preference and not checked: a longer
+            name that is true of the members beats a shorter one that is not.
         identifiers: Database identifiers found in the name.
         source_words: Source names found.
         empty_words: Contentless words found.
@@ -214,6 +231,10 @@ class NameCheck:
         copies_member: Whether the name is verbatim one member's pathway name.
         repeats_parent: Whether the name equals a parent's name.
         clashes_sibling: Whether the name equals a sibling's name.
+        duplicate_name: Whether the name is already in use by any other theme ANYWHERE in the
+            hierarchy, not only among parents and siblings. The raw build shipped 9 duplicated
+            leaf names, one of them on two unrelated themes in different subtrees, which neither
+            the parent check nor the sibling check could see.
         clean: Every check passed.
     """
 
@@ -229,6 +250,7 @@ class NameCheck:
     copies_member: bool
     repeats_parent: bool
     clashes_sibling: bool
+    duplicate_name: bool
 
     @property
     def clean(self) -> bool:
@@ -245,6 +267,7 @@ class NameCheck:
             and not self.copies_member
             and not self.repeats_parent
             and not self.clashes_sibling
+            and not self.duplicate_name
         )
 
 
@@ -287,11 +310,32 @@ def _norm(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().strip(".,;:").lower())
 
 
+def collisions(name: str, others: Iterable[str]) -> tuple[str, ...]:
+    """Which of ``others`` is the same name as ``name``.
+
+    Case, surrounding punctuation and whitespace are folded -- the same comparison every other
+    collision check in this module uses.
+
+    A duplicate name is settled by string comparison, so it is settled here rather than by asking a
+    model to scan every name in the hierarchy.
+
+    Args:
+        name: The proposed name.
+        others: Names in use by other themes.
+
+    Returns:
+        The colliding names, deduplicated and sorted. Empty when the name is unique.
+    """
+    target = _norm(name)
+    return tuple(sorted({o for o in others if _norm(o) == target}))
+
+
 def check(
     name: str,
     members: Sequence[str],
     parents: Sequence[str] = (),
     siblings: Sequence[str] = (),
+    taken: Sequence[str] = (),
 ) -> NameCheck:
     """Run every mechanical check over one proposed name.
 
@@ -300,6 +344,8 @@ def check(
         members: The theme's member pathway NAMES (not keys).
         parents: The parents' names, where already assigned.
         siblings: The siblings' names, where already assigned.
+        taken: Every name already assigned to another theme anywhere in the hierarchy. Pass the
+            whole set, not the neighbourhood: duplicates in the raw build sat in different subtrees.
 
     Returns:
         What was measured. A failing check is reported, never repaired: a silent repair hides the
@@ -331,6 +377,7 @@ def check(
         copies_member=any(_norm(m) == lowered for m in members),
         repeats_parent=any(_norm(p) == lowered for p in parents),
         clashes_sibling=any(_norm(s) == lowered for s in siblings),
+        duplicate_name=any(_norm(t) == lowered for t in taken),
     )
 
 
@@ -342,9 +389,16 @@ though written by the same person on the same day.
 
 WHAT A NAME IS
 
-{MIN_WORDS} to {MAX_WORDS} words. A noun phrase in sentence case: no verbs, no leading article,
-no trailing punctuation. It may begin with a lowercase symbol where biology requires it -- mRNA,
-mTOR, cAMP, p53. Use a gene or protein symbol only when the theme is defined by it.
+{MIN_WORDS} to {MAX_WORDS} words, and fewer than {PREFERRED_WORDS} is preferred. Sentence case, no
+leading article, no trailing punctuation.
+
+A noun phrase by default. A clause with a verb is acceptable only when it is the tightest true
+statement of what the members share; never a full sentence. Do not reach for a clause to sound
+precise -- reach for it only when the noun phrase you would otherwise write is broader than the
+members are.
+
+It may begin with a lowercase symbol where biology requires it -- mRNA, mTOR, cAMP, p53. Use a gene
+or protein symbol only when the theme is defined by it.
 
 COVER EVERY MEMBER, GENERALISE NO FURTHER
 
@@ -361,12 +415,41 @@ themselves.
 Where a name cannot both cover every member and stay tight to them, that is a fact about the
 theme, not a wording problem. Say so rather than stretching.
 
+EVERY MEMBER CARRIES AN INCLUSION. USE IT
+
+Each member is listed with its inclusion -- the share of the evidence that placed it in this theme.
+A member at 1.00 is settled. A member at 0.3 was placed by a minority of the evidence and is a
+boundary case.
+
+The name must be true of every member at inclusion 0.5 or above. It MAY leave out members below
+0.5, and when it does you must say which ones in the rationale, by name. Weakly included members
+are never on their own a reason to answer nameable false -- if the members at 0.5 and above share a
+nameable biology, name it and note what you excluded.
+
+DO NOT ASSERT A MECHANISM THE MEMBERS DO NOT CONTAIN
+
+A name may name only what is there. This is the most common way a name goes wrong, and it is worse
+than a name that is too broad, because a reader cannot tell it is invented.
+
+Example of the failure: nine calcium-signalling terms -- regulation of calcium-mediated signalling,
+regulation of calcium ion import, regulation of calcium ion transmembrane transport, calcineurin-
+mediated signalling and its negative regulation, plus response to caffeine -- named "Calcineurin-
+NFAT feedback regulation". Calcineurin is fair: seven of the nine concern it. But NFAT appears in
+only two of the nine, and no member concerns feedback at all. The name promises a specific
+downstream axis that most of the theme does not contain. "Calcium signalling and calcineurin
+regulation" would have been true. The fault is not vagueness; it is invention.
+
+Before answering, check each content word of your name against the members. If a word names a
+gene, a protein, a compartment or a mechanism that only one or two members concern, take it out.
+
 WHAT A NAME MAY NOT CONTAIN
 
 Words that carry no information: "various", "diverse", "related", "miscellaneous", "processes",
 "pathways", "mechanisms". A database name -- "Reactome signalling" names a source, not biology.
 An identifier of any kind. One member's own name used as the theme's name, which privileges that
-member and misstates the theme's scope. A bare category word with nothing to distinguish it:
+member and misstates the theme's scope. A name already used by another theme anywhere in the
+hierarchy -- two themes with one name make the hierarchy unreadable, and the reader cannot tell
+which of them they are looking at. A bare category word with nothing to distinguish it:
 "Metabolism", "Signalling", "Transport", "Immune processes" file a theme without naming it.
 
 WHEN A THEME CANNOT BE NAMED
@@ -391,28 +474,42 @@ Return an object with "nameable" (boolean), "name" (string, empty when nameable 
 #: different instruction from writing one, and folding both into one prompt made the naming rules
 #: compete with the revision rules for the model's attention.
 DISAMBIGUATION_SYSTEM_PROMPT = f"""\
-You are checking names in an ontology of human biological pathways for collisions.
+You are checking one name in an ontology of human biological pathways.
 
-Each theme has a name, one or more parent themes, and sibling themes under those parents. A name
-earns its place by DISTINGUISHING its theme from its parents and its siblings. A name that repeats
-its parent tells a reader walking the hierarchy nothing about why they descended; a name that
-cannot be told apart from a sibling leaves them unable to choose.
+A name earns its place by DISTINGUISHING its theme. You are given the name, its own theme's members,
+its parents' names, and for each sibling theme its name AND its three most strongly included
+members. Siblings sit under the same parent, so they are the themes a reader must choose between.
 
-Revise ONLY when the name repeats a parent, or cannot be told apart from a sibling. If it is
-already distinct, keep it -- an unnecessary revision costs consistency for nothing.
+Answer two questions, in order.
 
-A revision must be MORE SPECIFIC than the current name, never broader, and must still be true of
-every member of the theme. You are narrowing a name that was too close to its neighbours, not
-rewriting it.
+FIRST: are you told the name is already in use by another theme elsewhere in the hierarchy? Two
+themes with one name make the hierarchy unreadable -- a reader cannot tell which of them they are
+looking at. If you are told it collides, you must revise.
 
-All the rules of a name still hold: {MIN_WORDS} to {MAX_WORDS} words, noun phrase, sentence case,
-no database names, no identifiers, no contentless words.
+SECOND: would this name also describe a sibling? Read each sibling's three members and ask whether
+your name is true of them too. This is NOT a check for repeated words: "Canonical Wnt signalling"
+and "Non-canonical Wnt signalling" share almost everything and are perfectly distinct. The failure
+is a name a reader would apply to the wrong theme -- if "Immune signalling" fits a sibling's members
+as well as its own, it fails, and needs whatever separates them.
+
+Repeating a PARENT's name is also a collision: a reader who descended is told nothing about why.
+
+Revise only on one of those two grounds. If the name is unique and no sibling fits it, keep it --
+an unnecessary revision costs consistency for nothing.
+
+A revision must be MORE SPECIFIC than the current name, never broader; must still be true of every
+member of its own theme at inclusion 0.5 or above; and must not assert a mechanism the members do
+not contain.
+
+All the rules of a name still hold: {MIN_WORDS} to {MAX_WORDS} words with fewer than
+{PREFERRED_WORDS} preferred, a noun phrase unless a clause is tighter, sentence case, no database
+names, no identifiers, no contentless words.
 
 OUTPUT FORMAT
 
-Return an object with "revise" (boolean), "name" (the revised name, empty when revise is false)
-and "reason" (which parent or sibling it collided with and what now separates it; empty when
-revise is false).
+Return an object with "revise" (boolean), "name" (the revised name, empty when revise is false) and
+"reason" (what it collided with -- a duplicate elsewhere, a parent, or a named sibling whose members
+it also described -- and what now separates it; empty when revise is false).
 """
 
 
@@ -445,19 +542,29 @@ parent; the members are T and B cell receptor pathways, which separates it from 
 """
 
 
-def render_leaf(members: Sequence[tuple[str, str, str]]) -> str:
-    """Task A. Render a leaf theme: its pathways, with descriptions.
+def render_leaf(
+    members: Sequence[tuple[str, str, str]], inclusions: Sequence[float] | None = None
+) -> str:
+    """Task A. Render a leaf theme: its pathways, with inclusions and descriptions.
 
     Args:
         members: ``(source, name, description)`` per member, medoid-first.
+        inclusions: Each member's inclusion, in the same order. Shown because the coverage rule is
+            stated in terms of it: the name must be true of every member at 0.5 or above, may leave
+            out those below, and must then say which. Omitted only by callers that have no
+            inclusions to show.
 
     Returns:
         The user message.
     """
-    lines = [WORKED_EXAMPLES, "", "Below are the pathways in this theme, with their descriptions.",
-             "Name the theme.", ""]
-    for source, name, description in members:
-        lines.append(f"  [{source}] {name}")
+    lines = [
+        WORKED_EXAMPLES, "",
+        "Below are the pathways in this theme, with their inclusion and their descriptions.",
+        "Name the theme.", "",
+    ]
+    for index, (source, name, description) in enumerate(members):
+        share = "" if inclusions is None else f"  (inclusion {inclusions[index]:.2f})"
+        lines.append(f"  [{source}] {name}{share}")
         lines.append(f"      {description}")
         lines.append("")
     return "\n".join(lines)
@@ -468,7 +575,7 @@ def render_internal(
     samples: Sequence[tuple[str, str, str]],
     total_members: int,
     unnamed_children: int = 0,
-    direct: Sequence[tuple[str, str]] = (),
+    direct: Sequence[tuple[str, ...]] = (),
 ) -> str:
     """Task B. Render an internal node: its children, its DIRECT members, and a few descriptions.
 
@@ -479,7 +586,8 @@ def render_internal(
         total_members: How many pathways the theme holds in total.
         unnamed_children: Children that came back unnameable. Stated, because they are a hole in
             the evidence: the parent must cover them too and has only the samples to go on.
-        direct: ``(source, name)`` for every member belonging to NO child. These are what make a
+        direct: ``(source, name)`` or ``(source, name, inclusion)`` for every member belonging to
+            NO child. These are what make a
             parent broader than its children. Without them a single-child node looks identical to
             its child and can only be refused as a restatement, which is what the first smoke run
             did on eight of twelve refusals.
@@ -519,8 +627,10 @@ def render_internal(
         )
     lines += ["", f"Direct members ({len(direct)}) -- in this theme but in NO child:"]
     if direct:
-        for source, name in direct:
-            lines.append(f"  - [{source}] {name}")
+        for entry in direct:
+            source, name = entry[0], entry[1]
+            share = f"  (inclusion {float(entry[2]):.2f})" if len(entry) > 2 else ""
+            lines.append(f"  - [{source}] {name}{share}")
     else:
         lines.append("  (none -- every member of this theme sits in one of the children above)")
     lines += ["", "Representative members:", ""]
@@ -532,32 +642,60 @@ def render_internal(
 
 
 def render_disambiguation(
-    name: str, parents: Sequence[str], siblings: Sequence[str]
+    name: str,
+    parents: Sequence[str],
+    siblings: Sequence[tuple[str, Sequence[str]]],
+    members: Sequence[str] = (),
+    taken: Sequence[str] = (),
 ) -> str:
-    """Task C. Render one name for the collision check.
+    """Task C. Render one name for the duplicate and sibling-discrimination checks.
+
+    Siblings arrive as ``(name, its three highest-inclusion member names)``. v2 compared strings,
+    which is why it revised 415 of 808 names for repeating a parent while leaving names that failed
+    the question that matters -- whether a reader could tell two siblings apart. Discrimination is a
+    question about members, so the members are what the model is shown.
 
     Args:
         name: The generated name.
         parents: Every parent's name.
-        siblings: Every sibling name under any of those parents.
+        siblings: Per sibling, its name and its three most strongly included members.
+        members: This theme's own member names, so a revision can be checked against them.
+        taken: The names this name actually collides with, anywhere in the hierarchy -- normally
+            empty. An exact duplicate is found by string comparison, so the collision is detected
+            in code and the model is told only that it happened, not handed 873 names to scan.
 
     Returns:
         The user message.
     """
-    return "\n".join(
-        [
-            DISAMBIGUATION_EXAMPLE,
-            "",
-            f'This theme is currently named "{name}".',
-            "",
-            "Its parent themes are named: "
-            + ("; ".join(parents) if parents else "(none -- this is a root)"),
-            "Its sibling themes under those parents are named: "
-            + ("; ".join(siblings) if siblings else "(none)"),
-            "",
-            "Decide whether to keep the name.",
-        ]
+    lines = [DISAMBIGUATION_EXAMPLE, "", f'This theme is currently named "{name}".', ""]
+    if members:
+        lines.append("Its own members:")
+        lines.extend(f"  - {member}" for member in members)
+        lines.append("")
+    lines.append(
+        "Its parent themes are named: "
+        + ("; ".join(parents) if parents else "(none -- this is a root)")
     )
+    lines.append("")
+    if siblings:
+        lines.append("Its siblings, each with its three most strongly included members:")
+        for sibling, examples in siblings:
+            lines.append(f'  "{sibling}"')
+            lines.extend(f"      - {example}" for example in examples)
+    else:
+        lines.append("It has no siblings.")
+    lines.append("")
+    if taken:
+        lines.append(
+            f"This name is ALREADY IN USE by {len(taken)} other theme(s) elsewhere in the "
+            "hierarchy. It must change."
+        )
+        lines.append("")
+    lines.append(
+        "Is this name a duplicate of one already in use, or a name that would also describe one of "
+        "those siblings? Revise only on those grounds."
+    )
+    return "\n".join(lines)
 
 
 def render_theme(

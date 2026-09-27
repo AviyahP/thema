@@ -5,8 +5,10 @@ from thema.naming import (
     MAX_WORDS,
     NAME_FORMAT,
     NAME_PROMPT_VERSION,
+    PREFERRED_WORDS,
     RESPONSE_FORMAT,
     check,
+    collisions,
     disambiguation_key,
     render_disambiguation,
     render_internal,
@@ -134,7 +136,76 @@ def test_container_nouns_are_contentless() -> None:
 
 
 def test_prompt_version_is_part_of_the_contract() -> None:
-    assert NAME_PROMPT_VERSION == "name-v2"
+    assert NAME_PROMPT_VERSION == "name-v3"
+
+
+def test_ten_words_is_in_range_and_eleven_is_not() -> None:
+    """v3. The bound is 1-10; fewer than PREFERRED_WORDS is asked for but never checked."""
+    assert check(" ".join(["word"] * MAX_WORDS), ["x"]).in_range
+    assert not check(" ".join(["word"] * (MAX_WORDS + 1)), ["x"]).in_range
+    assert MAX_WORDS == 10 and PREFERRED_WORDS == 6
+    # Seven words is over the preference and still clean: the preference is not a check.
+    long_but_true = "Ubiquitin-dependent degradation of misfolded proteins by the proteasome"
+    assert check(long_but_true, ["x"]).clean
+
+
+def test_a_clause_with_a_verb_passes_but_a_full_sentence_does_not() -> None:
+    """v3. "no verbs" is withdrawn; a clause is allowed when it is the tightest true statement."""
+    assert check("Calcineurin dephosphorylates NFAT", ["x"]).clean
+    assert check("Cohesin holds sister chromatids until anaphase", ["x"]).clean
+    sentence = check("The cell divides.", ["x"])
+    assert sentence.leading_article and sentence.trailing_punctuation and not sentence.clean
+
+
+def test_general_and_overview_are_contentless() -> None:
+    """v3. Both shipped in raw-build leaf names and neither says anything about the members."""
+    assert check("General ER stress and UPR overview", ["x"]).empty_words == (
+        "general",
+        "overview",
+    )
+    # "Regulation of ..." stays allowed: regulation is a real biological relation, not a hedge.
+    assert check("Regulation of calcium ion import", ["x"]).clean
+
+
+def test_a_name_used_elsewhere_in_the_dag_is_a_duplicate() -> None:
+    """v3. The raw build shipped 9 duplicate leaf names, none of them parent/sibling pairs."""
+    name = "Mitotic chromosome segregation fidelity"
+    assert check(name, ["x"], taken=[name]).duplicate_name
+    assert not check(name, ["x"], taken=["Kinetochore attachment checking"]).duplicate_name
+    assert not check(name, ["x"]).duplicate_name
+
+
+def test_task_c_shows_each_sibling_with_its_own_members() -> None:
+    """v3. Discrimination is a question about members, so the members are what is rendered."""
+    rendered = render_disambiguation(
+        "Immune signalling",
+        parents=["Cell communication"],
+        siblings=[("Interferon response", ["type I interferon signalling", "ISG induction"])],
+        members=["TLR4 cascade"],
+    )
+    assert "Interferon response" in rendered
+    assert "type I interferon signalling" in rendered
+    assert "TLR4 cascade" in rendered
+    assert "ALREADY IN USE" not in rendered
+
+
+def test_task_c_is_told_only_that_a_duplicate_happened() -> None:
+    """v3. The collision is found by ``collisions``; the model is not handed 873 names to scan."""
+    rendered = render_disambiguation(
+        "Immune signalling", parents=[], siblings=[], taken=["Immune signalling"]
+    )
+    assert "ALREADY IN USE by 1 other theme" in rendered
+    assert collisions("Immune  signalling.", ["immune signalling"]) == ("immune signalling",)
+    assert collisions("Immune signalling", ["Interferon response"]) == ()
+
+
+def test_a_leaf_renders_each_members_inclusion() -> None:
+    """v3. The model is told how strongly each member belongs, so it can exclude the weak ones."""
+    rendered = render_leaf(
+        [("go", "response to caffeine", "desc.")],
+        inclusions=[0.31],
+    )
+    assert "(inclusion 0.31)" in rendered
 
 
 def test_an_internal_nodes_key_includes_its_childrens_names() -> None:

@@ -33,6 +33,7 @@ from thema.naming import (
     NAME_RESPONSE_KEY,
     SYSTEM_PROMPT,
     check,
+    collisions,
     disambiguation_key,
     render_disambiguation,
     render_internal,
@@ -52,14 +53,17 @@ INTERNAL_SAMPLES = 3
 DEFAULT_MAX_DOLLARS = 20.0
 
 
-def read_build(directory: Path) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
+def read_build(
+    directory: Path,
+) -> tuple[dict[str, list[str]], dict[str, list[str]], dict[str, dict[str, float]]]:
     """Read a build's structure.
 
     Args:
         directory: A versioned method directory holding ``nodes.tsv`` and ``members.tsv``.
 
     Returns:
-        Node id to parent ids, and node id to member pathway keys.
+        Node id to parent ids, node id to member pathway keys, and node id to each member's
+        inclusion in the same order. v3 shows the model the inclusion of every member.
     """
     csv.field_size_limit(1 << 30)
     parents: dict[str, list[str]] = {}
@@ -67,21 +71,33 @@ def read_build(directory: Path) -> tuple[dict[str, list[str]], dict[str, list[st
         for row in csv.DictReader(handle, delimiter="\t"):
             parents[row["node"]] = row["parents"].split()
     members: dict[str, list[str]] = defaultdict(list)
+    inclusions: dict[str, dict[str, float]] = defaultdict(dict)
     with (directory / "members.tsv").open(encoding="utf-8", newline="") as handle:
         for row in csv.DictReader(handle, delimiter="\t"):
             members[row["node"]].append(row["key"])
-    return parents, dict(members)
+            inclusions[row["node"]][row["key"]] = float(row["inclusion"])
+    return parents, dict(members), dict(inclusions)
 
 
-def leaf_request(node: str, member_keys: list[str], by_key: dict, texts: dict[str, str]) -> Request:
-    """Build the Task A prompt for one leaf."""
+def leaf_request(
+    node: str,
+    member_keys: list[str],
+    by_key: dict,
+    texts: dict[str, str],
+    inclusions: dict[str, float] | None = None,
+) -> Request:
+    """Build the Task A prompt for one leaf.
+
+    ``inclusions`` are shown per member (v3): the name must cover every member at 0.5 or above and
+    may exclude those below, naming them in the rationale.
+    """
+    kept = [k for k in member_keys if k in by_key]
     shown = [
-        (by_key[k].source, by_key[k].name, texts.get(k, "(no description)"))
-        for k in member_keys
-        if k in by_key
+        (by_key[k].source, by_key[k].name, texts.get(k, "(no description)")) for k in kept
     ]
+    shares = None if inclusions is None else [inclusions.get(k, 1.0) for k in kept]
     return Request(
-        key=theme_key(member_keys), system=SYSTEM_PROMPT, user=render_leaf(shown)
+        key=theme_key(member_keys), system=SYSTEM_PROMPT, user=render_leaf(shown, shares)
     )
 
 
@@ -93,6 +109,7 @@ def internal_request(
     by_key: dict,
     texts: dict[str, str],
     direct_keys: Sequence[str] = (),
+    inclusions: dict[str, float] | None = None,
 ) -> Request:
     """Build the Task B prompt for one internal node.
 
@@ -104,7 +121,13 @@ def internal_request(
         for k in member_keys[:INTERNAL_SAMPLES]
         if k in by_key
     ]
-    direct = [(by_key[k].source, by_key[k].name) for k in direct_keys if k in by_key]
+    direct: list[tuple[str, ...]] = [
+        (by_key[k].source, by_key[k].name)
+        if inclusions is None
+        else (by_key[k].source, by_key[k].name, inclusions.get(k, 1.0))
+        for k in direct_keys
+        if k in by_key
+    ]
     return Request(
         key=theme_key(member_keys, [*child_names, f"direct:{len(direct)}"]),
         system=SYSTEM_PROMPT,
@@ -149,6 +172,7 @@ def generate(
     texts: dict[str, str],
     workers: int,
     dry_run: bool,
+    inclusions: dict[str, dict[str, float]] | None = None,
 ) -> tuple[dict[str, dict], list[Request]]:
     """Bottom-up generation, level by level.
 
@@ -160,6 +184,8 @@ def generate(
         texts: Pathway key to its description.
         workers: Concurrency.
         dry_run: Build every request but call nothing, so the run can be priced.
+        inclusions: Node id to key to inclusion. v3 shows each member's inclusion; omit and the
+            prompt reverts to unweighted members, which is what v2 sent.
 
     Returns:
         Node id to its parsed response, and every request that would be sent. Under ``dry_run``
@@ -176,7 +202,13 @@ def generate(
         for node in level:
             cs = kids.get(node, [])
             if not cs:
-                leaf = leaf_request(node, members.get(node, []), by_key, texts)
+                leaf = leaf_request(
+                    node,
+                    members.get(node, []),
+                    by_key,
+                    texts,
+                    None if inclusions is None else inclusions.get(node, {}),
+                )
                 back[leaf.key] = node
                 requests.append(leaf)
                 continue
@@ -191,7 +223,14 @@ def generate(
             covered = {k for c in cs for k in members.get(c, [])}
             direct_keys = [k for k in members.get(node, []) if k not in covered]
             internal = internal_request(
-                node, members.get(node, []), named, unnamed, by_key, texts, direct_keys
+                node,
+                members.get(node, []),
+                named,
+                unnamed,
+                by_key,
+                texts,
+                direct_keys,
+                None if inclusions is None else inclusions.get(node, {}),
             )
             back[internal.key] = node
             requests.append(internal)
@@ -205,19 +244,57 @@ def generate(
     return got, every
 
 
+#: Members shown for a sibling in Task C, highest inclusion first.
+SIBLING_MEMBERS = 3
+
+#: Members shown for the theme being checked, so a revision can be tested against them.
+MAX_OWN_MEMBERS = 8
+
+
+def top_members(
+    node: str,
+    members: dict[str, list[str]],
+    inclusions: dict[str, dict[str, float]],
+    by_key: dict,
+    limit: int = SIBLING_MEMBERS,
+) -> list[str]:
+    """The node's most strongly included member names, highest first.
+
+    Args:
+        node: Node id.
+        members: Node id to member keys.
+        inclusions: Node id to key to inclusion.
+        by_key: Pathway key to pathway.
+        limit: How many to return.
+
+    Returns:
+        Up to ``limit`` member names. Ties break on the key, so the choice is reproducible.
+    """
+    shares = inclusions.get(node, {})
+    keys = [k for k in members.get(node, ()) if k in by_key]
+    keys.sort(key=lambda k: (-shares.get(k, 1.0), k))
+    return [by_key[k].name for k in keys[:limit]]
+
+
 def disambiguate(
     client: LLMClient,
     parents: dict[str, list[str]],
     generated: dict[str, dict],
     workers: int,
+    members: dict[str, list[str]],
+    inclusions: dict[str, dict[str, float]],
+    by_key: dict,
 ) -> tuple[dict[str, dict], int]:
-    """Top-down pass: rewrite only where a name repeats a parent or collides with a sibling.
+    """Top-down pass: rewrite a name that duplicates another or that would also fit a sibling.
 
     Args:
         client: The caching client.
         parents: Node id to parent ids.
         generated: Node id to its generated response.
         workers: Concurrency.
+        members: Node id to member keys, for the sibling members v3 shows.
+        inclusions: Node id to key to inclusion, to rank those members.
+        by_key: Pathway key to pathway.
 
     Returns:
         Node id to the disambiguation response, and how many PARENTS had a child renamed. That
@@ -233,14 +310,26 @@ def disambiguate(
             if node not in final:
                 continue
             ps = [final[p] for p in parents.get(node, ()) if p in final]
-            sibs = [final[s] for s in siblings_of(node, parents, kids) if s in final]
-            if not ps and not sibs:
+            sib_ids = [s for s in siblings_of(node, parents, kids) if s in final]
+            sibs = [final[s] for s in sib_ids]
+            # v3: the sibling question is about members, so each sibling arrives with its three
+            # most strongly included ones. The name set is the WHOLE hierarchy, not this family.
+            with_members = [
+                (final[s], top_members(s, members, inclusions, by_key)) for s in sib_ids
+            ]
+            own = top_members(node, members, inclusions, by_key, limit=MAX_OWN_MEMBERS)
+            # Only the names this name ACTUALLY collides with. An exact string duplicate is settled
+            # by string comparison, so sending all 873 current names for the model to scan costs
+            # ~4k tokens a call, cannot be cached (the set changes as names are revised), and
+            # decides nothing the mechanical check does not already decide. Normally 0 or 1 entry.
+            taken = collisions(final[node], [v for n, v in final.items() if n != node])
+            if not ps and not sibs and not taken:
                 continue
             requests.append(
                 Request(
                     key=disambiguation_key(final[node], ps, sibs),
                     system=DISAMBIGUATION_SYSTEM_PROMPT,
-                    user=render_disambiguation(final[node], ps, sibs),
+                    user=render_disambiguation(final[node], ps, with_members, own, taken),
                 )
             )
             back[requests[-1].key] = node
@@ -525,7 +614,7 @@ def main(argv: list[str] | None = None) -> int:
     if not (directory / "nodes.tsv").is_file():
         print(f"no build at {directory}", file=sys.stderr)
         return 1
-    parents, members = read_build(directory)
+    parents, members, inclusions = read_build(directory)
     full_themes = len(parents)
     if args.smoke:
         keep = set(smoke_sample(parents, args.smoke))
@@ -550,7 +639,9 @@ def main(argv: list[str] | None = None) -> int:
         response_format=NAME_FORMAT, response_key=NAME_RESPONSE_KEY,
     )
 
-    _dry, requests = generate(client, parents, members, by_key, texts, args.workers, dry_run=True)
+    _dry, requests = generate(
+        client, parents, members, by_key, texts, args.workers, dry_run=True, inclusions=inclusions
+    )
     n_disambig = sum(
         1 for n in parents if parents.get(n) or siblings_of(n, parents, children_of(parents))
     )
@@ -638,7 +729,14 @@ def main(argv: list[str] | None = None) -> int:
             response_key=NAME_RESPONSE_KEY,
         )
         per_model[model], _ = generate(
-            mc, parents, members, by_key, texts, args.workers, dry_run=False
+            mc,
+            parents,
+            members,
+            by_key,
+            texts,
+            args.workers,
+            dry_run=False,
+            inclusions=inclusions,
         )
     client = LLMClient(
         args.model,
@@ -669,7 +767,9 @@ def main(argv: list[str] | None = None) -> int:
         response_format=DISAMBIGUATION_FORMAT,
         response_key=DISAMBIGUATION_RESPONSE_KEY,
     )
-    revised, touched_parents = disambiguate(disambig, parents, generated, args.workers)
+    revised, touched_parents = disambiguate(
+        disambig, parents, generated, args.workers, members, inclusions, by_key
+    )
 
     table = args.data / NAMES_TABLE
     rows = rows_for(generated, revised, parents, members, args.model)
