@@ -28,6 +28,24 @@ uv run scripts/build_ontology.py                           # embed, cluster, wri
 uv run scripts/export_demo.py                              # write demo/ontology.{json,js} for demo/prototype.html
 ```
 
+## Prompts
+
+**Never send a new or changed prompt to the API without Aviyah seeing the exact text first.**
+
+This is a separate gate from cost. Approving a price is not approving a prompt, and
+`--submit` authorises spending, not wording. It applies to every prompt in the repo, not only the
+ones called "naming": system prompts, user-message templates, response schemas, and any edit to an
+existing one however small.
+
+Established 26 Sep 2026, after two validation tests (`test_name_sorting.py`,
+`test_name_dag.py`) were run for $16.50 on prompts Aviyah had never seen. Both results turned out
+to be weaker than reported *because* of unreviewed wording -- one asked for a single answer while
+the scoring accepted a set, the other explicitly invited the caution that produced its headline
+number. An unreviewed prompt is not only a spending problem; it is a validity problem, and the
+measurement is worth less than the money.
+
+Show the text, wait, then run.
+
 ## Conventions
 
 - Type hints everywhere.
