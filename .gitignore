@@ -24,6 +24,8 @@ htmlcov/
 # Data
 data/raw/
 data/cache/
+# The naming ledger: content-addressed API responses, regenerable and unbounded.
+data/llm_cache/
 # Regenerable build artifacts; each one's sha256 is pinned in its committed summary
 data/reactome_membership.tsv
 data/pathways.tsv
