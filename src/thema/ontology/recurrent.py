@@ -260,6 +260,36 @@ def _one_run(
     rng = np.random.default_rng(seed)
     take = int(np.ceil(subsample * n))
     subset = np.sort(rng.choice(n, size=take, replace=False))
+    return tree_from_subset(x, n, subset, min_size, method, full)
+
+
+def tree_from_subset(
+    x: np.ndarray,
+    n: int,
+    subset: np.ndarray,
+    min_size: int,
+    method: str = "ward",
+    full: np.ndarray | None = None,
+) -> Run:
+    """Build one run's record from a subsample that has ALREADY been drawn.
+
+    Split out of :func:`_one_run` so that a caller working from a persisted, fixed sequence of
+    subsamples -- the RUNS ladder, whose stability pairs must be built from provably disjoint tree
+    sets -- uses the same code as a caller drawing from a seed. The alternative was a second copy
+    of this loop, which would have had to be proved bit-identical and would then have drifted.
+
+    Args:
+        x: The full ``(n, dim)`` unit-vector matrix.
+        n: Universe size.
+        subset: Sorted indices of the drawn pathways.
+        min_size: Smallest grouping worth recording.
+        method: Linkage criterion.
+        full: Condensed distances over all ``n`` points, to gather from instead of recomputing.
+
+    Returns:
+        The run's record.
+    """
+    take = len(subset)
     words = bits.words_for(n)
 
     present = bits.pack(subset.tolist(), n)
