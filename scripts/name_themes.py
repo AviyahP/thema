@@ -28,26 +28,29 @@ from thema.naming import (
     DISAMBIGUATION_FORMAT,
     DISAMBIGUATION_RESPONSE_KEY,
     DISAMBIGUATION_SYSTEM_PROMPT,
+    LEAF_PROMPT_VERSION,
     NAME_FORMAT,
     NAME_PROMPT_VERSION,
     NAME_RESPONSE_KEY,
     SYSTEM_PROMPT,
     check,
     collisions,
+    covers_children,
     disambiguation_key,
     render_disambiguation,
     render_internal,
     render_leaf,
     theme_key,
 )
-from thema.ontology.order import children_of, disambiguation_order, naming_order, siblings_of
+from thema.ontology.order import children_of, naming_order, siblings_of
 
 CACHE_DIR = "cache/names"
 NAMES_TABLE = "theme_names.tsv"
 
-#: How many member descriptions an internal node is shown. Three, per the design: enough that one
-#: bad child name cannot compound upward, few enough that the input stays bounded.
-INTERNAL_SAMPLES = 3
+#: name-v4 removed the "representative members" an internal node was shown. They were
+#: ``member_keys[:3]`` in file order, so the word "representative" was not true of them, and three
+#: arbitrary descriptions out of a 933-member theme competed with the children for attention. What a
+#: parent adds is its DIRECT members, and those are now shown in full instead.
 
 #: Refuse to submit above this worst-case price without being told otherwise.
 DEFAULT_MAX_DOLLARS = 20.0
@@ -113,26 +116,77 @@ def internal_request(
 ) -> Request:
     """Build the Task B prompt for one internal node.
 
-    ``direct_keys`` are the members belonging to no child -- what makes the parent broader than
-    its children, and without which a single-child node can only be refused as a restatement.
+    ``direct_keys`` are the members belonging to no child -- what makes the parent broader than its
+    children, and without which a single-child node can only be refused as a restatement. Under
+    name-v4 they are rendered IN FULL, highest inclusion first, and the three file-order "samples"
+    they used to sit beside are gone.
+
+    Args:
+        node: Node id, for the caller's bookkeeping.
+        member_keys: Every member key, for the count and the cache key.
+        child_names: The children's already-assigned names.
+        unnamed: Children that came back unnameable.
+        by_key: Pathway key to pathway.
+        texts: Pathway key to description.
+        direct_keys: Members belonging to no child.
+        inclusions: Key to inclusion for this node.
+
+    Returns:
+        The request. The cache key carries the child names and the direct-member COUNT, so a
+        renamed child or a changed direct set forces regeneration.
     """
-    samples = [
-        (by_key[k].source, by_key[k].name, texts.get(k, "(no description)"))
-        for k in member_keys[:INTERNAL_SAMPLES]
-        if k in by_key
-    ]
-    direct: list[tuple[str, ...]] = [
-        (by_key[k].source, by_key[k].name)
-        if inclusions is None
-        else (by_key[k].source, by_key[k].name, inclusions.get(k, 1.0))
-        for k in direct_keys
-        if k in by_key
+    shares = inclusions or {}
+    kept = sorted(
+        (k for k in direct_keys if k in by_key), key=lambda k: (-shares.get(k, 1.0), k)
+    )
+    direct = [
+        (
+            by_key[k].source,
+            by_key[k].name,
+            shares.get(k, 1.0),
+            texts.get(k, "(no description)"),
+        )
+        for k in kept
     ]
     return Request(
         key=theme_key(member_keys, [*child_names, f"direct:{len(direct)}"]),
         system=SYSTEM_PROMPT,
-        user=render_internal(child_names, samples, len(member_keys), unnamed, direct),
+        user=render_internal(child_names, len(member_keys), unnamed, direct),
     )
+
+
+def naming_clients(data: Path, model: str) -> tuple[LLMClient, LLMClient]:
+    """The internal-node client and the leaf client, on their own prompt versions.
+
+    Leaves are cached under :data:`LEAF_PROMPT_VERSION`, which name-v4 did NOT bump, because a leaf
+    request is byte-identical to name-v3's: the shared system prompt and ``render_leaf`` are
+    untouched and ``theme_key`` never depended on the version. Only the ledger FILE differs, so
+    every leaf completion is reused and every internal node is a miss.
+
+    Args:
+        data: The data directory.
+        model: The model id.
+
+    Returns:
+        ``(internal, leaf)``. They are the same object when the two versions are equal.
+    """
+    internal = LLMClient(
+        model,
+        NAME_PROMPT_VERSION,
+        Ledger.open(data / CACHE_DIR, model, NAME_PROMPT_VERSION),
+        response_format=NAME_FORMAT,
+        response_key=NAME_RESPONSE_KEY,
+    )
+    if LEAF_PROMPT_VERSION == NAME_PROMPT_VERSION:
+        return internal, internal
+    leaf = LLMClient(
+        model,
+        LEAF_PROMPT_VERSION,
+        Ledger.open(data / CACHE_DIR, model, LEAF_PROMPT_VERSION),
+        response_format=NAME_FORMAT,
+        response_key=NAME_RESPONSE_KEY,
+    )
+    return internal, leaf
 
 
 def run_level(client: LLMClient, requests: list[Request], workers: int) -> dict[str, dict]:
@@ -173,11 +227,12 @@ def generate(
     workers: int,
     dry_run: bool,
     inclusions: dict[str, dict[str, float]] | None = None,
+    leaf_client: LLMClient | None = None,
 ) -> tuple[dict[str, dict], list[Request]]:
     """Bottom-up generation, level by level.
 
     Args:
-        client: The caching client.
+        client: The caching client for INTERNAL nodes.
         parents: Node id to parent ids.
         members: Node id to member pathway keys.
         by_key: Pathway key to Pathway.
@@ -186,6 +241,9 @@ def generate(
         dry_run: Build every request but call nothing, so the run can be priced.
         inclusions: Node id to key to inclusion. v3 shows each member's inclusion; omit and the
             prompt reverts to unweighted members, which is what v2 sent.
+        leaf_client: The caching client for LEAVES, opened on :data:`LEAF_PROMPT_VERSION`. A leaf's
+            request is byte-identical to name-v3's, so pointing it at name-v3's ledger reuses every
+            leaf completion at no cost. Defaults to ``client``, which regenerates them.
 
     Returns:
         Node id to its parsed response, and every request that would be sent. Under ``dry_run``
@@ -197,8 +255,9 @@ def generate(
     levels = naming_order(parents)
     got: dict[str, dict] = {}
     every: list[Request] = []
+    leaves = leaf_client or client
     for depth, level in enumerate(levels):
-        requests, back = [], {}
+        requests, back, is_leaf = [], {}, {}
         for node in level:
             cs = kids.get(node, [])
             if not cs:
@@ -210,6 +269,7 @@ def generate(
                     None if inclusions is None else inclusions.get(node, {}),
                 )
                 back[leaf.key] = node
+                is_leaf[leaf.key] = True
                 requests.append(leaf)
                 continue
             named = [
@@ -239,16 +299,22 @@ def generate(
             continue
         print(f"  level {depth} ({'leaves' if depth == 0 else 'internal'}): "
               f"{len(requests):,} themes", flush=True)
-        for rkey, parsed in run_level(client, requests, workers).items():
-            got[back[rkey]] = parsed
+        # Leaves and internal nodes are cached under DIFFERENT prompt versions, so each goes to its
+        # own ledger. Routing is per request, not per level, so it stays correct if the level
+        # structure ever changes.
+        for group, which in (
+            ([r for r in requests if is_leaf.get(r.key)], leaves),
+            ([r for r in requests if not is_leaf.get(r.key)], client),
+        ):
+            if not group:
+                continue
+            for rkey, parsed in run_level(which, group, workers).items():
+                got[back[rkey]] = parsed
     return got, every
 
 
-#: Members shown for a sibling in Task C, highest inclusion first.
-SIBLING_MEMBERS = 3
-
-#: Members shown for the theme being checked, so a revision can be tested against them.
-MAX_OWN_MEMBERS = 8
+#: Members shown for a leaf in Task C, highest inclusion first.
+LEAF_MEMBERS = 8
 
 
 def top_members(
@@ -256,9 +322,9 @@ def top_members(
     members: dict[str, list[str]],
     inclusions: dict[str, dict[str, float]],
     by_key: dict,
-    limit: int = SIBLING_MEMBERS,
-) -> list[str]:
-    """The node's most strongly included member names, highest first.
+    limit: int = LEAF_MEMBERS,
+) -> list[tuple[str, float]]:
+    """The node's most strongly included members as ``(name, inclusion)``, highest first.
 
     Args:
         node: Node id.
@@ -268,12 +334,37 @@ def top_members(
         limit: How many to return.
 
     Returns:
-        Up to ``limit`` member names. Ties break on the key, so the choice is reproducible.
+        Up to ``limit`` pairs. Ties break on the key, so the choice is reproducible.
     """
     shares = inclusions.get(node, {})
     keys = [k for k in members.get(node, ()) if k in by_key]
     keys.sort(key=lambda k: (-shares.get(k, 1.0), k))
-    return [by_key[k].name for k in keys[:limit]]
+    return [(by_key[k].name, shares.get(k, 1.0)) for k in keys[:limit]]
+
+
+def find_collisions(
+    final: dict[str, str], parents: dict[str, list[str]]
+) -> dict[str, tuple[tuple[str, ...], bool]]:
+    """Every name that mechanically collides, found by string comparison alone.
+
+    This replaces name-v3's full disambiguation pass, which sent 806 of that run's 1,676 calls to
+    ask a question two string comparisons answer.
+
+    Args:
+        final: Node id to its current name.
+        parents: Node id to parent ids.
+
+    Returns:
+        Node id to ``(the identical names elsewhere, whether it repeats a parent)``, for colliding
+        nodes only. A node absent from the mapping needs no call.
+    """
+    out: dict[str, tuple[tuple[str, ...], bool]] = {}
+    for node, name in final.items():
+        elsewhere = collisions(name, [v for n, v in final.items() if n != node])
+        repeats = bool(collisions(name, [final[p] for p in parents.get(node, ()) if p in final]))
+        if elsewhere or repeats:
+            out[node] = (elsewhere, repeats)
+    return out
 
 
 def disambiguate(
@@ -284,71 +375,82 @@ def disambiguate(
     members: dict[str, list[str]],
     inclusions: dict[str, dict[str, float]],
     by_key: dict,
-) -> tuple[dict[str, dict], int]:
-    """Top-down pass: rewrite a name that duplicates another or that would also fit a sibling.
+) -> tuple[dict[str, dict], dict[str, int]]:
+    """Re-ask the model ONLY about names that mechanically collide.
+
+    Detection is string comparison: a name identical to another anywhere in the DAG, or identical to
+    one of its own parents. Everything else is left alone, which is the name-v4 change -- the full
+    pass cost more than half the run and made the result worse, creating 20 duplicates, narrowing
+    parents below their own children, and producing one false refusal.
+
+    A replacement for a node WITH CHILDREN is accepted only if it still covers every child's name,
+    checked by :func:`thema.naming.covers_children`. A replacement that fails is DISCARDED and the
+    colliding original kept, because a parent narrower than its own children states something false
+    about the hierarchy while a duplicate only reads badly. Every discard is reported.
 
     Args:
         client: The caching client.
         parents: Node id to parent ids.
         generated: Node id to its generated response.
         workers: Concurrency.
-        members: Node id to member keys, for the sibling members v3 shows.
-        inclusions: Node id to key to inclusion, to rank those members.
+        members: Node id to member keys.
+        inclusions: Node id to key to inclusion.
         by_key: Pathway key to pathway.
 
     Returns:
-        Node id to the disambiguation response, and how many PARENTS had a child renamed. That
-        count is reported rather than acted on: revisions are not fed back into parents, because
-        that would loop, so the scale of the compromise is made visible instead of assumed.
+        Node id to the response, and a tally: ``asked``, ``revised``, ``rejected_narrowing``,
+        ``unresolved`` and the collisions still standing afterwards.
     """
     kids = children_of(parents)
     final = {n: r["name"] for n, r in generated.items() if r.get("nameable") and r.get("name")}
+    colliding = find_collisions(final, parents)
     out: dict[str, dict] = {}
-    for depth, level in enumerate(disambiguation_order(parents)):
-        requests, back = [], {}
-        for node in level:
-            if node not in final:
-                continue
-            ps = [final[p] for p in parents.get(node, ()) if p in final]
-            sib_ids = [s for s in siblings_of(node, parents, kids) if s in final]
-            sibs = [final[s] for s in sib_ids]
-            # v3: the sibling question is about members, so each sibling arrives with its three
-            # most strongly included ones. The name set is the WHOLE hierarchy, not this family.
-            with_members = [
-                (final[s], top_members(s, members, inclusions, by_key)) for s in sib_ids
-            ]
-            own = top_members(node, members, inclusions, by_key, limit=MAX_OWN_MEMBERS)
-            # Only the names this name ACTUALLY collides with. An exact string duplicate is settled
-            # by string comparison, so sending all 873 current names for the model to scan costs
-            # ~4k tokens a call, cannot be cached (the set changes as names are revised), and
-            # decides nothing the mechanical check does not already decide. Normally 0 or 1 entry.
-            taken = collisions(final[node], [v for n, v in final.items() if n != node])
-            if not ps and not sibs and not taken:
-                continue
-            requests.append(
-                Request(
-                    key=disambiguation_key(final[node], ps, sibs),
-                    system=DISAMBIGUATION_SYSTEM_PROMPT,
-                    user=render_disambiguation(final[node], ps, with_members, own, taken),
-                )
-            )
-            back[requests[-1].key] = node
-        if not requests:
+    tally = {"asked": len(colliding), "revised": 0, "rejected_narrowing": 0, "unresolved": 0}
+    if not colliding:
+        print("  no mechanical collisions; Task C not called", flush=True)
+        return out, {**tally, "collisions_before": 0, "collisions_after": 0}
+    print(f"  {len(colliding):,} colliding names of {len(final):,} -- only these are re-asked",
+          flush=True)
+    requests, back = [], {}
+    for node, (elsewhere, repeats) in sorted(colliding.items()):
+        child_names = [final[c] for c in kids.get(node, []) if c in final]
+        parent_names = [final[p] for p in parents.get(node, ()) if p in final]
+        request = Request(
+            key=disambiguation_key(final[node], parent_names, list(elsewhere)),
+            system=DISAMBIGUATION_SYSTEM_PROMPT,
+            user=render_disambiguation(
+                final[node],
+                collides_with=elsewhere,
+                repeats_parent=repeats,
+                children=child_names,
+                members=() if child_names else top_members(node, members, inclusions, by_key),
+                taken=[*elsewhere, *parent_names],
+            ),
+        )
+        requests.append(request)
+        back[request.key] = node
+    for rkey, parsed in run_level(client, requests, workers).items():
+        node = back[rkey]
+        out[node] = parsed
+        if not (parsed.get("revise") and parsed.get("name")):
+            tally["unresolved"] += 1
             continue
-        print(f"  disambiguation level {depth}: {len(requests):,} themes", flush=True)
-        for rkey, parsed in run_level(client, requests, workers).items():
-            node = back[rkey]
-            out[node] = parsed
-            if parsed.get("revise") and parsed.get("name"):
-                final[node] = parsed["name"]
-    revised = {n for n, r in out.items() if r.get("revise")}
-    touched = {p for n in revised for p in parents.get(n, ())}
-    return out, len(touched)
+        child_names = [final[c] for c in kids.get(node, []) if c in final]
+        if not covers_children(parsed["name"], child_names):
+            tally["rejected_narrowing"] += 1
+            out[node] = {**parsed, "revise": False, "rejected": "would not cover every child"}
+            continue
+        final[node] = parsed["name"]
+        tally["revised"] += 1
+    after = find_collisions(final, parents)
+    return out, {**tally, "collisions_before": len(colliding), "collisions_after": len(after)}
 
 
-#: Output tokens per naming call. MEASURED over 820 real Sonnet calls, not assumed: the earlier
-#: value of 60 understated it by 17%.
-OUTPUT_TOKENS = 112
+#: Output tokens per naming call. MEASURED, never assumed. 60 was a guess; 112 was measured over
+#: 820 real name-v2 Sonnet calls; 136 is the mean over the 90 calls of the name-v3 input pilot on
+#: 27 Sep, and name-v3 is what runs now. The rise is the widened length bound being used -- 17 of
+#: those 90 names exceed six words, which v2 could not produce.
+OUTPUT_TOKENS = 136
 
 #: What the provider's prompt cache actually holds, measured on the same run: the system prompt
 #: plus the worked-examples preamble that opens every user message. It exceeds the system prompt
@@ -452,6 +554,7 @@ def rows_for(
     parents: dict[str, list[str]],
     members: dict[str, list[str]],
     model: str,
+    by_key: dict | None = None,
 ) -> list[tuple[str, ...]]:
     """Render the names table's rows.
 
@@ -461,12 +564,28 @@ def rows_for(
         parents: Node id to parent ids.
         members: Node id to member pathway keys.
         model: The model that produced them.
+        by_key: Pathway key to pathway. Needed for two checks that CANNOT FIRE WITHOUT IT, and did
+            not fire in the first name-v3 run: ``copies_member`` compares the name against member
+            NAMES and was being handed member keys, and ``duplicate_name`` needs the final name set.
 
     Returns:
         Rows in :data:`thema.data.names.NAME_COLUMNS` order, keyed by THEME KEY so a rebuild
         reuses every name whose theme is unchanged.
     """
     kids = children_of(parents)
+    # The final name of every theme, AFTER revisions. Built first because duplicate_name is a
+    # property of the whole set and cannot be evaluated one row at a time. The first name-v3 run
+    # reported 36 mechanical failures against a true 56: it never passed `taken`, so the check
+    # added for exactly this purpose was inert, and every one of the 20 duplicates it would have
+    # caught was created by the disambiguation pass revising two themes onto one name.
+    settled: dict[str, str] = {}
+    for node, response in generated.items():
+        if not response.get("nameable") or not response.get("name"):
+            continue
+        rev = revised.get(node, {})
+        settled[node] = (
+            rev["name"] if rev.get("revise") and rev.get("name") else response["name"]
+        )
     rows = []
     for node, response in sorted(generated.items()):
         cs = kids.get(node, [])
@@ -483,13 +602,26 @@ def rows_for(
             name = rev["name"]
         failed = ()
         if nameable and name:
-            member_names = [str(k) for k in members.get(node, [])]
-            result = check(name, member_names)
+            member_names = [
+                by_key[k].name if by_key and k in by_key else str(k)
+                for k in members.get(node, [])
+            ]
+            result = check(
+                name,
+                member_names,
+                taken=[v for n, v in settled.items() if n != node],
+            )
             failed = tuple(
                 f for f in ("in_range", "sentence_case") if not getattr(result, f)
             ) + tuple(
                 f
-                for f in ("leading_article", "trailing_punctuation", "bare_category")
+                for f in (
+                    "leading_article",
+                    "trailing_punctuation",
+                    "bare_category",
+                    "copies_member",
+                    "duplicate_name",
+                )
                 if getattr(result, f)
             ) + result.identifiers + result.source_words + result.empty_words
         rows.append(
@@ -633,33 +765,51 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\nNAMING  {args.build}: {len(parents):,} themes, "
           f"{sum(1 for n in parents if not children_of(parents)[n]):,} leaves")
 
-    ledger = Ledger.open(args.data / CACHE_DIR, args.model, NAME_PROMPT_VERSION)
-    client = LLMClient(
-        args.model, NAME_PROMPT_VERSION, ledger,
-        response_format=NAME_FORMAT, response_key=NAME_RESPONSE_KEY,
-    )
+    client, leaf_client = naming_clients(args.data, args.model)
 
     _dry, requests = generate(
-        client, parents, members, by_key, texts, args.workers, dry_run=True, inclusions=inclusions
+        client,
+        parents,
+        members,
+        by_key,
+        texts,
+        args.workers,
+        dry_run=True,
+        inclusions=inclusions,
+        leaf_client=leaf_client,
     )
-    n_disambig = sum(
+    # name-v4 re-asks ONLY about names that mechanically collide, which cannot be counted before
+    # the names exist. v3 sent one call per theme with a parent or sibling -- 806 of its 1,676
+    # calls -- and its own output, scored by v4's detector, collides on just 20 names (2.3%).
+    # Pricing at the v3 rate would quote 48% of the run for calls v4 will not make, so the estimate
+    # uses the measured rate and says that it is an estimate.
+    DISAMBIG_RATE = 0.023
+    eligible = sum(
         1 for n in parents if parents.get(n) or siblings_of(n, parents, children_of(parents))
     )
+    n_disambig = round(len(parents) * DISAMBIG_RATE)
     # Sample ACROSS the requests, not the first N. Level 0 is emitted first and is all leaves,
     # which carry a full description per member; internal nodes carry three samples and a list of
     # short child names. Taking the first 40 prices the whole run at the leaf rate.
     step = max(1, len(requests) // 40)
     sample = requests[::step][:40]
-    user_tokens = sum(client.count_tokens(r) for r in sample) / len(sample)
     # The API rejects an empty user message, so the system prompt is measured against a
     # single-character one and the difference is below the rounding of the estimate.
     system_tokens = client.count_tokens(Request(key="_", system=SYSTEM_PROMPT, user="."))
+    # SUBTRACT the system prompt. price_batch's contract is that user_tokens is the user message
+    # ALONE -- it adds the system prompt back itself, as a cached read or an uncached one. This
+    # caller passed the full count_tokens(request), which already contains the system prompt, so
+    # the system prompt was billed twice and the gate line over-quoted the run by 29%. The other
+    # three callers of price_batch all subtract it; this one did not.
+    user_tokens = max(
+        0.0, sum(client.count_tokens(r) for r in sample) / len(sample) - system_tokens
+    )
     estimate = price_batch(
         scope=len(requests) + n_disambig,
         pending=len(requests) + n_disambig,
         user_tokens=user_tokens,
         system_tokens=system_tokens,
-        output_tokens=60,
+        output_tokens=OUTPUT_TOKENS,
         model=args.model,
         sampled=len(sample),
         basis="tokenizer",
@@ -669,8 +819,8 @@ def main(argv: list[str] | None = None) -> int:
         ("item", "value", "note"),
         [
             ("themes to name", f"{len(requests):,}", "bottom-up, one call each"),
-            ("disambiguation calls", f"{n_disambig:,}",
-             "top-down, where a parent or sibling exists"),
+            ("collision re-asks", f"~{n_disambig:,}",
+             f"ESTIMATE at 2.3%, the rate v3's names collide at; {eligible:,} eligible"),
             ("input/prompt", f"{user_tokens:,.0f}", "tok, measured by tokenizer on a sample"),
             ("system prompt", f"{system_tokens:,}", "tok, sent with every request"),
             ("batch cost, cached", f"${estimate.cached_dollars:,.2f}",
@@ -693,14 +843,27 @@ def main(argv: list[str] | None = None) -> int:
             [
                 (
                     m,
-                    f"${_cost(m, calls, user_tokens, system_tokens) * 2:,.2f}",
-                    f"${_cost(m, prod_calls, user_tokens, system_tokens) * 2:,.2f}",
-                    f"${_cost(m, prod_calls, user_tokens, system_tokens):,.2f}",
+                    # _cost's contract is the TOTAL per request, system prompt included;
+                    # price_batch's is the user message alone. Feed each the one it names.
+                    f"${_cost(m, calls, user_tokens + system_tokens, system_tokens) * 2:,.2f}",
+                    f"${_cost(m, prod_calls, user_tokens + system_tokens, system_tokens) * 2:,.2f}",
+                    f"${_cost(m, prod_calls, user_tokens + system_tokens, system_tokens):,.2f}",
                 )
                 for m in models
             ],
         )
         print("  live is 2x batch; batch is impractical here (~20 sequential levels x hours).")
+        # The two models above disagree and the disagreement is now calibrated rather than argued.
+        # CALIBRATED against the 90-call name-v3 input pilot of 27 Sep, actual bill $0.72:
+        # price_batch cached x2 predicted $0.69 (-5%), _cost x2 predicted $0.89 (+24%), and the
+        # uncached ceiling $1.09 (+51%). _cost charges 20 cache re-writes for the 5-minute TTL over
+        # a level-wise run; the provider re-wrote far fewer. Trust LIVE cost cached; read this row
+        # as conservative and the uncached line as the ceiling it is meant to be.
+        print(
+            "  calibration, 90-call name-v3 pilot billed $0.72: 'LIVE cost, cached' model was "
+            "5% low,\n  this row 24% high, the uncached ceiling 51% high. The cached line is the "
+            "one to plan against."
+        )
     worst = estimate.uncached_dollars if args.batch else live_high
     if not args.submit:
         print("\nnothing submitted; rerun with --submit")
@@ -721,13 +884,7 @@ def main(argv: list[str] | None = None) -> int:
     per_model: dict[str, dict[str, dict]] = {}
     for model in models:
         print(f"\ngenerating (live) with {model}")
-        mc = LLMClient(
-            model,
-            NAME_PROMPT_VERSION,
-            Ledger.open(args.data / CACHE_DIR, model, NAME_PROMPT_VERSION),
-            response_format=NAME_FORMAT,
-            response_key=NAME_RESPONSE_KEY,
-        )
+        mc, mc_leaf = naming_clients(args.data, model)
         per_model[model], _ = generate(
             mc,
             parents,
@@ -737,14 +894,9 @@ def main(argv: list[str] | None = None) -> int:
             args.workers,
             dry_run=False,
             inclusions=inclusions,
+            leaf_client=mc_leaf,
         )
-    client = LLMClient(
-        args.model,
-        NAME_PROMPT_VERSION,
-        Ledger.open(args.data / CACHE_DIR, args.model, NAME_PROMPT_VERSION),
-        response_format=NAME_FORMAT,
-        response_key=NAME_RESPONSE_KEY,
-    )
+    client, _leaf = naming_clients(args.data, args.model)
     generated = per_model[args.model]
     if len(models) > 1:
         blind = args.data / "keys" / "naming_blind.md"
@@ -767,12 +919,12 @@ def main(argv: list[str] | None = None) -> int:
         response_format=DISAMBIGUATION_FORMAT,
         response_key=DISAMBIGUATION_RESPONSE_KEY,
     )
-    revised, touched_parents = disambiguate(
+    revised, tally = disambiguate(
         disambig, parents, generated, args.workers, members, inclusions, by_key
     )
 
     table = args.data / NAMES_TABLE
-    rows = rows_for(generated, revised, parents, members, args.model)
+    rows = rows_for(generated, revised, parents, members, args.model, by_key)
     held = merge_tsv(table, names_table.NAME_COLUMNS, rows, key=names_table.ROW_KEY)
     marked, superseded = names_table.restamp(table, names_table.NAME_COLUMNS, NAME_PROMPT_VERSION)
 
@@ -785,9 +937,13 @@ def main(argv: list[str] | None = None) -> int:
         [
             ("themes named", f"{named:,}", ""),
             ("declared unnameable", f"{refused:,}", "a finding, not a failure"),
-            ("names revised", f"{revisions:,}", "repeated a parent or collided with a sibling"),
-            ("parents with a renamed child", f"{touched_parents:,}",
-             "NOT regenerated; revisions are terminal"),
+            ("Task C calls", f"{tally['asked']:,}",
+             "ONLY mechanically colliding names, not every theme"),
+            ("names revised", f"{revisions:,}", "a duplicate elsewhere, or a repeat of a parent"),
+            ("revisions rejected", f"{tally['rejected_narrowing']:,}",
+             "would not cover every child; original kept"),
+            ("collisions unresolved", f"{tally['collisions_after']:,}",
+             f"of {tally['collisions_before']:,} before; reported, never repaired"),
             ("failed a mechanical check", f"{failed:,}", "reported, never repaired"),
             ("rows in table", f"{held:,}", f"{marked:,} current, {superseded:,} earlier kept"),
         ],

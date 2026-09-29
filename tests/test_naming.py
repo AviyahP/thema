@@ -1,20 +1,30 @@
 """A name must distinguish a theme from its neighbours, and must be refusable."""
 
+import hashlib
+
 from thema.naming import (
     DISAMBIGUATION_FORMAT,
+    LEAF_PROMPT_VERSION,
     MAX_WORDS,
     NAME_FORMAT,
     NAME_PROMPT_VERSION,
     PREFERRED_WORDS,
     RESPONSE_FORMAT,
+    SYSTEM_PROMPT,
     check,
-    collisions,
+    covers_children,
     disambiguation_key,
     render_disambiguation,
     render_internal,
     render_leaf,
     theme_key,
 )
+
+#: The leaf path's bytes as of name-v4. If either changes without LEAF_PROMPT_VERSION moving with
+#: it, leaves would answer from a prompt that no longer exists, so these are pinned rather than
+#: recomputed. They changed on 29 Sep when the shared system prompt's line break was fixed.
+LEAF_SYSTEM_SHA = "d1c9243d73ddb3ad"
+LEAF_RENDER_SHA = "ada95d6410d54265"
 
 
 def test_theme_key_is_the_member_set_not_the_order() -> None:
@@ -75,8 +85,43 @@ def test_length_is_measured_not_truncated() -> None:
     assert c.words == MAX_WORDS + 3 and not c.in_range and not c.clean
 
 
-def test_a_root_says_it_has_no_parent_rather_than_omitting_the_line() -> None:
-    assert "(none -- this is a root)" in render_disambiguation("X", [], [])
+def test_task_c_is_only_ever_asked_about_a_real_collision() -> None:
+    """v4. The pass is withdrawn: the model is told WHAT it collides with, not asked whether."""
+    rendered = render_disambiguation(
+        "Nucleotide excision repair",
+        collides_with=["Nucleotide excision repair"],
+        repeats_parent=True,
+        children=["Global genome NER", "Transcription-coupled NER"],
+        taken=["Nucleotide excision repair", "DNA repair"],
+    )
+    assert "IDENTICAL to the name of 1 other theme" in rendered
+    assert "REPEATS the name of its own parent" in rendered
+    assert "true of EVERY one of them" in rendered
+    assert "Global genome NER" in rendered
+    assert "Give the replacement." in rendered
+
+
+def test_task_c_shows_a_leaf_its_members_and_an_internal_node_its_children() -> None:
+    """v4. The two have opposite rules, so they are shown different evidence."""
+    leaf = render_disambiguation(
+        "X", collides_with=["X"], members=[("response to caffeine", 0.8)]
+    )
+    assert "This theme is a leaf" in leaf and "response to caffeine" in leaf
+    internal = render_disambiguation("X", collides_with=["X"], children=["A child"])
+    assert "This theme is a leaf" not in internal and "A child" in internal
+
+
+def test_a_revision_that_drops_a_child_is_rejected() -> None:
+    """v4. name-v3 narrowed parents below their own children; this is the guard."""
+    assert covers_children(
+        "Wnt and Hedgehog signalling",
+        ["Canonical Wnt signalling", "Hedgehog ligand reception"],
+    )
+    assert not covers_children(
+        "Canonical Wnt destruction complex",
+        ["Canonical Wnt signalling", "Hedgehog ligand reception"],
+    )
+    assert covers_children("anything at all", [])
 
 
 def test_the_response_contract_allows_refusal() -> None:
@@ -106,14 +151,14 @@ def test_disambiguation_has_its_own_contract_and_only_two_actions() -> None:
 
 def test_an_internal_node_is_told_how_many_children_could_not_be_named() -> None:
     """An unnameable child is a hole in the evidence and the parent must be told."""
-    text = render_internal(["A", "B"], [("go", "x", "d")], 40, unnamed_children=3)
+    text = render_internal(["A", "B"], 40, unnamed_children=3)
     assert "3 further child theme(s) could not be named" in text
-    assert "could not be named" not in render_internal(["A"], [("go", "x", "d")], 40)
+    assert "could not be named" not in render_internal(["A"], 40)
 
 
 def test_an_internal_node_is_told_its_true_member_count() -> None:
-    """It sees 3 descriptions but must name a theme of 61, and must know that."""
-    assert "contains 61 pathways" in render_internal(["A"], [("go", "x", "d")], 61)
+    """It sees its children and its direct members, but must name a theme of 61."""
+    assert "contains 61 pathways" in render_internal(["A"], 61)
 
 
 def test_a_leaf_shows_descriptions_not_only_names() -> None:
@@ -136,7 +181,23 @@ def test_container_nouns_are_contentless() -> None:
 
 
 def test_prompt_version_is_part_of_the_contract() -> None:
-    assert NAME_PROMPT_VERSION == "name-v3"
+    assert NAME_PROMPT_VERSION == "name-v4"
+
+
+def test_the_leaf_pin_moves_with_the_leaf_prompt() -> None:
+    """The leaf ledger may only lag NAME_PROMPT_VERSION while the leaf path is byte-identical.
+
+    A leaf request is ``Request(theme_key(members), SYSTEM_PROMPT, render_leaf(...))``. Pointing it
+    at an older ledger reuses completions, which is right only if those three are unchanged. On
+    29 Sep the shared system prompt was edited (a line break), so LEAF_PROMPT_VERSION moved to
+    name-v4 with it and currently carries nothing over. This pins the two artefacts so the next
+    edit fails loudly here rather than the cache quietly answering from a prompt that is gone.
+    """
+    assert LEAF_PROMPT_VERSION == "name-v4"
+    # The exact bytes a leaf request carries, as of name-v3.
+    assert hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:16] == LEAF_SYSTEM_SHA
+    rendered = render_leaf([("go", "response to caffeine", "The response to caffeine.")], [0.5])
+    assert hashlib.sha256(rendered.encode()).hexdigest()[:16] == LEAF_RENDER_SHA
 
 
 def test_ten_words_is_in_range_and_eleven_is_not() -> None:
@@ -173,30 +234,6 @@ def test_a_name_used_elsewhere_in_the_dag_is_a_duplicate() -> None:
     assert check(name, ["x"], taken=[name]).duplicate_name
     assert not check(name, ["x"], taken=["Kinetochore attachment checking"]).duplicate_name
     assert not check(name, ["x"]).duplicate_name
-
-
-def test_task_c_shows_each_sibling_with_its_own_members() -> None:
-    """v3. Discrimination is a question about members, so the members are what is rendered."""
-    rendered = render_disambiguation(
-        "Immune signalling",
-        parents=["Cell communication"],
-        siblings=[("Interferon response", ["type I interferon signalling", "ISG induction"])],
-        members=["TLR4 cascade"],
-    )
-    assert "Interferon response" in rendered
-    assert "type I interferon signalling" in rendered
-    assert "TLR4 cascade" in rendered
-    assert "ALREADY IN USE" not in rendered
-
-
-def test_task_c_is_told_only_that_a_duplicate_happened() -> None:
-    """v3. The collision is found by ``collisions``; the model is not handed 873 names to scan."""
-    rendered = render_disambiguation(
-        "Immune signalling", parents=[], siblings=[], taken=["Immune signalling"]
-    )
-    assert "ALREADY IN USE by 1 other theme" in rendered
-    assert collisions("Immune  signalling.", ["immune signalling"]) == ("immune signalling",)
-    assert collisions("Immune signalling", ["Interferon response"]) == ()
 
 
 def test_a_leaf_renders_each_members_inclusion() -> None:
@@ -279,8 +316,21 @@ def test_a_hyphenated_compound_is_one_content_word() -> None:
 
 def test_an_internal_node_states_its_direct_members() -> None:
     """A single-child node is broader than its child exactly by the members no child holds."""
-    rendered = render_internal(["Notch receptor processing"], [], 8, 0,
-                               [("gobp", "regulation of Notch signaling pathway")])
+    rendered = render_internal(
+        ["Notch receptor processing"],
+        8,
+        0,
+        [("gobp", "regulation of Notch signaling pathway", 0.62, "How Notch output is tuned.")],
+    )
     assert "Direct members (1)" in rendered
     assert "regulation of Notch signaling pathway" in rendered
-    assert "(none" in render_internal(["A child"], [], 3, 0, [])
+    # v4: the direct member carries its inclusion AND its full description, not a bare name.
+    assert "(inclusion 0.62)" in rendered
+    assert "How Notch output is tuned." in rendered
+    assert "(none" in render_internal(["A child"], 3, 0, [])
+
+
+def test_task_b_no_longer_shows_file_order_representative_members() -> None:
+    """v4. They were member_keys[:3] in file order; "representative" was not true of them."""
+    rendered = render_internal(["A child"], 900, 0, [])
+    assert "Representative members" not in rendered

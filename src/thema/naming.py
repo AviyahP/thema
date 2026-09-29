@@ -61,6 +61,14 @@ from thema.normalize import IDENTIFIER_PATTERNS
 
 #: Bumped whenever the prompt changes in a way that should invalidate cached names. Part of the
 #: cache key, so a bump renames rather than silently mixing two prompts in one table.
+#
+# name-v4 (28 Sep): Task B's three "representative members" are removed -- they were
+# member_keys[:3] in FILE ORDER, so "representative" described nothing -- and every DIRECT member is
+# now rendered in full with source, name, inclusion and description. The full Task C pass is
+# WITHDRAWN: collisions are detected by string comparison and only the colliding names go to the
+# model, whose replacement must cover every child for an internal node. See
+# LEAF_PROMPT_VERSION -- leaf requests are byte-identical to name-v3 and their names carry over.
+#
 # name-v3 (27 Sep): "overview" joins the contentless list; a worked NEGATIVE example for over-reach;
 # names must be unique across the WHOLE DAG, not only against parents and siblings; member
 # INCLUSIONS are shown and coverage is stated in terms of them; Task C tests sibling discrimination
@@ -71,7 +79,26 @@ from thema.normalize import IDENTIFIER_PATTERNS
 # node saw only child names and three samples, so a single-child node was indistinguishable from
 # its child and could only be refused as a restatement. That was 8 of 12 refusals in the first
 # smoke run. Bumped rather than edited in place: the prompt changed, so the cache must not answer.
-NAME_PROMPT_VERSION = "name-v3"
+NAME_PROMPT_VERSION = "name-v4"
+
+#: The version LEAF requests are cached under. **Equal to NAME_PROMPT_VERSION as of 29 Sep**, so
+#: it carries nothing over right now -- kept because the mechanism is correct and will earn its
+#: keep the next time only Task B or Task C changes.
+#:
+#: Every change in name-v4 is confined to Task B's user message and to Task C. A leaf's request is
+#: ``Request(theme_key(member_keys), SYSTEM_PROMPT, render_leaf(...))`` and all three parts are
+#: unchanged: ``SYSTEM_PROMPT`` is untouched (the Task B wording lives in ``render_internal``, not
+#: in
+#: the shared system prompt), ``render_leaf`` is untouched, and ``theme_key`` has never depended on
+#: the prompt version. So the request bytes are identical and the ledger key is identical -- what
+#: changed is only WHICH FILE the ledger reads, since a ledger is opened per (model, version).
+#: Pointing leaves at name-v3 therefore reuses all 285 leaf completions for $0.00, while every
+#: internal node and every disambiguation call is a miss and is regenerated.
+#:
+#: A test asserts the two are equal only when the leaf path is genuinely unchanged; bump this the
+#: moment SYSTEM_PROMPT or render_leaf changes, or leaves will silently answer from the wrong
+#: prompt.
+LEAF_PROMPT_VERSION = "name-v4"
 
 #: A name is a phrase a biologist would accept as a heading. Bounds are enforced by instruction and
 #: MEASURED here, never by truncation.
@@ -94,6 +121,13 @@ SOURCE_WORDS = frozenset({"reactome", "hallmark", "msigdb", "btm", "gobp", "go"}
 #: A name may not open with an article: "The interferon response" is a sentence fragment where a
 #: heading is wanted, and articles sort badly in any list.
 LEADING_ARTICLES = frozenset({"the", "a", "an"})
+
+#: Words that carry no subject, so two names sharing only these share nothing. Used by
+#: :func:`_content_words` for the parent-coverage check, not by any naming rule.
+_STRUCTURAL = frozenset({
+    "the", "a", "an", "and", "or", "of", "in", "to", "by", "via", "with", "from", "for", "into",
+    "at", "on", "its", "their", "regulation", "response",
+})
 
 #: Words that make a name say nothing. A theme called "Regulation of cellular processes" has been
 #: labelled without being named.
@@ -330,6 +364,53 @@ def collisions(name: str, others: Iterable[str]) -> tuple[str, ...]:
     return tuple(sorted({o for o in others if _norm(o) == target}))
 
 
+def _content_words(text: str) -> set[str]:
+    """The name's content words, lowercased, with structural words dropped.
+
+    Args:
+        text: A name.
+
+    Returns:
+        Content words. Hyphenated compounds are kept whole AND split, so "Wnt-dependent" matches a
+        child named "Canonical Wnt signalling".
+    """
+    words = set()
+    for token in re.findall(r"[a-z][a-z-]*", _norm(text)):
+        if token in _STRUCTURAL:
+            continue
+        words.add(token)
+        words.update(part for part in token.split("-") if part and part not in _STRUCTURAL)
+    return words
+
+
+def covers_children(name: str, children: Sequence[str]) -> bool:
+    """Whether a replacement parent name could still be true of every child's name.
+
+    Mechanical and deliberately weak. It asserts one thing only: the replacement must not be a
+    NARROWING that drops a child's subject entirely. A child whose name shares no content word with
+    the parent's, where the original parent name did share one, is evidence the revision walked away
+    from that child. The check cannot read biology, so it is used to REJECT a revision and never to
+    accept one -- a revision that passes is not thereby correct.
+
+    Under name-v3 the disambiguation pass had no such guard and narrowed parents below their own
+    children in 2 of the 3 wrong parents found in the 20-node read.
+
+    Args:
+        name: The proposed replacement.
+        children: The children's names.
+
+    Returns:
+        True when every child still shares a content word with the name, or when there are no
+        children to cover.
+    """
+    if not children:
+        return True
+    words = _content_words(name)
+    if not words:
+        return False
+    return all(_content_words(child) & words for child in children)
+
+
 def check(
     name: str,
     members: Sequence[str],
@@ -389,8 +470,8 @@ though written by the same person on the same day.
 
 WHAT A NAME IS
 
-{MIN_WORDS} to {MAX_WORDS} words, and fewer than {PREFERRED_WORDS} is preferred. Sentence case, no
-leading article, no trailing punctuation.
+{MIN_WORDS} to {MAX_WORDS} words, and fewer than {PREFERRED_WORDS} is preferred. Sentence case,
+no leading article, no trailing punctuation.
 
 A noun phrase by default. A clause with a verb is acceptable only when it is the tightest true
 statement of what the members share; never a full sentence. Do not reach for a clause to sound
@@ -421,10 +502,15 @@ Each member is listed with its inclusion -- the share of the evidence that place
 A member at 1.00 is settled. A member at 0.3 was placed by a minority of the evidence and is a
 boundary case.
 
-The name must be true of every member at inclusion 0.5 or above. It MAY leave out members below
-0.5, and when it does you must say which ones in the rationale, by name. Weakly included members
-are never on their own a reason to answer nameable false -- if the members at 0.5 and above share a
-nameable biology, name it and note what you excluded.
+When you are naming a theme from its own members, the name must be true of every member at
+inclusion 0.5 or above. It MAY leave out members below 0.5, and when it does you must say which
+ones in the rationale, by name. Weakly included members are never on their own a reason to answer
+nameable false -- if the members at 0.5 and above share a nameable biology, name it and note what
+you excluded.
+
+**That allowance does not apply to a parent's DIRECT members.** When the task below gives you child
+themes plus direct members, every direct member must be covered whatever its inclusion, because the
+direct members are the whole of what the parent adds. The task says so again where it matters.
 
 DO NOT ASSERT A MECHANISM THE MEMBERS DO NOT CONTAIN
 
@@ -474,42 +560,39 @@ Return an object with "nameable" (boolean), "name" (string, empty when nameable 
 #: different instruction from writing one, and folding both into one prompt made the naming rules
 #: compete with the revision rules for the model's attention.
 DISAMBIGUATION_SYSTEM_PROMPT = f"""\
-You are checking one name in an ontology of human biological pathways.
+You are fixing ONE name that collides with another name in an ontology of human biological pathways.
 
-A name earns its place by DISTINGUISHING its theme. You are given the name, its own theme's members,
-its parents' names, and for each sibling theme its name AND its three most strongly included
-members. Siblings sit under the same parent, so they are the themes a reader must choose between.
+The collision has already been established by string comparison, so you are not being asked whether
+it collides. You are being asked for a replacement. Two themes with one name make the hierarchy
+unreadable, and a child that repeats its parent tells a reader who descended nothing about why.
 
-Answer two questions, in order.
+You are given the name, what it collides with, and the theme's own contents.
 
-FIRST: are you told the name is already in use by another theme elsewhere in the hierarchy? Two
-themes with one name make the hierarchy unreadable -- a reader cannot tell which of them they are
-looking at. If you are told it collides, you must revise.
+FOR A THEME WITH CHILDREN, the replacement MUST still be true of every child's name. A replacement
+that covers only some of the children is worse than the collision it fixes -- it makes the parent
+narrower than its own contents, which is a false statement about the hierarchy rather than an
+awkward one. Stay as broad as the children require and find the difference elsewhere.
 
-SECOND: would this name also describe a sibling? Read each sibling's three members and ask whether
-your name is true of them too. This is NOT a check for repeated words: "Canonical Wnt signalling"
-and "Non-canonical Wnt signalling" share almost everything and are perfectly distinct. The failure
-is a name a reader would apply to the wrong theme -- if "Immune signalling" fits a sibling's members
-as well as its own, it fails, and needs whatever separates them.
+FOR A LEAF, the replacement must be MORE SPECIFIC than the name it replaces, never broader, and
+still true of every member at inclusion 0.5 or above.
 
-Repeating a PARENT's name is also a collision: a reader who descended is told nothing about why.
+In both cases the replacement must not assert a mechanism the contents do not contain, and must not
+collide with any of the names you are shown.
 
-Revise only on one of those two grounds. If the name is unique and no sibling fits it, keep it --
-an unnecessary revision costs consistency for nothing.
-
-A revision must be MORE SPECIFIC than the current name, never broader; must still be true of every
-member of its own theme at inclusion 0.5 or above; and must not assert a mechanism the members do
-not contain.
+Distinguishing is not the same as sharing no words. "Canonical Wnt signalling" and "Non-canonical
+Wnt signalling" share almost everything and are perfectly distinct. What matters is that a reader
+could not apply your name to the other theme.
 
 All the rules of a name still hold: {MIN_WORDS} to {MAX_WORDS} words with fewer than
-{PREFERRED_WORDS} preferred, a noun phrase unless a clause is tighter, sentence case, no database
-names, no identifiers, no contentless words.
+{PREFERRED_WORDS} preferred; a noun phrase unless a clause is tighter; sentence case;
+no database names, no identifiers, no contentless words.
 
 OUTPUT FORMAT
 
-Return an object with "revise" (boolean), "name" (the revised name, empty when revise is false) and
-"reason" (what it collided with -- a duplicate elsewhere, a parent, or a named sibling whose members
-it also described -- and what now separates it; empty when revise is false).
+Return an object with "revise" (boolean), "name" (the replacement, empty when revise is false) and
+"reason" (what it collided with and what now separates them; empty when revise is false). Return
+revise false only if you genuinely cannot find a replacement that satisfies the constraints above,
+which is a finding worth reporting rather than a failure.
 """
 
 
@@ -572,25 +655,27 @@ def render_leaf(
 
 def render_internal(
     child_names: Sequence[str],
-    samples: Sequence[tuple[str, str, str]],
     total_members: int,
     unnamed_children: int = 0,
-    direct: Sequence[tuple[str, ...]] = (),
+    direct: Sequence[tuple[str, str, float, str]] = (),
 ) -> str:
-    """Task B. Render an internal node: its children, its DIRECT members, and a few descriptions.
+    """Task B. Render an internal node: its children by name, its DIRECT members in full.
+
+    **name-v4 removed the three "representative members".** They were ``member_keys[:3]`` in file
+    order -- not medoids, not highest-inclusion, not sampled -- so "representative" described
+    nothing, and three arbitrary descriptions out of a 933-member theme were noise that competed
+    with the children for the model's attention. What the parent actually adds is its direct
+    members, and those are now given in full: source, name, inclusion and the whole description.
 
     Args:
         child_names: The already-assigned names of this node's children.
-        samples: ``(source, name, description)`` for about three representative members, so one
-            bad child name cannot compound upward.
         total_members: How many pathways the theme holds in total.
         unnamed_children: Children that came back unnameable. Stated, because they are a hole in
-            the evidence: the parent must cover them too and has only the samples to go on.
-        direct: ``(source, name)`` or ``(source, name, inclusion)`` for every member belonging to
-            NO child. These are what make a
-            parent broader than its children. Without them a single-child node looks identical to
-            its child and can only be refused as a restatement, which is what the first smoke run
-            did on eight of twelve refusals.
+            the evidence the parent must still cover.
+        direct: ``(source, name, inclusion, description)`` for every member belonging to NO child,
+            highest inclusion first. These are what make a parent broader than its children.
+            Without them a single-child node looks identical to its child and can only be refused
+            as a restatement, which is what the first smoke run did on eight of twelve refusals.
 
     Returns:
         The user message.
@@ -606,95 +691,97 @@ def render_internal(
         "umbrella that does so: tight enough to exclude what none of them are about. Broader than",
         "the children is required; broader than necessary is a fault.",
         "",
+        "COVERAGE, precisely. The name must be true of EVERY child theme's name AND of EVERY",
+        "direct member below, whatever its inclusion. No threshold here, and nothing left out:",
+        "the direct members are the whole of what this node adds to its children, so a name",
+        "that excludes one is not a name for this node. Each member's inclusion is shown because",
+        "it says how central that member is, not because it licenses ignoring it.",
+        "",
         "THE DIRECT MEMBERS ARE WHY THIS NODE EXISTS. They belong to no child, so they are exactly",
-        "what the parent adds. Name the union of children and direct members. Do not refuse",
-        "merely because there is one child: a node with one child and direct members is broader",
-        "than that child, and the direct members tell you how.",
+        "what the parent adds, and they are given below in full. Name the union of children and",
+        "direct members. Do not refuse merely because there is one child: a node with one child",
+        "and direct members is broader than that child, and the direct members tell you how.",
         "",
         "Return nameable false only when the union is genuinely incoherent -- unrelated biology",
         "with no honest umbrella short of a near-vacuous word -- or when there are NO direct",
         "members and a single child, so the parent really would just restate it. Saying so is",
         "useful information, not a failure.",
         "",
-        "Child themes:",
+        f"Child themes ({len(child_names)}), already named:",
     ]
     for name in child_names:
         lines.append(f"  - {name}")
     if unnamed_children:
         lines.append(
-            f"  - ({unnamed_children} further child theme(s) could not be named; the samples "
-            "below are your only evidence for what they contain)"
+            f"  - ({unnamed_children} further child theme(s) could not be named. You have no "
+            "evidence for what they contain; cover them as best the rest allows and say so.)"
         )
-    lines += ["", f"Direct members ({len(direct)}) -- in this theme but in NO child:"]
+    lines += ["", f"Direct members ({len(direct)}) -- in this theme but in NO child:", ""]
     if direct:
-        for entry in direct:
-            source, name = entry[0], entry[1]
-            share = f"  (inclusion {float(entry[2]):.2f})" if len(entry) > 2 else ""
-            lines.append(f"  - [{source}] {name}{share}")
+        for source, name, inclusion, description in direct:
+            lines.append(f"  [{source}] {name}  (inclusion {inclusion:.2f})")
+            lines.append(f"      {description}")
+            lines.append("")
     else:
         lines.append("  (none -- every member of this theme sits in one of the children above)")
-    lines += ["", "Representative members:", ""]
-    for source, name, description in samples:
-        lines.append(f"  [{source}] {name}")
-        lines.append(f"      {description}")
         lines.append("")
     return "\n".join(lines)
 
 
 def render_disambiguation(
     name: str,
-    parents: Sequence[str],
-    siblings: Sequence[tuple[str, Sequence[str]]],
-    members: Sequence[str] = (),
+    collides_with: Sequence[str],
+    repeats_parent: bool = False,
+    children: Sequence[str] = (),
+    members: Sequence[tuple[str, float]] = (),
     taken: Sequence[str] = (),
 ) -> str:
-    """Task C. Render one name for the duplicate and sibling-discrimination checks.
+    """Task C. Render ONE name that mechanically collides, and ask for a replacement.
 
-    Siblings arrive as ``(name, its three highest-inclusion member names)``. v2 compared strings,
-    which is why it revised 415 of 808 names for repeating a parent while leaving names that failed
-    the question that matters -- whether a reader could tell two siblings apart. Discrimination is a
-    question about members, so the members are what the model is shown.
+    **name-v4 withdrew the full pass.** Under name-v3 every theme with a parent or a sibling was
+    sent to the model -- 806 of the run's 1,676 calls -- to be asked a question string comparison
+    answers. It cost more than half the run and made the result worse three ways: it created 20
+    duplicate names, every one of them by revising two themes onto the same replacement; it narrowed
+    parents below their own children (2 of the 3 wrong parents in the 20-node read); and it produced
+    one false refusal, n0475, whose two children it had given the same name. Detection is now
+    mechanical and the model is asked only about names that actually collide.
 
     Args:
-        name: The generated name.
-        parents: Every parent's name.
-        siblings: Per sibling, its name and its three most strongly included members.
-        members: This theme's own member names, so a revision can be checked against them.
-        taken: The names this name actually collides with, anywhere in the hierarchy -- normally
-            empty. An exact duplicate is found by string comparison, so the collision is detected
-            in code and the model is told only that it happened, not handed 873 names to scan.
+        name: The colliding name.
+        collides_with: The other names it is identical to, elsewhere in the hierarchy.
+        repeats_parent: Whether it repeats one of its own parents' names.
+        children: This theme's children's names. Non-empty means the replacement must cover them
+            ALL, which is the opposite of the leaf rule and is stated as such in the prompt.
+        members: ``(pathway name, inclusion)`` for a leaf's members, highest inclusion first.
+        taken: Names in use that the replacement must avoid -- the collisions plus the parents.
 
     Returns:
         The user message.
     """
-    lines = [DISAMBIGUATION_EXAMPLE, "", f'This theme is currently named "{name}".', ""]
-    if members:
-        lines.append("Its own members:")
-        lines.extend(f"  - {member}" for member in members)
-        lines.append("")
-    lines.append(
-        "Its parent themes are named: "
-        + ("; ".join(parents) if parents else "(none -- this is a root)")
-    )
+    lines = [DISAMBIGUATION_EXAMPLE, "", f'This theme is named "{name}".', ""]
+    if collides_with:
+        lines.append(
+            f"It is IDENTICAL to the name of {len(collides_with)} other theme(s) elsewhere in the "
+            "hierarchy."
+        )
+    if repeats_parent:
+        lines.append("It REPEATS the name of its own parent.")
     lines.append("")
-    if siblings:
-        lines.append("Its siblings, each with its three most strongly included members:")
-        for sibling, examples in siblings:
-            lines.append(f'  "{sibling}"')
-            lines.extend(f"      - {example}" for example in examples)
-    else:
-        lines.append("It has no siblings.")
+    if children:
+        lines.append(
+            f"This theme has {len(children)} children, already named. Your replacement must be "
+            "true of EVERY one of them:"
+        )
+        lines.extend(f"  - {child}" for child in children)
+    elif members:
+        lines.append("This theme is a leaf. Its members, highest inclusion first:")
+        lines.extend(f"  - {member}  (inclusion {share:.2f})" for member, share in members)
     lines.append("")
     if taken:
-        lines.append(
-            f"This name is ALREADY IN USE by {len(taken)} other theme(s) elsewhere in the "
-            "hierarchy. It must change."
-        )
+        lines.append("Names your replacement must NOT be:")
+        lines.extend(f"  - {other}" for other in sorted(set(taken)))
         lines.append("")
-    lines.append(
-        "Is this name a duplicate of one already in use, or a name that would also describe one of "
-        "those siblings? Revise only on those grounds."
-    )
+    lines.append("Give the replacement.")
     return "\n".join(lines)
 
 
