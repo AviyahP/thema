@@ -156,3 +156,22 @@ def test_a_table_whose_header_changed_is_rebuilt_rather_than_misread(tmp_path):
     path.write_text("old\tshape\n1\t2\n", encoding="utf-8")
     merge_tsv(path, SHARED, [("p1", "A", "wrong", "")], key=("key", "arm"))
     assert _merged(path) == [{"key": "p1", "arm": "A", "kind": "wrong", "label": ""}]
+
+
+def test_a_column_added_at_the_end_pads_instead_of_discarding(tmp_path) -> None:
+    """Adding a column is a migration, not a mismatch, and must not cost the file.
+
+    Adding one column to NAME_COLUMNS silently discarded 2,237 rows of theme_names.tsv, because a
+    header that merely lacked the new column was treated exactly like an unrelated one. A header
+    that is a PREFIX of the requested columns now pads: old rows keep their values and the new
+    column starts empty. An unrelated header still rebuilds -- see the test above -- because
+    reading rows under the wrong names would corrupt them.
+    """
+    path = tmp_path / "t.tsv"
+    write_tsv(path, ("a", "b"), [["1", "x"]])
+    assert merge_tsv(path, ("a", "b", "c"), [["2", "y", "z"]], key=("a",)) == 2
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert lines[0] == "a\tb\tc"
+    rows = [line.split("\t") for line in lines[1:]]
+    assert ["1", "x", ""] in rows          # the pre-existing row, padded, not lost
+    assert ["2", "y", "z"] in rows

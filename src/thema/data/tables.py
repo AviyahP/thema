@@ -208,11 +208,24 @@ def merge_tsv(
     existing: dict[tuple[str, ...], list[str]] = {}
     if path.is_file():
         lines = path.read_text(encoding="utf-8").splitlines()
-        if lines and lines[0].split("\t") == list(columns):
-            for line in lines[1:]:
-                if line:
-                    fields = line.split("\t")
-                    existing[identity(fields)] = fields
+        if lines:
+            header = lines[0].split("\t")
+            # A COLUMN ADDED AT THE END is a migration, not a mismatch, and must not cost the
+            # file. Adding one column to NAME_COLUMNS silently discarded 2,237 rows of
+            # theme_names.tsv, because a header that merely lacked the new column was treated the
+            # same as an unrelated one. Pad instead: the old rows keep their values and the new
+            # column starts empty.
+            #
+            # An UNRELATED header still rebuilds, which is deliberate -- reading rows under the
+            # wrong names would corrupt them, and there is nothing to preserve.
+            pad = 0
+            if header != list(columns) and list(columns[: len(header)]) == header:
+                pad = len(columns) - len(header)
+            if header == list(columns) or pad:
+                for line in lines[1:]:
+                    if line:
+                        fields = line.split("\t") + [""] * pad
+                        existing[identity(fields)] = fields
 
     merged: dict[tuple[str, ...], list[str]] = dict(existing)
     for row in rows:

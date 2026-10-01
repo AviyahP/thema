@@ -37,6 +37,10 @@ NAME_COLUMNS = (
     "model",
     "prompt_version",
     "status",
+    # name-v6: the node this one was merged with, when a parent took its child's name and the child
+    # declined to narrow itself. Empty for every other row. It is recorded rather than resolved:
+    # nothing invents a difference, and the two are shown merged.
+    "same_theme",
 )
 
 
