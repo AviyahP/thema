@@ -2641,3 +2641,501 @@ n0327**: its two nucleotide-transport members gain a 14-member theme, and **its 
 barrier and drug-response members have no home smaller than 391, at inclusions of 0.25 to 0.43.**
 Four pathways moved from a bad small theme to a vague large one. That is the result on the 1,850 and
 is to be re-checked on the 10,770.
+
+## 2026-09-27 — Production naming sends BOTH member names and member descriptions
+
+**Decided by Aviyah, on a blind rating.** Recorded verbatim:
+
+> The DAG is built from descriptions only; pathway names never enter the embedding. Theme names are
+> written from member names and descriptions together. The two are separate steps: naming runs after
+> the structure is fixed and cannot change it. Pilot 27 Sep, 30 leaf themes, three arms blind:
+> descriptions-only invents mechanisms from prose (inflammasome, circuits, insulin, AML), names-only
+> under-covers and copies member names (4 mechanical failures); both had the fewest failures of
+> either kind and won the mixed-source themes.
+
+The first clause is checkable and checked: `scripts/build_ontology.py:268` embeds
+`[texts[k] for k in keys]` — the descriptions table and nothing else. No pathway name reaches
+`embed()`, so no name influences a distance, a Ward merge, a grouping or an edge.
+
+### The pilot, for the record
+
+Thirty leaf themes of `recurrent_dag_consensus_centred`, seed 20260927, prompt `name-v3`,
+`claude-sonnet-5`, each named three times from three views of the same members: names only,
+descriptions only, both. Candidates written in a per-theme shuffled A/B/C order with the arm key in
+a separate file; nothing in the comparison marked an arm as the incumbent. Stratified 10 pure
+GO / 10 pure Reactome / 10 with a BTM or Hallmark member, GO-Reactome mixtures excluded so the
+strata stay
+disjoint. Ran at **$0.72** against a $0.88 estimate — 90 calls, 136 output tokens each against the
+112 the estimator assumed.
+
+**Rating: names 8 clear wins, both 7, descriptions 6, and 9 themes where all three arms agreed.**
+Names-only leads on the raw count of wins and is still the arm that was rejected, because the two
+losing modes are not equally recoverable.
+
+The four `copies_member` failures were all names-only: `Metanephric collecting duct development`,
+`Peroxisomal protein import`, `Glycogen storage diseases` — a theme named by lifting one member's
+pathway name, which names the member and not the theme.
+
+The invented mechanisms were all descriptions-only, and all four are **mechanically clean**:
+`Inflammasome-driven IL-1 signalling and acute inflammation`,
+`Neural circuit control of locomotor behaviour`,
+`Insulin regulation of glucose uptake and glycogen synthesis`,
+`FLT3 inhibitor resistance mutations in AML`. That is the worse failure of the two: a check can find
+a copied name and cannot find an invented mechanism.
+
+**A caveat the pilot cannot remove, and the decision is taken with it stated.** The
+descriptions-only arm is not blind to names: of the 152 member descriptions, **26% quote their
+pathway's name verbatim and a further 26% carry three quarters of its content words — 53%
+together**. The descriptions were generated from the names. So its 6 wins are an upper bound on what
+descriptions alone achieve, and its failures are not explained by missing information.
+
+**Separately, and independent of the input question:** every arm named all 30 themes with no
+refusals, against 8 unnameable themes in the raw build. That is change 4 of `name-v3` — every member
+shown with its inclusion, weak members never alone forcing `nameable: false`.
+
+`name-v3` already sends both, so no prompt changes. What is settled is that it is not to be narrowed
+to save tokens. Raw output in `docs/status/input_pilot.md`, arm key in
+`docs/status/input_pilot_key.tsv`.
+
+## 2026-09-29 — The inclusion cutoff is 0.50
+
+**Decided by Aviyah.** Membership in a completed grouping now requires inclusion **>= 0.50**, up
+from
+0.25. This applies from the next build; nothing has been rebuilt or renamed under it yet.
+
+### The criterion that was supposed to decide this could not
+
+Per-cutoff floors were re-solved under the declared procedure (20 calibration scrambles solve, 10
+held-out confirm, candidates at every distinct null support value, no grid) at 0.25, 0.33 and 0.50.
+Every cutoff clears the 0.01 overall cap and every stratum clears the 0.02 branch.
+
+Then the same calibration was run a second time on an independent scramble set:
+
+| cutoff | seeds 1000-1019 | seeds 1-20 |
+|---|---|---|
+| 0.25 | 0.00538 | 0.00360 |
+| 0.33 | 0.00460 | 0.00420 |
+| 0.50 | 0.00248 | 0.00388 |
+
+**Between-seed spread at one cutoff is 0.0018; between-cutoff spread within one seed set is
+0.0006.**
+The noise is three times the signal, and the two sets rank the cutoffs in OPPOSITE orders -- one
+makes 0.50 safest, the other 0.25. An earlier report of a monotone ordering was read off a single
+seed set and is **withdrawn**. FDR does not choose the cutoff, and the spec should say so rather
+than
+implying a statistical basis that does not exist.
+
+The original calibration's scramble seeds are recorded nowhere in the repo, so the committed 0.0051
+cannot be reproduced exactly. Seeds 1-20 do reproduce the committed FLOORS closely (size 3: 0.836735
+against 0.838; sizes 7-9: 0.370000 exactly), which is evidence the procedure is right even though
+the
+number is one draw from a distribution with +/- 0.002 of seed noise.
+
+### What decided it instead: what the overlap is made of
+
+At 0.25, 852 of 1,842 placed pathways (46%) have two or more non-nested homes. At 0.50, 529 (29%).
+The question is whether the difference is real multi-membership or threshold noise.
+
+- **444 pathways stop straddling. 63% of them had a second home below 0.5** -- placed by a minority
+  of the evidence, which is exactly what the higher cutoff exists to remove.
+- **121 pathways newly straddle at 0.50**, so this is not pure subtraction.
+- 252 pathways had a second home at inclusion >= 0.75. **114 of those (45%) stop straddling** -- not
+  because the membership was weak but because a tighter cutoff makes themes nest more often.
+
+**Those 114 were traced individually, and 104 of them (91%) are still in two or more themes at 0.50
+-- their overlap became nesting.** The pathway still sits in both biologies; one is now the ancestor
+of the other rather than a sibling. **9 fall to a single theme and 1 becomes unplaced: a genuine
+loss
+of 10 pathways out of 1,842.**
+
+**A claim made in support of 0.25 is withdrawn as false.** It was stated that "nearly half the
+multi-membership 0.50 discards sits at inclusion >= 0.75". Raising the cutoff deletes only
+memberships BELOW 0.5, so by construction it deletes nothing at 0.75; the figure came from the
+histogram of ALL straddler memberships rather than of the discarded ones. The true share of
+discarded second-homes at >= 0.75 is 25.7%, and 91% of those survive as nesting. That claim was the
+main argument against 0.50 and it did not hold.
+
+### What 0.50 buys and what it costs
+
+**Buys.** Straddlers fall from 46% to 29% of placed pathways and the survivors are enriched for
+strong membership (33.8% hold a second home at >= 0.75, against 29.6% at 0.25). Seed stability is
+the
+best of the three: mean best-match Jaccard **0.866** with 55.7% of themes matching at >= 0.9,
+against
+0.849 and 46.3% at 0.25.
+
+**Costs.** 767 themes instead of 873, and **unplaced rises from 8 to 27** -- nineteen pathways get
+no
+home at all. Pass-through parents remain 0 at every cutoff.
+
+**The reason to accept that trade.** Multi-parenthood is the property this ontology has that a tree
+does not, so it is worth protecting -- but only where it is semantically true. 0.50 removes the
+marginal overlap and keeps or promotes the strong, which is the shape that was wanted.
+
+### Stated limits
+
+**Inclusion measures resampling recurrence, not semantic truth.** A pathway held at 0.9 in two
+themes
+is robustly dual UNDER THIS METHOD, which is the best proxy available, but no curator has confirmed
+those pairs. That confirmation is validation gate 4 (sibling recovery), which is unrun. Every claim
+above is about the method's own stability, not about biology.
+
+### Open, and not decided here
+
+**Which floors the 0.50 build runs.** `FLOORS_BY_SPACE` was solved on scrambles at 0.25, and the
+cutoff bites at completion -- before families form and before the support gate -- so those floors
+were
+not calibrated for this cutoff. `recurrent_dag_incl050` (767 themes) uses the committed floors;
+`recurrent_dag_cal050` (794 themes) uses floors re-solved at 0.50. **This is a separate decision and
+has not been taken.** The two scramble sets disagree with each other about the floors by more than
+either disagrees with what is committed, which argues for leaving them alone, but the argument is
+not
+strong and the question is open.
+
+### Consequence
+
+Adopting 0.50 **supersedes the frozen centred build**. Membership changes at every level, so the 861
+`name-v3` names do not transfer and `LEAF_PROMPT_VERSION` cannot carry leaf names over either --
+leaf
+membership itself changes. A rebuild at 0.50 requires a full renaming run, and `name-v4`'s prompts
+are still awaiting review.
+
+## 2026-09-29 — Support floors re-solved on all 60 scrambles, and the committed floors confirmed
+
+**Aviyah's instruction:** rather than pick between two disagreeing scramble sets, pool everything
+and
+log what comes out. Done, at every cutoff, 60 sides: **40 calibration** (seeds 1-20 and 1000-1019)
+and **20 held-out** (seeds 21-30 and 2000-2009), with no held-out seed taking any part in solving.
+CPU only, nothing spent. Written to `data/experiments/inclusion_floors_pooled.json`.
+
+### Why a floor cannot simply carry across cutoffs
+
+A floor is not a property of the scrambles. It is solved as the smallest support `c` where
+`F(s,c)/R(s,c) <= 0.01` -- scrambled families of size stratum `s` at support `c` over real ones. The
+inclusion cutoff is applied at COMPLETION, before families form, so changing it changes which
+families exist on both sides. The floors solved at 0.25 answer a question about a different family
+population than a 0.50 build produces. Measured, seeds held constant at 1-20:
+
+| stratum | moved by the CUTOFF (0.25 -> 0.50) | moved by the SEEDS (at 0.25) |
+|---|---|---|
+| 3 | 0.033 | 0.013 |
+| 4 | 0.030 | 0.010 |
+| 5 | 0.097 | 0.047 |
+| 6 | 0.150 | 0.110 |
+| 7-9 | 0.090 | 0.006 |
+
+The cutoff effect exceeds seed noise at every stratum, so re-solving per cutoff is required. It is
+not a bookkeeping refresh.
+
+### Pooling converges on the committed floors
+
+| stratum | committed | 20 seeds A | 20 seeds B | **pooled 40** | pooled - committed |
+|---|---|---|---|---|---|
+| 3 | 0.838 | 0.8500 | 0.8367 | **0.8367** | 0.0013 |
+| 4 | 0.890 | 0.9000 | 0.9100 | **0.9000** | 0.0100 |
+| 5 | 0.670 | 0.6400 | 0.6869 | **0.6600** | 0.0100 |
+| 6 | 0.530 | 0.4600 | 0.5700 | **0.5200** | 0.0100 |
+| 7-9 | 0.370 | 0.3636 | 0.3700 | **0.3636** | 0.0064 |
+| total distance | | 0.1284 | 0.0781 | **0.0376** | |
+
+**Every pooled floor lands within 0.01 of the committed value, and the pooled set is three times
+closer to it than either half alone.** The two 20-scramble sets disagreed with each other more than
+the pooled set disagrees with what was committed. That is the answer to whether the original
+calibration can be trusted: it can. The disagreement was sampling noise in a 20-scramble estimate,
+and the committed floors sit where 40 scrambles say they should.
+
+### The pooled floors AT 0.50, which is the adopted cutoff
+
+| stratum | floor | effective `max(0.33, floor)` | held-out FDR |
+|---|---|---|---|
+| 3 | 0.880000 | 0.880000 | 0.00521 |
+| 4 | 0.930000 | 0.930000 | 0.00833 |
+| 5 | 0.600000 | 0.600000 | 0.00758 |
+| 6 | 0.400000 | 0.400000 | 0.00926 |
+| 7-9 | 0.270000 | 0.330000 | 0.00271 |
+| 10+ | 0.040541 | 0.330000 | 0.0 |
+
+**Overall held-out FDR 0.00333** against the 0.01 cap, 811 real families against 2.7 scrambled,
+every
+stratum under the 0.02 branch. Pooled 0.25 gives 0.00416 and pooled 0.33 gives 0.00479, so under the
+pooled estimate 0.50 is also the lowest -- but the earlier finding stands that this ordering is
+inside seed noise and is not a reason to prefer any cutoff.
+
+**These are LOGGED, not adopted.** `FLOORS_BY_SPACE` is unchanged and still holds the 0.25 floors.
+Which floors a 0.50 build runs is still an open decision.
+
+### One stratum remains unpinned
+
+Half-to-half spread after pooling: size 3 is 0.013, size 4 is 0.010, size 5 is 0.047, sizes 7-9 are
+0.006 -- but **size 6 is 0.110**, with the two halves at 0.460 and 0.570 bracketing the pooled
+0.520.
+Forty scrambles narrow that stratum without settling it, and honesty requires saying so rather than
+reporting 0.520 as though it were determined. If size 6 ever matters to a conclusion, it needs more
+scrambles, not a decision.
+
+### Recorded debt
+
+Each side's family rows are recomputed from scratch every run, so pooling 60 sides cost a full
+60-side recomputation rather than adding 30 to the 30 already done. Caching `(size, support)` per
+`(seed, cutoff)` would make future pooling additive. Not done; logged so the next enlargement does
+not pay the same cost.
+
+## 2026-09-29 — ADOPTED: inclusion 0.50 with the pooled (centred, 0.50) floors
+
+**Aviyah's decision.** The frozen build is now `v0.2.2-subset-1850-c50`
+(`data/ontology/v0.2/recurrent_dag_c50`), clustering centred-and-renormalised MedCPT vectors with
+membership at inclusion **>= 0.50** and the support floors **solved at that cutoff**:
+0.880 / 0.930 / 0.600 / 0.400 at sizes 3 / 4 / 5 / 6, from 40 calibration and 20 held-out scrambles,
+held-out FDR **0.00333**. It supersedes `recurrent_dag_consensus_centred`.
+
+The earlier entries recommending 0.25 are **left standing and not rewritten**. What follows records
+why that recommendation is replaced.
+
+### The superseded reasoning, and why it fell
+
+The case for 0.25 rested on one claim: that *"nearly half the multi-membership 0.50 discards sits at
+inclusion 0.75 or above -- settled, not marginal"*. **It was false.** Raising the cutoff deletes
+only
+memberships BELOW 0.5, so by construction it deletes nothing at 0.75; the figure had been read off
+the histogram of ALL straddler memberships rather than of the discarded ones. The true share of
+discarded second-homes at >= 0.75 is 25.7%, and of the 114 strongly-included pathways that stop
+straddling, **104 (91%) remain in two or more themes with their overlap turned into nesting** -- the
+pathway keeps both biologies, one now the ancestor of the other. Nine fall to a single theme and one
+becomes unplaced: a real loss of **10 pathways in 1,842**.
+
+That claim was the whole argument against 0.50, and the recommendation did not survive it.
+
+### What 0.50 is adopted FOR
+
+**Membership now requires majority evidence.** A member at 0.50 was held by at least half the
+matched copies of its theme; at 0.25 a quarter sufficed. That is the substantive change, and it is
+what the other numbers follow from.
+
+- **Straddlers 852 -> 682.** From 46% of placed pathways to 37%. The survivors are enriched for
+  strong membership, and 121 pathways newly straddle, so this is not pure subtraction.
+- **Test 9 stability 0.849 -> 0.862**, median 0.889 -> 0.909, matched at >= 0.9 **46.3% -> 53.2%**.
+- **Shape stays inside the curated range**: 7.6% roots (Reactome 1%, GO BP 20%), depth 12 (Reactome
+  11, GO 16), multi-parent 22.0% (Reactome 1%, GO 31%).
+
+Multi-parenthood is the property this ontology has that a tree does not, so it is worth protecting
+-- but only where it is semantically true under the method. 0.50 removes the marginal overlap and
+keeps or promotes the strong.
+
+### The cost, shown rather than hidden
+
+| | 0.25 | **0.50** |
+|---|---|---|
+| themes | 873 | 800 |
+| pathways placed | 1,842 | 1,831 |
+| **unplaced (strict)** | 8 | **19** |
+| **root-only** -- in no theme that has a parent | 53 | **106** |
+| **effectively unplaced** -- the sum | 61 | **125** |
+
+**A root-only pathway is placed by the letter of the algorithm and told a reader almost nothing:** a
+top-level bucket and no theme within it. Raising the cutoff moves pathways into that state faster
+than it moves them out of the build, so reporting only "unplaced 19" would understate the cost by
+more than five-fold. All three counts are now written into the manifest
+(`n_unplaced`, `n_root_only`, `n_effectively_unplaced`) and into `FROZEN.md`, together with the
+largest root's direct-member count (64), so no future reader has to recompute them to see it.
+
+**125 of 1,850 pathways -- 6.8% -- gain nothing usable from this ontology.** That is the honest
+headline cost of the cutoff and it is larger than the 10-pathway loss the straddler analysis found,
+because the two measure different things: the straddler figure counts overlap destroyed, this counts
+readers left with nothing.
+
+### Not re-solved
+
+Theta stays 0.70, declared m stays 0.33, the strata are the amendment's, the consensus parameters
+are unchanged, the encoder and its pinned revision are unchanged. **The 861 `name-v3` names are NOT
+carried over** -- membership changes at every level, so they refer to themes that no longer exist.
+The frozen build is unnamed.
+
+## 2026-09-29 — How many scrambles a floor needs: 40 at 1,850, and 20 was not enough
+
+Measured by resampling the cached calibration sides -- no clustering re-run -- and scored against
+the
+branch `docs/spec/addendum-2026-09-21.md` already declares: **leave-one-out retained-theme counts
+spanning more than 20% of the median means the estimate is unstable and the band is dropped.** The
+quantity that matters is not how far the floor moves but **how many real families the resulting
+threshold admits**, because that is what a build inherits. 200 resamples per size, inclusion 0.50.
+
+| stratum | k=5 | k=10 | k=20 | k=30 | **k=39, leave-one-out** |
+|---|---|---|---|---|---|
+| 3 | 88% | 82% | 35% | 21% | **0%** |
+| 4 | 60% | 57% | 31% | 21% | **0%** |
+| 5 | 15% | 11% | 1.5% | 1.5% | **1.5%** |
+| 6 | 48% | 27% | 19% | 6.5% | **0%** |
+| 7-9 | 0% | 0% | 0% | 0% | **0%** |
+| 10+ | 0% | 0% | 0% | 0% | **0%** |
+
+**Every stratum passes leave-one-out at 40. None of sizes 3 and 4 passed at 20** -- 35% and 31%,
+well over the limit. **The original 20-scramble calibration was under-powered at exactly the strata
+that carry the most risk**, which is why the two 20-scramble sets disagreed and why pooling to 40
+resolved it. `k` equal to the number of sides is deliberately absent from the table: there is one
+way
+to draw n from n, so its spread is zero by construction and reporting it as stability would be
+circular.
+
+**A correction.** Size 6 was earlier called the least determined stratum, on the strength of the two
+20-scramble halves giving 0.460 and 0.570. At 40 it is clean -- 0% span, floor 0.400. **Sizes 3
+and 4
+are the fragile ones**, and the reason is visible: they hold the fewest null families per side (195
+and 1,255, against 21,724 at 10+).
+
+### The rule that answers "how many do we need"
+
+**Precision follows the number of null families a stratum holds, not the number of scrambles.** A
+floor is solved from counts, so a stratum with more null families gets a better estimate from the
+same scramble. That is why 7-9 and 10+ are stable at k=5 while size 3 needs 39.
+
+### Projection to the 10,770 -- an extrapolation, not a measurement
+
+The pool grows 5.82x with the universe, so each scramble carries proportionally more evidence.
+
+| stratum | null families/side at 1,850 | stable at 1,850 | projected at 10,770 |
+|---|---|---|---|
+| 3 | 195 | k=39 | **7** |
+| 4 | 1,255 | k=39 | **7** |
+| 6 | 1,620 | k=20 | **3** |
+| 5, 7-9, 10+ | 1,670-21,724 | k=5 | **1** |
+
+**`amendment-2026-09-24c`'s declared 10 calibration + 5 held-out at 10,770 is adequate** -- 10
+clears
+the worst projected requirement of 7 with margin. That declaration was made on reasoning alone and
+now has a measurement behind it.
+
+**Labelled as what it is.** This rests on the same assumption the amendment made -- that precision
+scales with null-family count -- and **nobody has checked it at 10,770**. The 5-member stratum
+passes
+at k=5 by a small margin, so the projection should not be trusted below k=3.
+
+`scripts/floor_stability.py` reproduces the whole table from the cache in about six seconds.
+
+## 2026-09-29 — Cohesion of the frozen 0.50 build, the null it was measured against, and why no cohesion threshold is added
+
+**Measured by the reviewer on the frozen `v0.2.2-subset-1850-c50` build, ad hoc, from the same
+centred-and-renormalised MedCPT vectors the build clustered.** The code is to be committed as
+`scripts/cohesion_reference.py` and this table reproduced from it before this entry is relied on.
+
+**Cohesion** of a theme = mean pairwise cosine among its members in the centred space. It is the
+build's own geometry, not gene overlap and not names.
+
+### The build, in shape
+
+800 themes: 61 roots, 513 internal nodes, 287 leaves. Leaves have 3–9 members (median 5). The 61
+roots are **three super-domains plus 58 islands**: n0781 (819 members — metabolism, muscle,
+neuro, sensory, protein folding, blood pressure), n0552 (301 — immunity, viral, complement,
+haemostasis), n0304 (284 — transcription, RNA, cell division, senescence). The islands are 4–62
+members, mostly pure GO. Depth to 12, 22% multi-parent, 224 internal nodes with two children and 44
+with three or more.
+
+**245 of 513 internal nodes have exactly one child** (parent = child + a median of 3 direct
+members; 147 single shells, 46 double, 3 triple). Compared on the superseded 0.25 build: 289 of 588
+(49% → 48%), double/triple chains 60/10 → 46/3, mean depth 4.07 → 3.61. **The single-child shape is
+a property of the method, not of the cutoff, and 0.50 shortened the chains.** It is recorded as a
+shape, not a defect: a parent that is its child plus a few pathways on the same topic is legitimate
+biology; the extras did not form their own child because they do not recur as a group. Its one
+consequence is for naming: the tightest true name of "child + 3 more" is often the child's own
+phrase, which is what the mechanical collision check and re-ask exist for.
+
+### Cohesion by size
+
+| members | themes | median cohesion | p10 |
+|---|---|---|---|
+| 3–5 | 156 | 0.477 | 0.349 |
+| 6–9 | 316 | 0.380 | 0.273 |
+| 10–19 | 241 | 0.340 | 0.255 |
+| 20–49 | 70 | 0.312 | 0.241 |
+| 50–199 | 10 | 0.235 | 0.191 |
+| 200+ | 7 | 0.125 | 0.073 |
+
+Leaves: p10 / median / p90 = 0.289 / 0.416 / 0.597 (0.25 build: median 0.415 — unchanged).
+All-theme median 0.370 (0.25 build: 0.352).
+
+Cohesion falls with size mechanically. **Any single cosine threshold is therefore a size cap in
+disguise.**
+
+Least cohesive leaves: n0640 (0.160: inner cell mass differentiation, response to erythropoietin,
+decidualization, primitive erythrocyte differentiation, response to progesterone, structure
+maturation), n0518 (0.180: copulation, response to herbicide, protein processing, regulation of
+proteolysis, response to genistein, peptide biosynthesis), n0601 (0.187), n0790 (0.204), n0694
+(0.210). Most cohesive: n0022 (0.808: four FLT3-inhibitor-resistant mutant sets), n0192 (0.778),
+n0031 (0.753: three DNA-replication pathways).
+
+### Two nulls, and which one is informative
+
+**Null 1 — random sets from the actual space.** Random subsets of the 1,850 pathways, same size as
+each theme, centred space, 20 draws per leaf and 200 per size stratum (seed 0). Result: **0.000 ±
+0.01 at every size.** This is by construction: after centring, the mean cosine over all pairs is
+zero. Every theme beats it by an order of magnitude. It answers "is this group better than chance"
+with a yes that carries no information, because Ward always groups the nearest things.
+
+**Null 2 — kNN-ball reference.** Pick a random pathway, take its s−1 nearest neighbours in the
+centred space, measure the ball's cohesion: the tightest group of size s the space can offer at a
+random location. 300 balls per stratum (seed 1). This is the demanding reference: it asks whether
+a theme is as related as things get.
+
+| members | kNN-ball p5 | kNN-ball median | themes p10 | themes median | themes below kNN p5 |
+|---|---|---|---|---|---|
+| 3–5 | 0.268 | 0.440 | 0.349 | **0.477** | 1 of 156 |
+| 6–9 | 0.208 | 0.356 | 0.273 | **0.380** | 4 of 316 |
+| 10–19 | 0.183 | 0.302 | 0.255 | **0.340** | 1 of 241 |
+| 20–49 | 0.136 | 0.243 | 0.241 | **0.312** | 0 of 70 |
+| 50–199 | 0.082 | 0.154 | 0.191 | **0.235** | 0 of 10 |
+| 200+ | 0.018 | 0.068 | 0.073 | **0.125** | 0 of 7 |
+
+**At every size, the themes are tighter than typical nearest-neighbour balls of the same size, and
+6 of 800 fall below the reference's 5th percentile.** Even the 200+ umbrellas are twice as cohesive
+as a random 200-ball. The recurrence gate selects groups at least as tight as the space's own
+natural neighbourhoods at every scale. This is the measurement behind the claim that the build is
+cohesive, and it is a claim about the embedding space, not about biology.
+
+### What a cohesion threshold would do, measured
+
+A cut at cohesion < 0.20, proposed as "too unrelated to stay":
+
+| | 0.25 build | **0.50 build** |
+|---|---|---|
+| themes removed | 31 | **19** |
+| of which roots | 9 | **9** |
+| of which every theme ≥ 200 members | 6 of 6 | **7 of 7** |
+| of which leaves | 5 | **3** |
+| roots after removal | 53 → 158 | **61 → 167** |
+| pathways losing their only home | 58 | **87** |
+
+It deletes the top of the tree and leaves the incoherent leaves almost untouched — the five listed
+above sit at 0.16–0.21, on the line.
+
+### Decision: no cohesion threshold
+
+1. **A threshold picked by inspection violates the standing rule** that no number in the procedure
+   is chosen by its outcome. The support floors are solved against scrambles at a declared FDR;
+   "0.20" has no such basis.
+2. **It is a size cap, not a relatedness test** (table above), and what it removes is what the
+   size already says: the umbrellas.
+3. **Against the only informative null, the geometry finds nothing to remove.** The leaves a reader
+   would reject ("copulation, response to herbicide, protein processing") are geometrically
+   legitimate: the embedder placed those descriptions near each other. That failure is semantic
+   and only a reader can see it.
+
+**What judges "too unrelated" instead: the namer's `nameable: false`.** A theme the namer refuses
+is shown as an *unnamed umbrella* and never hidden. **Recorded reservation (Aviyah):** she does not
+like an LLM verdict acting as the structural filter; it is accepted for now because no measured
+geometric rule does the job and every refusal stays visible and auditable.
+
+**Follow-up, declared before the leaf names exist.** After level-0 naming on this build, compare
+the cohesion of refused leaves against named ones. If refusals concentrate in the low-cohesion
+tail, a **size-aware floor calibrated from those verdicts on the 1,850** may be declared and
+applied to the 10,770 — calibrated-then-applied is defensible, picked-by-eye is not. If they do
+not concentrate, the idea is closed and this entry says so.
+
+### Reproduction
+
+Inputs: `data/ontology/v0.2/embeddings.npy`, `embedding_keys.txt`, `centre_and_renormalise` from
+`thema.embed`, `recurrent_dag_c50/{nodes,members}.tsv` (and `recurrent_dag_consensus_centred` for
+the 0.25 column). Seeds: 0 (random sets), 1 (kNN balls). Draws: 20 random sets per leaf, 200
+random sets and 300 balls per stratum. Strata: 3–5, 6–9, 10–19, 20–49, 50–199, 200+.
+
+*Amended 2026-09-29.* Reproduced by `scripts/cohesion_reference.py`; the kNN-ball columns above are
+the script's (ball p5/median per stratum and 6 of 800 below p5), the ad-hoc figures differed by at
+most 0.02 and are superseded. Null 1 spread: sd 0.042 at 3–5, 0.021 at 6–9, below 0.01 above.
