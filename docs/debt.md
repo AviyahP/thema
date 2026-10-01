@@ -345,3 +345,61 @@ The 21 Sep note recorded that embeddings were centred for the cohesion statistic
 Ward, as a deliberate scoping decision. **That is superseded**: Ward now clusters
 centred-and-renormalised vectors (`docs/spec/amendment-2026-09-26.md`). Centring is the clustering
 input, and cohesion continues to be reported in the clustering space.
+
+## The original calibration's scramble seeds were never recorded
+
+*Logged 2026-09-29. **Open**, and unrecoverable by inspection.*
+
+`FLOORS[centred, 0.25]` and the held-out FDR of **0.0051** that licensed the first freeze came from
+"20 calibration + 10 held-out scrambles". **Which scrambles is written nowhere.** The manifest names
+the counts and the result; no amendment names the seeds; no committed script drove that run. The
+driver existed only as an ad-hoc invocation.
+
+**What it cost.** The 0.0051 cannot be reproduced exactly, only re-derived. Two fresh 20-scramble
+sets returned 0.00538 and 0.00360 -- both consistent with the recorded value and with each other
+only
+in the sense that all three sit inside the seed noise of a 20-scramble estimate, which is about
++/- 0.002. Deciding whether the original run was sound therefore took a 60-side recomputation
+rather than a re-run.
+
+**What was recovered.** Pooling 40 calibration scrambles lands every floor within 0.01 of the
+committed values, so the original calibration is confirmed as sound. The seeds themselves are not
+recovered and cannot be.
+
+**Fixed going forward, not retroactively.** `scripts/calibrate_inclusion.py` takes
+`--calibration-seeds` and `--heldout-seeds`, defaults to recorded constants, prints them as
+contiguous ranges with a count, and caches every side under
+`data/experiments/scramble_sides/{space}_{universe16}/seed{N}.json`. A future calibration is
+reproducible from the cache and re-derivable from the seeds.
+
+**The general rule this is an instance of:** a result that licenses a freeze must record every input
+that would be needed to reproduce it, and a count is not an input. The same defect would apply to
+any run whose driver is an ad-hoc invocation rather than a committed script.
+
+## 83 BTM modules have the title "TBA"
+
+*Logged 2026-09-29. **Open at source**; worked around from naming level 1 onward.*
+
+Eighty-three BTM pathways carry the literal title `TBA` -- unannotated in the source data, not lost
+in our loader. They reach **32 themes** of the frozen 0.50 build, **6 of them leaves**: n0508,
+n0532, n0573, n0601, n0694, n0756.
+
+**It has already cost a naming verdict.** `n0508` was refused, and its rationale turns partly on a
+member the model could not identify -- the leaf's other six members describe respiratory burst and
+oxidative killing, and the untitled one could not be shown to belong. The refusal may still be
+right; what is certain is that it was made on incomplete evidence.
+
+**Worked around, not fixed.** From level 1 onward a member whose title is `TBA` is rendered by its
+description alone, with the description's first sentence standing in for the title. A member with
+neither a usable title nor a description is dropped from the prompt rather than shown as a blank.
+**The leaves are NOT re-run for this**: they are named and the names have been read and judged, and
+re-rendering them would spend money to change prompts whose output is already assessed.
+
+**A consequence worth knowing.** A request is keyed on its members, not on its rendering, so the
+six affected leaves keep their cached names while their prompt text would now render differently.
+The ledger entry and the prompt that would be sent today are not identical for those six. That is
+the price of keying on members, and it is the behaviour that makes level-by-level naming reuse the
+ledger at all.
+
+**The real fix is upstream:** BTM modules need titles, either from the source or from a generated
+one recorded as generated. Until then every count of "pathways with a usable title" is 83 short.
