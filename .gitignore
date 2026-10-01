@@ -26,6 +26,8 @@ data/raw/
 data/cache/
 # The naming ledger: content-addressed API responses, regenerable and unbounded.
 data/llm_cache/
+# Cached scramble sides: regenerable, keyed on space + universe digest + seed.
+data/experiments/scramble_sides/
 # Regenerable build artifacts; each one's sha256 is pinned in its committed summary
 data/reactome_membership.tsv
 data/pathways.tsv
@@ -54,3 +56,12 @@ data/ontology/v*/embedding_keys*.txt
 
 # OS
 .DS_Store
+
+# Exploratory cutoff/floor sweeps and seed twins. Scratch, and regenerable from the build
+# script; only a FROZEN build is kept. These come AFTER the negation above, which re-includes
+# data/ontology/v*/*/*.tsv -- .gitignore is order-sensitive and the last matching rule wins.
+data/ontology/v*/recurrent_dag_incl*/
+data/ontology/v*/recurrent_dag_cal*/
+data/ontology/v*/*_seed1/
+# Persisted subsamples for the RUNS ladder: 26 MB, regenerable from seed 20260925.
+data/ontology/v*/subsamples/

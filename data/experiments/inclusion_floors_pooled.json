@@ -1,0 +1,239 @@
+{
+  "0.25": {
+    "strata": [
+      {
+        "stratum": "3-3",
+        "real": 233,
+        "null_mean": 0.42,
+        "floor": 0.836735,
+        "effective": 0.836735,
+        "real_kept": 44,
+        "fdr": 0.00966,
+        "heldout_null": 0.2,
+        "heldout_real": 44,
+        "heldout_fdr": 0.00455
+      },
+      {
+        "stratum": "4-4",
+        "real": 312,
+        "null_mean": 0.3,
+        "floor": 0.9,
+        "effective": 0.9,
+        "real_kept": 33,
+        "fdr": 0.00909,
+        "heldout_null": 0.3,
+        "heldout_real": 33,
+        "heldout_fdr": 0.00909
+      },
+      {
+        "stratum": "5-5",
+        "real": 337,
+        "null_mean": 0.53,
+        "floor": 0.66,
+        "effective": 0.66,
+        "real_kept": 57,
+        "fdr": 0.00921,
+        "heldout_null": 0.55,
+        "heldout_real": 57,
+        "heldout_fdr": 0.00965
+      },
+      {
+        "stratum": "6-6",
+        "real": 513,
+        "null_mean": 0.78,
+        "floor": 0.52,
+        "effective": 0.52,
+        "real_kept": 79,
+        "fdr": 0.00981,
+        "heldout_null": 0.75,
+        "heldout_real": 79,
+        "heldout_fdr": 0.00949
+      },
+      {
+        "stratum": "7-9",
+        "real": 1875,
+        "null_mean": 2.05,
+        "floor": 0.363636,
+        "effective": 0.363636,
+        "real_kept": 220,
+        "fdr": 0.00932,
+        "heldout_null": 1.95,
+        "heldout_real": 220,
+        "heldout_fdr": 0.00886
+      },
+      {
+        "stratum": "10+",
+        "real": 17478,
+        "null_mean": 15.97,
+        "floor": 0.080808,
+        "effective": 0.33,
+        "real_kept": 1987,
+        "fdr": 0.00804,
+        "heldout_null": 0.0,
+        "heldout_real": 468,
+        "heldout_fdr": 0.0
+      }
+    ],
+    "overall_fdr": 0.00416,
+    "overall_real": 901,
+    "overall_null": 3.75
+  },
+  "0.33": {
+    "strata": [
+      {
+        "stratum": "3-3",
+        "real": 243,
+        "null_mean": 0.47,
+        "floor": 0.85,
+        "effective": 0.85,
+        "real_kept": 48,
+        "fdr": 0.0099,
+        "heldout_null": 0.3,
+        "heldout_real": 48,
+        "heldout_fdr": 0.00625
+      },
+      {
+        "stratum": "4-4",
+        "real": 313,
+        "null_mean": 0.25,
+        "floor": 0.91,
+        "effective": 0.91,
+        "real_kept": 38,
+        "fdr": 0.00658,
+        "heldout_null": 0.45,
+        "heldout_real": 38,
+        "heldout_fdr": 0.01184
+      },
+      {
+        "stratum": "5-5",
+        "real": 354,
+        "null_mean": 0.6,
+        "floor": 0.64,
+        "effective": 0.64,
+        "real_kept": 63,
+        "fdr": 0.00952,
+        "heldout_null": 0.55,
+        "heldout_real": 63,
+        "heldout_fdr": 0.00873
+      },
+      {
+        "stratum": "6-6",
+        "real": 527,
+        "null_mean": 0.82,
+        "floor": 0.47,
+        "effective": 0.47,
+        "real_kept": 84,
+        "fdr": 0.00982,
+        "heldout_null": 0.95,
+        "heldout_real": 84,
+        "heldout_fdr": 0.01131
+      },
+      {
+        "stratum": "7-9",
+        "real": 1821,
+        "null_mean": 2.27,
+        "floor": 0.33,
+        "effective": 0.33,
+        "real_kept": 239,
+        "fdr": 0.00952,
+        "heldout_null": 2.0,
+        "heldout_real": 239,
+        "heldout_fdr": 0.00837
+      },
+      {
+        "stratum": "10+",
+        "real": 16816,
+        "null_mean": 20.18,
+        "floor": 0.060241,
+        "effective": 0.33,
+        "real_kept": 2225,
+        "fdr": 0.00907,
+        "heldout_null": 0.0,
+        "heldout_real": 416,
+        "heldout_fdr": 0.0
+      }
+    ],
+    "overall_fdr": 0.00479,
+    "overall_real": 888,
+    "overall_null": 4.25
+  },
+  "0.50": {
+    "strata": [
+      {
+        "stratum": "3-3",
+        "real": 245,
+        "null_mean": 0.45,
+        "floor": 0.88,
+        "effective": 0.88,
+        "real_kept": 48,
+        "fdr": 0.00937,
+        "heldout_null": 0.25,
+        "heldout_real": 48,
+        "heldout_fdr": 0.00521
+      },
+      {
+        "stratum": "4-4",
+        "real": 334,
+        "null_mean": 0.35,
+        "floor": 0.93,
+        "effective": 0.93,
+        "real_kept": 42,
+        "fdr": 0.00833,
+        "heldout_null": 0.35,
+        "heldout_real": 42,
+        "heldout_fdr": 0.00833
+      },
+      {
+        "stratum": "5-5",
+        "real": 352,
+        "null_mean": 0.65,
+        "floor": 0.6,
+        "effective": 0.6,
+        "real_kept": 66,
+        "fdr": 0.00985,
+        "heldout_null": 0.5,
+        "heldout_real": 66,
+        "heldout_fdr": 0.00758
+      },
+      {
+        "stratum": "6-6",
+        "real": 548,
+        "null_mean": 0.97,
+        "floor": 0.4,
+        "effective": 0.4,
+        "real_kept": 108,
+        "fdr": 0.00903,
+        "heldout_null": 1.0,
+        "heldout_real": 108,
+        "heldout_fdr": 0.00926
+      },
+      {
+        "stratum": "7-9",
+        "real": 1849,
+        "null_mean": 2.55,
+        "floor": 0.27,
+        "effective": 0.33,
+        "real_kept": 260,
+        "fdr": 0.00981,
+        "heldout_null": 0.6,
+        "heldout_real": 221,
+        "heldout_fdr": 0.00271
+      },
+      {
+        "stratum": "10+",
+        "real": 15996,
+        "null_mean": 24.27,
+        "floor": 0.040541,
+        "effective": 0.33,
+        "real_kept": 2560,
+        "fdr": 0.00948,
+        "heldout_null": 0.0,
+        "heldout_real": 326,
+        "heldout_fdr": 0.0
+      }
+    ],
+    "overall_fdr": 0.00333,
+    "overall_real": 811,
+    "overall_null": 2.7
+  }
+}
