@@ -46,6 +46,10 @@ DESCRIPTIONS = "pathway_descriptions.tsv"
 #: The cuts the page shows: theme, sub-theme, sub-sub-theme, then pathways.
 LEVELS = (10, 50, 200)
 
+#: How deep the rendered tree goes for a DAG build. The consensus DAG is 17 levels; a page that
+#: unfolds all of them is unreadable and, at 5.7 MB of embedded members, slow on a phone.
+MAX_TREE_DEPTH = 5
+
 #: The global the page reads.
 GLOBAL = "THEMA_LANDING"
 
@@ -324,6 +328,20 @@ def build(data: Path, version: str, method: str) -> dict[str, object]:
     }
 
     labels = label_nodes(members, names)
+    # Naming HAS run for recurrent_dag_consensus. A theme with a name uses it and drops the amber
+    # chip; a theme the namer DECLINED keeps the chip and says so, because an unnameable theme is a
+    # finding about the hierarchy and a keyword label would bury it.
+    generated: dict[str, str] = {}
+    declined: set[str] = set()
+    names_table = data / "theme_names.tsv"
+    if names_table.is_file():
+        for row in read_rows(names_table):
+            if row.get("status") != "current":
+                continue
+            if row["nameable"] == "true":
+                generated[row["example_node"]] = row["name"]
+            else:
+                declined.add(row["example_node"])
 
     def gene_union(member_keys: list[str]) -> int:
         union: set[str] = set()
@@ -348,30 +366,62 @@ def build(data: Path, version: str, method: str) -> dict[str, object]:
     def order(node_ids: list[str]) -> list[str]:
         return sorted(node_ids, key=lambda i: (-len(members[i]), labels[i]))
 
-    at_level: dict[int, list[str]] = {
-        level: [n for n in members if n.startswith(f"k{level}:")] for level in LEVELS
-    }
+    # ward_tree is a set of cuts; recurrent_dag carries its own parent edges. A node with several
+    # parents is emitted under EACH of them (spec section 19), so this renders the DAG rather than
+    # partitioning it. Depth is bounded because the DAG runs 17 deep and a page cannot hold that.
+    parents_of: dict[str, list[str]] = {}
+    for row in read_rows(export_dir / "nodes.tsv"):
+        parents_of[row["node"]] = [p for p in row["parents"].replace(",", " ").split() if p]
+    children_of: dict[str, list[str]] = {node: [] for node in parents_of}
+    for node, above in parents_of.items():
+        for parent in above:
+            children_of.setdefault(parent, []).append(node)
+    levelled = not parents_of
 
     def node_obj(node_id: str, depth: int) -> dict[str, object]:
         member_keys = members[node_id]
         out: dict[str, object] = {
             "id": node_id,
-            "label": labels[node_id],
-            "provisional": True,
+            "label": generated.get(node_id) or labels[node_id],
+            "provisional": node_id not in generated,
+            "declined": node_id in declined,
             "n": len(member_keys),
             "g": gene_union(member_keys),
         }
-        if depth + 1 < len(LEVELS):
-            holder = set(member_keys)
-            kids = order([n for n in at_level[LEVELS[depth + 1]] if set(members[n]) <= holder])
+        if levelled:
+            if depth + 1 < len(LEVELS):
+                holder = set(member_keys)
+                kids = order(
+                    [n for n in at_level[LEVELS[depth + 1]] if set(members[n]) <= holder]
+                )
+                out["children"] = [node_obj(k, depth + 1) for k in kids]
+                return out
+            out["pathways"] = [
+                pathway_obj(k) for k in sorted(member_keys, key=lambda k: names[k].lower())
+            ]
+            return out
+        kids = order(children_of.get(node_id, []))
+        if kids and depth < MAX_TREE_DEPTH:
             out["children"] = [node_obj(k, depth + 1) for k in kids]
+            covered = {key for kid in kids for key in members[kid]}
+            direct = sorted(set(member_keys) - covered, key=lambda k: names[k].lower())
+            if direct:
+                out["pathways"] = [pathway_obj(k) for k in direct]
         else:
             out["pathways"] = [
                 pathway_obj(k) for k in sorted(member_keys, key=lambda k: names[k].lower())
             ]
         return out
 
-    tree = [node_obj(root, 0) for root in order(at_level[LEVELS[0]])]
+    at_level: dict[int, list[str]] = (
+        {level: [n for n in members if n.startswith(f"k{level}:")] for level in LEVELS}
+        if levelled else {}
+    )
+    roots = (
+        order(at_level[LEVELS[0]]) if levelled
+        else order([n for n in parents_of if not parents_of[n]])
+    )
+    tree = [node_obj(root, 0) for root in roots]
 
     by_name: dict[tuple[str, str], str] = {}
     for key, row in pathways.items():
@@ -402,20 +452,29 @@ def build(data: Path, version: str, method: str) -> dict[str, object]:
     sources = sorted({pathways[key]["source"] for key in placed})
     return {
         "manifest": {
-            "method": manifest["method"],
-            "version": manifest["version"],
-            "levels": list(LEVELS),
-            "n_pathways": manifest["n_pathways"],
-            "collection_rows": manifest["collection_rows"],
+            "method": manifest.get("method", method),
+            "version": manifest.get("version", version),
+            "levels": list(LEVELS) if levelled else [],
+            "n_pathways": manifest.get("n_pathways", manifest.get("n_embedded")),
+            "collection_rows": manifest.get("collection_rows", manifest.get("n_universe")),
             "n_sources": len(sources),
             "sources": sources,
-            "prompt_version": manifest["prompt_version"],
-            "descriptions_sha256": manifest["descriptions_sha256"],
-            "embedder": manifest["embedder"],
-            "named": False,
+            "prompt_version": manifest.get("prompt_version", "v4-repaired"),
+            "descriptions_sha256": manifest.get(
+                "descriptions_sha256", manifest.get("descriptions_digest", "")
+            ),
+            "embedder": manifest.get("embedder"),
+            "named": bool(generated),
+            "n_named": len(generated),
+            "n_declined": len(declined),
+            "universe": manifest.get("n_universe"),
         },
         "cards": cards,
-        "data": {"id": "root", "n": manifest["n_pathways"], "children": tree},
+        "data": {
+            "id": "root",
+            "n": manifest.get("n_pathways", manifest.get("n_embedded")),
+            "children": tree,
+        },
     }
 
 

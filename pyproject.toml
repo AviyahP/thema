@@ -41,5 +41,7 @@ select = ["E", "F", "I", "UP", "B", "D", "ANN"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
+# The browsing page is one embedded HTML/CSS/JS string; wrapping it would break it.
+"scripts/export_browse.py" = ["E501"]
 "tests/*" = ["D", "ANN"]
 "src/thema/__init__.py" = ["D104"]
