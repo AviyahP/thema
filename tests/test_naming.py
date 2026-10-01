@@ -3,7 +3,6 @@
 import hashlib
 
 from thema.naming import (
-    DISAMBIGUATION_FORMAT,
     LEAF_PROMPT_VERSION,
     MAX_WORDS,
     NAME_FORMAT,
@@ -13,18 +12,18 @@ from thema.naming import (
     SYSTEM_PROMPT,
     check,
     covers_children,
-    disambiguation_key,
-    render_disambiguation,
+    invented_words,
+    narrow_child,
     render_internal,
     render_leaf,
     theme_key,
 )
 
-#: The leaf path's bytes as of name-v4. If either changes without LEAF_PROMPT_VERSION moving with
+#: The leaf path's bytes as of name-v6. If either changes without LEAF_PROMPT_VERSION moving with
 #: it, leaves would answer from a prompt that no longer exists, so these are pinned rather than
-#: recomputed. They changed on 29 Sep when the shared system prompt's line break was fixed.
-LEAF_SYSTEM_SHA = "d1c9243d73ddb3ad"
-LEAF_RENDER_SHA = "ada95d6410d54265"
+#: recomputed.
+LEAF_SYSTEM_SHA = "19074b71ad0d429e"
+LEAF_RENDER_SHA = "2b68f43ec74afbab"
 
 
 def test_theme_key_is_the_member_set_not_the_order() -> None:
@@ -85,32 +84,6 @@ def test_length_is_measured_not_truncated() -> None:
     assert c.words == MAX_WORDS + 3 and not c.in_range and not c.clean
 
 
-def test_task_c_is_only_ever_asked_about_a_real_collision() -> None:
-    """v4. The pass is withdrawn: the model is told WHAT it collides with, not asked whether."""
-    rendered = render_disambiguation(
-        "Nucleotide excision repair",
-        collides_with=["Nucleotide excision repair"],
-        repeats_parent=True,
-        children=["Global genome NER", "Transcription-coupled NER"],
-        taken=["Nucleotide excision repair", "DNA repair"],
-    )
-    assert "IDENTICAL to the name of 1 other theme" in rendered
-    assert "REPEATS the name of its own parent" in rendered
-    assert "true of EVERY one of them" in rendered
-    assert "Global genome NER" in rendered
-    assert "Give the replacement." in rendered
-
-
-def test_task_c_shows_a_leaf_its_members_and_an_internal_node_its_children() -> None:
-    """v4. The two have opposite rules, so they are shown different evidence."""
-    leaf = render_disambiguation(
-        "X", collides_with=["X"], members=[("response to caffeine", 0.8)]
-    )
-    assert "This theme is a leaf" in leaf and "response to caffeine" in leaf
-    internal = render_disambiguation("X", collides_with=["X"], children=["A child"])
-    assert "This theme is a leaf" not in internal and "A child" in internal
-
-
 def test_a_revision_that_drops_a_child_is_rejected() -> None:
     """v4. name-v3 narrowed parents below their own children; this is the guard."""
     assert covers_children(
@@ -141,31 +114,6 @@ def test_rationale_is_required_in_both_branches() -> None:
     assert set(NAME_FORMAT["schema"]["required"]) == {"nameable", "name", "rationale"}  # type: ignore[index]
 
 
-def test_disambiguation_has_its_own_contract_and_only_two_actions() -> None:
-    props = DISAMBIGUATION_FORMAT["schema"]["properties"]  # type: ignore[index]
-    assert props["revise"]["type"] == "boolean", (
-        "must be a boolean: extract_text returns the whole object only for a non-string key"
-    )
-    assert set(DISAMBIGUATION_FORMAT["schema"]["required"]) == {"revise", "name", "reason"}  # type: ignore[index]
-
-
-def test_an_internal_node_is_told_how_many_children_could_not_be_named() -> None:
-    """An unnameable child is a hole in the evidence and the parent must be told."""
-    text = render_internal(["A", "B"], 40, unnamed_children=3)
-    assert "3 further child theme(s) could not be named" in text
-    assert "could not be named" not in render_internal(["A"], 40)
-
-
-def test_an_internal_node_is_told_its_true_member_count() -> None:
-    """It sees its children and its direct members, but must name a theme of 61."""
-    assert "contains 61 pathways" in render_internal(["A"], 61)
-
-
-def test_a_leaf_shows_descriptions_not_only_names() -> None:
-    text = render_leaf([("go", "interferon-gamma production", "Cells release IFN-gamma.")])
-    assert "interferon-gamma production" in text and "Cells release IFN-gamma." in text
-
-
 def test_bare_category_words_are_rejected_but_qualified_ones_pass() -> None:
     """Checked as a set, so a distinguishing term rescues a category word."""
     assert check("Metabolism", ["x"]).bare_category
@@ -181,7 +129,7 @@ def test_container_nouns_are_contentless() -> None:
 
 
 def test_prompt_version_is_part_of_the_contract() -> None:
-    assert NAME_PROMPT_VERSION == "name-v4"
+    assert NAME_PROMPT_VERSION == "name-v6"
 
 
 def test_the_leaf_pin_moves_with_the_leaf_prompt() -> None:
@@ -190,13 +138,13 @@ def test_the_leaf_pin_moves_with_the_leaf_prompt() -> None:
     A leaf request is ``Request(theme_key(members), SYSTEM_PROMPT, render_leaf(...))``. Pointing it
     at an older ledger reuses completions, which is right only if those three are unchanged. On
     29 Sep the shared system prompt was edited (a line break), so LEAF_PROMPT_VERSION moved to
-    name-v4 with it and currently carries nothing over. This pins the two artefacts so the next
+    name-v5 with it, so it currently carries nothing over. This pins the two artefacts so the next
     edit fails loudly here rather than the cache quietly answering from a prompt that is gone.
     """
-    assert LEAF_PROMPT_VERSION == "name-v4"
+    assert LEAF_PROMPT_VERSION == "name-v6"
     # The exact bytes a leaf request carries, as of name-v3.
     assert hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:16] == LEAF_SYSTEM_SHA
-    rendered = render_leaf([("go", "response to caffeine", "The response to caffeine.")], [0.5])
+    rendered = render_leaf([("response to caffeine", "The response to caffeine.")])
     assert hashlib.sha256(rendered.encode()).hexdigest()[:16] == LEAF_RENDER_SHA
 
 
@@ -236,15 +184,6 @@ def test_a_name_used_elsewhere_in_the_dag_is_a_duplicate() -> None:
     assert not check(name, ["x"]).duplicate_name
 
 
-def test_a_leaf_renders_each_members_inclusion() -> None:
-    """v3. The model is told how strongly each member belongs, so it can exclude the weak ones."""
-    rendered = render_leaf(
-        [("go", "response to caffeine", "desc.")],
-        inclusions=[0.31],
-    )
-    assert "(inclusion 0.31)" in rendered
-
-
 def test_an_internal_nodes_key_includes_its_childrens_names() -> None:
     """Rename a child and the parent must be regenerated, even with identical membership.
 
@@ -268,15 +207,6 @@ def test_the_key_cascade_reaches_every_ancestor() -> None:
 
 def test_child_name_order_does_not_change_the_key() -> None:
     assert theme_key(["a"], ["x", "y"]) == theme_key(["a"], ["y", "x"])
-
-
-def test_disambiguation_is_cached_on_its_own_inputs() -> None:
-    """It depends on parents and siblings, not on the theme's members."""
-    name, par, sib = "Interferon response", ["Immune signalling"], ["Interleukin signalling"]
-    base = disambiguation_key(name, par, sib)
-    assert base == disambiguation_key(name, par, sib)
-    assert base != disambiguation_key(name, ["Cytokine signalling"], sib)
-    assert base != disambiguation_key(name, par, ["Chemokine signalling"])
 
 
 def test_structure_rules() -> None:
@@ -314,23 +244,120 @@ def test_a_hyphenated_compound_is_one_content_word() -> None:
     )
 
 
-def test_an_internal_node_states_its_direct_members() -> None:
-    """A single-child node is broader than its child exactly by the members no child holds."""
-    rendered = render_internal(
-        ["Notch receptor processing"],
-        8,
-        0,
-        [("gobp", "regulation of Notch signaling pathway", 0.62, "How Notch output is tuned.")],
+
+
+def test_the_v5_user_message_is_data_and_one_instruction() -> None:
+    """v5. Every few-shot example and every second instruction is gone from the user messages."""
+    leaf = render_leaf([("response to caffeine", "The cellular response to caffeine.")])
+    assert leaf.startswith("Name this cluster. Its pathways:")
+    assert "response to caffeine" in leaf and "The cellular response to caffeine." in leaf
+    assert "[go]" not in leaf and "inclusion" not in leaf and "go:" not in leaf
+    internal = render_internal(["Wnt ligand secretion"], [("a title", "a description")])
+    assert internal.startswith(
+        "Name this cluster. Its child clusters (already named) and its direct pathways:"
     )
-    assert "Direct members (1)" in rendered
-    assert "regulation of Notch signaling pathway" in rendered
-    # v4: the direct member carries its inclusion AND its full description, not a bare name.
-    assert "(inclusion 0.62)" in rendered
-    assert "How Notch output is tuned." in rendered
-    assert "(none" in render_internal(["A child"], 3, 0, [])
+    assert "Wnt ligand secretion" in internal and "a description" in internal
 
 
-def test_task_b_no_longer_shows_file_order_representative_members() -> None:
-    """v4. They were member_keys[:3] in file order; "representative" was not true of them."""
-    rendered = render_internal(["A child"], 900, 0, [])
-    assert "Representative members" not in rendered
+def test_a_collision_resends_the_same_message_plus_one_line() -> None:
+    """v5. There is no separate collision prompt -- the same data with one line appended."""
+    plain = render_leaf([("response to caffeine", "The cellular response to caffeine.")])
+    again = render_leaf(
+        [("response to caffeine", "The cellular response to caffeine.")],
+        collides_with="Caffeine response",
+    )
+    assert again.startswith(plain.rstrip())
+    assert again[len(plain.rstrip()):].strip() == (
+        "The name 'Caffeine response' is already used by another cluster; give a different name "
+        "that is still true of every member and no broader."
+    )
+
+
+def test_there_is_only_one_naming_prompt() -> None:
+    """v5. The separate disambiguation system prompt and every worked example are gone."""
+    import thema.naming as naming
+
+    assert not hasattr(naming, "DISAMBIGUATION_SYSTEM_PROMPT")
+    assert not hasattr(naming, "WORKED_EXAMPLES")
+    assert not hasattr(naming, "INTERNAL_EXAMPLES")
+    assert "DAG" in SYSTEM_PROMPT and "nameable" in SYSTEM_PROMPT
+
+
+def test_invented_word_finds_what_the_members_never_say() -> None:
+    """v5. A content word absent from the members' own wording is flagged."""
+    corpus = ["DNA replication", "Origins are licensed by the origin recognition complex."]
+    # "licensing" is an inflection of a word the members use, so it is NOT an invention.
+    assert invented_words("DNA replication and licensing", corpus) == ()
+    # "kinase" appears nowhere in that corpus.
+    assert invented_words("DNA replication kinase", corpus) == ("kinase",)
+
+
+def test_invented_word_does_not_flag_spelling_or_connectives() -> None:
+    """Both were false flags in the first calibration and both are wording, not invention."""
+    # British/American spelling folded on both sides.
+    assert invented_words("Humoral defence", ["humoral defense response"]) == ()
+    assert invented_words("Immune signalling", ["immune signaling cascade"]) == ()
+    # A relational modifier states how two named things connect, not a third thing.
+    assert invented_words("Chaperone-mediated folding", ["chaperone", "protein folding"]) == ()
+    # A hyphenated compound is checked by its parts: the compound itself appears in no description.
+    assert invented_words("CCR7-driven trafficking", ["the receptor CCR7", "trafficking"]) == ()
+
+
+def test_the_invented_word_reask_permits_a_synonym() -> None:
+    """The check compares wording and cannot see a synonym, so the re-ask permits one to stay."""
+    rendered = render_leaf([("a title", "a description")], invented=["ossification"])
+    assert rendered.rstrip().endswith(
+        "The word(s) 'ossification' appear in no member. Remove them, or replace them with what "
+        "the members actually say; a genuine synonym of the members' wording may stay."
+    )
+
+
+def test_invented_word_is_a_mechanical_check_and_needs_a_corpus() -> None:
+    """With no corpus every word would look unsupported, so the check disables itself."""
+    assert check("Sterol efflux", ["x"]).invented_word == ()
+    flagged = check("Sterol efflux", ["x"], corpus=["sterol binding"])
+    # "transport" would NOT be flagged here: it is a bare category word, which another check owns.
+    assert flagged.invented_word == ("efflux",)
+    assert not flagged.clean
+
+
+def test_a_child_is_rendered_with_its_rationale() -> None:
+    """A bare child line lost to the direct pathways' descriptions; now it carries its sentence."""
+    rendered = render_internal(
+        [("Copper ion homeostasis", "All members concern intracellular copper levels.")],
+        [("manganese ion transport", "Manganese is needed as a cofactor.")],
+    )
+    assert "Child clusters:" in rendered and "Direct pathways:" in rendered
+    assert "Copper ion homeostasis" in rendered
+    assert "All members concern intracellular copper levels." in rendered
+    # the child's sentence must come before the direct pathways, under its own heading
+    assert rendered.index("All members concern") < rendered.index("Direct pathways:")
+
+
+def test_plain_child_names_still_render() -> None:
+    """The bare form stays valid, so a caller with no rationale need not invent one."""
+    rendered = render_internal(["A child name"], [])
+    assert "A child name" in rendered and "Direct pathways:" not in rendered
+
+
+def test_v6_permits_a_parent_to_take_its_childs_name() -> None:
+    """The one sentence that changed, and the only thing in the prompt that did."""
+    assert "except that a cluster may take" in SYSTEM_PROMPT
+    assert "the child will then be" in SYSTEM_PROMPT
+
+
+def test_a_displaced_child_is_told_what_its_parent_added() -> None:
+    """The child must exclude the parent's direct pathways, so it is shown them in full."""
+    line = narrow_child(
+        "Vitamin D metabolism", [("bile acid synthesis", "Bile acids come from cholesterol.")]
+    )
+    assert "now named 'Vitamin D metabolism'" in line
+    assert "bile acid synthesis" in line and "Bile acids come from cholesterol." in line
+    assert "narrower name" in line
+    rendered = render_leaf([("a title", "a description")], narrow=line)
+    assert rendered.rstrip().endswith("does not also describe those added pathways.")
+
+
+def test_a_parent_with_no_direct_pathways_says_none() -> None:
+    """It should never render an empty list as though the parent added nothing visible."""
+    assert "(none)" in narrow_child("A parent", [])

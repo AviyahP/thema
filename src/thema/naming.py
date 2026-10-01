@@ -62,6 +62,16 @@ from thema.normalize import IDENTIFIER_PATTERNS
 #: Bumped whenever the prompt changes in a way that should invalidate cached names. Part of the
 #: cache key, so a bump renames rather than silently mixing two prompts in one table.
 #
+# name-v6 (29 Sep): ONE sentence of the system prompt changes. A cluster may take one of its
+# children's names when that is the tightest true name for it, and the CHILD is then renamed
+# narrower. Aviyah's design, after a level-1 read found the dominant fault was a parent named
+# narrower than its own child: forbidding the parent from repeating the child forced it either to
+# invent a difference or to name itself after its direct pathways. Nothing else in the prompt moves.
+#
+# name-v5 (29 Sep): the prompt layer replaced rather than patched. ONE prompt for leaves, internal
+# nodes and collision re-asks; the user message is data with a single line of instruction; every
+# worked example, source tag, inclusion value and identifier removed.
+#
 # name-v4 (28 Sep): Task B's three "representative members" are removed -- they were
 # member_keys[:3] in FILE ORDER, so "representative" described nothing -- and every DIRECT member is
 # now rendered in full with source, name, inclusion and description. The full Task C pass is
@@ -79,7 +89,7 @@ from thema.normalize import IDENTIFIER_PATTERNS
 # node saw only child names and three samples, so a single-child node was indistinguishable from
 # its child and could only be refused as a restatement. That was 8 of 12 refusals in the first
 # smoke run. Bumped rather than edited in place: the prompt changed, so the cache must not answer.
-NAME_PROMPT_VERSION = "name-v4"
+NAME_PROMPT_VERSION = "name-v6"
 
 #: The version LEAF requests are cached under. **Equal to NAME_PROMPT_VERSION as of 29 Sep**, so
 #: it carries nothing over right now -- kept because the mechanism is correct and will earn its
@@ -98,7 +108,7 @@ NAME_PROMPT_VERSION = "name-v4"
 #: A test asserts the two are equal only when the leaf path is genuinely unchanged; bump this the
 #: moment SYSTEM_PROMPT or render_leaf changes, or leaves will silently answer from the wrong
 #: prompt.
-LEAF_PROMPT_VERSION = "name-v4"
+LEAF_PROMPT_VERSION = "name-v6"
 
 #: A name is a phrase a biologist would accept as a heading. Bounds are enforced by instruction and
 #: MEASURED here, never by truncation.
@@ -265,6 +275,10 @@ class NameCheck:
         copies_member: Whether the name is verbatim one member's pathway name.
         repeats_parent: Whether the name equals a parent's name.
         clashes_sibling: Whether the name equals a sibling's name.
+        invented_word: Content words of the name occurring nowhere in the members' own wording.
+            See :func:`invented_words`. It finds words the model supplied rather than read; it
+            cannot tell a genuine synonym from an invention, which is why the re-ask permits a
+            synonym to stay rather than the check repairing anything.
         duplicate_name: Whether the name is already in use by any other theme ANYWHERE in the
             hierarchy, not only among parents and siblings. The raw build shipped 9 duplicated
             leaf names, one of them on two unrelated themes in different subtrees, which neither
@@ -285,6 +299,7 @@ class NameCheck:
     repeats_parent: bool
     clashes_sibling: bool
     duplicate_name: bool
+    invented_word: tuple[str, ...]
 
     @property
     def clean(self) -> bool:
@@ -302,6 +317,7 @@ class NameCheck:
             and not self.repeats_parent
             and not self.clashes_sibling
             and not self.duplicate_name
+            and not self.invented_word
         )
 
 
@@ -411,12 +427,131 @@ def covers_children(name: str, children: Sequence[str]) -> bool:
     return all(_content_words(child) & words for child in children)
 
 
+#: Words that carry no subject of their own, so their absence from the members says nothing.
+#: Separate from :data:`EMPTY_WORDS`: these are allowed in a name, they are merely not evidence.
+_FUNCTION_WORDS = frozenset({
+    "the", "a", "an", "and", "or", "of", "in", "to", "by", "via", "with", "from", "for", "into",
+    "at", "on", "its", "their", "as", "is", "are", "be", "not", "no", "non", "other", "both",
+    # Relational modifiers. They state how two named things connect, not a third thing, so their
+    # absence from the members is not an invention: "Chaperone-mediated folding" invents nothing
+    # if the members say chaperone and folding. Every one of these was a false flag in the first
+    # calibration run.
+    "driven", "mediated", "dependent", "independent", "induced", "based", "coupled", "linked",
+    "guided", "gated", "restricted", "associated", "specific", "like", "including", "downstream",
+    "upstream", "control", "regulation", "response", "signalling", "signaling", "pathway",
+})
+
+#: Suffixes stripped, longest first, when matching a name's word against the members' wording. The
+#: point is to ALLOW inflection -- "replication" must match "replicate", "licensing" must match
+#: "license" -- so the stemmer is deliberately generous. A false miss here flags a real word as
+#: invented, which is the costlier error.
+_SUFFIXES = (
+    "ations", "ation", "isation", "ization", "ising", "izing", "ised", "ized", "ing", "ies",
+    "ers", "er", "ed", "es", "s", "ally", "ity", "ic", "al", "ly",
+)
+
+
+def _stem(word: str) -> str:
+    """Strip one inflectional suffix, if what remains is still a word.
+
+    Args:
+        word: A lowercased token.
+
+    Returns:
+        The stem, or the word unchanged when no suffix applies.
+    """
+    for suffix in _SUFFIXES:
+        if word.endswith(suffix) and len(word) - len(suffix) >= 4:
+            return word[: -len(suffix)]
+    return word
+
+
+#: Spelling pairs folded before matching, so a name written one way is not called an invention
+#: because the members wrote it the other. Applied to both sides.
+_SPELLING = (("ise", "ize"), ("isa", "iza"), ("our", "or"), ("lling", "ling"), ("lled", "led"),
+             ("ence", "ense"), ("aemia", "emia"), ("oe", "e"), ("ae", "e"))
+
+
+def _fold(word: str) -> str:
+    """Normalise British/American spelling before matching.
+
+    Args:
+        word: A lowercased token.
+
+    Returns:
+        The folded form.
+    """
+    for british, american in _SPELLING:
+        word = word.replace(british, american)
+    return word
+
+
+def _words_of(text: str) -> set[str]:
+    """Content tokens of a text, with hyphenated compounds SPLIT.
+
+    A compound is split and not kept whole: "ccr7-driven" as a unit appears in no description by
+    construction, so checking it would flag every hyphenated name. What can be checked is whether
+    the members say "ccr7" and "driven".
+
+    Args:
+        text: Any text.
+
+    Returns:
+        Lowercased tokens.
+    """
+    out: set[str] = set()
+    for token in re.findall(r"[a-z0-9][a-z0-9-]*", text.lower()):
+        if "-" in token:
+            out.update(part for part in token.split("-") if part)
+        else:
+            out.add(token)
+    return out
+
+
+def invented_words(name: str, corpus: Iterable[str]) -> tuple[str, ...]:
+    """Content words of ``name`` that occur nowhere in the members' own wording.
+
+    A name may name only what is there. This finds the commonest way that fails -- a word the model
+    supplied rather than read -- by requiring every content word to appear somewhere in the
+    members' titles and descriptions, case-insensitively and allowing inflection. For an internal
+    node the corpus is its children's names plus its direct members' titles and descriptions.
+
+    It cannot see a genuine synonym: a name saying "licensing" where the members say "origin firing"
+    is flagged, and the re-ask says so, permitting a real synonym to stay. It also cannot see the
+    opposite fault -- a member the name fails to cover -- which is not mechanical.
+
+    Function words and the already-banned words are exempt: their absence says nothing, and they are
+    caught by :data:`_FUNCTION_WORDS` and the other checks respectively.
+
+    Args:
+        name: The proposed name.
+        corpus: The members' wording -- titles, descriptions, and for an internal node the
+            children's names.
+
+    Returns:
+        The unsupported words, deduplicated and sorted. Empty when every content word is supported.
+    """
+    haystack = " ".join(corpus).lower()
+    folded = _fold(haystack)
+    stems = {_stem(_fold(w)) for w in _words_of(haystack)}
+    banned = EMPTY_WORDS | SOURCE_WORDS | BARE_CATEGORIES
+    missing = set()
+    for word in _words_of(name):
+        if word in _FUNCTION_WORDS or word in banned or len(word) < 3:
+            continue
+        if word in haystack or _fold(word) in folded or _stem(_fold(word)) in stems:
+            continue
+        missing.add(word)
+    return tuple(sorted(missing))
+
+
 def check(
     name: str,
     members: Sequence[str],
     parents: Sequence[str] = (),
     siblings: Sequence[str] = (),
     taken: Sequence[str] = (),
+    corpus: Sequence[str] = (),
 ) -> NameCheck:
     """Run every mechanical check over one proposed name.
 
@@ -427,6 +562,9 @@ def check(
         siblings: The siblings' names, where already assigned.
         taken: Every name already assigned to another theme anywhere in the hierarchy. Pass the
             whole set, not the neighbourhood: duplicates in the raw build sat in different subtrees.
+        corpus: The members' own wording -- titles and descriptions, plus a child's name for an
+            internal node. Empty disables :attr:`invented_word`, since with no corpus every word
+            would be unsupported.
 
     Returns:
         What was measured. A failing check is reported, never repaired: a silent repair hides the
@@ -459,330 +597,174 @@ def check(
         repeats_parent=any(_norm(p) == lowered for p in parents),
         clashes_sibling=any(_norm(s) == lowered for s in siblings),
         duplicate_name=any(_norm(t) == lowered for t in taken),
+        invented_word=invented_words(name, corpus) if corpus else (),
     )
 
 
-SYSTEM_PROMPT = f"""\
-You name themes in an ontology of human biological pathways. A theme is a group of pathways
-that belong together. Every name you write will sit beside hundreds of others in a browsable
-hierarchy, so consistency of register matters as much as accuracy: every name must read as
-though written by the same person on the same day.
+SYSTEM_PROMPT = """\
+You name clusters in an ontology of human biological pathways. The ontology is a DAG: a
+hierarchy of clusters, each made of pathways and/or child clusters. A pathway is a set of genes
+co-acting in a specific biological process, given here with its title and a description.
 
-WHAT A NAME IS
+The name you give a cluster must state the biological theme or process shared by ALL of its
+members — every pathway and every child cluster listed — as tightly as possible: the most specific
+theme that is true of all of them. Do not generalise further than the members require; a broader
+name belongs to the parent, one level up. What drives the name is shared biological meaning, not
+shared wording.
 
-{MIN_WORDS} to {MAX_WORDS} words, and fewer than {PREFERRED_WORDS} is preferred. Sentence case,
-no leading article, no trailing punctuation.
+Name only what the members contain. Do not assert a gene, mechanism, compartment or pathway that
+only one or two members concern. A name that is too broad is a minor fault; a name that invents is
+a serious one, because a reader cannot tell.
 
-A noun phrase by default. A clause with a verb is acceptable only when it is the tightest true
-statement of what the members share; never a full sentence. Do not reach for a clause to sound
-precise -- reach for it only when the noun phrase you would otherwise write is broader than the
-members are.
+Every name will sit beside hundreds of others in a browsable hierarchy, so every name must read as
+though written by the same person on the same day. Up to 10 words, fewer than 6 preferred; sentence
+case; no leading article; a noun phrase unless a short clause is tighter. No filler words
+("various", "related", "processes", "pathways", "mechanisms"), no database names, no identifiers,
+no bare category words ("Metabolism", "Signalling"), and never one member's own title as the name.
+A name must not be identical to any other name in the hierarchy — except that a cluster may take
+one of its children's names when that is the tightest true name for it; the child will then be
+renamed.
 
-It may begin with a lowercase symbol where biology requires it -- mRNA, mTOR, cAMP, p53. Use a gene
-or protein symbol only when the theme is defined by it.
+If the members share no nameable biological theme — if the only name covering all of them would
+cover much else besides, or would be an invention — say so. That is a real and useful answer.
 
-COVER EVERY MEMBER, GENERALISE NO FURTHER
-
-A name is the tightest description that is true of EVERY member.
-
-Those are two demands and both bind. It must cover all of them: a name true of most members and
-false of the rest is wrong, however well it fits the majority. And it must generalise no further
-than they require: if every member is about sterol transport, the name is about sterol transport,
-not lipid metabolism. "Lipid metabolism" is TRUE of a theme of sterol transporters and still
-wrong, because it admits half the lipid world and tells a reader nothing about which part they
-are looking at. Specific enough to exclude the neighbouring themes; no broader than the members
-themselves.
-
-Where a name cannot both cover every member and stay tight to them, that is a fact about the
-theme, not a wording problem. Say so rather than stretching.
-
-EVERY MEMBER CARRIES AN INCLUSION. USE IT
-
-Each member is listed with its inclusion -- the share of the evidence that placed it in this theme.
-A member at 1.00 is settled. A member at 0.3 was placed by a minority of the evidence and is a
-boundary case.
-
-When you are naming a theme from its own members, the name must be true of every member at
-inclusion 0.5 or above. It MAY leave out members below 0.5, and when it does you must say which
-ones in the rationale, by name. Weakly included members are never on their own a reason to answer
-nameable false -- if the members at 0.5 and above share a nameable biology, name it and note what
-you excluded.
-
-**That allowance does not apply to a parent's DIRECT members.** When the task below gives you child
-themes plus direct members, every direct member must be covered whatever its inclusion, because the
-direct members are the whole of what the parent adds. The task says so again where it matters.
-
-DO NOT ASSERT A MECHANISM THE MEMBERS DO NOT CONTAIN
-
-A name may name only what is there. This is the most common way a name goes wrong, and it is worse
-than a name that is too broad, because a reader cannot tell it is invented.
-
-Example of the failure: nine calcium-signalling terms -- regulation of calcium-mediated signalling,
-regulation of calcium ion import, regulation of calcium ion transmembrane transport, calcineurin-
-mediated signalling and its negative regulation, plus response to caffeine -- named "Calcineurin-
-NFAT feedback regulation". Calcineurin is fair: seven of the nine concern it. But NFAT appears in
-only two of the nine, and no member concerns feedback at all. The name promises a specific
-downstream axis that most of the theme does not contain. "Calcium signalling and calcineurin
-regulation" would have been true. The fault is not vagueness; it is invention.
-
-Before answering, check each content word of your name against the members. If a word names a
-gene, a protein, a compartment or a mechanism that only one or two members concern, take it out.
-
-WHAT A NAME MAY NOT CONTAIN
-
-Words that carry no information: "various", "diverse", "related", "miscellaneous", "processes",
-"pathways", "mechanisms". A database name -- "Reactome signalling" names a source, not biology.
-An identifier of any kind. One member's own name used as the theme's name, which privileges that
-member and misstates the theme's scope. A name already used by another theme anywhere in the
-hierarchy -- two themes with one name make the hierarchy unreadable, and the reader cannot tell
-which of them they are looking at. A bare category word with nothing to distinguish it:
-"Metabolism", "Signalling", "Transport", "Immune processes" file a theme without naming it.
-
-WHEN A THEME CANNOT BE NAMED
-
-If the members do not share a nameable biology -- if the only name covering all of them is so
-broad it would cover much else besides, or if any name would be an invention -- say so. Return
-nameable false, with one sentence in the rationale explaining what the members actually have in
-common, or that they have nothing in common.
-
-This is a real and expected answer. These themes were formed by measuring which pathways recur
-together across resampling, which is not the same as being interpretable, so some are genuinely
-heterogeneous. An honest blank is worth more than a plausible label nobody can check: the name
-is often all a reader sees, and they cannot audit it.
-
-OUTPUT FORMAT
-
-Return an object with "nameable" (boolean), "name" (string, empty when nameable is false) and
-"rationale" (string: what the members share, or why they cannot be named).
-"""
-
-#: Task C runs against its own system prompt: keeping or revising a name under collision is a
-#: different instruction from writing one, and folding both into one prompt made the naming rules
-#: compete with the revision rules for the model's attention.
-DISAMBIGUATION_SYSTEM_PROMPT = f"""\
-You are fixing ONE name that collides with another name in an ontology of human biological pathways.
-
-The collision has already been established by string comparison, so you are not being asked whether
-it collides. You are being asked for a replacement. Two themes with one name make the hierarchy
-unreadable, and a child that repeats its parent tells a reader who descended nothing about why.
-
-You are given the name, what it collides with, and the theme's own contents.
-
-FOR A THEME WITH CHILDREN, the replacement MUST still be true of every child's name. A replacement
-that covers only some of the children is worse than the collision it fixes -- it makes the parent
-narrower than its own contents, which is a false statement about the hierarchy rather than an
-awkward one. Stay as broad as the children require and find the difference elsewhere.
-
-FOR A LEAF, the replacement must be MORE SPECIFIC than the name it replaces, never broader, and
-still true of every member at inclusion 0.5 or above.
-
-In both cases the replacement must not assert a mechanism the contents do not contain, and must not
-collide with any of the names you are shown.
-
-Distinguishing is not the same as sharing no words. "Canonical Wnt signalling" and "Non-canonical
-Wnt signalling" share almost everything and are perfectly distinct. What matters is that a reader
-could not apply your name to the other theme.
-
-All the rules of a name still hold: {MIN_WORDS} to {MAX_WORDS} words with fewer than
-{PREFERRED_WORDS} preferred; a noun phrase unless a clause is tighter; sentence case;
-no database names, no identifiers, no contentless words.
-
-OUTPUT FORMAT
-
-Return an object with "revise" (boolean), "name" (the replacement, empty when revise is false) and
-"reason" (what it collided with and what now separates them; empty when revise is false). Return
-revise false only if you genuinely cannot find a replacement that satisfies the constraints above,
-which is a finding worth reporting rather than a failure.
+Return an object: {"nameable": true|false, "name": "<name, or empty>", "rationale": "<one
+sentence: what the members share, or why they cannot be named>"}.
 """
 
 
-WORKED_EXAMPLES = """\
-Example input: four pathways -- Interferon alpha/beta signalling; Interferon gamma signalling;
-ISG15 antiviral mechanism; Antiviral mechanism by IFN-stimulated genes.
-Example output: {"nameable": true, "name": "Interferon response", "rationale": "All four are
-interferon signalling or its direct antiviral effectors."}
+#: The one line added to a user message when the name it produced collides. There is no second
+#: prompt: the model sees the same system prompt and the same data, plus this.
+COLLISION_LINE = (
+    "The name '{name}' is already used by another cluster; give a different name that is still "
+    "true of every member and no broader."
+)
 
-Example input: three pathways -- MITF-M-dependent DNA repair; Mismatch repair; Melanocyte
-differentiation.
-Example output: {"nameable": false, "name": "", "rationale": "One member bridges melanocyte
-biology and DNA repair through MITF; the other two share nothing with each other beyond that
-bridge."}
-"""
+#: The lines added when a CHILD must move because its parent took its name. name-v6 resolves a
+#: parent-child collision by narrowing the child, not the parent: forbidding the parent from
+#: repeating its child forced it either to invent a difference or to name itself after its direct
+#: pathways, which is what the level-1 read found in 28 of 215 nodes. The child is told what the
+#: parent now is and what it added, so the difference it must express is on the page rather than
+#: guessed at.
+NARROW_CHILD_LINES = (
+    "Your parent cluster is now named '{parent}'. It contains you plus these pathways:\n"
+    "{added}\n"
+    "Give yourself a narrower name, true of all your members, that does not also describe those "
+    "added pathways."
+)
 
-INTERNAL_EXAMPLES = """\
-Example input: children -- Interferon response; Toll-like receptor signalling; Complement
-activation; NOD-like receptor signalling. 61 members.
-Example output: {"nameable": true, "name": "Innate immune signalling", "rationale": "Every child
-is a pathogen-sensing or first-line effector arm of innate immunity; nothing adaptive is present,
-so 'immune signalling' would be too broad."}
-"""
+#: The one line added when a name uses words the members never say. Same shape as the collision
+#: re-ask -- same prompt, same data, one line -- and it explicitly permits a genuine synonym,
+#: because the check compares wording and cannot tell a synonym from an invention.
+INVENTED_LINE = (
+    "The word(s) '{words}' appear in no member. Remove them, or replace them with what the members "
+    "actually say; a genuine synonym of the members' wording may stay."
+)
 
-DISAMBIGUATION_EXAMPLE = """\
-Example: name "Immune signalling"; parent "Immune signalling"; siblings "Innate immune
-signalling", "Cytokine signalling".
-Example output: {"revise": true, "name": "Adaptive immune signalling", "reason": "Repeated the
-parent; the members are T and B cell receptor pathways, which separates it from both siblings."}
-"""
+
+def narrow_child(parent: str, added: Sequence[tuple[str, str]]) -> str:
+    """The instruction appended to a child whose parent has taken its name.
+
+    Args:
+        parent: The parent's name, which is now also the child's.
+        added: ``(title, description)`` for the parent's direct pathways -- exactly what the parent
+            holds that the child does not, and therefore what the child's new name must exclude.
+
+    Returns:
+        The lines to append to the child's own user message.
+    """
+    body = "\n".join(f"{title}\n{description}" for title, description in added) or "(none)"
+    return NARROW_CHILD_LINES.format(parent=parent, added=body)
 
 
 def render_leaf(
-    members: Sequence[tuple[str, str, str]], inclusions: Sequence[float] | None = None
+    members: Sequence[tuple[str, str]],
+    collides_with: str = "",
+    invented: Sequence[str] = (),
+    narrow: str = "",
 ) -> str:
-    """Task A. Render a leaf theme: its pathways, with inclusions and descriptions.
+    """The user message for a leaf: one instruction, then data.
 
     Args:
-        members: ``(source, name, description)`` per member, medoid-first.
-        inclusions: Each member's inclusion, in the same order. Shown because the coverage rule is
-            stated in terms of it: the name must be true of every member at 0.5 or above, may leave
-            out those below, and must then say which. Omitted only by callers that have no
-            inclusions to show.
+        members: ``(title, description)`` per pathway. No source tag, no inclusion, no identifier --
+            name-v5 sends title and description and nothing else.
+        collides_with: When set, the name that collided, appended as :data:`COLLISION_LINE`.
+        invented: When set, the unsupported words, appended as :data:`INVENTED_LINE`.
+        narrow: When set, the output of :func:`narrow_child`, appended verbatim.
 
     Returns:
         The user message.
     """
-    lines = [
-        WORKED_EXAMPLES, "",
-        "Below are the pathways in this theme, with their inclusion and their descriptions.",
-        "Name the theme.", "",
-    ]
-    for index, (source, name, description) in enumerate(members):
-        share = "" if inclusions is None else f"  (inclusion {inclusions[index]:.2f})"
-        lines.append(f"  [{source}] {name}{share}")
-        lines.append(f"      {description}")
+    lines = ["Name this cluster. Its pathways:", ""]
+    for title, description in members:
+        lines.append(title)
+        lines.append(description)
         lines.append("")
-    return "\n".join(lines)
+    if collides_with:
+        lines.append(COLLISION_LINE.format(name=collides_with))
+    if invented:
+        lines.append(INVENTED_LINE.format(words="', '".join(invented)))
+    if narrow:
+        lines.append(narrow)
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def render_internal(
-    child_names: Sequence[str],
-    total_members: int,
-    unnamed_children: int = 0,
-    direct: Sequence[tuple[str, str, float, str]] = (),
+    child_names: Sequence[str] | Sequence[tuple[str, str]],
+    direct: Sequence[tuple[str, str]] = (),
+    collides_with: str = "",
+    invented: Sequence[str] = (),
+    narrow: str = "",
 ) -> str:
-    """Task B. Render an internal node: its children by name, its DIRECT members in full.
-
-    **name-v4 removed the three "representative members".** They were ``member_keys[:3]`` in file
-    order -- not medoids, not highest-inclusion, not sampled -- so "representative" described
-    nothing, and three arbitrary descriptions out of a 933-member theme were noise that competed
-    with the children for the model's attention. What the parent actually adds is its direct
-    members, and those are now given in full: source, name, inclusion and the whole description.
+    """The user message for an internal node: one instruction, then data.
 
     Args:
-        child_names: The already-assigned names of this node's children.
-        total_members: How many pathways the theme holds in total.
-        unnamed_children: Children that came back unnameable. Stated, because they are a hole in
-            the evidence the parent must still cover.
-        direct: ``(source, name, inclusion, description)`` for every member belonging to NO child,
-            highest inclusion first. These are what make a parent broader than its children.
-            Without them a single-child node looks identical to its child and can only be refused
-            as a restatement, which is what the first smoke run did on eight of twelve refusals.
+        child_names: Either plain names, or ``(name, rationale)`` -- the sentence the child returned
+            when it was named. **The pair form exists because the bare form was losing.** A direct
+            pathway arrived with a title AND a description; a child arrived as one line, so the
+            descriptions outweighed it and the parent was named after its direct pathways. In a
+            level-1 read of 215 nodes that produced 16 clear and 12 borderline cases of a parent
+            named NARROWER than its own child. Giving the child its rationale puts the two kinds of
+            member on comparable footing.
+        direct: ``(title, description)`` for every pathway belonging to no child. All of them --
+            there is no cap and no sampling.
+        collides_with: When set, the name that collided, appended as :data:`COLLISION_LINE`.
+        invented: When set, the unsupported words, appended as :data:`INVENTED_LINE`.
+        narrow: When set, the output of :func:`narrow_child`, appended verbatim.
 
     Returns:
         The user message.
     """
     lines = [
-        INTERNAL_EXAMPLES,
+        "Name this cluster. Its child clusters (already named) and its direct pathways:",
         "",
-        f"This theme contains {total_members} pathways: the child themes below, which are already",
-        "named, PLUS the direct members listed after them. Name the parent.",
-        "",
-        "The name must satisfy two constraints at once. Broad enough to cover every child AND",
-        "every direct member, and not a repeat of any child's name. And it must be the SMALLEST",
-        "umbrella that does so: tight enough to exclude what none of them are about. Broader than",
-        "the children is required; broader than necessary is a fault.",
-        "",
-        "COVERAGE, precisely. The name must be true of EVERY child theme's name AND of EVERY",
-        "direct member below, whatever its inclusion. No threshold here, and nothing left out:",
-        "the direct members are the whole of what this node adds to its children, so a name",
-        "that excludes one is not a name for this node. Each member's inclusion is shown because",
-        "it says how central that member is, not because it licenses ignoring it.",
-        "",
-        "THE DIRECT MEMBERS ARE WHY THIS NODE EXISTS. They belong to no child, so they are exactly",
-        "what the parent adds, and they are given below in full. Name the union of children and",
-        "direct members. Do not refuse merely because there is one child: a node with one child",
-        "and direct members is broader than that child, and the direct members tell you how.",
-        "",
-        "Return nameable false only when the union is genuinely incoherent -- unrelated biology",
-        "with no honest umbrella short of a near-vacuous word -- or when there are NO direct",
-        "members and a single child, so the parent really would just restate it. Saying so is",
-        "useful information, not a failure.",
-        "",
-        f"Child themes ({len(child_names)}), already named:",
     ]
-    for name in child_names:
-        lines.append(f"  - {name}")
-    if unnamed_children:
-        lines.append(
-            f"  - ({unnamed_children} further child theme(s) could not be named. You have no "
-            "evidence for what they contain; cover them as best the rest allows and say so.)"
-        )
-    lines += ["", f"Direct members ({len(direct)}) -- in this theme but in NO child:", ""]
-    if direct:
-        for source, name, inclusion, description in direct:
-            lines.append(f"  [{source}] {name}  (inclusion {inclusion:.2f})")
-            lines.append(f"      {description}")
+    if child_names:
+        lines.append("Child clusters:")
+        lines.append("")
+        for child in child_names:
+            if isinstance(child, str):
+                lines.append(child)
+            else:
+                name, rationale = child
+                lines.append(name)
+                if rationale:
+                    lines.append(rationale)
             lines.append("")
-    else:
-        lines.append("  (none -- every member of this theme sits in one of the children above)")
+    if direct:
+        lines.append("Direct pathways:")
         lines.append("")
-    return "\n".join(lines)
-
-
-def render_disambiguation(
-    name: str,
-    collides_with: Sequence[str],
-    repeats_parent: bool = False,
-    children: Sequence[str] = (),
-    members: Sequence[tuple[str, float]] = (),
-    taken: Sequence[str] = (),
-) -> str:
-    """Task C. Render ONE name that mechanically collides, and ask for a replacement.
-
-    **name-v4 withdrew the full pass.** Under name-v3 every theme with a parent or a sibling was
-    sent to the model -- 806 of the run's 1,676 calls -- to be asked a question string comparison
-    answers. It cost more than half the run and made the result worse three ways: it created 20
-    duplicate names, every one of them by revising two themes onto the same replacement; it narrowed
-    parents below their own children (2 of the 3 wrong parents in the 20-node read); and it produced
-    one false refusal, n0475, whose two children it had given the same name. Detection is now
-    mechanical and the model is asked only about names that actually collide.
-
-    Args:
-        name: The colliding name.
-        collides_with: The other names it is identical to, elsewhere in the hierarchy.
-        repeats_parent: Whether it repeats one of its own parents' names.
-        children: This theme's children's names. Non-empty means the replacement must cover them
-            ALL, which is the opposite of the leaf rule and is stated as such in the prompt.
-        members: ``(pathway name, inclusion)`` for a leaf's members, highest inclusion first.
-        taken: Names in use that the replacement must avoid -- the collisions plus the parents.
-
-    Returns:
-        The user message.
-    """
-    lines = [DISAMBIGUATION_EXAMPLE, "", f'This theme is named "{name}".', ""]
+    for title, description in direct:
+        lines.append(title)
+        lines.append(description)
+        lines.append("")
     if collides_with:
-        lines.append(
-            f"It is IDENTICAL to the name of {len(collides_with)} other theme(s) elsewhere in the "
-            "hierarchy."
-        )
-    if repeats_parent:
-        lines.append("It REPEATS the name of its own parent.")
-    lines.append("")
-    if children:
-        lines.append(
-            f"This theme has {len(children)} children, already named. Your replacement must be "
-            "true of EVERY one of them:"
-        )
-        lines.extend(f"  - {child}" for child in children)
-    elif members:
-        lines.append("This theme is a leaf. Its members, highest inclusion first:")
-        lines.extend(f"  - {member}  (inclusion {share:.2f})" for member, share in members)
-    lines.append("")
-    if taken:
-        lines.append("Names your replacement must NOT be:")
-        lines.extend(f"  - {other}" for other in sorted(set(taken)))
-        lines.append("")
-    lines.append("Give the replacement.")
-    return "\n".join(lines)
+        lines.append(COLLISION_LINE.format(name=collides_with))
+    if invented:
+        lines.append(INVENTED_LINE.format(words="', '".join(invented)))
+    if narrow:
+        lines.append(narrow)
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def render_theme(
