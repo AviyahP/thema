@@ -3139,3 +3139,377 @@ random sets and 300 balls per stratum. Strata: 3–5, 6–9, 10–19, 20–49, 5
 *Amended 2026-09-29.* Reproduced by `scripts/cohesion_reference.py`; the kNN-ball columns above are
 the script's (ball p5/median per stratum and 6 of 800 below p5), the ad-hoc figures differed by at
 most 0.02 and are superseded. Null 1 spread: sd 0.042 at 3–5, 0.021 at 6–9, below 0.01 above.
+
+## 2026-10-02 — Parent coverage: five attempts, what each cost, and the one conclusion they share
+
+**The fault.** A reviewer read all 215 level-1 names and found one dominant defect: **a parent named
+NARROWER than one of its own children**, 16 clear and 12 borderline. Five attempts were made to fix
+it. They are recorded together because the useful result is not any one of them but what they
+jointly
+establish.
+
+### Attempt 1 — permit the parent to reuse a child's name (`name-v6`)
+
+One sentence added to the system prompt: a cluster may take one of its children's names when that is
+the tightest true name for it, and the child is then renamed. **It fired 0 times out of 18.**
+Permitting reuse does not make the model prefer it; it still wrote a distinct, often narrower, name.
+
+**WITHDRAWN.** The sentence is reverted so the system prompt is byte-identical to `name-v5` (digest
+`f3d1f074929df02a`) and the v5 caches stay valid. The version string went back to `name-v5` for the
+same reason. The CODE the attempt needed is kept -- the child re-ask, the `same_theme` column,
+`--only-nodes`, `--reuse-version` -- because the later attempts use it.
+
+### Attempt 2 — ask the comparison directly, one lenient check
+
+A name-to-name check per parent, no member descriptions: *does each item fall under this name?*
+**12 of 18 flagged, 10 covered after one re-ask, 2 unnameable; 11 of 18 outcomes right.** It caught
+three of the five cases that had survived everything else.
+
+But it was **lenient**: it passed a child broader than its parent on three nodes while flagging the
+identical pattern on a fourth.
+
+### Attempt 3 — define "covered" strictly
+
+The wording was replaced to say an item is covered only if it is a sub-category -- everything it
+refers to inside the parent -- and to name the three ways an item fails: broader, partly
+overlapping, merely related.
+
+**It flagged 5 of 10 names the reviewer had judged GOOD.** Every false flag was a DIRECT PATHWAY
+whose title merely sounds broad: `heart development` under *Heart morphogenesis and chamber
+development*. The checker was not malfunctioning -- `heart development` genuinely is broader. The
+incompatibility is with how GO titles work: **a term's name describes the term, not the role it
+plays in a cluster**, so a cluster of specific cardiac pathways will always hold a member whose
+title sounds broader than the cluster.
+
+**The control set is what caught this**, and it is the reason every later attempt ran one.
+
+### Attempt 4 — split the check by item type
+
+Two calls per parent. A CHILD CLUSTER is a name we wrote, so a child broader than its parent is a
+real defect: judged strictly. A DIRECT PATHWAY is a title inherited from the source, so its breadth
+says nothing about belonging: judged leniently, failing only on different biology. Uncovered is the
+union. Titles exactly `TBA` are withheld -- 83 unannotated BTM modules no checker can judge --
+and `HALLMARK_X` is shown as `Hallmark: x` to the checker only, never to the namer.
+
+**The split fixed the controls: 1 of 10, down from 5**, and the survivor is a fair call. It is
+accepted and is not what fails afterwards.
+
+Step 4 of that attempt had the parent take its uncovered child's name mechanically. **9 fired and
+only 3 survived.** Not a bug: the strict call correctly reports the child is then identical to the
+parent and fully covered, but the parent has become NARROWER, so its own direct pathways fall
+outside. The step meant to rescue these nodes is what condemned them.
+
+### Attempt 5 — widen from the child's name instead of copying it
+
+A second re-ask: *your child is named C, your name must include it fully and also cover these; start
+from C and widen only as much as needed.*
+
+**13 fired, 1 accepted. And the 12 rejections are not bad names.** `n0618` widened to *Sterol and
+fat-soluble vitamin metabolism* -- the name an earlier attempt had already produced and which was
+flagged at the time as the right answer -- and was refused because the child *Bile acid and sterol
+homeostasis* is not strictly a sub-category of it. **12 of the 13 failures are the strict CHILD
+call, not the lenient pathway call.** The widen step worked; the obstacle moved.
+
+| | lenient | strict | split | split + widen |
+|---|---|---|---|---|
+| covered first time | 6 | 1 | 2 | 2 |
+| covered after re-ask | 10 | 10 | 2 | 2 |
+| covered after widen | — | — | — | 1 |
+| took a child's name | 0 | 0 | 3 | 0 |
+| unnameable | 2 | 7 | 11 | 13 |
+| outcomes right, of 18 | 11 | 9 | 11 | 7 |
+| good controls falsely flagged, of 10 | — | 5 | 1 | 1 |
+
+### The conclusion all five share
+
+**The fault is usually in the CHILD's name, not the parent's.** `n0262`'s child is called
+*Intracellular vesicle transport*, but that child is a specific cluster of vesicle-transport
+pathways: its name over-claims for its own contents. No parent name can strictly contain it, because
+the child's name describes more than the child holds. The same is true of `n0592`'s *Sensory
+transduction across modalities* and `n0474`'s *Regulation of cell-matrix adhesion turnover*.
+
+Every attempt tried to fix this from the parent's side, and each failed differently -- 0 of 18, 3 of
+9, 1 of 13. **The mechanism that would work is renaming the over-claiming child. It exists in the
+code as the child re-ask, but it only triggers when a parent takes the child's name, which attempts
+4 and 5 made first rare and then impossible.**
+
+**Nothing is adopted.** The split checker is accepted on its own merits and the saving fixes below
+are permanent, but no enforcement procedure is in force: the best of the five (lenient, 11 of 18) is
+also the one with a known leniency defect, and the strict family refuses between 7 and 13 of 18 for
+names that are mostly serviceable. The level-1 names currently in `theme_names.tsv` are the
+split+widen run's, which includes 13 refusals that this entry says are mostly wrong.
+
+### Two defects fixed along the way, independent of any of this
+
+**The names table could hold several current rows per node.** A row is keyed on `theme_key`, which
+changes when a node's children are renamed, so a re-run wrote a new row and `restamp` -- marking by
+`prompt_version` alone -- left both current. **35 of 502 nodes had two.** A reader keyed by node
+silently got whichever came last, which is how three enforced names appeared never to have been
+saved. `restamp` now takes the key each node was written under, supersedes that node's stale rows,
+and RAISES if any node would still end with more than one. Plus an assertion at save time: the name
+written must be byte-identical to the last name that passed the check. It caught a real case on its
+first run.
+
+**`merge_tsv` wiped the file when a column was added.** It kept existing rows only when the stored
+header exactly equalled the requested columns, so adding `same_theme` destroyed 2,237 rows of
+`theme_names.tsv` -- restored from a backup taken minutes earlier. A header that is a PREFIX of the
+requested columns is now a migration: old rows keep their values and the new column starts empty. An
+unrelated header still rebuilds, which is deliberate and separately tested.
+
+### Cost
+
+$0.80 for attempt 1, $0.20 + $0.34 + $0.38 + $0.25 for attempts 2 to 5. **$1.97 for the sequence**,
+inside every ceiling given. `name-v5` naming in total: $8.81.
+
+## 2026-10-02 — DECLARED BEFORE THE RUN: child-first coverage procedure, and its pass mark
+
+**Written before the procedure was run and before any result was seen.** The five earlier attempts
+(entry above) all worked from the parent's side and all failed; they jointly point at the child's
+name as the fault. This attempt inverts the order: the over-claiming CHILD is narrowed first, and
+only then is the parent re-asked. The pass mark below is fixed now so the result cannot be scored
+against a bar chosen after seeing it.
+
+### PROCEDURE, per parent, after it is named with `name-v5`
+
+**a.** Split check: child clusters strict, direct pathways lenient, as already built and accepted
+(controls 1 of 10).
+
+**b.** Covered → done.
+
+**c.** For each uncovered CHILD cluster C, **the child goes first**: re-ask C with the `name-v5`
+system prompt and C's own data, plus
+
+> Your parent cluster also contains these pathways: *&lt;parent's direct pathway titles&gt;*.
+> Give the tightest name true of your own members only.
+
+The new child name must pass the split check against C's own children (where it has any), plus
+collision and `invented_word`. Failing any of those, **C keeps its old name** -- a child is not made
+worse to rescue its parent.
+
+**d.** Re-ask the parent once, naming prompt and data, children shown under their CURRENT names
+(so a child narrowed in step c is what the parent sees), plus
+
+> Your name '&lt;P&gt;' does not cover: *&lt;uncovered items&gt;*. Give the tightest name that
+> covers every child cluster and every direct pathway. Keep what your name got right; widen
+> only as much as needed.
+
+**e.** Split check again. Covered → done. Still uncovered → the parent and the uncovered child are
+recorded `same_theme`, shown merged on the page. If only direct pathways remain uncovered, the
+parent is recorded unnameable. A failing name is discarded, never kept.
+
+**No step is tuned after this declaration.** If the procedure needs changing, it is a new procedure
+with a new declaration, and this one is recorded as failed.
+
+### EVALUATION
+
+**Sample.** 40 level-1 nodes, drawn at random with a recorded seed, excluding the 18 problem nodes
+and the 10 controls -- so the procedure is judged on nodes it was not designed against.
+
+**Read.** The reviewer reads all 40 **blind**: the procedure's output and the `name-v5` name as
+candidates A and B in shuffled order, with the node's children and direct pathway titles. The key is
+written to a separate file and is not in the status document.
+
+**PASS requires all three:**
+
+1. the procedure's output judged **better or equal on at least 36 of 40**,
+2. judged **worse on at most 2**,
+3. the 10 controls flagged **at most once**.
+
+**If PASS**, the procedure is adopted for all levels.
+
+**If FAIL**, it is withdrawn, and the fallback is declared here rather than invented later: **keep
+the `name-v5` names and show every parent that fails the split check with a visible
+"name may not cover all contents" flag.** The flag is a disclosure, not a correction -- the reader
+is told what the measurement found and the name is left alone.
+
+### What is NOT in scope of this evaluation
+
+The split checker itself is already accepted and is not re-litigated by this run. Nor is the
+`name-v5` prompt, which stays byte-identical at digest `f3d1f074929df02a`.
+
+## 2026-10-02 — DECLARED BEFORE THE BUILD: a size cap stated as a SHARE of the universe
+
+**Aviyah's decision, recorded before step 3 runs.**
+
+### The rule
+
+> **CAP = 2 x the largest share held by a single curated top-level category, excluding Reactome
+> "Disease".**
+
+Computed from the measured counts in `scripts/size_cap_reference.py`:
+
+| category | of its mapped universe | share |
+|---|---|---|
+| Reactome **Signal Transduction** | 469 / 3,233 | **14.5067%** — the reference |
+| Reactome Metabolism | 460 / 3,233 | 14.2283% |
+| largest GO generic-slim term (small molecule metabolic process) | 348 / 2,838 | 12.2622% |
+| Reactome Disease — **EXCLUDED** | 787 / 3,233 | 24.3427% |
+
+**CAP = 2 x 14.5067% = 29.0133% of the universe being built.**
+
+At 10,770 that is **3,125 pathways**. A cluster larger than the cap is not a candidate when clusters
+are cut from a Ward tree, applied **identically to real and scrambled trees**, so the support floors
+are solved under the same rule they will be applied under.
+
+The GO slim figure is not used in the rule; it is reported because it **agrees** -- 12.3% against
+14.5% from a different ontology with a different mapping -- which is what makes the reference
+something other than one number from one source.
+
+### Why a share and not a raw count
+
+**Reactome covers 30% of our universe.** 7,537 of 10,770 pathways reach no Reactome top-level
+pathway, nearly all of them GO or BTM terms with no `reactome2go` entry. So Signal Transduction's
+469 pathways are 469 out of the 3,233 that Reactome can see, not out of 10,770: as a raw count it
+understates how much of a complete ontology that category would hold. Read as a share of its own
+mapped universe, 14.5%, it says what a curator was willing to call one thing -- and that share is
+what transfers to a universe of any size.
+
+A raw count would also have to be re-derived every time the universe changed. A share does not.
+
+### Why Disease is excluded
+
+Reactome's largest top-level pathway is **Disease, 787 pathways, 24.3%** -- which would have set the
+cap at 48.7%, nearly half the universe. It is excluded because it is **not one biology**: it is
+Reactome's bucket for pathology, cutting across signalling, metabolism, immunity and development
+alike. A cap is meant to bound how much biology one theme may claim, and anchoring it on a
+cross-cutting container would bound almost nothing. The exclusion is one named category, declared
+here with its reason, and not a filter that could be widened after seeing a result.
+
+### Effect on the frozen 1,850 build -- INFORMATION ONLY
+
+29.0133% of 1,850 is **537 members**. Exactly **one** cluster of the frozen
+`v0.2.2-subset-1850-c50` build exceeds it: **n0781 at 819 members** -- the 819-member super-domain
+the cohesion entry already identifies as the least cohesive theme in the build (0.125 at 200+
+members, against a kNN-ball median of 0.068).
+
+**The frozen build is NOT changed.** It keeps its 800 themes and its names. The figure is recorded
+so the cap's severity is legible: at the scale we have already inspected, it would have removed one
+theme, and that theme is the one every other measurement already flags.
+
+### What the cap does not do
+
+It is a ceiling on candidacy, not a cohesion test and not a recurrence test. A cluster under the cap
+still has to pass the support floor for its size band; a cluster over it is simply never offered.
+Nothing about the declared pipeline downstream changes: completion at inclusion 0.50, floors solved
+on 10 calibration scrambles and confirmed once on 5 held-out, the recurrence gate, greedy consensus
+at STRAY 0.10 / JACCARD 0.70, strict Hasse.
+
+---
+
+## 2 Oct 2026 -- The RUNS re-confirmation is a SAMPLED estimate at 10,770, not an exhaustive match
+
+**DECLARED before the measurement ran.** `scripts/cut_trees.py`.
+
+The RUNS ladder asks whether doubling the number of resampling runs still changes which groupings
+recur: it matches the grouping pool of one block of runs against the pool of a disjoint block, and
+reports the share with a partner at Jaccard >= 0.70. On the 1,850 build this was exhaustive --
+roughly 45,000 groupings a side, every pair compared.
+
+**At 10,770 it is not computable exhaustively.** The pools are about **407,000 groupings per 100
+runs**, and the comparison is quadratic in the pool and linear in the bitset width:
+
+> 407,420 x 407,420 x 169 words = **2.8 x 10^13 word-operations**, about **7.8 hours per direction**,
+> four directions across the two pairs -- over a day of CPU for one re-confirmation, and it has to
+> be redone whenever the cap or the cutoff moves.
+
+So the matched share is **estimated from a random sample of the left-hand pool, each sampled
+grouping compared against ALL of the right-hand pool**. Only *which* groupings are examined is
+approximated; no comparison is approximated.
+
+| parameter | value |
+|---|---|
+| sample size per direction | **5,000** groupings |
+| sample seed | **20261002**, fixed in the script |
+| estimator | share of sampled left groupings with a right partner at Jaccard >= theta |
+| standard error at a 90% share | **0.42 pp** |
+| reported | forward, backward, each with its standard error, and the worse direction |
+| exhaustive when | the pool is <= 5,000 -- then the error is reported as 0.0 |
+
+A 0.42 pp standard error sits far inside the margin a 90% pass mark needs: a true 90% reads as
+89.2-90.8% at two standard errors, and a true 85% could not be mistaken for a pass. **The figure is
+reported with its error and labelled sampled; it is never quoted as if exhaustive.**
+
+### What this does not change
+
+The pass mark is still **>= 90% in the worse direction**, declared before the run, on the two
+disjoint pairs the subsample manifest reserves: **1-100 vs 101-200** and **1-200 vs 201-400**. The
+sample affects the precision of the answer, not the question or the threshold.
+
+### The superseded figure
+
+`docs/status/OPEN.md` records "100 trees: 89.1%, 200: 91.4%" from the 1,850 work. That measurement
+has **no recorded clustering space and no recorded inclusion cutoff** (logged in `docs/debt.md`), and
+its dating places it on raw -- not centred -- vectors at inclusion 0.25. **Neither parameter is this
+build's.** It is therefore not carried forward, not cited as the 10,770 answer, and the ladder is
+measured again from the persisted trees under the current space, cutoff and cap.
+
+---
+
+## 2 Oct 2026 -- The RUNS rule was always about FINAL THEMES. The 2 Oct ladder mis-implemented it.
+
+**Aviyah's note, recorded as the correction of record.** This does not change the rule. It records
+what the rule has said since 25 Sep, and that a measurement taken against it on 2 Oct measured the
+wrong population.
+
+### The rule, as defined 25 Sep 2026
+
+> **>= 90% of FINAL THEMES matched at Jaccard >= 0.70 between builds from disjoint tree blocks.**
+
+The unit is a **theme**: a completed, support-gated, consensus-reconciled node with its exported
+member list. Two builds are compared, each built from its own disjoint block of trees.
+
+### What was measured on 2 Oct, and why it does not bear on the rule
+
+`scripts/cut_trees.py --ladder` matched the **raw grouping pool** of one block of runs against
+another's -- every deduplicated Ward cluster at or above three members, before completion, before the
+support gate, before consensus. It reported 61.0% and 63.5% at 10,770 and 54.8% and 58.2% on the
+1,850, against the 90% mark, and concluded that RUNS = 200 was not confirmed.
+
+**That was a mis-implementation of this rule, not a new rule and not a new threshold.** The 90%
+mark was never stated over the grouping pool. The pool contains thousands of clusters one subsample
+produced and no other run reproduced -- about half of it, at median support 0.030 -- and the gate
+exists to remove exactly those. Measuring the mark against a population that includes them tests
+nothing the rule asks about.
+
+**The figures stand as what they are** and are not withdrawn: they correctly describe grouping-pool
+agreement, which is a real property of the method and is why `docs/status/2026-10-02-runs-ladder.md`
+and the diagnostic are kept. **They are not evidence about RUNS.** No conclusion about RUNS = 200,
+in either direction, follows from them.
+
+**Two of my own statements from 2 Oct are wrong and are corrected here, not rewritten.** The entry
+above ("The superseded figure") and the `docs/debt.md` entry "The RUNS pass mark has no quantity
+attached to it" both assert that the rule never recorded what it was 90% *of*. **It did, on 25 Sep.**
+The defect was in the implementation and in my reading of it, not in the rule. The debt entry is
+corrected in place with a dated note; this paragraph is the record.
+
+### The closest verified prior evidence
+
+**Test 9 on the frozen 1,850** -- `recurrent_dag_c50` against `recurrent_dag_c50_seed1`, two full
+builds, 100 runs each, master seed 0 against seed 1, everything else identical. This is the right
+*statistic* on the right *unit*, and the nearest thing on record to the rule's conditions; it differs
+in that the two builds draw their own subsamples rather than taking disjoint blocks of one sequence.
+
+Reproduced exactly by `scripts/theme_match.py`, now committed, which also recovers the three figures
+already in `OPEN.md` for this build -- mean 0.862, median 0.909, 53.2% at >= 0.9:
+
+| direction | themes | mean | median | >= 0.50 | **>= 0.70** | >= 0.90 |
+|---|---|---|---|---|---|---|
+| seed 0 -> seed 1 | 800 | 0.862 | 0.909 | 95.8% | **86.9%** | 53.2% |
+| seed 1 -> seed 0 | 801 | 0.863 | 0.909 | 96.6% | **85.9%** | 53.3% |
+
+**86.9% is the forward direction, and it is the figure of record.** The **backward direction is
+85.9%** and was not previously written down; the worse direction is therefore **85.9%**.
+
+**The frozen build does not reach the 90% mark on the rule's own statistic** -- it is 3.1 points short
+forward and 4.1 points short in the worse direction. That is a genuine shortfall against a declared
+threshold and it is recorded as one. The rule as quoted does not say which direction the mark applies
+to, and that is open.
+
+### What a correct re-measurement requires
+
+Two full builds from disjoint tree blocks -- trees 1-100 and trees 101-200 of the persisted sequence
+-- each taken all the way through completion at inclusion 0.50, the per-size support floors, the
+recurrence gate, greedy consensus and strict Hasse, then compared with `scripts/theme_match.py`. The
+trees are already on disk and the build is `scripts/build_10770.py`; what it lacks is a row-range
+option, since it currently builds from rows 1..N. **Not run, and not to be run until Aviyah decides**
+the direction question above and whether the mark survives a frozen build that misses it.
