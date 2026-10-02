@@ -94,9 +94,14 @@ def condensed_subset(full: np.ndarray, n: int, subset: np.ndarray) -> np.ndarray
     taken = len(subset)
     out = np.empty(taken * (taken - 1) // 2, dtype=full.dtype)
     at = 0
+    # int64 for the INDEX arithmetic, whatever the subset is stored as. The persisted 10,770
+    # subsamples are int16 -- correct for indices into 10,770 points -- but a condensed index over
+    # that universe reaches 57,991,065, so ``base + partners`` overflowed int16 and raised. The
+    # subset's own dtype is left alone; only the arithmetic is widened.
+    wide = np.asarray(subset, dtype=np.int64)
     for position in range(taken - 1):
-        row = int(subset[position])
-        partners = subset[position + 1 :]
+        row = int(wide[position])
+        partners = wide[position + 1 :]
         base = n * row - row * (row + 1) // 2 - row - 1
         count = taken - 1 - position
         out[at : at + count] = full[base + partners]

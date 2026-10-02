@@ -234,3 +234,20 @@ def test_an_unsorted_subset_is_refused_rather_than_silently_transposed() -> None
     full = distances(x)
     with pytest.raises(ValueError, match="sorted"):
         condensed_subset(full, 10, np.array([5, 2, 7]))
+
+
+def test_condensed_subset_survives_a_universe_too_big_for_the_index_dtype():
+    """The persisted 10,770 subsamples are int16, and a condensed index over them is not.
+
+    `base + partners` was computed in the subset's own dtype, so at n=10,770 -- where a condensed
+    index reaches 57,991,065 -- it raised OverflowError on int16 indices. It only ever ran at
+    n=1,850 before. The arithmetic is now int64 regardless of how the subset is stored.
+    """
+    rng = np.random.default_rng(0)
+    n = 300
+    x = l2_normalize(rng.normal(size=(n, 8)))
+    full = distances(x)
+    subset = np.sort(rng.choice(n, size=40, replace=False)).astype(np.int16)
+    gathered = condensed_subset(full, n, subset)
+    direct = distances(x[subset.astype(np.int64)])
+    assert np.array_equal(gathered, direct)

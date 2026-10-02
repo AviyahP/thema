@@ -65,3 +65,9 @@ data/ontology/v*/recurrent_dag_cal*/
 data/ontology/v*/*_seed1/
 # Persisted subsamples for the RUNS ladder: 26 MB, regenerable from seed 20260925.
 data/ontology/v*/subsamples/
+# Persisted Ward trees and per-run completions for the 10,770: 1,900 .npz files, 0.55 GB, a
+# deterministic function of the committed universe and the recorded seeds. The pattern names the
+# .npz rather than the directory, because an ignored DIRECTORY cannot have files re-included from
+# it -- and the .json files beside the trees (build_log, ladder, floors) are the record of what was
+# run and are committed.
+data/ontology/v*/trees/**/*.npz

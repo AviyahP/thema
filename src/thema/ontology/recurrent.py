@@ -507,16 +507,26 @@ def _first_set_bit(block: np.ndarray) -> int:
 
 
 def prepare(
-    x: np.ndarray, n: int, settings: dict[str, object], seed: int, timing: Timing | None = None
+    x: np.ndarray,
+    n: int,
+    settings: dict[str, object],
+    seed: int,
+    timing: Timing | None = None,
+    records: Sequence[Run] | None = None,
 ) -> Prepared:
     """Do everything that does not depend on ``tol`` (§10.2, §10.3, and eligibility from §10.5).
 
     Args:
-        x: The ``(n, dim)`` unit-vector matrix.
+        x: The ``(n, dim)`` unit-vector matrix. Ignored when ``records`` is given.
         n: Universe size.
         settings: Parameters, already defaulted.
         seed: Master seed.
         timing: Collector to record stage durations into; one is made if absent.
+        records: Runs ALREADY built, which skips the Ward stage entirely. The 10,770 build persists
+            its trees and re-cuts them under a size cap, and the cap changes which clusters are
+            candidates rather than how the trees were grown. Passing the runs in reuses the dedup
+            and eligibility code below instead of a second copy of it -- a copy got the Prepared
+            field order wrong on the first attempt, which is exactly the drift this avoids.
 
     Returns:
         The runs, the deduplicated pool, and the eligibility matrix.
@@ -536,7 +546,11 @@ def prepare(
     # does not depend on which other points are present, so this is the same arithmetic as calling
     # pdist per subsample -- proved bit-identical, not merely close -- and pdist was 93% of a tree.
     # 464 MB at 10,770, shared read-only across the threads.
-    full = distances(x) if bool(settings.get("shared_distances", True)) else None
+    full = (
+        distances(x)
+        if records is None and bool(settings.get("shared_distances", True))
+        else None
+    )
 
     def build(run_seed: int) -> Run:
         return _one_run(x, n, subsample, min_size, run_seed, method, full)
@@ -546,7 +560,10 @@ def prepare(
     #
     # `map` preserves order, so the records are identical to the serial path whatever the threads
     # do -- each run is seeded independently and nothing is shared but the read-only matrix.
-    if workers > 1 and runs > 1:
+    if records is not None:
+        records = list(records)
+        runs = len(records)
+    elif workers > 1 and runs > 1:
         with ThreadPoolExecutor(max_workers=workers) as pool:
             records = list(pool.map(build, seeds))
     else:
