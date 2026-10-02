@@ -1,0 +1,43 @@
+{
+  "space": "centred",
+  "universe_digest": "c54319cdfbbe9eb7",
+  "n": 10770,
+  "cap_share": 0.2901330034024126,
+  "cap": 3125,
+  "theta": 0.7,
+  "tol": 0.15,
+  "min_size": 3,
+  "pass_mark": 0.9,
+  "sample": 5000,
+  "sample_seed": 20261002,
+  "pairs": [
+    {
+      "left": "1-100",
+      "right": "101-200",
+      "n_left": 276725,
+      "n_right": 275986,
+      "forward": 0.61,
+      "forward_se": 0.0069,
+      "forward_n": 5000,
+      "backward": 0.6164,
+      "backward_se": 0.00688,
+      "backward_n": 5000,
+      "worse_direction": 0.61,
+      "seconds": 385.1
+    },
+    {
+      "left": "1-200",
+      "right": "201-400",
+      "n_left": 500429,
+      "n_right": 501120,
+      "forward": 0.6398,
+      "forward_se": 0.00679,
+      "forward_n": 5000,
+      "backward": 0.6346,
+      "backward_se": 0.00681,
+      "backward_n": 5000,
+      "worse_direction": 0.6346,
+      "seconds": 858.9
+    }
+  ]
+}

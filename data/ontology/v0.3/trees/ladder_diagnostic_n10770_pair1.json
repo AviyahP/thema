@@ -1,0 +1,84 @@
+{
+  "post_hoc": true,
+  "declared_measurement_failed": true,
+  "note": "Breaks the FAILED declared share out by support and size. Not a re-measurement.",
+  "space": "centred",
+  "universe_digest": "c54319cdfbbe9eb7",
+  "n": 10770,
+  "cap_share": 0.2901330034024126,
+  "cap": 3125,
+  "theta": 0.7,
+  "tol": 0.15,
+  "min_size": 3,
+  "left": "1-100",
+  "right": "101-200",
+  "n_left": 276725,
+  "n_right": 275986,
+  "sample": 5000,
+  "sample_seed": 20261002,
+  "overall_matched": 0.61,
+  "by_support": [
+    {
+      "band": "0.00-0.10",
+      "sampled": 2389,
+      "matched": 0.2834
+    },
+    {
+      "band": "0.10-0.20",
+      "sampled": 749,
+      "matched": 0.8011
+    },
+    {
+      "band": "0.20-0.33",
+      "sampled": 627,
+      "matched": 0.9043
+    },
+    {
+      "band": "0.33-0.50",
+      "sampled": 493,
+      "matched": 0.9594
+    },
+    {
+      "band": "0.50-0.75",
+      "sampled": 393,
+      "matched": 0.9822
+    },
+    {
+      "band": "0.75-1.01",
+      "sampled": 349,
+      "matched": 0.9943
+    }
+  ],
+  "by_size": [
+    {
+      "band": "3-3",
+      "sampled": 250,
+      "matched": 0.792
+    },
+    {
+      "band": "4-4",
+      "sampled": 499,
+      "matched": 0.8136
+    },
+    {
+      "band": "5-5",
+      "sampled": 465,
+      "matched": 0.8129
+    },
+    {
+      "band": "6-6",
+      "sampled": 385,
+      "matched": 0.813
+    },
+    {
+      "band": "7-9",
+      "sampled": 901,
+      "matched": 0.8091
+    },
+    {
+      "band": "10+",
+      "sampled": 2500,
+      "matched": 0.4104
+    }
+  ]
+}
