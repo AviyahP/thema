@@ -3513,3 +3513,359 @@ recurrence gate, greedy consensus and strict Hasse, then compared with `scripts/
 trees are already on disk and the build is `scripts/build_10770.py`; what it lacks is a row-range
 option, since it currently builds from rows 1..N. **Not run, and not to be run until Aviyah decides**
 the direction question above and whether the mark survives a frozen build that misses it.
+
+---
+
+## 2 Oct 2026 -- The mark applies to the WORSE direction, and it stands unchanged
+
+**Aviyah's decision.** Two questions left open by the correction above are now closed.
+
+**1. Direction.** The rule's ">= 90% of final themes matched at Jaccard >= 0.70" applies to the
+**worse of the two directions**. A build with fewer themes can match a build with more while the
+reverse fails, and the rule is about agreement, not coverage; taking the worse direction is what
+makes it symmetric. So the frozen 1,850's figure under the rule is **85.9%**, not 86.9%.
+
+**2. The 90% mark stands, unchanged.** It is not lowered to accommodate a build that misses it.
+
+### The frozen 1,850 demo build is below the declared stability mark
+
+**It scores 85.9% in the worse direction against a 90% mark, and it is not rebuilt.**
+
+**Why it is below.** The frozen build was built at **RUNS = 100**. Establishing that 100 runs is not
+enough is precisely what the ladder exists to do, so 85.9% at 100 runs is **consistent with the
+ladder's purpose, not a contradiction of it**. It is evidence for the rung structure, not evidence
+against the build's method.
+
+**Why it is not rebuilt.** Its **names depend on its exact clusters**. A theme's name is written from
+its members' names and descriptions, and a request is keyed by its member set and its children's
+names; rebuilding at a higher RUNS changes the member sets and therefore invalidates the names. The
+287 leaf names and 215 level-1 names, and the five coverage evaluations behind them, all refer to
+these clusters.
+
+**So it is kept as it is, and the shortfall is stated rather than hidden.** This is a **declared
+limitation of the demo**, shown on the demo's landing page: the demo shows an ontology built at 100
+resampling runs, whose theme set reproduces at 85.9% against an independent rebuild, below the 90%
+stability mark this project declares for a build it would call stable.
+
+A reader of the demo is entitled to that number. `data/experiments/theme_match_c50_seed0_vs_seed1.json`
+holds it, `scripts/theme_match.py` reproduces it, and it is not to be omitted from any public
+description of the demo.
+
+---
+
+## 2 Oct 2026 -- DECLARED BEFORE THE RUN: RUNS is chosen from FINAL THEMES
+
+**Pre-registration. Written before the measurement ran; nothing below was chosen after seeing a
+result.** This replaces the grouping-pool measurement of earlier today, which was a
+mis-implementation of the rule and is recorded as such above.
+
+### The procedure
+
+For each rung, **two separate full builds** are run, each from its own disjoint block of persisted
+trees, each through the entire declared pipeline:
+
+1. the size cap, **29.0133% of the universe**, applied at cut time;
+2. completion at **inclusion 0.50**;
+3. support floors solved on the **10 calibration scrambles**, at the **same number of runs as the
+   build**;
+4. the gate at **max(declared m = 0.33, the per-size floor)**;
+5. greedy consensus at **STRAY 0.10 / JACCARD 0.70**;
+6. strict Hasse edges.
+
+The two finished theme sets are then matched with `scripts/theme_match.py`.
+
+**Both builds in a rung use the SAME scramble trees for their floors.** The floor is a property of a
+size stratum under the null, not of the block being cut, and giving each block its own null would let
+the two builds be gated differently -- which would show up as theme disagreement that was really
+threshold disagreement.
+
+### The pass rule
+
+> **PASS if >= 90% of final themes have a partner at Jaccard >= 0.70 in the WORSE direction.**
+
+### The rungs, in order
+
+| rung | block A | block B | RUNS if it passes |
+|---|---|---|---|
+| 1 | trees 1-100 | trees 101-200 | 100 |
+| 2 | trees 1-200 | trees 201-400 | 200 |
+
+**RUNS = the smallest passing rung.** **If neither rung passes, stop and report** -- no third rung,
+no new trees, and no adjustment to the mark.
+
+### What happens after a rung passes
+
+The confirmatory build runs at that RUNS on trees 1..RUNS, with the floors solved on the 10
+calibration scrambles and **confirmed ONCE** on the 5 held-out scrambles: overall FDR <= 0.01, each
+stratum <= 0.02, and **nothing re-solved after the held-out set is touched**.
+
+**Nothing is frozen. Aviyah decides.**
+
+---
+
+## 2 Oct 2026 -- The completion stage was reimplemented. Verified byte-identical.
+
+**An implementation change only. NOTHING DECLARED CHANGES** -- not the cap, not the inclusion
+cutoff, not the floors, not the strata, not the gate, not the consensus parameters, not theta, not
+the pass mark, not the rungs. The same build comes out.
+
+### What changed
+
+`family_members` completes a grouping by walking `for p in bits.unpack(candidates)` and making two
+NumPy calls per candidate pathway. Completion runs over the WHOLE pool, so at 10,770 and 100 runs
+that is ~277,000 groupings holding roughly 17 million (grouping, candidate) pairs -- about 34 million
+NumPy calls, whose per-call overhead dominates the arithmetic entirely.
+
+`family_members_fast` replaces that loop with one vectorised bit-extraction per count, and indexes
+the ``(runs, candidates)`` block directly rather than slicing whole rows -- `records_present[runs]`
+materialises every word of every run, which is most of the memory traffic at this scale. Same
+copies, same union, same `min(holds/could, 1)`, same candidate order. **The original is kept and is
+still the default**; `--completion fast` selects the new one.
+
+A sparse run-by-pathway matrix formulation was considered and rejected: the per-grouping copy set is
+irreducibly a Python structure, so that form moves the same total bit-work into something harder to
+prove equal.
+
+### Verification -- `scripts/verify_completion.py`, which exits non-zero on any disagreement
+
+`prepare` and `score` run ONCE and both implementations consume the same pool, so the comparison is
+not between two differently-loaded machines.
+
+| checked | groupings | completed | identical | cached side byte-for-byte |
+|---|---|---|---|---|
+| the 1,850 universe, 100 runs | 49,700 | 48,266 | **yes** | n/a |
+| 10,770 `real_r00001-00100` | 285,260 | 276,725 | **yes** | **yes** |
+| 10,770 `seed03001_n100` | 332,429 | 329,392 | **yes** | **yes** |
+
+"Identical" means the completed sets match key-for-key and bitset-for-bitset, and the inclusion
+floats are compared for **equality, not within a tolerance** -- an inclusion is rounded and exported,
+so a last-bit difference would be a different build. "Byte-for-byte" means the fast path re-cut a
+side whose `.npz` had been written by the original and the two files were compared as bytes.
+
+### The speed-up, stated for what was measured
+
+**On the completion stage: 1.8x to 2.2x.** That is the measured result.
+
+**A per-side figure is NOT claimed from this measurement.** The verification timed four stages --
+load, prepare, matching, completion -- which sum to 93-99s, where rung 1 measured whole sides at
+**195s (real) and 281-339s (scramble)**. So roughly half of a side is in stages the verification did
+not time: families (seed absorption), and the family-support and selection pass. The selection pass
+calls the same completion function and therefore also speeds up, so the partial four-stage ratio of
+1.15-1.33x is neither the true per-side figure nor a bound on it, in either direction. `cut_side` now
+records every stage and its peak memory, so the complete split is measured on the next side rather
+than inferred from this one.
+
+---
+
+## 2 Oct 2026 -- Two optimisations CONSIDERED AND NOT BUILT, and one cache defect
+
+**Aviyah's decision, on the measurements below. Implementation only; NOTHING DECLARED CHANGES.**
+
+### NOT BUILT: persisting per-(grouping, run) match results
+
+The idea was to store each match answer once and assemble any block's support by counting stored
+answers, reusing them across blocks, rungs, the confirmatory build and future re-cuts. **The reuse
+is mostly either impossible or already in place.**
+
+**Cross-block reuse is impossible without changing the declared matching rule.** The rule compares a
+grouping against a run's clusters using `extras = |C n draw(origin_run(g))| - cover`, where
+`origin_run(g)` is the lowest-numbered run **in the block** that recorded `g`. So the answer for a
+given (grouping, run) pair depends on which runs are in the block. The ladder's blocks are **disjoint
+by construction** -- 1-100 against 101-200 -- so a grouping's origin run is necessarily different in
+the two, and nothing computed for one block is valid for the other.
+
+**Rung and confirmatory reuse already exists.** The completion cache keys a finished side on
+(space, universe digest, cap, inclusion cutoff, side), and the confirmatory build at RUNS = 200 on
+trees 1..200 reads exactly the side labels block A already wrote. It pays nothing for matching today.
+
+**What a store would actually have bought:** an inclusion-cutoff re-cut. Matching precedes
+completion, so changing the cutoff invalidates the completion cache while leaving matching unchanged
+-- about **175 s per side** of load, prepare and matching, at roughly **1 GB per block** on disk. A
+cap change invalidates it entirely, since the cap decides which clusters exist.
+
+**Not built.** One narrow saving on a stage that is not re-run often, against new persisted state in
+the most intricate part of the pipeline.
+
+### NOT BUILT: the size filter in matching
+
+**The bound is correct.** Acceptance needs `cover >= theta x union` with `union = shared + extras`,
+and `extras >= 0` because a grouping is contained in its origin run's draw, so
+`|C n draw(origin)| >= |g n C| = cover`. Hence `cover >= theta x shared`, and since `cover <= |C|`, a
+cluster with `|C| < theta x shared` can never be accepted. The subtle part is that the winner is
+chosen by greatest cover BEFORE the theta test, so pruning could promote another candidate -- and the
+argument that this cannot change the outcome is that a filtered-out winner had
+`cover <= |C| < theta x shared <= theta x union` and would have been rejected anyway, while any
+promoted candidate has no more cover and is rejected by the same inequality.
+
+**The code disagrees with the argument, and the code was not trusted.** Switching the filter on moved
+**34,637 of 49,700 supports** on the real 1,850 pool, and moved them **upward** -- which the argument
+says is impossible. The disagreement was not resolved, so the filter is **off by default** behind a
+`size_filter` setting, is not used anywhere, and is kept only so the contradiction stays reproducible.
+Measured upside was 4.91s to 4.27s at 1,850: about 13% of a stage worth a third of a side.
+
+**What the attempt did establish, and this is worth keeping:** with the filter off, the `matrix`
+matching path is now verified **exactly** equal to the `tree` reference on the real 1,850 pool --
+support, copy keys, and every copy bitset -- at 4.70s against 239.39s. That equivalence had only ever
+been checked on hand-built fixtures of a few dozen points, which is why they passed while the real
+pool diverged. **A reference implementation that is only ever exercised on toy inputs is not a
+reference.**
+
+### A CACHE DEFECT, recorded because it nearly entered a measurement
+
+The size filter was added to `recurrent.py` **while the rung-2 side-cutting loop was running**. Each
+side is a fresh process that imports the module at startup, so a side beginning after the edit was
+computed with an unverified change: `seed03002_n200` produced **40,809 families where every clean
+side of the same kind produces 428,000-429,000**. The file was indistinguishable from a valid cache
+entry, and nothing recorded which code had written it.
+
+Two sides were deleted and recut. **The fix is provenance:** every cached side now carries a
+sha256 of `recurrent.py` plus the settings that affect its bytes, and a cache hit whose fingerprint
+differs **raises** rather than being consumed. `--allow-stale-cache` is the explicit override, for
+use only after two implementations have been proved byte-identical.
+
+**The rule this establishes: do not edit a module while a job that imports it is running.** The
+defect was not the filter; it was editing underneath a running measurement.
+
+---
+
+## 2 Oct 2026 -- Seed absorption reimplemented as an exact join. Verified byte-identical.
+
+**Implementation only. NOTHING DECLARED CHANGES** -- not the variant rule, not the allowance, not
+the seed order, not the family lists. `families(settings={"families": "joined"})` is now the default
+for the 10,770 build; `"indexed"` and `"pairwise"` remain callable, and `"pairwise"` is still the
+reference.
+
+### What changed
+
+`_variant_shortlist` precomputed, for every grouping, every grouping it might be a variant of. Three
+things were wrong with that at scale, and none of them is the rule:
+
+1. **It computed candidate lists for groupings that never become seeds.** A claimed grouping is
+   never a seed and never needs its list; at 1,850 only 19,324 of 48,266 become seeds, so ~60% of the
+   work was discarded. The join generates candidates **lazily, per seed**.
+2. **It indexed every MEMBER**, so a common pathway carried a posting list of every grouping holding
+   it. The join indexes **prefixes only**: 6.3x fewer postings at 1,850, and candidate pairs fall
+   from 55.3M to 26.5M.
+3. **It verified one pair at a time** in Python. The join verifies a seed's whole candidate block in
+   NumPy, using `|A \ B| = |A| - |A n B|`.
+
+**The two-sided prefix filter is exact, and the proof is in `_prefix_index`.** If the prefixes of
+`A` and `B` are disjoint under a fixed global order, then all `k_A + 1` members of `A`'s prefix lie
+outside `B`, so `|A \ B| > k_A`; since `|A n B| <= |A|`, the rule's allowance cannot reach that, so
+the pair is not a variant. Variants therefore always share a prefix element, and `is_variant`'s rule
+still decides every surviving pair.
+
+### Verification
+
+| checked | families | identical | cached side byte-for-byte |
+|---|---|---|---|
+| hand-computed fixture + generated pools | - | **yes** | n/a |
+| pools whose overlaps sit only in COMMON pathways | - | **yes** | n/a |
+| pools with NON-CONTIGUOUS grouping ids | - | **yes** | n/a |
+| the 1,850 universe, 100 runs | 19,324 | **yes** | n/a |
+| 10,770 `real_r00001-00200` | 161,852 | **yes** | **yes** |
+| 10,770 `seed03001_n200` | 429,261 | **yes** | **yes** |
+| `seed03001_n200` re-cut in a NORMAL build and byte-compared | 429,261 | **yes** | **yes** |
+
+"Identical" means the same seeds and the same family LISTS in the same order, not merely the same
+partition.
+
+### It failed its first at-scale run, and the gap that hid the bug
+
+The first attempt returned **161,853 families against 161,852** -- one grouping wrongly left
+unclaimed. The cause: the posting arrays hold **grouping ids**, which are the sparse keys of the
+completed dict, and they were filtered against a **row index** into the stacked block. Every
+existing test passed, because they all pass `range(n)` as the candidate list, where a grouping's id
+EQUALS its row and the two are indistinguishable. **A test suite that only ever uses contiguous ids
+cannot see an id/row confusion.** There is now a test with deliberately sparse ids, carrying
+assertions that stop it quietly becoming the contiguous case again.
+
+### Measured, on one 200-run scramble side in a normal build
+
+| | indexed | joined |
+|---|---|---|
+| families stage | 679.5s | **345.1s** (2.0x) |
+| whole side | 977s | **689s** (1.42x) |
+| **peak memory** | **21.7 GB** | **8.2 GB** (2.6x less) |
+
+**Peak is the consequential number.** At 21.7 GB a single side nearly filled this 36 GB machine, and
+an attempt at two in parallel drove it into swap and stalled both. At 8.2 GB, **three sides fit in
+24.6 GB and leave 11.4 GB for the operating system.**
+
+**`families` is still the dominant stage even so** -- 399.5s of a 677.8s side, 59% -- so the join
+halved it without displacing it. Matching is 212.4s (31%) and completion, already vectorised, is
+30.0s (4%).
+
+---
+
+## 3 Oct 2026 -- RUNS = 200. The declared 90% stability mark is NOT MET, and is NOT changed.
+
+**Aviyah's decision, on the ladder measured 2 Oct.** RUNS = **200**, the best measured rung. The
+declared mark stands at **>= 90% of final themes matched at Jaccard >= 0.70 in the worse direction**,
+and **the build does not reach it.** The mark is not lowered, and the shortfall is recorded rather
+than absorbed.
+
+### The ladder, in full
+
+Each rung is two separate full builds, one per disjoint block of persisted trees, each through the
+whole declared pipeline -- cap 29.0133% at cut time, completion at inclusion 0.50, floors solved on
+the 10 calibration scrambles at the build's own run count, gate at `max(m = 0.33, floor)`, greedy
+consensus at STRAY 0.10 / JACCARD 0.70, strict Hasse -- then matched theme-for-theme by
+`scripts/theme_match.py`. The held-out scrambles were NOT read by any ladder block.
+
+**Rung 1 -- trees 1-100 vs 101-200, RUNS = 100 if it passed**
+
+| direction | themes | roots | mean | median | >= 0.50 | **>= 0.70** | >= 0.90 |
+|---|---|---|---|---|---|---|---|
+| A -> B | 5,408 | 192 | 0.866 | 0.917 | 96.6% | **85.5%** | 55.3% |
+| B -> A | 5,404 | 198 | 0.866 | 0.917 | 96.4% | **85.9%** | 55.2% |
+
+**Worse direction 85.5% -- FAIL.**
+
+**Rung 2 -- trees 1-200 vs 201-400, RUNS = 200 if it passed**
+
+| direction | themes | roots | mean | median | >= 0.50 | **>= 0.70** | >= 0.90 |
+|---|---|---|---|---|---|---|---|
+| A -> B | 6,244 | 203 | 0.878 | 0.923 | 97.1% | **87.9%** | 57.4% |
+| B -> A | 6,209 | 209 | 0.881 | 0.929 | 97.9% | **88.5%** | 58.1% |
+
+**Worse direction 87.9% -- FAIL.** No declared rung passes, so the ladder stopped there: no third
+rung, no new trees, no change to the mark.
+
+### What the ladder established
+
+**The run count genuinely drives theme stability, and 200 is still not enough.** Doubling the runs
+gained **2.4 points** in the worse direction, 85.5% to 87.9%. Three independent measurements now sit
+below the mark and close together:
+
+| measurement | runs | worse direction |
+|---|---|---|
+| frozen 1,850, test 9 (seed 0 vs seed 1) | 100 | 85.9% |
+| 10,770, rung 1 | 100 | 85.5% |
+| 10,770, rung 2 | 200 | **87.9%** |
+
+The 100-run figures agree to 0.4 points across universes six times apart in size, which is why the
+shortfall reads as a property of the method at this run count rather than of either dataset.
+
+**Rung 2 is better on every other axis too**: 6,244 themes against 5,408, and effectively unplaced
+down from 379 to 141 (root-only 330 to 117).
+
+**Extrapolation, labelled as such and not acted on:** at 2.4 points per doubling, 400 runs would
+land near 89-90% and 800 near 90-91%. That is a line through two points. Rung 3 was **not run**; only
+an estimate of its cost was prepared.
+
+### Consequence for the build
+
+RUNS = 200 is adopted as the best measured setting, and any description of a 10,770 build must carry
+the figure: **its theme set reproduces at 87.9% against an independent rebuild from disjoint trees,
+below the 90% mark this project declares for a build it would call stable.** The same honesty marker
+the frozen 1,850 demo carries at 85.9%.
+
+### Also considered and not built
+
+Recorded in full in the entries of 2 Oct: **per-(grouping, run) match storage** -- dropped because
+the matching rule reads each grouping's block-dependent origin run, so cross-block reuse is
+impossible, while rung and confirmatory reuse already come from the completion cache, leaving only
+inclusion-cutoff re-cuts; and the **size filter in matching** -- dropped because the bound is a
+correct necessary condition yet switching it on moved 34,637 of 49,700 supports upward, which the
+argument says cannot happen, so proof and code disagree and the code is not trusted.
