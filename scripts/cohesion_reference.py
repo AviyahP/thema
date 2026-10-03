@@ -155,6 +155,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--version", default="0.2")
     parser.add_argument("--build", default="recurrent_dag_c50")
     parser.add_argument("--compare", default="recurrent_dag_consensus_centred")
+    parser.add_argument("--roots", type=int, default=4,
+                        help="how many of the largest roots to report cohesion for, each against "
+                             "kNN balls of its own size")
     args = parser.parse_args(argv)
 
     root = args.data / "ontology" / f"v{args.version}"
@@ -251,6 +254,20 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    {label:<9} {p5:>8.3f} {statistics.median(balls):>9.3f} "
               f"{percentile(vals, 10):>11.3f} {statistics.median(vals):>11.3f} "
               f"{f'{below} of {len(vals)}':>14}")
+
+    print(f"\n  THE {args.roots} LARGEST ROOTS")
+    print(f"    {'root':<10} {'members':>9} {'children':>9} {'cohesion':>9} "
+          f"{'ball p5':>9} {'ball med':>9}")
+    rng = np.random.default_rng(SEED_BALLS)
+    for node in sorted(roots, key=lambda n: -sizes[n])[: args.roots]:
+        size = sizes[node]
+        balls = []
+        for _ in range(BALLS_PER_STRATUM):
+            centre = int(rng.integers(len(space)))
+            order = np.argsort(-(space @ space[centre]))[:size]
+            balls.append(cohesion(space[order]))
+        print(f"    {node:<10} {size:>9,} {len(kids.get(node, [])):>9} {coh[node]:>9.3f} "
+              f"{percentile(balls, 5):>9.3f} {statistics.median(balls):>9.3f}")
 
     print(f"\n  WHAT A CUT AT COHESION < {PROPOSED_CUT} WOULD DO")
     for label, directory in ((args.compare, args.compare), (args.build, args.build)):
