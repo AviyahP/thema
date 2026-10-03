@@ -1,0 +1,25 @@
+{
+  "statistic": "share of FINAL THEMES with a best match at Jaccard >= theta",
+  "left": "data/ontology/v0.2/recurrent_dag_c50",
+  "right": "data/ontology/v0.2/recurrent_dag_c50_seed1",
+  "theta": 0.7,
+  "pass_mark": 0.9,
+  "forward": {
+    "themes": 800,
+    "mean": 0.8618,
+    "median": 0.9091,
+    "share_ge_0.50": 0.9575,
+    "share_ge_0.70": 0.8688,
+    "share_ge_0.90": 0.5325
+  },
+  "backward": {
+    "themes": 801,
+    "mean": 0.863,
+    "median": 0.9091,
+    "share_ge_0.50": 0.9663,
+    "share_ge_0.70": 0.8589,
+    "share_ge_0.90": 0.5331
+  },
+  "worse_direction": 0.8589,
+  "exhaustive": true
+}

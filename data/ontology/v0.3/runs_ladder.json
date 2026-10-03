@@ -1,0 +1,96 @@
+{
+  "statistic": "share of FINAL THEMES with a partner at Jaccard >= theta",
+  "declared": "DECISIONS.md, 2 Oct 2026",
+  "theta": 0.7,
+  "pass_mark": 0.9,
+  "mark_applies_to": "worse direction",
+  "completion_implementation": "fast",
+  "heldout_read": false,
+  "rungs_attempted": [
+    "1-100 vs 101-200",
+    "1-200 vs 201-400"
+  ],
+  "rungs_declared": [
+    "1-100 vs 101-200",
+    "1-200 vs 201-400"
+  ],
+  "all_declared_rungs_attempted": true,
+  "rungs": [
+    {
+      "rung": {
+        "a": "1-100",
+        "b": "101-200",
+        "runs_if_passing": 100
+      },
+      "shape_left": {
+        "themes": 5408,
+        "roots": 192
+      },
+      "shape_right": {
+        "themes": 5404,
+        "roots": 198
+      },
+      "forward": {
+        "themes": 5408,
+        "mean": 0.866,
+        "median": 0.917,
+        "share_ge_0.50": 0.966,
+        "share_ge_0.70": 0.855,
+        "share_ge_0.90": 0.553
+      },
+      "backward": {
+        "themes": 5404,
+        "mean": 0.866,
+        "median": 0.917,
+        "share_ge_0.50": 0.964,
+        "share_ge_0.70": 0.859,
+        "share_ge_0.90": 0.552
+      },
+      "worse_direction": 0.855,
+      "passes": false
+    },
+    {
+      "left": "data/ontology/v0.3/recurrent_dag_10770_r1-200",
+      "right": "data/ontology/v0.3/recurrent_dag_10770_r201-400",
+      "shape_left": {
+        "themes": 6244,
+        "roots": 203
+      },
+      "shape_right": {
+        "themes": 6209,
+        "roots": 209
+      },
+      "forward": {
+        "themes": 6244,
+        "mean": 0.878,
+        "median": 0.9231,
+        "share_ge_0.50": 0.9712,
+        "share_ge_0.70": 0.8789,
+        "share_ge_0.90": 0.5742
+      },
+      "backward": {
+        "themes": 6209,
+        "mean": 0.8814,
+        "median": 0.9286,
+        "share_ge_0.50": 0.9791,
+        "share_ge_0.70": 0.8848,
+        "share_ge_0.90": 0.5809
+      },
+      "worse_direction": 0.8789,
+      "passes": false,
+      "rung": {
+        "a": "1-200",
+        "b": "201-400",
+        "runs_if_passing": 200
+      }
+    }
+  ],
+  "runs": null,
+  "verdict": "NO DECLARED RUNG PASSES. Stopping as declared: no third rung, no new trees, no change to the mark.",
+  "reference_1850_test9": {
+    "forward": 0.869,
+    "backward": 0.859,
+    "worse_direction": 0.859,
+    "runs": 100
+  }
+}
