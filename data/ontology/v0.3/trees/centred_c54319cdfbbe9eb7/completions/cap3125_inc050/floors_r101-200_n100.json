@@ -1,0 +1,73 @@
+{
+  "space": "centred",
+  "universe_digest": "c54319cdfbbe9eb7",
+  "n": 10770,
+  "rows": "101-200",
+  "runs": 100,
+  "scramble_rows": 100,
+  "size_cap_share": 0.2901330034024126,
+  "size_cap": 3125,
+  "inclusion_cut": 0.5,
+  "declared_m": 0.33,
+  "strata": [
+    {
+      "stratum": "3-3",
+      "real": 1321,
+      "floor": 0.795918,
+      "effective": 0.795918,
+      "calibration_fdr": 0.00889
+    },
+    {
+      "stratum": "4-4",
+      "real": 1717,
+      "floor": 0.919192,
+      "effective": 0.919192,
+      "calibration_fdr": 0.00985
+    },
+    {
+      "stratum": "5-5",
+      "real": 1702,
+      "floor": 0.416667,
+      "effective": 0.416667,
+      "calibration_fdr": 0.0092
+    },
+    {
+      "stratum": "6-6",
+      "real": 2584,
+      "floor": 0.262626,
+      "effective": 0.33,
+      "calibration_fdr": 0.00928
+    },
+    {
+      "stratum": "7-9",
+      "real": 8330,
+      "floor": 0.18,
+      "effective": 0.33,
+      "calibration_fdr": 0.00831
+    },
+    {
+      "stratum": "10+",
+      "real": 81092,
+      "floor": 0.030303,
+      "effective": 0.33,
+      "calibration_fdr": 0.00935
+    }
+  ],
+  "calibration_seeds": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout_confirmed": false,
+  "heldout_seeds": [],
+  "overall_fdr": null,
+  "overall_real": null,
+  "overall_null": null
+}
