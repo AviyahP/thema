@@ -28,6 +28,45 @@ uv run scripts/build_ontology.py                           # embed, cluster, wri
 uv run scripts/export_demo.py                              # write demo/ontology.{json,js} for demo/prototype.html
 ```
 
+### The 10,770 ontology
+
+All CPU, no API. The expensive part is the Ward trees, and they are persisted: the cap, the inclusion
+cutoff and the floors are all **cut-time** choices, so changing any of them is a re-cut and never a
+rebuild. Completions are cached per side and each carries a fingerprint of the code that wrote it —
+a mismatch **refuses** to be reused rather than silently serving a side some other implementation
+produced.
+
+```sh
+# Trees, once. --rows for the real subsamples, --scrambles for the null sides.
+uv run scripts/build_trees_10770.py --rows 1-400
+uv run scripts/build_trees_10770.py --scrambles --scramble-rows 200
+uv run scripts/size_cap_reference.py       # what the declared size cap is measured against
+
+# One build. --rows A-B cuts any block of trees; --confirm-heldout is the CONFIRMATORY BUILD ONLY,
+# because a held-out set confirmed against more than once is not held out.
+uv run scripts/build_10770.py --rows 1-200 --scramble-rows 200 --completion fast --families joined
+uv run scripts/build_10770.py --runs 200 --confirm-heldout --directory recurrent_dag_10770
+
+# The RUNS ladder: two full builds per rung from disjoint blocks, matched on FINAL THEMES.
+uv run scripts/runs_ladder.py --rung 1
+uv run scripts/theme_match.py BUILD_A BUILD_B      # the statistic the ladder's mark is stated over
+uv run scripts/rung3_estimate.py                   # priced from measured sides; does not run it
+
+# Reporting a build.
+uv run scripts/freeze_table.py BUILD --floors FLOORS.json   # the FROZEN.md figures
+uv run scripts/cap_audit.py BUILD --side SIDE --floors F    # where the size cap stops holding
+uv run scripts/cohesion_reference.py --version 0.3 --build BUILD --compare OTHER
+uv run scripts/root_profile.py BUILD                        # source mix and children of the roots
+uv run scripts/unmatched_profile.py DUMP.tsv                # post hoc: which themes failed to match
+
+# Validation. validate_dag.py is the DAG adapter the validation plan names as missing.
+uv run scripts/tfidf_vectors.py                             # test 3's lexical control vectors
+uv run scripts/validate_dag.py BUILD --gene-baselines --tfidf-vectors V.npy
+
+# Proving an implementation change byte-identical before it is used.
+uv run scripts/verify_completion.py --side SIDE --families
+```
+
 ## Prompts
 
 **Never send a new or changed prompt to the API without Aviyah seeing the exact text first.**
