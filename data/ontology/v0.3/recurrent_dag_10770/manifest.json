@@ -1,0 +1,79 @@
+{
+ "calibration": "10 calibration scrambles, seeds 3001-3010, 200 trees each; 5 held-out, seeds 4001-4005, overall held-out FDR 0.00285",
+ "completion_implementation": "fast",
+ "completions": "data/ontology/v0.3/trees/centred_c54319cdfbbe9eb7/completions/cap3125_inc050",
+ "declared_m": 0.33,
+ "descriptions_digest": "7fa24853293f536f",
+ "directory": "recurrent_dag_10770",
+ "excluded": [],
+ "families_implementation": "joined",
+ "floors": [
+  [
+   "3-3",
+   0.79,
+   0.79
+  ],
+  [
+   "4-4",
+   0.905,
+   0.905
+  ],
+  [
+   "5-5",
+   0.415,
+   0.415
+  ],
+  [
+   "6-6",
+   0.275,
+   0.33
+  ],
+  [
+   "7-9",
+   0.165,
+   0.33
+  ],
+  [
+   "10+",
+   0.020101,
+   0.33
+  ]
+ ],
+ "heldout_confirmed": true,
+ "inclusion_threshold": 0.5,
+ "method": "recurrent_dag",
+ "min_size": 3,
+ "n": 10770,
+ "n_edges": 8208,
+ "n_effectively_unplaced": 141,
+ "n_excluded_no_genes": 0,
+ "n_near_members": null,
+ "n_nodes": 6244,
+ "n_root_only": 117,
+ "n_roots": 203,
+ "n_undescribed": 0,
+ "n_unplaced": 24,
+ "params": {
+  "embedder_split": false,
+  "inclusion_threshold": 0.5,
+  "linkage": "ward",
+  "m": "per-size, see manifest.floors",
+  "min_shared": 3,
+  "min_size": 3,
+  "runs": 200,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "tol": 0.15
+ },
+ "rows": "1-200",
+ "runs": 200,
+ "scramble_rows": 200,
+ "size_cap": 3125,
+ "size_cap_rule": "2x the largest curated top-level share, excluding Reactome Disease",
+ "size_cap_share": 0.2901330034024126,
+ "space": "centred-renormalised",
+ "theta": 0.7,
+ "tol": 0.15,
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.3"
+}
