@@ -16,15 +16,22 @@ persists the material the gate needs -- member bitsets, support, and the per-fam
 **The floors are solved under the same cap they are applied under.** Real and scrambled trees go
 through the identical `load_run`, so a cap that removes a candidate removes it on both sides.
 
+**The held-out scrambles are touched ONCE, and only with ``--confirm-heldout``.** The RUNS ladder
+runs four builds before the confirmatory one, and if each of them confirmed against the held-out
+set then "confirmed once" would be false by the time it mattered. Ladder builds therefore solve
+floors on the 10 calibration scrambles and stop; the 5 held-out scrambles are read only by the
+confirmatory build.
+
 Usage::
 
-    uv run scripts/build_10770.py --runs 200 --dry-run
-    uv run scripts/build_10770.py --runs 200
+    uv run scripts/build_10770.py --rows 1-100                     # one ladder block
+    uv run scripts/build_10770.py --runs 200 --confirm-heldout     # the confirmatory build
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import time
 from collections.abc import Sequence
@@ -33,16 +40,18 @@ from pathlib import Path
 
 import numpy as np
 
+from build_trees_10770 import peak_mb
 from cut_trees import CAP_SHARE, MIN_SIZE, THETA, TOL, cap_for, load_run
 from thema.data.pathways import PathwayCollection
 from thema.ontology import bitset as bits
-from thema.ontology import export
+from thema.ontology import export, recurrent
 from thema.ontology.base import Node, Ontology
 from thema.ontology.consensus import DEFAULT_JACCARD, DEFAULT_STRAY, consensus
 from thema.ontology.recurrent import (
     DEFAULTS,
     families,
     family_members,
+    family_members_fast,
     family_support,
     hasse,
     prepare,
@@ -183,8 +192,44 @@ def load_material(path: Path) -> Material:
         return Material(handle["blocks"], handle["supports"], selections)
 
 
+def implementation_fingerprint(fast: bool, families: str = "joined") -> dict[str, object]:
+    """What a cached side's bytes depend on, beyond the declared parameters.
+
+    **This exists because of a real failure.** On 2 Oct a module edit landed while a long side-
+    cutting loop was running. Each side is a fresh process, so it imported whatever
+    ``recurrent.py`` said at the moment it started -- and one side was computed with an unverified
+    matching change, producing 40,809 families where the same scramble gives roughly 450,000. The
+    file looked exactly like a valid cache entry. Nothing recorded which code wrote it.
+
+    Args:
+        fast: Whether the vectorised completion is in use.
+        families: Which families implementation is in use.
+
+    Returns:
+        The fingerprint to store beside a side and to check on a cache hit.
+    """
+    source = Path(recurrent.__file__).read_bytes()
+    return {
+        "recurrent_sha256_16": hashlib.sha256(source).hexdigest()[:16],
+        "completion": "fast" if fast else "original",
+        "families": families,
+        "matching": str(DEFAULTS.get("matching", "matrix")),
+        "size_filter": bool(DEFAULTS.get("size_filter", False)),
+        "theta": THETA,
+        "tol": TOL,
+        "min_size": MIN_SIZE,
+    }
+
+
 def cut_side(
-    trees: Path, labels: Sequence[str], n: int, cap: int, cutoff: float
+    trees: Path,
+    labels: Sequence[str],
+    n: int,
+    cap: int,
+    cutoff: float,
+    fast: bool = False,
+    report: dict | None = None,
+    families_mode: str = "joined",
 ) -> Material:
     """Cut one side and complete every grouping, BEFORE any support gate.
 
@@ -194,39 +239,88 @@ def cut_side(
         n: Universe size.
         cap: Size cap, applied to every tree.
         cutoff: Inclusion cutoff for completion.
+        fast: Use the vectorised completion. Byte-identical to the original by test; see
+            :func:`thema.ontology.recurrent.family_members_fast`.
+        families_mode: Which families implementation to use. ``"joined"`` is verified
+            byte-identical to ``"indexed"`` at both scales; see DECISIONS.md, 2 Oct.
+        report: If given, filled with per-stage wall seconds. The stage split was not recoverable
+            from any existing log -- ``prepare`` and ``score`` collect their own timings and nothing
+            printed them -- so it is collected here.
 
     Returns:
         The side's completed families.
     """
+    complete = family_members_fast if fast else family_members
+    marks: dict[str, float] = {}
+    clock = time.perf_counter()
     runs = [load_run(trees / f"{label}.npz", n, cap) for label in labels]
-    settings = {**DEFAULTS, "runs": len(runs), "tol": TOL, "min_size": MIN_SIZE, "theta": THETA}
+    marks["load trees + cap"] = time.perf_counter() - clock
+
+    clock = time.perf_counter()
+    settings = {**DEFAULTS, "runs": len(runs), "tol": TOL, "min_size": MIN_SIZE,
+                "theta": THETA, "families": families_mode}
     ready = prepare(np.zeros((n, 1), dtype=np.float32), n, settings, 0, records=runs)
+    marks["prepare (dedup + eligibility)"] = time.perf_counter() - clock
+    marks.update({f"  .. {k}": v for k, v in ready.timing.stages.items()})
+
+    clock = time.perf_counter()
     pool = score(ready, settings)
+    marks["matching (support)"] = time.perf_counter() - clock
+    marks.update({f"  .. {k}": v for k, v in pool.timing.stages.items()
+                  if k not in ready.timing.stages})
+
     words = ready.present.shape[1] * bits.WORD
+    clock = time.perf_counter()
     completed: dict[int, np.ndarray] = {}
     for grouping in range(len(pool.groupings)):
         if np.isnan(pool.support[grouping]):
             continue
-        candidate, inclusion = family_members([grouping], pool, ready.present, words)
+        candidate, inclusion = complete([grouping], pool, ready.present, words)
         members = sorted(p for p in bits.unpack(candidate) if inclusion.get(p, 0.0) >= cutoff)
         if len(members) >= MIN_SIZE:
             completed[grouping] = bits.pack(members, words)
+    marks["completion"] = time.perf_counter() - clock
+
+    clock = time.perf_counter()
+    grouped = families(list(completed), completed, pool, settings=settings)
+    marks["families (seed absorption)"] = time.perf_counter() - clock
+
+    clock = time.perf_counter()
     blocks, supports, selections = [], [], []
-    for seed_grouping, family in families(list(completed), completed, pool):
+    for seed_grouping, family in grouped:
         support = family_support(family, pool, ready.eligible_mask)
         if np.isnan(support):
             continue
-        _candidate, selection = family_members([seed_grouping], pool, ready.present, words)
+        _candidate, selection = complete([seed_grouping], pool, ready.present, words)
         blocks.append(completed[seed_grouping])
         supports.append(float(support))
         selections.append(selection)
+    marks["family support + selection"] = time.perf_counter() - clock
+
+    if report is not None:
+        report.update(marks)
+        report["groupings"] = len(pool.groupings)
+        report["eligible"] = int(np.count_nonzero(~np.isnan(pool.support)))
+        report["completed"] = len(completed)
+        report["families"] = len(blocks)
+        report["completion_implementation"] = "fast" if fast else "original"
+        report["families_implementation"] = families_mode
+        report["peak_mb"] = round(peak_mb(), 1)
     stacked = (np.vstack(blocks) if blocks
                else np.zeros((0, ready.present.shape[1]), dtype=np.uint64))
     return Material(stacked, np.asarray(supports, dtype=np.float64), tuple(selections))
 
 
 def side_cached(
-    trees: Path, labels: Sequence[str], n: int, cap: int, cutoff: float, label: str
+    trees: Path,
+    labels: Sequence[str],
+    n: int,
+    cap: int,
+    cutoff: float,
+    label: str,
+    fast: bool = False,
+    families_mode: str = "joined",
+    allow_stale: bool = False,
 ) -> tuple[Material, bool]:
     """Cut one side, or read it back if this exact cut is already on disk.
 
@@ -237,6 +331,10 @@ def side_cached(
         cap: Size cap.
         cutoff: Inclusion cutoff.
         label: Side name, e.g. ``real200`` or ``seed03001``.
+        fast: Use the vectorised completion.
+        families_mode: Which families implementation to use.
+        allow_stale: Reuse a cached side written by a different implementation. Only legitimate
+            when the two have been proved byte-identical; the mismatch is still printed.
 
     Returns:
         The material, and whether it came from disk.
@@ -245,13 +343,50 @@ def side_cached(
         FileNotFoundError: If a tree this side needs is not persisted.
     """
     path = trees / "completions" / cut_key(cap, cutoff) / f"{label}.npz"
+    mark = path.with_suffix(".provenance.json")
     if path.is_file():
+        want = implementation_fingerprint(fast, families_mode)
+        if not mark.is_file():
+            print(f"    WARNING {label}: cached before provenance was recorded; cannot prove "
+                  f"which code wrote it", flush=True)
+        else:
+            got = json.loads(mark.read_text())
+            differs = {k: (got.get(k), want[k]) for k in want if got.get(k) != want[k]}
+            if differs and not allow_stale:
+                raise RuntimeError(
+                    f"{label} was cached by a DIFFERENT implementation and will not be reused: "
+                    + "; ".join(f"{k} was {a!r}, now {b!r}" for k, (a, b) in differs.items())
+                    + ". Delete it and recut, or pass --allow-stale-cache if the two have been "
+                    "proved byte-identical."
+                )
+            if differs:
+                # Printed every time, never suppressed: reusing a side written by other code is
+                # only sound because the two were proved byte-identical, and the claim should be
+                # visible in the log of any run that relies on it.
+                print(f"    --allow-stale-cache: reusing {label} across an implementation change ("
+                      + "; ".join(f"{k} {a!r} -> {b!r}" for k, (a, b) in differs.items())
+                      + "), proved byte-identical; see DECISIONS.md 2 Oct", flush=True)
         return load_material(path), True
     missing = [lab for lab in labels if not (trees / f"{lab}.npz").is_file()]
     if missing:
         raise FileNotFoundError(f"{label}: {len(missing)} trees not persisted, e.g. {missing[0]}")
-    material = cut_side(trees, labels, n, cap, cutoff)
+    report: dict = {}
+    material = cut_side(trees, labels, n, cap, cutoff, fast=fast, report=report,
+                        families_mode=families_mode)
     save_material(path, material)
+    mark.write_text(
+        json.dumps(implementation_fingerprint(fast, families_mode), indent=2) + "\n",
+        encoding="utf-8",
+    )
+    stages = path.with_suffix(".stages.json")
+    stages.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    timed = {k: v for k, v in report.items() if isinstance(v, float) and k != "peak_mb"}
+    width = max(len(k) for k in timed)
+    for stage, seconds in timed.items():
+        print(f"      {stage:<{width}} {seconds:8.1f}s", flush=True)
+    total = sum(v for k, v in timed.items() if not k.startswith("  "))
+    print(f"      {'TOTAL':<{width}} {total:8.1f}s   peak "
+          f"{report.get('peak_mb', 0):.0f} MB", flush=True)
     return material, False
 
 
@@ -346,11 +481,45 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data", type=Path, default=Path("data"))
     parser.add_argument("--version", default="0.3")
     parser.add_argument("--space", default="centred")
-    parser.add_argument("--runs", type=int, default=200)
-    parser.add_argument("--directory", default="recurrent_dag_10770")
+    parser.add_argument("--runs", type=int, default=0,
+                        help="shorthand for --rows 1-N")
+    parser.add_argument("--rows", default="",
+                        help="1-based inclusive block of persisted trees, e.g. 101-200")
+    parser.add_argument("--scramble-rows", type=int, default=0,
+                        help="trees per scramble side; defaults to the build's own run count, "
+                             "which is what the declaration requires")
+    parser.add_argument("--confirm-heldout", action="store_true",
+                        help="read the 5 held-out scrambles. THE CONFIRMATORY BUILD ONLY -- a "
+                             "held-out set confirmed against more than once is not held out")
+    parser.add_argument("--allow-stale-cache", action="store_true",
+                        help="reuse a cached side written by a different implementation. ONLY "
+                             "after the two have been proved byte-identical")
+    parser.add_argument("--cut-side", default="",
+                        help="cut exactly ONE side into the completion cache and exit, so sides "
+                             "can be fanned out across processes within a memory budget")
+    parser.add_argument("--families", choices=("indexed", "joined"), default="joined",
+                        help="'joined' is the exact set-similarity join, verified byte-identical "
+                             "at both scales; see DECISIONS.md 2 Oct")
+    parser.add_argument("--completion", choices=("original", "fast"), default="original",
+                        help="'fast' is the vectorised completion, verified byte-identical; see "
+                             "DECISIONS.md 2 Oct")
+    parser.add_argument("--directory", default="")
     parser.add_argument("--dry-run", action="store_true",
-                        help="solve and confirm the floors, then stop before the gate")
+                        help="solve the floors, then stop before the gate")
     args = parser.parse_args(argv)
+
+    if bool(args.rows) == bool(args.runs):
+        parser.error("give exactly one of --rows A-B or --runs N")
+    if args.runs:
+        first, last = 1, args.runs
+    else:
+        low, _, high = args.rows.partition("-")
+        first, last = int(low), int(high or low)
+    if first < 1 or last < first:
+        parser.error(f"bad row range {args.rows or args.runs!r}")
+    runs = last - first + 1
+    scramble_rows = args.scramble_rows or runs
+    directory = args.directory or f"recurrent_dag_10770_r{first}-{last}"
 
     root = args.data / "ontology" / f"v{args.version}"
     meta = json.loads((root / "universe.json").read_text())
@@ -360,25 +529,49 @@ def main(argv: list[str] | None = None) -> int:
     embedded = load_embedded(root, args.data / "pathways.tsv")
     keys = list(embedded.keys)
     print(f"BUILD  {n:,} pathways, {args.space}, cap {CAP_SHARE:.4%} = {cap:,}, "
-          f"inclusion {INCLUSION_CUT}, runs {args.runs}", flush=True)
+          f"inclusion {INCLUSION_CUT}, trees {first}-{last} ({runs} runs), "
+          f"scramble sides {scramble_rows} trees, completion {args.completion}, "
+          f"families {args.families}", flush=True)
     print(f"  completions -> {trees / 'completions' / cut_key(cap, INCLUSION_CUT)}", flush=True)
+    print(f"  -> {root / directory}", flush=True)
+
+    if args.cut_side:
+        from verify_completion import labels_for
+        clock = time.perf_counter()
+        material, got = side_cached(
+            trees, labels_for(args.cut_side, runs), n, cap, INCLUSION_CUT, args.cut_side,
+            fast=args.completion == "fast", families_mode=args.families,
+            allow_stale=args.allow_stale_cache,
+        )
+        print(f"  {args.cut_side}: {len(material.blocks):,} families "
+              f"({'cached' if got else f'{time.perf_counter() - clock:.0f}s'})", flush=True)
+        return 0
 
     clock = time.perf_counter()
     real, cached = side_cached(
-        trees, [f"row{r:05d}" for r in range(1, args.runs + 1)], n, cap, INCLUSION_CUT,
-        f"real{args.runs:03d}",
+        trees, [f"row{r:05d}" for r in range(first, last + 1)], n, cap, INCLUSION_CUT,
+        f"real_r{first:05d}-{last:05d}", fast=args.completion == "fast",
+        families_mode=args.families, allow_stale=args.allow_stale_cache,
     )
     print(f"  real side: {len(real.blocks):,} families "
           f"({'cached' if cached else f'{time.perf_counter() - clock:.0f}s'})", flush=True)
 
+    # The scramble side's RUN COUNT is part of its cache key: a floor for a 200-run build must
+    # come from a 200-run null, and a 100-run side under the same name would silently supply the
+    # wrong one.
+    wanted = [("calibration", CALIBRATION_SEEDS)]
+    if args.confirm_heldout:
+        wanted.append(("held-out", HELDOUT_SEEDS))
     cal, held = [], []
-    for which, seeds, into in (("calibration", CALIBRATION_SEEDS, cal),
-                               ("held-out", HELDOUT_SEEDS, held)):
+    for which, seeds in wanted:
+        into = cal if which == "calibration" else held
         for seed in seeds:
             start = time.perf_counter()
             material, got = side_cached(
-                trees, [f"seed{seed:05d}_row{r:05d}" for r in range(1, 101)],
-                n, cap, INCLUSION_CUT, f"seed{seed:05d}",
+                trees, [f"seed{seed:05d}_row{r:05d}" for r in range(1, scramble_rows + 1)],
+                n, cap, INCLUSION_CUT, f"seed{seed:05d}_n{scramble_rows:03d}",
+                fast=args.completion == "fast", families_mode=args.families,
+                allow_stale=args.allow_stale_cache,
             )
             into.append(material.rows())
             print(f"  {which} {seed}: {len(material.blocks):,} families "
@@ -386,14 +579,19 @@ def main(argv: list[str] | None = None) -> int:
 
     real_rows = real.rows()
     solved = solve(real_rows, cal)
-    report = confirm(real_rows, held, solved)
+    confirmed = confirm(real_rows, held, solved) if args.confirm_heldout else None
     report = {
-        "space": args.space, "universe_digest": universe, "n": n, "runs": args.runs,
+        "space": args.space, "universe_digest": universe, "n": n,
+        "rows": f"{first}-{last}", "runs": runs, "scramble_rows": scramble_rows,
         "size_cap_share": CAP_SHARE, "size_cap": cap, "inclusion_cut": INCLUSION_CUT,
-        "declared_m": DECLARED_M, "strata": report["strata"],
-        "calibration_seeds": list(CALIBRATION_SEEDS), "heldout_seeds": list(HELDOUT_SEEDS),
-        "overall_fdr": report["overall_fdr"], "overall_real": report["overall_real"],
-        "overall_null": report["overall_null"],
+        "declared_m": DECLARED_M,
+        "strata": confirmed["strata"] if confirmed else solved,
+        "calibration_seeds": list(CALIBRATION_SEEDS),
+        "heldout_confirmed": bool(args.confirm_heldout),
+        "heldout_seeds": list(HELDOUT_SEEDS) if args.confirm_heldout else [],
+        "overall_fdr": confirmed["overall_fdr"] if confirmed else None,
+        "overall_real": confirmed["overall_real"] if confirmed else None,
+        "overall_null": confirmed["overall_null"] if confirmed else None,
     }
     print(f"\n  {'stratum':<9} {'real':>7} {'floor':>10} {'effective':>10} "
           f"{'cal FDR':>9} {'held FDR':>9}")
@@ -402,17 +600,23 @@ def main(argv: list[str] | None = None) -> int:
         ef = "DROP" if entry["effective"] is None else f"{entry['effective']:.6f}"
         print(f"  {entry['stratum']:<9} {entry['real']:>7,} {fl:>10} {ef:>10} "
               f"{str(entry['calibration_fdr']):>9} {str(entry.get('heldout_fdr')):>9}")
-    print(f"\n  overall held-out FDR {report['overall_fdr']} against {MAX_FDR_OVERALL}")
-    out = trees / "completions" / cut_key(cap, INCLUSION_CUT) / "floors.json"
+    out = (trees / "completions" / cut_key(cap, INCLUSION_CUT)
+           / f"floors_r{first}-{last}_n{scramble_rows}.json")
     out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"  floors -> {out}")
-    bad = [e for e in report["strata"]
-           if e.get("heldout_fdr") is not None and e["heldout_fdr"] > MAX_FDR_STRATUM]
-    if report["overall_fdr"] is None or report["overall_fdr"] > MAX_FDR_OVERALL or bad:
-        print(f"  ERROR CAPS NOT MET -- overall {report['overall_fdr']}, "
-              f"strata over {MAX_FDR_STRATUM}: {[e['stratum'] for e in bad]}")
-        print("  NOTHING FROZEN. Nothing re-solved.", flush=True)
-        return 1
+
+    if args.confirm_heldout:
+        print(f"\n  overall held-out FDR {report['overall_fdr']} against {MAX_FDR_OVERALL}")
+        bad = [e for e in report["strata"]
+               if e.get("heldout_fdr") is not None and e["heldout_fdr"] > MAX_FDR_STRATUM]
+        if report["overall_fdr"] is None or report["overall_fdr"] > MAX_FDR_OVERALL or bad:
+            print(f"  ERROR CAPS NOT MET -- overall {report['overall_fdr']}, "
+                  f"strata over {MAX_FDR_STRATUM}: {[e['stratum'] for e in bad]}")
+            print("  NOTHING FROZEN. Nothing re-solved.", flush=True)
+            return 1
+    else:
+        print("\n  held-out NOT read: this is a ladder block, and the held-out set is confirmed "
+              "against\n  exactly once, by the confirmatory build.", flush=True)
 
     if args.dry_run:
         print("\n  --dry-run: stopping before the gate")
@@ -421,13 +625,28 @@ def main(argv: list[str] | None = None) -> int:
     # From here on nothing is cut again: the gate, the consensus and the Hasse pass all run off the
     # persisted real-side material.
     thresholds = {index: entry["effective"] for index, entry in enumerate(report["strata"])}
+    # A stratum whose floor could not be solved is INADMISSIBLE: no support level in it reaches the
+    # declared FDR, so nothing in it passes. Comparing a support against None used to raise, which
+    # is how the TF-IDF control arm crashed instead of reporting that every stratum was dropped.
+    dropped = [report["strata"][i]["stratum"] for i, t in thresholds.items() if t is None]
+    if dropped:
+        print(f"  STRATA DROPPED, no floor meets FDR {MAX_FDR_OVERALL} in them: "
+              f"{', '.join(dropped)}", flush=True)
+        print("  Nothing in a dropped stratum can pass the gate.", flush=True)
     sizes = np.bitwise_count(real.blocks).sum(axis=1).astype(np.int64)
     gated = [
         (real.blocks[i], float(real.supports[i]), real.selections[i])
         for i in range(len(real.blocks))
-        if round(float(real.supports[i]), SUPPORT_DECIMALS) >= thresholds[stratum_of(int(sizes[i]))]
+        if thresholds[stratum_of(int(sizes[i]))] is not None
+        and round(float(real.supports[i]), SUPPORT_DECIMALS)
+        >= thresholds[stratum_of(int(sizes[i]))]
     ]
     print(f"  families through the gate: {len(gated):,} of {len(real.blocks):,}", flush=True)
+    if not gated:
+        print("  NO FAMILY PASSES THE GATE. This arm produces no ontology: its scrambled nulls\n"
+              "  yield recurrent families as readily as its real data, at every support level and\n"
+              "  in every size stratum. Writing the empty result rather than failing, because\n"
+              "  an arm indistinguishable from its own null IS the measurement.", flush=True)
 
     words = real.blocks.shape[1] * bits.WORD
     verdict = consensus(
@@ -467,12 +686,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     genes = {p.key: frozenset(p.genes) for p in collection.pathways}
     info = {p.key: (p.source, p.name, len(p.genes)) for p in collection.pathways}
-    settings = {**DEFAULTS, "runs": args.runs, "tol": TOL, "min_size": MIN_SIZE, "theta": THETA}
+    settings = {**DEFAULTS, "runs": runs, "tol": TOL, "min_size": MIN_SIZE, "theta": THETA}
     manifest = {
         "space": f"{args.space}-renormalised",
         "universe_digest": universe,
         "n": n,
-        "runs": args.runs,
+        "rows": f"{first}-{last}",
+        "runs": runs,
+        "scramble_rows": scramble_rows,
+        "heldout_confirmed": bool(args.confirm_heldout),
         "theta": THETA,
         "tol": TOL,
         "min_size": MIN_SIZE,
@@ -481,12 +703,15 @@ def main(argv: list[str] | None = None) -> int:
         "size_cap_share": CAP_SHARE,
         "size_cap": cap,
         "size_cap_rule": "2x the largest curated top-level share, excluding Reactome Disease",
+        "completion_implementation": args.completion,
+        "families_implementation": args.families,
         "floors": [[e["stratum"], e["floor"], e["effective"]] for e in report["strata"]],
         "calibration": (
-            f"{len(CALIBRATION_SEEDS)} calibration + {len(HELDOUT_SEEDS)} held-out scrambles, "
-            f"seeds {CALIBRATION_SEEDS[0]}-{CALIBRATION_SEEDS[-1]} and "
-            f"{HELDOUT_SEEDS[0]}-{HELDOUT_SEEDS[-1]}; overall held-out FDR "
-            f"{report['overall_fdr']}"
+            f"{len(CALIBRATION_SEEDS)} calibration scrambles, seeds "
+            f"{CALIBRATION_SEEDS[0]}-{CALIBRATION_SEEDS[-1]}, {scramble_rows} trees each"
+            + (f"; {len(HELDOUT_SEEDS)} held-out, seeds {HELDOUT_SEEDS[0]}-"
+               f"{HELDOUT_SEEDS[-1]}, overall held-out FDR {report['overall_fdr']}"
+               if args.confirm_heldout else "; held-out NOT read (ladder block)")
         ),
         "completions": str(trees / "completions" / cut_key(cap, INCLUSION_CUT)),
         "n_unplaced": len(unplaced),
@@ -502,8 +727,8 @@ def main(argv: list[str] | None = None) -> int:
         manifest=manifest,
     )
     export.write(ontology, args.data / "ontology", args.version, genes, manifest,
-                 dry_run=False, info=info, directory=args.directory)
-    print(f"  -> {root / args.directory}")
+                 dry_run=False, info=info, directory=directory)
+    print(f"  -> {root / directory}")
     return 0
 
 

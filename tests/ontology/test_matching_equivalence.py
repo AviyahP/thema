@@ -161,3 +161,33 @@ def test_the_two_implementations_agree_on_a_generated_build(theta):
     for left, right in zip(tree.copies, matrix.copies, strict=True):
         for run_index, block in left.items():
             assert np.array_equal(block, right[run_index])
+
+
+@pytest.mark.parametrize("theta", [0.70, 0.85])
+def test_the_size_filter_does_not_change_a_build_big_enough_to_trigger_it(theta):
+    """A build with many differently-sized clusters, where the matching size filter actually bites.
+
+    The matrix path skips candidate clusters smaller than ``theta x shared``, which cannot be
+    accepted. The subtle part is that the winner is chosen by greatest cover BEFORE the theta test,
+    so pruning could in principle promote a different candidate; the proof that it cannot is in
+    ``_score_matrix``. This is the empirical half of that argument, against the tree reference which
+    does no filtering at all: supports equal, and every stored copy equal bitset-for-bitset.
+
+    The small generated build above barely triggers the filter -- its clusters are all of similar
+    size. This one spreads sizes deliberately.
+    """
+    x = _blobs(groups=11, per_group=9, seed=23)
+    settings = {**DEFAULTS, "runs": 16, "min_size": 3, "min_shared": 3, "tol": 0.15,
+                "subsample": 0.75, "theta": theta}
+    ready = prepare(x, len(x), settings, seed=5)
+
+    tree = score(ready, {**settings, "matching": "tree"})
+    matrix = score(ready, {**settings, "matching": "matrix"})
+
+    sizes = np.bitwise_count(tree.groupings).sum(axis=1)
+    assert sizes.max() >= 3 * max(int(sizes.min()), 1), "sizes too uniform to exercise the filter"
+    assert np.array_equal(tree.support, matrix.support, equal_nan=True)
+    assert [sorted(c) for c in tree.copies] == [sorted(c) for c in matrix.copies]
+    for left, right in zip(tree.copies, matrix.copies, strict=True):
+        for run_index, block in left.items():
+            assert np.array_equal(block, right[run_index])

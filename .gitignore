@@ -71,3 +71,7 @@ data/ontology/v*/subsamples/
 # it -- and the .json files beside the trees (build_log, ladder, floors) are the record of what was
 # run and are committed.
 data/ontology/v*/trees/**/*.npz
+# Ladder blocks: intermediate full builds, one per disjoint block of trees, regenerable from the
+# persisted trees and the recorded floors. Only the confirmatory build and the ladder's own result
+# table are kept. Comes after the v*/*/*.tsv negation above, which would otherwise re-include them.
+data/ontology/v*/recurrent_dag_10770_r*/

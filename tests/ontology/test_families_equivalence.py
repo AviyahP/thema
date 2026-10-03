@@ -1,8 +1,8 @@
-"""The two families implementations must agree exactly, on a fixture computed by hand.
+"""The families implementations must agree exactly, on a fixture computed by hand.
 
-``families`` groups near-identical groupings so their evidence counts once. The indexed version
-exists only for speed, so the standard is identical output -- the same seeds, the same family
-lists in the same order, not merely the same partition.
+``families`` groups near-identical groupings so their evidence counts once. The ``indexed`` and
+``joined`` versions exist only for speed, so the standard is identical output -- the same seeds, the
+same family lists in the same order, not merely the same partition. ``pairwise`` is the reference.
 
 The fixture below is small enough to verify on paper and covers the three cases that decide
 whether a reimplementation is faithful: a **tie in support broken by size**, a variant sitting at
@@ -64,7 +64,7 @@ def worked_example() -> tuple[Pool, list[int]]:
 BY_HAND = [(2, [2, 1]), (0, [0]), (3, [3, 4])]
 
 
-@pytest.mark.parametrize("mode", ["pairwise", "indexed"])
+@pytest.mark.parametrize("mode", ["pairwise", "indexed", "joined"])
 def test_both_implementations_return_the_hand_computed_families(worked_example, mode) -> None:
     pool, candidates = worked_example
     got = families(candidates, None, pool, settings={"families": mode})
@@ -79,7 +79,7 @@ def _blobs(groups: int, per_group: int, seed: int) -> np.ndarray:
 
 
 @pytest.mark.parametrize("seed", [1, 2, 3])
-def test_the_two_implementations_agree_on_a_generated_pool(seed) -> None:
+def test_all_implementations_agree_on_a_generated_pool(seed) -> None:
     """Random overlapping sets, including nested pairs and near-misses at the boundary."""
     rng = np.random.default_rng(seed)
     sets = []
@@ -93,4 +93,56 @@ def test_the_two_implementations_agree_on_a_generated_pool(seed) -> None:
     candidates = list(range(len(sets)))
     pairwise = families(candidates, None, pool, settings={"families": "pairwise"})
     indexed = families(candidates, None, pool, settings={"families": "indexed"})
+    joined = families(candidates, None, pool, settings={"families": "joined"})
     assert indexed == pairwise
+    assert joined == pairwise
+
+
+@pytest.mark.parametrize("seed", [11, 12, 13])
+def test_joined_agrees_on_pools_built_to_stress_the_prefix_filter(seed) -> None:
+    """Sets sharing only COMMON pathways, where a rarest-first prefix is least discriminating.
+
+    The two-sided prefix filter is only exact because variants must share a prefix element. A pool
+    whose overlaps sit entirely in frequently-held pathways is where a wrong prefix bound would
+    start dropping real variants, so it is the case worth generating.
+    """
+    rng = np.random.default_rng(seed)
+    common = list(range(8))
+    sets = []
+    for _ in range(300):
+        rare = rng.choice(range(8, N), size=int(rng.integers(1, 6)), replace=False).tolist()
+        sets.append(sorted(common + rare))
+        sets.append(sorted(common[:-1] + rare))
+    pool = _pool(sets, rng.random(len(sets)).round(2).tolist())
+    candidates = list(range(len(sets)))
+    assert (families(candidates, None, pool, settings={"families": "joined"})
+            == families(candidates, None, pool, settings={"families": "pairwise"}))
+
+
+@pytest.mark.parametrize("seed", [21, 22, 23])
+def test_joined_agrees_when_grouping_IDS_ARE_NOT_CONTIGUOUS(seed) -> None:
+    """Grouping ids are the keys of the completed dict and are sparse, not 0..n-1.
+
+    This is the case the other tests could not see: they pass ``range(len(sets))``, where a
+    grouping's id equals its row in the stacked block, so confusing the two is invisible. On a real
+    side the ids are sparse, and an id-versus-row mix-up in the candidate filter dropped exactly one
+    variant out of 161,852 families -- found only at full scale. Sparse ids are now the default
+    assumption of the test suite.
+    """
+    rng = np.random.default_rng(seed)
+    sets = []
+    for _ in range(300):
+        base = sorted(rng.choice(N, size=int(rng.integers(3, 30)), replace=False).tolist())
+        sets.append(base)
+        if len(base) > 4:
+            sets.append(base[:-1])
+    pool = _pool(sets, rng.random(len(sets)).round(2).tolist())
+    # Only every third grouping is a candidate, so ids run 0, 3, 6, ... and never equal their row.
+    candidates = list(range(0, len(sets), 3))
+    # Guard against this test quietly becoming the contiguous case again.
+    assert candidates != list(range(len(candidates)))
+    assert any(g != row for row, g in enumerate(candidates))
+    member_bits = {g: pool.groupings[g] for g in candidates}
+    reference = families(candidates, member_bits, pool, settings={"families": "pairwise"})
+    for mode in ("indexed", "joined"):
+        assert families(candidates, member_bits, pool, settings={"families": mode}) == reference

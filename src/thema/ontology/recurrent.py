@@ -752,6 +752,12 @@ def _score_matrix(ready: Prepared, settings: dict[str, object]) -> Pool:
     tol = float(settings["tol"])  # type: ignore[arg-type]
     theta_raw = settings.get("theta")
     theta = None if theta_raw is None else float(theta_raw)  # type: ignore[arg-type]
+    # OFF BY DEFAULT because it FAILED verification, 2 Oct. The bound below is a correct necessary
+    # condition, and the argument that pruning cannot change the winner looks sound, yet on the real
+    # 1,850 pool switching it on moved 34,637 of 49,700 supports and moved them UPWARD -- which the
+    # argument says is impossible. So the argument and the code disagree, the code is not trusted,
+    # and it stays off until the disagreement is explained. See DECISIONS.md, 2 Oct.
+    size_filter = bool(settings.get("size_filter", False))
     total = len(groupings)
     found_count = np.zeros(total, dtype=np.int64)
     copies: list[dict[int, np.ndarray]] = [{} for _ in range(total)]
@@ -785,11 +791,37 @@ def _score_matrix(ready: Prepared, settings: dict[str, object]) -> Pool:
             judged = judged[~np.isin(judged, columns, assume_unique=False)]
             if not len(judged):
                 continue
-            candidates = member[columns]
-            candidate_size = pool_size[columns]
+            candidate_sizes_in_run = pool_size[columns]
+            # Rows are processed in ascending order of `shared` so that a batch shares a size
+            # floor. The ROW ORDER cannot affect the result: `found_count` is incremented per row
+            # and `copies[g][run]` is written once per (grouping, run).
+            judged = judged[np.argsort(drawn[judged, run_index], kind="stable")]
 
             for begin in range(0, len(judged), MATCH_ROWS):
                 rows = judged[begin : begin + MATCH_ROWS]
+                # SIZE FILTER, and it is exact. A cluster C can only be accepted for grouping g if
+                # cover >= theta * union, and union = shared + extras with extras >= 0 (C n g is a
+                # subset of both C and of g, and g is contained in its origin run's draw, so
+                # |C n draw(origin)| >= cover). So acceptance needs cover >= theta * shared, and
+                # cover = |g n C| <= |C|; hence |C| < theta * shared can never be accepted.
+                #
+                # Pruning such clusters cannot change the OUTCOME either, which is the part that
+                # needs the argument: the winner is chosen by greatest cover BEFORE the theta test,
+                # so removing a candidate could promote another. If the true winner W survives the
+                # filter it is still the maximum over a subset containing it. If W is filtered out
+                # then |C_W| < theta * shared, so cover_W <= |C_W| < theta * shared <= theta * union
+                # and W would have been REJECTED anyway; any promoted W' has cover <= cover_W and is
+                # rejected by the same inequality. Either way found/not-found and the stored copy
+                # are unchanged. Ties are covered too: tied candidates share W's cover.
+                floor = int(np.ceil(
+                    (theta if theta is not None else (1.0 - tol))
+                    * float(drawn[rows[0], run_index])
+                )) if size_filter else 0
+                usable = columns[candidate_sizes_in_run >= floor] if floor > 1 else columns
+                if not len(usable):
+                    continue
+                candidates = member[usable]
+                candidate_size = pool_size[usable]
                 product = (member[rows] @ candidates.T).tocsr()
                 counts = np.diff(product.indptr)
                 filled = np.flatnonzero(counts)
@@ -1052,15 +1084,15 @@ def families(
         member_bits: Bitset per candidate, or None to use the raw grouping bitsets.
         pool: The scored pool, for support and the raw bitsets.
         timing: Collector for stage durations.
-        settings: Parameters; ``families`` selects the implementation. Both must agree exactly,
-            and ``"pairwise"`` is kept callable as the reference the indexed path is proved
-            against.
+        settings: Parameters; ``families`` selects the implementation -- ``"pairwise"``,
+            ``"indexed"`` or ``"joined"``. All three must agree exactly, and ``"pairwise"`` is kept
+            callable as the reference the other two are proved against.
 
     Returns:
         ``(seed, family including the seed)``, in rank order.
 
     Raises:
-        ValueError: If ``families`` is neither ``"indexed"`` nor ``"pairwise"``.
+        ValueError: If ``families`` names no known implementation.
     """
     mode = str(settings.get("families", DEFAULT_FAMILIES)) if settings else DEFAULT_FAMILIES
     clock = timing if timing is not None else Timing()
@@ -1072,9 +1104,15 @@ def families(
     by_size = sorted(candidates, key=lambda g: sizes[g])
     order_of = {g: i for i, g in enumerate(by_size)}
 
+    if mode not in ("indexed", "pairwise", "joined"):
+        raise ValueError(
+            f"families must be 'indexed', 'pairwise' or 'joined', not {mode!r}"
+        )
+    if mode == "joined":
+        out = _families_joined(candidates, of, sizes, ranked, by_size, order_of)
+        clock.record("families (seed absorption)", time.perf_counter() - start)
+        return out
     shortlist = _variant_shortlist(candidates, of, sizes) if mode == "indexed" else None
-    if mode not in ("indexed", "pairwise"):
-        raise ValueError(f"families must be 'indexed' or 'pairwise', not {mode!r}")
 
     claimed: set[int] = set()
     out: list[tuple[int, list[int]]] = []
@@ -1117,6 +1155,138 @@ def families(
         above = sorted((g for g in taken if order_of[g] > index), key=order_of.get)
         out.append((seed, [seed, *below, *above]))
     clock.record("families (seed absorption)", time.perf_counter() - start)
+    return out
+
+
+def _prefix_index(
+    candidates: "Sequence[int]",
+    of: "Callable[[int], np.ndarray]",
+    sizes: dict[int, int],
+) -> tuple[dict[int, np.ndarray], dict[int, list[int]]]:
+    r"""A PPJoin prefix index, built over PREFIXES only and keyed on a fixed global order.
+
+    **The two-sided prefix filter is exact.** Fix a global order and let ``P_A`` be the first
+    ``k_A + 1`` members of ``A``, with ``k_A = max(TWIN_FLOOR, int(TWIN_FRACTION x |A|))``.
+    Suppose ``P_A`` and ``P_B`` are disjoint, and take the larger of their maxima, say
+    ``max(P_B)``. Every element of ``P_A`` is then at most ``max(P_B)``, so one also lying in
+    ``B`` would fall among ``B``'s first ``k_B + 1`` members -- that is, in ``P_B``, which is
+    disjoint from ``P_A``. So ``P_A`` meets ``B`` nowhere, putting all ``k_A + 1`` of its
+    members in ``A \\ B`` and making ``|A \\ B| > k_A``. Since ``|A n B| <= |A|``, the rule's
+    allowance ``max(TWIN_FLOOR, int(TWIN_FRACTION x |A n B|))`` is at most ``k_A``, so the pair
+    cannot be a variant. **Variants therefore always have intersecting prefixes**, and
+    :func:`is_variant` still decides every surviving pair.
+
+    This is what :func:`_variant_shortlist` does one-sidedly: it indexes every MEMBER, so a common
+    pathway carries a posting list of every grouping holding it. Indexing prefixes only is 6.3x
+    fewer postings at 1,850 and halves the candidate pairs (55.3M to 26.5M, measured).
+
+    Args:
+        candidates: Grouping indices being organised.
+        of: Member bitset for a grouping.
+        sizes: Member count per candidate.
+
+    Returns:
+        Pathway to the groupings holding it IN THEIR PREFIX, and each grouping's prefix. Posting
+        arrays are ascending, so nothing depends on set iteration order.
+    """
+    members = {g: bits.unpack(of(g)) for g in candidates}
+    frequency: dict[int, int] = {}
+    for held in members.values():
+        for pathway in held:
+            frequency[pathway] = frequency.get(pathway, 0) + 1
+
+    prefixes: dict[int, list[int]] = {}
+    postings: dict[int, list[int]] = {}
+    for g in candidates:
+        # The same global order the one-sided shortlist uses: rarest first, ties by index. Any
+        # fixed order is exact; the rarest-first order is what makes the posting lists short.
+        ordered = sorted(members[g], key=lambda pathway: (frequency[pathway], pathway))
+        keep = max(TWIN_FLOOR, int(TWIN_FRACTION * sizes[g])) + 1
+        prefixes[g] = ordered[:keep]
+        for pathway in prefixes[g]:
+            postings.setdefault(pathway, []).append(g)
+    index = {p: np.asarray(sorted(gs), dtype=np.int64) for p, gs in postings.items()}
+    return index, prefixes
+
+
+def _families_joined(
+    candidates: "Sequence[int]",
+    of: "Callable[[int], np.ndarray]",
+    sizes: dict[int, int],
+    ranked: list[int],
+    by_size: list[int],
+    order_of: dict[int, int],
+) -> list[tuple[int, list[int]]]:
+    r"""Seed absorption with an exact set-similarity join: size, prefix, then a batched check.
+
+    Three changes from the indexed path, none of them to the rule:
+
+    1. **Candidates are generated LAZILY, per seed.** A grouping that gets claimed never becomes a
+       seed and never needs its candidate list, and at 1,850 only 19,324 of 48,266 groupings become
+       seeds -- so precomputing all of them did ~60% of its work for nothing.
+    2. **Two-sided prefix filter** (see :func:`_prefix_index`), which halves the surviving pairs.
+    3. **Verification is batched in NumPy** over the seed's whole candidate block instead of one
+       :func:`is_variant` call per pair, using ``|A \ B| = |A| - |A n B|``.
+
+    Args:
+        candidates: Grouping indices to organise.
+        of: Member bitset for a grouping.
+        sizes: Member count per candidate.
+        ranked: Seed order.
+        by_size: Candidates in ascending size order.
+        order_of: Position in ``by_size``, which fixes the emitted family order.
+
+    Returns:
+        ``(seed, family including the seed)``, in rank order.
+    """
+    index, prefixes = _prefix_index(candidates, of, sizes)
+    listed = list(candidates)
+    row_of = {g: i for i, g in enumerate(listed)}
+    blocks = np.vstack([of(g) for g in listed]) if listed else np.zeros((0, 1), dtype=np.uint64)
+    size_row = np.array([sizes[g] for g in listed], dtype=np.int64)
+    claimed_row = np.zeros(len(listed), dtype=bool)
+
+    out: list[tuple[int, list[int]]] = []
+    for seed in ranked:
+        seed_row = row_of[seed]
+        if claimed_row[seed_row]:
+            continue
+        claimed_row[seed_row] = True
+        seed_bits = blocks[seed_row]
+        seed_size = sizes[seed]
+        slack = max(TWIN_FLOOR, int(TWIN_FRACTION * seed_size)) * 2
+
+        lists = [index[p] for p in prefixes[seed] if p in index]
+        if not lists:
+            out.append((seed, [seed]))
+            continue
+        # The posting arrays hold GROUPING IDS, which are the keys of `completed` and are NOT
+        # contiguous; `seed_row` is a position in `listed`. Filtering ids against a row index
+        # silently dropped an unrelated grouping and cost one variant on a 500k-grouping side.
+        # The seed is removed after the ids are mapped to rows, below.
+        near = np.unique(np.concatenate(lists))
+        rows = np.fromiter((row_of[int(g)] for g in near), dtype=np.int64, count=len(near))
+        rows = rows[rows != seed_row]
+        rows = rows[~claimed_row[rows]]
+        rows = rows[np.abs(size_row[rows] - seed_size) <= slack]
+        if not len(rows):
+            out.append((seed, [seed]))
+            continue
+
+        shared = np.bitwise_count(blocks[rows] & seed_bits).sum(axis=1).astype(np.int64)
+        allowed = np.maximum(TWIN_FLOOR, (TWIN_FRACTION * shared).astype(np.int64))
+        keep = (
+            (shared > 0)
+            & ((seed_size - shared) <= allowed)
+            & ((size_row[rows] - shared) <= allowed)
+        )
+        taken_rows = rows[keep]
+        claimed_row[taken_rows] = True
+        taken = [listed[int(r)] for r in taken_rows]
+        below = sorted((g for g in taken if order_of[g] < order_of[seed]),
+                       key=order_of.get, reverse=True)
+        above = sorted((g for g in taken if order_of[g] > order_of[seed]), key=order_of.get)
+        out.append((seed, [seed, *below, *above]))
     return out
 
 
@@ -1230,6 +1400,62 @@ def family_members(
         could = int(np.count_nonzero(records_present[runs][:, word] & bit))
         inclusions[p] = min(holds / could, 1.0) if could else 0.0
     return candidates, inclusions
+
+
+def family_members_fast(
+    family: list[int], pool: Pool, records_present: np.ndarray, n_bits: int
+) -> tuple[np.ndarray, dict[int, float]]:
+    """:func:`family_members`, with the per-candidate Python loop vectorised away.
+
+    Semantically identical by construction -- same copies, same union, same ``min(holds/could, 1)``,
+    same candidate order -- and a test asserts it agrees candidate-for-candidate and float-for-float
+    on real pools at both scales.
+
+    **Why it exists.** The original walks ``for p in bits.unpack(candidates)`` and makes two NumPy
+    calls per candidate pathway. Completion runs over the WHOLE pool, which at 10,770 and 100 runs
+    is ~277,000 groupings holding ~17 million (grouping, candidate) pairs, so that is ~34 million
+    NumPy calls whose per-call overhead dominates the arithmetic entirely. Here the two counts are
+    one vectorised bit-extraction each, which is ~15x fewer calls for the same answer.
+
+    Args:
+        family: Grouping indices in the family.
+        pool: The scored pool.
+        records_present: ``(runs, words)`` present bitsets.
+        n_bits: Universe size in bits.
+
+    Returns:
+        The candidate bitset and inclusion per candidate index, in ``bits.unpack`` order.
+    """
+    per_run: dict[int, np.ndarray] = {}
+    for g in family:
+        for run, copy in pool.copies[g].items():
+            per_run[run] = copy if run not in per_run else (per_run[run] | copy)
+        for run in pool.origins[g]:
+            if run not in per_run:
+                per_run[run] = pool.groupings[g]
+    if not per_run:
+        return bits.empty(n_bits), {}
+
+    runs = np.array(sorted(per_run), dtype=np.int64)
+    stack = np.vstack([per_run[int(r)] for r in runs])
+    candidates = np.bitwise_or.reduce(stack, axis=0)
+    found = np.asarray(bits.unpack(candidates), dtype=np.int64)
+    if not len(found):
+        return candidates, {}
+
+    word = found // bits.WORD
+    bit = np.left_shift(np.uint64(1), (found % bits.WORD).astype(np.uint64))
+    # Index the two (runs, candidates) blocks directly rather than slicing whole rows first: the
+    # present matrix is (runs, words) and taking records_present[runs] materialises every word of
+    # every run, which is the bulk of the memory traffic at this scale.
+    holds = np.count_nonzero(stack[:, word] & bit, axis=0).astype(np.int64)
+    could = np.count_nonzero(
+        records_present[runs[:, None], word[None, :]] & bit, axis=0
+    ).astype(np.int64)
+    ratio = np.where(
+        could > 0, np.minimum(holds / np.maximum(could, 1), 1.0), 0.0
+    )
+    return candidates, {int(p): float(v) for p, v in zip(found, ratio, strict=True)}
 
 
 def assemble(
