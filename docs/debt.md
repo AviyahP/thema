@@ -403,3 +403,147 @@ ledger at all.
 
 **The real fix is upstream:** BTM modules need titles, either from the source or from a generated
 one recorded as generated. Until then every count of "pathways with a usable title" is 83 short.
+
+## The RUNS ladder's 89.1% / 91.4% has no recorded space or cutoff
+
+*Logged 2026-10-02. **Open**, and the measurement is not reusable.*
+
+`docs/status/OPEN.md` states "100 trees per run: 89.1% of groupings match at >= 0.70. 200 gives
+91.4%", and that line is the only record. The subsample manifest
+(`data/ontology/v0.3/subsamples/manifest.json`) records the master seed, the draw scheme and the
+disjoint ladder pairs, but carries **no space and no inclusion cutoff**. No committed script
+produced the figures and no spec or decision entry holds them.
+
+**Dating places it outside the current setup.** The subsamples were drawn 25 Sep; centred space was
+adopted 26 Sep and inclusion 0.50 on 29 Sep. So the ladder was almost certainly run on RAW vectors
+at inclusion 0.25 -- neither parameter of the build it is now being used to justify.
+
+**Consequence.** "RUNS = 200, as the ladder already decided" cannot be relied on as decided. The
+10,770 plan re-confirms it from the persisted trees under the current space, cutoff and cap, which
+is the only way the number means anything here.
+
+**Same defect as the unrecorded scramble seeds, and the same rule:** a result that licenses a
+parameter must record every input needed to reproduce it. A percentage and a tree count are not
+inputs. The fix going forward is that the ladder re-run writes its space, cutoff, cap and seeds
+beside its result.
+
+## The RUNS pass mark has no quantity attached to it -- WRONG, corrected 2026-10-02
+
+*Logged 2026-10-02. **This entry's premise is false** and it is kept, struck through below, because
+the project does not rewrite its own record.*
+
+> **CORRECTION, same day.** The rule DID record its quantity: as defined 25 Sep it is ">= 90% of
+> FINAL THEMES matched at Jaccard >= 0.70 between builds from disjoint tree blocks". The 2 Oct
+> measurement matched the raw grouping pool instead, which was a **mis-implementation of that rule**,
+> not a missing specification. Everything below that reasons from "the quantity was never written
+> down" is wrong, including the heading. See `DECISIONS.md`, 2 Oct, "The RUNS rule was always about
+> FINAL THEMES". What remains true: the 2 Oct figures do not bear on RUNS, and the correct
+> measurement has not been run.
+>
+> The open debt is now narrower and different: **the frozen 1,850 scores 86.9% forward and 85.9%
+> backward on the rule's own statistic** (`scripts/theme_match.py`), so it misses the 90% mark by 3
+> to 4 points, and the rule does not say which direction the mark applies to.
+
+*The original entry follows, unaltered:*
+
+The ladder's pass mark -- 90% of groupings matching at Jaccard >= 0.70 -- was carried forward as a
+declared threshold, but **what it is 90% *of* was never written down**. Re-measured under the current
+setup it fails at both scales, and the frozen 1,850 fails it worse than the 10,770 (54.8% and 58.2%
+against 61.0%). The diagnostic shows why: over half the raw grouping pool is a cluster one subsample
+produced and no other run reproduced, and the pool is what the share is taken over.
+
+So the threshold and the quantity were specified independently of each other, and the pair is
+incoherent: no build this project has ever shipped would pass it.
+
+**What the fix must not be.** Reading a passing number off the post-hoc support breakdown. "95.9% at
+or above m = 0.33" is the right shape of answer, but choosing the band after seeing which band passes
+is the defect `amendment-2026-09-24b` withdrew and the same one behind the withdrawn straddler claim.
+
+**What it has to be.** A declared statement of what the ladder measures -- which set of groupings,
+after which gate -- and a pass mark set against that set, both written before the measurement runs.
+Then re-measure. `scripts/cut_trees.py`, `scripts/ladder_control_1850.py` and
+`scripts/ladder_diagnostic.py` hold the current numbers; `docs/status/2026-10-02-runs-ladder.md` is
+the write-up.
+
+**Same defect, third instance:** the unrecorded scramble seeds, the unrecorded ladder space and
+cutoff, and now an unrecorded ladder population. A result that licenses a parameter must record
+every input needed to reproduce it -- and "every input" includes what was counted.
+
+## Two 1,850 freeze figures are not reproducible: straddlers, and GO BP's shape
+
+*Logged 2026-10-02. **Open.** Neither blocks the 10,770 build; both block a like-for-like
+comparison with the frozen 1,850.*
+
+`scripts/freeze_table.py` now computes the freeze table from a build directory, and reproduces
+`FROZEN.md` exactly on nine figures: themes 800, roots 61 (7.6%), multi-parent 176 (22.0%), max
+depth 12, median theme size 8, largest theme 819, largest root 64, and all four placement counts
+(1,831 / 19 / 106 / 125). Two do not reproduce.
+
+**1. Straddlers.** `FROZEN.md` records **682**; the committed definition -- a pathway in two or more
+themes neither of which contains the other, over every exported member row -- counts **1,239** on the
+same directory. Variants tried and rejected: homes restricted by inclusion (1,223 at >= 0.5, 971 at
+>= 0.75, 656 at >= 1.0), homes restricted to leaves (188), to non-roots (1,045), and pathways under
+two or more distinct roots (388). **None is 682.** DAG ancestry and member-set containment agree
+exactly on this build, so the DAG is not the problem.
+
+**2. GO BP's shape, in test 2.** `FROZEN.md` records GO BP at **20% roots and 31% multi-parent**;
+computed over every non-obsolete BP term in `go-basic.obo` it is **0.0% and 50.8%**, and over the
+graph induced on our own GO members it is 60.3% and 9.6%. GO's **depth of 16 does reproduce**, and so
+do all three Reactome figures (1.0% roots, depth 11, 1.2% multi-parent against the recorded 1%, 11,
+1%). So the GO roots and multi-parent figures come from a third computation that is not recorded.
+
+**Consequence, and why it is not papered over.** The 1,850's test 2 concluded "inside the curated
+range on all three". With GO roots at 20% our 7.6% is inside 1-20%; at 0.0% it is outside. **The
+verdict turns entirely on an unreproducible number, so `freeze_table.py` prints the figures and
+withholds the verdict** rather than inheriting a conclusion it cannot derive. The straddler count is
+reported under its stated definition with the 682 discrepancy named.
+
+**Same defect, again:** a figure that licenses a claim must record the computation that produced it.
+Both numbers were computed ad hoc with no committed script. The fix going forward is that
+`freeze_table.py` is the only thing that produces a freeze table.
+
+## Tests 3 and 4 have pass marks that a degenerate baseline wins
+
+*Logged 2026-10-03. **Open**, and it blocks two gates on the frozen 10,770.*
+
+Both marks are stated over **raw recovery**. Test 3: "THEMA's recovery exceeds every gene baseline
+and the random null". Test 4: "not beaten by the gene baselines in the (0,0) band". Applied exactly
+as written, **both fail**, and the baseline that beats THEMA is `kappa@25`, whose **largest cluster
+holds 97.3% of the universe**.
+
+That arm is one blob. Its own chance rate is 94-100% and its lift is 1.0x, against THEMA's 1.3-4.2x.
+**A mark on raw recovery is won by putting everything in one cluster**, so applying it literally
+produces a failure that means nothing. Against the non-degenerate arms THEMA is clearly ahead -- GO
+siblings at zero gene overlap, THEMA 59.2% against `overlap@100`'s 30.6%, whose largest cluster is
+15.7%.
+
+`compare_baselines.py` already anticipated this in a code comment: "The chance rate travels with the
+winner. Without it 'D classic 100%' reads as a strong baseline when it is a collapsed blob whose own
+null is also near 100%." The mark did not inherit that caution.
+
+**What the fix must not be:** quietly switching the comparison to lift because lift is the statistic
+that passes. That is choosing the measure after seeing the result.
+
+**What it has to be:** a declared statement of either (a) the mark on lift, or (b) a non-degeneracy
+constraint a baseline must satisfy to count -- `largest_share` is the committed measure and is now
+printed for every arm -- written before the tests are re-adjudicated. `scripts/validate_dag.py`
+holds the numbers either way.
+
+## Test 3's headline cell holds 8 pairs
+
+*Logged 2026-10-03. **Open.***
+
+The validation plan calls the zero-gene / near-zero-lexical cell **"the headline number"** and makes
+it half of test 3's pass condition. On the frozen 10,770 that cell contains **8 pairs**. The frozen
+build recovers 75.0% of them and every lexical arm recovers 0.0%, which is the right direction, but
+**n = 8 cannot carry a gate** whatever it shows: a single pair moves it by 12.5 points.
+
+The plan predicted "~90 name-controlled pairs at full scale" and that is roughly what exists -- 680
+`reactome2go` pairs in the universe, 40 of them at exactly zero gene overlap. The cell is small
+because it then takes the **bottom quintile of curated-text overlap** of those 40. The quintile was
+declared before the run and is not the problem; the problem is that the plan asked for a conjunction
+of two rare conditions and did not check how many pairs survive both.
+
+**Options, all Aviyah's:** widen the lexical band (changes a declared cell), report the cell without
+a gate, or move the gate to the full (0,0) band of 40 pairs where THEMA scores 80.0% against a 21.4%
+null. **Nothing was changed; the cell is reported at n = 8 with the caveat attached.**

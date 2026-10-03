@@ -352,3 +352,67 @@ set and its nesting, which reproduce, and **not** to exact member lists, which d
 uncertainty is carried by `inclusion`. Recorded in full in `DECISIONS.md`, 25 Sep 2026.
 
 **The two builds are indistinguishable on this test**, so it does not adjudicate between them.
+
+---
+
+# Amendment, 3 Oct 2026 — what has been run on the frozen 10,770
+
+*Records state only. The plan's design and pass marks above are NOT revised; where a mark turned out
+to be unusable that is recorded as a finding, not fixed by rewriting it.*
+
+Build: `v0.3.0-10770-runs200`, `data/ontology/v0.3/recurrent_dag_10770`, frozen 3 Oct.
+
+| test | kind | state on the frozen build |
+|---|---|---|
+| **1** scramble error rate | gate | **DISCHARGED.** Held-out FDR **0.00285** overall, worst stratum **0.0147**, against the declared <= 0.01 and <= 0.02. Confirmed ONCE on 5 held-out scrambles of 200 trees; nothing re-solved afterwards. |
+| **2** shape vs GO / Reactome | informational | **Reported, verdict withheld.** Ours 3.2% roots / depth 16 / 29.5% multi-parent. The GO BP figures the 1,850's verdict rested on (20% roots, 31% multi-parent) are **not reproducible** from `go-basic.obo`; computed, they are 0.0% and 50.8%. Whether our figure sits "inside the curated range" turns entirely on which is used. |
+| **3** `reactome2go` recovery | gate, headline | **TF-IDF condition MET; no overall verdict.** |
+| **4** sibling recovery | gate | **No verdict**, for a defect in the mark. |
+| **9** seed stability | informational | **Superseded.** The RUNS ladder compares two full builds from *disjoint tree blocks*, which is a stronger comparison than seed 0 vs seed 1. Result: **87.9%** worse direction, below the declared 90%. |
+| **5** enrichment task | gate | Not run; needs Aviyah's dataset approval. |
+| **6** blind human rating | gate | Not run; Aviyah's time. |
+| naming **1**, **2** | gates | Not runnable: the build is **unnamed**. |
+
+## The missing adapter has been built
+
+The plan states: "`compare_baselines.py` compares partitions and a DAG is not one. The pair-recovery
+framing transfers directly -- a pair is recovered if both pathways share at least one node -- but
+that adapter does not exist yet." It now does: `scripts/validate_dag.py`. Everything else is reused
+-- pair sources and gene similarities from `thema.evaluation`, gene baselines, banding, the
+band-matched null and the `SIBLING_FANOUT` convention from `compare_baselines.py`.
+
+## Test 3 — the lexical control, which the plan declares not optional
+
+The control was built through the **identical pipeline** on TF-IDF vectors over the same
+descriptions, with only the vectors swapped. **It produces no ontology at all**: its support floors
+are unsolvable in all six size strata -- 140,758 real families against scrambles of 362,000-365,000,
+with no level separating them at FDR <= 0.01 -- so nothing passes the recurrence gate and all 10,770
+pathways are unplaced.
+
+In the headline cell (gene overlap 0 and curated-text Jaccard <= 0.030, the bottom quintile, declared
+before the run), **8 pairs**:
+
+| arm | recovery | chance | largest cluster |
+|---|---|---|---|
+| **the frozen build** | **75.0%** | 21.4% | — |
+| TF-IDF DAG, identical pipeline | 0.0% | — | no themes at all |
+| TF-IDF flat, Ward at 25 / 50 / 100 | 0.0% | 5.1% / 2.8% / 1.4% | 9.2% / 5.7% / 4.0% |
+
+The flat arms are **not** degenerate, so this is a fair comparison. The plan's question — "if plain
+word overlap matches BioLORD in the zero-overlap band, the embedding is adding nothing over word
+counting" — **is answered: it does not match, and word counting yields no recurrent structure here.**
+
+## Why tests 3 and 4 still have no verdict
+
+Two reasons, both defects in the apparatus rather than results about the build, and both logged in
+`docs/debt.md`:
+
+1. **The marks are stated over raw recovery, which a collapsed baseline wins.** `kappa@25` beats the
+   frozen build on recovery in nearly every band with **97.3% of the universe in one cluster** and a
+   lift of 1.0x. Lift was **not** substituted for recovery to manufacture a pass.
+2. **The headline cell holds 8 pairs**, where a single pair moves it 12.5 points.
+
+Against the non-degenerate baselines the frozen build is clearly ahead, and it beats the
+band-matched null in **every band of every source**: `reactome2go` 80.0% against 21.4% at zero gene
+overlap (3.7x), Reactome siblings 1.3-4.2x, GO siblings 1.2-2.8x, capped and uncapped. Both sibling
+sources are labelled confounded, as the plan requires.
