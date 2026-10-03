@@ -1,0 +1,18 @@
+{
+  "load trees + cap": 10.409173167077824,
+  "prepare (dedup + eligibility)": 12.554708583047614,
+  "  .. runs (ward x N)": 9.616604074835777e-05,
+  "  .. dedup": 1.1502337499987334,
+  "  .. eligibility": 11.392418999923393,
+  "matching (support)": 224.384638375137,
+  "completion": 32.56112666707486,
+  "families (seed absorption)": 177.8114557499066,
+  "family support + selection": 11.73515941714868,
+  "groupings": 602259,
+  "eligible": 595611,
+  "completed": 595611,
+  "families": 364905,
+  "completion_implementation": "fast",
+  "families_implementation": "joined",
+  "peak_mb": 8563.1
+}
