@@ -186,17 +186,41 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=Path("data"))
     parser.add_argument("--version", default="0.3")
-    parser.add_argument("--space", choices=("centred", "raw"), default="centred")
+    parser.add_argument("--space", default="centred",
+                        help="names the tree directory. 'centred' and 'raw' use the embedded "
+                             "MedCPT vectors; any other name requires --vectors")
+    parser.add_argument("--vectors", type=Path, default=None,
+                        help="an .npy of unit row vectors to cluster INSTEAD of the embedded ones, "
+                             "for test 3's TF-IDF control. The pipeline is otherwise identical")
     parser.add_argument("--rows", default="", help="1-based inclusive range, e.g. 1-400")
     parser.add_argument("--scrambles", action="store_true")
+    parser.add_argument("--seeds", choices=("all", "calibration"), default="all",
+                        help="'calibration' skips the 5 held-out sides. The held-out set exists to "
+                             "confirm a build being frozen; a control arm is neither frozen nor "
+                             "confirmed, so building its held-out trees would spend an hour for "
+                             "nothing")
+    parser.add_argument("--scramble-rows", type=int, default=100,
+                        help="trees per scramble side; raising it EXTENDS a side, reusing every "
+                             "tree already on disk, because row i is always subsample row i")
     args = parser.parse_args(argv)
 
     root = args.data / "ontology" / f"v{args.version}"
     embedded = load_embedded(root, args.data / "pathways.tsv")
     universe = json.loads((root / "universe.json").read_text())["universe_digest"]
     n = len(embedded.keys)
-    matrix = embedded.vectors
-    if args.space == "centred":
+    if args.vectors is not None:
+        # Still loaded through load_embedded above, so the universe is verified and the row order
+        # is the build's row order; only the vectors are swapped.
+        matrix = np.load(args.vectors)
+        if matrix.shape[0] != n:
+            print(f"{args.vectors} has {matrix.shape[0]} rows, universe has {n}", flush=True)
+            return 1
+        print(f"  vectors from {args.vectors}: {matrix.shape}", flush=True)
+    else:
+        matrix = embedded.vectors
+    if args.space in ("centred", "tfidf"):
+        # The control gets the SAME transformation as the real build. Treating it differently
+        # would make the comparison about the transformation rather than about the vectors.
         matrix, _mean = centre_and_renormalise(matrix)
     matrix = np.ascontiguousarray(matrix.astype(np.float32))
 
@@ -231,13 +255,23 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.scrambles:
         log["scrambles"] = {"calibration": list(CALIBRATION_SEEDS),
-                            "heldout": list(HELDOUT_SEEDS)}
+                            "heldout": list(HELDOUT_SEEDS) if args.seeds == "all" else [],
+                            "seeds": args.seeds,
+                            "rows_per_side": args.scramble_rows}
         indices = np.load(root / "subsamples" / "indices.npy")
         # Every scramble side uses the SAME subsample sequence as the real side, so a difference
         # between them is the permutation and nothing else.
-        rows = [np.sort(indices[r]) for r in range(100)]
+        if args.scramble_rows > len(indices):
+            print(f"only {len(indices):,} subsample rows persisted", flush=True)
+            return 1
+        # Row i is subsample row i for every side, real and scrambled alike, so extending a side
+        # from 100 to 200 rows ADDS rows 101-200 and leaves 1-100 exactly as they were. The floors
+        # for a 200-run build must come from 200-run nulls, which is why this is a parameter.
+        rows = [np.sort(indices[r]) for r in range(args.scramble_rows)]
         per = []
-        for seed in (*CALIBRATION_SEEDS, *HELDOUT_SEEDS):
+        wanted_seeds = (CALIBRATION_SEEDS if args.seeds == "calibration"
+                        else (*CALIBRATION_SEEDS, *HELDOUT_SEEDS))
+        for seed in wanted_seeds:
             scrambled = np.ascontiguousarray(null_embeddings(matrix, seed).astype(np.float32))
             sfull = distances(scrambled)
             pairs = [(f"seed{seed:05d}_row{i + 1:05d}", r) for i, r in enumerate(rows)]

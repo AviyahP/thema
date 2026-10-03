@@ -1,0 +1,13 @@
+{
+  "n": 10770,
+  "terms": 19940,
+  "sha256_16": "20005df7731911d2",
+  "min_document_count": 3,
+  "max_document_share": 0.5,
+  "max_terms": 20000,
+  "empty_rows_given_placeholder": 0,
+  "missing_descriptions": 0,
+  "tf": "sublinear, 1 + log(count)",
+  "idf": "smoothed, log((1 + n) / (1 + df)) + 1",
+  "normalisation": "L2, required by cluster.distances"
+}

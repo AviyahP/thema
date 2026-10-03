@@ -1,0 +1,115 @@
+[
+  {
+    "space": "tfidf",
+    "universe_digest": "c54319cdfbbe9eb7",
+    "n": 10770,
+    "min_size": 3,
+    "size_cap": null,
+    "distance_matrix_seconds": 207.7,
+    "distance_matrix_bytes": 463928520,
+    "real": {
+      "seconds": 119.9,
+      "bytes": 54743796,
+      "built": 200,
+      "cached": 0
+    }
+  },
+  {
+    "space": "tfidf",
+    "universe_digest": "c54319cdfbbe9eb7",
+    "n": 10770,
+    "min_size": 3,
+    "size_cap": null,
+    "distance_matrix_seconds": 210.0,
+    "distance_matrix_bytes": 463928520,
+    "scrambles": {
+      "calibration": [
+        3001,
+        3002,
+        3003,
+        3004,
+        3005,
+        3006,
+        3007,
+        3008,
+        3009,
+        3010
+      ],
+      "heldout": [],
+      "seeds": "calibration",
+      "rows_per_side": 200
+    },
+    "scramble_sides": [
+      {
+        "seconds": 124.3,
+        "bytes": 61554870,
+        "built": 200,
+        "cached": 0,
+        "seed": 3001
+      },
+      {
+        "seconds": 124.5,
+        "bytes": 61458497,
+        "built": 200,
+        "cached": 0,
+        "seed": 3002
+      },
+      {
+        "seconds": 124.4,
+        "bytes": 61749904,
+        "built": 200,
+        "cached": 0,
+        "seed": 3003
+      },
+      {
+        "seconds": 124.6,
+        "bytes": 61613712,
+        "built": 200,
+        "cached": 0,
+        "seed": 3004
+      },
+      {
+        "seconds": 125.4,
+        "bytes": 61732185,
+        "built": 200,
+        "cached": 0,
+        "seed": 3005
+      },
+      {
+        "seconds": 124.8,
+        "bytes": 61434779,
+        "built": 200,
+        "cached": 0,
+        "seed": 3006
+      },
+      {
+        "seconds": 125.2,
+        "bytes": 61464879,
+        "built": 200,
+        "cached": 0,
+        "seed": 3007
+      },
+      {
+        "seconds": 125.2,
+        "bytes": 61757538,
+        "built": 200,
+        "cached": 0,
+        "seed": 3008
+      },
+      {
+        "seconds": 125.1,
+        "bytes": 61778541,
+        "built": 200,
+        "cached": 0,
+        "seed": 3009
+      },
+      {
+        "seconds": 124.9,
+        "bytes": 61651363,
+        "built": 200,
+        "cached": 0,
+        "seed": 3010
+      }
+    ]
+  }
+]
