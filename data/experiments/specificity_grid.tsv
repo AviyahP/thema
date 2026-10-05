@@ -1,0 +1,361 @@
+source	gene_band	arm	n_pairs	specificity_cut	curated_rate	random_rate	auroc	median_size
+reactome2go	0.15 < J <= 1	THEMA (frozen)	286	10	0.7552	0.2420	0.8238	7
+reactome2go	0.15 < J <= 1	THEMA (frozen)	286	50	0.8986	0.4093	0.8238	7
+reactome2go	0.15 < J <= 1	THEMA (frozen)	286	200	0.9161	0.4698	0.8238	7
+reactome2go	0.15 < J <= 1	TF-IDF DAG	286	10	0.0000	0.0000	0.5000	inf
+reactome2go	0.15 < J <= 1	TF-IDF DAG	286	50	0.0000	0.0000	0.5000	inf
+reactome2go	0.15 < J <= 1	TF-IDF DAG	286	200	0.0000	0.0000	0.5000	inf
+reactome2go	0.15 < J <= 1	TF-IDF flat@25	286	10	0.0000	0.0000	0.7056	442
+reactome2go	0.15 < J <= 1	TF-IDF flat@25	286	50	0.0000	0.0000	0.7056	442
+reactome2go	0.15 < J <= 1	TF-IDF flat@25	286	200	0.0524	0.0579	0.7056	442
+reactome2go	0.15 < J <= 1	TF-IDF flat@50	286	10	0.0000	0.0000	0.7529	194
+reactome2go	0.15 < J <= 1	TF-IDF flat@50	286	50	0.0070	0.0026	0.7529	194
+reactome2go	0.15 < J <= 1	TF-IDF flat@50	286	200	0.5035	0.2149	0.7529	194
+reactome2go	0.15 < J <= 1	TF-IDF flat@100	286	10	0.0000	0.0000	0.7566	113
+reactome2go	0.15 < J <= 1	TF-IDF flat@100	286	50	0.0909	0.0309	0.7566	113
+reactome2go	0.15 < J <= 1	TF-IDF flat@100	286	200	0.9056	0.4015	0.7566	113
+reactome2go	0.15 < J <= 1	ochiai@100	286	10	0.0000	0.0000	0.4486	392
+reactome2go	0.15 < J <= 1	ochiai@100	286	50	0.1014	0.1480	0.4486	392
+reactome2go	0.15 < J <= 1	ochiai@100	286	200	0.4580	0.5740	0.4486	392
+reactome2go	0.15 < J <= 1	overlap@100	286	10	0.0070	0.0000	0.6672	319
+reactome2go	0.15 < J <= 1	overlap@100	286	50	0.0839	0.0167	0.6672	319
+reactome2go	0.15 < J <= 1	overlap@100	286	200	0.1888	0.0772	0.6672	319
+reactome2go	0.15 < J <= 1	kappa@100	286	10	0.0035	0.0000	0.6518	335
+reactome2go	0.15 < J <= 1	kappa@100	286	50	0.0734	0.0219	0.6518	335
+reactome2go	0.15 < J <= 1	kappa@100	286	200	0.3846	0.1506	0.6518	335
+reactome2go	0.05 < J <= 0.15	THEMA (frozen)	185	10	0.4324	0.0307	0.8369	13
+reactome2go	0.05 < J <= 0.15	THEMA (frozen)	185	50	0.6541	0.1019	0.8369	13
+reactome2go	0.05 < J <= 0.15	THEMA (frozen)	185	200	0.6973	0.1518	0.8369	13
+reactome2go	0.05 < J <= 0.15	TF-IDF DAG	185	10	0.0000	0.0000	0.5000	inf
+reactome2go	0.05 < J <= 0.15	TF-IDF DAG	185	50	0.0000	0.0000	0.5000	inf
+reactome2go	0.05 < J <= 0.15	TF-IDF DAG	185	200	0.0000	0.0000	0.5000	inf
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@25	185	10	0.0000	0.0000	0.7504	560
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@25	185	50	0.0000	0.0000	0.7504	560
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@25	185	200	0.0595	0.0323	0.7504	560
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@50	185	10	0.0000	0.0000	0.7553	332
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@50	185	50	0.0054	0.0003	0.7553	332
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@50	185	200	0.3081	0.0961	0.7553	332
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@100	185	10	0.0000	0.0000	0.7775	164
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@100	185	50	0.0649	0.0081	0.7775	164
+reactome2go	0.05 < J <= 0.15	TF-IDF flat@100	185	200	0.6703	0.1621	0.7775	164
+reactome2go	0.05 < J <= 0.15	ochiai@100	185	10	0.0000	0.0000	0.5637	inf
+reactome2go	0.05 < J <= 0.15	ochiai@100	185	50	0.0216	0.0150	0.5637	inf
+reactome2go	0.05 < J <= 0.15	ochiai@100	185	200	0.2216	0.1235	0.5637	inf
+reactome2go	0.05 < J <= 0.15	overlap@100	185	10	0.0000	0.0003	0.5552	inf
+reactome2go	0.05 < J <= 0.15	overlap@100	185	50	0.0108	0.0045	0.5552	inf
+reactome2go	0.05 < J <= 0.15	overlap@100	185	200	0.0324	0.0226	0.5552	inf
+reactome2go	0.05 < J <= 0.15	kappa@100	185	10	0.0000	0.0000	0.4802	inf
+reactome2go	0.05 < J <= 0.15	kappa@100	185	50	0.0108	0.0018	0.4802	inf
+reactome2go	0.05 < J <= 0.15	kappa@100	185	200	0.0649	0.0444	0.4802	inf
+reactome2go	0.01 < J <= 0.05	THEMA (frozen)	138	10	0.2319	0.0021	0.8158	1508
+reactome2go	0.01 < J <= 0.05	THEMA (frozen)	138	50	0.4058	0.0112	0.8158	1508
+reactome2go	0.01 < J <= 0.05	THEMA (frozen)	138	200	0.4783	0.0231	0.8158	1508
+reactome2go	0.01 < J <= 0.05	TF-IDF DAG	138	10	0.0000	0.0000	0.5000	inf
+reactome2go	0.01 < J <= 0.05	TF-IDF DAG	138	50	0.0000	0.0000	0.5000	inf
+reactome2go	0.01 < J <= 0.05	TF-IDF DAG	138	200	0.0000	0.0000	0.5000	inf
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@25	138	10	0.0000	0.0000	0.7539	742
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@25	138	50	0.0000	0.0000	0.7539	742
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@25	138	200	0.0072	0.0039	0.7539	742
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@50	138	10	0.0000	0.0000	0.7500	521
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@50	138	50	0.0000	0.0000	0.7500	521
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@50	138	200	0.2391	0.0191	0.7500	521
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@100	138	10	0.0000	0.0000	0.7369	362
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@100	138	50	0.0217	0.0006	0.7369	362
+reactome2go	0.01 < J <= 0.05	TF-IDF flat@100	138	200	0.4565	0.0317	0.7369	362
+reactome2go	0.01 < J <= 0.05	ochiai@100	138	10	0.0000	0.0000	0.5649	inf
+reactome2go	0.01 < J <= 0.05	ochiai@100	138	50	0.0072	0.0012	0.5649	inf
+reactome2go	0.01 < J <= 0.05	ochiai@100	138	200	0.0870	0.0186	0.5649	inf
+reactome2go	0.01 < J <= 0.05	overlap@100	138	10	0.0000	0.0001	0.6279	inf
+reactome2go	0.01 < J <= 0.05	overlap@100	138	50	0.0072	0.0005	0.6279	inf
+reactome2go	0.01 < J <= 0.05	overlap@100	138	200	0.0362	0.0027	0.6279	inf
+reactome2go	0.01 < J <= 0.05	kappa@100	138	10	0.0000	0.0000	0.5234	inf
+reactome2go	0.01 < J <= 0.05	kappa@100	138	50	0.0072	0.0002	0.5234	inf
+reactome2go	0.01 < J <= 0.05	kappa@100	138	200	0.0507	0.0074	0.5234	inf
+reactome2go	0 < J <= 0.01	THEMA (frozen)	31	10	0.0323	0.0003	0.7232	2966
+reactome2go	0 < J <= 0.01	THEMA (frozen)	31	50	0.1935	0.0016	0.7232	2966
+reactome2go	0 < J <= 0.01	THEMA (frozen)	31	200	0.3226	0.0044	0.7232	2966
+reactome2go	0 < J <= 0.01	TF-IDF DAG	31	10	0.0000	0.0000	0.5000	inf
+reactome2go	0 < J <= 0.01	TF-IDF DAG	31	50	0.0000	0.0000	0.5000	inf
+reactome2go	0 < J <= 0.01	TF-IDF DAG	31	200	0.0000	0.0000	0.5000	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@25	31	10	0.0000	0.0000	0.7155	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@25	31	50	0.0000	0.0000	0.7155	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@25	31	200	0.0000	0.0005	0.7155	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@50	31	10	0.0000	0.0000	0.7290	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@50	31	50	0.0000	0.0000	0.7290	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@50	31	200	0.2581	0.0047	0.7290	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@100	31	10	0.0000	0.0000	0.6875	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@100	31	50	0.0000	0.0001	0.6875	inf
+reactome2go	0 < J <= 0.01	TF-IDF flat@100	31	200	0.3548	0.0084	0.6875	inf
+reactome2go	0 < J <= 0.01	ochiai@100	31	10	0.0000	0.0000	0.5875	inf
+reactome2go	0 < J <= 0.01	ochiai@100	31	50	0.0000	0.0001	0.5875	inf
+reactome2go	0 < J <= 0.01	ochiai@100	31	200	0.0645	0.0034	0.5875	inf
+reactome2go	0 < J <= 0.01	overlap@100	31	10	0.0000	0.0000	0.5752	inf
+reactome2go	0 < J <= 0.01	overlap@100	31	50	0.0000	0.0001	0.5752	inf
+reactome2go	0 < J <= 0.01	overlap@100	31	200	0.0323	0.0007	0.5752	inf
+reactome2go	0 < J <= 0.01	kappa@100	31	10	0.0000	0.0000	0.4560	inf
+reactome2go	0 < J <= 0.01	kappa@100	31	50	0.0000	0.0001	0.4560	inf
+reactome2go	0 < J <= 0.01	kappa@100	31	200	0.0000	0.0015	0.4560	inf
+reactome2go	exactly 0	THEMA (frozen)	40	10	0.1000	0.0002	0.8633	1508
+reactome2go	exactly 0	THEMA (frozen)	40	50	0.3250	0.0012	0.8633	1508
+reactome2go	exactly 0	THEMA (frozen)	40	200	0.4750	0.0032	0.8633	1508
+reactome2go	exactly 0	TF-IDF DAG	40	10	0.0000	0.0000	0.5000	inf
+reactome2go	exactly 0	TF-IDF DAG	40	50	0.0000	0.0000	0.5000	inf
+reactome2go	exactly 0	TF-IDF DAG	40	200	0.0000	0.0000	0.5000	inf
+reactome2go	exactly 0	TF-IDF flat@25	40	10	0.0000	0.0000	0.7458	956
+reactome2go	exactly 0	TF-IDF flat@25	40	50	0.0000	0.0000	0.7458	956
+reactome2go	exactly 0	TF-IDF flat@25	40	200	0.0250	0.0004	0.7458	956
+reactome2go	exactly 0	TF-IDF flat@50	40	10	0.0000	0.0000	0.7033	inf
+reactome2go	exactly 0	TF-IDF flat@50	40	50	0.0000	0.0000	0.7033	inf
+reactome2go	exactly 0	TF-IDF flat@50	40	200	0.2250	0.0034	0.7033	inf
+reactome2go	exactly 0	TF-IDF flat@100	40	10	0.0000	0.0000	0.6965	inf
+reactome2go	exactly 0	TF-IDF flat@100	40	50	0.0250	0.0001	0.6965	inf
+reactome2go	exactly 0	TF-IDF flat@100	40	200	0.3750	0.0053	0.6965	inf
+reactome2go	exactly 0	ochiai@100	40	10	0.0000	0.0000	0.5551	inf
+reactome2go	exactly 0	ochiai@100	40	50	0.0250	0.0000	0.5551	inf
+reactome2go	exactly 0	ochiai@100	40	200	0.0500	0.0020	0.5551	inf
+reactome2go	exactly 0	overlap@100	40	10	0.0000	0.0000	0.5406	inf
+reactome2go	exactly 0	overlap@100	40	50	0.0000	0.0001	0.5406	inf
+reactome2go	exactly 0	overlap@100	40	200	0.0250	0.0007	0.5406	inf
+reactome2go	exactly 0	kappa@100	40	10	0.0000	0.0000	0.5395	inf
+reactome2go	exactly 0	kappa@100	40	50	0.0000	0.0001	0.5395	inf
+reactome2go	exactly 0	kappa@100	40	200	0.0250	0.0021	0.5395	inf
+reactome-siblings	0.15 < J <= 1	THEMA (frozen)	1510	10	0.5695	0.2420	0.7462	9
+reactome-siblings	0.15 < J <= 1	THEMA (frozen)	1510	50	0.8152	0.4093	0.7462	9
+reactome-siblings	0.15 < J <= 1	THEMA (frozen)	1510	200	0.8470	0.4698	0.7462	9
+reactome-siblings	0.15 < J <= 1	TF-IDF DAG	1510	10	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.15 < J <= 1	TF-IDF DAG	1510	50	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.15 < J <= 1	TF-IDF DAG	1510	200	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@25	1510	10	0.0000	0.0000	0.6385	520
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@25	1510	50	0.0000	0.0000	0.6385	520
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@25	1510	200	0.0132	0.0579	0.6385	520
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@50	1510	10	0.0000	0.0000	0.6708	332
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@50	1510	50	0.0868	0.0026	0.6708	332
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@50	1510	200	0.3682	0.2149	0.6708	332
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@100	1510	10	0.0000	0.0000	0.6807	164
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@100	1510	50	0.1344	0.0309	0.6807	164
+reactome-siblings	0.15 < J <= 1	TF-IDF flat@100	1510	200	0.6510	0.4015	0.6807	164
+reactome-siblings	0.15 < J <= 1	ochiai@100	1510	10	0.0000	0.0000	0.6385	90
+reactome-siblings	0.15 < J <= 1	ochiai@100	1510	50	0.3702	0.1480	0.6385	90
+reactome-siblings	0.15 < J <= 1	ochiai@100	1510	200	0.6695	0.5740	0.6385	90
+reactome-siblings	0.15 < J <= 1	overlap@100	1510	10	0.0000	0.0000	0.5781	626
+reactome-siblings	0.15 < J <= 1	overlap@100	1510	50	0.0351	0.0167	0.5781	626
+reactome-siblings	0.15 < J <= 1	overlap@100	1510	200	0.0848	0.0772	0.5781	626
+reactome-siblings	0.15 < J <= 1	kappa@100	1510	10	0.0066	0.0000	0.5990	1450
+reactome-siblings	0.15 < J <= 1	kappa@100	1510	50	0.1060	0.0219	0.5990	1450
+reactome-siblings	0.15 < J <= 1	kappa@100	1510	200	0.3338	0.1506	0.5990	1450
+reactome-siblings	0.05 < J <= 0.15	THEMA (frozen)	1040	10	0.2250	0.0307	0.7237	156
+reactome-siblings	0.05 < J <= 0.15	THEMA (frozen)	1040	50	0.4567	0.1019	0.7237	156
+reactome-siblings	0.05 < J <= 0.15	THEMA (frozen)	1040	200	0.5048	0.1518	0.7237	156
+reactome-siblings	0.05 < J <= 0.15	TF-IDF DAG	1040	10	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.05 < J <= 0.15	TF-IDF DAG	1040	50	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.05 < J <= 0.15	TF-IDF DAG	1040	200	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@25	1040	10	0.0000	0.0000	0.6958	581
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@25	1040	50	0.0000	0.0000	0.6958	581
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@25	1040	200	0.0231	0.0323	0.6958	581
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@50	1040	10	0.0000	0.0000	0.6983	481
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@50	1040	50	0.0038	0.0003	0.6983	481
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@50	1040	200	0.1587	0.0961	0.6983	481
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@100	1040	10	0.0000	0.0000	0.7117	226
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@100	1040	50	0.0375	0.0081	0.7117	226
+reactome-siblings	0.05 < J <= 0.15	TF-IDF flat@100	1040	200	0.4067	0.1621	0.7117	226
+reactome-siblings	0.05 < J <= 0.15	ochiai@100	1040	10	0.0000	0.0000	0.5647	inf
+reactome-siblings	0.05 < J <= 0.15	ochiai@100	1040	50	0.0433	0.0150	0.5647	inf
+reactome-siblings	0.05 < J <= 0.15	ochiai@100	1040	200	0.2115	0.1235	0.5647	inf
+reactome-siblings	0.05 < J <= 0.15	overlap@100	1040	10	0.0010	0.0003	0.5984	1502
+reactome-siblings	0.05 < J <= 0.15	overlap@100	1040	50	0.0231	0.0045	0.5984	1502
+reactome-siblings	0.05 < J <= 0.15	overlap@100	1040	200	0.0683	0.0226	0.5984	1502
+reactome-siblings	0.05 < J <= 0.15	kappa@100	1040	10	0.0010	0.0000	0.4982	2254
+reactome-siblings	0.05 < J <= 0.15	kappa@100	1040	50	0.0298	0.0018	0.4982	2254
+reactome-siblings	0.05 < J <= 0.15	kappa@100	1040	200	0.1038	0.0444	0.4982	2254
+reactome-siblings	0.01 < J <= 0.05	THEMA (frozen)	873	10	0.1386	0.0021	0.7507	2200
+reactome-siblings	0.01 < J <= 0.05	THEMA (frozen)	873	50	0.2864	0.0112	0.7507	2200
+reactome-siblings	0.01 < J <= 0.05	THEMA (frozen)	873	200	0.3276	0.0231	0.7507	2200
+reactome-siblings	0.01 < J <= 0.05	TF-IDF DAG	873	10	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.01 < J <= 0.05	TF-IDF DAG	873	50	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.01 < J <= 0.05	TF-IDF DAG	873	200	0.0000	0.0000	0.5000	inf
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@25	873	10	0.0000	0.0000	0.7184	996
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@25	873	50	0.0000	0.0000	0.7184	996
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@25	873	200	0.0115	0.0039	0.7184	996
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@50	873	10	0.0000	0.0000	0.7152	619
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@50	873	50	0.0069	0.0000	0.7152	619
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@50	873	200	0.1707	0.0191	0.7152	619
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@100	873	10	0.0000	0.0000	0.7051	inf
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@100	873	50	0.0172	0.0006	0.7051	inf
+reactome-siblings	0.01 < J <= 0.05	TF-IDF flat@100	873	200	0.3391	0.0317	0.7051	inf
+reactome-siblings	0.01 < J <= 0.05	ochiai@100	873	10	0.0000	0.0000	0.5350	inf
+reactome-siblings	0.01 < J <= 0.05	ochiai@100	873	50	0.0137	0.0012	0.5350	inf
+reactome-siblings	0.01 < J <= 0.05	ochiai@100	873	200	0.0676	0.0186	0.5350	inf
+reactome-siblings	0.01 < J <= 0.05	overlap@100	873	10	0.0000	0.0001	0.6105	inf
+reactome-siblings	0.01 < J <= 0.05	overlap@100	873	50	0.0103	0.0005	0.6105	inf
+reactome-siblings	0.01 < J <= 0.05	overlap@100	873	200	0.0424	0.0027	0.6105	inf
+reactome-siblings	0.01 < J <= 0.05	kappa@100	873	10	0.0000	0.0000	0.5400	inf
+reactome-siblings	0.01 < J <= 0.05	kappa@100	873	50	0.0034	0.0002	0.5400	inf
+reactome-siblings	0.01 < J <= 0.05	kappa@100	873	200	0.0412	0.0074	0.5400	inf
+reactome-siblings	0 < J <= 0.01	THEMA (frozen)	220	10	0.0318	0.0003	0.7360	2966
+reactome-siblings	0 < J <= 0.01	THEMA (frozen)	220	50	0.0727	0.0016	0.7360	2966
+reactome-siblings	0 < J <= 0.01	THEMA (frozen)	220	200	0.1091	0.0044	0.7360	2966
+reactome-siblings	0 < J <= 0.01	TF-IDF DAG	220	10	0.0000	0.0000	0.5000	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF DAG	220	50	0.0000	0.0000	0.5000	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF DAG	220	200	0.0000	0.0000	0.5000	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@25	220	10	0.0000	0.0000	0.6208	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@25	220	50	0.0000	0.0000	0.6208	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@25	220	200	0.0000	0.0005	0.6208	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@50	220	10	0.0000	0.0000	0.5922	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@50	220	50	0.0000	0.0000	0.5922	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@50	220	200	0.0727	0.0047	0.5922	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@100	220	10	0.0000	0.0000	0.5640	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@100	220	50	0.0000	0.0001	0.5640	inf
+reactome-siblings	0 < J <= 0.01	TF-IDF flat@100	220	200	0.1273	0.0084	0.5640	inf
+reactome-siblings	0 < J <= 0.01	ochiai@100	220	10	0.0000	0.0000	0.5284	inf
+reactome-siblings	0 < J <= 0.01	ochiai@100	220	50	0.0000	0.0001	0.5284	inf
+reactome-siblings	0 < J <= 0.01	ochiai@100	220	200	0.0318	0.0034	0.5284	inf
+reactome-siblings	0 < J <= 0.01	overlap@100	220	10	0.0000	0.0000	0.5136	inf
+reactome-siblings	0 < J <= 0.01	overlap@100	220	50	0.0045	0.0001	0.5136	inf
+reactome-siblings	0 < J <= 0.01	overlap@100	220	200	0.0227	0.0007	0.5136	inf
+reactome-siblings	0 < J <= 0.01	kappa@100	220	10	0.0000	0.0000	0.5357	inf
+reactome-siblings	0 < J <= 0.01	kappa@100	220	50	0.0000	0.0001	0.5357	inf
+reactome-siblings	0 < J <= 0.01	kappa@100	220	200	0.0136	0.0015	0.5357	inf
+reactome-siblings	exactly 0	THEMA (frozen)	5753	10	0.0933	0.0002	0.8841	2200
+reactome-siblings	exactly 0	THEMA (frozen)	5753	50	0.2034	0.0012	0.8841	2200
+reactome-siblings	exactly 0	THEMA (frozen)	5753	200	0.2400	0.0032	0.8841	2200
+reactome-siblings	exactly 0	TF-IDF DAG	5753	10	0.0000	0.0000	0.5000	inf
+reactome-siblings	exactly 0	TF-IDF DAG	5753	50	0.0000	0.0000	0.5000	inf
+reactome-siblings	exactly 0	TF-IDF DAG	5753	200	0.0000	0.0000	0.5000	inf
+reactome-siblings	exactly 0	TF-IDF flat@25	5753	10	0.0000	0.0000	0.6762	inf
+reactome-siblings	exactly 0	TF-IDF flat@25	5753	50	0.0000	0.0000	0.6762	inf
+reactome-siblings	exactly 0	TF-IDF flat@25	5753	200	0.0054	0.0004	0.6762	inf
+reactome-siblings	exactly 0	TF-IDF flat@50	5753	10	0.0000	0.0000	0.6445	inf
+reactome-siblings	exactly 0	TF-IDF flat@50	5753	50	0.0064	0.0000	0.6445	inf
+reactome-siblings	exactly 0	TF-IDF flat@50	5753	200	0.1709	0.0034	0.6445	inf
+reactome-siblings	exactly 0	TF-IDF flat@100	5753	10	0.0000	0.0000	0.6248	inf
+reactome-siblings	exactly 0	TF-IDF flat@100	5753	50	0.0186	0.0001	0.6248	inf
+reactome-siblings	exactly 0	TF-IDF flat@100	5753	200	0.2371	0.0053	0.6248	inf
+reactome-siblings	exactly 0	ochiai@100	5753	10	0.0000	0.0000	0.6294	inf
+reactome-siblings	exactly 0	ochiai@100	5753	50	0.0056	0.0000	0.6294	inf
+reactome-siblings	exactly 0	ochiai@100	5753	200	0.0605	0.0020	0.6294	inf
+reactome-siblings	exactly 0	overlap@100	5753	10	0.0000	0.0000	0.6241	inf
+reactome-siblings	exactly 0	overlap@100	5753	50	0.0191	0.0001	0.6241	inf
+reactome-siblings	exactly 0	overlap@100	5753	200	0.0450	0.0007	0.6241	inf
+reactome-siblings	exactly 0	kappa@100	5753	10	0.0003	0.0000	0.5745	inf
+reactome-siblings	exactly 0	kappa@100	5753	50	0.0459	0.0001	0.5745	inf
+reactome-siblings	exactly 0	kappa@100	5753	200	0.0998	0.0021	0.5745	inf
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	THEMA (frozen)	716	10	0.5992	0.2420	0.7644	9
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	THEMA (frozen)	716	50	0.8380	0.4093	0.7644	9
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	THEMA (frozen)	716	200	0.8841	0.4698	0.7644	9
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF DAG	716	10	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF DAG	716	50	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF DAG	716	200	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@25	716	10	0.0000	0.0000	0.6244	520
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@25	716	50	0.0000	0.0000	0.6244	520
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@25	716	200	0.0265	0.0579	0.6244	520
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@50	716	10	0.0000	0.0000	0.6642	286
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@50	716	50	0.0265	0.0026	0.6642	286
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@50	716	200	0.3394	0.2149	0.6642	286
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@100	716	10	0.0000	0.0000	0.6650	164
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@100	716	50	0.0475	0.0309	0.6650	164
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	TF-IDF flat@100	716	200	0.6899	0.4015	0.6650	164
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	ochiai@100	716	10	0.0000	0.0000	0.5995	103
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	ochiai@100	716	50	0.2961	0.1480	0.5995	103
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	ochiai@100	716	200	0.6243	0.5740	0.5995	103
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	overlap@100	716	10	0.0000	0.0000	0.5775	626
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	overlap@100	716	50	0.0237	0.0167	0.5775	626
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	overlap@100	716	200	0.0838	0.0772	0.5775	626
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	kappa@100	716	10	0.0056	0.0000	0.5492	1450
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	kappa@100	716	50	0.0265	0.0219	0.5492	1450
+reactome-siblings (fan-out<=6)	0.15 < J <= 1	kappa@100	716	200	0.2137	0.1506	0.5492	1450
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	THEMA (frozen)	393	10	0.3206	0.0307	0.7980	25
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	THEMA (frozen)	393	50	0.6005	0.1019	0.7980	25
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	THEMA (frozen)	393	200	0.6794	0.1518	0.7980	25
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF DAG	393	10	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF DAG	393	50	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF DAG	393	200	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@25	393	10	0.0000	0.0000	0.6942	581
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@25	393	50	0.0000	0.0000	0.6942	581
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@25	393	200	0.0611	0.0323	0.6942	581
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@50	393	10	0.0000	0.0000	0.7235	392
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@50	393	50	0.0102	0.0003	0.7235	392
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@50	393	200	0.2799	0.0961	0.7235	392
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@100	393	10	0.0000	0.0000	0.7417	189
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@100	393	50	0.0331	0.0081	0.7417	189
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	TF-IDF flat@100	393	200	0.5496	0.1621	0.7417	189
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	ochiai@100	393	10	0.0000	0.0000	0.5748	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	ochiai@100	393	50	0.0534	0.0150	0.5748	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	ochiai@100	393	200	0.1934	0.1235	0.5748	inf
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	overlap@100	393	10	0.0025	0.0003	0.6871	626
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	overlap@100	393	50	0.0483	0.0045	0.6871	626
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	overlap@100	393	200	0.1196	0.0226	0.6871	626
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	kappa@100	393	10	0.0000	0.0000	0.5592	1497
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	kappa@100	393	50	0.0153	0.0018	0.5592	1497
+reactome-siblings (fan-out<=6)	0.05 < J <= 0.15	kappa@100	393	200	0.1196	0.0444	0.5592	1497
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	THEMA (frozen)	259	10	0.2741	0.0021	0.8518	34
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	THEMA (frozen)	259	50	0.5405	0.0112	0.8518	34
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	THEMA (frozen)	259	200	0.6255	0.0231	0.8518	34
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF DAG	259	10	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF DAG	259	50	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF DAG	259	200	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@25	259	10	0.0000	0.0000	0.8087	581
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@25	259	50	0.0000	0.0000	0.8087	581
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@25	259	200	0.0386	0.0039	0.8087	581
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@50	259	10	0.0000	0.0000	0.8035	392
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@50	259	50	0.0232	0.0000	0.8035	392
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@50	259	200	0.3359	0.0191	0.8035	392
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@100	259	10	0.0000	0.0000	0.8063	189
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@100	259	50	0.0386	0.0006	0.8063	189
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	TF-IDF flat@100	259	200	0.5637	0.0317	0.8063	189
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	ochiai@100	259	10	0.0000	0.0000	0.5449	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	ochiai@100	259	50	0.0232	0.0012	0.5449	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	ochiai@100	259	200	0.0888	0.0186	0.5449	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	overlap@100	259	10	0.0000	0.0001	0.6929	1502
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	overlap@100	259	50	0.0309	0.0005	0.6929	1502
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	overlap@100	259	200	0.0888	0.0027	0.6929	1502
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	kappa@100	259	10	0.0000	0.0000	0.5434	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	kappa@100	259	50	0.0077	0.0002	0.5434	inf
+reactome-siblings (fan-out<=6)	0.01 < J <= 0.05	kappa@100	259	200	0.0618	0.0074	0.5434	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	THEMA (frozen)	51	10	0.1176	0.0003	0.7861	1625
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	THEMA (frozen)	51	50	0.2549	0.0016	0.7861	1625
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	THEMA (frozen)	51	200	0.3725	0.0044	0.7861	1625
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF DAG	51	10	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF DAG	51	50	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF DAG	51	200	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@25	51	10	0.0000	0.0000	0.7803	742
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@25	51	50	0.0000	0.0000	0.7803	742
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@25	51	200	0.0000	0.0005	0.7803	742
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@50	51	10	0.0000	0.0000	0.7715	480
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@50	51	50	0.0000	0.0000	0.7715	480
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@50	51	200	0.1961	0.0047	0.7715	480
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@100	51	10	0.0000	0.0000	0.7103	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@100	51	50	0.0000	0.0001	0.7103	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	TF-IDF flat@100	51	200	0.4118	0.0084	0.7103	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	ochiai@100	51	10	0.0000	0.0000	0.5490	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	ochiai@100	51	50	0.0000	0.0001	0.5490	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	ochiai@100	51	200	0.0784	0.0034	0.5490	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	overlap@100	51	10	0.0000	0.0000	0.5529	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	overlap@100	51	50	0.0196	0.0001	0.5529	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	overlap@100	51	200	0.0392	0.0007	0.5529	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	kappa@100	51	10	0.0000	0.0000	0.5811	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	kappa@100	51	50	0.0000	0.0001	0.5811	inf
+reactome-siblings (fan-out<=6)	0 < J <= 0.01	kappa@100	51	200	0.0588	0.0015	0.5811	inf
+reactome-siblings (fan-out<=6)	exactly 0	THEMA (frozen)	664	10	0.2440	0.0002	0.8745	179
+reactome-siblings (fan-out<=6)	exactly 0	THEMA (frozen)	664	50	0.4247	0.0012	0.8745	179
+reactome-siblings (fan-out<=6)	exactly 0	THEMA (frozen)	664	200	0.5015	0.0032	0.8745	179
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF DAG	664	10	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF DAG	664	50	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF DAG	664	200	0.0000	0.0000	0.5000	inf
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@25	664	10	0.0000	0.0000	0.8011	630
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@25	664	50	0.0000	0.0000	0.8011	630
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@25	664	200	0.0331	0.0004	0.8011	630
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@50	664	10	0.0000	0.0000	0.7832	480
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@50	664	50	0.0015	0.0000	0.7832	480
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@50	664	200	0.3042	0.0034	0.7832	480
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@100	664	10	0.0000	0.0000	0.7600	230
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@100	664	50	0.0271	0.0001	0.7600	230
+reactome-siblings (fan-out<=6)	exactly 0	TF-IDF flat@100	664	200	0.4819	0.0053	0.7600	230
+reactome-siblings (fan-out<=6)	exactly 0	ochiai@100	664	10	0.0000	0.0000	0.5940	inf
+reactome-siblings (fan-out<=6)	exactly 0	ochiai@100	664	50	0.0151	0.0000	0.5940	inf
+reactome-siblings (fan-out<=6)	exactly 0	ochiai@100	664	200	0.0964	0.0020	0.5940	inf
+reactome-siblings (fan-out<=6)	exactly 0	overlap@100	664	10	0.0000	0.0000	0.6816	inf
+reactome-siblings (fan-out<=6)	exactly 0	overlap@100	664	50	0.0331	0.0001	0.6816	inf
+reactome-siblings (fan-out<=6)	exactly 0	overlap@100	664	200	0.0768	0.0007	0.6816	inf
+reactome-siblings (fan-out<=6)	exactly 0	kappa@100	664	10	0.0015	0.0000	0.6340	inf
+reactome-siblings (fan-out<=6)	exactly 0	kappa@100	664	50	0.0497	0.0001	0.6340	inf
+reactome-siblings (fan-out<=6)	exactly 0	kappa@100	664	200	0.1506	0.0021	0.6340	inf

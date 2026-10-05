@@ -1,11 +1,11 @@
 # Unattended run, 3 Oct 2026
 
 ## LIVE STATUS
-- **15:45 UTC** — both tasks DONE: build frozen as v0.3.0-10770-runs200; TF-IDF control resumed and test 3's arm run.
+- **19:05 UTC** — specificity grid run; tests 3 and 4 re-adjudicated under the post-hoc baseline amendment.
 - running: nothing.
-- ETA: n/a — everything on both lists is complete.
-- last result: TF-IDF produces NO ontology (floors unsolvable in all 6 strata); THEMA 75.0% vs TF-IDF 0.0% in test 3's headline cell.
-- failures: TF-IDF build crashed on a None threshold; bug fixed, re-run from cache, no recompute.
+- ETA: n/a.
+- last result: at matched specificity THEMA leads every arm — AUROC 0.884 at zero gene overlap on 5,753 sibling pairs, against 0.625-0.676 for the TF-IDF arms that led on lift.
+- failures: none in this step.
 
 ---
 
@@ -300,3 +300,260 @@ A range, not a point estimate: the only evidence for cost per doubling is the si
 
 4. Earlier (2 Oct, recorded there): I edited `recurrent.py` while a side-cutting loop was running
    and corrupted a cached side. That is what the provenance guard now prevents.
+
+
+---
+
+# TEST 3 FOLLOW-UP, 3 Oct (afternoon) — REPORTING ONLY
+
+**Nothing below is a test, a verdict, or a declared quantity, and nothing declared changed.**
+`scripts/test3_grid.py` produces all of it. The plan declares the gene-overlap bands and one named
+cell; **it declares no lexical bands**, so the lexical bands here are a stated reporting choice:
+quintiles of curated-text Jaccard measured over the 600,000-pair random null, which is a
+universe-representative distribution, so the same edges apply to every source and to the null.
+
+| band | curated-text Jaccard |
+|---|---|
+| L1 | 0 – 0.022 |
+| L2 | 0.022 – 0.035 |
+| L3 | 0.035 – 0.052 |
+| L4 | 0.052 – 0.085 |
+| L5 | 0.085 – 1.000 |
+| L0 | one or both sides publish no curated prose |
+
+**Curated prose, not generated.** 10,424 of 10,770 pathways (97%) publish some. The plan is explicit
+that the banding must use the curated text, because the generated descriptions were written by a
+model that has read both Reactome and GO.
+
+**A baseline whose largest cluster holds more than 29% of the universe is flagged DEGENERATE** — the
+size cap's own share, used here as a threshold for "this is one blob, not a partition". **9 of the 12
+gene baselines are degenerate**: `kappa@25` 97.3%, `overlap@25` 82.4%, `jaccard@25` 65.4%,
+`jaccard@50` 62.6%, `kappa@50` 56.0%, `ochiai@25` 44.8%, `jaccard@100` 43.8%, `overlap@50` 43.0%,
+`ochiai@50` 35.4%. Only `ochiai@100`, `overlap@100` and `kappa@100` survive. **The TF-IDF arms are
+not degenerate** (largest cluster 9.2% / 5.7% / 4.0%).
+
+## 1. Why the headline cell holds 8 pairs
+
+`reactome2go` contributes **680 pairs** inside the 10,770. Of those, **40 have exactly zero gene
+overlap**, and they spread across the lexical bands:
+
+| gene band | L1 | L2 | L3 | L4 | L5 | total |
+|---|---|---|---|---|---|---|
+| 0.15 < J <= 1 | 18 | 30 | 61 | 91 | 86 | 286 |
+| 0.05 < J <= 0.15 | 8 | 28 | 45 | 56 | 48 | 185 |
+| 0.01 < J <= 0.05 | 17 | 23 | 39 | 31 | 28 | 138 |
+| 0 < J <= 0.01 | 6 | 7 | 4 | 11 | 3 | 31 |
+| **exactly 0** | **5** | **5** | **8** | **11** | **11** | **40** |
+| total | 54 | 93 | 157 | 200 | 176 | 680 |
+
+**The 8 is 5 + 5, rounded up by where the quintile edge fell**: the plan's cell is zero gene overlap
+AND the bottom quintile of lexical overlap, and only 40 pairs reach the first condition before the
+second takes a fifth of them. **The cell is a conjunction of two rare conditions, and the plan did
+not check how many pairs survive both.** Nothing is wrong with either condition; the arithmetic was
+simply never done.
+
+No `reactome2go` pair falls in L0 — both sides always publish prose, because the mapping is between
+two curated databases.
+
+## 2. Full grid — `reactome2go`
+
+Recovery / lift over each arm's own chance rate. Cells below 20 pairs are listed for completeness
+but **not quotable**; the five zero-gene cells are all in that category.
+
+| cell | n | THEMA | TF-IDF flat@25 | flat@50 | flat@100 | best non-degenerate gene |
+|---|---|---|---|---|---|---|
+| exactly 0 \| L1 | **5** | 60.0% / 3.0x | — | — | — | — |
+| exactly 0 \| L2 | **5** | 80.0% / 3.8x | — | — | — | — |
+| exactly 0 \| L3 | **8** | 75.0% / 3.5x | — | — | — | — |
+| exactly 0 \| L4 | **11** | 90.9% / 4.2x | — | — | — | — |
+| exactly 0 \| L5 | **11** | 81.8% / 3.6x | — | — | — | — |
+| 0.01–0.05 \| L2 | 23 | 91.3% / 2.3x | 56.5% / 4.9x | 47.8% / 6.6x | 47.8% / 12.1x | overlap@100 56.5% / 3.5x |
+| 0.01–0.05 \| L3 | 39 | 76.9% / 1.9x | 59.0% / 4.4x | 53.8% / 6.5x | 48.7% / 11.2x | overlap@100 43.6% / 2.3x |
+| 0.05–0.15 \| L4 | 56 | 96.4% / 1.6x | 83.9% / 2.3x | 76.8% / 2.7x | 71.4% / 3.5x | overlap@100 50.0% / 1.1x |
+| 0.15–1 \| L5 | 86 | 100.0% / 1.1x | 100.0% / 1.3x | 96.5% / 1.4x | 96.5% / 1.5x | kappa@100 90.7% / 1.0x |
+
+**THEMA's chance rate at zero gene overlap is 20–23%** across the lexical bands, against 0.9–7.8%
+for the TF-IDF arms and 4.7–7.8% for the surviving gene arms. That gap is why recovery and lift
+disagree so often below, and it is a consequence of multi-membership: 82% of placed pathways sit in
+two or more non-nested themes.
+
+## 3. Full grid — Reactome siblings (the larger evidence base)
+
+9,396 pairs, and critically **5,753 of them have exactly zero gene overlap** — 144x the
+`reactome2go` count. Every cell here is quotable.
+
+| gene band | L1 | L2 | L3 | L4 | L5 | total |
+|---|---|---|---|---|---|---|
+| 0.15 < J <= 1 | 7 | 15 | 63 | 273 | 1,152 | 1,510 |
+| 0.05 < J <= 0.15 | 4 | 29 | 84 | 252 | 671 | 1,040 |
+| 0.01 < J <= 0.05 | 9 | 29 | 88 | 281 | 466 | 873 |
+| 0 < J <= 0.01 | 2 | 13 | 44 | 85 | 76 | 220 |
+| **exactly 0** | **80** | **171** | **467** | **2,129** | **2,906** | **5,753** |
+| total | 102 | 257 | 746 | 3,020 | 5,271 | 9,396 |
+
+Zero-gene cells, recovery / lift:
+
+| cell | n | THEMA | flat@25 | flat@50 | flat@100 | best non-degenerate gene |
+|---|---|---|---|---|---|---|
+| exactly 0 \| L1 | 80 | **68.8% / 3.4x** | 22.5% / 6.5x | 18.8% / 11.3x | 17.5% / 26.1x | ochiai@100 23.8% / 3.8x |
+| exactly 0 \| L2 | 171 | **74.9% / 3.5x** | 41.5% / 11.3x | 30.4% / 16.9x | 22.2% / 30.6x | overlap@100 33.3% / 8.4x |
+| exactly 0 \| L3 | 467 | **78.2% / 3.7x** | 33.4% / 8.6x | 24.2% / 12.8x | 18.2% / 23.2x | overlap@100 28.3% / 6.5x |
+| exactly 0 \| L4 | 2,129 | **87.2% / 4.1x** | 31.5% / 7.3x | 22.7% / 10.7x | 16.5% / 18.3x | ochiai@100 25.0% / 4.0x |
+| exactly 0 \| L5 | 2,906 | **93.4% / 4.1x** | 45.3% / 8.8x | 38.0% / 14.3x | 34.1% / 27.3x | ochiai@100 40.0% / 6.1x |
+
+**On recovery THEMA leads every arm in every zero-gene cell, by 27 to 56 points, on thousands of
+pairs.** The TF-IDF DAG recovers 0.0% everywhere, because it has no themes.
+
+**On lift it does not**, and that is the honest counterpart: the TF-IDF flat arms reach 6.5x–30.6x
+against THEMA's 3.4x–4.1x, purely because their chance rates are 0.9–7.8% where THEMA's is ~21%.
+A method that places each pathway in one small cluster has little chance of a spurious hit; one that
+places pathways in several large themes has a lot. **Which statistic answers the plan's question is
+not something this report decides.**
+
+The fan-out-capped sibling arm agrees throughout (16 / 27 / 69 / 198 / 354 pairs in the zero-gene
+cells; THEMA 93.8% / 77.8% / 79.7% / 78.8% / 87.8%).
+
+## 4. EXPLORATORY — the hard cell widened. NOT A TEST, NOT A VERDICT.
+
+Cell: **gene Jaccard <= 0.05 AND curated-text Jaccard <= 0.043** (the null's median, i.e. the bottom
+half). **This is not the plan's cell**, which is gene overlap exactly 0 and lexical near 0. It exists
+only to put the same comparison on counts large enough to read.
+
+| source | pairs | THEMA | flat@25 | flat@50 | flat@100 | overlap@100 | kappa@100 | ochiai@100 |
+|---|---|---|---|---|---|---|---|---|
+| `reactome2go` | 82 | **76.8% / 3.5x** | 48.8% / 12.0x | 39.0% / 18.8x | 36.6% / 41.5x | 34.1% / 7.3x | 23.2% / 3.0x | 19.5% / 3.4x |
+| Reactome siblings | 519 | **69.4% / 3.2x** | 31.8% / 7.8x | 22.9% / 11.1x | 17.9% / 20.3x | 25.2% / 5.4x | 22.7% / 2.9x | 17.9% / 3.1x |
+| siblings, fan-out<=6 | 90 | **75.6% / 3.4x** | 45.6% / 11.2x | 41.1% / 19.8x | 36.7% / 41.6x | 26.7% / 5.7x | 28.9% / 3.7x | 20.0% / 3.4x |
+
+Chance rates in this cell: THEMA 21.9%, TF-IDF flat 4.1% / 2.1% / 0.9%, surviving gene arms
+4.7–7.8%. The pattern is the same as section 3: **THEMA ahead on recovery by 21 to 45 points,
+behind on lift.**
+
+**Widening the cell raises `reactome2go` from 8 pairs to 82 and the siblings to 519**, which is the
+only reason these numbers are readable at all. That is also exactly why they are labelled
+exploratory: a cell chosen after seeing that the declared one was too small is not the declared one.
+
+## A bug in this report's own script, found and fixed
+
+The first run of the grid showed **no chance rate and no lift for any zero-gene cell**. The cause was
+in my code: the null's gene-overlap line read `jaccard(...) or -1.0`, and **`0.0` is falsy in
+Python**, so every random pair with exactly zero gene overlap was recorded as *undefined* and the
+zero-gene null band was empty — the single most important band in the grid. Fixed, re-run, and the
+nulls are now populated (84,896–100,346 random pairs per zero-gene cell). The source-pair side used
+a correct idiom and was never affected.
+
+
+---
+
+# SPECIFICITY GRID, 3 Oct (evening) — the recovery-versus-lift split, resolved
+
+Both declarations were written into `DECISIONS.md` **before any of this was computed**.
+`scripts/specificity_grid.py` produces all of it.
+
+## 1. Tests 3 and 4 re-adjudicated UNDER THE POST-HOC BASELINE AMENDMENT
+
+**The amendment is post hoc and labelled so wherever its verdicts appear.** A gene baseline whose
+largest cluster exceeds **29.0133%** of the universe — THEMA's own declared size cap — is excluded.
+The threshold is not chosen to produce an outcome: it is the number this project already declared
+for "too big to be one theme", now applied to the comparison as well as to the build.
+
+**9 of 12 gene baselines are excluded**: `kappa@25` 97.3%, `overlap@25` 82.4%, `jaccard@25` 65.4%,
+`jaccard@50` 62.6%, `kappa@50` 56.0%, `ochiai@25` 44.8%, `jaccard@100` 43.8%, `overlap@50` 43.0%,
+`ochiai@50` 35.4%. **Three are kept**: `ochiai@100`, `kappa@100`, `overlap@100` (23% / 21% / 14%).
+
+Recovery in the two bands the marks name, against the best *kept* gene baseline:
+
+| source | band | n | THEMA | best kept gene arm | |
+|---|---|---|---|---|---|
+| `reactome2go` | exactly 0 | 40 | **80.0%** | `ochiai@100` 17.5% | THEMA ahead |
+| `reactome2go` | 0 < J <= 0.01 | 31 | **61.3%** | `overlap@100` 22.6% | THEMA ahead |
+| Reactome siblings | exactly 0 | 5,753 | **89.0%** | `ochiai@100` 32.2% | THEMA ahead |
+| Reactome siblings | 0 < J <= 0.01 | 220 | **65.5%** | `kappa@100` 21.8% | THEMA ahead |
+| siblings, fan-out<=6 | exactly 0 | 664 | **84.0%** | `overlap@100` 39.9% | THEMA ahead |
+| siblings, fan-out<=6 | 0 < J <= 0.01 | 51 | **70.6%** | `kappa@100` 29.4% | THEMA ahead |
+
+### The verdicts, under the post-hoc baseline amendment
+
+**TEST 4 — PASSES, under the post-hoc baseline amendment.** Its mark is "THEMA beats the random null
+in every band, and is not beaten by the gene baselines in the (0,0) band". It beats the null in every
+band of every source (1.2x–4.2x, reported earlier), and under the amendment no surviving gene
+baseline beats it in the zero-overlap band — by margins of 45 to 57 points on 5,753 pairs.
+
+**TEST 3 — the baseline half PASSES under the amendment; the gate still has no overall verdict.** Its
+mark also requires exceeding every gene baseline in the (0,0) and (0,0.01) bands, which it now does,
+and beating TF-IDF in the zero-gene / near-zero-lexical cell, which it does 75.0% to 0.0%. **What
+still blocks it is n = 8 in that cell**, which the amendment does not touch and no re-adjudication
+can fix. Widening the cell would change a declared cell definition and is Aviyah's.
+
+**Both verdicts are conditional on a rule written after seeing the results.** Under the mark exactly
+as declared on 25 Sep, both gates fail on a baseline holding 97.3% of the universe in one cluster.
+
+## 2. The graded specificity measure — informational, not a gate
+
+Declared before computation. **Smallest shared theme size** is the number of members of the smallest
+theme containing both pathways (infinite when none; for a flat arm, the shared cluster's size).
+Smaller is a sharper claim: putting a pair together in a theme of 8 says much more than in a theme
+of 3,000. **AUROC** is the probability a curated pair is more specific than a band-matched random
+pair, ties counted half, from midranks so infinities are ties rather than dropped observations.
+
+### Why this settles the split
+
+Recovery rewards co-placement at any grain; lift rewards a low base rate. The TF-IDF arms led on
+lift only because their chance rates are 0.9–7.8% against THEMA's ~21%. **Compared at the same
+specificity, that advantage disappears.**
+
+**`reactome2go`, exactly zero gene overlap — 40 pairs, null 509,438**
+
+| arm | median size | random | **AUROC** | <=10 | <=50 | <=200 |
+|---|---|---|---|---|---|---|
+| **THEMA (frozen)** | 1,508 | inf | **0.863** | **10.0%** / 0.0% | **32.5%** / 0.1% | **47.5%** / 0.3% |
+| TF-IDF DAG | inf | inf | 0.500 | 0.0% / 0.0% | 0.0% / 0.0% | 0.0% / 0.0% |
+| TF-IDF flat@25 | 956 | inf | 0.746 | 0.0% / 0.0% | 0.0% / 0.0% | 2.5% / 0.0% |
+| TF-IDF flat@50 | inf | inf | 0.703 | 0.0% / 0.0% | 0.0% / 0.0% | 22.5% / 0.3% |
+| TF-IDF flat@100 | inf | inf | 0.696 | 0.0% / 0.0% | 2.5% / 0.0% | 37.5% / 0.5% |
+| ochiai@100 | inf | inf | 0.555 | 0.0% / 0.0% | 2.5% / 0.0% | 5.0% / 0.2% |
+| overlap@100 | inf | inf | 0.541 | 0.0% / 0.0% | 0.0% / 0.0% | 2.5% / 0.1% |
+| kappa@100 | inf | inf | 0.539 | 0.0% / 0.0% | 0.0% / 0.0% | 2.5% / 0.2% |
+
+**Reactome siblings, exactly zero gene overlap — 5,753 pairs**
+
+| arm | median size | **AUROC** | <=10 | <=50 | <=200 |
+|---|---|---|---|---|---|
+| **THEMA (frozen)** | 2,200 | **0.884** | **9.3%** / 0.0% | **20.3%** / 0.1% | **24.0%** / 0.3% |
+| TF-IDF DAG | inf | 0.500 | 0.0% / 0.0% | 0.0% / 0.0% | 0.0% / 0.0% |
+| TF-IDF flat@25 | inf | 0.676 | 0.0% / 0.0% | 0.0% / 0.0% | 0.5% / 0.0% |
+| TF-IDF flat@50 | inf | 0.645 | 0.0% / 0.0% | 0.6% / 0.0% | 17.1% / 0.3% |
+| TF-IDF flat@100 | inf | 0.625 | 0.0% / 0.0% | 1.9% / 0.0% | 23.7% / 0.5% |
+| ochiai@100 | inf | 0.629 | 0.0% / 0.0% | 0.6% / 0.0% | 6.0% / 0.2% |
+| overlap@100 | inf | 0.624 | 0.0% / 0.0% | 1.9% / 0.0% | 4.5% / 0.1% |
+| kappa@100 | inf | 0.574 | 0.0% / 0.0% | 4.6% / 0.0% | 10.0% / 0.2% |
+
+**THEMA leads on AUROC and at every specificity cut-off, in both sources.** 0.884 against
+0.625–0.676 for the TF-IDF arms that led on lift, and 0.574–0.629 for the kept gene arms. **At
+<= 10 members — the sharpest claim available — THEMA is the only arm that places any curated pair
+at all** (9.3% of 5,753 sibling pairs, against 0.0% for all seven others and 0.0% random).
+
+The same ordering holds at 0.01 < J <= 0.05 (873 sibling pairs): THEMA AUROC 0.751 and 28.6% at
+<= 50, against the TF-IDF arms at 0.705–0.718 and 0.0–1.7%.
+
+**So the recovery-versus-lift disagreement was an artefact of comparing at different grains.** When
+every arm is held to the same specificity, THEMA is ahead on both axes at once.
+
+### Hop distance in the DAG — THEMA only
+
+| source, band | median hops, curated | random | finite for curated | finite for random |
+|---|---|---|---|---|
+| `reactome2go`, exactly 0 | **7** | 9 | **75.0%** | 19.9% |
+| siblings, exactly 0 | **7** | 9 | **87.9%** | 19.9% |
+| siblings, 0.01 < J <= 0.05 | **6** | 8 | **72.3%** | 38.7% |
+
+Curated pairs sit closer in the DAG than random ones and, more tellingly, **are connected at all far
+more often** — 88% against 20% at zero gene overlap. The median gap of two hops is modest; the
+reachability gap is not.
+
+## A caveat on the median-size column
+
+Most median sizes read `inf`, including THEMA's at some bands, because more than half the pairs in
+those cells share no theme in that arm at all. The median is therefore the least informative column
+here and the cut-offs and AUROC are the ones to read: AUROC uses the whole distribution including
+the infinities, and the cut-offs ask directly how often an arm makes a sharp claim.
