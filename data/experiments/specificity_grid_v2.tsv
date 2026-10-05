@@ -1,0 +1,433 @@
+source	band	subset	arm	n_pairs	specificity_cut	curated_rate	random_rate	auroc
+reactome-siblings	0.15 < J <= 1	all	THEMA (frozen)	1510	10	0.5695	0.2420	0.7462
+reactome-siblings	0.15 < J <= 1	all	THEMA (frozen)	1510	50	0.8152	0.4093	0.7462
+reactome-siblings	0.15 < J <= 1	all	THEMA (frozen)	1510	200	0.8470	0.4698	0.7462
+reactome-siblings	0.15 < J <= 1	all	HiDeF k=15	1510	10	0.0013	0.0026	0.6934
+reactome-siblings	0.15 < J <= 1	all	HiDeF k=15	1510	50	0.3013	0.1828	0.6934
+reactome-siblings	0.15 < J <= 1	all	HiDeF k=15	1510	200	0.8523	0.5225	0.6934
+reactome-siblings	0.15 < J <= 1	all	random (THEMA shape)	1510	10	0.0000	0.0013	0.4915
+reactome-siblings	0.15 < J <= 1	all	random (THEMA shape)	1510	50	0.0007	0.0026	0.4915
+reactome-siblings	0.15 < J <= 1	all	random (THEMA shape)	1510	200	0.0033	0.0051	0.4915
+reactome-siblings	0.15 < J <= 1	all	TF-IDF flat@100	1510	10	0.0000	0.0000	0.6807
+reactome-siblings	0.15 < J <= 1	all	TF-IDF flat@100	1510	50	0.1344	0.0309	0.6807
+reactome-siblings	0.15 < J <= 1	all	TF-IDF flat@100	1510	200	0.6510	0.4015	0.6807
+reactome-siblings	0.15 < J <= 1	all	ochiai@100	1510	10	0.0000	0.0000	0.6385
+reactome-siblings	0.15 < J <= 1	all	ochiai@100	1510	50	0.3702	0.1480	0.6385
+reactome-siblings	0.15 < J <= 1	all	ochiai@100	1510	200	0.6695	0.5740	0.6385
+reactome-siblings	0.15 < J <= 1	all	kappa@100	1510	10	0.0066	0.0000	0.5990
+reactome-siblings	0.15 < J <= 1	all	kappa@100	1510	50	0.1060	0.0219	0.5990
+reactome-siblings	0.15 < J <= 1	all	kappa@100	1510	200	0.3338	0.1506	0.5990
+reactome-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	716	10	0.5992	0.2420	0.7644
+reactome-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	716	50	0.8380	0.4093	0.7644
+reactome-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	716	200	0.8841	0.4698	0.7644
+reactome-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	716	10	0.0000	0.0026	0.7146
+reactome-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	716	50	0.3799	0.1828	0.7146
+reactome-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	716	200	0.8575	0.5225	0.7146
+reactome-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	716	10	0.0000	0.0013	0.5067
+reactome-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	716	50	0.0014	0.0026	0.5067
+reactome-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	716	200	0.0042	0.0051	0.5067
+reactome-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	716	10	0.0000	0.0000	0.6650
+reactome-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	716	50	0.0475	0.0309	0.6650
+reactome-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	716	200	0.6899	0.4015	0.6650
+reactome-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	716	10	0.0000	0.0000	0.5995
+reactome-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	716	50	0.2961	0.1480	0.5995
+reactome-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	716	200	0.6243	0.5740	0.5995
+reactome-siblings	0.15 < J <= 1	fanout<=6	kappa@100	716	10	0.0056	0.0000	0.5492
+reactome-siblings	0.15 < J <= 1	fanout<=6	kappa@100	716	50	0.0265	0.0219	0.5492
+reactome-siblings	0.15 < J <= 1	fanout<=6	kappa@100	716	200	0.2137	0.1506	0.5492
+reactome-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	1040	10	0.2250	0.0307	0.7237
+reactome-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	1040	50	0.4567	0.1019	0.7237
+reactome-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	1040	200	0.5048	0.1518	0.7237
+reactome-siblings	0.05 < J <= 0.15	all	HiDeF k=15	1040	10	0.0240	0.0008	0.7108
+reactome-siblings	0.05 < J <= 0.15	all	HiDeF k=15	1040	50	0.2856	0.0615	0.7108
+reactome-siblings	0.05 < J <= 0.15	all	HiDeF k=15	1040	200	0.5673	0.2298	0.7108
+reactome-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	1040	10	0.0010	0.0011	0.5082
+reactome-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	1040	50	0.0019	0.0032	0.5082
+reactome-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	1040	200	0.0048	0.0068	0.5082
+reactome-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	1040	10	0.0000	0.0000	0.7117
+reactome-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	1040	50	0.0375	0.0081	0.7117
+reactome-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	1040	200	0.4067	0.1621	0.7117
+reactome-siblings	0.05 < J <= 0.15	all	ochiai@100	1040	10	0.0000	0.0000	0.5647
+reactome-siblings	0.05 < J <= 0.15	all	ochiai@100	1040	50	0.0433	0.0150	0.5647
+reactome-siblings	0.05 < J <= 0.15	all	ochiai@100	1040	200	0.2115	0.1235	0.5647
+reactome-siblings	0.05 < J <= 0.15	all	kappa@100	1040	10	0.0010	0.0000	0.4982
+reactome-siblings	0.05 < J <= 0.15	all	kappa@100	1040	50	0.0298	0.0018	0.4982
+reactome-siblings	0.05 < J <= 0.15	all	kappa@100	1040	200	0.1038	0.0444	0.4982
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	393	10	0.3206	0.0307	0.7980
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	393	50	0.6005	0.1019	0.7980
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	393	200	0.6794	0.1518	0.7980
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	393	10	0.0025	0.0008	0.7637
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	393	50	0.3232	0.0615	0.7637
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	393	200	0.6718	0.2298	0.7637
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	393	10	0.0025	0.0011	0.5040
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	393	50	0.0025	0.0032	0.5040
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	393	200	0.0051	0.0068	0.5040
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	393	10	0.0000	0.0000	0.7417
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	393	50	0.0331	0.0081	0.7417
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	393	200	0.5496	0.1621	0.7417
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	393	10	0.0000	0.0000	0.5748
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	393	50	0.0534	0.0150	0.5748
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	393	200	0.1934	0.1235	0.5748
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	393	10	0.0000	0.0000	0.5592
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	393	50	0.0153	0.0018	0.5592
+reactome-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	393	200	0.1196	0.0444	0.5592
+reactome-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	873	10	0.1386	0.0021	0.7507
+reactome-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	873	50	0.2864	0.0112	0.7507
+reactome-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	873	200	0.3276	0.0231	0.7507
+reactome-siblings	0.01 < J <= 0.05	all	HiDeF k=15	873	10	0.0023	0.0000	0.7368
+reactome-siblings	0.01 < J <= 0.05	all	HiDeF k=15	873	50	0.1730	0.0078	0.7368
+reactome-siblings	0.01 < J <= 0.05	all	HiDeF k=15	873	200	0.4055	0.0481	0.7368
+reactome-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	873	10	0.0011	0.0007	0.4941
+reactome-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	873	50	0.0034	0.0033	0.4941
+reactome-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	873	200	0.0069	0.0065	0.4941
+reactome-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	873	10	0.0000	0.0000	0.7051
+reactome-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	873	50	0.0172	0.0006	0.7051
+reactome-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	873	200	0.3391	0.0317	0.7051
+reactome-siblings	0.01 < J <= 0.05	all	ochiai@100	873	10	0.0000	0.0000	0.5350
+reactome-siblings	0.01 < J <= 0.05	all	ochiai@100	873	50	0.0137	0.0012	0.5350
+reactome-siblings	0.01 < J <= 0.05	all	ochiai@100	873	200	0.0676	0.0186	0.5350
+reactome-siblings	0.01 < J <= 0.05	all	kappa@100	873	10	0.0000	0.0000	0.5400
+reactome-siblings	0.01 < J <= 0.05	all	kappa@100	873	50	0.0034	0.0002	0.5400
+reactome-siblings	0.01 < J <= 0.05	all	kappa@100	873	200	0.0412	0.0074	0.5400
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	259	10	0.2741	0.0021	0.8518
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	259	50	0.5405	0.0112	0.8518
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	259	200	0.6255	0.0231	0.8518
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	259	10	0.0000	0.0000	0.8524
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	259	50	0.2664	0.0078	0.8524
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	259	200	0.6293	0.0481	0.8524
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	259	10	0.0000	0.0007	0.4816
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	259	50	0.0039	0.0033	0.4816
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	259	200	0.0039	0.0065	0.4816
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	259	10	0.0000	0.0000	0.8063
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	259	50	0.0386	0.0006	0.8063
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	259	200	0.5637	0.0317	0.8063
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	259	10	0.0000	0.0000	0.5449
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	259	50	0.0232	0.0012	0.5449
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	259	200	0.0888	0.0186	0.5449
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	259	10	0.0000	0.0000	0.5434
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	259	50	0.0077	0.0002	0.5434
+reactome-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	259	200	0.0618	0.0074	0.5434
+reactome-siblings	0 < J <= 0.01	all	THEMA (frozen)	220	10	0.0318	0.0003	0.7360
+reactome-siblings	0 < J <= 0.01	all	THEMA (frozen)	220	50	0.0727	0.0016	0.7360
+reactome-siblings	0 < J <= 0.01	all	THEMA (frozen)	220	200	0.1091	0.0044	0.7360
+reactome-siblings	0 < J <= 0.01	all	HiDeF k=15	220	10	0.0000	0.0000	0.7110
+reactome-siblings	0 < J <= 0.01	all	HiDeF k=15	220	50	0.0409	0.0010	0.7110
+reactome-siblings	0 < J <= 0.01	all	HiDeF k=15	220	200	0.1455	0.0115	0.7110
+reactome-siblings	0 < J <= 0.01	all	random (THEMA shape)	220	10	0.0000	0.0012	0.5291
+reactome-siblings	0 < J <= 0.01	all	random (THEMA shape)	220	50	0.0000	0.0036	0.5291
+reactome-siblings	0 < J <= 0.01	all	random (THEMA shape)	220	200	0.0000	0.0069	0.5291
+reactome-siblings	0 < J <= 0.01	all	TF-IDF flat@100	220	10	0.0000	0.0000	0.5640
+reactome-siblings	0 < J <= 0.01	all	TF-IDF flat@100	220	50	0.0000	0.0001	0.5640
+reactome-siblings	0 < J <= 0.01	all	TF-IDF flat@100	220	200	0.1273	0.0084	0.5640
+reactome-siblings	0 < J <= 0.01	all	ochiai@100	220	10	0.0000	0.0000	0.5284
+reactome-siblings	0 < J <= 0.01	all	ochiai@100	220	50	0.0000	0.0001	0.5284
+reactome-siblings	0 < J <= 0.01	all	ochiai@100	220	200	0.0318	0.0034	0.5284
+reactome-siblings	0 < J <= 0.01	all	kappa@100	220	10	0.0000	0.0000	0.5357
+reactome-siblings	0 < J <= 0.01	all	kappa@100	220	50	0.0000	0.0001	0.5357
+reactome-siblings	0 < J <= 0.01	all	kappa@100	220	200	0.0136	0.0015	0.5357
+reactome-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	51	10	0.1176	0.0003	0.7861
+reactome-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	51	50	0.2549	0.0016	0.7861
+reactome-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	51	200	0.3725	0.0044	0.7861
+reactome-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	51	10	0.0000	0.0000	0.8702
+reactome-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	51	50	0.1569	0.0010	0.8702
+reactome-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	51	200	0.3725	0.0115	0.8702
+reactome-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	51	10	0.0000	0.0012	0.5263
+reactome-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	51	50	0.0000	0.0036	0.5263
+reactome-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	51	200	0.0000	0.0069	0.5263
+reactome-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	51	10	0.0000	0.0000	0.7103
+reactome-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	51	50	0.0000	0.0001	0.7103
+reactome-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	51	200	0.4118	0.0084	0.7103
+reactome-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	51	10	0.0000	0.0000	0.5490
+reactome-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	51	50	0.0000	0.0001	0.5490
+reactome-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	51	200	0.0784	0.0034	0.5490
+reactome-siblings	0 < J <= 0.01	fanout<=6	kappa@100	51	10	0.0000	0.0000	0.5811
+reactome-siblings	0 < J <= 0.01	fanout<=6	kappa@100	51	50	0.0000	0.0001	0.5811
+reactome-siblings	0 < J <= 0.01	fanout<=6	kappa@100	51	200	0.0588	0.0015	0.5811
+reactome-siblings	exactly 0	all	THEMA (frozen)	5753	10	0.0933	0.0002	0.8841
+reactome-siblings	exactly 0	all	THEMA (frozen)	5753	50	0.2034	0.0012	0.8841
+reactome-siblings	exactly 0	all	THEMA (frozen)	5753	200	0.2400	0.0032	0.8841
+reactome-siblings	exactly 0	all	HiDeF k=15	5753	10	0.0000	0.0000	0.7898
+reactome-siblings	exactly 0	all	HiDeF k=15	5753	50	0.1119	0.0009	0.7898
+reactome-siblings	exactly 0	all	HiDeF k=15	5753	200	0.2945	0.0083	0.7898
+reactome-siblings	exactly 0	all	random (THEMA shape)	5753	10	0.0014	0.0008	0.4903
+reactome-siblings	exactly 0	all	random (THEMA shape)	5753	50	0.0030	0.0030	0.4903
+reactome-siblings	exactly 0	all	random (THEMA shape)	5753	200	0.0054	0.0059	0.4903
+reactome-siblings	exactly 0	all	TF-IDF flat@100	5753	10	0.0000	0.0000	0.6248
+reactome-siblings	exactly 0	all	TF-IDF flat@100	5753	50	0.0186	0.0001	0.6248
+reactome-siblings	exactly 0	all	TF-IDF flat@100	5753	200	0.2371	0.0053	0.6248
+reactome-siblings	exactly 0	all	ochiai@100	5753	10	0.0000	0.0000	0.6294
+reactome-siblings	exactly 0	all	ochiai@100	5753	50	0.0056	0.0000	0.6294
+reactome-siblings	exactly 0	all	ochiai@100	5753	200	0.0605	0.0020	0.6294
+reactome-siblings	exactly 0	all	kappa@100	5753	10	0.0003	0.0000	0.5745
+reactome-siblings	exactly 0	all	kappa@100	5753	50	0.0459	0.0001	0.5745
+reactome-siblings	exactly 0	all	kappa@100	5753	200	0.0998	0.0021	0.5745
+reactome-siblings	exactly 0	fanout<=6	THEMA (frozen)	664	10	0.2440	0.0002	0.8745
+reactome-siblings	exactly 0	fanout<=6	THEMA (frozen)	664	50	0.4247	0.0012	0.8745
+reactome-siblings	exactly 0	fanout<=6	THEMA (frozen)	664	200	0.5015	0.0032	0.8745
+reactome-siblings	exactly 0	fanout<=6	HiDeF k=15	664	10	0.0000	0.0000	0.8998
+reactome-siblings	exactly 0	fanout<=6	HiDeF k=15	664	50	0.2003	0.0009	0.8998
+reactome-siblings	exactly 0	fanout<=6	HiDeF k=15	664	200	0.5346	0.0083	0.8998
+reactome-siblings	exactly 0	fanout<=6	random (THEMA shape)	664	10	0.0015	0.0008	0.4988
+reactome-siblings	exactly 0	fanout<=6	random (THEMA shape)	664	50	0.0030	0.0030	0.4988
+reactome-siblings	exactly 0	fanout<=6	random (THEMA shape)	664	200	0.0030	0.0059	0.4988
+reactome-siblings	exactly 0	fanout<=6	TF-IDF flat@100	664	10	0.0000	0.0000	0.7600
+reactome-siblings	exactly 0	fanout<=6	TF-IDF flat@100	664	50	0.0271	0.0001	0.7600
+reactome-siblings	exactly 0	fanout<=6	TF-IDF flat@100	664	200	0.4819	0.0053	0.7600
+reactome-siblings	exactly 0	fanout<=6	ochiai@100	664	10	0.0000	0.0000	0.5940
+reactome-siblings	exactly 0	fanout<=6	ochiai@100	664	50	0.0151	0.0000	0.5940
+reactome-siblings	exactly 0	fanout<=6	ochiai@100	664	200	0.0964	0.0020	0.5940
+reactome-siblings	exactly 0	fanout<=6	kappa@100	664	10	0.0015	0.0000	0.6340
+reactome-siblings	exactly 0	fanout<=6	kappa@100	664	50	0.0497	0.0001	0.6340
+reactome-siblings	exactly 0	fanout<=6	kappa@100	664	200	0.1506	0.0021	0.6340
+reactome-siblings	ALL BANDS POOLED	all	THEMA (frozen)	9396	10	0.1872	0.0008	0.8827
+reactome-siblings	ALL BANDS POOLED	all	THEMA (frozen)	9396	50	0.3344	0.0030	0.8827
+reactome-siblings	ALL BANDS POOLED	all	THEMA (frozen)	9396	200	0.3720	0.0060	0.8827
+reactome-siblings	ALL BANDS POOLED	all	HiDeF k=15	9396	10	0.0031	0.0000	0.8228
+reactome-siblings	ALL BANDS POOLED	all	HiDeF k=15	9396	50	0.1656	0.0019	0.8228
+reactome-siblings	ALL BANDS POOLED	all	HiDeF k=15	9396	200	0.4211	0.0131	0.8228
+reactome-siblings	ALL BANDS POOLED	all	random (THEMA shape)	9396	10	0.0011	0.0008	0.4936
+reactome-siblings	ALL BANDS POOLED	all	random (THEMA shape)	9396	50	0.0024	0.0031	0.4936
+reactome-siblings	ALL BANDS POOLED	all	random (THEMA shape)	9396	200	0.0050	0.0061	0.4936
+reactome-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	9396	10	0.0000	0.0000	0.6996
+reactome-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	9396	50	0.0387	0.0002	0.6996
+reactome-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	9396	200	0.3293	0.0086	0.6996
+reactome-siblings	ALL BANDS POOLED	all	ochiai@100	9396	10	0.0000	0.0000	0.6657
+reactome-siblings	ALL BANDS POOLED	all	ochiai@100	9396	50	0.0690	0.0004	0.6657
+reactome-siblings	ALL BANDS POOLED	all	ochiai@100	9396	200	0.1751	0.0047	0.6657
+reactome-siblings	ALL BANDS POOLED	all	kappa@100	9396	10	0.0014	0.0000	0.6471
+reactome-siblings	ALL BANDS POOLED	all	kappa@100	9396	50	0.0487	0.0002	0.6471
+reactome-siblings	ALL BANDS POOLED	all	kappa@100	9396	200	0.1304	0.0028	0.6471
+reactome-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	2083	10	0.3812	0.0008	0.9111
+reactome-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	2083	50	0.6102	0.0030	0.9111
+reactome-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	2083	200	0.6788	0.0060	0.9111
+reactome-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	2083	10	0.0005	0.0000	0.9229
+reactome-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	2083	50	0.2924	0.0019	0.9229
+reactome-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	2083	200	0.6793	0.0131	0.9229
+reactome-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	2083	10	0.0010	0.0008	0.5006
+reactome-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	2083	50	0.0024	0.0031	0.5006
+reactome-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	2083	200	0.0038	0.0061	0.5006
+reactome-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	2083	10	0.0000	0.0000	0.8349
+reactome-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	2083	50	0.0360	0.0002	0.8349
+reactome-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	2083	200	0.5747	0.0086	0.8349
+reactome-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	2083	10	0.0000	0.0000	0.7010
+reactome-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	2083	50	0.1195	0.0004	0.7010
+reactome-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	2083	200	0.2948	0.0047	0.7010
+reactome-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	2083	10	0.0024	0.0000	0.7502
+reactome-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	2083	50	0.0288	0.0002	0.7502
+reactome-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	2083	200	0.1531	0.0028	0.7502
+go-siblings	0.15 < J <= 1	all	THEMA (frozen)	2723	10	0.3970	0.2420	0.6344
+go-siblings	0.15 < J <= 1	all	THEMA (frozen)	2723	50	0.5949	0.4093	0.6344
+go-siblings	0.15 < J <= 1	all	THEMA (frozen)	2723	200	0.6515	0.4698	0.6344
+go-siblings	0.15 < J <= 1	all	HiDeF k=15	2723	10	0.0000	0.0026	0.6321
+go-siblings	0.15 < J <= 1	all	HiDeF k=15	2723	50	0.3033	0.1828	0.6321
+go-siblings	0.15 < J <= 1	all	HiDeF k=15	2723	200	0.7238	0.5225	0.6321
+go-siblings	0.15 < J <= 1	all	random (THEMA shape)	2723	10	0.0007	0.0013	0.4998
+go-siblings	0.15 < J <= 1	all	random (THEMA shape)	2723	50	0.0022	0.0026	0.4998
+go-siblings	0.15 < J <= 1	all	random (THEMA shape)	2723	200	0.0051	0.0051	0.4998
+go-siblings	0.15 < J <= 1	all	TF-IDF flat@100	2723	10	0.0000	0.0000	0.6027
+go-siblings	0.15 < J <= 1	all	TF-IDF flat@100	2723	50	0.0459	0.0309	0.6027
+go-siblings	0.15 < J <= 1	all	TF-IDF flat@100	2723	200	0.5729	0.4015	0.6027
+go-siblings	0.15 < J <= 1	all	ochiai@100	2723	10	0.0000	0.0000	0.5061
+go-siblings	0.15 < J <= 1	all	ochiai@100	2723	50	0.1234	0.1480	0.5061
+go-siblings	0.15 < J <= 1	all	ochiai@100	2723	200	0.5696	0.5740	0.5061
+go-siblings	0.15 < J <= 1	all	kappa@100	2723	10	0.0000	0.0000	0.4955
+go-siblings	0.15 < J <= 1	all	kappa@100	2723	50	0.0217	0.0219	0.4955
+go-siblings	0.15 < J <= 1	all	kappa@100	2723	200	0.1726	0.1506	0.4955
+go-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	908	10	0.5264	0.2420	0.7155
+go-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	908	50	0.7489	0.4093	0.7155
+go-siblings	0.15 < J <= 1	fanout<=6	THEMA (frozen)	908	200	0.8062	0.4698	0.7155
+go-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	908	10	0.0000	0.0026	0.7028
+go-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	908	50	0.3524	0.1828	0.7028
+go-siblings	0.15 < J <= 1	fanout<=6	HiDeF k=15	908	200	0.8480	0.5225	0.7028
+go-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	908	10	0.0000	0.0013	0.4999
+go-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	908	50	0.0011	0.0026	0.4999
+go-siblings	0.15 < J <= 1	fanout<=6	random (THEMA shape)	908	200	0.0033	0.0051	0.4999
+go-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	908	10	0.0000	0.0000	0.6852
+go-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	908	50	0.0694	0.0309	0.6852
+go-siblings	0.15 < J <= 1	fanout<=6	TF-IDF flat@100	908	200	0.7015	0.4015	0.6852
+go-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	908	10	0.0000	0.0000	0.5364
+go-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	908	50	0.1189	0.1480	0.5364
+go-siblings	0.15 < J <= 1	fanout<=6	ochiai@100	908	200	0.6189	0.5740	0.5364
+go-siblings	0.15 < J <= 1	fanout<=6	kappa@100	908	10	0.0000	0.0000	0.5582
+go-siblings	0.15 < J <= 1	fanout<=6	kappa@100	908	50	0.0385	0.0219	0.5582
+go-siblings	0.15 < J <= 1	fanout<=6	kappa@100	908	200	0.2830	0.1506	0.5582
+go-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	5285	10	0.1010	0.0307	0.6375
+go-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	5285	50	0.2280	0.1019	0.6375
+go-siblings	0.05 < J <= 0.15	all	THEMA (frozen)	5285	200	0.3033	0.1518	0.6375
+go-siblings	0.05 < J <= 0.15	all	HiDeF k=15	5285	10	0.0002	0.0008	0.6486
+go-siblings	0.05 < J <= 0.15	all	HiDeF k=15	5285	50	0.1275	0.0615	0.6486
+go-siblings	0.05 < J <= 0.15	all	HiDeF k=15	5285	200	0.4244	0.2298	0.6486
+go-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	5285	10	0.0008	0.0011	0.4975
+go-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	5285	50	0.0032	0.0032	0.4975
+go-siblings	0.05 < J <= 0.15	all	random (THEMA shape)	5285	200	0.0055	0.0068	0.4975
+go-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	5285	10	0.0000	0.0000	0.5867
+go-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	5285	50	0.0193	0.0081	0.5867
+go-siblings	0.05 < J <= 0.15	all	TF-IDF flat@100	5285	200	0.2978	0.1621	0.5867
+go-siblings	0.05 < J <= 0.15	all	ochiai@100	5285	10	0.0000	0.0000	0.5626
+go-siblings	0.05 < J <= 0.15	all	ochiai@100	5285	50	0.0329	0.0150	0.5626
+go-siblings	0.05 < J <= 0.15	all	ochiai@100	5285	200	0.2083	0.1235	0.5626
+go-siblings	0.05 < J <= 0.15	all	kappa@100	5285	10	0.0000	0.0000	0.5503
+go-siblings	0.05 < J <= 0.15	all	kappa@100	5285	50	0.0051	0.0018	0.5503
+go-siblings	0.05 < J <= 0.15	all	kappa@100	5285	200	0.0704	0.0444	0.5503
+go-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	899	10	0.2280	0.0307	0.7798
+go-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	899	50	0.4772	0.1019	0.7798
+go-siblings	0.05 < J <= 0.15	fanout<=6	THEMA (frozen)	899	200	0.5818	0.1518	0.7798
+go-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	899	10	0.0011	0.0008	0.7898
+go-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	899	50	0.2225	0.0615	0.7898
+go-siblings	0.05 < J <= 0.15	fanout<=6	HiDeF k=15	899	200	0.7008	0.2298	0.7898
+go-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	899	10	0.0022	0.0011	0.4963
+go-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	899	50	0.0033	0.0032	0.4963
+go-siblings	0.05 < J <= 0.15	fanout<=6	random (THEMA shape)	899	200	0.0067	0.0068	0.4963
+go-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	899	10	0.0000	0.0000	0.7399
+go-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	899	50	0.0523	0.0081	0.7399
+go-siblings	0.05 < J <= 0.15	fanout<=6	TF-IDF flat@100	899	200	0.5451	0.1621	0.7399
+go-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	899	10	0.0000	0.0000	0.6594
+go-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	899	50	0.0423	0.0150	0.6594
+go-siblings	0.05 < J <= 0.15	fanout<=6	ochiai@100	899	200	0.3860	0.1235	0.6594
+go-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	899	10	0.0000	0.0000	0.6217
+go-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	899	50	0.0222	0.0018	0.6217
+go-siblings	0.05 < J <= 0.15	fanout<=6	kappa@100	899	200	0.1602	0.0444	0.6217
+go-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	12060	10	0.0211	0.0021	0.6656
+go-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	12060	50	0.0632	0.0112	0.6656
+go-siblings	0.01 < J <= 0.05	all	THEMA (frozen)	12060	200	0.1002	0.0231	0.6656
+go-siblings	0.01 < J <= 0.05	all	HiDeF k=15	12060	10	0.0000	0.0000	0.6864
+go-siblings	0.01 < J <= 0.05	all	HiDeF k=15	12060	50	0.0395	0.0078	0.6864
+go-siblings	0.01 < J <= 0.05	all	HiDeF k=15	12060	200	0.1834	0.0481	0.6864
+go-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	12060	10	0.0005	0.0007	0.4987
+go-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	12060	50	0.0031	0.0033	0.4987
+go-siblings	0.01 < J <= 0.05	all	random (THEMA shape)	12060	200	0.0063	0.0065	0.4987
+go-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	12060	10	0.0000	0.0000	0.5599
+go-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	12060	50	0.0038	0.0006	0.5599
+go-siblings	0.01 < J <= 0.05	all	TF-IDF flat@100	12060	200	0.1168	0.0317	0.5599
+go-siblings	0.01 < J <= 0.05	all	ochiai@100	12060	10	0.0000	0.0000	0.5543
+go-siblings	0.01 < J <= 0.05	all	ochiai@100	12060	50	0.0050	0.0012	0.5543
+go-siblings	0.01 < J <= 0.05	all	ochiai@100	12060	200	0.0585	0.0186	0.5543
+go-siblings	0.01 < J <= 0.05	all	kappa@100	12060	10	0.0000	0.0000	0.5972
+go-siblings	0.01 < J <= 0.05	all	kappa@100	12060	50	0.0008	0.0002	0.5972
+go-siblings	0.01 < J <= 0.05	all	kappa@100	12060	200	0.0186	0.0074	0.5972
+go-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	818	10	0.1296	0.0021	0.8007
+go-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	818	50	0.3264	0.0112	0.8007
+go-siblings	0.01 < J <= 0.05	fanout<=6	THEMA (frozen)	818	200	0.4059	0.0231	0.8007
+go-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	818	10	0.0000	0.0000	0.8403
+go-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	818	50	0.1675	0.0078	0.8403
+go-siblings	0.01 < J <= 0.05	fanout<=6	HiDeF k=15	818	200	0.5355	0.0481	0.8403
+go-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	818	10	0.0000	0.0007	0.4881
+go-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	818	50	0.0037	0.0033	0.4881
+go-siblings	0.01 < J <= 0.05	fanout<=6	random (THEMA shape)	818	200	0.0049	0.0065	0.4881
+go-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	818	10	0.0000	0.0000	0.7388
+go-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	818	50	0.0281	0.0006	0.7388
+go-siblings	0.01 < J <= 0.05	fanout<=6	TF-IDF flat@100	818	200	0.4071	0.0317	0.7388
+go-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	818	10	0.0000	0.0000	0.6658
+go-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	818	50	0.0330	0.0012	0.6658
+go-siblings	0.01 < J <= 0.05	fanout<=6	ochiai@100	818	200	0.2628	0.0186	0.6658
+go-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	818	10	0.0000	0.0000	0.6958
+go-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	818	50	0.0061	0.0002	0.6958
+go-siblings	0.01 < J <= 0.05	fanout<=6	kappa@100	818	200	0.0844	0.0074	0.6958
+go-siblings	0 < J <= 0.01	all	THEMA (frozen)	5936	10	0.0029	0.0003	0.6561
+go-siblings	0 < J <= 0.01	all	THEMA (frozen)	5936	50	0.0077	0.0016	0.6561
+go-siblings	0 < J <= 0.01	all	THEMA (frozen)	5936	200	0.0162	0.0044	0.6561
+go-siblings	0 < J <= 0.01	all	HiDeF k=15	5936	10	0.0000	0.0000	0.6551
+go-siblings	0 < J <= 0.01	all	HiDeF k=15	5936	50	0.0052	0.0010	0.6551
+go-siblings	0 < J <= 0.01	all	HiDeF k=15	5936	200	0.0521	0.0115	0.6551
+go-siblings	0 < J <= 0.01	all	random (THEMA shape)	5936	10	0.0005	0.0012	0.5007
+go-siblings	0 < J <= 0.01	all	random (THEMA shape)	5936	50	0.0029	0.0036	0.5007
+go-siblings	0 < J <= 0.01	all	random (THEMA shape)	5936	200	0.0052	0.0069	0.5007
+go-siblings	0 < J <= 0.01	all	TF-IDF flat@100	5936	10	0.0000	0.0000	0.5251
+go-siblings	0 < J <= 0.01	all	TF-IDF flat@100	5936	50	0.0007	0.0001	0.5251
+go-siblings	0 < J <= 0.01	all	TF-IDF flat@100	5936	200	0.0320	0.0084	0.5251
+go-siblings	0 < J <= 0.01	all	ochiai@100	5936	10	0.0000	0.0000	0.5198
+go-siblings	0 < J <= 0.01	all	ochiai@100	5936	50	0.0003	0.0001	0.5198
+go-siblings	0 < J <= 0.01	all	ochiai@100	5936	200	0.0108	0.0034	0.5198
+go-siblings	0 < J <= 0.01	all	kappa@100	5936	10	0.0000	0.0000	0.5577
+go-siblings	0 < J <= 0.01	all	kappa@100	5936	50	0.0000	0.0001	0.5577
+go-siblings	0 < J <= 0.01	all	kappa@100	5936	200	0.0039	0.0015	0.5577
+go-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	85	10	0.0706	0.0003	0.6866
+go-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	85	50	0.1059	0.0016	0.6866
+go-siblings	0 < J <= 0.01	fanout<=6	THEMA (frozen)	85	200	0.1059	0.0044	0.6866
+go-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	85	10	0.0000	0.0000	0.7342
+go-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	85	50	0.0235	0.0010	0.7342
+go-siblings	0 < J <= 0.01	fanout<=6	HiDeF k=15	85	200	0.2353	0.0115	0.7342
+go-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	85	10	0.0000	0.0012	0.5001
+go-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	85	50	0.0000	0.0036	0.5001
+go-siblings	0 < J <= 0.01	fanout<=6	random (THEMA shape)	85	200	0.0000	0.0069	0.5001
+go-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	85	10	0.0000	0.0000	0.6171
+go-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	85	50	0.0000	0.0001	0.6171
+go-siblings	0 < J <= 0.01	fanout<=6	TF-IDF flat@100	85	200	0.2000	0.0084	0.6171
+go-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	85	10	0.0000	0.0000	0.5489
+go-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	85	50	0.0000	0.0001	0.5489
+go-siblings	0 < J <= 0.01	fanout<=6	ochiai@100	85	200	0.0471	0.0034	0.5489
+go-siblings	0 < J <= 0.01	fanout<=6	kappa@100	85	10	0.0000	0.0000	0.5734
+go-siblings	0 < J <= 0.01	fanout<=6	kappa@100	85	50	0.0000	0.0001	0.5734
+go-siblings	0 < J <= 0.01	fanout<=6	kappa@100	85	200	0.0588	0.0015	0.5734
+go-siblings	exactly 0	all	THEMA (frozen)	19828	10	0.0131	0.0002	0.6959
+go-siblings	exactly 0	all	THEMA (frozen)	19828	50	0.0351	0.0012	0.6959
+go-siblings	exactly 0	all	THEMA (frozen)	19828	200	0.0563	0.0032	0.6959
+go-siblings	exactly 0	all	HiDeF k=15	19828	10	0.0000	0.0000	0.7041
+go-siblings	exactly 0	all	HiDeF k=15	19828	50	0.0194	0.0009	0.7041
+go-siblings	exactly 0	all	HiDeF k=15	19828	200	0.1022	0.0083	0.7041
+go-siblings	exactly 0	all	random (THEMA shape)	19828	10	0.0011	0.0008	0.4987
+go-siblings	exactly 0	all	random (THEMA shape)	19828	50	0.0037	0.0030	0.4987
+go-siblings	exactly 0	all	random (THEMA shape)	19828	200	0.0067	0.0059	0.4987
+go-siblings	exactly 0	all	TF-IDF flat@100	19828	10	0.0000	0.0000	0.5454
+go-siblings	exactly 0	all	TF-IDF flat@100	19828	50	0.0019	0.0001	0.5454
+go-siblings	exactly 0	all	TF-IDF flat@100	19828	200	0.0716	0.0053	0.5454
+go-siblings	exactly 0	all	ochiai@100	19828	10	0.0000	0.0000	0.5522
+go-siblings	exactly 0	all	ochiai@100	19828	50	0.0032	0.0000	0.5522
+go-siblings	exactly 0	all	ochiai@100	19828	200	0.0271	0.0020	0.5522
+go-siblings	exactly 0	all	kappa@100	19828	10	0.0000	0.0000	0.5945
+go-siblings	exactly 0	all	kappa@100	19828	50	0.0012	0.0001	0.5945
+go-siblings	exactly 0	all	kappa@100	19828	200	0.0170	0.0021	0.5945
+go-siblings	exactly 0	fanout<=6	THEMA (frozen)	954	10	0.1541	0.0002	0.8126
+go-siblings	exactly 0	fanout<=6	THEMA (frozen)	954	50	0.2841	0.0012	0.8126
+go-siblings	exactly 0	fanout<=6	THEMA (frozen)	954	200	0.3595	0.0032	0.8126
+go-siblings	exactly 0	fanout<=6	HiDeF k=15	954	10	0.0000	0.0000	0.8539
+go-siblings	exactly 0	fanout<=6	HiDeF k=15	954	50	0.1300	0.0009	0.8539
+go-siblings	exactly 0	fanout<=6	HiDeF k=15	954	200	0.4560	0.0083	0.8539
+go-siblings	exactly 0	fanout<=6	random (THEMA shape)	954	10	0.0000	0.0008	0.4890
+go-siblings	exactly 0	fanout<=6	random (THEMA shape)	954	50	0.0042	0.0030	0.4890
+go-siblings	exactly 0	fanout<=6	random (THEMA shape)	954	200	0.0063	0.0059	0.4890
+go-siblings	exactly 0	fanout<=6	TF-IDF flat@100	954	10	0.0000	0.0000	0.7194
+go-siblings	exactly 0	fanout<=6	TF-IDF flat@100	954	50	0.0136	0.0001	0.7194
+go-siblings	exactly 0	fanout<=6	TF-IDF flat@100	954	200	0.3480	0.0053	0.7194
+go-siblings	exactly 0	fanout<=6	ochiai@100	954	10	0.0000	0.0000	0.6555
+go-siblings	exactly 0	fanout<=6	ochiai@100	954	50	0.0168	0.0000	0.6555
+go-siblings	exactly 0	fanout<=6	ochiai@100	954	200	0.1813	0.0020	0.6555
+go-siblings	exactly 0	fanout<=6	kappa@100	954	10	0.0000	0.0000	0.7235
+go-siblings	exactly 0	fanout<=6	kappa@100	954	50	0.0073	0.0001	0.7235
+go-siblings	exactly 0	fanout<=6	kappa@100	954	200	0.0985	0.0021	0.7235
+go-siblings	ALL BANDS POOLED	all	THEMA (frozen)	45832	10	0.0468	0.0008	0.7342
+go-siblings	ALL BANDS POOLED	all	THEMA (frozen)	45832	50	0.0945	0.0030	0.7342
+go-siblings	ALL BANDS POOLED	all	THEMA (frozen)	45832	200	0.1265	0.0060	0.7342
+go-siblings	ALL BANDS POOLED	all	HiDeF k=15	45832	10	0.0000	0.0000	0.7516
+go-siblings	ALL BANDS POOLED	all	HiDeF k=15	45832	50	0.0522	0.0019	0.7516
+go-siblings	ALL BANDS POOLED	all	HiDeF k=15	45832	200	0.1912	0.0131	0.7516
+go-siblings	ALL BANDS POOLED	all	random (THEMA shape)	45832	10	0.0008	0.0008	0.4996
+go-siblings	ALL BANDS POOLED	all	random (THEMA shape)	45832	50	0.0033	0.0031	0.4996
+go-siblings	ALL BANDS POOLED	all	random (THEMA shape)	45832	200	0.0062	0.0061	0.4996
+go-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	45832	10	0.0000	0.0000	0.5831
+go-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	45832	50	0.0069	0.0002	0.5831
+go-siblings	ALL BANDS POOLED	all	TF-IDF flat@100	45832	200	0.1343	0.0086	0.5831
+go-siblings	ALL BANDS POOLED	all	ochiai@100	45832	10	0.0000	0.0000	0.5749
+go-siblings	ALL BANDS POOLED	all	ochiai@100	45832	50	0.0139	0.0004	0.5749
+go-siblings	ALL BANDS POOLED	all	ochiai@100	45832	200	0.0864	0.0047	0.5749
+go-siblings	ALL BANDS POOLED	all	kappa@100	45832	10	0.0000	0.0000	0.6517
+go-siblings	ALL BANDS POOLED	all	kappa@100	45832	50	0.0026	0.0002	0.6517
+go-siblings	ALL BANDS POOLED	all	kappa@100	45832	200	0.0311	0.0028	0.6517
+go-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	3664	10	0.2571	0.0008	0.8776
+go-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	3664	50	0.4520	0.0030	0.8776
+go-siblings	ALL BANDS POOLED	fanout<=6	THEMA (frozen)	3664	200	0.5292	0.0060	0.8776
+go-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	3664	10	0.0003	0.0000	0.9106
+go-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	3664	50	0.2137	0.0019	0.9106
+go-siblings	ALL BANDS POOLED	fanout<=6	HiDeF k=15	3664	200	0.6258	0.0131	0.9106
+go-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	3664	10	0.0005	0.0008	0.4938
+go-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	3664	50	0.0030	0.0031	0.4938
+go-siblings	ALL BANDS POOLED	fanout<=6	random (THEMA shape)	3664	200	0.0052	0.0061	0.4938
+go-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	3664	10	0.0000	0.0000	0.7969
+go-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	3664	50	0.0398	0.0002	0.7969
+go-siblings	ALL BANDS POOLED	fanout<=6	TF-IDF flat@100	3664	200	0.4937	0.0086	0.7969
+go-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	3664	10	0.0000	0.0000	0.7354
+go-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	3664	50	0.0516	0.0004	0.7354
+go-siblings	ALL BANDS POOLED	fanout<=6	ochiai@100	3664	200	0.3551	0.0047	0.7354
+go-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	3664	10	0.0000	0.0000	0.8091
+go-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	3664	50	0.0183	0.0002	0.8091
+go-siblings	ALL BANDS POOLED	fanout<=6	kappa@100	3664	200	0.1553	0.0028	0.8091

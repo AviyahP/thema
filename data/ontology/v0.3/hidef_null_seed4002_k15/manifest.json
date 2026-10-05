@@ -1,0 +1,40 @@
+{
+  "method": "hidef",
+  "package": "hidef==1.1.5",
+  "note": "support and inclusion are EMPTY: HiDeF provides neither a recurrence support nor a soft membership, and writing 1.0 would invent them",
+  "graph": "symmetric kNN on cosine, k = 15, union of directed edges, weight = cosine",
+  "params": {
+    "tau": 0.75,
+    "chi": 5,
+    "consensus_p": 75,
+    "maxres": 25.0,
+    "alg": "leiden",
+    "minres": 0.001,
+    "density": 0.1,
+    "sample": 1.0
+  },
+  "min_size": 3,
+  "size_cap_reported_not_applied": 3125,
+  "communities_over_cap": 0,
+  "universe_digest": "c54319cdfbbe9eb7",
+  "n": 10770,
+  "n_nodes": 0,
+  "n_edges": 0,
+  "n_roots": 0,
+  "n_placed": 0,
+  "n_unplaced": 10770,
+  "leiden_seed": 0,
+  "scramble_seed": 4002,
+  "subsample": null,
+  "subsample_seed": null,
+  "seconds": {
+    "knn graph": 0.9,
+    "hidef": 291.3
+  },
+  "wall_seconds": 292.1,
+  "peak_gb": 5.26,
+  "builtins_restored": [
+    "abs"
+  ],
+  "louvain": "stand-in installed; alg=leiden never touches it"
+}

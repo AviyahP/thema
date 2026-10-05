@@ -61,6 +61,28 @@ def read_themes(directory: Path) -> dict[str, frozenset[str]]:
     return {node: frozenset(members[node]) for node in nodes}
 
 
+def _universe(directory: Path) -> set[str]:
+    """Every pathway key a build covers, placed or not.
+
+    Args:
+        directory: A build directory.
+
+    Returns:
+        The keys.
+    """
+    out: set[str] = set()
+    for name, column in (("members.tsv", "key"), ("unplaced.tsv", "key")):
+        path = directory / name
+        if not path.is_file():
+            continue
+        with path.open(encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            field = column if reader.fieldnames and column in reader.fieldnames else None
+            for row in reader:
+                out.add(row[field] if field else next(iter(row.values())))
+    return out
+
+
 def best_matches(
     left: dict[str, frozenset[str]], right: dict[str, frozenset[str]]
 ) -> dict[str, float]:
@@ -132,6 +154,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("left", type=Path)
     parser.add_argument("right", type=Path)
+    parser.add_argument("--restrict-shared", action="store_true",
+                        help="restrict both sides' member sets to the pathways present in BOTH "
+                             "builds before matching. Required when the two builds cover "
+                             "different universes -- two 80%% subsamples share only ~64%% of the "
+                             "universe, so raw member Jaccard is depressed by the sampling and "
+                             "not by the method")
     parser.add_argument("--theta", type=float, default=THETA)
     parser.add_argument("--pass-mark", type=float, default=0.90)
     parser.add_argument("--out", type=Path, default=None)
@@ -141,6 +169,17 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     left, right = read_themes(args.left), read_themes(args.right)
+    if args.restrict_shared:
+        universe_left = _universe(args.left)
+        universe_right = _universe(args.right)
+        shared = universe_left & universe_right
+        print(f"  restricting to shared members: {len(shared):,} of {len(universe_left):,} and "
+              f"{len(universe_right):,}")
+        left = {t: frozenset(m & shared) for t, m in left.items()}
+        right = {t: frozenset(m & shared) for t, m in right.items()}
+        left = {t: m for t, m in left.items() if len(m) >= 3}
+        right = {t: m for t, m in right.items() if len(m) >= 3}
+        print(f"  themes with >= 3 shared members: {len(left):,} and {len(right):,}")
     print(f"THEME MATCH  {args.left.name} ({len(left)} themes) vs "
           f"{args.right.name} ({len(right)} themes), theta {args.theta}")
 
