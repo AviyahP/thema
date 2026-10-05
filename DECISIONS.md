@@ -3869,3 +3869,233 @@ impossible, while rung and confirmatory reuse already come from the completion c
 inclusion-cutoff re-cuts; and the **size filter in matching** -- dropped because the bound is a
 correct necessary condition yet switching it on moved 34,637 of 49,700 supports upward, which the
 argument says cannot happen, so proof and code disagree and the code is not trusted.
+
+---
+
+## 3 Oct 2026 -- POST-HOC AMENDMENT: gene baselines are held to THEMA's own size cap
+
+**THIS IS POST HOC AND IS RECORDED AS POST HOC.** It was written after seeing that 9 of the 12 gene
+baselines beat THEMA on raw recovery while holding most of the universe in a single cluster. A rule
+written after seeing the result it adjudicates is weaker evidence than one written before, and
+nothing below pretends otherwise.
+
+### The amendment
+
+> **A gene baseline whose largest cluster exceeds 29.0133% of the universe is DEGENERATE and is
+> excluded from tests 3 and 4.**
+
+29.0133% is **THEMA's own declared size cap** -- 2x the largest share a single curated top-level
+category holds, excluding Reactome Disease (`DECISIONS.md`, 2 Oct). The build is forbidden to offer a
+candidate cluster larger than that share. **A baseline is now held to the same ceiling the build is
+held to.** The threshold is therefore not chosen to produce an outcome: it is the one number this
+project already declared for "too big to be one theme", applied to the comparison instead of only to
+the build.
+
+### Why the marks need it
+
+Tests 3 and 4 are stated over **raw recovery**: THEMA's recovery must exceed every gene baseline.
+Measured on the frozen 10,770, the winning baseline is `kappa@25`, whose largest cluster holds
+**97.3% of the universe**. Its own chance rate is 94-100% and its lift is 1.0x. **A mark on raw
+recovery is won by putting everything in one cluster**, so applied literally it produces a failure
+that carries no information. `compare_baselines.py` already warned of exactly this in a code comment
+-- "the chance rate travels with the winner" -- and the mark did not inherit the caution.
+
+### What it excludes, measured
+
+| arm | largest cluster | |
+|---|---|---|
+| `kappa@25` | 97.3% | excluded |
+| `overlap@25` | 82.4% | excluded |
+| `jaccard@25` | 65.4% | excluded |
+| `jaccard@50` | 62.6% | excluded |
+| `kappa@50` | 56.0% | excluded |
+| `ochiai@25` | 44.8% | excluded |
+| `jaccard@100` | 43.8% | excluded |
+| `overlap@50` | 43.0% | excluded |
+| `ochiai@50` | 35.4% | excluded |
+| **`ochiai@100`** | 23.1% | **kept** |
+| **`kappa@100`** | 23.6% | **kept** |
+| **`overlap@100`** | 15.7% | **kept** |
+
+The TF-IDF arms are unaffected: 9.2%, 5.7% and 4.0%.
+
+### Standing
+
+**Verdicts reached under this amendment must be labelled "under the post-hoc baseline amendment"
+wherever they are reported**, and are not interchangeable with a verdict under the mark as it was
+declared. The mark itself is unchanged; this changes which baselines count as baselines.
+
+---
+
+## 3 Oct 2026 -- DECLARED BEFORE COMPUTATION: the graded specificity measure
+
+**Written before any of it was computed. INFORMATIONAL, NOT A GATE** -- it grades nothing and
+licenses nothing. Its purpose is to settle a disagreement the recovery figures cannot: THEMA leads
+every arm on recovery and trails the TF-IDF arms on lift, and that happens only because its chance
+rate is ~21% against their 0.9-7.8%. Recovery rewards placing a pair together at any grain; lift
+rewards a low base rate. **Neither compares arms at the same specificity, and this does.**
+
+### The measure
+
+For every curated pair in tests 3 and 4, and for every band-matched random pair:
+
+**(a) Smallest shared theme size.** The number of members of the smallest theme containing BOTH
+pathways; **infinite** when they share none. For a flat clustering arm, the size of their shared
+cluster, infinite when they are in different clusters. Smaller is more specific: being put together
+in a theme of 8 is a sharper claim than in a theme of 3,000.
+
+**(b) Hop distance, THEMA only.** Let `m(p)` be the smallest theme containing `p`, ties broken by
+lowest node id. The hop distance is
+
+> `min over T of [ up(m(a), T) + up(m(b), T) ]`
+
+over themes `T` that are ancestors-or-self of both `m(a)` and `m(b)`, where `up(x, T)` is the fewest
+parent-edges from `x` to `T` and `up(x, x) = 0`; **infinite** when no common ancestor exists. So 0
+means the two pathways' tightest themes are the same theme, and larger means further apart in the
+DAG. Because `members(child)` is a subset of `members(parent)`, any common ancestor does contain
+both pathways, so this is a distance between their tightest homes rather than a restatement of
+co-membership.
+
+### The null
+
+The **band-matched random-pair null, with the corrected zero-gene band**. The first grid run recorded
+every random pair of exactly zero gene overlap as undefined, because `0.0` is falsy in Python and the
+code read `jaccard(...) or -1.0`; that emptied the most important band. Fixed, and the zero-gene
+cells now carry 84,896-100,346 null pairs each.
+
+### What is reported, per gene-overlap band and per source
+
+For THEMA, the three non-degenerate gene baselines and the TF-IDF arms:
+
+1. **Median smallest shared theme size**, curated against random.
+2. **AUROC**: the probability that a curated pair is more specific than a random pair, by smallest
+   shared theme size, **ties counted as half**. 0.5 is chance; 1.0 is perfect separation. Computed
+   from midranks over the combined sample, so an infinite size on either side is handled as a tie
+   among all such pairs rather than dropped.
+3. **Recovery at specificity cut-offs**: the share of pairs whose smallest shared theme has **<= 10**,
+   **<= 50**, **<= 200** members, **each beside its random-pair rate**. This is recovery and
+   specificity in one number, which is the comparison the plan's marks lack.
+
+**No pass mark is attached to any of it, now or later, without a separate dated decision.**
+
+---
+
+## 4 Oct 2026 -- DECLARED BEFORE ANY BUILD: the HiDeF comparison decision rule
+
+**Aviyah's text, copied verbatim as the first step of the run, before HiDeF was installed and
+before anything was computed.** It is reproduced exactly as given, including its headings.
+
+> ## §0 Decision rule (declare first, copy into DECISIONS.md before any build)
+>
+> - Primary metric: specificity AUROC (smallest shared theme size, siblings vs random pairs), as in
+>   scripts/specificity_grid.py.
+>   - Computed for Reactome siblings and GO siblings separately.
+>   - Computed at zero gene overlap (the current headline) and with all overlap bands pooled.
+>   - That gives 4 cells per arm.
+> - Comparison: paired bootstrap over pairs, 2,000 resamples, seed 0. Report the 95% CI of
+>   (HiDeF - THEMA) per cell.
+> - Rule:
+>   - If THEMA is not significantly better than HiDeF in any of the 4 cells (every CI includes or
+>     exceeds 0), and HiDeF's test-4 zero-gene sibling recovery is >= THEMA's minus 2 points on both
+>     Reactome and GO, then HiDeF is "at least as good" and we switch engines.
+>   - Otherwise THEMA stays, and HiDeF and CliXO are reported as baselines.
+> - Everything else (shape, stability, null arm, curated ceiling, fan-out subset, hop distance) is
+>   reported, not decisive.
+> - Nothing is re-tuned after results are seen. If a HiDeF parameter turns out to matter, report it
+>   as a post-hoc sensitivity, labelled as such.
+
+### What this commits us to
+
+**A declared possibility of losing.** The rule is written so that HiDeF can win: if it matches THEMA
+on all four AUROC cells and comes within 2 points on zero-gene sibling recovery for both
+hierarchies, the engine changes. That is the point of writing it before the build rather than after.
+
+**One primary metric, four cells, and nothing else decisive.** Shape, stability, the null arm, the
+curated ceiling, the fan-out subset and hop distance are all reported and none of them can rescue or
+sink either arm. This is deliberate: the project has twice had a result re-read through whichever
+statistic favoured the preferred answer, and the rule removes that option in advance.
+
+**Parameters are fixed before the run.** HiDeF gets its published defaults and a declared graph
+(symmetric kNN on cosine, k = 15); k = 30 is a labelled sensitivity run afterwards, not an
+alternative to be chosen between. Any parameter that turns out to matter is reported as a post-hoc
+sensitivity and cannot change the verdict.
+
+---
+
+## 5 Oct 2026 -- THE HIDEF VERDICT, under the rule declared on 4 Oct: THEMA STAYS
+
+**The rule was written into this file before HiDeF was installed** (4 Oct, "the HiDeF comparison
+decision rule"), and it was written so HiDeF could win. It did not. Full working in
+`docs/status/2026-10-04-hidef-comparison.md`.
+
+### The four cells, quoted
+
+Primary metric: specificity AUROC -- smallest shared theme size, siblings against band-matched
+random pairs. Paired bootstrap over pairs, 2,000 resamples, seed 0.
+
+| cell | n | THEMA | HiDeF | HiDeF - THEMA | 95% CI | |
+|---|---|---|---|---|---|---|
+| Reactome siblings, zero gene overlap | 5,753 | **0.8841** | 0.7898 | -0.0943 | [-0.1004, -0.0878] | **THEMA significantly better** |
+| Reactome siblings, all bands pooled | 9,396 | **0.8827** | 0.8228 | -0.0599 | [-0.0642, -0.0554] | **THEMA significantly better** |
+| GO siblings, zero gene overlap | 19,828 | 0.6959 | **0.7041** | +0.0081 | [+0.0047, +0.0115] | HiDeF ahead |
+| GO siblings, all bands pooled | 45,832 | 0.7342 | **0.7516** | +0.0173 | [+0.0152, +0.0196] | HiDeF ahead |
+
+### Test-4 zero-gene sibling recovery, quoted
+
+| hierarchy | THEMA | HiDeF | difference | within the declared 2-point tolerance? |
+|---|---|---|---|---|
+| Reactome siblings | **89.0%** | 79.1% | **-9.9 points** | **no** |
+| GO siblings | 59.2% | **64.4%** | +5.2 points | yes |
+
+### The verdict
+
+> **THEMA STAYS. HiDeF and CliXO are baselines.**
+
+The rule required BOTH that THEMA be not significantly better in any of the four cells AND that
+HiDeF's zero-gene recovery be within 2 points on both hierarchies. **Two of four cells have THEMA
+significantly better, and HiDeF misses the recovery tolerance on Reactome by 9.9 points.** Either
+failure alone decides it.
+
+**CliXO is a baseline in name only: it was never built.** Not on PyPI, no binary in DDOT, and four
+plausible source repositories return *Repository not found*. Recorded so the absence is not read as
+a result.
+
+### What the verdict does NOT say
+
+**It is not a clean win.** THEMA loses the primary metric on GO in both cells, by small but
+interval-excluding margins, and it costs roughly 50x the compute -- 2.1 minutes and 2.13 GB for all
+of HiDeF against a cold THEMA build.
+
+> **AMENDED 5 Oct 2026, after Part B. The 50x above is kept as the historical figure** -- it was
+> true of the build as originally run and of every cost statement made before today. **It is now
+> about 4x.** Measured, end-to-end from the embeddings:
+>
+> | stage | measured |
+> |---|---|
+> | 200 Ward trees, 0.58 s each | 116 s (~2 min) |
+> | one real side, after the B2 optimisation | 277 s |
+> | gate + consensus + Hasse + export | 67 s |
+> | **THEMA total** | **~460 s (~7.7 min), 7.8 GB peak** |
+> | HiDeF, all of it | 126 s (2.1 min), 2.13 GB peak |
+> | **ratio** | **3.7x, reported as ~4x** |
+>
+> **Plus a one-time calibration per configuration**: ten scramble sides at 406 s each with B2,
+> ~4,060 s (~1.1 h), against ~9,590 s (2.7 h) as originally cut. It is one-time because the floors
+> are now stored and loaded by `--floors-from`, which refuses if any of n, runs, scramble_rows,
+> size_cap, inclusion_cut, universe_digest or space differs -- so *per configuration* is exact, not
+> a hedge. Change the universe or the cap and the 1.1 h is owed again.
+>
+> **The reduction is byte-identical**: all three configurations reproduce the frozen build on nodes,
+> members, edges and unplaced. **Nothing about the method, the verdict, or any number above the
+> compute line changes** -- this is the same build, produced more cheaply. **And HiDeF rejects the scrambled null completely** (zero
+communities on both held-out seeds, each asserted byte-for-byte against the build's own persisted
+tree), so noise rejection is not the distinguishing property THEMA was expected to have.
+
+**What THEMA still has that HiDeF does not:** a *quantified* error rate -- held-out FDR 0.00285
+overall, 0.0147 worst stratum -- and much finer themes, 6,244 at median size 9 against 472 at median
+59, which is what lets it place 25.7% of tight GO sibling pairs in a theme of 10 or fewer where
+HiDeF places 0.0%.
+
+**A post-hoc maxres sensitivity, which cannot change the verdict and does not.** At maxres 50 and
+100 HiDeF's recovery condition is satisfied (-0.1 and +1.3 points), but THEMA remains significantly
+better in both Reactome cells. The sensitivity changes which condition fails, not whether one does.

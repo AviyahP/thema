@@ -491,6 +491,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--confirm-heldout", action="store_true",
                         help="read the 5 held-out scrambles. THE CONFIRMATORY BUILD ONLY -- a "
                              "held-out set confirmed against more than once is not held out")
+    parser.add_argument("--floors-from", type=Path, default=None,
+                        help="load floors from a stored floors.json instead of cutting the 10 "
+                             "calibration scramble sides. The floors are a property of the null at "
+                             "a given (space, universe, cap, cutoff, run count), so re-deriving "
+                             "them for an identical configuration recomputes a constant")
+    parser.add_argument("--check-heldout", type=int, default=0,
+                        help="with --floors-from, cut ONE held-out scramble side of this seed and "
+                             "report its FDR against the stored floors. A cheap standing check "
+                             "that the stored null still describes this configuration")
     parser.add_argument("--allow-stale-cache", action="store_true",
                         help="reuse a cached side written by a different implementation. ONLY "
                              "after the two have been proved byte-identical")
@@ -559,7 +568,10 @@ def main(argv: list[str] | None = None) -> int:
     # The scramble side's RUN COUNT is part of its cache key: a floor for a 200-run build must
     # come from a 200-run null, and a 100-run side under the same name would silently supply the
     # wrong one.
-    wanted = [("calibration", CALIBRATION_SEEDS)]
+    # With stored floors the calibration sides are not cut AT ALL -- that is the whole point of
+    # --floors-from. The first version loaded the floors but still cut all ten sides first, which
+    # saved nothing; the provenance guard caught it by refusing sides written by older code.
+    wanted = [] if args.floors_from is not None else [("calibration", CALIBRATION_SEEDS)]
     if args.confirm_heldout:
         wanted.append(("held-out", HELDOUT_SEEDS))
     cal, held = [], []
@@ -578,8 +590,60 @@ def main(argv: list[str] | None = None) -> int:
                   f"({'cached' if got else f'{time.perf_counter() - start:.0f}s'})", flush=True)
 
     real_rows = real.rows()
-    solved = solve(real_rows, cal)
+    if args.floors_from is not None:
+        stored = json.loads(args.floors_from.read_text())
+        # The floors only transfer to an IDENTICAL configuration. Anything else and the stored
+        # null is describing a different population, so this refuses rather than warning.
+        want = {"n": n, "runs": runs, "scramble_rows": scramble_rows,
+                "size_cap": cap, "inclusion_cut": INCLUSION_CUT,
+                "universe_digest": universe, "space": args.space}
+        differs = {k: (stored.get(k), v) for k, v in want.items() if stored.get(k) != v}
+        if differs:
+            print("  STORED FLOORS DO NOT APPLY to this configuration and will not be used: "
+                  + "; ".join(f"{k} stored {a!r}, now {b!r}" for k, (a, b) in differs.items()))
+            return 1
+        solved = [
+            {"stratum": e["stratum"], "real": e["real"], "floor": e["floor"],
+             "effective": e["effective"], "calibration_fdr": e.get("calibration_fdr")}
+            for e in stored["strata"]
+        ]
+        print(f"  floors LOADED from {args.floors_from}")
+        print(f"    calibration seeds {stored.get('calibration_seeds')}, "
+              f"solved at FDR <= {MAX_FDR_OVERALL}")
+        print("    effective thresholds: "
+              + ", ".join(f"{e['stratum']}:{e['effective']}" for e in solved))
+    else:
+        solved = solve(real_rows, cal)
     confirmed = confirm(real_rows, held, solved) if args.confirm_heldout else None
+    checked = None
+    if args.check_heldout:
+        # ONE held-out side, against the floors as loaded. This is a check, not a calibration:
+        # nothing is re-solved from it, so it cannot launder a stored floor into a fitted one.
+        start = time.perf_counter()
+        side, got = side_cached(
+            trees,
+            [f"seed{args.check_heldout:05d}_row{r:05d}"
+             for r in range(1, scramble_rows + 1)],
+            n, cap, INCLUSION_CUT,
+            f"seed{args.check_heldout:05d}_n{scramble_rows:03d}",
+            fast=args.completion == "fast", families_mode=args.families,
+            allow_stale=args.allow_stale_cache,
+        )
+        checked = confirm(real_rows, [side.rows()], solved)
+        print(f"\n  HELD-OUT CHECK, seed {args.check_heldout} "
+              f"({'cached' if got else f'{time.perf_counter() - start:.0f}s'}): "
+              f"overall FDR {checked['overall_fdr']} against {MAX_FDR_OVERALL}")
+        for entry in checked["strata"]:
+            print(f"    {entry['stratum']:<9} held FDR {str(entry.get('heldout_fdr')):>9} "
+                  f"(real {entry.get('heldout_real', 0):,}, null {entry.get('heldout_null', 0)})")
+        bad_check = [e["stratum"] for e in checked["strata"]
+                     if e.get("heldout_fdr") is not None
+                     and e["heldout_fdr"] > MAX_FDR_STRATUM]
+        verdict = (checked["overall_fdr"] is not None
+                   and checked["overall_fdr"] <= MAX_FDR_OVERALL and not bad_check)
+        print(f"  CHECK {'PASSES' if verdict else 'FAILS'}"
+              + (f" -- strata over {MAX_FDR_STRATUM}: {bad_check}" if bad_check else "")
+              + "  (nothing re-solved from it)")
     report = {
         "space": args.space, "universe_digest": universe, "n": n,
         "rows": f"{first}-{last}", "runs": runs, "scramble_rows": scramble_rows,
@@ -588,6 +652,9 @@ def main(argv: list[str] | None = None) -> int:
         "strata": confirmed["strata"] if confirmed else solved,
         "calibration_seeds": list(CALIBRATION_SEEDS),
         "heldout_confirmed": bool(args.confirm_heldout),
+        "floors_from": str(args.floors_from) if args.floors_from else None,
+        "heldout_check_seed": args.check_heldout or None,
+        "heldout_check": checked,
         "heldout_seeds": list(HELDOUT_SEEDS) if args.confirm_heldout else [],
         "overall_fdr": confirmed["overall_fdr"] if confirmed else None,
         "overall_real": confirmed["overall_real"] if confirmed else None,
@@ -602,8 +669,17 @@ def main(argv: list[str] | None = None) -> int:
               f"{str(entry['calibration_fdr']):>9} {str(entry.get('heldout_fdr')):>9}")
     out = (trees / "completions" / cut_key(cap, INCLUSION_CUT)
            / f"floors_r{first}-{last}_n{scramble_rows}.json")
-    out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    print(f"  floors -> {out}")
+    # NO-OVERWRITE. A floors file is a calibration record, and a run that LOADED its floors has
+    # nothing new to say about them -- writing anyway destroyed the held-out confirmation stored in
+    # this very file once, replacing overall_fdr 0.00285 with null. A run that solved its own floors
+    # may still write, and only where no file exists.
+    if args.floors_from is not None:
+        print(f"  floors NOT rewritten: they were loaded, not solved ({out.name} left as it was)")
+    elif out.exists():
+        print(f"  floors NOT rewritten: {out} already exists and is a calibration record")
+    else:
+        out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        print(f"  floors -> {out}")
 
     if args.confirm_heldout:
         print(f"\n  overall held-out FDR {report['overall_fdr']} against {MAX_FDR_OVERALL}")

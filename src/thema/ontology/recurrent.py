@@ -1242,6 +1242,15 @@ def _families_joined(
     index, prefixes = _prefix_index(candidates, of, sizes)
     listed = list(candidates)
     row_of = {g: i for i, g in enumerate(listed)}
+    # The posting arrays are rewritten from GROUPING IDS to ROW INDICES once, in NumPy, because
+    # the seed loop used to map them one Python int at a time: 14.8 million `int(g)` calls through
+    # a generator, measured at 48% of this function. The conversion below costs one fancy-index per
+    # pathway, about 800,000 elements in total. Ids are sparse, so the lookup is built over the
+    # largest id rather than over the universe.
+    lookup = np.full(max(listed) + 1 if listed else 1, -1, dtype=np.int64)
+    for g, row in row_of.items():
+        lookup[g] = row
+    index = {p: lookup[arr] for p, arr in index.items()}
     blocks = np.vstack([of(g) for g in listed]) if listed else np.zeros((0, 1), dtype=np.uint64)
     size_row = np.array([sizes[g] for g in listed], dtype=np.int64)
     claimed_row = np.zeros(len(listed), dtype=bool)
@@ -1260,12 +1269,11 @@ def _families_joined(
         if not lists:
             out.append((seed, [seed]))
             continue
-        # The posting arrays hold GROUPING IDS, which are the keys of `completed` and are NOT
-        # contiguous; `seed_row` is a position in `listed`. Filtering ids against a row index
-        # silently dropped an unrelated grouping and cost one variant on a 500k-grouping side.
-        # The seed is removed after the ids are mapped to rows, below.
-        near = np.unique(np.concatenate(lists))
-        rows = np.fromiter((row_of[int(g)] for g in near), dtype=np.int64, count=len(near))
+        # `index` now holds ROW INDICES, converted once above, so there is nothing to map here.
+        # The earlier version held grouping IDS and filtered them against `seed_row`, a row index;
+        # that silently dropped an unrelated grouping and cost one variant on a 500k-grouping side.
+        # Rows and ids are never mixed now: the conversion happens in exactly one place.
+        rows = np.unique(np.concatenate(lists))
         rows = rows[rows != seed_row]
         rows = rows[~claimed_row[rows]]
         rows = rows[np.abs(size_row[rows] - seed_size) <= slack]

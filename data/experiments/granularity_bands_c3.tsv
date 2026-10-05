@@ -1,0 +1,33 @@
+source	size_band	gene_band	arm	n	auroc_arm	auroc_thema	ci_low	ci_high	reading
+Reactome	3-10	zero-gene	HiDeF m25	5753	0.5000	0.5466	-0.0873	-0.0278	THEMA better
+Reactome	3-10	zero-gene	HiDeF m50	5753	0.5002	0.5466	-0.0869	-0.0277	THEMA better
+Reactome	3-10	pooled	HiDeF m25	9396	0.5015	0.5932	-0.1338	-0.0607	THEMA better
+Reactome	3-10	pooled	HiDeF m50	9396	0.5021	0.5932	-0.1330	-0.0602	THEMA better
+Reactome	11-50	zero-gene	HiDeF m25	5753	0.5555	0.5970	-0.0989	-0.0191	THEMA better
+Reactome	11-50	zero-gene	HiDeF m50	5753	0.5802	0.5970	-0.0406	-0.0055	THEMA better
+Reactome	11-50	pooled	HiDeF m25	9396	0.5803	0.6586	-0.1239	-0.0473	THEMA better
+Reactome	11-50	pooled	HiDeF m50	9396	0.6310	0.6586	-0.0473	-0.0153	THEMA better
+Reactome	51-200	zero-gene	HiDeF m25	5753	0.6403	0.5760	0.0461	0.1100	HiDeF better
+Reactome	51-200	zero-gene	HiDeF m50	5753	0.6428	0.5760	0.0466	0.1157	HiDeF better
+Reactome	51-200	pooled	HiDeF m25	9396	0.6995	0.6116	0.0655	0.1246	HiDeF better
+Reactome	51-200	pooled	HiDeF m50	9396	0.7015	0.6116	0.0656	0.1297	HiDeF better
+Reactome	201-500	zero-gene	HiDeF m25	5753	0.6249	0.5400	0.0558	0.1478	HiDeF better
+Reactome	201-500	zero-gene	HiDeF m50	5753	0.5878	0.5400	0.0282	0.0969	HiDeF better
+Reactome	201-500	pooled	HiDeF m25	9396	0.6551	0.5277	0.0898	0.1822	HiDeF better
+Reactome	201-500	pooled	HiDeF m50	9396	0.6443	0.5277	0.0747	0.1798	HiDeF better
+GO	3-10	zero-gene	HiDeF m25	19828	0.5000	0.5064	-0.0085	-0.0050	equivalent
+GO	3-10	zero-gene	HiDeF m50	19828	0.5001	0.5064	-0.0084	-0.0049	equivalent
+GO	3-10	pooled	HiDeF m25	45832	0.5000	0.5230	-0.0287	-0.0181	THEMA better
+GO	3-10	pooled	HiDeF m50	45832	0.5002	0.5230	-0.0284	-0.0179	THEMA better
+GO	11-50	zero-gene	HiDeF m25	19828	0.5093	0.5158	-0.0093	-0.0044	equivalent
+GO	11-50	zero-gene	HiDeF m50	19828	0.5145	0.5158	-0.0028	0.0001	equivalent
+GO	11-50	pooled	HiDeF m25	45832	0.5251	0.5429	-0.0231	-0.0135	THEMA better
+GO	11-50	pooled	HiDeF m50	45832	0.5392	0.5429	-0.0058	-0.0019	equivalent
+GO	51-200	zero-gene	HiDeF m25	19828	0.5455	0.5162	0.0234	0.0353	HiDeF better
+GO	51-200	zero-gene	HiDeF m50	19828	0.5466	0.5162	0.0249	0.0362	HiDeF better
+GO	51-200	pooled	HiDeF m25	45832	0.5855	0.5345	0.0448	0.0586	HiDeF better
+GO	51-200	pooled	HiDeF m50	45832	0.5853	0.5345	0.0447	0.0593	HiDeF better
+GO	201-500	zero-gene	HiDeF m25	19828	0.5579	0.5022	0.0464	0.0675	HiDeF better
+GO	201-500	zero-gene	HiDeF m50	19828	0.5482	0.5022	0.0372	0.0564	HiDeF better
+GO	201-500	pooled	HiDeF m25	45832	0.5912	0.5044	0.0761	0.1011	HiDeF better
+GO	201-500	pooled	HiDeF m50	45832	0.5870	0.5044	0.0722	0.0951	HiDeF better
