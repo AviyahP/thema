@@ -26,20 +26,30 @@ from thema.data.pathways import PathwayCollection
 from thema.data.tables import merge_tsv, print_table
 from thema.llm import BATCH_CHUNK, Ledger, LLMClient, Request, price_batch
 from thema.naming import (
+    COVERAGE_FORMAT,
+    COVERAGE_RESPONSE_KEY,
+    COVERAGE_SYSTEM_PROMPT,
+    COVERAGE_VERSION,
     LEAF_PROMPT_VERSION,
     NAME_FORMAT,
     NAME_PROMPT_VERSION,
     NAME_RESPONSE_KEY,
     SYSTEM_PROMPT,
+    UNJUDGEABLE,
     _norm,
     check,
     collisions,
     covers_children,
+    for_checker,
     invented_words,
     narrow_child,
+    narrow_self,
+    render_coverage_children,
+    render_coverage_direct,
     render_internal,
     render_leaf,
     theme_key,
+    uncovered_line,
 )
 from thema.ontology.order import children_of, naming_order
 
@@ -637,6 +647,357 @@ def top_members(
     return [(by_key[k].name, shares.get(k, 1.0)) for k in keys[:limit]]
 
 
+def direct_titles(
+    node: str,
+    kids: dict[str, list[str]],
+    members: dict[str, list[str]],
+    by_key: dict,
+    texts: dict[str, str],
+) -> list[str]:
+    """Titles of the pathways in ``node`` and in no child of it.
+
+    Args:
+        node: Node id.
+        kids: Node id to child ids.
+        members: Node id to member keys.
+        by_key: Pathway key to pathway.
+        texts: Pathway key to description, for a TBA title that must fall back to one.
+
+    Returns:
+        Titles, in member order. A member with neither a usable title nor a description is dropped,
+        the same rule the naming prompt uses, so the two cannot disagree about what the node holds.
+    """
+    covered = {k for c in kids.get(node, []) for k in members.get(c, ())}
+    out = []
+    for key in members.get(node, []):
+        if key in covered or key not in by_key:
+            continue
+        row = _shown(by_key[key].name, texts.get(key, "(no description)"))
+        if row is not None:
+            out.append(row[0])
+    return out
+
+
+def coverage_requests(
+    node: str,
+    name: str,
+    kids: dict[str, list[str]],
+    final: dict[str, str],
+    members: dict[str, list[str]],
+    by_key: dict,
+    texts: dict[str, str],
+) -> list[Request]:
+    """The coverage requests for one parent: up to two, by item type.
+
+    A child cluster is a name we wrote, so a child broader than its parent is a real defect and is
+    judged strictly. A direct pathway is a title we inherited, so its breadth says nothing about
+    whether it belongs and it is judged leniently. One wording could not do both: the strict reading
+    flagged 5 of 10 names a reviewer judged good, every one a direct pathway whose title merely
+    sounds broad.
+
+    Args:
+        node: Node id.
+        name: Its current name, which is what is being judged.
+        kids: Node id to child ids.
+        final: Node id to current name.
+        members: Node id to member keys.
+        by_key: Pathway key to pathway.
+        texts: Pathway key to description.
+
+    Returns:
+        Zero, one or two requests. A parent with no children skips the strict call; one whose only
+        direct pathways are unjudgeable skips the lenient one.
+    """
+    children = [final[c] for c in kids.get(node, []) if c in final]
+    direct = [
+        for_checker(t)
+        for t in direct_titles(node, kids, members, by_key, texts)
+        if t not in UNJUDGEABLE
+    ]
+    out = []
+    if children:
+        payload = "children|" + "|".join([name, *children])
+        out.append(Request(
+            key=f"cov{COVERAGE_VERSION}:{hashlib.sha256(payload.encode()).hexdigest()[:16]}",
+            system=COVERAGE_SYSTEM_PROMPT,
+            user=render_coverage_children(name, children),
+        ))
+    if direct:
+        payload = "direct|" + "|".join([name, *direct])
+        out.append(Request(
+            key=f"cov{COVERAGE_VERSION}:{hashlib.sha256(payload.encode()).hexdigest()[:16]}",
+            system=COVERAGE_SYSTEM_PROMPT,
+            user=render_coverage_direct(name, direct),
+        ))
+    return out
+
+
+def merged_from(child_notes: dict[str, str], record: dict[str, dict]) -> dict[str, str]:
+    """The ``same_theme`` pairs, which under the declared procedure come only from step e.
+
+    Args:
+        child_notes: Child id to a note about its rename, for the report.
+        record: Node id to its enforcement record.
+
+    Returns:
+        Child id to the parent it shares a theme with. Empty when step e never fired.
+    """
+    return {
+        r["child_node"]: r["node"]
+        for r in record.values()
+        if r["outcome"] == "same_theme" and r["child_node"]
+    }
+
+
+def enforce_coverage(
+    namer: LLMClient,
+    checker: LLMClient,
+    nodes: Sequence[str],
+    final: dict[str, str],
+    generated: dict[str, dict],
+    parents: dict[str, list[str]],
+    kids: dict[str, list[str]],
+    members: dict[str, list[str]],
+    inclusions: dict[str, dict[str, float]],
+    by_key: dict,
+    texts: dict[str, str],
+    workers: int,
+) -> tuple[list[dict], dict[str, str]]:
+    """Make each parent's name cover its contents, by checking NAMES and acting on the answer.
+
+    Per parent: check, at most one parent re-ask, at most one mechanical take of a single uncovered
+    child, at most one child re-ask. Nothing loops and no step is retried.
+
+    a. check the name against its contents -- two calls, child clusters strictly and direct pathways
+       leniently, with the uncovered lists unioned. Empty and it is done.
+    b. re-ask the PARENT once, same naming prompt and data, plus what it missed. Re-check.
+    c. if the ONLY thing still uncovered is one child cluster, the parent takes that child's name
+       MECHANICALLY -- no model call, because two attempts to have the model volunteer this produced
+       zero. The taken name is re-checked against the rest; the displaced child is re-asked
+       narrower, and a child that declines is recorded ``same_theme``.
+    d. anything else still uncovered and the parent is UNNAMEABLE, the failing name discarded -- a
+       name known not to cover its contents is worse than a blank.
+
+    Args:
+        namer: Client on the naming prompt and contract.
+        checker: Client on the coverage prompt and contract.
+        nodes: The parents to enforce.
+        final: Node id to current name, updated in place.
+        generated: Node id to response, updated in place.
+        parents: Node id to parent ids.
+        kids: Node id to child ids.
+        members: Node id to member keys.
+        inclusions: Node id to key to inclusion.
+        by_key: Pathway key to pathway.
+        texts: Pathway key to description.
+        workers: Concurrency.
+
+    Returns:
+        One record per parent -- every intermediate name and check, so the report shows the path and
+        not just the outcome -- and the ``same_theme`` pairs.
+    """
+    scope = [n for n in nodes if n in final]
+    if not scope:
+        return [], {}
+
+    def check(batch: Sequence[tuple[str, str]]) -> dict[str, dict]:
+        """Both calls per parent, with the uncovered lists UNIONED.
+
+        A node's verdict is the union of the strict child call and the lenient pathway call, so
+        either can condemn a name and neither can excuse the other.
+        """
+        reqs, back = [], {}
+        for node, name in batch:
+            for request in coverage_requests(node, name, kids, final, members, by_key, texts):
+                reqs.append(request)
+                back.setdefault(request.key, node)
+        answers = run_level(checker, reqs, workers)
+        got: dict[str, dict] = {n: {"uncovered": [], "reason": ""} for n, _ in batch}
+        for rkey, parsed in answers.items():
+            node = back[rkey]
+            for item in parsed.get("uncovered") or []:
+                if item not in got[node]["uncovered"]:
+                    got[node]["uncovered"].append(item)
+            reason = parsed.get("reason", "")
+            if reason:
+                got[node]["reason"] = (got[node]["reason"] + " " + reason).strip()
+        return got
+
+    print(f"  coverage check on {len(scope):,} parent(s), two calls each", flush=True)
+    first = check([(n, final[n]) for n in scope])
+    out = [
+        {
+            "node": n,
+            "first_name": final[n],
+            "first_check": first.get(n, {}),
+            "reask_name": "",
+            "second_check": {},
+            "after_child": {},
+            "child_notes": "",
+            # THE single source of truth for "the last name that passed". The save-time assertion
+            # compares against this, not a guess assembled from the other fields -- a mechanical
+            # take makes the passing name the CHILD's, which no combination of them expresses.
+            "passed_name": final[n],
+            "child_node": "",
+            "child_old": "",
+            "child_new": "",
+            "outcome": "covered" if not first.get(n, {}).get("uncovered") else "",
+        }
+        for n in scope
+    ]
+    record = {r["node"]: r for r in out}
+    child_notes: dict[str, str] = {}
+    failing = [n for n in scope if first.get(n, {}).get("uncovered")]
+    if not failing:
+        print("  every name covers its contents; nothing re-asked", flush=True)
+        return out, {}
+    print(f"  {len(failing):,} name(s) left something uncovered; re-asking the parent", flush=True)
+
+    def name_request(node: str, extra: str) -> Request:
+        cs = kids.get(node, [])
+        pairs = [(final[c], generated.get(c, {}).get("rationale", "")) for c in cs if c in final]
+        covered = {k for c in cs for k in members.get(c, ())}
+        return internal_request(
+            node, members.get(node, []), pairs, len(cs) - len(pairs), by_key, texts,
+            [k for k in members.get(node, []) if k not in covered],
+            inclusions.get(node, {}), narrow=extra,
+        )
+
+    # STEP c: THE CHILD GOES FIRST. For every uncovered child cluster, ask the child to name its
+    # own members only. A new child name must pass the split check against its OWN children, plus
+    # collision and invented_word; failing any of those the child keeps its old name, because a
+    # child is not made worse to rescue its parent.
+    wanted: dict[str, str] = {}
+    for node in failing:
+        for child in sorted(kids.get(node, [])):
+            if child in final and final[child] in (first[node].get("uncovered") or []):
+                wanted.setdefault(child, node)
+    if wanted:
+        print(f"  {len(wanted)} child cluster(s) uncovered; narrowing the CHILD first", flush=True)
+        reqs, back = [], {}
+        for child, parent in sorted(wanted.items()):
+            titles = direct_titles(parent, kids, members, by_key, texts)
+            line = narrow_self([for_checker(t) for t in titles if t not in UNJUDGEABLE])
+            request = (
+                name_request(child, line)
+                if kids.get(child)
+                else leaf_request(
+                    child, members.get(child, []), by_key, texts, inclusions.get(child, {}),
+                    narrow=line,
+                )
+            )
+            reqs.append(request)
+            back[request.key] = child
+        proposed: dict[str, dict] = {}
+        for rkey, parsed in run_level(namer, reqs, workers).items():
+            proposed[back[rkey]] = parsed
+        # Gate every proposal before it is adopted.
+        keptnames = {c: final[c] for c in proposed}
+        accept: dict[str, str] = {}
+        for child, parsed in proposed.items():
+            if not (parsed.get("nameable") and parsed.get("name")):
+                continue
+            new = parsed["name"]
+            if collisions(new, [v for n2, v in final.items() if n2 != child]):
+                child_notes[child] = f"rejected, collides: {new}"
+                continue
+            cs = kids.get(child, [])
+            child_names2 = [final[c2] for c2 in cs if c2 in final]
+            corpus = corpus_for(child, members, by_key, texts, child_names2)
+            if invented_words(new, corpus):
+                child_notes[child] = f"rejected, invented word: {new}"
+                continue
+            accept[child] = new
+        if accept:
+            for child, new in accept.items():
+                final[child] = new
+            verdicts = check([(c, final[c]) for c in accept if kids.get(c)])
+            for child, new in sorted(accept.items()):
+                if verdicts.get(child, {}).get("uncovered"):
+                    final[child] = keptnames[child]
+                    child_notes[child] = f"rejected, would not cover its own children: {new}"
+                    continue
+                generated[child] = proposed[child]
+                child_notes[child] = f"{keptnames[child]} -> {new}"
+                record[wanted[child]]["child_node"] = child
+                record[wanted[child]]["child_old"] = keptnames[child]
+                record[wanted[child]]["child_new"] = new
+        ok = sum(1 for v in child_notes.values() if " -> " in v)
+        print(f"  child renames accepted: {ok} of {len(proposed)}", flush=True)
+        # The parent's uncovered list is recomputed, since a narrowed child may now be covered.
+        first = {**first, **check([(n, final[n]) for n in failing])}
+        failing = [n for n in failing if first.get(n, {}).get("uncovered")]
+        for node in scope:
+            record[node]["after_child"] = first.get(node, {})
+            if node not in failing and record[node]["outcome"] == "":
+                record[node]["outcome"] = "covered after the child narrowed"
+                record[node]["passed_name"] = final[node]
+        print(f"  {len(failing)} parent(s) still uncovered after that", flush=True)
+        if not failing:
+            return out, merged_from(child_notes, record)
+
+    reqs, back = [], {}
+    for node in failing:
+        request = name_request(node, uncovered_line(final[node], first[node]["uncovered"]))
+        reqs.append(request)
+        back[request.key] = node
+    for rkey, parsed in run_level(namer, reqs, workers).items():
+        node = back[rkey]
+        if parsed.get("nameable") and parsed.get("name"):
+            record[node]["reask_name"] = parsed["name"]
+            final[node] = parsed["name"]
+            generated[node] = parsed
+        else:
+            record[node]["outcome"] = "parent refused the re-ask"
+            record[node]["passed_name"] = ""
+
+    retry = [n for n in failing if record[n]["reask_name"]]
+    second = check([(n, final[n]) for n in retry]) if retry else {}
+    merged: dict[str, str] = {}
+    for node in retry:
+        record[node]["second_check"] = second.get(node, {})
+        still = list(second.get(node, {}).get("uncovered") or [])
+        child_of = {c: final[c] for c in kids.get(node, []) if c in final}
+        uncovered_children = sorted(c for c, cn in child_of.items() if cn in still)
+        if not still:
+            record[node]["outcome"] = "covered after re-ask"
+            record[node]["passed_name"] = final[node]
+        elif uncovered_children:
+            # STEP e: parent and the uncovered child are recorded same_theme and shown merged.
+            # Nothing invents a difference and no name is forced.
+            record[node]["outcome"] = "same_theme"
+            record[node]["child_node"] = uncovered_children[0]
+            record[node]["passed_name"] = final[node]
+            merged[uncovered_children[0]] = node
+        else:
+            record[node]["outcome"] = "unnameable"
+            record[node]["passed_name"] = ""
+            generated[node] = {
+                "nameable": False, "name": "",
+                "rationale": "contents have no common name: " + ", ".join(still),
+            }
+            final.pop(node, None)
+
+    for node, rec in record.items():
+        if node in child_notes:
+            rec["child_notes"] = child_notes[node]
+    for child, note in child_notes.items():
+        owner = next((r for r in record.values() if r["child_node"] == child), None)
+        if owner is not None:
+            owner["child_notes"] = note
+    multi = [
+        n for n in failing
+        if len([
+            c for c in kids.get(n, [])
+            if final.get(c) in (first[n].get("uncovered") or [])
+        ]) > 1
+    ]
+    if multi:
+        print(f"  {len(multi)} parent(s) had MORE THAN ONE child uncovered: "
+              f"{', '.join(multi)}", flush=True)
+    return out, merged
+
+
 def parent_took_child(
     final: dict[str, str], kids: dict[str, list[str]]
 ) -> dict[str, str]:
@@ -1173,6 +1534,10 @@ def main(argv: list[str] | None = None) -> int:
         help="theme count to price a production run at (default: %(default)s)",
     )
     parser.add_argument(
+        "--control-nodes", nargs="+", default=None, metavar="ID",
+        help="run the coverage CHECK on these and report, renaming nothing",
+    )
+    parser.add_argument(
         "--reuse-version", default=None, metavar="V",
         help="prompt version whose names are reused for nodes outside --only-nodes "
              "(default: whichever is current in the table)",
@@ -1266,6 +1631,15 @@ def main(argv: list[str] | None = None) -> int:
     # name-v6: at most one child re-ask per node named, since a parent takes at most one child's
     # name. Quoted at the BOUND rather than a rate: the rate is unmeasured, this is the first run.
     n_narrow = len(pending)
+    # Coverage enforcement: one check per parent named, plus -- for the share that fails -- a parent
+    # re-ask and a second check, and at most one child re-ask. Bounded at 1 + 3x the failing share.
+    # The failing share is UNMEASURED, this being the first run, so it is quoted at 100%: every
+    # parent could fail. That over-quotes if most pass, which is the right direction for a gate.
+    # Every parent NAMED this run is checked, cached or not -- the check is a separate call on a
+    # separate contract and the naming ledger says nothing about it. Counting only the uncached
+    # naming calls quoted 12 when 72 was the bound.
+    n_parents = sum(1 for n in (only_nodes or parents) if children_of(parents).get(n))
+    n_coverage = n_parents * 4
     # Sample ACROSS the requests, not the first N. Level 0 is emitted first and is all leaves,
     # which carry a full description per member; internal nodes carry three samples and a list of
     # short child names. Taking the first 40 prices the whole run at the leaf rate.
@@ -1283,8 +1657,8 @@ def main(argv: list[str] | None = None) -> int:
         0.0, sum(client.count_tokens(r) for r in sample) / len(sample) - system_tokens
     )
     estimate = price_batch(
-        scope=len(requests) + n_disambig + n_invented + n_narrow,
-        pending=len(pending) + n_disambig + n_invented + n_narrow,
+        scope=len(requests) + n_disambig + n_invented + n_narrow + n_coverage,
+        pending=len(pending) + n_disambig + n_invented + n_narrow + n_coverage,
         user_tokens=user_tokens,
         system_tokens=system_tokens,
         output_tokens=OUTPUT_TOKENS,
@@ -1308,6 +1682,8 @@ def main(argv: list[str] | None = None) -> int:
             ("already in the ledger", f"{cached_already:,}",
              "free; only the rest is billed" if cached_already else "nothing cached yet"),
             ("new calls", f"{len(pending):,}", "what this run actually costs"),
+            ("coverage calls, at most", f"{n_coverage:,}",
+             "1 check + 1 parent re-ask + 1 recheck + 1 child re-ask per parent"),
             ("child re-asks, at most", f"{n_narrow:,}",
              "one per node: a parent takes at most one child's name"),
             ("invented-word re-asks", f"~{n_invented:,}",
@@ -1418,25 +1794,90 @@ def main(argv: list[str] | None = None) -> int:
     # share the naming ledger: a re-ask is keyed by the colliding name and cannot collide with the
     # original request for the same node.
     collision_client, _cl = naming_clients(args.data, args.model)
-    # name-v6: a parent may take its child's name, and the CHILD is then re-asked for a narrower
-    # one. This runs BEFORE the ordinary collision pass, because it resolves parent-child pairs
-    # that pass would otherwise try to fix by moving the parent.
+    # COVERAGE ENFORCEMENT. name-v6 asked the namer to volunteer a parent's reuse of a child's
+    # name and it fired 0 times out of 18, so the comparison is now made directly, name against
+    # name, and acted on. This runs BEFORE the ordinary collision pass, because step (c) can make a
+    # parent and child share a name deliberately -- which that pass would otherwise try to undo.
     final_names = {
         n: r["name"] for n, r in generated.items() if r.get("nameable") and r.get("name")
     }
-    narrowed, merged, stale_parents = narrow_displaced(
-        client, _leaf, final_names, parents, children_of(parents), members, inclusions,
-        by_key, texts, args.workers,
+    kids_now = children_of(parents)
+    enforce_scope = [
+        n for n in parents
+        if kids_now.get(n) and (only_nodes is None or n in only_nodes) and n in final_names
+    ]
+    checker = LLMClient(
+        args.model,
+        NAME_PROMPT_VERSION,
+        Ledger.open(args.data / CACHE_DIR, args.model, f"{NAME_PROMPT_VERSION}-coverage"),
+        response_format=COVERAGE_FORMAT,
+        response_key=COVERAGE_RESPONSE_KEY,
     )
-    for node, response in narrowed.items():
-        if response.get("nameable") and response.get("name"):
-            generated[node] = response
+    enforced, merged = enforce_coverage(
+        client, checker, enforce_scope, final_names, generated, parents, kids_now, members,
+        inclusions, by_key, texts, args.workers,
+    )
+    stale_parents = [
+        (rec["child_node"], other)
+        for rec in enforced
+        if rec.get("child_node") and rec["child_new"]
+        for other in parents.get(rec["child_node"], ())
+        if other != rec["node"] and other in final_names
+    ]
+    # CONTROLS: the check only, on names a reviewer judged good. A checker that flags these is
+    # too strict, and that is as much a defect as the leniency this wording replaced. Nothing is
+    # renamed and nothing is written to the names table for them.
+    controls: list[dict] = []
+    if args.control_nodes:
+        scope = [n for n in args.control_nodes if n in final_names and kids_now.get(n)]
+        missing = sorted(set(args.control_nodes) - set(scope))
+        if missing:
+            print(f"  controls not checkable (unnamed or leaf): {', '.join(missing)}")
+        reqs, back = [], {}
+        for node in scope:
+            for request in coverage_requests(
+                node, final_names[node], kids_now, final_names, members, by_key, texts
+            ):
+                reqs.append(request)
+                back.setdefault(request.key, node)
+        print(f"  CONTROLS: coverage check on {len(scope)} node(s), renaming nothing", flush=True)
+        # Both calls per control, unioned the same way the enforcement path unions them, so a
+        # control is judged by exactly the rule the 18 are.
+        per: dict[str, dict] = {n: {"uncovered": [], "reason": ""} for n in scope}
+        for rkey, parsed in run_level(checker, reqs, args.workers).items():
+            node = back[rkey]
+            for item in parsed.get("uncovered") or []:
+                if item not in per[node]["uncovered"]:
+                    per[node]["uncovered"].append(item)
+            if parsed.get("reason"):
+                per[node]["reason"] = (per[node]["reason"] + " " + parsed["reason"]).strip()
+        for node in scope:
+            controls.append({
+                "node": node, "name": final_names[node],
+                "uncovered": per[node]["uncovered"], "reason": per[node]["reason"],
+            })
+        flagged = [c for c in controls if c["uncovered"]]
+        print(f"  CONTROLS: {len(flagged)} of {len(controls)} flagged" + (
+            " -- " + ", ".join(c["node"] for c in flagged) if flagged else ""))
+        (args.data / "experiments").mkdir(parents=True, exist_ok=True)
+        (args.data / "experiments" / "coverage_controls.json").write_text(
+            json.dumps(controls, indent=2) + "\n", encoding="utf-8"
+        )
+
+    # PERSIST the enforcement trace. Rebuilding it afterwards from the caches needs the parent
+    # name as it stood at check time, which the run then supersedes -- 16 of 18 records could not be
+    # recovered that way. The run is the only place that knows, so the run writes it down.
+    if enforced:
+        trace = args.data / "experiments" / "coverage_enforce.json"
+        trace.parent.mkdir(parents=True, exist_ok=True)
+        trace.write_text(json.dumps(enforced, indent=2) + "\n", encoding="utf-8")
+        print(f"  trace -> {trace}")
     if merged:
         print(f"  {len(merged)} child(ren) declined to narrow; recorded as same_theme: "
               + ", ".join(f"{c}={p}" for c, p in sorted(merged.items())))
     if stale_parents:
         print(f"  {len(stale_parents)} other parent(s) of a renamed child NOT re-run: "
-              + ", ".join(f"{c}<-{o}" for c, o in stale_parents))
+              + ", ".join(f"{c}<-{o}" for c, o in sorted(stale_parents)))
 
     revised, tally = disambiguate(
         collision_client, parents, generated, args.workers, members, inclusions, by_key, texts
@@ -1444,9 +1885,35 @@ def main(argv: list[str] | None = None) -> int:
 
     table = args.data / NAMES_TABLE
     rows = rows_for(generated, revised, parents, members, args.model, by_key, merged)
+    # Which theme_key this run wrote for each node, so restamp can supersede a node's STALE rows
+    # rather than leaving it with several current ones.
+    keep = {row[6]: row[0] for row in rows}
     held = merge_tsv(table, names_table.NAME_COLUMNS, rows, key=names_table.ROW_KEY)
-    marked, superseded = names_table.restamp(table, names_table.NAME_COLUMNS, NAME_PROMPT_VERSION)
+    marked, superseded = names_table.restamp(
+        table, names_table.NAME_COLUMNS, NAME_PROMPT_VERSION, keep
+    )
+    # THE SAVED NAME MUST BE THE NAME THAT PASSED THE CHECK. Three enforced names appeared not to
+    # have been saved at all, because the node had two current rows and a reader keyed by node got
+    # the stale one. Assert it rather than trust it: a coverage result that never reaches the table
+    # is worse than no check at all, because the report claims a name the ontology does not have.
+    by_node = {row[6]: row[1] for row in rows}
+    wrong = [
+        (rec["node"], rec["passed_name"], by_node.get(rec["node"], ""))
+        for rec in enforced
+        if rec["passed_name"] and by_node.get(rec["node"], "") != rec["passed_name"]
+    ]
+    if wrong:
+        raise SystemExit(
+            "the name saved is not the name that passed the coverage check:\n"
+            + "\n".join(f"  {n}: checked {c!r} saved {sv!r}" for n, c, sv in wrong)
+        )
 
+
+    n_uncovered = sum(1 for r in enforced if r["first_check"].get("uncovered"))
+    n_childfix = sum(1 for r in enforced if r["outcome"] == "covered after the child narrowed")
+    n_renamed_children = sum(1 for r in enforced if r["child_new"])
+    n_same = sum(1 for r in enforced if r["outcome"] == "same_theme")
+    n_unnameable = sum(1 for r in enforced if r["outcome"] == "unnameable")
     changed_by_invented = sum(
         1 for level in invented.values() for before, after, _w in level.values() if before != after
     )
@@ -1466,8 +1933,17 @@ def main(argv: list[str] | None = None) -> int:
              "would not cover every child; original kept"),
             ("collisions unresolved", f"{tally['collisions_after']:,}",
              f"of {tally['collisions_before']:,} before; reported, never repaired"),
-            ("parent took a child's name", f"{len(narrowed):,}",
-             "the CHILD was re-asked narrower, not the parent"),
+            ("coverage checks", f"{len(enforced):,}", "one per parent, names only"),
+            ("left something uncovered", f"{n_uncovered:,}",
+             "re-asked once with what they missed"),
+            ("children narrowed", f"{n_renamed_children:,}",
+             "the child goes first; a rejected rename leaves it alone"),
+            ("covered once the child narrowed", f"{n_childfix:,}",
+             "no parent re-ask needed"),
+            ("same_theme", f"{n_same:,}",
+             "parent and child shown merged; no difference invented"),
+            ("parents now unnameable", f"{n_unnameable:,}",
+             "still uncovered after the re-ask; the failing name is discarded"),
             ("children merged (same_theme)", f"{len(merged):,}",
              "declined to narrow; no difference invented"),
             ("other parents not re-run", f"{len(stale_parents):,}",

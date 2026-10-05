@@ -19,10 +19,10 @@ from thema.naming import (
     theme_key,
 )
 
-#: The leaf path's bytes as of name-v6. If either changes without LEAF_PROMPT_VERSION moving with
+#: The leaf path's bytes as of name-v5. If either changes without LEAF_PROMPT_VERSION moving with
 #: it, leaves would answer from a prompt that no longer exists, so these are pinned rather than
 #: recomputed.
-LEAF_SYSTEM_SHA = "19074b71ad0d429e"
+LEAF_SYSTEM_SHA = "f3d1f074929df02a"
 LEAF_RENDER_SHA = "2b68f43ec74afbab"
 
 
@@ -129,7 +129,7 @@ def test_container_nouns_are_contentless() -> None:
 
 
 def test_prompt_version_is_part_of_the_contract() -> None:
-    assert NAME_PROMPT_VERSION == "name-v6"
+    assert NAME_PROMPT_VERSION == "name-v5"
 
 
 def test_the_leaf_pin_moves_with_the_leaf_prompt() -> None:
@@ -141,7 +141,7 @@ def test_the_leaf_pin_moves_with_the_leaf_prompt() -> None:
     name-v5 with it, so it currently carries nothing over. This pins the two artefacts so the next
     edit fails loudly here rather than the cache quietly answering from a prompt that is gone.
     """
-    assert LEAF_PROMPT_VERSION == "name-v6"
+    assert LEAF_PROMPT_VERSION == "name-v5"
     # The exact bytes a leaf request carries, as of name-v3.
     assert hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:16] == LEAF_SYSTEM_SHA
     rendered = render_leaf([("response to caffeine", "The response to caffeine.")])
@@ -340,10 +340,14 @@ def test_plain_child_names_still_render() -> None:
     assert "A child name" in rendered and "Direct pathways:" not in rendered
 
 
-def test_v6_permits_a_parent_to_take_its_childs_name() -> None:
-    """The one sentence that changed, and the only thing in the prompt that did."""
-    assert "except that a cluster may take" in SYSTEM_PROMPT
-    assert "the child will then be" in SYSTEM_PROMPT
+def test_the_v6_permission_is_withdrawn_and_the_prompt_is_v5_again() -> None:
+    """name-v6 fired 0 times out of 18, so its sentence is reverted and the v5 caches stay valid.
+
+    The digest is pinned because that is the whole point of the revert: a prompt that merely LOOKS
+    like name-v5 would still invalidate every cached name.
+    """
+    assert "except that a cluster may take" not in SYSTEM_PROMPT
+    assert hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:16] == "f3d1f074929df02a"
 
 
 def test_a_displaced_child_is_told_what_its_parent_added() -> None:

@@ -1,0 +1,64 @@
+[
+  {
+    "node": "n0060",
+    "name": "Drug-resistant receptor tyrosine kinase mutants",
+    "uncovered": [],
+    "reason": "FLT3 is a receptor tyrosine kinase, so drug-resistant FLT3 mutants are a subset of drug-resistant RTK mutants. All three pathways describe receptor tyrosine kinase mutants (KIT, PDGFR, ALK) resistant to drugs, fitting the parent theme."
+  },
+  {
+    "node": "n0708",
+    "name": "Mismatch repair and double-strand break repair",
+    "uncovered": [],
+    "reason": "Homologous recombination repair is a specific mechanism of double-strand break repair, fully falling under the parent category. All listed pathways relate to mismatch repair defects or double-strand break repair/response, matching the parent theme."
+  },
+  {
+    "node": "n0010",
+    "name": "Base excision repair",
+    "uncovered": [],
+    "reason": "The glycosylase step is a specific sub-step entirely within base excision repair, so it is fully covered. All three pathways relate to base excision repair biology, including depyrimidination which is a form of DNA damage addressed by this repair pathway."
+  },
+  {
+    "node": "n0017",
+    "name": "DNA replication initiation and elongation",
+    "uncovered": [
+      "DNA replication and licensing"
+    ],
+    "reason": "Licensing is a pre-initiation step distinct from initiation and elongation, making this cluster broader than the parent rather than a strict subset. All three pathways directly concern DNA replication initiation or elongation processes, matching the parent theme."
+  },
+  {
+    "node": "n0040",
+    "name": "Cardiac action potential generation and conduction",
+    "uncovered": [],
+    "reason": "Cardiac conduction system electrical propagation is a sub-process fully encompassed by cardiac action potential generation and conduction. All three pathways relate to cardiac action potential generation and conduction, matching the parent theme."
+  },
+  {
+    "node": "n0039",
+    "name": "Blood coagulation cascade and its defects",
+    "uncovered": [],
+    "reason": "Defective coagulation factor variants causing bleeding disorders are a direct subset of blood coagulation cascade defects. All listed pathways relate directly to coagulation cascade processes or their defects, fitting the parent theme."
+  },
+  {
+    "node": "n0070",
+    "name": "TGF-beta/BMP-SMAD signalling",
+    "uncovered": [],
+    "reason": "The regulation of TGF-beta/BMP-SMAD signalling is a sub-category fully contained within the parent pathway. All three pathways concern SMAD-mediated TGF-beta/BMP signal transduction and thus fall under the parent theme."
+  },
+  {
+    "node": "n0014",
+    "name": "Complement activation and humoral defence",
+    "uncovered": [],
+    "reason": "Complement cascade activation and regulation is a sub-category wholly within complement activation and humoral defence. All three pathways relate to complement activation and humoral immune defense mechanisms, including opsonization and complement-mediated humoral response regulation."
+  },
+  {
+    "node": "n0085",
+    "name": "Heart morphogenesis and chamber development",
+    "uncovered": [],
+    "reason": "Cardiac septation and outflow tract morphogenesis is a subset of heart morphogenesis and chamber development processes. All listed pathways concern heart morphogenesis, chamber development, or related cardiac tissue development, fitting the parent theme."
+  },
+  {
+    "node": "n0123",
+    "name": "Cytokine-JAK-STAT signaling",
+    "uncovered": [],
+    "reason": "IL-6/gp130-JAK-STAT3 signaling is a specific sub-pathway of cytokine-JAK-STAT signaling, fully contained within it. All listed pathways relate to cytokine signaling and/or JAK-STAT pathway activity, fitting within the Cytokine-JAK-STAT signaling theme."
+  }
+]

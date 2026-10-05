@@ -62,11 +62,13 @@ from thema.normalize import IDENTIFIER_PATTERNS
 #: Bumped whenever the prompt changes in a way that should invalidate cached names. Part of the
 #: cache key, so a bump renames rather than silently mixing two prompts in one table.
 #
-# name-v6 (29 Sep): ONE sentence of the system prompt changes. A cluster may take one of its
-# children's names when that is the tightest true name for it, and the CHILD is then renamed
-# narrower. Aviyah's design, after a level-1 read found the dominant fault was a parent named
-# narrower than its own child: forbidding the parent from repeating the child forced it either to
-# invent a difference or to name itself after its direct pathways. Nothing else in the prompt moves.
+# name-v6, WITHDRAWN 2 Oct. It added one sentence permitting a cluster to take one of its
+# children's names. Measured on the 18 residual-narrowing level-1 nodes it fired ZERO times:
+# permitting reuse does not make the model prefer it. The sentence is reverted so the system prompt
+# is byte-identical to name-v5 (digest f3d1f074929df02a) and the v5 caches stay valid; the version
+# string goes back to name-v5 for the same reason. The CODE the experiment needed is kept -- the
+# child re-ask, the same_theme column, --only-nodes -- because the rule is now enforced by a
+# name-to-name check rather than by asking the namer to volunteer.
 #
 # name-v5 (29 Sep): the prompt layer replaced rather than patched. ONE prompt for leaves, internal
 # nodes and collision re-asks; the user message is data with a single line of instruction; every
@@ -89,7 +91,7 @@ from thema.normalize import IDENTIFIER_PATTERNS
 # node saw only child names and three samples, so a single-child node was indistinguishable from
 # its child and could only be refused as a restatement. That was 8 of 12 refusals in the first
 # smoke run. Bumped rather than edited in place: the prompt changed, so the cache must not answer.
-NAME_PROMPT_VERSION = "name-v6"
+NAME_PROMPT_VERSION = "name-v5"
 
 #: The version LEAF requests are cached under. **Equal to NAME_PROMPT_VERSION as of 29 Sep**, so
 #: it carries nothing over right now -- kept because the mechanism is correct and will earn its
@@ -108,7 +110,7 @@ NAME_PROMPT_VERSION = "name-v6"
 #: A test asserts the two are equal only when the leaf path is genuinely unchanged; bump this the
 #: moment SYSTEM_PROMPT or render_leaf changes, or leaves will silently answer from the wrong
 #: prompt.
-LEAF_PROMPT_VERSION = "name-v6"
+LEAF_PROMPT_VERSION = "name-v5"
 
 #: A name is a phrase a biologist would accept as a heading. Bounds are enforced by instruction and
 #: MEASURED here, never by truncation.
@@ -621,9 +623,7 @@ though written by the same person on the same day. Up to 10 words, fewer than 6 
 case; no leading article; a noun phrase unless a short clause is tighter. No filler words
 ("various", "related", "processes", "pathways", "mechanisms"), no database names, no identifiers,
 no bare category words ("Metabolism", "Signalling"), and never one member's own title as the name.
-A name must not be identical to any other name in the hierarchy — except that a cluster may take
-one of its children's names when that is the tightest true name for it; the child will then be
-renamed.
+A name must not be identical to any other name in the hierarchy.
 
 If the members share no nameable biological theme — if the only name covering all of them would
 cover much else besides, or would be an invention — say so. That is a real and useful answer.
@@ -639,6 +639,205 @@ COLLISION_LINE = (
     "The name '{name}' is already used by another cluster; give a different name that is still "
     "true of every member and no broader."
 )
+
+#: The coverage check. TWO calls per parent, names only, because the two kinds of item need
+#: opposite readings.
+#:
+#: A single wording could not serve both. The first was lenient and passed a child cluster broader
+#: than its parent. The replacement was strict and flagged 5 of 10 names a reviewer judged GOOD --
+#: every one a DIRECT PATHWAY whose title merely sounds broad: "heart development" under "Heart
+#: morphogenesis and chamber development". That is not a fault, it is how GO titles work: a term's
+#: name describes the term, not the role it plays in a cluster.
+#:
+#: So the distinction is structural rather than verbal. A CHILD CLUSTER is a name we wrote, and a
+#: child broader than its parent is a real defect in the hierarchy -- judged strictly. A DIRECT
+#: PATHWAY is a title we inherited, and its breadth says nothing about whether it belongs -- judged
+#: leniently, failing only on different biology.
+COVERAGE_SYSTEM_PROMPT = (
+    "You judge whether names in an ontology of human biological pathways fall inside a parent "
+    "category."
+)
+
+#: Child clusters, judged STRICTLY: a child must be a sub-category of its parent.
+COVERAGE_CHILD_USER = (
+    "Parent name: '{parent}'. Child clusters: {items} A child cluster is covered only if it is a "
+    "sub-category of '{parent}': everything it refers to is part of '{parent}'. If it is broader "
+    "than '{parent}', only partly overlaps '{parent}', or is merely related to it, it is NOT "
+    'covered. Return {{"uncovered": ["<each child not covered, verbatim>"], '
+    '"reason": "<one sentence>"}}'
+)
+
+#: Direct pathways, judged LENIENTLY: a title worded generally may still belong.
+COVERAGE_DIRECT_USER = (
+    "Parent name: '{parent}'. Pathways: {items} A pathway is covered if it belongs under "
+    "'{parent}' as part of that theme, even if its title is worded more generally. It is NOT "
+    'covered only if it concerns different biology. Return '
+    '{{"uncovered": ["<each pathway not covered, verbatim>"], "reason": "<one sentence>"}}'
+)
+
+#: Response contract for both coverage calls.
+COVERAGE_FORMAT: dict[str, object] = {
+    "type": "json_schema",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "uncovered": {"type": "array", "items": {"type": "string"}},
+            "reason": {"type": "string"},
+        },
+        "required": ["uncovered", "reason"],
+        "additionalProperties": False,
+    },
+}
+
+#: ``extract_text`` returns the whole parsed object only when the keyed field is not a string, so
+#: the array is the key -- the same reason recorded for the old disambiguation contract.
+COVERAGE_RESPONSE_KEY = "uncovered"
+
+#: Titles the checker cannot judge and must not be asked about. "TBA" is 83 unannotated BTM
+#: modules; a title that says nothing is neither covered nor uncovered.
+UNJUDGEABLE = frozenset({"TBA"})
+
+
+def for_checker(title: str) -> str:
+    """How a pathway title is shown to the COVERAGE checker, and only to it.
+
+    ``HALLMARK_COAGULATION`` is a database identifier, not a phrase: the checker flagged it as
+    uncovered because it could not read it. Shown as "Hallmark: coagulation" it can be judged. The
+    naming data is untouched -- the namer still sees the real title, because a name must be
+    answerable to what the source actually says.
+
+    Args:
+        title: The pathway's title.
+
+    Returns:
+        The display form.
+    """
+    if title.startswith("HALLMARK_"):
+        return "Hallmark: " + title[len("HALLMARK_"):].replace("_", " ").lower()
+    return title
+
+
+def render_coverage_children(parent: str, children: Sequence[str]) -> str:
+    """The strict call: a parent and its child clusters.
+
+    Args:
+        parent: The parent cluster's name.
+        children: The child clusters' names.
+
+    Returns:
+        The user message.
+    """
+    return COVERAGE_CHILD_USER.format(
+        parent=parent, items=", ".join(f"'{c}'" for c in children) + "."
+    )
+
+
+def render_coverage_direct(parent: str, direct: Sequence[str]) -> str:
+    """The lenient call: a parent and the titles of the pathways in no child.
+
+    Args:
+        parent: The parent cluster's name.
+        direct: Titles, already passed through :func:`for_checker`, with
+            :data:`UNJUDGEABLE` removed by the caller.
+
+    Returns:
+        The user message.
+    """
+    return COVERAGE_DIRECT_USER.format(
+        parent=parent, items=", ".join(f"'{t}'" for t in direct) + "."
+    )
+
+
+#: Bumped when either wording changes, and part of the request key: a verdict reached under an
+#: earlier wording must never answer a question asked under this one.
+COVERAGE_VERSION = 3
+
+
+#: Appended to the parent's OWN naming message when the coverage check finds something uncovered.
+#: Same system prompt, same data, one added instruction -- the shape every re-ask in this module
+#: uses. It states the permission the withdrawn name-v6 sentence tried to state globally, but here
+#: only where a parent has demonstrably failed to cover its contents.
+UNCOVERED_LINE = (
+    "Your name '{name}' does not cover: {items}. Give the tightest name that covers every child "
+    "cluster and every direct pathway. Keep what your name got right; widen only as much as needed "
+    "to include the missed items."
+)
+
+
+#: Appended on the SECOND re-ask, when a child cluster is still uncovered. It replaces the
+#: mechanical take, which copied the child's name onto the parent: 9 fired and only 3 survived,
+#: because a child's name is by construction narrower than the parent needs and the parent's own
+#: direct pathways then fell outside it. Widening FROM the child's name keeps what the take got
+#: right -- the child is included in full -- without inheriting its narrowness.
+WIDEN_LINE = (
+    "Your child cluster is named '{child}'. Your name must include it fully and also cover: "
+    "{items}. Start from the child's name and widen it only as much as needed to include these."
+)
+
+#: The same instruction when the child is the ONLY uncovered item -- common, and the usual case for
+#: a single-child node. The clause listing the other items would read "also cover: (nothing)", so it
+#: is dropped rather than filled with a placeholder.
+WIDEN_LINE_CHILD_ONLY = (
+    "Your child cluster is named '{child}'. Your name must include it fully. Start from the "
+    "child's name and widen it only as much as needed to cover the rest of your contents."
+)
+
+
+def widen_line(child: str, items: Sequence[str]) -> str:
+    """The instruction appended when a child cluster is still uncovered after the first re-ask.
+
+    Args:
+        child: The uncovered child cluster's name, which the new name must include in full.
+        items: The other uncovered contents -- direct pathways, and any further uncovered children
+            -- verbatim as the checks returned them. Empty is common, and then the clause listing
+            them is dropped: see :data:`WIDEN_LINE_CHILD_ONLY`.
+
+    Returns:
+        The line to append to the parent's own user message.
+    """
+    if not items:
+        return WIDEN_LINE_CHILD_ONLY.format(child=child)
+    return WIDEN_LINE.format(child=child, items=", ".join(f"'{i}'" for i in items))
+
+
+#: Appended to a CHILD whose parent cannot cover it. The declared procedure of 2 Oct narrows the
+#: child FIRST, because five attempts from the parent's side all failed and jointly pointed at the
+#: child's name as the fault: a child called "Intracellular vesicle transport" over-claims for its
+#: own contents, and no parent name can strictly contain it.
+NARROW_SELF_LINE = (
+    "Your parent cluster also contains these pathways: {items}. Give the tightest name true of "
+    "your own members only."
+)
+
+
+def narrow_self(items: Sequence[str]) -> str:
+    """The instruction appended to an uncovered child, asking it to narrow to its own members.
+
+    The parent's extra pathways are shown so the child can see what it must NOT claim. It is not
+    asked to exclude them in words -- only to describe itself, which is the thing its current name
+    fails to do.
+
+    Args:
+        items: Titles of the parent's direct pathways.
+
+    Returns:
+        The line to append to the child's own user message.
+    """
+    return NARROW_SELF_LINE.format(items=", ".join(f"'{i}'" for i in items) or "(none)")
+
+
+def uncovered_line(name: str, items: Sequence[str]) -> str:
+    """The instruction appended to a parent whose name failed the coverage check.
+
+    Args:
+        name: The name that failed.
+        items: The contents it does not cover, verbatim as the check returned them.
+
+    Returns:
+        The line to append to the parent's own user message.
+    """
+    return UNCOVERED_LINE.format(name=name, items=", ".join(f"'{i}'" for i in items))
+
 
 #: The lines added when a CHILD must move because its parent took its name. name-v6 resolves a
 #: parent-child collision by narrowing the child, not the parent: forbidding the parent from

@@ -96,29 +96,56 @@ def versions(path: Path) -> dict[str, int]:
     return counts
 
 
-def restamp(path: Path, columns: Sequence[str], current: str) -> tuple[int, int]:
-    """Mark one generation current and every other superseded.
+def restamp(
+    path: Path, columns: Sequence[str], current: str, keep: dict[str, str] | None = None
+) -> tuple[int, int]:
+    """Mark one generation current and every other superseded -- ONE row per node.
+
+    Marking by ``prompt_version`` alone left a node with SEVERAL current rows. A row is keyed by
+    ``theme_key``, which changes when a node's children are renamed, so a re-run writes a new row
+    and the old one survives under the same version. 35 of 502 nodes ended with two current rows,
+    and a reader keyed by node silently got whichever came last in the file -- which is how three
+    enforced names appeared not to have been saved at all.
 
     Args:
         path: Path to ``theme_names.tsv``.
         columns: The table's columns, in order.
         current: The ``prompt_version`` consumers should read.
+        keep: Node id to the ``theme_key`` this run wrote for it. A row for that node carrying any
+            other key is superseded even though its version matches. Omit and every matching row is
+            marked current, which is the old behaviour.
 
     Returns:
         Rows marked current, and rows superseded.
 
     Raises:
-        ValueError: If nothing carries ``current``.
+        ValueError: If nothing carries ``current``, or if a node still ends with more than one
+            current row -- the condition this function exists to prevent.
     """
     rows = list(_rows(path))
     if not any(r.get("prompt_version") == current for r in rows):
         have = sorted({r.get("prompt_version", "?") for r in rows})
         raise ValueError(f"{path} holds no {current!r} names; it has {', '.join(have)}")
+    chosen = keep or {}
     marked = 0
     for row in rows:
-        is_current = row.get("prompt_version") == current
+        node = row.get("example_node", "")
+        is_current = row.get("prompt_version") == current and (
+            node not in chosen or row.get("theme_key") == chosen[node]
+        )
         row["status"] = STATUS_CURRENT if is_current else STATUS_SUPERSEDED
         marked += is_current
+    seen: dict[str, int] = {}
+    for row in rows:
+        if row["status"] == STATUS_CURRENT:
+            seen[row.get("example_node", "")] = seen.get(row.get("example_node", ""), 0) + 1
+    many = sorted(n for n, c in seen.items() if c > 1)
+    if many:
+        raise ValueError(
+            f"{path}: {len(many)} node(s) would have more than one current row "
+            f"({', '.join(many[:5])}{'...' if len(many) > 5 else ''}). Pass keep= with the "
+            "theme_key this run wrote per node."
+        )
     write_tsv(path, columns, [tuple(r.get(c, "") for c in columns) for r in rows])
     return marked, len(rows) - marked
 

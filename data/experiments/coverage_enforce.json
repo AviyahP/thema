@@ -1,0 +1,1064 @@
+[
+  {
+    "node": "n0013",
+    "first_name": "Cell cycle progression and control",
+    "first_check": {
+      "uncovered": [
+        "Cell cycle progression and division"
+      ],
+      "reason": "Cell division is broader than cell cycle control, extending beyond regulation into the physical division process, making it only partially overlapping rather than fully subsumed. All listed pathways directly relate to cell cycle progression and its regulation, falling under the parent theme."
+    },
+    "reask_name": "Cell cycle",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Cell cycle progression and division is entirely encompassed by the concept of the cell cycle. All listed pathways relate to cell cycle regulation and progression, so they fall under the Cell cycle theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Cell cycle progression and division"
+      ],
+      "reason": "Cell division is broader than cell cycle control, extending beyond regulation into the physical division process, making it only partially overlapping rather than fully subsumed. All listed pathways directly relate to cell cycle progression and its regulation, falling under the parent theme."
+    },
+    "child_notes": "Cell cycle progression and division -> Cell cycle progression and division",
+    "passed_name": "Cell cycle",
+    "child_node": "n0027",
+    "child_old": "Cell cycle progression and division",
+    "child_new": "Cell cycle progression and division",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0016",
+    "first_name": "Lipoprotein lipase-mediated triglyceride lipolysis",
+    "first_check": {
+      "uncovered": [
+        "Triglyceride-rich lipoprotein remodeling and clearance"
+      ],
+      "reason": "This child is broader, encompassing remodeling and clearance processes beyond just lipoprotein lipase-mediated lipolysis. All three pathways concern lipoprotein particle remodeling and lipase complex assembly directly related to lipoprotein lipase-mediated triglyceride lipolysis."
+    },
+    "reask_name": "Triglyceride-rich lipoprotein lipolysis and remodeling",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Chylomicron remodeling and clearance is a subset of triglyceride-rich lipoprotein lipolysis and remodeling since chylomicrons are triglyceride-rich lipoproteins. All three pathways relate directly to triglyceride-rich lipoprotein lipolysis and remodeling, including regulation of VLDL remodeling, general TRL particle remodeling, and assembly of the lipase complexes (LPL/LIPC) that mediate lipolysis."
+    },
+    "after_child": {
+      "uncovered": [
+        "Chylomicron remodeling and clearance"
+      ],
+      "reason": "Chylomicron remodeling and clearance encompasses broader processes beyond LPL-mediated triglyceride lipolysis, such as receptor-mediated uptake and apolipoprotein exchange, so it only partly overlaps rather than being a sub-category. All three pathways concern lipoprotein particle remodeling and lipase complex assembly directly related to lipoprotein lipase-mediated triglyceride lipolysis."
+    },
+    "child_notes": "Triglyceride-rich lipoprotein remodeling and clearance -> Chylomicron remodeling and clearance",
+    "passed_name": "Triglyceride-rich lipoprotein lipolysis and remodeling",
+    "child_node": "n0056",
+    "child_old": "Triglyceride-rich lipoprotein remodeling and clearance",
+    "child_new": "Chylomicron remodeling and clearance",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0067",
+    "first_name": "Epithelial cell junctions and adhesion dynamics",
+    "first_check": {
+      "uncovered": [
+        "Cell-cell junction assembly and organization",
+        "Hallmark: epithelial mesenchymal transition"
+      ],
+      "reason": "Cell-cell junction assembly and organization applies broadly to all cell types, not exclusively to epithelial cells, so it is broader than the parent category. Cell-cell adhesion and cell junction organization directly relate to epithelial junctions/adhesion dynamics, while EMT concerns a broader transcriptional/phenotypic transition program beyond junction and adhesion dynamics."
+    },
+    "reask_name": "Epithelial junctions and plasticity",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Apical junction complex assembly is a sub-category specifically about epithelial junction formation, fitting within epithelial junctions and plasticity. All three pathways relate to cell-cell adhesion, junction organization, and epithelial-mesenchymal plasticity, directly fitting the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Hallmark: epithelial mesenchymal transition"
+      ],
+      "reason": "Apical junction complex assembly is a subcategory specifically describing formation of epithelial cell junctions, fully contained within epithelial cell junctions and adhesion dynamics. Cell-cell adhesion and cell junction organization directly relate to epithelial junctions/adhesion dynamics, while EMT concerns a broader transcriptional/phenotypic transition program beyond junction and adhesion dynamics."
+    },
+    "child_notes": "Cell-cell junction assembly and organization -> Apical junction complex assembly",
+    "passed_name": "Epithelial junctions and plasticity",
+    "child_node": "n0024",
+    "child_old": "Cell-cell junction assembly and organization",
+    "child_new": "Apical junction complex assembly",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0086",
+    "first_name": "Steroid hormone receptor transcriptional response",
+    "first_check": {
+      "uncovered": [
+        "Steroid hormone receptor transcriptional regulation"
+      ],
+      "reason": "Transcriptional regulation is a broader concept encompassing both activation and repression mechanisms, not strictly limited to the transcriptional response category. All three pathways represent transcriptional responses mediated by steroid hormone receptors (androgen and estrogen receptors), fitting within the parent theme."
+    },
+    "reask_name": "Steroid hormone receptor signaling and response",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Regulation of steroid hormone receptor signaling is a sub-category directly pertaining to steroid hormone receptor signaling and response. All three pathways represent steroid hormone (androgen/estrogen) receptor-mediated signaling and transcriptional response, fitting the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Regulation of steroid hormone receptor signaling"
+      ],
+      "reason": "Regulation of steroid hormone receptor signaling is broader, encompassing non-transcriptional aspects of receptor signaling, not purely a sub-category of transcriptional response. All three pathways represent transcriptional responses mediated by steroid hormone receptors (androgen and estrogen receptors), fitting within the parent theme."
+    },
+    "child_notes": "Steroid hormone receptor transcriptional regulation -> Regulation of steroid hormone receptor signaling",
+    "passed_name": "Steroid hormone receptor signaling and response",
+    "child_node": "n0093",
+    "child_old": "Steroid hormone receptor transcriptional regulation",
+    "child_new": "Regulation of steroid hormone receptor signaling",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0103",
+    "first_name": "Th17 and Th1 lineage differentiation control",
+    "first_check": {
+      "uncovered": [
+        "CD4 T cell activation and lineage differentiation"
+      ],
+      "reason": "This child is broader, covering general CD4 T cell activation and all lineage differentiation (Th2, Treg, etc.), not just Th17/Th1 specific control. All listed pathways pertain to Th1/Th17 lineage commitment, differentiation, and immune response, matching the parent theme."
+    },
+    "reask_name": "CD4 T-helper cell differentiation and lineage commitment",
+    "second_check": {
+      "uncovered": [
+        "CD4 T cell activation and differentiation",
+        "T-helper 1 type immune response",
+        "T-helper 17 type immune response"
+      ],
+      "reason": "This cluster includes T cell activation, which is broader than and distinct from differentiation and lineage commitment, so it only partly overlaps the parent. These describe immune response/effector functions rather than differentiation or lineage commitment processes."
+    },
+    "after_child": {
+      "uncovered": [
+        "CD4 T cell activation and differentiation"
+      ],
+      "reason": "CD4 T cell activation and differentiation is a broader process encompassing many lineages beyond Th17 and Th1, so it is not a strict sub-category. All listed pathways pertain to Th1/Th17 lineage commitment, differentiation, and immune response, matching the parent theme."
+    },
+    "child_notes": "CD4 T cell activation and lineage differentiation -> CD4 T cell activation and differentiation",
+    "passed_name": "CD4 T-helper cell differentiation and lineage commitment",
+    "child_node": "n0150",
+    "child_old": "CD4 T cell activation and lineage differentiation",
+    "child_new": "CD4 T cell activation and differentiation",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0106",
+    "first_name": "RUNX and Notch control of myeloid differentiation",
+    "first_check": {
+      "uncovered": [
+        "Myeloid and leukocyte lineage commitment"
+      ],
+      "reason": "This child cluster is broader, covering overall lineage commitment processes beyond just RUNX and Notch-mediated myeloid differentiation control. All three pathways involve NOTCH2 or RUNX transcriptional regulation related to myeloid differentiation, fitting the parent theme."
+    },
+    "reask_name": "Transcriptional control of hematopoietic lineage commitment",
+    "second_check": {
+      "uncovered": [
+        "Myeloid and leukocyte lineage commitment"
+      ],
+      "reason": "This cluster covers lineage commitment broadly including non-transcriptional mechanisms, not specifically transcriptional control, so it is broader than the parent. All three pathways describe transcription factors (NOTCH2, RUNX1, RUNX2) regulating genes that control hematopoietic/myeloid lineage differentiation, fitting the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Myeloid and leukocyte lineage commitment"
+      ],
+      "reason": "This child cluster is broader, covering overall lineage commitment processes beyond just RUNX and Notch-mediated myeloid differentiation control. All three pathways involve NOTCH2 or RUNX transcriptional regulation related to myeloid differentiation, fitting the parent theme."
+    },
+    "child_notes": "rejected, invented word: Myeloid and leukocyte lineage commitment",
+    "passed_name": "Transcriptional control of hematopoietic lineage commitment",
+    "child_node": "n0202",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0180",
+    "first_name": "Endothelial mechanical and adhesive signaling",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both child clusters describe mechanical/adhesive endothelial signaling processes that are fully subsumed under the parent category."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both child clusters describe mechanical/adhesive endothelial signaling processes that are fully subsumed under the parent category."
+    },
+    "child_notes": "",
+    "passed_name": "Endothelial mechanical and adhesive signaling",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0193",
+    "first_name": "Taste sensory transduction",
+    "first_check": {
+      "uncovered": [
+        "Sensory transduction by stimulus-gated ion channels"
+      ],
+      "reason": "This cluster is broader, covering ion-channel-based sensory transduction generally (e.g., touch, hearing) rather than being specific to taste. All listed pathways relate to taste perception/transduction and fall under the Taste sensory transduction theme."
+    },
+    "reask_name": "Sensory transduction by ion channels",
+    "second_check": {
+      "uncovered": [
+        "Sensory stimulus detection by ion channels"
+      ],
+      "reason": "Sensory stimulus detection is a broader initial step encompassing processes beyond ion channel-mediated transduction, not strictly a subset of it. All listed taste perception pathways, including sour taste which is mediated by ion channels, fall under sensory transduction by ion channels."
+    },
+    "after_child": {
+      "uncovered": [
+        "Sensory stimulus detection by ion channels"
+      ],
+      "reason": "Sensory stimulus detection by ion channels is broader, covering multiple sensory modalities (e.g., touch, hearing) beyond just taste, so it is not a sub-category of Taste sensory transduction. All listed pathways relate to taste perception/transduction and fall under the Taste sensory transduction theme."
+    },
+    "child_notes": "Sensory transduction by stimulus-gated ion channels -> Sensory stimulus detection by ion channels",
+    "passed_name": "Sensory transduction by ion channels",
+    "child_node": "n0303",
+    "child_old": "Sensory transduction by stimulus-gated ion channels",
+    "child_new": "Sensory stimulus detection by ion channels",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0216",
+    "first_name": "Cytoskeletal transport of organelles and cargo",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both child clusters refer to cytoskeletal transport of organelles (and vesicles, a type of cargo), which are subsets of the parent's scope covering organelles and cargo. Anterograde dendritic transport of neurotransmitter receptor complexes is a cytoskeletal (motor-based) cargo transport process, fitting within the parent theme."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both child clusters refer to cytoskeletal transport of organelles (and vesicles, a type of cargo), which are subsets of the parent's scope covering organelles and cargo. Anterograde dendritic transport of neurotransmitter receptor complexes is a cytoskeletal (motor-based) cargo transport process, fitting within the parent theme."
+    },
+    "child_notes": "",
+    "passed_name": "Cytoskeletal transport of organelles and cargo",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0241",
+    "first_name": "Mitotic chromosome condensation and cohesion",
+    "first_check": {
+      "uncovered": [
+        "establishment of protein localization to chromatin"
+      ],
+      "reason": "Sister chromatid cohesion maintenance is a sub-process of mitotic chromosome condensation and cohesion. The chromatin protein localization pathway concerns general protein targeting to chromatin, not mitotic chromosome condensation or sister chromatid cohesion."
+    },
+    "reask_name": "Chromatin protein loading and chromosome condensation/cohesion",
+    "second_check": {
+      "uncovered": [
+        "Sister chromatid cohesion maintenance and its regulation"
+      ],
+      "reason": "This cluster covers broader cohesion maintenance/regulation processes beyond just loading and condensation, so it only partly overlaps rather than being a strict sub-category. All listed pathways relate to sister chromatid cohesion establishment, chromosome condensation regulation, or protein loading onto chromatin, matching the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "establishment of protein localization to chromatin"
+      ],
+      "reason": "Sister chromatid cohesion maintenance and its regulation is a sub-category of mitotic chromosome condensation and cohesion. The chromatin protein localization pathway concerns general protein targeting to chromatin, not mitotic chromosome condensation or sister chromatid cohesion."
+    },
+    "child_notes": "Sister chromatid cohesion maintenance -> Sister chromatid cohesion maintenance and its regulation",
+    "passed_name": "Chromatin protein loading and chromosome condensation/cohesion",
+    "child_node": "n0226",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0273",
+    "first_name": "NEIL3-associated DNA lesion repair",
+    "first_check": {
+      "uncovered": [
+        "DNA damage repair pathways",
+        "single strand break repair"
+      ],
+      "reason": "DNA damage repair pathways is a broader category encompassing many repair mechanisms beyond NEIL3-associated lesion repair, so it is not a sub-category. Single strand break repair is a general DNA repair pathway unrelated specifically to NEIL3, while the other two directly concern NEIL3-associated lesion repair mechanisms."
+    },
+    "reask_name": "DNA damage and strand break repair",
+    "second_check": {
+      "uncovered": [],
+      "reason": "DNA damage repair pathways is a direct sub-category fully contained within DNA damage and strand break repair. All three pathways concern DNA damage/strand break repair mechanisms (single strand break repair, base excision repair defects, and ICL resolution) and fall within this theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "DNA damage repair pathways",
+        "single strand break repair"
+      ],
+      "reason": "DNA damage repair pathways is a broader category encompassing many repair mechanisms beyond NEIL3-associated lesion repair, so it is not a sub-category. Single strand break repair is a general DNA repair pathway unrelated specifically to NEIL3, while the other two directly concern NEIL3-associated lesion repair mechanisms."
+    },
+    "child_notes": "DNA damage repair pathways -> DNA damage repair pathways",
+    "passed_name": "DNA damage and strand break repair",
+    "child_node": "n0173",
+    "child_old": "DNA damage repair pathways",
+    "child_new": "DNA damage repair pathways",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0295",
+    "first_name": "Nuclear export of RNA and protein",
+    "first_check": {
+      "uncovered": [
+        "nuclear-transcribed mRNA catabolic process, nonsense-mediated decay"
+      ],
+      "reason": "Nuclear export of RNA is a subset of nuclear export of RNA and protein, so it is fully covered. NMD is an mRNA degradation quality-control process, not a nuclear export mechanism, while the other two directly describe RNA/protein export from the nucleus."
+    },
+    "reask_name": "mRNA surveillance and nucleocytoplasmic transport",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Nuclear export of RNA is a subset of nucleocytoplasmic transport processes, fully covered by the parent category. All three pathways relate to mRNA surveillance (NMD) and nucleocytoplasmic transport (mRNA/protein export), fitting the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "nuclear-transcribed mRNA catabolic process, nonsense-mediated decay"
+      ],
+      "reason": "Nuclear export of RNA is a subset of nuclear export of RNA and protein, so it is fully covered. NMD is an mRNA degradation quality-control process, not a nuclear export mechanism, while the other two directly describe RNA/protein export from the nucleus."
+    },
+    "child_notes": "",
+    "passed_name": "mRNA surveillance and nucleocytoplasmic transport",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0314",
+    "first_name": "Actin-driven membrane protrusion and pathogen entry",
+    "first_check": {
+      "uncovered": [
+        "Branched actin nucleation and lamellipodium formation"
+      ],
+      "reason": "This cluster describes general actin nucleation/lamellipodium formation, which is broader than the specific parent category of membrane protrusion driving pathogen entry. All listed pathways involve actin-driven membrane ruffling/protrusion processes (macropinocytosis, ruffle assembly, Listeria entry via actin-based mechanisms) and thus fall under the parent theme."
+    },
+    "reask_name": "Actin-driven membrane remodeling in uptake and invasion",
+    "second_check": {
+      "uncovered": [
+        "Actin nucleation and lamellipodium control"
+      ],
+      "reason": "Actin nucleation and lamellipodium control is a broader general actin regulation process not specifically confined to membrane remodeling in uptake and invasion. All four pathways involve actin-driven membrane remodeling processes (macropinocytosis, ruffle assembly, and Listeria invasion mechanisms) that fall under the uptake and invasion theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Actin nucleation and lamellipodium control"
+      ],
+      "reason": "Actin nucleation and lamellipodium control is a broader process governing general cell motility, not exclusively tied to pathogen entry, so it only partly overlaps the parent category. All listed pathways involve actin-driven membrane ruffling/protrusion processes (macropinocytosis, ruffle assembly, Listeria entry via actin-based mechanisms) and thus fall under the parent theme."
+    },
+    "child_notes": "Branched actin nucleation and lamellipodium formation -> Actin nucleation and lamellipodium control",
+    "passed_name": "Actin-driven membrane remodeling in uptake and invasion",
+    "child_node": "n0157",
+    "child_old": "Branched actin nucleation and lamellipodium formation",
+    "child_new": "Actin nucleation and lamellipodium control",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0353",
+    "first_name": "Allergic and IL-33-driven immune activation",
+    "first_check": {
+      "uncovered": [
+        "Antibody-mediated hypersensitivity and Fc receptor signalling"
+      ],
+      "reason": "The Fc receptor signalling cluster is broader, covering antibody-mediated hypersensitivity beyond IL-33/allergic contexts, whereas IgE-mediated allergic effector cell activation is specifically an allergic process. Both pathways describe IL-33 signaling, directly matching the parent theme."
+    },
+    "reask_name": "Allergic hypersensitivity and IL-33 signalling",
+    "second_check": {
+      "uncovered": [
+        "Antibody-mediated hypersensitivity and its regulation"
+      ],
+      "reason": "Antibody-mediated hypersensitivity and its regulation is broader, covering non-allergic hypersensitivity mechanisms beyond IL-33 signalling, while IgE-mediated allergic effector cell activation fits within the allergic hypersensitivity scope. Both pathways describe IL-33 signaling, directly matching the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Antibody-mediated hypersensitivity and its regulation"
+      ],
+      "reason": "Antibody-mediated hypersensitivity is broader than allergic/IL-33 activation, covering non-allergic hypersensitivity mechanisms too, while IgE-mediated allergic effector cell activation is a direct subset of allergic immune activation. Both pathways describe IL-33 signaling, directly matching the parent theme."
+    },
+    "child_notes": "Antibody-mediated hypersensitivity and Fc receptor signalling -> Antibody-mediated hypersensitivity and its regulation",
+    "passed_name": "Allergic hypersensitivity and IL-33 signalling",
+    "child_node": "n0128",
+    "child_old": "Antibody-mediated hypersensitivity and Fc receptor signalling",
+    "child_new": "Antibody-mediated hypersensitivity and its regulation",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0365",
+    "first_name": "Glucose-regulated insulin secretion",
+    "first_check": {
+      "uncovered": [
+        "Insulin secretion regulation",
+        "protein localization to extracellular region",
+        "export from cell"
+      ],
+      "reason": "Insulin secretion regulation is broader, encompassing non-glucose stimuli as well, so it's not strictly a sub-category of glucose-regulated insulin secretion. These two are generic secretion/transport terms not specifically tied to glucose-regulated insulin secretion, whereas carbohydrate homeostasis and pancreas beta cell hallmark directly relate to glucose-insulin biology."
+    },
+    "reask_name": "Insulin secretion and glucose homeostasis",
+    "second_check": {
+      "uncovered": [
+        "protein localization to extracellular region",
+        "export from cell"
+      ],
+      "reason": "Regulation of insulin secretion is a sub-category fully contained within insulin secretion and glucose homeostasis. Carbohydrate homeostasis and pancreas beta cells directly relate to insulin/glucose regulation, while general protein localization/export pathways concern broader secretory biology not specific to this theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Regulation of insulin secretion",
+        "protein localization to extracellular region",
+        "export from cell"
+      ],
+      "reason": "Regulation of insulin secretion is a broader category encompassing many stimuli beyond glucose, not a subset solely of glucose-regulated insulin secretion. These two are generic secretion/transport terms not specifically tied to glucose-regulated insulin secretion, whereas carbohydrate homeostasis and pancreas beta cell hallmark directly relate to glucose-insulin biology."
+    },
+    "child_notes": "Insulin secretion regulation -> Regulation of insulin secretion",
+    "passed_name": "",
+    "child_node": "n0074",
+    "child_old": "Insulin secretion regulation",
+    "child_new": "Regulation of insulin secretion",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0367",
+    "first_name": "Hematopoietic and lymphocyte lineage commitment",
+    "first_check": {
+      "uncovered": [
+        "Homeostatic control of progenitor cell numbers"
+      ],
+      "reason": "This cluster is broader, covering general progenitor cell homeostasis beyond hematopoietic/lymphocyte lineage commitment. All listed pathways describe hematopoietic/lymphocyte lineage commitment and differentiation processes directly under the parent theme."
+    },
+    "reask_name": "Hematopoietic lineage commitment and progenitor regulation",
+    "second_check": {
+      "uncovered": [
+        "Regulation of progenitor cell number"
+      ],
+      "reason": "Regulation of progenitor cell number is broader, covering progenitor cells generally rather than being confined to hematopoietic lineage commitment. All listed pathways concern differentiation of hematopoietic-derived lineages (progenitors, leukocytes, lymphocytes, T cells), fitting under hematopoietic lineage commitment and progenitor regulation."
+    },
+    "after_child": {
+      "uncovered": [
+        "Regulation of progenitor cell number"
+      ],
+      "reason": "Regulation of progenitor cell number is a broader concept covering many progenitor cell types, not specifically restricted to hematopoietic and lymphocyte lineage commitment. All listed pathways describe hematopoietic/lymphocyte lineage commitment and differentiation processes directly under the parent theme."
+    },
+    "child_notes": "Homeostatic control of progenitor cell numbers -> Regulation of progenitor cell number",
+    "passed_name": "Hematopoietic lineage commitment and progenitor regulation",
+    "child_node": "n0132",
+    "child_old": "Homeostatic control of progenitor cell numbers",
+    "child_new": "Regulation of progenitor cell number",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0372",
+    "first_name": "Digestion and intestinal nutrient uptake",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both child clusters are sub-categories specifically about digestion/intestinal nutrient absorption and lipid/sterol absorption, fully within the parent scope."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both child clusters are sub-categories specifically about digestion/intestinal nutrient absorption and lipid/sterol absorption, fully within the parent scope."
+    },
+    "child_notes": "",
+    "passed_name": "Digestion and intestinal nutrient uptake",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0377",
+    "first_name": "Potassium-driven membrane repolarization",
+    "first_check": {
+      "uncovered": [
+        "Cardiac action potential repolarization",
+        "Phase 1 - inactivation of fast Na+ channels"
+      ],
+      "reason": "Cardiac action potential repolarization involves multiple ion currents (including calcium and sodium channels) beyond just potassium-driven mechanisms, making it broader than the parent category. The sodium channel inactivation phase relates to depolarization/early repolarization via Na+ channels, not potassium-driven repolarization, while the other two pathways directly involve potassium-mediated membrane repolarization/hyperpolarization."
+    },
+    "reask_name": "Membrane potential regulation by ion channels",
+    "second_check": {
+      "uncovered": [
+        "Cardiac membrane repolarization"
+      ],
+      "reason": "Cardiac membrane repolarization is a broader physiological process involving multiple mechanisms beyond ion channel-based membrane potential regulation, so it only partly overlaps the parent category. All three pathways involve ion channel activity affecting membrane potential (potassium transport regulation, hyperpolarization, and Na+ channel inactivation), fitting the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Cardiac membrane repolarization",
+        "Phase 1 - inactivation of fast Na+ channels"
+      ],
+      "reason": "Cardiac membrane repolarization includes mechanisms beyond potassium currents and broader cardiac processes, so it is not strictly a sub-category. The sodium channel inactivation phase relates to depolarization/early repolarization via Na+ channels, not potassium-driven repolarization, while the other two pathways directly involve potassium-mediated membrane repolarization/hyperpolarization."
+    },
+    "child_notes": "Cardiac action potential repolarization -> Cardiac membrane repolarization",
+    "passed_name": "Membrane potential regulation by ion channels",
+    "child_node": "n0212",
+    "child_old": "Cardiac action potential repolarization",
+    "child_new": "Cardiac membrane repolarization",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0402",
+    "first_name": "Myeloid phagocytosis and leukocyte effector immunity",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Myeloid leukocyte degranulation and effector immunity is a subset of myeloid effector immunity processes covered by the parent category. All three pathways relate to myeloid phagocytic function and leukocyte effector immunity, fitting the parent theme."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Myeloid leukocyte degranulation and effector immunity is a subset of myeloid effector immunity processes covered by the parent category. All three pathways relate to myeloid phagocytic function and leukocyte effector immunity, fitting the parent theme."
+    },
+    "child_notes": "",
+    "passed_name": "Myeloid phagocytosis and leukocyte effector immunity",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0407",
+    "first_name": "Bioactive lipid mediator turnover and signaling",
+    "first_check": {
+      "uncovered": [
+        "ether catabolic process"
+      ],
+      "reason": "Prostaglandin synthesis and signaling is a specific subset of bioactive lipid mediator turnover and signaling. Monoacylglycerol metabolism, N-acylethanolamine metabolism, and prostaglandin E response are directly tied to bioactive lipid mediator turnover/signaling, while ether catabolic process is a general lipid catabolism pathway unrelated to this theme."
+    },
+    "reask_name": "Bioactive lipid mediator metabolism and signaling",
+    "second_check": {
+      "uncovered": [
+        "ether catabolic process"
+      ],
+      "reason": "Prostaglandin synthesis and signaling is a specific subset of bioactive lipid mediator metabolism and signaling. Monoacylglycerol metabolism, N-acylethanolamine metabolism, and PGE2 response are all bioactive lipid mediator related, while ether catabolic process concerns general ether lipid breakdown unrelated to lipid mediator signaling."
+    },
+    "after_child": {
+      "uncovered": [
+        "ether catabolic process"
+      ],
+      "reason": "Prostaglandin synthesis and signaling is a specific subset of bioactive lipid mediator turnover and signaling. Monoacylglycerol metabolism, N-acylethanolamine metabolism, and prostaglandin E response are directly tied to bioactive lipid mediator turnover/signaling, while ether catabolic process is a general lipid catabolism pathway unrelated to this theme."
+    },
+    "child_notes": "",
+    "passed_name": "",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0415",
+    "first_name": "Actin cytoskeleton dynamics in cell motility",
+    "first_check": {
+      "uncovered": [
+        "Regulation of cell-matrix adhesion turnover"
+      ],
+      "reason": "Branched actin nucleation and lamellipodium formation is a direct subcategory of actin cytoskeleton dynamics in motility, while cell-matrix adhesion turnover is a related but distinct process not solely about actin cytoskeleton dynamics. Regulation of actin filament organization is directly part of actin cytoskeleton dynamics relevant to cell motility."
+    },
+    "reask_name": "Actin cytoskeleton and adhesion dynamics in migration",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Both child clusters describe aspects of actin cytoskeleton and adhesion dynamics directly relevant to migration, fully subsumed under the parent category. Regulation of actin filament organization directly belongs to actin cytoskeleton dynamics relevant to migration."
+    },
+    "after_child": {
+      "uncovered": [
+        "Regulation of cell-matrix adhesion turnover"
+      ],
+      "reason": "Actin nucleation and lamellipodium control is a direct subset of actin cytoskeleton dynamics in motility, but adhesion turnover regulation is a related but distinct process not solely about actin cytoskeleton dynamics. Regulation of actin filament organization is directly part of actin cytoskeleton dynamics relevant to cell motility."
+    },
+    "child_notes": "",
+    "passed_name": "Actin cytoskeleton and adhesion dynamics in migration",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0426",
+    "first_name": "NK cell receptor signalling and activation control",
+    "first_check": {
+      "uncovered": [
+        "Immune checkpoint restraint of T cell responses"
+      ],
+      "reason": "This child concerns T cell checkpoint regulation, not NK cell receptor signalling, so it is unrelated rather than a sub-category. All three pathways relate to NK cell receptor activation and its regulation, fitting the parent theme."
+    },
+    "reask_name": "Lymphocyte inhibitory receptor and activation control",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Negative regulation of T cell immune checkpoints is a sub-category of lymphocyte inhibitory receptor and activation control, as immune checkpoints are inhibitory receptors controlling lymphocyte activation. All three pathways relate to NK cell receptor activation and its regulation, falling directly under lymphocyte inhibitory receptor and activation control."
+    },
+    "after_child": {
+      "uncovered": [
+        "Negative regulation of T cell immune checkpoints"
+      ],
+      "reason": "This child concerns T cell immune checkpoint regulation, not NK cell receptor signalling, so it is unrelated rather than a sub-category. All three pathways relate to NK cell receptor activation and its regulation, fitting the parent theme."
+    },
+    "child_notes": "Immune checkpoint restraint of T cell responses -> Negative regulation of T cell immune checkpoints",
+    "passed_name": "Lymphocyte inhibitory receptor and activation control",
+    "child_node": "n0183",
+    "child_old": "Immune checkpoint restraint of T cell responses",
+    "child_new": "Negative regulation of T cell immune checkpoints",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0440",
+    "first_name": "Skeletal development and osteoblast differentiation",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Chondrocyte differentiation and endochondral ossification is a key process within skeletal development, fitting as a sub-category of the parent. All three pathways relate directly to skeletal development and osteoblast differentiation, including regulatory mechanisms (RUNX2) and related cartilage morphogenesis."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Chondrocyte differentiation and endochondral ossification is a key process within skeletal development, fitting as a sub-category of the parent. All three pathways relate directly to skeletal development and osteoblast differentiation, including regulatory mechanisms (RUNX2) and related cartilage morphogenesis."
+    },
+    "child_notes": "",
+    "passed_name": "Skeletal development and osteoblast differentiation",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0446",
+    "first_name": "Vesicle-mediated membrane trafficking",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both clusters describe vesicle transport processes that are entirely subsumed by vesicle-mediated membrane trafficking."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both clusters describe vesicle transport processes that are entirely subsumed by vesicle-mediated membrane trafficking."
+    },
+    "child_notes": "",
+    "passed_name": "Vesicle-mediated membrane trafficking",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0467",
+    "first_name": "Neuronal outgrowth and guidance",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Axon and dendrite outgrowth regulation is a direct sub-category of neuronal outgrowth and guidance. All three pathways relate to neuronal morphology, projection dynamics, and axon guidance, fitting within the neuronal outgrowth and guidance theme."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Axon and dendrite outgrowth regulation is a direct sub-category of neuronal outgrowth and guidance. All three pathways relate to neuronal morphology, projection dynamics, and axon guidance, fitting within the neuronal outgrowth and guidance theme."
+    },
+    "child_notes": "",
+    "passed_name": "Neuronal outgrowth and guidance",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0487",
+    "first_name": "Innate sensing and control of intracellular bacteria",
+    "first_check": {
+      "uncovered": [
+        "Innate sensing of bacterial molecules",
+        "positive regulation of antigen processing and presentation",
+        "positive regulation of dendritic cell antigen processing and presentation"
+      ],
+      "reason": "Innate sensing of bacterial molecules is broader, covering extracellular and intracellular bacteria generally, not specifically intracellular bacteria control. These concern adaptive immune antigen presentation rather than innate sensing/control of intracellular bacteria, while the NLR, NOD1, and xenophagy pathways directly relate to intracellular bacterial sensing and control."
+    },
+    "reask_name": "Innate bacterial sensing and antigen presentation",
+    "second_check": {
+      "uncovered": [
+        "Innate sensing of bacterial molecules",
+        "positive regulation of xenophagy"
+      ],
+      "reason": "This child covers only innate sensing, not antigen presentation, so it is narrower in scope and does not fully encompass the parent's antigen presentation aspect, making it only partly overlapping rather than a full sub-category. Xenophagy regulation concerns autophagic clearance of pathogens rather than bacterial sensing or antigen presentation, while the other pathways relate to antigen processing/presentation and NOD-like receptor bacterial sensing signaling."
+    },
+    "after_child": {
+      "uncovered": [
+        "Innate sensing of bacterial molecules",
+        "positive regulation of antigen processing and presentation",
+        "positive regulation of dendritic cell antigen processing and presentation"
+      ],
+      "reason": "Innate sensing of bacterial molecules is broader, covering extracellular and intracellular bacteria generally, not specifically intracellular bacteria control. These concern adaptive immune antigen presentation rather than innate sensing/control of intracellular bacteria, while the NLR, NOD1, and xenophagy pathways directly relate to intracellular bacterial sensing and control."
+    },
+    "child_notes": "rejected, invented word: Innate immune detection of microbes",
+    "passed_name": "Innate bacterial sensing and antigen presentation",
+    "child_node": "n0190",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0515",
+    "first_name": "Cell motility and projection dynamics",
+    "first_check": {
+      "uncovered": [
+        "Axon guidance signalling and morphogenesis"
+      ],
+      "reason": "Axon guidance signalling and morphogenesis encompasses broader signalling and developmental processes beyond cell motility and projection dynamics, so it only partly overlaps rather than being a strict sub-category. All three pathways relate to cell movement or projection formation/regulation, fitting under cell motility and projection dynamics."
+    },
+    "reask_name": "Cell migration and projection guidance",
+    "second_check": {
+      "uncovered": [
+        "locomotion"
+      ],
+      "reason": "Axon guidance and growth cone steering is a specific form of cell projection guidance, fully contained within the parent category. Neuron projection development and cell projection assembly fit migration/projection guidance theme, but locomotion is a broader organismal movement concept not specific to this theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Axon guidance and growth cone steering"
+      ],
+      "reason": "Axon guidance involves broader signaling and developmental processes beyond cell motility/projection dynamics, so it only partly overlaps rather than being a strict subcategory. All three pathways relate to cell movement or projection formation/regulation, fitting under cell motility and projection dynamics."
+    },
+    "child_notes": "Axon guidance signalling and morphogenesis -> Axon guidance and growth cone steering",
+    "passed_name": "",
+    "child_node": "n0252",
+    "child_old": "Axon guidance signalling and morphogenesis",
+    "child_new": "Axon guidance and growth cone steering",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0522",
+    "first_name": "Chromosome end replication and maintenance",
+    "first_check": {
+      "uncovered": [
+        "positive regulation of chromosome organization"
+      ],
+      "reason": "Regulation of telomere maintenance is a sub-category directly pertaining to chromosome end replication and maintenance. The first two pathways relate specifically to telomere/chromosome end maintenance and replication, while the third concerns general chromosome organization regulation, not specific to chromosome ends."
+    },
+    "reask_name": "Chromosome organization and telomere maintenance",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Regulation of telomere maintenance is a sub-category fully contained within chromosome organization and telomere maintenance. All three pathways relate directly to telomere maintenance, chromosome organization, or DNA strand elongation during replication, which falls under chromosome organization and telomere maintenance."
+    },
+    "after_child": {
+      "uncovered": [
+        "positive regulation of chromosome organization"
+      ],
+      "reason": "Regulation of telomere maintenance is a sub-category directly pertaining to chromosome end replication and maintenance. The first two pathways relate specifically to telomere/chromosome end maintenance and replication, while the third concerns general chromosome organization regulation, not specific to chromosome ends."
+    },
+    "child_notes": "",
+    "passed_name": "Chromosome organization and telomere maintenance",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0539",
+    "first_name": "Neuroendocrine regulation of growth and metabolism",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both 'Endocrine control of somatic growth' and 'Neuroendocrine control of growth and appetite' are specific sub-categories falling within neuroendocrine regulation of growth and metabolism."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both 'Endocrine control of somatic growth' and 'Neuroendocrine control of growth and appetite' are specific sub-categories falling within neuroendocrine regulation of growth and metabolism."
+    },
+    "child_notes": "",
+    "passed_name": "Neuroendocrine regulation of growth and metabolism",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0540",
+    "first_name": "Cadherin adhesion and TGFBR3 signalling regulation",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Regulation of E-cadherin adhesion is a sub-category falling under cadherin adhesion regulation, matching the parent category. All four pathways relate directly to cadherin adhesion regulation (classical cadherins, CDH1 translation) or TGFBR3 signalling (its expression and signaling), matching the parent theme."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Regulation of E-cadherin adhesion is a sub-category falling under cadherin adhesion regulation, matching the parent category. All four pathways relate directly to cadherin adhesion regulation (classical cadherins, CDH1 translation) or TGFBR3 signalling (its expression and signaling), matching the parent theme."
+    },
+    "child_notes": "",
+    "passed_name": "Cadherin adhesion and TGFBR3 signalling regulation",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0557",
+    "first_name": "Mesangial and mesenchymal signalling in glomerular development",
+    "first_check": {
+      "uncovered": [
+        "Receptor tyrosine kinase and cytokine signalling in mesenchymal remodelling"
+      ],
+      "reason": "This cluster refers to broader mesenchymal remodelling signalling not confined to glomerular development, while the first cluster is specifically about glomerular mesangial/capillary development."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both child clusters directly describe mesangial/capillary development and mesenchymal signalling components that fall within the parent category."
+    },
+    "child_notes": "Receptor tyrosine kinase and cytokine signalling in mesenchymal remodelling -> Receptor tyrosine kinase and gp130 mesenchymal signalling",
+    "passed_name": "Mesangial and mesenchymal signalling in glomerular development",
+    "child_node": "n0246",
+    "child_old": "Receptor tyrosine kinase and cytokine signalling in mesenchymal remodelling",
+    "child_new": "Receptor tyrosine kinase and gp130 mesenchymal signalling",
+    "outcome": "covered after the child narrowed"
+  },
+  {
+    "node": "n0571",
+    "first_name": "Innate recognition of microbial molecules and signalling",
+    "first_check": {
+      "uncovered": [
+        "positive regulation of xenophagy"
+      ],
+      "reason": "Innate sensing of bacterial molecules is a sub-category of innate recognition of microbial molecules and signalling. Xenophagy regulation concerns autophagic clearance of pathogens rather than innate immune recognition and signalling of microbial molecules, while the other pathways directly relate to microbial sensing and downstream signaling."
+    },
+    "reask_name": "Innate sensing and antibacterial response",
+    "second_check": {
+      "uncovered": [
+        "Activation of IRF3, IRF7 mediated by TBK1, IKK\u03b5 (IKBKE)"
+      ],
+      "reason": "Innate sensing of bacterial molecules is a sub-category of innate sensing and antibacterial response. The first three relate to bacterial/innate sensing and antibacterial defense, while the IRF3/IRF7 activation via TBK1/IKK\u03b5 pathway is primarily associated with antiviral interferon signaling rather than antibacterial response."
+    },
+    "after_child": {
+      "uncovered": [
+        "positive regulation of xenophagy"
+      ],
+      "reason": "Innate sensing of bacterial molecules is a sub-category of innate recognition of microbial molecules and signalling. Xenophagy regulation concerns autophagic clearance of pathogens rather than innate immune recognition and signalling of microbial molecules, while the other pathways directly relate to microbial sensing and downstream signaling."
+    },
+    "child_notes": "",
+    "passed_name": "",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0581",
+    "first_name": "Chromatin protein targeting and organization control",
+    "first_check": {
+      "uncovered": [
+        "Sister chromatid cohesion maintenance",
+        "SUMO is transferred from E1 to E2 (UBE2I, UBC9)"
+      ],
+      "reason": "Sister chromatid cohesion maintenance involves cohesin complex function in chromosome segregation broadly, not specifically protein targeting and organization of chromatin. This pathway describes a general SUMOylation enzymatic step unrelated specifically to chromatin targeting or organization, while the other two directly concern chromatin protein localization and organization regulation."
+    },
+    "reask_name": "Nuclear genome organization and chromosome stability",
+    "second_check": {
+      "uncovered": [
+        "SUMO is transferred from E1 to E2 (UBE2I, UBC9)"
+      ],
+      "reason": "Sister chromatid cohesion maintenance is a sub-process directly contributing to chromosome stability and nuclear genome organization. The first two pathways directly relate to chromatin organization and chromosome stability, while SUMO conjugation enzymatic transfer is a general post-translational modification mechanism not specific to nuclear genome organization."
+    },
+    "after_child": {
+      "uncovered": [
+        "Sister chromatid cohesion maintenance and its regulation",
+        "SUMO is transferred from E1 to E2 (UBE2I, UBC9)"
+      ],
+      "reason": "Sister chromatid cohesion is a broader cell division process involving cohesin complex function beyond chromatin protein targeting/organization specifically. This pathway describes a general SUMOylation enzymatic step unrelated specifically to chromatin targeting or organization, while the other two directly concern chromatin protein localization and organization regulation."
+    },
+    "child_notes": "",
+    "passed_name": "",
+    "child_node": "n0226",
+    "child_old": "Sister chromatid cohesion maintenance",
+    "child_new": "Sister chromatid cohesion maintenance and its regulation",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0598",
+    "first_name": "Lipid metabolism and secretory trafficking",
+    "first_check": {
+      "uncovered": [
+        "Sphingomyelin metabolism and ceramide signalling",
+        "Wnt protein secretion"
+      ],
+      "reason": "Ceramide signalling extends beyond lipid metabolism and secretory trafficking into broader cell signalling processes, so it only partly overlaps the parent category. Lipoprotein catabolism fits lipid metabolism and Golgi-to-plasma membrane transport fits secretory trafficking, but Wnt protein secretion concerns signaling protein secretion unrelated to lipid metabolism or general secretory trafficking theme."
+    },
+    "reask_name": "Lipid metabolism and Golgi secretory trafficking",
+    "second_check": {
+      "uncovered": [
+        "Wnt protein secretion"
+      ],
+      "reason": "Sphingomyelin and ceramide metabolism is a sub-category of lipid metabolism, so it is fully covered. Lipoprotein catabolic process fits lipid metabolism and Golgi to plasma membrane transport fits secretory trafficking, but Wnt protein secretion concerns Wnt signaling export rather than lipid metabolism or general Golgi secretory trafficking."
+    },
+    "after_child": {
+      "uncovered": [
+        "Wnt protein secretion"
+      ],
+      "reason": "Sphingomyelin and ceramide metabolism is a lipid metabolism pathway, fully falling under the parent category. Lipoprotein catabolism fits lipid metabolism and Golgi-to-plasma membrane transport fits secretory trafficking, but Wnt protein secretion concerns signaling protein secretion unrelated to lipid metabolism or general secretory trafficking theme."
+    },
+    "child_notes": "Sphingomyelin metabolism and ceramide signalling -> Sphingomyelin and ceramide metabolism",
+    "passed_name": "",
+    "child_node": "n0152",
+    "child_old": "Sphingomyelin metabolism and ceramide signalling",
+    "child_new": "Sphingomyelin and ceramide metabolism",
+    "outcome": "unnameable"
+  },
+  {
+    "node": "n0660",
+    "first_name": "Type I interferon signaling and its regulation",
+    "first_check": {
+      "uncovered": [
+        "Type I interferon antiviral effector response"
+      ],
+      "reason": "This child refers to downstream antiviral effector mechanisms rather than the signaling and regulation process itself, making it broader/distinct rather than a strict sub-category. All three pathways directly concern type I interferon (beta/alpha) signaling or its regulation, fitting the parent theme."
+    },
+    "reask_name": "Type I interferon signaling and antiviral response",
+    "second_check": {
+      "uncovered": [],
+      "reason": "Interferon-stimulated antiviral effector mechanisms are a direct subset of type I interferon signaling and antiviral response. All three pathways relate directly to type I interferon (IFN-beta/IFNA/IFNB) signaling regulation, falling under the parent theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Interferon-stimulated antiviral effector mechanisms"
+      ],
+      "reason": "This cluster covers downstream antiviral effector proteins/mechanisms rather than the signaling and regulation of type I interferon itself, making it broader/related rather than a sub-category. All three pathways directly concern type I interferon (beta/alpha) signaling or its regulation, fitting the parent theme."
+    },
+    "child_notes": "Type I interferon antiviral effector response -> Interferon-stimulated antiviral effector mechanisms",
+    "passed_name": "Type I interferon signaling and antiviral response",
+    "child_node": "n0175",
+    "child_old": "Type I interferon antiviral effector response",
+    "child_new": "Interferon-stimulated antiviral effector mechanisms",
+    "outcome": "covered after re-ask"
+  },
+  {
+    "node": "n0661",
+    "first_name": "Mitochondrial dynamics and organization",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Cristae architecture and MICOS complex is a sub-category concerned with mitochondrial inner membrane shaping, fully part of mitochondrial dynamics and organization. All three pathways directly concern mitochondrial organization, fusion, and fission, which are core aspects of mitochondrial dynamics and organization."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Cristae architecture and MICOS complex is a sub-category concerned with mitochondrial inner membrane shaping, fully part of mitochondrial dynamics and organization. All three pathways directly concern mitochondrial organization, fusion, and fission, which are core aspects of mitochondrial dynamics and organization."
+    },
+    "child_notes": "",
+    "passed_name": "Mitochondrial dynamics and organization",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0714",
+    "first_name": "Amino acid metabolism and glycine conjugation",
+    "first_check": {
+      "uncovered": [
+        "Amino acid catabolism to cofactors and mediators",
+        "obsolete organic acid biosynthetic process"
+      ],
+      "reason": "This cluster describes catabolism of amino acids into cofactors and mediators, which is broader than and only partially overlaps with amino acid metabolism and glycine conjugation specifically. The other pathways relate directly to amino acid metabolism or glycine conjugation, while organic acid biosynthetic process is a distinct, obsolete, more general process not specific to amino acids or glycine conjugation."
+    },
+    "reask_name": "Amino acid and organic acid metabolism",
+    "second_check": {
+      "uncovered": [
+        "Amino acid catabolism and sulfur metabolism"
+      ],
+      "reason": "Sulfur metabolism extends beyond amino acid and organic acid metabolism, making this cluster broader than the parent category. All four pathways relate to amino acid or organic acid metabolism, including glycine conjugation reactions which fall under this theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Amino acid catabolism and sulfur metabolism",
+        "obsolete organic acid biosynthetic process"
+      ],
+      "reason": "Sulfur metabolism extends beyond amino acid metabolism and glycine conjugation, making this cluster broader than the parent category. The other pathways relate directly to amino acid metabolism or glycine conjugation, while organic acid biosynthetic process is a distinct, obsolete, more general process not specific to amino acids or glycine conjugation."
+    },
+    "child_notes": "Amino acid catabolism to cofactors and mediators -> Amino acid catabolism and sulfur metabolism",
+    "passed_name": "Amino acid and organic acid metabolism",
+    "child_node": "n0221",
+    "child_old": "Amino acid catabolism to cofactors and mediators",
+    "child_new": "Amino acid catabolism and sulfur metabolism",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0752",
+    "first_name": "Lipoprotein particle biology",
+    "first_check": {
+      "uncovered": [],
+      "reason": "Both child clusters describe aspects of lipoprotein particle metabolism, assembly, and transport, which are sub-categories fully contained within lipoprotein particle biology."
+    },
+    "reask_name": "",
+    "second_check": {},
+    "after_child": {
+      "uncovered": [],
+      "reason": "Both child clusters describe aspects of lipoprotein particle metabolism, assembly, and transport, which are sub-categories fully contained within lipoprotein particle biology."
+    },
+    "child_notes": "",
+    "passed_name": "Lipoprotein particle biology",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "covered"
+  },
+  {
+    "node": "n0778",
+    "first_name": "Platelet activation and adhesion signalling",
+    "first_check": {
+      "uncovered": [
+        "Hemostasis and thrombin/PAR signalling"
+      ],
+      "reason": "Hemostasis is a broader process encompassing coagulation cascades beyond platelet activation and adhesion, so it only partially overlaps rather than being a sub-category. All listed pathways (cell adhesion, platelet degranulation in both cases, and Rap1 signalling) relate to platelet activation, adhesion, or associated signalling pathways, so they fall under the parent theme."
+    },
+    "reask_name": "Platelet activation and hemostatic signalling",
+    "second_check": {
+      "uncovered": [
+        "Hemostasis and thrombin receptor signalling",
+        "cell adhesion"
+      ],
+      "reason": "Hemostasis is a broader process encompassing coagulation cascade and vascular repair beyond platelet activation signalling, so it is not purely a sub-category. Platelet degranulation (both cases) and Rap1 signalling relate directly to platelet activation/hemostasis, whereas cell adhesion is too general and not specific to this theme."
+    },
+    "after_child": {
+      "uncovered": [
+        "Hemostasis and thrombin receptor signalling"
+      ],
+      "reason": "Hemostasis is a broader process encompassing coagulation and vascular responses beyond just platelet activation and adhesion, so it only partially overlaps rather than being a subset. All listed pathways (cell adhesion, platelet degranulation in both cases, and Rap1 signalling) relate to platelet activation, adhesion, or associated signalling pathways, so they fall under the parent theme."
+    },
+    "child_notes": "Hemostasis and thrombin/PAR signalling -> Hemostasis and thrombin receptor signalling",
+    "passed_name": "Platelet activation and hemostatic signalling",
+    "child_node": "n0112",
+    "child_old": "Hemostasis and thrombin/PAR signalling",
+    "child_new": "Hemostasis and thrombin receptor signalling",
+    "outcome": "same_theme"
+  },
+  {
+    "node": "n0795",
+    "first_name": "Cofactor and non-proteinogenic amino acid metabolism",
+    "first_check": {
+      "uncovered": [
+        "Amino acid catabolism to cofactors and mediators",
+        "folic acid transport",
+        "Serine metabolism"
+      ],
+      "reason": "This cluster broadly covers amino acid catabolism producing various mediators, not exclusively cofactor or non-proteinogenic amino acid metabolism, so it only partly overlaps the parent. Folic acid transport concerns membrane transport rather than metabolism/biosynthesis, and serine metabolism concerns a proteinogenic amino acid, unrelated to cofactor or non-proteinogenic amino acid metabolism."
+    },
+    "reask_name": "One-carbon, sulfur and amino acid metabolism",
+    "second_check": {
+      "uncovered": [
+        "vitamin B6 metabolic process",
+        "folic acid transport"
+      ],
+      "reason": "Amino acid catabolism and sulfur metabolism is fully subsumed within the parent's scope of amino acid and sulfur metabolism. These pathways concern vitamin B6 and folate transport biology, which are distinct from one-carbon, sulfur, and amino acid metabolism themes."
+    },
+    "after_child": {
+      "uncovered": [
+        "Amino acid catabolism and sulfur metabolism",
+        "folic acid transport",
+        "Serine metabolism"
+      ],
+      "reason": "This child is broader than the parent, covering general amino acid catabolism and sulfur metabolism rather than being strictly limited to cofactor and non-proteinogenic amino acid metabolism. Folic acid transport concerns membrane transport rather than metabolism/biosynthesis, and serine metabolism concerns a proteinogenic amino acid, unrelated to cofactor or non-proteinogenic amino acid metabolism."
+    },
+    "child_notes": "",
+    "passed_name": "",
+    "child_node": "",
+    "child_old": "",
+    "child_new": "",
+    "outcome": "unnameable"
+  }
+]
