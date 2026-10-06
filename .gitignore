@@ -122,3 +122,8 @@ data/ontology/v*/naive_k_v2/
 # KC theme arrays, 7 Oct. Regenerable in under three seconds from the committed universe; the .json
 # summaries beside them are the record and are small, so they are re-included.
 data/ontology/v*/kc/*.npz
+
+# HiDeF parameter-grid builds, 7 Oct. A report-only 4x5 sweep, 97 MB across 16 directories, fully
+# regenerable from the committed builder in about 40 minutes. The grid summary with every
+# recall/precision cell is committed as data/experiments/hidef_grid_2026-10-07.json instead.
+data/ontology/v*/hidef_grid_k*/
