@@ -12,7 +12,9 @@
 set -e
 echo "=== stopping drivers and chains ==="
 for PATTERN in run_all_engine_arms.sh run_engine_evaluation.sh chain_tables.sh \
-               run_engine_arm.sh "build_10770.py --engine"; do
+               run_engine_arm.sh "build_10770.py --engine" \
+               testr_sides.sh test_r_pool.py test_r_transfer.py test_r_heights.py \
+               test_r_biolord.py; do
   for P in $(pgrep -f "$PATTERN" 2>/dev/null); do
     kill "$P" 2>/dev/null && echo "  TERM $P ($PATTERN)"
   done
@@ -26,7 +28,9 @@ sleep 3
 echo "=== verification, by PID ==="
 LEFT=0
 for PATTERN in run_all_engine_arms.sh run_engine_evaluation.sh chain_tables.sh \
-               run_engine_arm.sh "build_10770.py --engine" spawn_main; do
+               run_engine_arm.sh "build_10770.py --engine" spawn_main \
+               testr_sides.sh test_r_pool.py test_r_transfer.py test_r_heights.py \
+               test_r_biolord.py; do
   for P in $(pgrep -f "$PATTERN" 2>/dev/null); do
     echo "  STILL ALIVE: $P ($PATTERN)"
     LEFT=$((LEFT + 1))

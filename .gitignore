@@ -108,3 +108,17 @@ data/ontology/v*/regression_adapter_10770/
 # what replaced them; not committed, because they are caches either way.
 data/ontology/v*/trees/**/completions/**/superseded_range_*/
 data/ontology/v*/trees/**/completions/**/no_provenance_mark/
+
+# Test R score arrays, 7 Oct. Per-grouping gap scores and the transfer universes, regenerable from
+# the persisted trees plus the recorded subsample seed. The heights beside the trees are already
+# covered by the .npz rule above; this covers the score and transfer outputs.
+data/ontology/v*/transfer/
+
+# Naive K candidate arrays, 7 Oct. Every mutual-rank candidate with its support and lifetime,
+# regenerable in under nine seconds from the committed universe and the recorded run seeds.
+data/ontology/v*/naive_k/
+data/ontology/v*/naive_k_v2/
+
+# KC theme arrays, 7 Oct. Regenerable in under three seconds from the committed universe; the .json
+# summaries beside them are the record and are small, so they are re-included.
+data/ontology/v*/kc/*.npz
