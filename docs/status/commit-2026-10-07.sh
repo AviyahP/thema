@@ -1,112 +1,102 @@
 set -e
 
-git add .gitignore
+git add .gitignore scripts/stop_engine_jobs.sh
 
-git commit -m "Ignore preserved side caches: superseded and unprovenanced" -m "Two kinds of side cache are kept on disk and not committed. superseded_range_ holds the
-sides cut under the two earlier resolution ranges, before amendments 3 and 4 changed the ladder.
-no_provenance_mark holds the one arm A scramble side that had no provenance mark, so its origin
-could not be established.
+git commit -m "Ignore Test R and naive K caches, and stop those jobs too" -m "Test R score arrays and transfer universes, and the naive K candidate arrays. All regenerable:
+the naive K real build is 8.8 seconds from the committed universe and the recorded run seeds, and
+the Test R heights alone are 111 MB. stop_engine_jobs.sh now names the Test R drivers too, so one
+command stops everything and proves by PID that nothing remains."
 
-Both are kept rather than deleted because they are the record that those sides existed and what
-replaced them, and both are ignored because they are caches either way. The .npz files inside were
-already ignored; this adds the stages sidecars and the directories, so git status stops reporting
-them as work in progress."
+git add src/thema/ontology/gap.py tests/ontology/test_gap.py scripts/test_r_heights.py scripts/test_r_pool.py scripts/test_r_transfer.py scripts/test_r_biolord.py scripts/test_r.py
 
-git add scripts/build_10770.py scripts/test_f.py
+git commit -m "Test R: gap scores from Ward merge heights" -m "EXPLORATORY. New files by requirement, so recurrent.py, cut_trees.py and engines.py stay
+untouched and no cached side provenance moves. Stage 1 regenerates each needed Ward tree from its
+recorded sample with the same two functions tree_from_subset uses and ASSERTS the result equal to
+the persisted tree on both present and clusters; 1,800 trees passed.
 
-git commit -m "Test F: gate at a fixed cut with no calibration, and measure what that costs" -m "--fixed-cut gates every stratum at one support with NO calibration, cutting no scramble side
-and solving and writing no floor. It is expressed as a solved-shaped list with the same threshold in
-every stratum, so the gate, the consensus, the Hasse pass and the manifest all run unchanged and the
-only difference from a calibrated build is where the line sits. That is what makes the comparison a
-comparison of two thresholds rather than of two code paths.
+score_side was rewritten run-major after the first version projected to hours at the real scale, and
+there is an equivalence test against a deliberately naive reference to catch exactly the kind of
+silent change that rewrite risks. Nine tests, including the LCA case a naive binary lift gets wrong,
+where one node is the ancestor of the other.
 
-test_f.py runs steps 2, 4 and 6 and takes every FDR from the build own confirm(), not a
-reimplementation. Step 2 is a declared SECOND READ of held-out seeds 4001 to 4005 and is labelled as
-such in the output: no threshold is fitted at the fixed cut, so every seed is valid test data for
-it, and the cut was declared in the protocol rather than chosen after seeing the FDR. The numbers
-bear that out, with calibration-only and held-out-only agreeing to the third decimal in every
-stratum. Step 4 solves floors from three seeds, which IS a fit, and confirms them on the same
-held-out five, which is reported as a third read.
+test_r_biolord.py exists because the brief asked for the existing embeddings_biolord.npy and that
+file is 1854 by 768, the v0.1 and v0.2 universe, so it could not serve the 10,770. BioLORD-2023 is
+wired into embed.py and already cached locally, so the matrix is produced with no API spend."
 
-Step 5 is deferred to E1 and E2 and the report says so: transfer needs the Reactome-only, GO-only,
-synthetic and SPECTER2 universes, none of which exist, and clarification 1 floors-transfer override
-does not exist either."
+git add docs/spec/test-R-2026-10-07.md docs/status/2026-10-07-test-R.md
 
-git add data/ontology/v0.3/trees/centred_c54319cdfbbe9eb7/completions/cap3125_inc050/seed03003_n200.provenance.json data/ontology/v0.3/trees/centred_c54319cdfbbe9eb7/completions/cap3125_inc050/seed03003_n200.stages.json
+git commit -m "Test R result: G_loo is inverted, the floors stay, and the floors transfer" -m "NEITHER GAP VERSION IS PROMISING under criteria declared before any number existed. The per-size
+version fails criterion b and nothing else, keeping 52,098 real groupings against the floors 55,055.
+The single-t version fails all four.
 
-git commit -m "Re-cut the one arm A side whose origin could not be established" -m "Of arm A sixteen cached sides, fifteen failed the current provenance fingerprint only in
-dimensions that already have a byte-identity proof on record: the two keys I added on 6 Oct,
-recurrent_sha256_16 from the B2 optimisation proved byte-identical on 5 Oct, and families indexed to
-joined proved byte-identical on 2 Oct. Those fifteen are reused with allow-stale-cache, which exists
-for exactly that case.
+G_loo is strongly ANTI-PREDICTIVE: AUROC 0.0715 to 0.1116, with scrambled groupings showing LARGER
+leave-one-out gaps than real ones at every size. The geometry was right and the population was
+backwards. A real small theme sits in a crowded neighbourhood, so dropping a member puts an outsider
+right there. A scrambled grouping survives support 0.33 precisely because it is isolated. The score
+measures isolation, and real small themes are the dense ones.
 
-seed03003_n200 had NO PROVENANCE MARK AT ALL, cached before provenance was recorded. Reusing a side
-whose origin cannot be established is the failure the guard was created for after the 2 Oct
-corruption, and Test F is deciding whether to keep the FDR machinery, so its FDR numbers have to be
-trustworthy. So it was re-cut: 433 s, peak 8.83 GB, 428,579 families.
+What the two gates disagree about has a direction: the 6,672 groupings the floors keep and the gap
+rejects are 1.45 times better by the curated proxy than the 3,715 the gap keeps and the floors
+reject. At size 3 the floors keep 4,291, the gap keeps 128, and they agree on 15.
 
-THE RE-CUT FILE IS BYTE-IDENTICAL TO THE OLD ONE. The old side had been correct all along, and there
-was no way to know that without doing the work. The old file is preserved under no_provenance_mark
-rather than deleted. Every one of the sixteen sides now either matches the fingerprint exactly or
-differs only where a proof exists."
+THE MOST USEFUL RESULT IS ABOUT THE FLOORS. The 10,770 3-seed floors transfer UNCHANGED to a
+different universe size, Reactome-only at 2,836 rows, and to a different encoder, BioLORD over the
+same 10,770, with held-out FDR of 0.00126 and 0.00067 against a 0.01 cap. Calibrate-once is already
+available without any new score, so a future score has to beat that rather than beat per-dataset
+calibration.
 
-git add data/ontology/v0.3/fixedcut_ward_10770/nodes.tsv data/ontology/v0.3/fixedcut_ward_10770/members.tsv data/ontology/v0.3/fixedcut_ward_10770/edges.tsv data/ontology/v0.3/fixedcut_ward_10770/unplaced.tsv data/ontology/v0.3/fixedcut_ward_10770/manifest.json
+I also corrected my own first framing in the status file: I had compared the gap gate against the
+fixed cut and reported 70.9 percent kept, where criterion b compares against the floors and the
+figure is 94.6 percent, with the damage concentrated at sizes 3 and 4."
 
-git add data/ontology/v0.3x_engines/fixedcut_leiden/nodes.tsv data/ontology/v0.3x_engines/fixedcut_leiden/members.tsv data/ontology/v0.3x_engines/fixedcut_leiden/edges.tsv data/ontology/v0.3x_engines/fixedcut_leiden/unplaced.tsv data/ontology/v0.3x_engines/fixedcut_leiden/manifest.json
+git add docs/spec/arm-K-2026-10-07.md docs/spec/eval-protocol-2026-10.md
 
-git commit -m "The two fixed-cut builds Test F compares against" -m "Arm A at a fixed 0.33 in every stratum gives 7,412 themes against the calibrated build
-6,244, and arm B gives 5,079 against 3,462. 94.5% of what A gains and 95.8% of what B gains is in
-the 3 to 10 band; arm B 51 to 200 count is identical at 368. So the floors do exactly one job,
-suppressing small themes, and the FDR table says what that job is worth.
+git commit -m "Arm K spec and Amendment A1, both ON HOLD not cancelled" -m "Copied verbatim from the two messages that replaced an earlier paste cut off mid-sentence, which
+was never run: its own integrity line said it would end with END OF PROMPT and it did not, so it was
+stopped rather than guessed at.
 
-The calibrated build is a STRICT SUBSET of the fixed-cut build: final-theme match at Jaccard 0.70 is
-100.0% forward for arm A and 99.9% for arm B, with the asymmetry entirely in the themes the fixed cut
-adds. Calibration is not reshaping the ontology, it is deleting a specific set of small themes, and
-step 1 says those are the ones the null also produces.
+The spec first paragraph records that the design was motivated by Test R results ALREADY SEEN, the
+G_life AUROC of 0.929 to 0.991, so it is not pre-registered. That is the weaker but honest guarantee
+available, and stating it is the point.
 
-These two builds exist only as the comparison Test F needs. They are not candidates and nothing
-downstream reads them."
+Both the spec and Amendment A1 are marked ON HOLD in place. The full Arm K and E1 to E4 run was
+stopped before any of it started, in favour of a naive K probe with fixed cutoffs, and neither
+document is amended by that probe."
 
-git add docs/status/2026-10-07-test-F.md docs/status/commit-2026-10-07.sh
+git add scripts/naive_k.py scripts/naive_k_report.py src/thema/ontology/mutualrank.py tests/ontology/test_mutualrank.py data/ontology/v0.3x_engines/K_naive/nodes.tsv data/ontology/v0.3x_engines/K_naive/members.tsv data/ontology/v0.3x_engines/K_naive/edges.tsv data/ontology/v0.3x_engines/K_naive/unplaced.tsv data/ontology/v0.3x_engines/K_naive/manifest.json docs/status/2026-10-07-eval-run.md
 
-git commit -m "Test F result: floors KEPT for both arms, in the three-seed form" -m "THE FIXED CUT FAILS BOTH ARMS BY A WIDE MARGIN. Arm A overall FDR 0.29881 against a 0.01 cap,
-with the 4-member stratum at 2.15928, meaning it admits more than two false families for every real
-one. Arm B overall 0.96394, with the 3-member stratum at 7.57169. Above size 6 the declared 0.33
-really does already decide, and arm A 10-plus stratum has an FDR of exactly zero across 141,658 real
-families, so the protocol was right about where the floors bind. It was wrong about what follows:
-below size 6 the fixed cut is not merely imperfect, it is worse than useless, and the floors are
-load-bearing precisely where they bind.
+git commit -m "Naive K: a mutual-rank ladder, excellent themes, and almost no coverage" -m "EXPLORATORY direction probe with cutoffs chosen in advance and not fitted: support 0.33 and
+lifetime 2, meaning the group survives while k at least doubles. New module, so the three protected
+files stay untouched.
 
-THREE SEEDS PASS FOR BOTH ARMS. Arm A held-out FDR 0.00252 against 0.00285 on ten seeds, arm B
-0.00215 against 0.00189, both inside the declared caps. One real cost is arm B: with ten seeds it
-keeps the 5-member stratum at a floor of 0.970 and with three seeds it drops it, so arm B on three
-seeds admits no theme below six members. That narrows the fine band for the arm already weakest
-there, and it is a consequence of the cheaper form rather than of the method.
+EARLY STOP NOT TRIGGERED. Scramble seed 3001 gives ZERO themes at the declared cutoff against the
+real build 593, which is 0.00 percent against a 5 percent rule. At the report-only cutoff 1.5 it
+gives 6 against 2,276.
 
-So the declared decision, per arm as clarification 8 requires, and both arms landed in the same
-place: Floors KEPT, form three seeds 3001 to 3003, reused across universes where the one-side check
-passes.
+THE QUALITY PROXY IS THE STRIKING RESULT. Share of themes whose best match to a curated set of the
+same source exceeds Jaccard 0.5: K at lifetime 2 scores 59.5 percent on Reactome and 25.8 percent on
+GO, against arm A 38.6 and 9.0, and against HiDeF maxres 25 at 26.7 and 0.9. On GO that is 29 times
+HiDeF. The proxy is not the protocol E1 and must not be read as it, but the gap is not marginal.
 
-HIDEF LETS THROUGH NOTHING. Zero communities on a scrambled matrix, in every band, on both null
-seeds, so its implied FDR is 0.00000 everywhere and it needs no calibration at all. That is the
-sharpest asymmetry Test F produced: the machinery THEMA cannot do without is machinery HiDeF does not
-need. The honest caveat is that returning nothing on noise demonstrates specificity and not
-sensitivity, and arm B own held-out FDR at its solved floors is 0.00189, also very low. The
-difference is that THEMA number is bought with three to ten scramble sides per build and HiDeF is
-free.
+THE CATCH IS COVERAGE AND IT IS SEVERE. Those 59.5 percent are 232 themes. The build places 1,410 of
+10,770 pathways and leaves 90.6 percent effectively unplaced, against arm A 1.31 percent, and it
+produces NO theme between 51 and 500 members. Under the engine rule own gates it would fail G3 by a
+factor of eighteen and would have nothing to offer in the two middle bands the engine search exists
+to fill.
 
-TIMING. Core build with no calibration 6.5 min for A and 7.1 min for B; with three seeds 27.7 and
-37.9 min; with ten seeds 77.0 and 109.7 min; HiDeF 2.1 min with no calibration. Dropping from ten
-seeds to three cuts the calibrated build by about 2.9x and moves THEMA from 37 to 52 times HiDeF
-cost down to 13 to 18 times.
+The engine does propose mid-size structure, 2,569 candidates of 51 to 500 members. Support removes
+87 percent of them, their median support being 0.020, and lifetime removes the rest; the mid-size
+survivors of the support gate have median lifetime 1.250. Lifetime 2 is a high bar for everything,
+since even 3 to 10 candidates that pass support have median lifetime 1.333.
 
-COST OF THE REST OF THE PROTOCOL, re-estimated with the three-seed form and the universes at their
-true sizes rather than at 10,770: about 10 h on this Mac against my 6 Oct estimate of 25 to 35 h, and
-about 2.6 h on a 32-core machine. The saving is almost entirely Test F, twelve fewer scramble sides
-per universe build across the roughly 34 builds E1, E2 and E3 need. Neither figure includes writing
-the code that does not exist, which Test F does not change.
+The whole real build is 8.8 seconds at 1.21 GB, against HiDeF 126 seconds and arm A 27.7 minutes
+with 3-seed floors.
 
-E1 to E4 ARE NOT STARTED. Arms C, G and H stay paused and untouched, the frozen build and the naming
-code are untouched, and Aviyah decides what happens next."
+ONE TOY FINDING IS RECORDED BECAUSE IT CONTRADICTS THE REAL DATA. On a planted fixture of two tight
+groups of twelve plus ten noise points, lifetime is INVERTED: noise triples score 42.67 and planted
+groups 32.0, because the ratio is the rung after the last match over the first matching rung and a
+tiny isolated triple connects at the lowest rung. On the real 10,770 the inversion does not appear.
+The toy confounds size with plantedness so it is a warning rather than a verdict, and the test is
+written to fail loudly if the toy inversion ever stops holding."
 
 git push
