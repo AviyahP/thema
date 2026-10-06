@@ -75,3 +75,30 @@ data/ontology/v*/trees/**/*.npz
 # persisted trees and the recorded floors. Only the confirmatory build and the ladder's own result
 # table are kept. Comes after the v*/*/*.tsv negation above, which would otherwise re-include them.
 data/ontology/v*/recurrent_dag_10770_r*/
+
+# Engine-search completion caches, 6 Oct. Same rule as the Ward caches above: a side is a
+# deterministic function of the persisted trees, the engine and the recorded ladder, and its
+# provenance mark records which code wrote it. 598 MB for leiden, 431 MB for pooled.
+#
+# The CONTENTS are ignored, not the directory. Git cannot re-include a file whose parent directory
+# is excluded, so ignoring `cap*_leiden/` would make the `!floors_*.json` line below dead and the
+# floors record uncommittable. Ignoring `cap*_leiden/*` leaves the directory itself visible, which
+# is what lets one file be re-included out of it.
+#
+# A solved floor is a calibration record, not a cache, and the ones beside the trees are already
+# treated that way.
+data/ontology/v*/trees/**/completions/cap*_leiden/*
+!data/ontology/v*/trees/**/completions/cap*_leiden/floors_*.json
+data/ontology/v*/trees/**/completions/cap*_leiden_persistent/*
+!data/ontology/v*/trees/**/completions/cap*_leiden_persistent/floors_*.json
+data/ontology/v*/trees/**/completions/cap*_pooled/*
+!data/ontology/v*/trees/**/completions/cap*_pooled/floors_*.json
+data/ontology/v*/trees/**/completions/cap*_bisect/*
+!data/ontology/v*/trees/**/completions/cap*_bisect/floors_*.json
+data/ontology/v*/trees/**/completions/cap*_infomap/*
+!data/ontology/v*/trees/**/completions/cap*_infomap/floors_*.json
+
+# Verification builds that are byte-identical to a build already committed.
+# regression_adapter_10770 matches recurrent_dag_10770 on all four TSVs by sha256, so keeping it
+# would commit a second copy of the same build.
+data/ontology/v*/regression_adapter_10770/
