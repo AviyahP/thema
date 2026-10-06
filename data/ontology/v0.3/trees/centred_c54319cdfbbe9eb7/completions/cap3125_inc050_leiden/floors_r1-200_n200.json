@@ -1,0 +1,100 @@
+{
+  "space": "centred",
+  "universe_digest": "c54319cdfbbe9eb7",
+  "n": 10770,
+  "rows": "1-200",
+  "runs": 200,
+  "scramble_rows": 200,
+  "engine": "leiden",
+  "half_build_floors_reused": false,
+  "size_cap_share": 0.2901330034024126,
+  "size_cap": 3125,
+  "inclusion_cut": 0.5,
+  "declared_m": 0.33,
+  "strata": [
+    {
+      "stratum": "3-3",
+      "real": 930,
+      "floor": null,
+      "effective": null,
+      "calibration_fdr": null,
+      "heldout_fdr": null,
+      "heldout_real": 0
+    },
+    {
+      "stratum": "4-4",
+      "real": 1307,
+      "floor": null,
+      "effective": null,
+      "calibration_fdr": null,
+      "heldout_fdr": null,
+      "heldout_real": 0
+    },
+    {
+      "stratum": "5-5",
+      "real": 1366,
+      "floor": 0.97,
+      "effective": 0.97,
+      "calibration_fdr": 0.00833,
+      "heldout_null": 0.0,
+      "heldout_real": 12,
+      "heldout_fdr": 0.0
+    },
+    {
+      "stratum": "6-6",
+      "real": 1512,
+      "floor": 0.895,
+      "effective": 0.895,
+      "calibration_fdr": 0.00886,
+      "heldout_null": 0.2,
+      "heldout_real": 79,
+      "heldout_fdr": 0.00253
+    },
+    {
+      "stratum": "7-9",
+      "real": 4597,
+      "floor": 0.77,
+      "effective": 0.77,
+      "calibration_fdr": 0.00997,
+      "heldout_null": 3.4,
+      "heldout_real": 351,
+      "heldout_fdr": 0.00969
+    },
+    {
+      "stratum": "10+",
+      "real": 45258,
+      "floor": 0.165,
+      "effective": 0.33,
+      "calibration_fdr": 0.00953,
+      "heldout_null": 3.6,
+      "heldout_real": 3362,
+      "heldout_fdr": 0.00107
+    }
+  ],
+  "calibration_seeds": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout_confirmed": true,
+  "floors_from": null,
+  "heldout_check_seed": null,
+  "heldout_check": null,
+  "heldout_seeds": [
+    4001,
+    4002,
+    4003,
+    4004,
+    4005
+  ],
+  "overall_fdr": 0.00189,
+  "overall_real": 3804,
+  "overall_null": 7.2
+}
