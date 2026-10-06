@@ -102,3 +102,9 @@ data/ontology/v*/trees/**/completions/cap*_infomap/*
 # regression_adapter_10770 matches recurrent_dag_10770 on all four TSVs by sha256, so keeping it
 # would commit a second copy of the same build.
 data/ontology/v*/regression_adapter_10770/
+
+# Side caches preserved rather than deleted: superseded by a setup change, or with no provenance
+# mark so their origin could not be established. Kept on disk as the record that they existed and
+# what replaced them; not committed, because they are caches either way.
+data/ontology/v*/trees/**/completions/**/superseded_range_*/
+data/ontology/v*/trees/**/completions/**/no_provenance_mark/
