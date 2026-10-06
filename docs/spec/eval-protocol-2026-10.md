@@ -158,3 +158,34 @@
 8. Test F decides per arm. Each arm is evaluated as a complete method in the form Test F decided for it, and the report states each arm's form. No further adjustment.
 
 Also recorded: co-expression is not run. The only resource found, ARCHS4, is 7.49 GB and in R format, over the declared 5 GB limit.
+
+## Amendment A1 — ON HOLD, not cancelled
+
+> Declared below and kept in force, but **not yet acted on**: the full Arm K / E1–E4 run was stopped
+> before starting, in favour of a naive K probe with fixed cutoffs. A1 is unchanged.
+
+## Amendment A1, declared 2026-10-06 12:01:40Z, before any E1-E4 result
+
+- K and K-snn are THEMA candidates beside A. The Final decision rule is unchanged and is applied to each of A, K and K-snn against HiDeF-tuned.
+- The §H HiDeF grid adds k = 5 and maxres = 300.
+- A uses the 3-seed floors (Test F), with transfer per clarification 1.
+- B is run last, only if time remains.
+
+Order (never drop E1 or E2):
+1. Build K and K-snn.
+2. E1, with the §H grid and source-only builds for A, K, K-snn and HiDeF.
+3. E2.
+4. E3 source drop.
+5. E4 STRING.
+6. E3 SPECTER2 swap.
+7. Also-reported items (16 sibling scores, gene-overlap grouping, timing).
+8. Blind rating sheet.
+9. B.
+
+Anything ambiguous: choose the reading that favours HiDeF, label it, and continue.
+
+**Recorded alongside, because it changes how A1 should be read:** K and K-snn are built on the
+lifetime score **because Test R measured it working** (G_life AUROC 0.929-0.991 against support
+alone at 0.763-0.900). The arms are therefore motivated by a result already seen, which the Arm K
+specification states in its own first paragraph. A1 itself is declared before any E1-E4 number
+exists, and the Final decision rule it applies them under is unchanged from the 6 Oct declaration.
