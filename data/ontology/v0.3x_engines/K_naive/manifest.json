@@ -1,0 +1,28 @@
+{
+ "calibrated": false,
+ "cutoffs_chosen_in_advance": true,
+ "directory": "K_naive",
+ "engine": "mutual-rank ladder",
+ "excluded": [],
+ "exploratory": true,
+ "ladder": "3,4,5,6,8,10,13,16,20,25,32,40,50,64,80,100; next after last 128",
+ "lifetime_cut": 2.0,
+ "method": "naive_k",
+ "n": 10770,
+ "n_edges": 428,
+ "n_excluded_no_genes": 0,
+ "n_near_members": null,
+ "n_nodes": 593,
+ "n_roots": 247,
+ "n_undescribed": 0,
+ "n_unplaced": 9360,
+ "note": "NAIVE probe: fixed cutoffs, no calibration, no completion step. Not a candidate.",
+ "params": {
+  "lifetime_cut": 2.0,
+  "runs": 100,
+  "support_cut": 0.33
+ },
+ "runs": 100,
+ "support_cut": 0.33,
+ "version": "0.3x_engines"
+}
