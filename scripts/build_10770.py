@@ -756,6 +756,11 @@ def main(argv: list[str] | None = None) -> int:
                         help="processes used to generate a non-Ward engine's candidates. Every run "
                              "is independent and separately seeded, so this cannot change a "
                              "side's bytes; a test asserts it")
+    parser.add_argument("--fixed-cut", type=float, default=None,
+                        help="TEST F: gate every stratum at this support, with NO calibration. "
+                             "The declared minimum is 0.33 and the solved floors only bind on "
+                             "small themes, so this asks whether the scramble step earns its "
+                             "cost. No scramble side is cut and no floor is solved or written")
     parser.add_argument("--half-build-floors", action="store_true",
                         help="permit --floors-from whose RUN COUNT differs, for G2's stability "
                              "half-builds only. The engine brief funds the two half-builds but not "
@@ -852,7 +857,13 @@ def main(argv: list[str] | None = None) -> int:
     # With stored floors the calibration sides are not cut AT ALL -- that is the whole point of
     # --floors-from. The first version loaded the floors but still cut all ten sides first, which
     # saved nothing; the provenance guard caught it by refusing sides written by older code.
-    wanted = [] if args.floors_from is not None else [("calibration", CALIBRATION_SEEDS)]
+    # --fixed-cut cuts NO scramble side at all: that is the whole point of Test F, which asks
+    # whether the calibration earns its cost. --floors-from likewise skips calibration, having
+    # loaded it.
+    wanted = (
+        [] if (args.floors_from is not None or args.fixed_cut is not None)
+        else [("calibration", CALIBRATION_SEEDS)]
+    )
     if args.confirm_heldout:
         wanted.append(("held-out", HELDOUT_SEEDS))
     cal, held = [], []
@@ -873,7 +884,25 @@ def main(argv: list[str] | None = None) -> int:
                   f"({'cached' if got else f'{time.perf_counter() - start:.0f}s'})", flush=True)
 
     real_rows = real.rows()
-    if args.floors_from is not None:
+    if args.fixed_cut is not None:
+        # TEST F step 1. A `solved`-shaped list with the SAME fixed threshold in every stratum, so
+        # the gate, the consensus and the manifest all run unchanged and the only difference from a
+        # calibrated build is where the line sits. Nothing is solved and no floors file is written.
+        cut = float(args.fixed_cut)
+        solved = [
+            {"stratum": f"{low}-{high}" if high < 10**9 else f"{low}+",
+             "real": sum(1 for size, _s in real_rows if stratum_of(size) == index),
+             "floor": None, "effective": cut, "calibration_fdr": None,
+             "fixed_cut": True}
+            for index, (low, high) in enumerate(STRATA)
+        ]
+        report = {"strata": solved, "fixed_cut": cut, "calibrated": False}
+        print(f"\n  FIXED CUT {cut} in every stratum. No scramble side cut, no floor solved.",
+              flush=True)
+        print(f"  {'stratum':<9} {'real':>7} {'effective':>10}")
+        for entry in solved:
+            print(f"  {entry['stratum']:<9} {entry['real']:>7,} {entry['effective']:>10.2f}")
+    elif args.floors_from is not None:
         stored = json.loads(args.floors_from.read_text())
         # The floors only transfer to an IDENTICAL configuration. Anything else and the stored
         # null is describing a different population, so this refuses rather than warning.
