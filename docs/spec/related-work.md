@@ -46,6 +46,42 @@ citations lived scattered in source docstrings (`consensus.py` cites Bryant 2003
   central claim and should be treated as the baseline to beat on Reactome specifically, not as a
   general refutation.
 
+## How data-driven ontologies are evaluated in the literature — the gold standard
+
+Added 6 Oct 2026, alongside the A/B/HiDeF protocol, because THEMA's evaluations to date have rested
+on a measure of its own devising (specificity AUROC on curated sibling pairs) and the field has
+established ones. Each line below is what the paper actually did, not a paraphrase of its claim.
+
+- **CliXO** (Kramer, Dutkowski, Ono, Ideker & Krogan, *Bioinformatics* 30(12):i246–i254, 2014).
+  Alignment to GO scored against **label-permuted ontologies of the same shape** — the null keeps
+  the inferred structure and destroys only the mapping from terms to genes — with **precision and
+  recall reported at FDR < 5% per size bin**, plus **noise and edge-dropout simulations** to show
+  how far the recovery survives degraded input. The per-size-bin FDR and the shape-preserving
+  permutation null are the two ideas THEMA's protocol borrows directly.
+- **HiDeF** (Zheng, Zhang, Liu, ... & Ideker, *Nature Communications* 12:2971, 2021). **F1 against
+  GO and the Cell Ontology, counting a match when Jaccard > 0.5**, and **two-level LFR planted
+  benchmarks** with known community structure at two resolutions. The Jaccard > 0.5 match criterion
+  is the one the protocol adopts as its floor.
+- **NeXO** (Dutkowski, Kramer, Surma, ... & Ideker, *Nature Biotechnology* 31:38–45, 2013) and
+  **MuSIC** (Qin, Fisher, Rajan, ... & Ideker, *Nature* 600:536–542, 2021). Both go past alignment to
+  **external validation of terms the data-driven ontology proposes and the reference lacks** — NeXO
+  by literature and experiment for novel branches, MuSIC by orthogonal imaging and proteomics for
+  previously unmapped assemblies. This is the standard a new term has to meet to count as a finding
+  rather than an artefact, and THEMA has never attempted it.
+- **Ontology-learning metrics.** **Taxonomic precision and recall** (Dellschaft & Staab, *ISWC
+  2006*), which score a learned taxonomy by the overlap of each concept's characteristic extract
+  against the reference rather than by exact node matching; and **ancestor-pair F1** (Bansal, Burkett,
+  de Melo & Klein, *NAACL 2014*), which scores the set of ancestor–descendant pairs the hierarchy
+  implies. Both are pair-level and so insensitive to how a hierarchy is cut, which is exactly the
+  property THEMA's band-restricted scores had to be engineered to obtain.
+
+**Where THEMA stands against this.** THEMA has had the permutation-null idea since its scramble
+floors, but applied to *support* rather than to *alignment*; it has never run a planted benchmark,
+never reported precision and recall against curated sets at a controlled FDR per size bin, and never
+externally validated a theme the reference lacks. The 6 Oct protocol adds the first three.
+Ancestor-pair F1 was specified in the v0.2 plan (§14 item 3) and **has still not been built** — it
+remains the clearest gap between THEMA's evaluation and the field's.
+
 ## The HiDeF verdict, in one line
 
 **THEMA stays**: under a rule declared before the build, THEMA is significantly better on both

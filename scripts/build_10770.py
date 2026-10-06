@@ -33,22 +33,37 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import multiprocessing
 import time
 from collections.abc import Sequence
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 
 from build_trees_10770 import peak_mb
-from cut_trees import CAP_SHARE, MIN_SIZE, THETA, TOL, cap_for, load_run
+from cut_trees import (
+    CAP_SHARE,
+    ENGINES,
+    MIN_SIZE,
+    THETA,
+    TOL,
+    cap_for,
+    engine_cut_key,
+    load_engine_run,
+    load_run,
+)
 from thema.data.pathways import PathwayCollection
+from thema.embed import centre_and_renormalise
 from thema.ontology import bitset as bits
-from thema.ontology import export, recurrent
+from thema.ontology import engines, export, recurrent
 from thema.ontology.base import Node, Ontology
 from thema.ontology.consensus import DEFAULT_JACCARD, DEFAULT_STRAY, consensus
 from thema.ontology.recurrent import (
     DEFAULTS,
+    Run,
     families,
     family_members,
     family_members_fast,
@@ -192,7 +207,9 @@ def load_material(path: Path) -> Material:
         return Material(handle["blocks"], handle["supports"], selections)
 
 
-def implementation_fingerprint(fast: bool, families: str = "joined") -> dict[str, object]:
+def implementation_fingerprint(
+    fast: bool, families: str = "joined", engine: str = "ward"
+) -> dict[str, object]:
     """What a cached side's bytes depend on, beyond the declared parameters.
 
     **This exists because of a real failure.** On 2 Oct a module edit landed while a long side-
@@ -204,13 +221,24 @@ def implementation_fingerprint(fast: bool, families: str = "joined") -> dict[str
     Args:
         fast: Whether the vectorised completion is in use.
         families: Which families implementation is in use.
+        engine: Which engine proposed the candidates. For anything but ``"ward"``, ``engines.py``
+            is output-affecting and is hashed in too.
 
     Returns:
         The fingerprint to store beside a side and to check on a cache hit.
     """
     source = Path(recurrent.__file__).read_bytes()
-    return {
+    # `cut_trees` was NOT fingerprinted until 6 Oct, and it should have been from the start: it is
+    # where a persisted tree becomes the candidate set, so an edit there changes a side's bytes just
+    # as surely as an edit to `recurrent`. The engine work made the gap obvious by changing
+    # `load_run`. Adding it invalidates every side cached before today, which is the correct
+    # consequence of having been unable to prove what wrote them.
+    import cut_trees as _cut_trees
+    cutter = Path(_cut_trees.__file__).read_bytes()
+    out: dict[str, object] = {
         "recurrent_sha256_16": hashlib.sha256(source).hexdigest()[:16],
+        "cut_trees_sha256_16": hashlib.sha256(cutter).hexdigest()[:16],
+        "engine": engine,
         "completion": "fast" if fast else "original",
         "families": families,
         "matching": str(DEFAULTS.get("matching", "matrix")),
@@ -219,6 +247,191 @@ def implementation_fingerprint(fast: bool, families: str = "joined") -> dict[str
         "tol": TOL,
         "min_size": MIN_SIZE,
     }
+    if engine != "ward":
+        # `engines.py` decides what a non-Ward run proposes, so it is output-affecting exactly as
+        # `recurrent.py` is -- and amendment 3's ladder widening is the proof: it changed every
+        # Leiden side's bytes while leaving both other hashes untouched. Hashed only for non-Ward
+        # engines, because it cannot affect a Ward side and a global hash would needlessly refuse
+        # the frozen build's cache.
+        out["engines_sha256_16"] = hashlib.sha256(
+            Path(engines.__file__).read_bytes()
+        ).hexdigest()[:16]
+        out["resolution_ladder"] = [round(float(v), 10) for v in engines.resolution_ladder()]
+    return out
+
+
+def engine_vectors(
+    root: Path,
+    data: Path,
+    space: str,
+    engine: str,
+    seed: int | None,
+    cache: dict[tuple[str, int | None], np.ndarray],
+) -> np.ndarray | None:
+    """The matrix one side clusters, built once per (engine, scramble seed) and kept.
+
+    The real side clusters the centred matrix; a scramble side clusters that seed's permuted matrix,
+    regenerated with the build's own ``null_embeddings`` so the null a floor is solved on is the
+    null the trees were built from. For ``"hdbscan"`` the UMAP embedding of whichever matrix applies
+    is returned instead, and it is persisted: fitting UMAP on 10,770 points is the expensive part of
+    that arm, and the declaration fits it ONCE per matrix rather than once per run.
+
+    Args:
+        root: The version directory.
+        data: The data directory.
+        space: Embedding space, which fixes whether the matrix is centred.
+        engine: The engine. ``"ward"`` needs no vectors and returns ``None``.
+        seed: Scramble seed, or ``None`` for the real side.
+        cache: Process-level cache, so 200 sides do not refit anything.
+
+    Returns:
+        The matrix to cluster, or ``None`` for Ward.
+    """
+    if engine == "ward":
+        return None
+    key = (engine, seed)
+    if key in cache:
+        return cache[key]
+    base_key = ("base", seed)
+    if base_key not in cache:
+        embedded = load_embedded(root, data / "pathways.tsv")
+        matrix = embedded.vectors
+        if space in ("centred", "tfidf"):
+            matrix, _mean = centre_and_renormalise(matrix)
+        matrix = np.ascontiguousarray(matrix.astype(np.float32))
+        if seed is not None:
+            matrix = np.ascontiguousarray(
+                recurrent.null_embeddings(matrix, seed).astype(np.float32)
+            )
+        cache[base_key] = matrix
+    if engine != "hdbscan":
+        cache[key] = cache[base_key]
+        return cache[key]
+
+    # UMAP, fitted once per matrix and persisted. A refit is not free and not deterministic across
+    # library versions, so the embedding is a build input like a tree, not something recomputed.
+    label = "real" if seed is None else f"seed{seed:05d}"
+    path = root / "umap" / f"{space}_{label}_c{engines.UMAP_COMPONENTS}.npy"
+    if path.is_file():
+        cache[key] = np.load(path)
+        print(f"    umap {label}: {cache[key].shape} from {path}", flush=True)
+        return cache[key]
+    clock = time.perf_counter()
+    points = engines.umap_embedding(cache[base_key])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        raise FileExistsError(f"{path} appeared while fitting; refusing to overwrite")
+    np.save(path, points)
+    print(f"    umap {label}: {points.shape} fitted in "
+          f"{time.perf_counter() - clock:.0f}s -> {path}", flush=True)
+    cache[key] = points
+    return cache[key]
+
+
+@lru_cache(maxsize=1)
+def engine_resolutions() -> np.ndarray:
+    """The Leiden resolution ladder, built once per process.
+
+    Returns:
+        The per-run resolutions, in run order.
+    """
+    return engines.resolution_ladder()
+
+
+#: Worker processes for candidate generation. Leiden holds the GIL -- threads measured 1.08x on
+#: four of them against 2.6x for four processes -- so the pool is processes, forked so the
+#: read-only matrix is shared by copy-on-write rather than pickled per task. Ward ignores this: its
+#: own `tree_workers` pool already exists and its per-run cost is 0.11s.
+DEFAULT_ENGINE_WORKERS = 6
+
+_WORKER: dict[str, object] = {}
+
+
+def _worker_init(
+    trees: Path, n: int, cap: int, engine: str, vectors: np.ndarray, resolutions: np.ndarray | None
+) -> None:
+    """Hold one worker's read-only state, so it is set up once rather than per run.
+
+    Args:
+        trees: The tree directory.
+        n: Universe size.
+        cap: Size cap.
+        engine: The engine.
+        vectors: The matrix this side clusters.
+        resolutions: The Leiden ladder, or None.
+    """
+    _WORKER.update(
+        trees=trees, n=n, cap=cap, engine=engine, vectors=vectors, resolutions=resolutions
+    )
+
+
+def _worker_run(item: tuple[str, int]) -> Run:
+    """Generate one run's candidates in a worker.
+
+    Args:
+        item: The tree label and its 1-based run index.
+
+    Returns:
+        The run.
+    """
+    label, index = item
+    return load_engine_run(
+        _WORKER["trees"] / f"{label}.npz",  # type: ignore[operator]
+        _WORKER["n"], _WORKER["cap"], _WORKER["engine"],  # type: ignore[arg-type]
+        _WORKER["vectors"],  # type: ignore[arg-type]
+        run_index=index, resolutions=_WORKER["resolutions"],  # type: ignore[arg-type]
+    )
+
+
+def engine_runs(
+    trees: Path,
+    labels: Sequence[str],
+    n: int,
+    cap: int,
+    engine: str,
+    vectors: np.ndarray | None,
+    workers: int = 1,
+) -> list[Run]:
+    """Generate every run's candidates for one side, optionally across processes.
+
+    **Parallelism here cannot change a result and the reason is structural**, not a hope: each run
+    reads its own persisted sample, is seeded from its own run index, shares nothing writable, and
+    ``map`` preserves order, so the list is the serial list whatever the workers do. The same
+    argument the Ward path already relies on for its thread pool. A test asserts byte-identity
+    rather than resting on the argument.
+
+    Args:
+        trees: The tree directory.
+        labels: Tree file stems, in run order.
+        n: Universe size.
+        cap: Size cap.
+        engine: The engine, not ``"ward"``.
+        vectors: The matrix this side clusters.
+        workers: Worker processes. 1 runs in this process.
+
+    Returns:
+        One run per label, in label order.
+    """
+    resolutions = (
+        engine_resolutions() if engine in ("leiden", "leiden_persistent", "pooled") else None
+    )
+    items = [(label, index + 1) for index, label in enumerate(labels)]
+    if workers <= 1 or len(items) <= 1:
+        _worker_init(trees, n, cap, engine, vectors, resolutions)  # type: ignore[arg-type]
+        return [_worker_run(item) for item in items]
+    # SPAWN, not fork, and this was learned the hard way twice over. fork() measured faster and
+    # shares the matrix by copy-on-write, but forking a parent that has already started BLAS
+    # threads -- which centring the matrix does -- kills the child on macOS: a standalone script
+    # survived it by luck and the same code under pytest raised BrokenProcessPool immediately.
+    # spawn re-imports this module in each worker, which is safe here because everything at module
+    # level is a definition and the entry point is guarded; the 33 MB matrix is pickled once per
+    # worker by the initializer, not once per run.
+    context = multiprocessing.get_context("spawn")
+    with ProcessPoolExecutor(
+        max_workers=workers, mp_context=context, initializer=_worker_init,
+        initargs=(trees, n, cap, engine, vectors, resolutions),
+    ) as pool:
+        return list(pool.map(_worker_run, items, chunksize=1))
 
 
 def cut_side(
@@ -230,6 +443,9 @@ def cut_side(
     fast: bool = False,
     report: dict | None = None,
     families_mode: str = "joined",
+    engine: str = "ward",
+    vectors: np.ndarray | None = None,
+    workers: int = 1,
 ) -> Material:
     """Cut one side and complete every grouping, BEFORE any support gate.
 
@@ -246,6 +462,11 @@ def cut_side(
         report: If given, filled with per-stage wall seconds. The stage split was not recoverable
             from any existing log -- ``prepare`` and ``score`` collect their own timings and nothing
             printed them -- so it is collected here.
+        engine: Which engine proposes this side's candidates. ``"ward"`` reads the persisted trees
+            and is v0.3 exactly; anything else reads only the sample from them and re-clusters.
+        vectors: The matrix a non-Ward engine clusters. Required unless ``engine == "ward"``.
+        workers: Processes to generate candidates on. Every run is independent and separately
+            seeded, so this cannot change a side's bytes -- a test asserts it.
 
     Returns:
         The side's completed families.
@@ -253,7 +474,13 @@ def cut_side(
     complete = family_members_fast if fast else family_members
     marks: dict[str, float] = {}
     clock = time.perf_counter()
-    runs = [load_run(trees / f"{label}.npz", n, cap) for label in labels]
+    if engine == "ward":
+        runs = [load_run(trees / f"{label}.npz", n, cap) for label in labels]
+    else:
+        # The SAMPLE still comes from the persisted tree -- only the clustering changes, which is
+        # exactly the scope the engine declaration fixes. `vectors` is the matrix this side
+        # clusters: the real centred matrix or that scramble seed's permuted matrix.
+        runs = engine_runs(trees, labels, n, cap, engine, vectors, workers)
     marks["load trees + cap"] = time.perf_counter() - clock
 
     clock = time.perf_counter()
@@ -321,6 +548,9 @@ def side_cached(
     fast: bool = False,
     families_mode: str = "joined",
     allow_stale: bool = False,
+    engine: str = "ward",
+    vectors: np.ndarray | None = None,
+    workers: int = 1,
 ) -> tuple[Material, bool]:
     """Cut one side, or read it back if this exact cut is already on disk.
 
@@ -335,6 +565,10 @@ def side_cached(
         families_mode: Which families implementation to use.
         allow_stale: Reuse a cached side written by a different implementation. Only legitimate
             when the two have been proved byte-identical; the mismatch is still printed.
+        engine: Which engine proposes this side's candidates. Part of the cache key, so an
+            engine's sides can never be served to another engine.
+        vectors: The matrix a non-Ward engine clusters.
+        workers: Processes to generate candidates on; cannot change a side's bytes.
 
     Returns:
         The material, and whether it came from disk.
@@ -342,10 +576,10 @@ def side_cached(
     Raises:
         FileNotFoundError: If a tree this side needs is not persisted.
     """
-    path = trees / "completions" / cut_key(cap, cutoff) / f"{label}.npz"
+    path = trees / "completions" / engine_cut_key(cap, cutoff, engine) / f"{label}.npz"
     mark = path.with_suffix(".provenance.json")
     if path.is_file():
-        want = implementation_fingerprint(fast, families_mode)
+        want = implementation_fingerprint(fast, families_mode, engine)
         if not mark.is_file():
             print(f"    WARNING {label}: cached before provenance was recorded; cannot prove "
                   f"which code wrote it", flush=True)
@@ -372,10 +606,11 @@ def side_cached(
         raise FileNotFoundError(f"{label}: {len(missing)} trees not persisted, e.g. {missing[0]}")
     report: dict = {}
     material = cut_side(trees, labels, n, cap, cutoff, fast=fast, report=report,
-                        families_mode=families_mode)
+                        families_mode=families_mode, engine=engine, vectors=vectors,
+                        workers=workers)
     save_material(path, material)
     mark.write_text(
-        json.dumps(implementation_fingerprint(fast, families_mode), indent=2) + "\n",
+        json.dumps(implementation_fingerprint(fast, families_mode, engine), indent=2) + "\n",
         encoding="utf-8",
     )
     stages = path.with_suffix(".stages.json")
@@ -512,6 +747,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--completion", choices=("original", "fast"), default="original",
                         help="'fast' is the vectorised completion, verified byte-identical; see "
                              "DECISIONS.md 2 Oct")
+    parser.add_argument("--engine", choices=ENGINES, default="ward",
+                        help="which engine proposes each run's candidate groupings. 'ward' is "
+                             "v0.3 exactly and reads the persisted trees; every other arm reads "
+                             "only the SAMPLE from those trees and re-clusters it. Declared in "
+                             "DECISIONS.md, 6 Oct 2026")
+    parser.add_argument("--engine-workers", type=int, default=DEFAULT_ENGINE_WORKERS,
+                        help="processes used to generate a non-Ward engine's candidates. Every run "
+                             "is independent and separately seeded, so this cannot change a "
+                             "side's bytes; a test asserts it")
+    parser.add_argument("--fixed-cut", type=float, default=None,
+                        help="TEST F: gate every stratum at this support, with NO calibration. "
+                             "The declared minimum is 0.33 and the solved floors only bind on "
+                             "small themes, so this asks whether the scramble step earns its "
+                             "cost. No scramble side is cut and no floor is solved or written")
+    parser.add_argument("--half-build-floors", action="store_true",
+                        help="permit --floors-from whose RUN COUNT differs, for G2's stability "
+                             "half-builds only. The engine brief funds the two half-builds but not "
+                             "their calibration, so a half reuses its arm's own floors. Recorded "
+                             "in the manifest as a deviation; conservative, and identical for "
+                             "every arm")
+    parser.add_argument("--out-version", default="",
+                        help="version directory the build is WRITTEN to, which need not be the one "
+                             "it is read from. Engine arms default to '0.3x_engines', so an arm "
+                             "lands at data/ontology/v0.3x_engines/<arm>/ beside v0.3 rather than "
+                             "inside it")
     parser.add_argument("--directory", default="")
     parser.add_argument("--dry-run", action="store_true",
                         help="solve the floors, then stop before the gate")
@@ -528,7 +788,14 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(f"bad row range {args.rows or args.runs!r}")
     runs = last - first + 1
     scramble_rows = args.scramble_rows or runs
-    directory = args.directory or f"recurrent_dag_10770_r{first}-{last}"
+    # Engine arms are written beside v0.3, not inside it: the brief's path is
+    # data/ontology/v0.3x_engines/<arm>/, and v0.3 is the frozen build's version.
+    out_version = args.out_version or ("0.3x_engines" if args.engine != "ward" else args.version)
+    directory = args.directory or (
+        f"recurrent_dag_10770_r{first}-{last}" if args.engine == "ward"
+        else f"{args.engine}_r{first}-{last}"
+    )
+    out_root = args.data / "ontology" / f"v{out_version}"
 
     root = args.data / "ontology" / f"v{args.version}"
     meta = json.loads((root / "universe.json").read_text())
@@ -541,16 +808,33 @@ def main(argv: list[str] | None = None) -> int:
           f"inclusion {INCLUSION_CUT}, trees {first}-{last} ({runs} runs), "
           f"scramble sides {scramble_rows} trees, completion {args.completion}, "
           f"families {args.families}", flush=True)
-    print(f"  completions -> {trees / 'completions' / cut_key(cap, INCLUSION_CUT)}", flush=True)
-    print(f"  -> {root / directory}", flush=True)
+    print(f"  completions -> "
+          f"{trees / 'completions' / engine_cut_key(cap, INCLUSION_CUT, args.engine)}", flush=True)
+    print(f"  -> {out_root / directory}", flush=True)
+
+    vector_cache: dict[tuple[str, int | None], np.ndarray] = {}
+
+    def vectors_for(seed: int | None) -> np.ndarray | None:
+        """The matrix a side clusters.
+
+        Args:
+            seed: Scramble seed, or None for the real side.
+
+        Returns:
+            The matrix, or None under Ward.
+        """
+        return engine_vectors(root, args.data, args.space, args.engine, seed, vector_cache)
 
     if args.cut_side:
         from verify_completion import labels_for
         clock = time.perf_counter()
+        side_seed = (int(args.cut_side[4:9]) if args.cut_side.startswith("seed") else None)
         material, got = side_cached(
             trees, labels_for(args.cut_side, runs), n, cap, INCLUSION_CUT, args.cut_side,
             fast=args.completion == "fast", families_mode=args.families,
             allow_stale=args.allow_stale_cache,
+            engine=args.engine, vectors=vectors_for(side_seed),
+            workers=args.engine_workers,
         )
         print(f"  {args.cut_side}: {len(material.blocks):,} families "
               f"({'cached' if got else f'{time.perf_counter() - clock:.0f}s'})", flush=True)
@@ -561,6 +845,8 @@ def main(argv: list[str] | None = None) -> int:
         trees, [f"row{r:05d}" for r in range(first, last + 1)], n, cap, INCLUSION_CUT,
         f"real_r{first:05d}-{last:05d}", fast=args.completion == "fast",
         families_mode=args.families, allow_stale=args.allow_stale_cache,
+        engine=args.engine, vectors=vectors_for(None),
+        workers=args.engine_workers,
     )
     print(f"  real side: {len(real.blocks):,} families "
           f"({'cached' if cached else f'{time.perf_counter() - clock:.0f}s'})", flush=True)
@@ -571,7 +857,13 @@ def main(argv: list[str] | None = None) -> int:
     # With stored floors the calibration sides are not cut AT ALL -- that is the whole point of
     # --floors-from. The first version loaded the floors but still cut all ten sides first, which
     # saved nothing; the provenance guard caught it by refusing sides written by older code.
-    wanted = [] if args.floors_from is not None else [("calibration", CALIBRATION_SEEDS)]
+    # --fixed-cut cuts NO scramble side at all: that is the whole point of Test F, which asks
+    # whether the calibration earns its cost. --floors-from likewise skips calibration, having
+    # loaded it.
+    wanted = (
+        [] if (args.floors_from is not None or args.fixed_cut is not None)
+        else [("calibration", CALIBRATION_SEEDS)]
+    )
     if args.confirm_heldout:
         wanted.append(("held-out", HELDOUT_SEEDS))
     cal, held = [], []
@@ -584,19 +876,49 @@ def main(argv: list[str] | None = None) -> int:
                 n, cap, INCLUSION_CUT, f"seed{seed:05d}_n{scramble_rows:03d}",
                 fast=args.completion == "fast", families_mode=args.families,
                 allow_stale=args.allow_stale_cache,
+                engine=args.engine, vectors=vectors_for(seed),
+                workers=args.engine_workers,
             )
             into.append(material.rows())
             print(f"  {which} {seed}: {len(material.blocks):,} families "
                   f"({'cached' if got else f'{time.perf_counter() - start:.0f}s'})", flush=True)
 
     real_rows = real.rows()
-    if args.floors_from is not None:
+    if args.fixed_cut is not None:
+        # TEST F step 1. A `solved`-shaped list with the SAME fixed threshold in every stratum, so
+        # the gate, the consensus and the manifest all run unchanged and the only difference from a
+        # calibrated build is where the line sits. Nothing is solved and no floors file is written.
+        cut = float(args.fixed_cut)
+        solved = [
+            {"stratum": f"{low}-{high}" if high < 10**9 else f"{low}+",
+             "real": sum(1 for size, _s in real_rows if stratum_of(size) == index),
+             "floor": None, "effective": cut, "calibration_fdr": None,
+             "fixed_cut": True}
+            for index, (low, high) in enumerate(STRATA)
+        ]
+        report = {"strata": solved, "fixed_cut": cut, "calibrated": False}
+        print(f"\n  FIXED CUT {cut} in every stratum. No scramble side cut, no floor solved.",
+              flush=True)
+        print(f"  {'stratum':<9} {'real':>7} {'effective':>10}")
+        for entry in solved:
+            print(f"  {entry['stratum']:<9} {entry['real']:>7,} {entry['effective']:>10.2f}")
+    elif args.floors_from is not None:
         stored = json.loads(args.floors_from.read_text())
         # The floors only transfer to an IDENTICAL configuration. Anything else and the stored
         # null is describing a different population, so this refuses rather than warning.
         want = {"n": n, "runs": runs, "scramble_rows": scramble_rows,
                 "size_cap": cap, "inclusion_cut": INCLUSION_CUT,
                 "universe_digest": universe, "space": args.space}
+        # G2's two stability HALF-builds are the one declared case where the run count may differ.
+        # The engine brief funds "the two stability half-builds" and not their calibration, so a
+        # half reuses its arm's own 200-run floors. That is a real deviation and it is recorded in
+        # the manifest rather than waved through: a 100-run build gated by 200-run floors is
+        # slightly CONSERVATIVE, because support concentrates as runs rise, and it is the same
+        # deviation for every arm -- which is what G2, a comparison, needs. Arm A's properly
+        # calibrated 100-run halves already exist and are reported beside the consistent figure.
+        if args.half_build_floors:
+            want.pop("runs")
+            want.pop("scramble_rows")
         differs = {k: (stored.get(k), v) for k, v in want.items() if stored.get(k) != v}
         if differs:
             print("  STORED FLOORS DO NOT APPLY to this configuration and will not be used: "
@@ -628,6 +950,8 @@ def main(argv: list[str] | None = None) -> int:
             f"seed{args.check_heldout:05d}_n{scramble_rows:03d}",
             fast=args.completion == "fast", families_mode=args.families,
             allow_stale=args.allow_stale_cache,
+            engine=args.engine, vectors=vectors_for(args.check_heldout),
+            workers=args.engine_workers,
         )
         checked = confirm(real_rows, [side.rows()], solved)
         print(f"\n  HELD-OUT CHECK, seed {args.check_heldout} "
@@ -647,6 +971,8 @@ def main(argv: list[str] | None = None) -> int:
     report = {
         "space": args.space, "universe_digest": universe, "n": n,
         "rows": f"{first}-{last}", "runs": runs, "scramble_rows": scramble_rows,
+        "engine": args.engine,
+        "half_build_floors_reused": bool(args.half_build_floors),
         "size_cap_share": CAP_SHARE, "size_cap": cap, "inclusion_cut": INCLUSION_CUT,
         "declared_m": DECLARED_M,
         "strata": confirmed["strata"] if confirmed else solved,
@@ -667,7 +993,12 @@ def main(argv: list[str] | None = None) -> int:
         ef = "DROP" if entry["effective"] is None else f"{entry['effective']:.6f}"
         print(f"  {entry['stratum']:<9} {entry['real']:>7,} {fl:>10} {ef:>10} "
               f"{str(entry['calibration_fdr']):>9} {str(entry.get('heldout_fdr')):>9}")
-    out = (trees / "completions" / cut_key(cap, INCLUSION_CUT)
+    # engine_cut_key, NOT cut_key. With cut_key an engine arm solved its own floors and then tried
+    # to write them into the WARD directory -- which is the frozen build's calibration record. The
+    # no-overwrite guard below refused, so nothing was lost, but the floors were then not persisted
+    # anywhere the arm could find them and its stability half-builds had no floors to load. Caught
+    # on arm B's first build.
+    out = (trees / "completions" / engine_cut_key(cap, INCLUSION_CUT, args.engine)
            / f"floors_r{first}-{last}_n{scramble_rows}.json")
     # NO-OVERWRITE. A floors file is a calibration record, and a run that LOADED its floors has
     # nothing new to say about them -- writing anyway destroyed the held-out confirmation stored in
@@ -789,7 +1120,9 @@ def main(argv: list[str] | None = None) -> int:
                f"{HELDOUT_SEEDS[-1]}, overall held-out FDR {report['overall_fdr']}"
                if args.confirm_heldout else "; held-out NOT read (ladder block)")
         ),
-        "completions": str(trees / "completions" / cut_key(cap, INCLUSION_CUT)),
+        "completions": str(trees / "completions"
+                           / engine_cut_key(cap, INCLUSION_CUT, args.engine)),
+        "floors_file": str(out),
         "n_unplaced": len(unplaced),
         "n_root_only": len(root_only),
         "n_effectively_unplaced": len(unplaced) + len(root_only),
@@ -802,9 +1135,9 @@ def main(argv: list[str] | None = None) -> int:
         unplaced=unplaced,
         manifest=manifest,
     )
-    export.write(ontology, args.data / "ontology", args.version, genes, manifest,
+    export.write(ontology, args.data / "ontology", out_version, genes, manifest,
                  dry_run=False, info=info, directory=directory)
-    print(f"  -> {root / directory}")
+    print(f"  -> {out_root / directory}")
     return 0
 
 

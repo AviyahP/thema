@@ -4099,3 +4099,573 @@ HiDeF places 0.0%.
 **A post-hoc maxres sensitivity, which cannot change the verdict and does not.** At maxres 50 and
 100 HiDeF's recovery condition is satisfied (-0.1 and +1.3 points), but THEMA remains significantly
 better in both Reactome cells. The sensitivity changes which condition fails, not whether one does.
+
+## 2026-10-06 — Engine search: §0 declared before anything was built
+
+**Written and committed before a single engine ran.** Copied verbatim from Aviyah's brief of 6 Oct
+2026, including its headings and emphasis. Nothing below was edited after any result was seen; the
+only text I have added is this paragraph, the three clarifications at the end (each marked
+**CLARIFICATION** and each a reading of the brief, not a change to it), and the running note of
+what was built.
+
+Branch `engines-2026-10`. The frozen build (`recurrent_dag_10770`, tag `v0.3.0-10770-runs200`) and
+the naming code are not touched.
+
+### The goal
+
+Find the best ENGINE inside THEMA's framework on the full 10,770. Only "what groupings each run
+proposes" changes. Everything downstream stays identical to v0.3:
+
+- the 80% samples (same recorded sample seeds per run)
+- 200 runs
+- two-sided matching at theta 0.70 on shared members
+- completion with inclusion >= 0.5
+- consensus (stray 0.10, Jaccard 0.70)
+- size cap 3,125 at cut time
+- min_size 3
+- per-size floors calibrated on scramble seeds 3001-3010
+- FDR held out on 4001-4005 (read once): <= 0.01 overall, <= 0.02 per stratum
+- containment DAG
+
+Floors do not transfer between engines. Each engine is calibrated on the SAME scramble seeds,
+regenerated with the build's function and asserted equal to the persisted ones.
+
+### Arms
+
+- **A. THEMA-Ward:** frozen v0.3, as is.
+- **B. THEMA-L:**
+  - per run, a symmetric kNN graph (k = 15, cosine, union of directed edges, weight = cosine) on
+    that run's sample;
+  - one Leiden split (leidenalg, modularity with resolution) at that run's resolution;
+  - resolutions are 200 values log-spaced from 0.001 to 100, assigned to runs in a random order
+    (seed 0), so runs 1-100 and 101-200 both span the full range;
+  - candidates = every community of >= 3 members.
+- **C. Pooled:** per run, candidates = that run's Ward tree clusters (existing trees) u that run's
+  THEMA-L split (same sample).
+- **D. Paris:**
+  - per run, scikit-network Paris on the same kNN-15 graph;
+  - candidates = every merge of >= 3 members.
+- **E. HDBSCAN:**
+  - UMAP (20 components, n_neighbors 15, min_dist 0.0, cosine, random_state 0), fitted ONCE on all
+    10,770, and once per scramble seed on that seed's full matrix;
+  - per run, HDBSCAN (min_cluster_size 3, min_samples 3) on that run's rows;
+  - candidates = every cluster of the condensed tree with >= 3 members.
+  - Stated limitation: UMAP has seen all pathways, so resampling is weaker for this arm.
+- **F. Average linkage (UPGMA):**
+  - per run, average-linkage agglomerative clustering on cosine distance of that run's centred
+    vectors (fastcluster or scipy; the same samples as Ward);
+  - candidates = every merge of >= 3 members;
+  - this arm needs its own trees for the real runs and for every scramble seed.
+- **References (not candidates):** HiDeF k15 maxres 25 and 50 (existing builds), and the plain
+  single Ward tree on all 10,770 with every merge >= 3 as a theme (no sampling, no gate).
+
+### Eligibility gates (a candidate must pass all three)
+
+- **G1:** held-out FDR <= 0.01 overall and <= 0.02 in every stratum.
+- **G2:** stability >= THEMA-Ward's minus 2 points. Stability = final-theme match between the build
+  from runs 1-100 and the build from runs 101-200, worse direction, Jaccard >= 0.70, computed by
+  the same script for every arm.
+- **G3:** effectively unplaced <= 5% of pathways.
+
+### Primary scores
+
+- 16 = 4 cells (Reactome siblings and GO siblings x zero gene overlap and pooled) x 4 theme-size
+  bands (3-10, 11-50, 51-200, 201-500).
+- Each score is the band-restricted specificity AUROC (the C3 method from
+  `docs/status/2026-10-05-speed-and-evaluation.md`).
+- CIs: paired cluster bootstrap over curated parents, 2,000 resamples, seed 0.
+- Margin: 0.02.
+
+### Decision
+
+1. **Dominance.** An eligible arm X is dominated if some eligible arm Y is better than X by > 0.02,
+   with the paired CI excluding 0, in at least one score, and is not worse than X by > 0.02 (CI
+   excluding 0) in any score.
+2. **Among non-dominated arms, max-min.**
+   - An arm's shortfall = the largest, over the 16 scores, of (best eligible arm's AUROC - this
+     arm's AUROC).
+   - The smallest shortfall wins.
+   - Ties within 0.01 go to fewer knobs, then to the lower full-build wall time including
+     calibration.
+3. **The winner is a CANDIDATE only.** Adoption happens after tests 5 and 6 compare it with THEMA
+   v0.3 and HiDeF under a separately declared rule. Nothing is frozen.
+
+### Reported, not decisive
+
+- tests 3 and 4 (recovery and lift by band)
+- shape against GO and Reactome
+- the 4-cell overall AUROC
+- hop distance
+- themes per size band
+- timing including calibration, and peak RAM
+
+**Nothing is re-tuned after results are seen. Any later change is a labelled post-hoc sensitivity.**
+
+### Budget
+
+The total budget is 12 hours. Priority order: B, C, F, D, E. Arms are dropped from the end if over
+budget, and the reason reported. Never mix universe sizes.
+
+---
+
+### CLARIFICATION 1, recorded before building: what "the same 80% samples" pins
+
+The brief fixes the samples by their recorded per-run seeds, so every arm sees the identical 200
+draws of 8,616 pathways. Arm A's trees are already persisted against those seeds, and every new arm
+regenerates the draw from the same seed and asserts it equals the persisted `present` bitset before
+clustering anything. An arm that disagrees on a single drawn pathway is a bug, not a result.
+
+### CLARIFICATION 2, recorded before building: Ward records nodes up to HALF the draw
+
+v0.3's Ward path records dendrogram nodes with `min_size <= size <= take // 2` (4,308 of an 8,616
+draw), and then the 29.0133% size cap (3,125) is applied at cut time. The half-draw rule is a
+property of a dendrogram, not of the framework: it exists because a node above half the draw is
+defined by its complement. **For the flat and non-nested arms I apply only min_size 3 and the 3,125
+cap**, because there is no complement structure to exclude -- a Leiden community of 5,000 is a
+community, not the top of a tree. This is a reading of "candidates = every community of >= 3
+members" as written, and it is recorded here so it cannot later look like a choice made to help an
+arm. The cap applies to every arm identically.
+
+### CLARIFICATION 3, recorded before building: what the adapter had to change, which is less than expected
+
+"The cluster" in matching is **already** the run's candidate with the highest overlap with the
+grouping's shared members, ties toward the smaller: that rule is `_score_matrix`'s, written for the
+two-sided change on 2 Oct, and it never walks a tree. `Run.chain_idx` is an inverted index from
+pathway to the candidates containing it, which the Ward path happens to build by climbing `parent`;
+`Run.parent` and `Run.leaf_cluster` are written but never read by matching. So supporting a flat
+partition needs **one new constructor** that builds the inverted index directly, and no change to
+matching, completion, consensus or the gate. The regression in §1.2 is therefore a real test of
+that claim and not a formality.
+
+### NOTE ON CLARIFICATION 2, added before building and making it moot
+
+The half-draw rule caps a Ward node at `take // 2 = 4,308`, and the declared size cap is **3,125**,
+which is smaller. So the cap binds first for every arm and the half-draw rule removes nothing the
+cap does not. **Every arm is therefore governed by exactly the same two limits, min_size 3 and
+3,125**, and CLARIFICATION 2 describes a difference that does not exist. It is left standing rather
+than deleted, because it was written before I checked, and the check is the useful part.
+
+### AMENDMENT, 6 Oct 2026 — made BEFORE ANY BUILD, when no result existed
+
+**Timing, stated plainly because it is what makes this an amendment and not a revision:** at the
+moment this arrived, nothing had been built. The adapter existed, the §1.2 regression had passed,
+and five engines had been *probed* for per-run cost and candidate count -- no side cut, no floor
+solved, no ontology written, no score computed for any arm. **No result of any kind influenced any
+clause below, because no result existed.** Copied from Aviyah's message of 6 Oct.
+
+1. **DROP arm E (HDBSCAN).** UMAP fitted on all pathways leaks across resamples and would inflate
+   G2.
+
+2. **MODIFY arm B (THEMA-L):** each run uses a LADDER of 10 resolutions, log-spaced over
+   0.001-100, **the same ladder for every run**. Candidates = every community of >= 3 members from
+   all 10 splits. A grouping is "found in run s" if any community from any of s's 10 splits matches
+   it (same theta 0.70 rule). **Arm C (pooled) uses the same ladder.** Reason: with one resolution
+   per run, a mid-size group can be found in only ~15% of runs.
+
+3. **ADD arm G, bisecting spherical k-means:** per run, on the unit-normalised centred vectors,
+   recursively split every cluster of >= 6 members into 2 with spherical k-means (k-means++ init,
+   seed = run index), down to clusters under 6; candidates = every cluster of >= 3 members.
+   **ADD arm H, hierarchical Infomap:** ``infomap`` package, multilevel, on the same kNN-15 cosine
+   graph, seed = run index; candidates = every module of >= 3 members at every level.
+
+4. **NEW priority order: B, C, G, F, H, D.** Same 12 h budget; drop from the end.
+
+5. **ADD gate G4, biological coherence (declared now):**
+   - Data: STRING human v12, combined score >= 700, mapped to the pathway gene symbols.
+   - For each final theme: PPI edge density within its gene union vs 100 size-matched random gene
+     sets drawn from STRING-covered genes (seed 0); empirical p.
+   - Arm statistic: the fraction of themes with p < 0.01, reported per size band.
+   - Gate: an arm's fraction must be no more than 5 points below THEMA-Ward's.
+   - If STRING can't be obtained on this machine, report "G4 not run" and decide on G1-G3.
+
+6. **LABELLED DIAGNOSTIC, not decisive:** for arm A, count the 51-500 candidates that would pass
+   the support gate at theta 0.60 and 0.50.
+
+7. **STOP RULE: one shot.** Whatever the rule selects is the candidate, with no further engine
+   rounds. If no arm passes the gates and beats THEMA-Ward under the dominance rule, THEMA v0.3
+   stays, and the middle level is handled by offering HiDeF alongside it in the demo toggle.
+
+#### What the amendment changes about the measurement, recorded now
+
+**Clause 2 is the substantive one and it was right.** The first probe of arm B as originally
+declared had already shown the failure the clause predicts, before the amendment arrived: one
+resolution per run gives a run 62 candidates on average against Ward's 5,274, and a run drawn at
+the bottom of the ladder gives **zero** -- resolution 0.0014 produced a single community above the
+3,125 cap, so that run proposes nothing at all while still counting in every grouping's eligibility
+denominator. Roughly 40% of a log-spaced 0.001-100 ladder sits below 0.1, so arm B as first
+declared would have driven support down by construction and failed its floors for a reason that has
+nothing to do with Leiden's quality. **Ten resolutions per run fixes that by giving every run the
+whole ladder.** The probe is reported in the status file as the evidence, and it is not a result for
+any arm: it is a count of candidates, with no side cut and no score computed.
+
+**Clause 1 removes the only arm whose stability was not comparable**, which is the same objection
+the original declaration had already recorded as arm E's stated limitation. The `umap-learn` and
+`hdbscan` packages were installed before the amendment arrived and are now unused by any declared
+arm; they are left installed rather than removed, and `engines.py` keeps the two functions with the
+arm marked DROPPED, so the dropped arm stays legible instead of vanishing.
+
+**Clause 7 is a constraint on me, and I record what it forbids:** no second round, no re-tuned
+resolution ladder, no "arm B would pass if", no engine added after seeing a score. One shot.
+
+### AMENDMENT 2, 6 Oct 2026 — also BEFORE ANY BUILD
+
+Same timing statement as amendment 1, and it still holds: no side had been cut, no floor solved, no
+ontology written, no score computed for any arm when this arrived. Copied from Aviyah's message.
+
+**ADD arm B2 ("persistent THEMA-L"):** identical to arm B (same ladder, same Leiden runs, reused),
+but within each run keep only communities that persist across at least 2 adjacent rungs of that
+run's ladder (best match Jaccard >= 0.75 on the run's own sample, HiDeF's tau). The surviving
+communities are B2's candidates for that run; everything downstream is identical, with its own
+calibration. **Priority: right after B.**
+
+**Resulting priority order: B, B2, C, G, F, H, D.** Same 12 h budget; drop from the end.
+
+#### What B2 tests, recorded now
+
+B2 is the one arm that borrows a mechanism from the method it is being compared against. HiDeF's
+persistence filter is how HiDeF decides which resolution-sweep communities are real, and arm B as
+amended hands recurrence the entire sweep instead. **B2 asks whether persistence-within-a-run and
+recurrence-across-runs are doing the same job twice.** If B2 and B score alike, the within-run
+filter is redundant given recurrence; if B2 is better, recurrence alone is admitting sweep artefacts
+that persistence would have caught. Either answer is worth having, and neither is assumed.
+
+The threshold is 0.75 because that is HiDeF's tau, not because anything here was tuned to it. The
+Jaccard is on the run's OWN sample, which is the only set both rungs saw.
+
+### AMENDED BEFORE ANY ENGINE BUILD, 5 Oct
+
+Aviyah's consolidated amendment list, received as a single message after the two above and
+**matching them clause for clause** on items 1-8: drop arm E, give arm B a 10-rung ladder per run,
+add arm B2 (persistent), add arms G and H, reorder to B, B2, C, G, F, H, D, add gate G4, add the
+arm A theta diagnostic, and the one-shot stop rule. Those were already folded in under the two
+headings above and are not restated. **Item 9 is new and is recorded here in full.** The heading is
+Aviyah's own wording; the date in it is the brief's, and the amendments arrived on 6 Oct by this
+machine's clock. Still before any engine build: at the time of writing, one side of one arm was
+being cut and no arm had a floor, an ontology or a score.
+
+9. **INTERPRETATION GUIDE (reporting only, not decisive), added before any engine build.** In the
+   report, read the results per size band as these contrasts: **A vs B** (engine), **B vs B2**
+   (within-run persistence), **HiDeF vs B2** (resampling + calibration). Then state which case
+   holds:
+   - **(a)** B2 improves 51-500 while keeping A's advantage at <= 50 -> likely candidate;
+   - **(b)** B2 loses fine-grained themes vs B -> cross-resolution persistence is too restrictive;
+   - **(c)** B ~= B2 -> resampling already does the stability filtering;
+   - **(d)** HiDeF still beats B2 at 51-500 -> something structural in HiDeF beyond persistence;
+     name the likely cause.
+
+**Item 9 is a reading guide, not a decision rule, and the distinction matters enough to state:** the
+candidate is still whatever §0's gates, dominance and max-min select. Case (a) says "likely
+candidate" and that phrase does not promote an arm past the gates. If the declared rule and the
+guide's cases point different ways, the rule wins and the divergence is reported.
+
+### AMENDMENT 3, 6 Oct 2026 — before any engine build, and it CHANGED THE SETUP
+
+Granularity coverage is a core requirement: fine (3-50) and middle (51-500) themes matter most, the
+broad top least. Copied from Aviyah's message.
+
+1. **Before building B/B2/C, verify on the real 10,770 that the ladder spans the full range:** at the
+   top rung the median Leiden community size must be <= 5, and at the bottom rung the largest
+   community must be >= 3,125. If either fails, widen the ladder's range (keep 10 log-spaced rungs)
+   until both hold, and record the final range here as a setup check made before any results.
+2. In the report, show per-arm theme counts and the 16 scores with the 3-10, 11-50, 51-200 and
+   201-500 bands side by side, and state explicitly for each arm whether it keeps A's fine-level
+   (3-50) performance within the margin.
+3. Note in the report which arms are deterministic (A, F, D) and which are seeded (B, B2, C, G, H);
+   seeds are recorded per run.
+
+#### THE SETUP CHECK, RUN AND FAILED, AND THE RANGE IT CHANGED
+
+**Arm B's build was stopped to run this.** Three sides had been cut (the real side and calibration
+scrambles 3001 and 3002); they are cut at the OLD range and are now invalid, and they are being
+re-cut. Every process was confirmed terminated by PID before the check ran. **No arm had a floor, an
+ontology or a score at any point**, so this is still a setup decision and not a response to a result.
+
+**The declared range [0.001, 100] FAILS the top condition.** Measured on runs 1 and 2 of the real
+10,770, at resolution 100 the median community is **12 members**, against the required <= 5. The
+bottom condition passes with room to spare: at 0.001 the largest community is all 8,616 drawn
+points.
+
+The widening, measured rather than guessed -- each resolution run as a single rung on runs 1 and 2:
+
+| resolution | communities | median | largest | verdict |
+|---|---|---|---|---|
+| 100 | 682 / 695 | 12 / 12 | 37 / 33 | fails, median too large |
+| **300** | **2,302 / 2,287** | **3 / 3** | **17 / 17** | **passes** |
+| 1,000 | 7,690 / 7,704 | 1 / 1 | 5 / 5 | passes, but almost every community is a singleton |
+| 3,000 | 8,616 / 8,616 | 1 / 1 | 1 / 1 | passes vacuously: total fragmentation |
+
+**FINAL RANGE: 10 rungs log-spaced over [0.001, 300].** Verified PASS on both conditions: median 3
+at the top rung, largest 8,616 at the bottom. 300 is chosen as the **smallest** widening that
+satisfies the requirement. Going further is worse, not better: at 1,000 the median community is a
+single pathway and at 3,000 every community is, so the extra range would be spent on partitions that
+propose nothing a size floor of 3 can use. Recording that explicitly because "widen until it holds"
+has an upper end where the condition passes vacuously, and stopping at the first range that holds is
+the choice that does not smuggle in a tuning decision.
+
+**One honest cost of the widened range, visible in the table above.** Four of the ten rungs
+(0.001 through 0.067) give a single community of all 8,616 points, which the 3,125 cap removes --
+so those rungs contribute nothing and the arm effectively runs on six. Widening the range made that
+worse, not better, because ten rungs now cover five and a half decades instead of five. The
+alternative -- moving the bottom up to about 0.1 so all ten rungs do work -- would be a *narrowing*,
+which amendment 3 does not authorise, and it would break the bottom condition the amendment sets.
+**So the ladder satisfies the declared check and simultaneously wastes 40% of its rungs, and both
+things are true and recorded.** It is not re-tuned.
+
+### AMENDMENT 3, SECOND MESSAGE — arm H restored on the budget, 6 Oct, before any result
+
+Aviyah's budget decision, taken on the measured cost table and **before any arm had a score**:
+
+1. **ADD arm H (Infomap) back:** budget B, B2, C, G, H = ~10.7 h, within the 12 h cap. Run it after
+   G. This is Aviyah's decision on the budget table, made before any results.
+2. Granularity coverage, the ladder span check, and "if B has started, check before continuing".
+3. Report all four bands side by side, per-arm theme counts, and whether each arm keeps A's
+   fine-level (3-50) performance within the margin.
+4. Note which arms are deterministic (A) and which are seeded (B, B2, C, G, H); seeds recorded per
+   run.
+
+**Items 2-4 were already in force** under the amendment above and had already been acted on: arm B
+was stopped mid-build, every process confirmed dead by PID, the span check run on the real 10,770,
+the declared range found to FAIL, the range widened to [0.001, 300] and recorded, and B restarted on
+it. Nothing about that sequence changes.
+
+**Item 1 changes the build set, and it is Aviyah's call to make, not mine.** My budget reading
+dropped F, H and D because "drop from the end" makes a kept set a prefix of the priority order, and
+H sits behind F. I reported that H costs 0.93 h, is the cheapest arm measured, and proposes
+candidates concentrated in exactly the mid-size band the search is about -- and then followed the
+prefix rule anyway rather than reordering after seeing costs. Aviyah has now authorised the
+non-prefix set.
+
+**FINAL BUILD SET: B, B2, C, G, H -- 10.67 h estimated, inside the 12 h cap.**
+
+| arm | engine | estimated |
+|---|---|---|
+| B | leiden | 2.16 h |
+| B2 | leiden_persistent | 2.23 h |
+| C | pooled | 2.86 h |
+| G | bisect | 2.49 h |
+| H | infomap | 0.93 h |
+| **total** | | **10.67 h** |
+
+**DROPPED: F (average linkage) and D (Paris).** F costs 7.83 h alone -- 20.44 s per run against
+Leiden's 4.64, because `pdist` on 8,616 points is 37M cosine distances and scipy's average linkage
+is quadratic on the condensed form -- and adding it would reach 18.5 h. D costs 1.72 h and would
+reach 12.39 h, just over the cap; it is dropped as the lower-priority of the two remaining arms.
+**Both are dropped on measured cost before any result existed**, and the one thing that would most
+cheaply change F's position is `fastcluster`, which the declaration names as an option and which is
+not installed. Installing a new clustering dependency to rescue an arm after measuring the arm as
+too slow would be a post-hoc change to the setup, so it was not done.
+
+**Determinism, per item 4.** Arm **A is deterministic** given its persisted trees. Arms **B, B2, C,
+G and H are seeded**, every seed derived from the run index so a side re-cut later is the same side:
+B/B2/C pass the run index as igraph's RNG seed and share one fixed resolution ladder; G seeds
+k-means++ as `run_index * 7919 + cluster_index`, so the recursion is reproducible rather than
+dependent on the order the queue reached a cluster; H passes the run index as Infomap's seed. Of the
+dropped arms, F and D would have been deterministic. Candidate generation also runs across worker
+processes, and that cannot change a side: each run reads its own persisted sample, shares nothing
+writable, and order is preserved -- asserted byte-identical by test, not argued.
+
+### AMENDMENT 4, 6 Oct 2026 — the ladder's BOTTOM, before any engine result existed
+
+Aviyah's amendment, acting on the waste my own record of amendment 3 had disclosed. Still before any
+result: arm B had cut three of sixteen sides and had no floor, no ontology and no score. Those three
+sides were cut at the [0.001, 300] range, are invalid under this change, and were moved to
+`superseded_range_0.001_300/` -- not deleted -- after every process was confirmed terminated by PID.
+
+**The problem, in Aviyah's words:** the widened ladder wastes 4 of 10 rungs (each gives one community
+of the whole draw, removed by the cap), leaving ~4x spacing between useful rungs -- a group whose
+scale falls between rungs can fail recurrence for setup reasons, hitting the 51-500 band and B2
+hardest.
+
+**The change:** for B, B2 and C, 10 log-spaced rungs from `r_low` to 300, where `r_low` = the largest
+resolution at which the largest community is still >= 3,125, read off the existing span check. The
+top-rung median <= 5 condition is kept. **Matching rule unchanged: containment in a larger community
+does NOT count as recurrence.**
+
+#### r_low, read off the existing span check's own grid
+
+| rung resolution | largest community | reaches 3,125? |
+|---|---|---|
+| 0.001 | 8,616 | yes |
+| 0.0040604 | 8,616 | yes |
+| 0.0164869 | 8,616 | yes |
+| **0.0669433** | **8,616** | **yes -- the largest such rung** |
+| 0.271817 | 1,759 | no |
+| 1.10369 | 657 | no |
+
+**r_low = 0.0669433. FINAL RANGE: 10 rungs log-spaced over [0.0669433, 300].** Verified PASS on both
+conditions: median 3 at the top rung, 8,616 at the bottom.
+
+**What it bought, measured.** Rung spacing falls from **4.060x to 2.545x**, and the number of rungs
+that propose something usable rises from 6 to **9 of 10** -- only the bottom rung is now degenerate,
+and it has to be, because the bottom condition is defined as the point where one community still
+covers the draw. The new ladder is 0.0669, 0.170, 0.434, 1.10, 2.81, 7.15, 18.2, 46.3, 118, 300.
+
+#### The matching rule, confirmed in code rather than asserted
+
+The amendment restates a rule, so I checked the code implements it instead of taking it on trust.
+Two tests now pin it. A 10-member grouping whose only appearance in four other runs is inside a
+50-member community gets support **1/5** -- its own run and nothing else -- because the two-sided
+Jaccard is 10/50 = 0.2, far below theta. A genuine near copy, 9 of 10 members shared plus one extra
+at Jaccard 0.818, gets support **1.0**. Without the two-sided rule a run proposing one huge
+community would "find" every grouping it contained, and a coarse engine would score as perfectly
+recurrent; that is exactly the failure mode the amendment is guarding, and it is already guarded.
+
+#### The ladder has now been set three times, and that is worth stating plainly
+
+Declared [0.001, 100] -> amendment 3 widened the top to 300 because the median at 100 was 12 against
+a required <= 5 -> amendment 4 raised the bottom to 0.0669433 because four rungs proposed nothing.
+**Every change was made before any arm had a score, each was driven by a measurement of the setup
+rather than of an outcome, and each is recorded here with the number that forced it.** The honest
+risk in a sequence like this is that the setup drifts toward whatever will eventually look good;
+the protection is that none of the three changes could have been informed by a result, because no
+result existed, and the one-shot stop rule means there is no second round in which to use one.
+
+### 6 Oct 2026 — a floors-path bug caught by the no-overwrite convention, and a note on "read once"
+
+**The bug.** `build_10770.py` wrote its solved floors to `cut_key(...)` -- the WARD completions
+directory -- rather than `engine_cut_key(..., engine)`. So arm B solved its own floors correctly and
+then tried to write them into `cap3125_inc050/floors_r1-200_n200.json`, **which is the frozen
+build's calibration record**: the file that already lost `overall_fdr 0.00285` once, on 5 Oct, and
+had to be restored from an embedded copy.
+
+**Nothing was lost, because the guard added after that incident refused the write.** The Ward record
+still reads `overall_fdr 0.00285` and `3-3 floor 0.79`, verified after the fact. The visible symptom
+was different and much milder: arm B's floors were persisted nowhere its own stability half-builds
+could find them, so `--floors-from` would have failed on a missing file.
+
+This is the second time in two days that the no-overwrite convention has been the only thing between
+a path bug and a destroyed calibration record. It is not a style preference.
+
+Fixed: every `cut_key` call in the driver is now engine-aware, and the manifest records
+`floors_file` explicitly so no future reader has to reconstruct the path -- which is itself how
+`engine_gates.py` first failed, reconstructing a path from a manifest field (`space`) that holds a
+description, `"centred-renormalised"`, where the directory is named for the flag, `centred`.
+
+**The note on "read once", stated because the declaration uses that word.** Fixing this meant
+re-running arm B's build, so its held-out confirmation was computed **three times**. All three
+produced the identical `overall held-out FDR 0.00189`, because all three read the SAME CACHED
+held-out sides and the confirmation is a deterministic function of them -- nothing was re-cut and no
+new null was drawn. More importantly, **no choice was made between the three runs**: the floors were
+solved once from the ten calibration sides and were not touched, and the only change between runs
+was where a file is written. The rule exists to stop a held-out set being consulted, adjusted
+against, and consulted again; that did not happen, and recording the three runs is the honest way to
+show it did not.
+
+**Arm B's first result, for the record**, since it is now fixed on disk: 3,462 nodes, 88 roots,
+**0 unplaced and 0 effectively unplaced** against arm A's 141, held-out FDR 0.00189, worst stratum
+0.00969 -- and **strata 3-3 and 4-4 DROPPED**, no floor meeting FDR 0.01 in them, so arm B produces
+no theme of three or four members at all. That last fact is a result and is reported, not fixed.
+
+### 6 Oct 2026 — the run stalled at ~19:35Z, and the cause was my own process cleanup
+
+Aviyah reported the Mac sleeping or shutting down around 19:35Z. What the check by PID actually
+found: all three job chains alive, the machine up 82 days with no reboot, and the side apparently
+being cut having accumulated **1.55 seconds of CPU in 43 minutes at 0.0%** -- wedged, not slow.
+Alongside it, **24 worker processes where six were expected, every one with PPID 1**: orphans
+reparented to init, 5h27m elapsed on 27s of CPU each.
+
+**The cause is mine.** `ProcessPoolExecutor` children do not die when the parent is signalled. Each
+time I stopped a driver by PID -- three times, for amendment 3's span check, amendment 4's ladder
+change, and the floors-path fix -- its six spawned workers survived. Each holds a ~1.5 GB similarity
+matrix; twenty-four of them on a 36 GB machine exhausted memory, which is what made the Mac sleep
+and wedged the running pool. **"One heavy job at a time" was honoured in the foreground and broken
+by my own leftovers**, and the rule exists precisely because this machine thrashes.
+
+Two things follow, and the second matters more than the first.
+
+**The fix.** `scripts/stop_engine_jobs.sh` stops drivers and chains, then kills every
+`multiprocessing.spawn_main` worker, then proves by PID that nothing remains. Choosing `spawn` over
+`fork` -- forced earlier by a macOS BLAS-after-fork crash -- is what makes the workers findable at
+all, so one correction enabled the other.
+
+**The lesson about verification.** I had been verifying termination by PID, as instructed, and that
+verification was **incomplete rather than wrong**: I checked the PIDs I had started and not the
+processes they had started. A check that only looks where it expects to find something is not a
+check. The resume therefore verified the 26 cached sides against the current provenance fingerprint
+rather than trusting their file names -- 18 valid for arm B, 8 for B2 -- and nothing finished was
+redone.
+
+Resumed 20:19:36Z. Nothing declared changed; arm B skipped as complete, B2 continued at seed 3008.
+
+## 2026-10-06 — Evaluation protocol A vs B vs HiDeF, declared 6 Oct 2026
+
+**The protocol is `docs/spec/eval-protocol-2026-10.md`, pasted there verbatim from Aviyah's brief and
+not edited.** This entry exists so the declaration has a dated place in the decision record, and so
+that the two sections which fix what was known and what will decide are quoted here and cannot be
+reconstructed later from memory.
+
+**The engine run stays PAUSED.** Arms C, G and H are untouched: 5 of 18 sides cut for C, none for G
+or H, and nothing resumes until this protocol reaches a decision. **This protocol does not amend the
+engine rule** (`2026-10-06 — Engine search: §0 declared before anything was built`, with amendments
+1-4 and the interpretation guide); that rule still governs C, G and H when they resume, and any
+winner among them is re-checked against this protocol afterwards.
+
+**Nothing in test F or E1-E4 has been implemented or computed.** This entry is written before any of
+it exists.
+
+**The eight ambiguities I raised are answered in the protocol itself**, as
+`## Clarifications 1-8 (declared 6 Oct 2026, before any result of this protocol)` at the end of
+`docs/spec/eval-protocol-2026-10.md` -- Aviyah's text, appended verbatim, still before any result,
+and it also records that co-expression is not run because ARCHS4 is 7.49 GB against the declared
+5 GB limit.
+
+### "Status of knowledge at declaration", quoted verbatim
+
+> **Status of knowledge at declaration.** These results already exist and were seen: Preview 1 and 2
+> of the engine run (sibling AUROC for A, B, HiDeF), shape, stability and gates for A, B, B2, and the
+> floors in each build's manifest. NOTHING below (test F, E1–E4) has been computed for any arm. Arms
+> C, G, H stay paused and untouched. They resume afterwards under the engine rule exactly as
+> declared. This protocol does not amend that rule.
+
+### "Final decision rule", quoted verbatim
+
+> ## Final decision rule (A, B, HiDeF)
+>
+> **Decisive recall cells:**
+> - E1 source-only (2 sources × 4 bands);
+> - E1 full-restricted (2 × 4);
+> - E2 at σ\* (4 bands).
+>
+> **Rule:**
+> 1. A THEMA arm X **beats HiDeF** if all of these hold:
+>    - X is better than HiDeF-tuned by > 0.02, with the CI excluding 0, in at least one fine-band
+>      cell AND at least one middle-band cell;
+>    - X is not worse by > 0.02 (CI excluding 0) in any decisive recall cell;
+>    - X is not worse by > 0.02 (CI excluding 0) in E1 source-only precision.
+> 2. If both A and B beat HiDeF, the max-min shortfall over the decisive cells chooses. Ties within
+>    0.01 go to fewer knobs, then to the faster core build.
+> 3. **If neither beats HiDeF**, HiDeF becomes THEMA's engine. THEMA's contribution is then the
+>    descriptions, embeddings, naming and statistics layer, plus the Test-F certificate where it
+>    applies.
+> 4. Nothing is frozen. Aviyah decides. Then arms C, G and H resume under the engine rule, and any
+>    winner among them is re-checked against this protocol.
+
+### What is new about this protocol, recorded at declaration
+
+Three things it does that no THEMA evaluation has done before, stated now so they are not later
+read as conveniences:
+
+1. **It can conclude against THEMA's engine.** Clause 3 says in terms that if neither A nor B beats
+   HiDeF, HiDeF becomes the engine and THEMA's contribution is the layers around it. No prior rule
+   in this file had an outcome that replaced the method's core.
+2. **It gives HiDeF a tuning budget THEMA never gets** -- a 27-setting grid per universe, selected on
+   a held-back tuning half -- and then an **oracle line** on top, HiDeF's best setting per cell
+   chosen on the test half. A and B are each one fixed configuration.
+3. **It adds planted ground truth**, where recall is measured against sets that are true by
+   construction rather than against a curator's hierarchy, and it **declares the limitation in
+   advance**: Gaussian geometry may favour Ward, which is why E2 is one of two decisive tests and
+   never the only one.
+
+The existing specificity AUROC -- every number reported on 4, 5 and 6 Oct -- is demoted to "also
+reported" here. **Recall against curated and planted sets is what decides**, and that is a different
+question from the one the AUROC answers.
+
+### Test F, and why it runs first
+
+Test F asks whether the scramble calibration earns its cost, and it can only be asked honestly
+before anything else is built, because its answer sets the floor form every later build in the
+protocol uses. The manifests already show the floors bind only on small themes, which is what makes
+the question live rather than rhetorical. **Its step 2 is a declared second read of the held-out
+seeds 4001-4005**, and the protocol labels it as such: no threshold is fitted at the fixed cut, so
+every seed is valid test data for it, and the cut is declared here rather than chosen after seeing
+the FDR.

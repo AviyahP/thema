@@ -361,6 +361,86 @@ def tree_from_subset(
     )
 
 
+def run_from_candidates(
+    present: np.ndarray,
+    candidates: np.ndarray,
+    n: int,
+    parent: np.ndarray | None = None,
+) -> Run:
+    """Build a :class:`Run` from ANY candidate set -- nested, flat, or a union of both.
+
+    This is the engine adapter. v0.3's :func:`_one_run` builds a run from a Ward dendrogram, and
+    three of its fields look tree-shaped: ``parent``, ``leaf_cluster`` and the ``chain_*`` pair.
+    Only the last is used by matching, and what matching needs from it is not a tree at all --
+    ``chain_idx`` is an INVERTED INDEX from pathway to the candidates containing that pathway. The
+    Ward path happens to build it by climbing ``parent``, which works because the dendrogram nodes
+    containing a pathway form a chain; here it is built directly, which works for any candidate set.
+
+    The selection rule in :func:`_score_matrix` is already "the run's candidate with the greatest
+    overlap with the grouping's shared members, ties toward the smaller". That is exactly the rule a
+    flat partition needs, so **no change to matching, completion, consensus or the gate is
+    required**: supplying a flat partition is supplying a different ``candidates`` array.
+
+    Ordering is chosen so a nested candidate set reproduces :func:`_one_run` EXACTLY. Within a
+    dendrogram chain both the size and the recorded index increase strictly upward, so "ascending by
+    (size, index)" is the chain order, and ``leaf_cluster`` is the chain's first entry. A test
+    asserts field-by-field equality on Ward candidates rather than trusting the argument.
+
+    Args:
+        present: Bitset of the pathways this run drew.
+        candidates: ``(c, words)`` bitsets, already filtered to the size limits the arm declares.
+        n: Universe size.
+        parent: Optional nested structure -- for each candidate, the smallest candidate strictly
+            containing it, or -1. Pass it for a tree arm, where it is cheap to derive from the
+            linkage. **Left as -1 for a flat or pooled arm, where no such structure exists.** It is
+            written for persistence and for post-hoc diagnostics and is never read by matching, so a
+            flat arm loses nothing by it.
+
+    Returns:
+        A run the rest of the pipeline cannot distinguish from a Ward one.
+    """
+    rows = int(candidates.shape[0])
+    sizes = bits.count_rows(candidates) if rows else np.zeros(0, dtype=np.int64)
+    chain_indptr = np.zeros(n + 1, dtype=np.int64)
+    leaf_cluster = np.full(n, -1, dtype=np.int64)
+    if not rows:
+        return Run(
+            present=present,
+            clusters=candidates,
+            parent=np.zeros(0, dtype=np.int64),
+            leaf_cluster=leaf_cluster,
+            sizes=sizes,
+            chain_indptr=chain_indptr,
+            chain_idx=np.zeros(0, dtype=np.int64),
+        )
+
+    # Invert (candidate -> pathways) into (pathway -> candidates) with one sparse transpose, then
+    # order each pathway's list by (size, index) so a nested set comes out in chain order.
+    width = int(candidates.shape[1]) * bits.WORD
+    holds = _csr_from_bitsets(candidates, width)
+    by_pathway = holds.T.tocsr()
+    counts = np.diff(by_pathway.indptr)[:n].astype(np.int64)
+    np.cumsum(counts, out=chain_indptr[1:])
+    chain_idx = np.empty(int(chain_indptr[-1]), dtype=np.int64)
+    for pathway in np.flatnonzero(counts).tolist():
+        block = by_pathway.indices[
+            by_pathway.indptr[pathway] : by_pathway.indptr[pathway + 1]
+        ].astype(np.int64)
+        block = block[np.lexsort((block, sizes[block]))]
+        chain_idx[chain_indptr[pathway] : chain_indptr[pathway + 1]] = block
+        leaf_cluster[pathway] = int(block[0])
+
+    return Run(
+        present=present,
+        clusters=candidates,
+        parent=np.full(rows, -1, dtype=np.int64) if parent is None else parent,
+        leaf_cluster=leaf_cluster,
+        sizes=sizes,
+        chain_indptr=chain_indptr,
+        chain_idx=chain_idx,
+    )
+
+
 def _dedup(
     runs: list[Run], n: int
 ) -> tuple[np.ndarray, list[set[int]], list[np.ndarray]]:
