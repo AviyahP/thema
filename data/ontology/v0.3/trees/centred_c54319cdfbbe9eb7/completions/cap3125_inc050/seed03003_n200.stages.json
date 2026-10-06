@@ -1,17 +1,18 @@
 {
-  "load trees + cap": 10.112355457851663,
-  "prepare (dedup + eligibility)": 13.417572624981403,
-  "  .. runs (ward x N)": 9.949994273483753e-05,
-  "  .. dedup": 1.251254125032574,
-  "  .. eligibility": 12.151991833001375,
-  "matching (support)": 206.4909016659949,
-  "completion": 30.022716291015968,
-  "families (seed absorption)": 706.5356669588946,
-  "family support + selection": 14.408436916070059,
+  "load trees + cap": 20.472407292108983,
+  "prepare (dedup + eligibility)": 13.217261666897684,
+  "  .. runs (ward x N)": 0.00010349997319281101,
+  "  .. dedup": 1.2034578330349177,
+  "  .. eligibility": 12.00060720811598,
+  "matching (support)": 201.43106995895505,
+  "completion": 30.040393125033006,
+  "families (seed absorption)": 143.8732120420318,
+  "family support + selection": 13.520595124922693,
   "groupings": 619263,
   "eligible": 614547,
   "completed": 614547,
   "families": 428579,
   "completion_implementation": "fast",
-  "peak_mb": 20718.1
+  "families_implementation": "joined",
+  "peak_mb": 8380.9
 }
