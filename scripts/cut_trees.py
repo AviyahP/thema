@@ -35,7 +35,14 @@ from pathlib import Path
 import numpy as np
 
 from thema.ontology import bitset as bits
-from thema.ontology.recurrent import DEFAULTS, Run, prepare, score
+from thema.ontology import engines
+from thema.ontology.recurrent import (
+    DEFAULTS,
+    Run,
+    prepare,
+    run_from_candidates,
+    score,
+)
 
 #: The declared cap, as a SHARE of the universe. 2 x Reactome Signal Transduction's 469/3,233 =
 #: 14.5067%, excluding Disease as a cross-cutting pathology bucket. See DECISIONS.md, 2 Oct.
@@ -99,32 +106,169 @@ def load_run(path: Path, n: int, cap: int) -> Run:
             up = old_parent[up]
         new_parent[position] = renumber[up] if up >= 0 else -1
     # leaf_cluster and the CSR chains are rebuilt from the surviving clusters directly, which is
-    # cheaper and less error-prone than patching the stored ones.
-    holders: list[list[int]] = [[] for _ in range(n)]
-    for position in range(len(keep)):
-        for pathway in bits.unpack(kept_clusters[position]):
-            holders[pathway].append(position)
-    order = np.argsort(kept_sizes, kind="stable")
-    rank = np.empty(len(keep), dtype=np.int64)
-    rank[order] = np.arange(len(keep))
-    leaf_cluster = np.full(n, -1, dtype=np.int32)
-    chain_indptr = np.zeros(n + 1, dtype=np.int64)
-    chain: list[int] = []
-    for pathway in range(n):
-        got = sorted(holders[pathway], key=lambda c: rank[c])
-        if got:
-            leaf_cluster[pathway] = got[0]
-        chain.extend(got)
-        chain_indptr[pathway + 1] = len(chain)
+    # cheaper and less error-prone than patching the stored ones. Since 6 Oct this goes through
+    # `run_from_candidates`, the ENGINE ADAPTER, so the Ward path and every new engine build their
+    # inverted index with one piece of code. It is the same ordering the triple loop here used --
+    # by (size, index) ascending -- and the engine brief's regression is what proves that: with
+    # these trees the build must stay byte-identical to recurrent_dag_10770.
+    built = run_from_candidates(present, kept_clusters, n, parent=new_parent)
+    # The persisted sizes are the authority; recomputing them is a free integrity check on the file.
+    if not np.array_equal(built.sizes, kept_sizes):
+        raise ValueError(f"{path}: stored sizes disagree with the stored cluster bitsets")
     return Run(
         present=present,
         clusters=kept_clusters,
         parent=new_parent,
-        leaf_cluster=leaf_cluster,
+        leaf_cluster=built.leaf_cluster.astype(np.int32),
         sizes=kept_sizes,
-        chain_indptr=chain_indptr,
-        chain_idx=np.asarray(chain, dtype=np.int32),
+        chain_indptr=built.chain_indptr,
+        chain_idx=built.chain_idx.astype(np.int32),
     )
+
+
+#: The engines a run can use to propose candidates. "ward" is v0.3 and reads the persisted trees;
+#: every other arm reads only the SAMPLE from those trees and re-clusters it. Declared in
+#: DECISIONS.md, 6 Oct 2026.
+#: Arms, in the priority order of amendment 2: A ward, B leiden, B2 leiden_persistent, C pooled,
+#: G bisect, F average, H infomap, D paris. "hdbscan" (arm E) is DROPPED by amendment 1 and is not
+#: listed, so it cannot be selected by accident.
+ENGINES = (
+    "ward", "leiden", "leiden_persistent", "pooled", "bisect", "average", "infomap", "paris",
+)
+
+#: Engines that need the full-universe matrix (real or scrambled) rather than the persisted tree.
+NEEDS_VECTORS = tuple(e for e in ENGINES if e != "ward")
+
+#: Which arm letter each engine is, for reports. Arm E is absent: dropped before any build.
+ARM_OF = {
+    "ward": "A", "leiden": "B", "leiden_persistent": "B2", "pooled": "C",
+    "bisect": "G", "average": "F", "infomap": "H", "paris": "D",
+}
+
+
+def engine_cut_key(cap: int, cutoff: float, engine: str) -> str:
+    """Completion-cache key for an engine, which must never collide with another engine's.
+
+    ``"ward"`` returns the v0.3 key unchanged, so the frozen build's cached sides stay readable and
+    nothing is overwritten. Every other engine gets its own suffix.
+
+    Args:
+        cap: Size cap.
+        cutoff: Inclusion cutoff.
+        engine: One of :data:`ENGINES`.
+
+    Returns:
+        The directory name under ``trees/<space>_<universe>/completions/``.
+    """
+    base = f"cap{cap}_inc{int(round(cutoff * 100)):03d}"
+    return base if engine == "ward" else f"{base}_{engine}"
+
+
+def load_engine_run(
+    path: Path,
+    n: int,
+    cap: int,
+    engine: str,
+    vectors: np.ndarray,
+    run_index: int,
+    resolutions: np.ndarray | None = None,
+    sample_check: np.ndarray | None = None,
+) -> Run:
+    """Build one run's candidates with a non-Ward engine, on the SAME sample as the Ward tree.
+
+    The sample is read from the persisted tree rather than regenerated, which is the strongest
+    possible form of "the same 80% samples": there is no second code path that could disagree. When
+    ``sample_check`` is given the regenerated draw is asserted equal to it anyway, because the
+    declaration says the samples are pinned by their seeds and an assertion is cheap.
+
+    Size limits are applied here, identically for every arm: ``MIN_SIZE`` and ``cap``. The Ward path
+    additionally drops nodes above half the draw, but the cap (3,125) is smaller than half a draw
+    (4,308), so that rule removes nothing the cap does not and every arm is governed by the same two
+    limits. Recorded in DECISIONS.md, 6 Oct.
+
+    Args:
+        path: The persisted Ward tree for this run, read ONLY for its ``present`` bitset.
+        n: Universe size.
+        cap: Largest candidate that stays a candidate.
+        engine: One of :data:`ENGINES`, not ``"ward"``.
+        vectors: The ``(n, dim)`` matrix this side clusters -- the real centred matrix for a real
+            side, or that seed's scrambled matrix for a scramble side. For ``"hdbscan"`` this is the
+            UMAP embedding of that matrix instead.
+        run_index: 1-based run number, which fixes every seed this engine draws.
+        resolutions: The Leiden resolution ladder, for ``"leiden"``, ``"leiden_persistent"`` and
+            ``"pooled"``.
+        sample_check: Optional expected sample indices, asserted against the persisted bitset.
+
+    Returns:
+        A run the rest of the pipeline cannot distinguish from a Ward one.
+
+    Raises:
+        ValueError: If the engine is unknown, or the persisted sample disagrees with
+            ``sample_check``.
+    """
+    with np.load(path) as handle:
+        present = handle["present"]
+        ward_clusters = handle["clusters"] if engine == "pooled" else None
+        ward_sizes = handle["sizes"] if engine == "pooled" else None
+    sample = np.asarray(bits.unpack(present), dtype=np.int64)
+    if sample_check is not None and not np.array_equal(sample, np.sort(sample_check)):
+        raise ValueError(f"{path}: persisted sample differs from the recorded subsample seed")
+
+    block = vectors[sample]
+    if engine in ("leiden", "pooled"):
+        # Amended 6 Oct: the WHOLE ladder per run, not one rung. Arm C pools these with the run's
+        # Ward clusters further down.
+        found = engines.leiden_communities(block, resolutions, run_index)  # type: ignore[arg-type]
+        parent_of = None
+    elif engine == "leiden_persistent":
+        found = engines.leiden_persistent(block, resolutions, run_index)  # type: ignore[arg-type]
+        parent_of = None
+    elif engine == "infomap":
+        found = engines.infomap_modules(block, run_index)
+        parent_of = None
+    elif engine == "bisect":
+        found, parent_of = engines.bisecting_spherical_kmeans(block, run_index)
+    elif engine == "average":
+        found, parent_of = engines.average_linkage(block)
+    elif engine == "paris":
+        found, parent_of = engines.paris_candidates(block)
+    else:
+        raise ValueError(f"unknown engine {engine!r}")
+
+    # Map sample rows back to universe indices and apply the shared size limits.
+    keep = [i for i, members in enumerate(found) if MIN_SIZE <= len(members) <= cap]
+    packed = (
+        np.vstack([bits.pack(sample[found[i]].tolist(), n) for i in keep])
+        if keep else np.zeros((0, bits.words_for(n)), dtype=np.uint64)
+    )
+    if parent_of is not None and keep:
+        # Renumber the nested structure onto the survivors, inheriting the nearest kept ancestor so
+        # the containment chain is not broken by a dropped merge -- the same rule `load_run` applies
+        # when the cap removes a Ward node.
+        renumber = np.full(len(found), -1, dtype=np.int64)
+        renumber[np.asarray(keep, dtype=np.int64)] = np.arange(len(keep), dtype=np.int64)
+        nested = np.full(len(keep), -1, dtype=np.int64)
+        for position, old in enumerate(keep):
+            up = int(parent_of[old])
+            while up >= 0 and renumber[up] < 0:
+                up = int(parent_of[up])
+            nested[position] = int(renumber[up]) if up >= 0 else -1
+    else:
+        nested = None
+
+    if engine == "pooled":
+        # Arm C: the run's Ward clusters UNION its Leiden split, on the same sample. Duplicates are
+        # dropped here rather than left for `_dedup`, which deduplicates ACROSS runs: a candidate
+        # listed twice within one run would be counted once anyway, but its presence would make the
+        # cluster count misreport what the arm proposed.
+        ward_keep = np.flatnonzero(ward_sizes <= cap)  # type: ignore[arg-type]
+        packed = np.vstack([ward_clusters[ward_keep], packed]) if len(keep) else (
+            ward_clusters[ward_keep]  # type: ignore[index]
+        )
+        packed = np.unique(packed, axis=0)
+        nested = None
+
+    return run_from_candidates(present, packed, n, parent=nested)
 
 
 #: How many groupings are sampled from each side when estimating the matched share, and the seed.
