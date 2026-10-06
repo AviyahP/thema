@@ -1,0 +1,42 @@
+{
+  "side": "real",
+  "n": 10770,
+  "t": 1.5,
+  "q": 99.0,
+  "share": 0.8,
+  "fine_candidates": 1615,
+  "fine_kept": 622,
+  "units": 8562,
+  "levels": [
+    1423,
+    264,
+    102,
+    71,
+    37,
+    30
+  ],
+  "close_thresholds": [
+    0.30678,
+    0.52726,
+    0.43373,
+    0.33512,
+    0.29817,
+    0.26615
+  ],
+  "themes": 2547,
+  "bands": {
+    "3-10": 1004,
+    "11-50": 1100,
+    "201-500": 91,
+    "51-200": 278,
+    "500+": 74
+  },
+  "timing_seconds": {
+    "knn and mutual-rank edges": 0.8,
+    "filtration": 0.1,
+    "fine lifetimes": 0.0,
+    "units": 0.0,
+    "levels": 1.9
+  },
+  "peak_mb": 1115.3
+}
