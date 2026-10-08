@@ -127,3 +127,37 @@ data/ontology/v*/kc/*.npz
 # regenerable from the committed builder in about 40 minutes. The grid summary with every
 # recall/precision cell is committed as data/experiments/hidef_grid_2026-10-07.json instead.
 data/ontology/v*/hidef_grid_k*/
+
+# v0.4 ablation side material, 7 Oct. 358 MB of completed-family bitsets, one set per ablation,
+# regenerable from the persisted trees in about 5-20 minutes a side. The floors.json and
+# stages.json beside them are the record every reported number is read from, and are kept.
+data/ontology/v*/ablate/**/*.npz
+data/ontology/v*/ablate/superseded_*/
+
+# v0.4 ablation build member rosters, 8 Oct. The seven ablations and their fourteen stability
+# halves come to 181 MB of members.tsv alone; nodes/edges/unplaced/manifest for all 21 are 10 MB
+# and are kept, so every build's shape and provenance stays auditable in the repo. Same rule the
+# HiDeF grid got above: the rosters are regenerable from the persisted trees, and every number
+# reported from them is committed as data/experiments/v04/ablation_table_tuning.json.
+# The rule is scoped to ablate_* so the final v0.4 build keeps its members.tsv.
+data/ontology/v*/ablate_*/members.tsv
+
+# The direction pilot's unblinding key: it maps the blinded pilot ids (P0186) back to real pathway
+# identities. Committing it would destroy the blinding for anyone who re-runs the pilot, and the
+# file name is an explicit instruction. Kept local, never in version control.
+data/experiments/direction_pilot/KEY_DO_NOT_SHARE.tsv
+
+# v0.4 cached side material, 8 Oct. 73 MB of matched-and-completed family bitsets plus their
+# inclusion votes, for the real side with and without the stages restored. Regenerable in about
+# 300 s each from the persisted trees. floors.json beside them is the calibration record -- the
+# solved floors and the single held-out confirmation -- and is kept.
+data/ontology/v*/calibration/*.npz
+
+# v0.4 stability halves and the matched-count cut: intermediate, built for one statistic each
+# (between-half stability, and the equal-theme-count comparison row). Same rule the ablation
+# builds got above -- nodes/edges/unplaced/manifest are kept so the shape stays auditable, the
+# member rosters are regenerable in 150 s and 90 s. The current core's own roster,
+# data/ontology/v0.4/thema_10770/members.tsv, is NOT ignored.
+data/ontology/v*/thema_10770_r*/members.tsv
+data/ontology/v*/thema_10770_matched*/members.tsv
+data/ontology/v*/thema_10770_all_stages_on*/
