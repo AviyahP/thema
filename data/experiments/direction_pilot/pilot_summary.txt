@@ -1,0 +1,8 @@
+pilot: 200 pairs, 387 curated pathways + 50 Hallmark/BTM controls = 437 to annotate
+free-signal baseline on these exact pilot pairs:
+  local density: 61.5%
+  rank asymmetry: 49.0%
+  LEAK: parent name inside child description: 9.5%
+leakage pre-check, whole tuning half: child descriptions containing the parent's exact name:
+  reactome: 41/1273 = 3.2%
+  go: 563/5019 = 11.2%
