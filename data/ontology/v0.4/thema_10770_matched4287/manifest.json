@@ -1,0 +1,167 @@
+{
+ "containment": "strict",
+ "directory": "thema_10770_matched4287",
+ "excluded": [],
+ "floors": [
+  {
+   "calibration_fdr": 0.01,
+   "effective": 0.79,
+   "floor": 0.79,
+   "real": 1441,
+   "stratum": "3-3"
+  },
+  {
+   "calibration_fdr": 0.00685,
+   "effective": 0.91,
+   "floor": 0.91,
+   "real": 1791,
+   "stratum": "4-4"
+  },
+  {
+   "calibration_fdr": 0.00992,
+   "effective": 0.368687,
+   "floor": 0.368687,
+   "real": 2170,
+   "stratum": "5-5"
+  },
+  {
+   "calibration_fdr": 0.0094,
+   "effective": 0.33,
+   "floor": 0.285,
+   "real": 3302,
+   "stratum": "6-6"
+  },
+  {
+   "calibration_fdr": 0.0098,
+   "effective": 0.33,
+   "floor": 0.16,
+   "real": 11639,
+   "stratum": "7-9"
+  },
+  {
+   "calibration_fdr": 0.00817,
+   "effective": 0.33,
+   "floor": 0.020101,
+   "real": 144531,
+   "stratum": "10+"
+  }
+ ],
+ "floors_file": "data/ontology/v0.4/calibration/floors.json",
+ "inclusion_cut": 0.5,
+ "kept_stage_reasons": [
+  "removing it drops between-half stability to 0.713 from 0.855 and worsens two curated cells; its better FDR (0.00196) arrives with 1.9x the themes, which the rule flags rather than credits",
+  "removing it doubles held-out FDR to 0.00482 from 0.00241 and worsens two curated cells",
+  "a single floor fails on four counts at once: held-out FDR 0.01013 over the 0.01 cap, worst stratum 0.0500 over the 0.02 cap, stability 0.793, four cells worse"
+ ],
+ "kept_stages": [
+  "completion",
+  "greedy seed absorption",
+  "per-size support floors"
+ ],
+ "matched_theme_cut": 4287,
+ "max_fdr_overall": 0.01,
+ "max_fdr_stratum": 0.02,
+ "method": "v0.4",
+ "min_size": 3,
+ "multi_parent_share": 0.255,
+ "n": 10770,
+ "n_edges": 5142,
+ "n_effectively_unplaced": 1045,
+ "n_excluded_no_genes": 0,
+ "n_multi_parent": 1093,
+ "n_near_members": null,
+ "n_nodes": 4287,
+ "n_root_only": 845,
+ "n_roots": 304,
+ "n_undescribed": 0,
+ "n_unplaced": 200,
+ "params": {
+  "containment": "strict",
+  "floors": [],
+  "floors_file": "data/ontology/v0.4/calibration/floors.json",
+  "inclusion_cut": 0.5,
+  "kept_stage_reasons": [
+   "removing it drops between-half stability to 0.713 from 0.855 and worsens two curated cells; its better FDR (0.00196) arrives with 1.9x the themes, which the rule flags rather than credits",
+   "removing it doubles held-out FDR to 0.00482 from 0.00241 and worsens two curated cells",
+   "a single floor fails on four counts at once: held-out FDR 0.01013 over the 0.01 cap, worst stratum 0.0500 over the 0.02 cap, stability 0.793, four cells worse"
+  ],
+  "kept_stages": [
+   "completion",
+   "greedy seed absorption",
+   "per-size support floors"
+  ],
+  "matched_theme_cut": 4287,
+  "max_fdr_overall": 0.01,
+  "max_fdr_stratum": 0.02,
+  "method": "v0.4",
+  "min_size": 3,
+  "multi_parent_share": 0.255,
+  "n": 10770,
+  "n_effectively_unplaced": 1045,
+  "n_multi_parent": 1093,
+  "n_nodes": 4287,
+  "n_root_only": 845,
+  "n_roots": 304,
+  "n_unplaced": 200,
+  "peak_mb": 2240.3,
+  "removed_stages": [
+   "size cap",
+   "TOL extras-only rule",
+   "STRAY",
+   "partial containment"
+  ],
+  "reused_sides_from": "data/ontology/v0.3/ablate/no_size_cap",
+  "rows": "1-200",
+  "runs": 200,
+  "size_cap": null,
+  "strata": [],
+  "stray": 0.0,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "tol": 0.0,
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 2240.3,
+ "removed_stages": [
+  "size cap",
+  "TOL extras-only rule",
+  "STRAY",
+  "partial containment"
+ ],
+ "reused_sides_from": "data/ontology/v0.3/ablate/no_size_cap",
+ "rows": "1-200",
+ "runs": 200,
+ "size_cap": null,
+ "strata": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   5
+  ],
+  [
+   6,
+   6
+  ],
+  [
+   7,
+   9
+  ],
+  [
+   10,
+   1000000000
+  ]
+ ],
+ "stray": 0.0,
+ "subsample": 0.8,
+ "theta": 0.7,
+ "tol": 0.0,
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4"
+}

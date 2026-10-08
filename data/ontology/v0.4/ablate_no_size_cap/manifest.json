@@ -1,0 +1,116 @@
+{
+ "ablation": "no_size_cap",
+ "containment": "strict",
+ "directory": "ablate_no_size_cap",
+ "excluded": [],
+ "exploratory": true,
+ "floors": [
+  {
+   "calibration_fdr": 0.01,
+   "effective": 0.79,
+   "floor": 0.79,
+   "real": 1441,
+   "stratum": "3-3"
+  },
+  {
+   "calibration_fdr": 0.00685,
+   "effective": 0.91,
+   "floor": 0.91,
+   "real": 1791,
+   "stratum": "4-4"
+  },
+  {
+   "calibration_fdr": 0.00992,
+   "effective": 0.368687,
+   "floor": 0.368687,
+   "real": 2170,
+   "stratum": "5-5"
+  },
+  {
+   "calibration_fdr": 0.0094,
+   "effective": 0.33,
+   "floor": 0.285,
+   "real": 3302,
+   "stratum": "6-6"
+  },
+  {
+   "calibration_fdr": 0.0098,
+   "effective": 0.33,
+   "floor": 0.16,
+   "real": 11639,
+   "stratum": "7-9"
+  },
+  {
+   "calibration_fdr": 0.00817,
+   "effective": 0.33,
+   "floor": 0.020101,
+   "real": 144531,
+   "stratum": "10+"
+  }
+ ],
+ "inclusion_cut": 0.5,
+ "method": "v0.4-ablation",
+ "min_size": 3,
+ "multi_parent_share": 0.2954,
+ "n": 10770,
+ "n_edges": 8190,
+ "n_effectively_unplaced": 87,
+ "n_excluded_no_genes": 0,
+ "n_multi_parent": 1814,
+ "n_near_members": null,
+ "n_nodes": 6141,
+ "n_root_only": 84,
+ "n_roots": 75,
+ "n_undescribed": 0,
+ "n_unplaced": 3,
+ "params": {
+  "ablation": "no_size_cap",
+  "containment": "strict",
+  "exploratory": true,
+  "floors": [],
+  "inclusion_cut": 0.5,
+  "method": "v0.4-ablation",
+  "min_size": 3,
+  "multi_parent_share": 0.2954,
+  "n": 10770,
+  "n_effectively_unplaced": 87,
+  "n_multi_parent": 1814,
+  "n_nodes": 6141,
+  "n_root_only": 84,
+  "n_roots": 75,
+  "n_unplaced": 3,
+  "peak_mb": 910.8,
+  "rows": "1-200",
+  "runs": 200,
+  "seconds": {
+   "consensus": 15.8,
+   "containment": 46.8,
+   "side material": 0.1
+  },
+  "size_cap": null,
+  "stray": 0.1,
+  "switches": {
+   "size_cap": false
+  },
+  "theta": 0.7,
+  "tol": 0.15,
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 910.8,
+ "rows": "1-200",
+ "runs": 200,
+ "seconds": {
+  "consensus": 15.8,
+  "containment": 46.8,
+  "side material": 0.1
+ },
+ "size_cap": null,
+ "stray": 0.1,
+ "switches": {
+  "size_cap": false
+ },
+ "theta": 0.7,
+ "tol": 0.15,
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4"
+}
