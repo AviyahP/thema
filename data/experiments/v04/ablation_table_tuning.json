@@ -1,0 +1,126 @@
+{
+  "rule": "KEEP if removal worsens a cell beyond the margin with the CI excluding 0, or breaks the FDR caps, or drops stability by > 2 points",
+  "caps": {
+    "fdr_overall": 0.01,
+    "fdr_stratum": 0.02,
+    "stability_drop": 0.02
+  },
+  "half": "tuning",
+  "stages": {
+    "no_size_cap": {
+      "stage": "size cap",
+      "measured": true,
+      "recalibrated": true,
+      "themes": 6141,
+      "heldout_fdr": 0.00237,
+      "worst_stratum": 0.01144,
+      "stability": 0.8525,
+      "worsened_cells": [],
+      "verdict": "REMOVED",
+      "reasons": [],
+      "theme_count_flag": false
+    },
+    "TOL": {
+      "stage": "TOL extras-only rule -> symmetric Jaccard theta",
+      "measured": false,
+      "verdict": "ALREADY ABSENT",
+      "why": "v0.3 runs the symmetric theta branch; TOL is inert, so there is nothing to remove. Established 5 Oct, DECISIONS.md."
+    },
+    "no_stray": {
+      "stage": "STRAY",
+      "measured": true,
+      "recalibrated": false,
+      "themes": 6192,
+      "heldout_fdr": 0.00241,
+      "worst_stratum": 0.01066,
+      "stability": 0.8544,
+      "worsened_cells": [],
+      "verdict": "REMOVED",
+      "reasons": [],
+      "theme_count_flag": false
+    },
+    "no_completion": {
+      "stage": "completion",
+      "measured": true,
+      "recalibrated": true,
+      "themes": 12045,
+      "heldout_fdr": 0.00196,
+      "worst_stratum": 0.01724,
+      "stability": 0.7132,
+      "worsened_cells": [
+        "reactome 11-50 recall -0.1610",
+        "go 3-10 precision -0.0226"
+      ],
+      "verdict": "KEPT",
+      "reasons": [
+        "stability 0.713 against 0.855",
+        "2 cell(s) worse beyond the margin"
+      ],
+      "theme_count_flag": true
+    },
+    "flat_merge": {
+      "stage": "greedy seed absorption -> flat merge at theta",
+      "measured": true,
+      "recalibrated": true,
+      "themes": 7519,
+      "heldout_fdr": 0.00482,
+      "worst_stratum": 0.01302,
+      "stability": 0.8537,
+      "worsened_cells": [
+        "reactome 11-50 recall -0.0575",
+        "go 51-200 precision -0.1165"
+      ],
+      "verdict": "KEPT",
+      "reasons": [
+        "2 cell(s) worse beyond the margin"
+      ],
+      "theme_count_flag": false
+    },
+    "single_floor": {
+      "stage": "per-size floors -> a single floor",
+      "measured": true,
+      "recalibrated": false,
+      "themes": 1974,
+      "heldout_fdr": 0.01013,
+      "worst_stratum": 0.05,
+      "stability": 0.7929,
+      "worsened_cells": [
+        "reactome 3-10 recall -0.2128",
+        "reactome 11-50 recall -0.2299",
+        "go 3-10 recall -0.0915",
+        "go 11-50 recall -0.0715"
+      ],
+      "verdict": "KEPT",
+      "reasons": [
+        "held-out FDR 0.01013 over 0.01",
+        "worst stratum 0.05 over 0.02",
+        "stability 0.793 against 0.855",
+        "4 cell(s) worse beyond the margin"
+      ],
+      "theme_count_flag": false
+    },
+    "partial_containment": {
+      "stage": "strict containment -> partial >= 0.9 (report-only)",
+      "measured": true,
+      "recalibrated": false,
+      "themes": 6229,
+      "heldout_fdr": 0.00241,
+      "worst_stratum": 0.01066,
+      "stability": 0.855,
+      "worsened_cells": [],
+      "verdict": "REMOVED",
+      "reasons": [],
+      "theme_count_flag": false
+    }
+  },
+  "kept": [
+    "no_completion",
+    "flat_merge",
+    "single_floor"
+  ],
+  "removed": [
+    "no_size_cap",
+    "no_stray",
+    "partial_containment"
+  ]
+}

@@ -1,0 +1,14 @@
+DIRECTION PILOT (exploratory). Accuracy = share of curated child->parent pairs where score(child->parent) > score(parent->child). Chance 50%; free-signal baseline on these pairs: density 61.5%. Pass bar >= 70%.
+
+up + down   all  62.5% (n=200)   reactome  64.0%   go  61.0%
+up only     all  56.0% (n=200)   reactome  59.0%   go  53.0%
+down only   all  63.0% (n=200)   reactome  58.0%   go  68.0%
+
+LEAKAGE ALARM (exact name matches; not used for scoring):
+  btm broader == any GO/Reactome name           26/39 = 66.7%
+  go broader == a TRUE curated ancestor name    124/196 = 63.3%
+  go broader == any GO/Reactome name            151/196 = 77.0%
+  hallmark broader == any GO/Reactome name      3/11 = 27.3%
+  reactome broader == a TRUE curated ancestor name 31/191 = 16.2%
+  reactome broader == any GO/Reactome name      97/191 = 50.8%
+  pathways per source: {'go': 196, 'reactome': 191, 'btm': 39, 'hallmark': 11}

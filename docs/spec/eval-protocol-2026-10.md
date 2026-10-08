@@ -189,3 +189,30 @@ lifetime score **because Test R measured it working** (G_life AUROC 0.929-0.991 
 alone at 0.763-0.900). The arms are therefore motivated by a result already seen, which the Arm K
 specification states in its own first paragraph. A1 itself is declared before any E1-E4 number
 exists, and the Final decision rule it applies them under is unchanged from the 6 Oct declaration.
+
+## Clarifications 9 and 10, dated 2026-10-06 22:25:16Z, found after the HiDeF grid
+
+**Clarification 9: curated GO sets** = the descendant closure over `is_a`, `part_of`,
+`regulates`, `positively_regulates` and `negatively_regulates` from `go-basic.obo`. This is
+primary; the `is_a`-only closure is secondary. Reason: 36% of GO pathways are regulation terms,
+which `is_a` alone separates from what they regulate. Add a relations option to `curated()`, with
+the default unchanged for old reports.
+
+**Clarification 10: pair distance.** For each same-source pair, d = the size of the smallest curated
+set containing both, and the size of the smallest theme containing both (same-source members), or
+`far` if none. Report near-pair recall and precision at T = 10 and 50, with a labels-shuffled
+null. The all-pairs Spearman is reported but is not decisive.
+
+### Notes on implementing these, recorded at the time
+
+**The relations are present in `go-basic.obo` and were never parsed.** The file holds 6,270
+`part_of`, 2,820 `regulates`, 2,475 `positively_regulates` and 2,475 `negatively_regulates`
+lines, and `thema.data.formats.parse_obo_terms` reads only `is_a` (`formats.py:149`). So every
+GO number in every report before today — the 4 Oct HiDeF comparison, the 5 Oct 16 scores, the KC2
+deciding table and both HiDeF grids — used the `is_a`-only closure. Clarification 9 makes that the
+secondary definition, and the primary one has never been computed.
+
+**`curated()` gains its relations option in a new module**, `src/thema/ontology/evalsets.py`,
+rather than by editing `scripts/kc2_report.py`, because the v0.4 brief forbids editing existing
+files. The effect the clarification asks for is the same: the old default is reachable and unchanged,
+so old reports remain reproducible, and the new closure is opt-in.

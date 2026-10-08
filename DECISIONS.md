@@ -4669,3 +4669,168 @@ the question live rather than rhetorical. **Its step 2 is a declared second read
 seeds 4001-4005**, and the protocol labels it as such: no threshold is fitted at the fixed cut, so
 every seed is valid test data for it, and the cut is declared here rather than chosen after seeing
 the FDR.
+
+## 2026-10-06 22:25:43Z — THEMA v0.4 declared: §0-§2 verbatim, before any build
+
+Copied verbatim from Aviyah's brief of 7 Oct 2026. **Nothing below was computed when this was
+written.** Branch `v04-2026-10`; v0.3 stays frozen.
+
+### THE IDEA, as given
+
+> a theme is a group of pathways that stays together across 80% subsamples more often than chance
+> allows; themes are stacked by containment. Three knobs: sample fraction 0.8; one match threshold
+> θ = 0.70 for both recurrence and merging; the 3-seed floors at the v0.3 target FDR, calibrated
+> once and stored.
+
+### §0 DECLARE, verbatim
+
+> §0 DECLARE: copy §0–§2 verbatim into DECISIONS.md, timestamped, before any build.
+>
+> Scoring: the KC2 deciding-table code with clarification 9, plus clarification 10.
+> Cells: Reactome and GO × bands 3–10, 11–50, 51–200; recall and precision.
+> Split the curated sets in half (seed 0, stratified by band). All ablation decisions use the
+> TUNING half only; the TEST half is used only in §3.
+> Margin: 2 points, with a cluster bootstrap CI over curated sets (1,000 resamples, seed 0) that
+> must exclude 0.
+> Rule: a v0.3 stage is KEPT only if removing it worsens a cell beyond the margin, OR pushes
+> held-out FDR (scrambles 4001–4002) over the v0.3 caps, OR drops stability between run halves by
+> more than 2 points. Otherwise it is REMOVED.
+> Report theme count for every arm. A recall gain that comes with a large rise in theme count is
+> flagged, not credited.
+
+### §1 ABLATION, verbatim
+
+> §1 ABLATION, from v0.3 on the 10,770 (cached trees, stored floors). Switch off ONE stage at a
+> time:
+>
+> - size cap;
+> - TOL extras-only rule → symmetric Jaccard θ;
+> - STRAY;
+> - completion;
+> - greedy seed absorption → a simple merge at θ;
+> - per-size floors → a single floor;
+> - strict containment → partial containment ≥ 0.9 (report-only).
+>
+> Recalibrate the floors only where the gate's input changes, and say so. Table: stage → effect per
+> cell, with CI → KEPT or REMOVED, plus wall time.
+
+### §2 BUILD, verbatim
+
+> §2 BUILD a new module, src/thema/ontology/v04.py, with only the KEPT stages; under 500 lines,
+> with a one-line justification per stage.
+>
+> Test: with every stage on, it reproduces v0.3 byte-identically, or explain each difference.
+> Calibrate once, store the floors, run one held-out scramble check.
+> Output data/ontology/v0.4/thema_10770/ in the v0.3 schema.
+
+### Three readings recorded before building, because each could otherwise look convenient later
+
+**1. The ablations and the BASELINE both use three-seed floors.** §1 says "cached trees, stored
+floors", and v0.3's stored floors are ten-seed; the IDEA fixes three-seed floors as one of v0.4's
+knobs. Comparing a ten-seed v0.3 against three-seed ablations would confound the floor count with
+the stage being removed, so the baseline is rebuilt at three seeds too. Test F measured that three
+seeds pass the v0.3 caps (held-out FDR 0.00252 against the ten-seed 0.00285), and it is also what
+makes this brief fit its own 6 h limit: at ten seeds the estimate is 7.24 h and the instruction is to
+stop.
+
+**2. "TOL extras-only rule → symmetric Jaccard θ" is a NO-OP and is reported, not measured.** The
+frozen build already runs the symmetric θ branch; `TOL = 0.15` is used only in the
+`theta is None` branch and is inert. That was established on 5 Oct in answer to Part A question 1
+and is recorded in this file. Switching it therefore changes nothing, and the ablation table says so
+rather than reporting a spurious zero effect as evidence the stage is removable.
+
+**3. Clarification 9 changes every GO number ever reported here.** `parse_obo_terms` reads only
+`is_a`, so the 4 Oct HiDeF comparison, the 5 Oct 16 scores, the KC2 deciding table and both HiDeF
+grids all used the `is_a`-only closure, which clarification 9 demotes to secondary. The primary
+closure has never been computed. v0.4's §3 is therefore **not comparable cell-for-cell with any
+earlier GO figure**, and both closures are reported so the discontinuity is visible rather than
+silent.
+
+## 2026-10-08 09:02:35Z — v0.4 VERDICT: four of seven stages removed, three kept
+
+The ablation declared on 6 Oct ran on the 10,770 with cached trees and stored floors. Decisions used
+the **tuning** half of the curated sets only; the test half was read once afterwards, for §3.
+Baseline (all stages on): held-out FDR 0.00241, between-half stability 0.855, 6,229 themes.
+
+| stage removed | themes | held-out FDR | worst stratum | stability | verdict |
+|---|---:|---:|---:|---:|---|
+| size cap (29.0133% = 3,125) | 6,141 | 0.00237 | 0.0114 | 0.853 | **REMOVED** |
+| TOL extras-only rule | — | — | — | — | **ALREADY ABSENT** |
+| STRAY (0.10) | 6,192 | 0.00241 | 0.0107 | 0.854 | **REMOVED** |
+| completion | 12,045 | 0.00196 | 0.0172 | 0.713 | **KEPT** |
+| greedy seed absorption to flat merge at theta | 7,519 | 0.00482 | 0.0130 | 0.854 | **KEPT** |
+| per-size floors to one floor | 1,974 | **0.01013** | **0.0500** | 0.793 | **KEPT** |
+| strict to partial containment >=0.9 | 6,229 | 0.00241 | 0.0107 | 0.855 | **REMOVED** |
+
+Each KEEP was forced by the declared rule, not by preference. **Completion**: stability falls to
+0.713 and two curated cells worsen beyond the 2-point margin with paired CIs excluding zero; its
+better FDR arrives with 1.9x the theme count, which the rule flags rather than credits.
+**Greedy absorption**: held-out FDR doubles and two cells worsen. **Per-size floors**: four
+independent failures at once -- FDR 0.01013 over the 0.01 cap, worst stratum 0.0500 over the 0.02
+cap, stability 0.793, four cells worse -- and a single floor also cuts the ontology to 1,974 themes.
+This closes Test F and Test R from the other direction: the floors are load-bearing, not merely
+affordable.
+
+Every REMOVAL is a case where nothing moved. The size cap, the stage with a whole reference
+apparatus behind it, shifts FDR by 0.00004 and stability by 0.002 and worsens no cell, consistent
+with the earlier finding that it removes about two candidates per tree. TOL was already inert: it is
+read only on the `theta is None` branch, which no build takes.
+
+**v0.4 is therefore v0.3 minus four stages.** `src/thema/ontology/v04.py` is the pipeline with the
+removed stages absent rather than switchable. It is proved byte-identical to the frozen
+`recurrent_dag_10770` with every stage restored, at two levels -- the side material first (161,852
+candidates, membership identical), then all four exported tables. Calibrated once: held-out FDR
+**0.00237** on scrambles 4001-4002. Built to `data/ontology/v0.4/thema_10770/`, 6,104 themes.
+
+Two bugs the byte-identity test caught, both of which would have invalidated every §3 number: the
+size cap came out 3,124 rather than 3,125 from a truncated share and `int` where v0.3 takes `round`;
+and the inclusion column was written as 1.0 for every member, which showed up as every node, edge
+and unplaced row identical with 40,501 of 98,599 member rows differing. The same inclusion flaw was
+in all seven §1 ablation builds and **does not affect any §1 decision**, because recall, precision,
+FDR and stability all read member sets and never that column.
+
+**On the test half, read once: no cell differs from v0.3 beyond the margin in either direction, on
+either GO closure.** Stability 0.852 against 0.855. The DAG is 100% gene-monotone on all 8,422
+edges. **v0.4 becomes the current core**; v0.3 and `recurrent_dag_10770` stay frozen as the
+reference. Full report: `docs/status/2026-10-07-v04.md`.
+
+## 2026-10-08 09:02:35Z — the direction pilot FAILED its pre-declared bar
+
+The pilot asked whether an LLM can tell, from a blinded description alone, which of two pathways is
+the broader one. Setup: names and database identifiers hidden, fresh agents writing one "broader"
+phrase and up to five "narrower" ones, scored by MedCPT query encoder against the article
+embeddings. The bar was declared at **70%** before the run.
+
+**Result: 62.5%** (Reactome 64.0%, GO 61.0%). Below the bar. The pilot does not pass and its
+approach is not carried forward on this evidence.
+
+Two findings make the failure worse than the headline. **Leakage: 63% of the GO "broader" phrases
+are verbatim the name of a true curated GO ancestor**, although the name was hidden from the model --
+so the model is reciting GO vocabulary it memorised rather than reasoning from the description.
+Separately, 3.2% of Reactome and 11.2% of GO child descriptions already contain their parent's exact
+name, a pre-existing leak in the descriptions themselves.
+
+For contrast, free signals on the same pairs: local embedding density 61%, rank asymmetry 61%, hub
+count 58-63%, distance from the corpus centre 44% (inverted). And "the parent has more genes" is
+100% on strictly-containing curated pairs, because Reactome unions and GO propagation produce those
+sizes -- a leaky baseline for validation, but one that uses only input data. Material at
+`data/experiments/direction_pilot/`; the unblinding key is gitignored so the blinding survives a
+re-run.
+
+## 2026-10-08 09:02:35Z — pathway NAMES are rejected as a direction signal: double dipping
+
+Name inclusion -- testing whether one pathway's name is a substring of the other's -- scores **99.7%
+on GO**, where it applies to 43% of pairs. It is **rejected and will not be used**, in construction
+or in scoring.
+
+The reason is that GO names are not independent observations of biology; they are written by the
+same curators who built the hierarchy, and they encode its structure deliberately ("regulation of X"
+sits under "X" because the curator named it to). Recovering the hierarchy from the names is
+recovering the curator's own indexing, so a method using names would score well on the curated
+benchmark while learning nothing about the pathways. It is the same circularity as the gene-count
+baseline but without the mitigation that gene sets are at least measured data.
+
+This is a standing rule, not a one-off: no scoring or construction path may read pathway names, and
+a method that needs them is disqualified rather than discounted. The descriptions are what THEMA
+reads, which is why the pre-existing name leak into descriptions (above) is recorded as a defect to
+fix rather than an effect to exploit.
