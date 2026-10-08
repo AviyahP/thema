@@ -7,6 +7,13 @@ must be recorded as an amendment with its date and reason, not silently revised.
 **Gate** = must pass before the ontology is called frozen. **Informational** = reported, argued
 about, never used to justify a freeze on its own.
 
+> **Note added 8 Oct 2026, not an amendment.** This plan and everything it grades refer to v0.3 and
+> `data/ontology/v0.3/recurrent_dag_10770`, which stay frozen as the reference. **The current core
+> is v0.4** (`src/thema/ontology/v04.py`), which is v0.3 with four stages removed after the 8 Oct
+> ablation; it is proved byte-identical to this build with every stage restored, and matches it on
+> every test-half cell. Nothing below is withdrawn or restated — see `CLAUDE.md` and
+> `docs/status/2026-10-07-v04.md` for what changed.
+
 > **AMENDED 25 Sep 2026.** Tests 7 and 8 are withdrawn and the running order is fixed. The original
 > text of every section below is left exactly as written; the amendment is at the end of this file
 > and supersedes the table above where they differ. Nothing here is silently revised.

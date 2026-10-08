@@ -28,7 +28,46 @@ uv run scripts/build_ontology.py                           # embed, cluster, wri
 uv run scripts/export_demo.py                              # write demo/ontology.{json,js} for demo/prototype.html
 ```
 
-### The 10,770 ontology
+### v0.4 — the current core
+
+**v0.4 is the method THEMA uses.** v0.3 and `data/ontology/v0.3/recurrent_dag_10770` stay frozen as
+the reference and are never rebuilt. v0.4 is v0.3 with four stages removed — the size cap, the TOL
+extras-only rule, STRAY, and partial containment — each dropped because the 8 Oct ablation found
+that removing it changed nothing measurable. Three stages remain and each is load-bearing:
+completion, greedy seed absorption, and the per-size support floors. The whole method is
+`src/thema/ontology/v04.py`, and the removed stages are absent there rather than switchable.
+
+Three knobs: subsample fraction 0.8, one match threshold θ = 0.70 used for both recurrence and
+merging, and the floors — calibrated once per configuration and then stored.
+
+```sh
+# The byte-identity proof. Restores every removed stage and must reproduce the frozen v0.3
+# exactly, at two levels: the side material first, then all four exported tables. Run this
+# before trusting any v0.4 number from changed code.
+uv run scripts/v04_run.py --all-stages-on --verify
+
+uv run scripts/v04_run.py --calibrate     # solve the floors once, confirm on held-out, store
+uv run scripts/v04_run.py                 # build -> data/ontology/v0.4/thema_10770/
+uv run scripts/v04_run.py --rows 1-100    # a stability half
+uv run scripts/v04_run.py --match-themes 4287   # post hoc cut to another build's theme count
+
+# What the ablation decided, and the test-half comparison.
+uv run scripts/v04_ablation_table.py --scores SCORES.json
+uv run scripts/v04_score.py --half test --relations primary --reference v04 --arm NAME=PATH
+uv run scripts/v04_pairs.py --half test --arm NAME=PATH      # near-pair agreement
+```
+
+Cost on this machine: 370 s and 7.6 GB for a build with stored floors (307 s of that is the side
+material), 64 s if the side is cached. Calibration is the only expensive part and is paid once per
+configuration.
+
+**Placement is a known open failure, not a bug to look for.** THEMA does not put curated parent
+pathways above their children: among curated pairs whose levels differ, the parent is the higher one
+46.1% of the time against a 50% coin flip, and this is true of v0.3, v0.4, Leiden and HiDeF alike.
+See `docs/status/2026-10-08-monotonicity.md`. Theme-level gene containment does hold — 100% of
+v0.4's 8,422 edges — but that follows from the definitions and is not evidence about placement.
+
+### The 10,770 ontology (v0.3, frozen)
 
 All CPU, no API. The expensive part is the Ward trees, and they are persisted: the cap, the inclusion
 cutoff and the floors are all **cut-time** choices, so changing any of them is a re-cut and never a
@@ -62,6 +101,8 @@ uv run scripts/unmatched_profile.py DUMP.tsv                # post hoc: which th
 # Validation. validate_dag.py is the DAG adapter the validation plan names as missing.
 uv run scripts/tfidf_vectors.py                             # test 3's lexical control vectors
 uv run scripts/validate_dag.py BUILD --gene-baselines --tfidf-vectors V.npy
+uv run scripts/monotonicity_check.py                        # does clustering respect gene containment
+uv run scripts/monotonicity_followup.py                     # placement, leaf pairs, the probe controls, GO
 
 # Proving an implementation change byte-identical before it is used.
 uv run scripts/verify_completion.py --side SIDE --families
