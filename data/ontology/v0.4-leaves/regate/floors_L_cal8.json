@@ -1,7 +1,7 @@
 {
   "arm": "L",
   "rule": "cal8",
-  "source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+  "source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008 || floors: cal8, calibrated on universe 10,770, reused after the 17-BTM drop",
   "calibration": [
     3001,
     3002,
@@ -142,5 +142,8 @@
   },
   "over_cap": {},
   "overall_over_cap": false,
-  "seconds": 19.0
+  "seconds": 19.0,
+  "reuse_note": "floors: cal8, calibrated on universe 10,770, reused after the 17-BTM drop",
+  "reuse_decision": "Aviyah, 2026-10-09: use these floors for builds made after the 17 self-described heterogeneous TBA BTMs are dropped (data/excluded_inputs.tsv). Do NOT recalibrate and do NOT run new scrambles for now. Reason: the floors are solved from the scramble side, and removing 17 of 10,770 inputs (0.16%) should leave the scramble null essentially unchanged. No digest check in the pipeline compares a floors file's universe against the build's, so nothing refuses this and no override was needed -- which is why the note is carried here, in DECISIONS.md and in the status file. ccode's recommendation was a full recalibration; this decision overrides it knowingly.",
+  "reuse_open_todo": "Consider re-running scrambles on the current universe and updating the floors later; until then all builds after the 17-BTM drop use the previous (cal8) floors."
 }
