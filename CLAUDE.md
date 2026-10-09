@@ -121,6 +121,17 @@ uv run scripts/repair_node_stats.py               # the same two numbers for EVE
 uv run scripts/giants_report.py --stats STATS.json          # the giant roots, and the build without them
 uv run scripts/export_browse_leaves.py --stats STATS.json   # -> BUILD/browse.html, self-contained
 
+# Redundancy, measured before any rule is chosen. Reports counts for candidate rules; applies none.
+uv run scripts/redundancy_measure.py --stats STATS.json     # chain ratios, sibling twins, fans
+uv run scripts/fan_ancestors.py --stats STATS.json          # the lattice above one fan
+uv run scripts/n00150_worked_example.py --stats STATS.json  # one lattice under every candidate rule
+uv run scripts/chain_survivor.py --stats STATS.json         # does chain collapse keep the stabler node
+
+# Inputs excluded by decision live in data/excluded_inputs.tsv (key, rule, evidence). pathways.tsv
+# is never edited: the source table stays a faithful record of what the four databases contain, and
+# an exclusion stays reversible and auditable. Applying one changes the universe digest, so trees,
+# scramble sides and floors must all be rebuilt -- a full recalibration, not a re-validation.
+
 # Merge rules other than Ward, on all of L with no resampling. Step 1 only; step 2 never approved.
 uv run scripts/one_linkage_step1.py               # W (Ward) vs C (centroid cosine) vs A (UPGMA)
 ```
