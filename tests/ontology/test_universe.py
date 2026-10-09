@@ -19,6 +19,10 @@ ALLOWED = {
     # embed_universe.py WRITES the artifact -- it is the producer, not a consumer, and the
     # loader's job is to verify what this script produced.
     "scripts/embed_universe.py",
+    # leaves_universe.py likewise WRITES universe L's artifact -- keys, raw vectors and the centred
+    # sidecar. Its consumers (leaves_build, leaves_baseline, leaves_score, leaves_text) all read it
+    # back through load_embedded, which is what this rule is protecting.
+    "scripts/leaves_universe.py",
     # v0.1 is the FROZEN v3-era reference. Its contents are history, not a current claim, and it
     # is deliberately NOT filtered -- filtering it would break the fidelity check it exists for.
     "tests/ontology/test_ward.py",
