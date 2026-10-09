@@ -1,0 +1,18 @@
+VALIDATION of the blind judging
+  verdicts parsed: 172 of 172 candidates
+  malformed or duplicate lines: 0
+  candidates with no verdict: 0
+  verdicts for keys not in the candidate list: 0
+
+  EXCLUSION-2 'no' verdicts: 21
+    of those already excluded by exclusion 1: 15
+    NEW exclusions (exclusion 2 only): 6
+  exclusion-1 sets that stage 2 judged 'yes' (they stay excluded regardless): ['btm:M184.1', 'btm:M233']
+  exclusion-1 sets not screened as candidates at all: []
+
+  'no' by source:
+    btm         17 no   (17 in L, 2 new beyond exclusion 1)
+    go           4 no   (1 in L, 4 new beyond exclusion 1)
+    TOTAL       21 no   (18 in L, 6 new)
+
+  -> /private/tmp/claude-501/-Users-aviyah-code-thema/22d86020-4837-442b-b916-1ddd94b729e8/scratchpad/excl2/verdicts.json

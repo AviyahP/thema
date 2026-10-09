@@ -1,0 +1,23 @@
+TESTING MY OWN CLAIM that 'keeping the child breaks containment'.
+Scope: chain edges C->P with ratio in [0.85,0.90) where support(C) > support(P),
+i.e. the edges where a keep-higher-support rule would delete P and keep C.
+
+  such edges: 341
+  of those, P has another child NOT contained in C: 241 (70.7%)
+  of those, P has no parent either, so that child would be ORPHANED to root: 7
+  members only P had (lost their level): median 3, max 14
+
+  VERDICT on my claim:
+   the DAG does NOT become invalid: a re-stack (hasse over the survivors) always yields a
+   valid strict-containment DAG. So 'breaks containment' was WRONG. The reviewer is right.
+
+  The real, measurable consequence, in the cases above:
+    delete n00504 (50, support 0.940), keep n00001 (44, 1.000)
+      1 sibling(s) of n00001 not inside it: ['n05868'] -> must re-parent upward
+      6 member(s) only n00504 held lose their grouping at that level: ['go:GO:0035787', 'go:GO:0072011', 'go:GO:0072103']
+    delete n03987 (27, support 0.150), keep n00183 (24, 0.985)
+      1 sibling(s) of n00183 not inside it: ['n03814'] -> must re-parent upward
+      3 member(s) only n03987 held lose their grouping at that level: ['go:GO:2000143', 'reactome:R-HSA-1251985', 'reactome:R-HSA-1253288']
+    delete n02867 (28, support 0.280), keep n00184 (25, 0.985)
+      1 sibling(s) of n00184 not inside it: ['n07123'] -> must re-parent upward
+      3 member(s) only n02867 held lose their grouping at that level: ['go:GO:0043525', 'reactome:R-HSA-8862803', 'reactome:R-HSA-9841251']

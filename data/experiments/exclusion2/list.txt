@@ -1,0 +1,118 @@
+ALL 21 EXCLUSION-2 'no' VERDICTS, with the deciding sentence
+================================================================================================
+
+### NEW (exclusion 2 only): 6
+
+  btm:M137  (btm, name 'TBA') [in L]
+      It is best read as a broad housekeeping module supporting gene expression and genome
+      maintenance, mixing chromatin regulators with unrelated membrane and metabolic enzymes.
+
+  btm:M72.1  (btm, name 'TBA') [in L]
+      A mixed group of broadly expressed regulators that keep housekeeping functions of the
+      cell running.
+
+  go:GO:0009791  (go, name 'post-embryonic development') [not in L]
+      It covers everything between the end of embryogenesis and the mature organism, with
+      genes spanning morphogen signalling, chromatin, apoptosis, metabolism and DNA repair.
+
+  go:GO:0010800  (go, name 'positive regulation of peptidyl-threonine phosphorylation') [in L]
+      The contributors here are heterogeneous rather than a single cascade, spanning receptor
+      signalling, MAPK1, WNK3 cotransport control and ubiquitin and immunity components.
+
+  go:GO:0044093  (go, name 'positive regulation of molecular function') [not in L]
+      This is a broad regulatory grouping for processes that switch on or amplify the activity
+      of another molecule rather than a single coherent route.
+
+  go:GO:0065009  (go, name 'regulation of molecular function') [not in L]
+      It is a broad regulatory category covering any process that raises or lowers a molecular
+      function, and rather than a single route it gathers the cell's tuning machinery.
+
+### ALSO already in exclusion 1: 15
+
+  btm:M125  (btm, name 'TBA') [in L]
+      This is a heterogeneous grouping rather than a single mechanism, converging only on
+      generic cell-type-specific differentiation, then splitting into unrelated muscle,
+      neuronal and blood/vascular arms.
+
+  btm:M153  (btm, name 'TBA') [in L]
+      "No single process unites these genes; they instead sample several core housekeeping
+      systems that any proliferating cell depends on."
+
+  btm:M211  (btm, name 'TBA') [in L]
+      This is a loosely connected housekeeping module whose members support cell growth
+      control, membrane and organelle dynamics, and the damping of stress signalling rather
+      than one linear route.
+
+  btm:M218  (btm, name 'TBA') [in L]
+      A loose assembly of housekeeping functions with arms in gene expression, genome
+      integrity, metabolism and membrane traffic, whose deficiencies "produce unrelated
+      disorders rather than one syndrome".
+
+  btm:M221  (btm, name 'TBA') [in L]
+      No single process unites these genes; they sample several unrelated areas of biology,
+      and the most useful reading is of the parts.
+
+  btm:M241  (btm, name 'TBA') [in L]
+      This is a heterogeneous grouping rather than a coherent signalling route, and the
+      biology it points to is best read gene by gene.
+
+  btm:M246  (btm, name 'TBA') [in L]
+      No single physiological programme unites these genes; shared membership reflects co-
+      expression or genomic proximity rather than a common mechanism.
+
+  btm:M32.5  (btm, name 'TBA') [in L]
+      A heterogeneous grouping of housekeeping regulators that link membrane traffic,
+      chromatin-based transcriptional repression, and reversible protein modification rather
+      than one linear route.
+
+  btm:M41.0  (btm, name 'TBA') [in L]
+      No single mechanism unites these genes; they are better read as a collection of tissue-
+      restricted products drawn from several unrelated processes.
+
+  btm:M41.1  (btm, name 'TBA') [in L]
+      No single coherent process unites these genes; they span secreted signalling, metal
+      handling, steroid synthesis, muscle structure and mucosal defence, best read as a
+      heterogeneous collection.
+
+  btm:M41.3  (btm, name 'TBA') [in L]
+      A heterogeneous grouping whose members share little beyond being tissue-restricted
+      effectors, best read as a composite of developmental patterning and organ-specific
+      specialisation rather than a single mechanism.
+
+  btm:M70.0  (btm, name 'TBA') [in L]
+      This grouping has no single coherent pathway identity; the genes converge loosely on
+      vascular and inflammatory tissue biology together with transcriptional control of
+      differentiation.
+
+  btm:M72.0  (btm, name 'TBA') [in L]
+      No single canonical route unites these genes; they sketch a broad module spanning
+      nuclear gene control, ubiquitin-dependent signalling, and membrane and cytoskeletal
+      dynamics.
+
+  btm:M72.2  (btm, name 'TBA') [in L]
+      A loosely connected group of regulatory proteins rather than a single biochemical route,
+      best read as general-purpose control points spanning chromatin, RNA, membranes and
+      cytoskeleton.
+
+  btm:M98.1  (btm, name 'TBA') [in L]
+      No coherent biology links these genes, and the unifying theme is breadth rather than a
+      shared pathway.
+
+================================================================================================
+BORDERLINE CALLS
+  (a) two exclusion-1 sets the blind judges said YES to -- they stay excluded regardless,
+      as the rule declares, but the disagreement is worth recording:
+      btm:M184.1: judge said YES
+        "Its clearest core is a JNK pathway assembly: a mixed-lineage kinase of the MAP3K
+        family together with a JNK-interacting scaffold protein organises upstream kinases
+        into a complex."
+      btm:M233: judge said YES
+        What they share is a bias toward developmental patterning and tissue-specific
+        differentiation programmes, with BMP4 as the signalling anchor.
+
+  (b) the 4 GO 'no' verdicts -- GO sets have real names, so a 'no' means the NAME was
+      judged not to identify a theme either. These are the ones to look at twice:
+      go:GO:0009791  name 'post-embryonic development' [not in L]
+      go:GO:0010800  name 'positive regulation of peptidyl-threonine phosphorylation' [in L]
+      go:GO:0044093  name 'positive regulation of molecular function' [not in L]
+      go:GO:0065009  name 'regulation of molecular function' [not in L]
