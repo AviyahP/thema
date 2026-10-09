@@ -5130,3 +5130,311 @@ floor at all. The coherence condition failed for every arm including the referen
 too.** Setting it aside, `L_cal8` and `MS_cal8` passed the rest. The 0.33 minimum does remove the
 middle -- 51-1000 goes from 27 to 196 themes after collapsing -- but opening the gate makes the
 widest root worse, 227 children to 585, which refuted the mechanism the grid was built to test.
+
+## 2026-10-09 12:56:26Z — PLAUSIBILITY of thema_L_repair: 97.2% of a sampled build is coherent or a linked umbrella
+
+**EXPLORATORY.** LLM-judge assessments made by the reviewer with Aviyah outside ccode, on
+`data/ontology/v0.4-leaves/thema_L_repair`. **Not a declared test, not run under the protocol, and
+not reproduced by ccode.** Judges saw member names only -- an independent check, since names are
+never used in construction -- but a verdict is a language model's opinion of biological coherence,
+not a measurement against a reference. Full write-up:
+`docs/status/2026-10-09-reviewer-plausibility.md`; raw files in
+`data/experiments/reviewer_sample_2026-10-09/`.
+
+**A 10% sample per size band, seed 20261009, 879 themes, after three judging rounds:**
+
+| verdict | share |
+|---|---:|
+| coherent, or a linked umbrella | **97.2%** |
+| a coherent core with misfits | 1.7% |
+| incoherent or an unlinked mixture | **1.1%** |
+
+**Of the 33 sampled themes of 101-1000 members, 29 are coherent and 4 are umbrellas.** **Five of
+the eight giant roots are incoherent**, which agrees with the independent gene-coherence measurement
+in `docs/status/2026-10-09-giants.md` -- six of the eight are under 3x against a size-matched null,
+and one is at 0.68x. Two methods, different evidence, same verdict on the giants.
+
+## 2026-10-09 12:56:26Z — Unnamed TBA BTM modules must be judged with their description and genes
+
+**EXPLORATORY**, same review. 83 BTM modules in the universe are named "TBA" and carry no usable
+name. Judging a theme that contains one on names alone is judging it with a hole in it.
+
+Every sampled theme containing a TBA module (102 themes) was re-judged with each module's
+**generated description** from `pathway_descriptions.tsv` and its **first genes**. With those,
+**22 of 29 previously flagged themes were coherent.**
+
+**Consequence for any future judging, LLM or human: a TBA member must be shown with its description
+and genes, or the theme must be excluded from the sample.** Roughly three quarters of the flags
+those modules produced were artefacts of the missing name, not of the theme.
+
+## 2026-10-09 12:56:26Z — Umbrella themes separating one level down is the INTENDED DAG behaviour
+
+**EXPLORATORY**, same review. Several themes judged "partial" on names turn out to be **linked
+umbrellas**: hemostasis together with eicosanoids, mitochondrial metabolism together with
+translation. One level down they **separate into curated-like sub-themes**, with the bridging
+pathways sitting under both parents -- which is what multi-parent containment is for.
+
+**This is recorded as correct behaviour, not a defect.** A reader who wants the specific theme finds
+it one level down; a reader who wants the connection finds the umbrella. It is also why a flat
+"coherent / incoherent" verdict on a DAG node is the wrong question: the 1.1% genuinely incoherent
+rate above is only meaningful because round 3 asked separately whether a link exists.
+
+## 2026-10-09 12:56:26Z — FOUR OPEN ISSUES in thema_L_repair, recorded before any rule is chosen
+
+**EXPLORATORY** diagnosis. No rule is declared on any of these and none is inferred.
+
+**(a) The giant roots.** Eight roots of 1,000+ members, five judged incoherent by the reviewer and
+six measuring under 3x gene coherence. They share 80-89% of their children with each other and are
+the sole parent of 85% of the build.
+
+**(b) Fans: a stable core surrounded by small overlapping low-support variants, propagating upward
+as a lattice.** The worked case is `n00150` with six parents, pairwise Jaccard 0.47-0.69 -- all below
+the 0.70 merge. Each facet rests on one or two pathways and the other members shuffle between
+parents. **No node within three levels contains all six**; instead about twenty small ancestors of
+13-35 members each cover one to four of them, then scatter into the giant roots. There is no
+platelet-activation node at any level. Many lattice nodes carry support at or below 0.2, which
+points at the low cal8 floors.
+
+**(c) Sibling near-twins just under the 0.70 merge.** Themes sharing a parent, neither nested,
+sitting at a Jaccard the merge rule cannot see.
+
+**(d) Chain nodes just under the 90% collapse.** A child holding 85-90% of its parent survives the
+declared collapse at 0.90.
+
+Issues (b), (c) and (d) are all the same shape: **structure that is redundant by eye and below every
+threshold the build applies.** The measured counterpart -- how many edges and pairs actually sit in
+those windows, and what each candidate rule would remove -- is
+`docs/status/2026-10-09-redundancy-measure.md`, declared before its results and reporting counts
+only.
+
+## 2026-10-09 13:08:35Z — SECOND plausibility sample: 98.1%, and the residue traces to 18 heterogeneous BTMs
+
+**EXPLORATORY**, same standing as the first sample: LLM-judge assessments by the reviewer outside
+ccode, not declared, not reproduced here. Second 10% sample, seed 20261010, **no overlap with sample
+1**, bands 3-100 (101+ were already judged in full). 874 themes, TBA BTM members shown with their
+generated description and first ten genes from the start. Files: `REPORT2.md`, `judged2.json`,
+`rubric4.md` in `data/experiments/reviewer_sample_2026-10-09/`.
+
+**98.1% coherent or a linked umbrella** (766 coherent, 91 umbrella), against 97.2% in sample 1 after
+three rounds. Two samples agreeing is two opinions agreeing and is worth little by itself.
+
+**What the second sample adds is a mechanism for the residue.** All **three** incoherent themes are
+built from BTM modules whose own generated descriptions say they are **heterogeneous or
+housekeeping**, and **18 of the 83 TBA BTMs describe themselves that way.** So the 1-2% that does not
+cohere is not spread thinly through the build; it is concentrated in a nameable, countable set of 18
+source pathways.
+
+## 2026-10-09 13:08:35Z — HETEROGENEOUS BTMs: flag or drop is OPEN, not decided
+
+18 of the 83 TBA BTM modules describe themselves as heterogeneous or housekeeping in their own
+generated descriptions. A theme built on one of them inherits that: all three incoherent themes in
+the second sample came from this set.
+
+**No decision is taken.** Both options stay open and neither is implied by the numbers above:
+
+- **flag** -- keep them in the universe and mark the themes that rest on them, so a reader knows why
+  a theme looks mixed;
+- **drop** -- remove them from the universe, which changes the universe and therefore invalidates
+  every build and every floor calibrated against it.
+
+Recorded so the choice is made deliberately rather than by whichever happens first. Dropping is the
+larger act: the universe digest changes, so trees, floors and every comparison in this repo would be
+against a different universe.
+
+## 2026-10-09 13:08:35Z — FANS of facet parents are INTENDED DAG behaviour, not redundancy
+
+**Aviyah's decision, 9 Oct 2026.** A fan -- a stable high-support core with several parents, each the
+core plus one or two pathways that make it a distinct facet -- is **intended multi-parent DAG
+behaviour.** The worked case is `n00150` (7 members, support 0.990) with six parents at support
+0.555 to 0.050, which the reviewer named as shape change via G12/13, GPVI-GPCR convergence on PLC,
+prostanoid receptors, Rap1 integrin activation, Gq-PLC-IP3, and a BTM platelet-activation group.
+Several of those are genuinely different facets of platelet activation, and a DAG that represents
+them separately is doing its job.
+
+**Consequence for the measurement: fans are measured and described, and fan-merge is NOT proposed as
+a removal rule.** `docs/status/2026-10-09-redundancy-measure.md` reports the 274 fans, their parent
+counts and their parents' supports, and does **not** carry a fan-merge candidate. The measurement
+that showed a fan merge would cascade -- only 4 of the 17 ancestors above `n00150` staying distinct
+-- is kept as evidence about the lattice, not as an argument for merging.
+
+**The sibling near-twin rule is reported against this case specifically**: which of `n00150`'s six
+parents it would merge at each Jaccard threshold. A sibling rule that silently collapses declared
+facets would be removing intended structure, so the threshold has to be chosen knowing that.
+
+~~One point this leaves open and the report states: `n03581` was judged **not** a distinct facet --
+it duplicates `n01638` and `n05989` at Jaccard 0.62 and 0.69.~~ **WITHDRAWN 9 Oct 2026 -- the
+reviewer never judged `n03581` not distinct, and ccode's own measurement contradicts it: every one
+of the six parents adds at least one pathway no co-parent has. See the correction entry below.** The
+sentence that survives the withdrawal is the general one: "fans are intended" is a statement about
+the shape, not a guarantee that every parent in every fan is earned -- but it is not evidence
+against any particular parent either, and `n03581` was the wrong example.
+
+## 2026-10-09 13:22:15Z — THIRD plausibility sample: 97.6% over 3,153 themes across three samples
+
+**EXPLORATORY**, same standing as the first two: LLM-judge assessments by the reviewer outside
+ccode, not declared, not reproduced here. Third sample, seed 20261011, 1,400 themes, no overlap
+with samples 1 or 2, bands 3-100, 16 subagents, `rubric4.md`. Files: `REPORT3.md`, `sample3.json`,
+`judged3.json`.
+
+**Across all three samples: 3,077 of 3,153 themes (97.6%) coherent or a linked umbrella** -- about
+36% of every theme of size 3-100, plus all 42 themes over 100 judged in full in round 1.
+
+**Five of the six incoherent themes contain a self-described heterogeneous BTM**, which is what the
+next entry acts on. The sixth is a set of GO "response to drug / ethanol / anesthetic" terms --
+genuinely a grab bag, and not attributable to a BTM.
+
+Two corrections from §3 of that report, which supersede what ccode wrote earlier and are recorded
+because ccode's version is in this file: the `n00150` lattice has **28 ancestors** (4 giant roots,
+24 judged), not the 17 ccode counted *within three levels*; and "no common ancestor within three
+levels" holds for all six parents **jointly**, but **four of the six do share `n00918`** within two
+to four levels.
+
+## 2026-10-09 13:22:15Z — DROP the 17 self-described heterogeneous TBA BTMs from the next construction
+
+**Aviyah's decision, 9 Oct 2026. This supersedes the earlier entry recording flag-or-drop as open.**
+
+**Rule, declared before applying it:** an unnamed ("TBA") BTM whose generated description -- written
+by our own LLM from genes only -- states **in its first sentence** that no single or coherent process
+unites the genes, or calls the set heterogeneous or loosely connected.
+
+**The 17 modules:** M125, M153, M184.1, M211, M218, M221, M233, M241, M246, M32.5, M41.0, M41.1,
+M41.3, M70.0, M72.0, M72.2, M98.1.
+
+ccode checked all 17 against the rule rather than taking the list on trust: every first sentence
+contains "no single process unites", "no coherent biology links", "heterogeneous grouping" or
+"loosely connected". All 17 resolve to real keys in `pathways.tsv` and all are named `TBA`.
+
+**The earlier count of 18 came from a looser text pattern; the declared rule gives 17.** Named BTM
+M213 "regulation of transcription" matches the words but has a name and a coherent theme, so it
+stays. Borderline by content but inside the rule, and kept inside it deliberately: M125 and M233
+name a loose shared bias (differentiation, developmental patterning) and M184.1 names a JNK core.
+
+**Recorded as a config list, not an edit to the source table.** `data/excluded_inputs.tsv` carries
+`key`, `source`, `excluded_on`, `decided_by`, `rule` and `evidence_first_sentence` for each.
+**`data/pathways.tsv` is untouched**, so the source table stays a faithful record of what the four
+databases contain and the exclusion stays reversible and auditable.
+
+**Effect when applied:** the 10,770 universe becomes **10,753**; universe L becomes **5,542**.
+
+**On recalibration -- ccode's answer, in the status file and here: a FULL recalibration, not a
+fresh-seed re-validation.** The reviewer suggested the cheap check would do. It would not, and the
+reason is practical rather than statistical: **the floors' inputs do not exist for the new
+universe.** Every tree is built over the universe, so changing the universe changes every real and
+every scramble tree, hence every side, hence every support value. A fresh-seed FDR check would mean
+applying thresholds solved on the old universe's scrambles to a new universe's -- which is exactly
+what the leaves experiment did when it reused v0.4's floors on L, and the 5-5 stratum failed at
+0.02715. Once the scramble sides have been rebuilt -- which re-validation also requires -- solving
+is seconds of arithmetic, so re-validation is not cheaper than recalibration; it is the same cost
+minus the part that makes it correct.
+
+Two riders. The **cal8 0.008 target** is itself a post-hoc choice whose independent confirmation
+(fresh seeds 4003-4005, overall 0.00638) was measured on the current universe and **does not carry
+over**; it needs redoing on the new one. And the 17 are heterogeneous sets, so they plausibly appear
+in a disproportionate share of the weak groupings the floors are fitted to exclude -- the part of the
+distribution the calibration is most sensitive to.
+
+## 2026-10-09 14:15:50Z — FLOORS after the 17-BTM drop: REUSE the cal8 floors; do not recalibrate now
+
+**Aviyah's decision, 9 Oct 2026. This overrides ccode's recommendation of a full recalibration**,
+which is recorded in `docs/status/2026-10-09-reviewer-plausibility.md` and stands as the argument it
+was; the decision is Aviyah's and is taken knowing it.
+
+**Use the existing cal8 floors. Do NOT recalibrate and do NOT run new scrambles now.**
+
+Aviyah's reason: the floors are solved from the **scramble side**, and removing 17 of 10,770 inputs
+(**0.16%**) should leave the scramble null essentially unchanged.
+
+**Did the digest check need an override? No.** ccode checked: nothing in the pipeline compares a
+floors file's universe against the build's. `scripts/leaves_build.py` reads floors from
+`--floors-file` and applies them directly; it records `leaves_digest` and `universe_digest` in the
+manifest but never tests them against the floors. `scripts/regate_floors.py` does not test either.
+The one real digest check, `universe.load_embedded`, compares the artifact's recorded
+`universe_digest` against the digest computed from `pathways.tsv` -- and since `pathways.tsv` is
+**not** edited (the 17 are excluded by config in `data/excluded_inputs.tsv`), that check still
+passes. So **no override was required, and no code change was made.**
+
+**That is precisely why this is written down three times.** The reuse is silent: no check fires, no
+log line appears, nothing in the pipeline would tell a later reader that the floors were calibrated
+on a different universe from the build they gate. The three records are the only thing standing
+between this decision and an unexplained set of floors six months from now:
+
+- **(a) here, in `DECISIONS.md`**;
+- **(b) in the build's own metadata** -- the note is written into
+  `data/ontology/v0.4-leaves/regate/floors_L_cal8.json` as `reuse_note`, and appended to that
+  record's `source` string, which `leaves_build.py` copies verbatim into every manifest it writes as
+  `floors_source`. **So every future build using these floors carries the sentence in its own
+  metadata without anyone remembering to add it**, plus
+  `data/ontology/v0.4-leaves/README.md` for a human reading the directory;
+- **(c) as an open to-do** in `docs/status/2026-10-09-redundancy-measure.md`.
+
+The sentence recorded in every build's metadata: *"floors: cal8, calibrated on universe 10,770,
+reused after the 17-BTM drop"*.
+
+**The open to-do, recorded verbatim:** *"Consider re-running scrambles on the current universe and
+updating the floors later; until then all builds after the 17-BTM drop use the previous (cal8)
+floors."*
+
+## 2026-10-09 14:15:50Z — CORRECTION: `n03581` is a distinct facet; sibling merge stays at 0.70
+
+**Two corrections and one decision, 9 Oct 2026.**
+
+**Correction 1.** The claim that the reviewer judged `n03581` "not distinct" is **wrong and is
+withdrawn.** The reviewer never said it; it entered this file through ccode's write-up of a relay.
+**Every one of `n00150`'s six parents adds at least one pathway no co-parent has**, which ccode
+confirmed by measurement rather than accepting on correction: `n01638` 2 unique, `n03581` 2
+(`btm:M32.1`, `btm:M32.8` -- platelet activation (II) and cytoskeletal remodeling), `n04153` 2,
+`n05795` 3, `n05989` 1 (`reactome:R-HSA-392517`, Rap1 signalling), `n06563` 3. **None of the six is
+at zero.** The phrase has been struck in the entry that carried it and removed from both status
+files.
+
+**Correction 2.** REPORT3's "7 rungs at 0.80" on the `n00150` lattice was wrong -- it used
+de-duplicated member counts. **ccode's 6 is right**: the seventh edge, `n01879` -> `n08023`, is
+32/41 = **0.780**, below a 0.80 threshold. Recorded because ccode flagged the discrepancy and the
+reviewer confirmed the error was theirs.
+
+**DECISION: the sibling merge stays at 0.70.** At 0.70 nothing merges in the `n00150` lattice under
+either reading of the rule, which is where the build already sits. The measured alternative at 0.60
+would delete `n05989` -- the only parent carrying Rap1 -- for recurring less often rather than for
+adding nothing.
+
+## 2026-10-09 14:15:50Z — IDEA, NOT ADOPTED: a unique-contribution test for fan parents
+
+Recorded as an idea with its measurement, and **not adopted**. Rule as contemplated: remove a fan
+parent **only if every member it adds is already present in a co-parent** -- that is, only if it
+contributes nothing no sibling facet already carries.
+
+**On `n00150` it removes none of the six parents.** Unique members added, measured: `n01638` 2,
+`n03581` 2, `n04153` 2, `n05795` 3, `n05989` 1, `n06563` 3. Every parent clears the test.
+
+Why it is worth recording even though it removes nothing here: it is the only candidate so far whose
+criterion is **what a node contributes** rather than how often it recurs or how much it overlaps. The
+support-based tie-break fails on exactly this case -- it would delete `n05989` for having support
+0.060 while that parent is the sole carrier of Rap1 signalling. A rule of this shape could not make
+that mistake. Whether it is useful at scale is unmeasured: it was run on one fan.
+
+## 2026-10-09 14:15:50Z — FULL CENSUS: every theme of size 3-100 judged once; 97.4%
+
+**EXPLORATORY**, same standing as the samples. `REPORT4.md` and `judged4_rest.json`: all **5,603**
+remaining themes of size 3-100, judged with `rubric4.md` by 40 reviewer subagents. With samples 1-3
+and round 1's full check of the 42 themes over 100, **every theme in `thema_L_repair` has now been
+judged once.**
+
+**8,529 of 8,756 (97.4%)** across bands 3-100. The sample estimates (97.2-98.1%) held, which is the
+useful result: the samples were not optimistic.
+
+**Where the 151 census problems come from**, and the second source is new:
+
+1. **the 17 self-described heterogeneous BTMs** -- in 21 of 25 incoherent themes, 3 mixtures and 17
+   core+misfits, so **41 of 151**. Already decided: dropped.
+2. **gene-specific transcription-regulation and TF-motif sets** -- "regulation of CDH1 / PTEN /
+   PD-L1 / RUNX3 / PAX3 targets", motif sets. These **group by form, not by process**: the thing
+   their members share is the phrase "transcriptional regulation of gene X", not a mechanism.
+   **Recorded as an observation. No action.**
+3. orphan small terms with no natural home (magnesium transport, creatine, inositol transport);
+4. developmental-signalling pairs judged strictly as mixtures (Wnt + Notch, Notch + Hedgehog) --
+   defensible as an umbrella, but the rubric required a specific mechanism;
+5. isolated pairings (kynurenine-NAD + polyamines, olfaction + hearing, vitamin K + vitamin C).
+
+Source 2 is a different kind of failure from source 1 and is **not fixable by dropping inputs**: the
+sets are individually meaningful and it is the embedding that groups them by their shared wording.
+Noted for whenever the text representation is revisited; nothing follows from it now.
