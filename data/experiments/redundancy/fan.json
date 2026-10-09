@@ -1,0 +1,433 @@
+{
+  "focus": "n00150",
+  "focus_size": 7,
+  "focus_support": 0.99,
+  "parents": [
+    {
+      "node": "n01638",
+      "size": 10,
+      "support": 0.555
+    },
+    {
+      "node": "n03581",
+      "size": 11,
+      "support": 0.2
+    },
+    {
+      "node": "n04153",
+      "size": 11,
+      "support": 0.14
+    },
+    {
+      "node": "n05795",
+      "size": 10,
+      "support": 0.065
+    },
+    {
+      "node": "n05989",
+      "size": 11,
+      "support": 0.06
+    },
+    {
+      "node": "n06563",
+      "size": 11,
+      "support": 0.05
+    }
+  ],
+  "union_size": 24,
+  "ancestors_within_3_levels": [
+    {
+      "node": "n03820",
+      "level": 2,
+      "size": 13,
+      "support": 0.17,
+      "covers": 1,
+      "covers_which": [
+        "n01638"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); G alpha (12/13) signalling events"
+    },
+    {
+      "node": "n01273",
+      "level": 2,
+      "size": 14,
+      "support": 0.69,
+      "covers": 2,
+      "covers_which": [
+        "n01638",
+        "n04153"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); thrombin-activated receptor signaling pathway"
+    },
+    {
+      "node": "n05194",
+      "level": 2,
+      "size": 14,
+      "support": 0.08,
+      "covers": 1,
+      "covers_which": [
+        "n04153"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; platelet activation (III); thrombin-activated receptor signaling pathway"
+    },
+    {
+      "node": "n04961",
+      "level": 2,
+      "size": 15,
+      "support": 0.09,
+      "covers": 2,
+      "covers_which": [
+        "n01638",
+        "n05989"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); thrombin-activated receptor signaling pathway"
+    },
+    {
+      "node": "n07792",
+      "level": 2,
+      "size": 16,
+      "support": 0.035,
+      "covers": 2,
+      "covers_which": [
+        "n03581",
+        "n05989"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; platelet activation (I); Thrombin signalling through proteinase activated receptors (PARs)"
+    },
+    {
+      "node": "n06758",
+      "level": 3,
+      "size": 17,
+      "support": 0.045,
+      "covers": 1,
+      "covers_which": [
+        "n04153"
+      ],
+      "gist": "platelet activation (III); thrombin-activated receptor signaling pathway; ADP signalling through P2Y purinoceptor 1"
+    },
+    {
+      "node": "n07791",
+      "level": 2,
+      "size": 17,
+      "support": 0.035,
+      "covers": 2,
+      "covers_which": [
+        "n01638",
+        "n06563"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); Thromboxane signalling through TP receptor"
+    },
+    {
+      "node": "n03907",
+      "level": 2,
+      "size": 18,
+      "support": 0.16,
+      "covers": 3,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n05989"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); platelet activation (I)"
+    },
+    {
+      "node": "n02906",
+      "level": 3,
+      "size": 20,
+      "support": 0.275,
+      "covers": 2,
+      "covers_which": [
+        "n01638",
+        "n04153"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; thrombin-activated receptor signaling pathway; Thrombin signalling through proteinase activated receptors (PARs)"
+    },
+    {
+      "node": "n05156",
+      "level": 3,
+      "size": 21,
+      "support": 0.08,
+      "covers": 3,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n05989"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; Thrombin signalling through proteinase activated receptors (PARs); platelet activation (I)"
+    },
+    {
+      "node": "n07565",
+      "level": 3,
+      "size": 26,
+      "support": 0.035,
+      "covers": 4,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n04153",
+        "n05989"
+      ],
+      "gist": "Thrombin signalling through proteinase activated receptors (PARs); platelet activation (I); ADP signalling through P2Y purinoceptor 1"
+    },
+    {
+      "node": "n00918",
+      "level": 2,
+      "size": 27,
+      "support": 0.845,
+      "covers": 3,
+      "covers_which": [
+        "n01638",
+        "n04153",
+        "n05989"
+      ],
+      "gist": "ADP signalling through P2Y purinoceptor 1; platelet activation (III); thrombin-activated receptor signaling pathway"
+    },
+    {
+      "node": "n01879",
+      "level": 3,
+      "size": 32,
+      "support": 0.485,
+      "covers": 3,
+      "covers_which": [
+        "n01638",
+        "n04153",
+        "n05989"
+      ],
+      "gist": "thrombin-activated receptor signaling pathway; platelet activation (III); GP1b-IX-V activation signalling"
+    },
+    {
+      "node": "n03842",
+      "level": 3,
+      "size": 35,
+      "support": 0.375,
+      "covers": 4,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n04153",
+        "n05989"
+      ],
+      "gist": "platelet activation (I); Thrombin signalling through proteinase activated receptors (PARs); ADP signalling through P2Y purinoceptor 1"
+    },
+    {
+      "node": "n02115",
+      "level": 3,
+      "size": 77,
+      "support": 0.855,
+      "covers": 4,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n04153",
+        "n05989"
+      ],
+      "gist": "Defective F9 activation; platelet activation and degranulation; Fibrin formation"
+    },
+    {
+      "node": "n03423",
+      "level": 2,
+      "size": 139,
+      "support": 0.21,
+      "covers": 4,
+      "covers_which": [
+        "n01638",
+        "n04153",
+        "n05795",
+        "n05989"
+      ],
+      "gist": "thrombin-activated receptor signaling pathway; cyclooxygenase pathway; arachidonate metabolite production involved in inflammatory response"
+    },
+    {
+      "node": "n01755",
+      "level": 3,
+      "size": 2527,
+      "support": 0.52,
+      "covers": 5,
+      "covers_which": [
+        "n01638",
+        "n03581",
+        "n04153",
+        "n05989",
+        "n06563"
+      ],
+      "gist": "neural plate morphogenesis; Ephrin signaling; Activation of RAC1"
+    }
+  ],
+  "ancestors_covering_all": [],
+  "after_merging_the_parents": {
+    "still_distinct": [
+      {
+        "node": "n07791",
+        "size": 17,
+        "jaccard_to_union": 0.519,
+        "near_others": []
+      },
+      {
+        "node": "n02115",
+        "size": 77,
+        "jaccard_to_union": 0.217,
+        "near_others": []
+      },
+      {
+        "node": "n03423",
+        "size": 139,
+        "jaccard_to_union": 0.132,
+        "near_others": []
+      },
+      {
+        "node": "n01755",
+        "size": 2527,
+        "jaccard_to_union": 0.008,
+        "near_others": []
+      }
+    ],
+    "would_be_absorbed": [
+      {
+        "node": "n03820",
+        "size": 13,
+        "jaccard_to_union": 0.423,
+        "near_others": [
+          "n04961"
+        ]
+      },
+      {
+        "node": "n01273",
+        "size": 14,
+        "jaccard_to_union": 0.583,
+        "near_others": [
+          "n02906"
+        ]
+      },
+      {
+        "node": "n05194",
+        "size": 14,
+        "jaccard_to_union": 0.407,
+        "near_others": [
+          "n06758",
+          "n02906"
+        ]
+      },
+      {
+        "node": "n04961",
+        "size": 15,
+        "jaccard_to_union": 0.5,
+        "near_others": [
+          "n03820",
+          "n05156"
+        ]
+      },
+      {
+        "node": "n07792",
+        "size": 16,
+        "jaccard_to_union": 0.481,
+        "near_others": [
+          "n03907",
+          "n05156"
+        ]
+      },
+      {
+        "node": "n06758",
+        "size": 17,
+        "jaccard_to_union": 0.367,
+        "near_others": [
+          "n05194"
+        ]
+      },
+      {
+        "node": "n03907",
+        "size": 18,
+        "jaccard_to_union": 0.556,
+        "near_others": [
+          "n07792",
+          "n05156"
+        ]
+      },
+      {
+        "node": "n02906",
+        "size": 20,
+        "jaccard_to_union": 0.467,
+        "near_others": [
+          "n01273",
+          "n05194",
+          "n00918"
+        ]
+      },
+      {
+        "node": "n05156",
+        "size": 21,
+        "jaccard_to_union": 0.5,
+        "near_others": [
+          "n04961",
+          "n07792",
+          "n03907"
+        ]
+      },
+      {
+        "node": "n07565",
+        "size": 26,
+        "jaccard_to_union": 0.562,
+        "near_others": [
+          "n03842"
+        ]
+      },
+      {
+        "node": "n00918",
+        "size": 27,
+        "jaccard_to_union": 0.457,
+        "near_others": [
+          "n02906",
+          "n01879",
+          "n03842"
+        ]
+      },
+      {
+        "node": "n01879",
+        "size": 32,
+        "jaccard_to_union": 0.4,
+        "near_others": [
+          "n00918"
+        ]
+      },
+      {
+        "node": "n03842",
+        "size": 35,
+        "jaccard_to_union": 0.439,
+        "near_others": [
+          "n07565",
+          "n00918"
+        ]
+      }
+    ]
+  },
+  "fan_ancestor_support_vs_size_matched": {
+    "3-10": {
+      "n_above": 301,
+      "median_above": 0.34,
+      "n_other": 2103,
+      "median_other": 0.53,
+      "delta": -0.19
+    },
+    "11-20": {
+      "n_above": 1574,
+      "median_above": 0.09,
+      "n_other": 2764,
+      "median_other": 0.07,
+      "delta": 0.02
+    },
+    "21-50": {
+      "n_above": 953,
+      "median_above": 0.09,
+      "n_other": 615,
+      "median_other": 0.07,
+      "delta": 0.02
+    },
+    "51-300": {
+      "n_above": 209,
+      "median_above": 0.08,
+      "n_other": 33,
+      "median_other": 0.075,
+      "delta": 0.005
+    }
+  },
+  "n_nodes_above_a_fan": 3051
+}

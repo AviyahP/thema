@@ -1,0 +1,40 @@
+WHICH OF n00150's SIX PARENTS A SIBLING MERGE WOULD COLLAPSE, by threshold
+  Aviyah's decision: this fan is intended DAG behaviour. A sibling rule that merges these
+  would be removing declared facets, so the threshold is reported against them explicitly.
+
+  parent    size  support  reviewer's facet judgement
+  n01638      10    0.555  shape change via G12/13 (distinct)
+  n03581      11    0.200  BTM platelet-activation modules (NOT distinct)
+  n04153      11    0.140  GPVI+GPCR convergence on PLC (distinct)
+  n05795      10    0.065  prostanoid receptor family (distinct, thin)
+  n05989      11    0.060  Rap1 integrin activation (only Rap1 is new)
+  n06563      11    0.050  Gq-PLC-IP3 / 5-HT2A (distinct, overlaps n04153)
+
+  pairwise Jaccard among the six (and whether the pair shares a parent, i.e. are siblings):
+    n03581 / n05989  J=0.692  SIBLINGS
+    n01638 / n05989  J=0.615  not siblings
+    n01638 / n03581  J=0.615  not siblings
+    n04153 / n06563  J=0.571  not siblings
+    n04153 / n05989  J=0.571  not siblings
+    n01638 / n05795  J=0.538  not siblings
+    n05795 / n06563  J=0.500  not siblings
+    n05795 / n05989  J=0.500  not siblings
+    n04153 / n05795  J=0.500  not siblings
+    n03581 / n05795  J=0.500  not siblings
+    n01638 / n06563  J=0.500  SIBLINGS
+    n01638 / n04153  J=0.500  SIBLINGS
+    n05989 / n06563  J=0.467  not siblings
+    n03581 / n06563  J=0.467  not siblings
+    n03581 / n04153  J=0.467  not siblings
+
+  threshold    pairs merged  facets lost  which parents a merge would absorb
+  0.50                    3            3  n04153, n05989, n06563
+  0.55                    1            1  n05989
+  0.60                    1            1  n05989
+  0.65                    1            1  n05989
+  0.70                    0            0  none
+
+  NOTE: the pairs are only candidates for a SIBLING rule where they share a parent.
+  12 of the 15 pairs do NOT share a parent, so a sibling rule cannot reach them
+  at any threshold -- the fan is held together by n00150 as their common CHILD, not by a
+  common parent.

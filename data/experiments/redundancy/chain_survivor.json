@@ -1,0 +1,84 @@
+{
+  "window": [
+    0.85,
+    0.9
+  ],
+  "n_edges_in_window": 550,
+  "child_support_higher": 341,
+  "child_support_lower": 201,
+  "child_support_equal": 8,
+  "focus": "n00150",
+  "n_scope": 24,
+  "survivor_rules": {
+    "declared rule (parent's membership survives)": [
+      {
+        "dropped": "n03820",
+        "kept": "n04961",
+        "ratio": 0.8667,
+        "why": "parent kept (rule)",
+        "dropped_support": 0.17,
+        "kept_support": 0.09
+      },
+      {
+        "dropped": "n07792",
+        "kept": "n03907",
+        "ratio": 0.8889,
+        "why": "parent kept (rule)",
+        "dropped_support": 0.035,
+        "kept_support": 0.16
+      },
+      {
+        "dropped": "n03907",
+        "kept": "n05156",
+        "ratio": 0.8571,
+        "why": "parent kept (rule)",
+        "dropped_support": 0.16,
+        "kept_support": 0.08
+      },
+      {
+        "dropped": "n03842",
+        "kept": "n08023",
+        "ratio": 0.8537,
+        "why": "parent kept (rule)",
+        "dropped_support": 0.375,
+        "kept_support": 0.14
+      }
+    ],
+    "POST-HOC: keep the higher-support node, tie -> parent": [
+      {
+        "dropped": "n04961",
+        "kept": "n03820",
+        "ratio": 0.8667,
+        "why": "child kept (higher support)",
+        "dropped_support": 0.09,
+        "kept_support": 0.17
+      },
+      {
+        "dropped": "n07792",
+        "kept": "n03907",
+        "ratio": 0.8889,
+        "why": "parent kept (tie)",
+        "dropped_support": 0.035,
+        "kept_support": 0.16
+      },
+      {
+        "dropped": "n05156",
+        "kept": "n03907",
+        "ratio": 0.8571,
+        "why": "child kept (higher support)",
+        "dropped_support": 0.08,
+        "kept_support": 0.16
+      },
+      {
+        "dropped": "n08023",
+        "kept": "n03842",
+        "ratio": 0.8537,
+        "why": "child kept (higher support)",
+        "dropped_support": 0.14,
+        "kept_support": 0.375
+      }
+    ]
+  },
+  "unique_contribution_removable": [],
+  "unique_contribution_note": "idea recorded, NOT adopted; removes none of n00150's 6 parents"
+}

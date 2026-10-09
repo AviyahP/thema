@@ -1,0 +1,369 @@
+{
+  "focus": "n00150",
+  "focus_size": 7,
+  "focus_support": 0.99,
+  "n_ancestors_total": 28,
+  "giants_excluded": [
+    "n06313",
+    "n03678",
+    "n01755",
+    "n05127"
+  ],
+  "parents": [
+    {
+      "node": "n01638",
+      "size": 10,
+      "support": 0.555
+    },
+    {
+      "node": "n03581",
+      "size": 11,
+      "support": 0.2
+    },
+    {
+      "node": "n04153",
+      "size": 11,
+      "support": 0.14
+    },
+    {
+      "node": "n05795",
+      "size": 10,
+      "support": 0.065
+    },
+    {
+      "node": "n05989",
+      "size": 11,
+      "support": 0.06
+    },
+    {
+      "node": "n06563",
+      "size": 11,
+      "support": 0.05
+    }
+  ],
+  "lattice": [
+    {
+      "node": "n03820",
+      "size": 13,
+      "support": 0.17,
+      "covers": 1
+    },
+    {
+      "node": "n01273",
+      "size": 14,
+      "support": 0.69,
+      "covers": 2
+    },
+    {
+      "node": "n05194",
+      "size": 14,
+      "support": 0.08,
+      "covers": 1
+    },
+    {
+      "node": "n04961",
+      "size": 15,
+      "support": 0.09,
+      "covers": 2
+    },
+    {
+      "node": "n07792",
+      "size": 16,
+      "support": 0.035,
+      "covers": 2
+    },
+    {
+      "node": "n07791",
+      "size": 17,
+      "support": 0.035,
+      "covers": 2
+    },
+    {
+      "node": "n06758",
+      "size": 17,
+      "support": 0.045,
+      "covers": 1
+    },
+    {
+      "node": "n03907",
+      "size": 18,
+      "support": 0.16,
+      "covers": 3
+    },
+    {
+      "node": "n02906",
+      "size": 20,
+      "support": 0.275,
+      "covers": 2
+    },
+    {
+      "node": "n05156",
+      "size": 21,
+      "support": 0.08,
+      "covers": 3
+    },
+    {
+      "node": "n07565",
+      "size": 26,
+      "support": 0.035,
+      "covers": 4
+    },
+    {
+      "node": "n00918",
+      "size": 27,
+      "support": 0.845,
+      "covers": 3
+    },
+    {
+      "node": "n01879",
+      "size": 32,
+      "support": 0.485,
+      "covers": 3
+    },
+    {
+      "node": "n03842",
+      "size": 35,
+      "support": 0.375,
+      "covers": 4
+    },
+    {
+      "node": "n08023",
+      "size": 41,
+      "support": 0.14,
+      "covers": 4
+    },
+    {
+      "node": "n04419",
+      "size": 52,
+      "support": 0.115,
+      "covers": 3
+    },
+    {
+      "node": "n02115",
+      "size": 77,
+      "support": 0.855,
+      "covers": 4
+    },
+    {
+      "node": "n03423",
+      "size": 139,
+      "support": 0.21,
+      "covers": 4
+    }
+  ],
+  "rules": {
+    "chain_0.80": {
+      "absorbed": [
+        {
+          "child": "n03820",
+          "into": "n04961",
+          "ratio": 0.8667,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n05194",
+          "into": "n06758",
+          "ratio": 0.8235,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n07792",
+          "into": "n03907",
+          "ratio": 0.8889,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n03907",
+          "into": "n05156",
+          "ratio": 0.8571,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n00918",
+          "into": "n01879",
+          "ratio": 0.8438,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n03842",
+          "into": "n08023",
+          "ratio": 0.8537,
+          "is_direct_parent": false
+        }
+      ],
+      "n_lattice_removed": 6,
+      "n_parents_removed": 0
+    },
+    "chain_0.85": {
+      "absorbed": [
+        {
+          "child": "n03820",
+          "into": "n04961",
+          "ratio": 0.8667,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n07792",
+          "into": "n03907",
+          "ratio": 0.8889,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n03907",
+          "into": "n05156",
+          "ratio": 0.8571,
+          "is_direct_parent": false
+        },
+        {
+          "child": "n03842",
+          "into": "n08023",
+          "ratio": 0.8537,
+          "is_direct_parent": false
+        }
+      ],
+      "n_lattice_removed": 4,
+      "n_parents_removed": 0
+    },
+    "chain_0.90": {
+      "absorbed": [],
+      "n_lattice_removed": 0,
+      "n_parents_removed": 0
+    },
+    "sibling_0.60_strict": {
+      "pairs": [
+        {
+          "a": "n03581",
+          "b": "n05989",
+          "jaccard": 0.6923,
+          "siblings": true
+        },
+        {
+          "a": "n05989",
+          "b": "n03820",
+          "jaccard": 0.6,
+          "siblings": true
+        },
+        {
+          "a": "n01273",
+          "b": "n05194",
+          "jaccard": 0.6471,
+          "siblings": true
+        },
+        {
+          "a": "n04961",
+          "b": "n03907",
+          "jaccard": 0.65,
+          "siblings": true
+        },
+        {
+          "a": "n06758",
+          "b": "n02906",
+          "jaccard": 0.6818,
+          "siblings": true
+        },
+        {
+          "a": "n01879",
+          "b": "n03842",
+          "jaccard": 0.675,
+          "siblings": true
+        }
+      ],
+      "dropped": [
+        "n03842",
+        "n04961",
+        "n05194",
+        "n05989",
+        "n06758"
+      ],
+      "n_parents_dropped": 1,
+      "n_lattice_dropped": 4
+    },
+    "sibling_0.60_loose": {
+      "pairs": [
+        {
+          "a": "n01638",
+          "b": "n03581",
+          "jaccard": 0.6154,
+          "siblings": false
+        },
+        {
+          "a": "n01638",
+          "b": "n05989",
+          "jaccard": 0.6154,
+          "siblings": false
+        },
+        {
+          "a": "n03581",
+          "b": "n05989",
+          "jaccard": 0.6923,
+          "siblings": true
+        },
+        {
+          "a": "n05989",
+          "b": "n03820",
+          "jaccard": 0.6,
+          "siblings": true
+        },
+        {
+          "a": "n01273",
+          "b": "n05194",
+          "jaccard": 0.6471,
+          "siblings": true
+        },
+        {
+          "a": "n01273",
+          "b": "n04961",
+          "jaccard": 0.6111,
+          "siblings": false
+        },
+        {
+          "a": "n04961",
+          "b": "n03907",
+          "jaccard": 0.65,
+          "siblings": true
+        },
+        {
+          "a": "n06758",
+          "b": "n02906",
+          "jaccard": 0.6818,
+          "siblings": true
+        },
+        {
+          "a": "n05156",
+          "b": "n07565",
+          "jaccard": 0.6786,
+          "siblings": false
+        },
+        {
+          "a": "n01879",
+          "b": "n03842",
+          "jaccard": 0.675,
+          "siblings": true
+        }
+      ],
+      "dropped": [
+        "n03581",
+        "n03842",
+        "n04961",
+        "n05194",
+        "n05989",
+        "n06758",
+        "n07565"
+      ],
+      "n_parents_dropped": 2,
+      "n_lattice_dropped": 5
+    },
+    "sibling_0.70_strict": {
+      "pairs": [],
+      "dropped": [],
+      "n_parents_dropped": 0,
+      "n_lattice_dropped": 0
+    },
+    "sibling_0.70_loose": {
+      "pairs": [],
+      "dropped": [],
+      "n_parents_dropped": 0,
+      "n_lattice_dropped": 0
+    }
+  }
+}
