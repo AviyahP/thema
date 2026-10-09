@@ -69,6 +69,24 @@ pathways above their children: among curated pairs whose levels differ, the pare
 See `docs/status/2026-10-08-monotonicity.md`. Theme-level gene containment does hold — 100% of
 v0.4's 8,422 edges — but that follows from the definitions and is not evidence about placement.
 
+### The frozen baseline — THEMA baseline 2026-10-09
+
+`data/ontology/frozen/baseline-2026-10-09/` is the reference build: `thema_L_x2`, frozen exactly as
+built. **Every later change goes in a NEW directory and reports a comparison against it** — theme
+counts by band, match at J >= 0.7, and plausibility where judged. If work gets tangled, revert to it.
+`FROZEN.md` inside the folder is the whole record: command line, every parameter, universe, code
+identity, headline numbers (8,740 themes, 97.7% plausible, 10 roots over 1,000), rebuild and revert.
+
+It is frozen by checksum, not by convention: `tests/ontology/test_frozen_baseline.py` fails on any
+changed, deleted or unrecorded file. The code is the annotated tag `thema-baseline-2026-10-09`.
+**It keeps `go:GO:0010800` excluded** — excluded against the declared rule, marked for reinstatement
+— so the baseline stands on 23 exclusions while 22 are effective going forward.
+
+```sh
+shasum -a 256 -c data/ontology/frozen/baseline-2026-10-09/CHECKSUMS.sha256
+uv run scripts/compare_x2.py --new NEW_BUILD --old thema_L_x2   # the comparison a new build owes
+```
+
 ### The leaves experiment (v0.4-leaves) — ANSWERED NO, 8 Oct
 
 Universe L is the 5,559 atomic pathways: the 10,770 with every curated summary removed (a pathway
@@ -126,6 +144,16 @@ uv run scripts/redundancy_measure.py --stats STATS.json     # chain ratios, sibl
 uv run scripts/fan_ancestors.py --stats STATS.json          # the lattice above one fan
 uv run scripts/n00150_worked_example.py --stats STATS.json  # one lattice under every candidate rule
 uv run scripts/chain_survivor.py --stats STATS.json         # does chain collapse keep the stabler node
+
+# Input exclusions. Exclusion 1 (17 self-described heterogeneous BTMs) and exclusion 2
+# (nothing in the name OR description names one theme) both live in data/excluded_inputs.tsv.
+# Stage 2 of exclusion 2 is judged by Claude Code SUBAGENTS, not an API: no spend.
+uv run scripts/exclusion2_screen.py --out CANDIDATES.json   # the mechanical screen, stage 1
+uv run scripts/leaves_universe.py --version 0.4-leaves-x2 --space leaves_centred_x2 \
+    --exclude data/excluded_inputs.tsv                      # universe L minus exclusions
+uv run scripts/leaves_build.py --arm L --version 0.4-leaves-x2 --space leaves_centred_x2 \
+    --out-version 0.4-leaves --floors-file F.json --repair --directory thema_L_x2
+uv run scripts/compare_x2.py --new thema_L_x2 --old thema_L_repair   # -> match_to_repair.tsv
 
 # Inputs excluded by decision live in data/excluded_inputs.tsv (key, rule, evidence). pathways.tsv
 # is never edited: the source table stays a faithful record of what the four databases contain, and

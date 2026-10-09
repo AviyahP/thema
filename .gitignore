@@ -194,3 +194,15 @@ data/ontology/v*/thema_L*matched*/members.tsv
 data/ontology/v*/thema_L*_cal/members.tsv
 data/ontology/v*/thema_L*_cal8/members.tsv
 data/ontology/v*/thema_L*_g_cur/members.tsv
+
+# The frozen baseline is the reference every later build is compared against and the thing we
+# revert to, so unlike the rest of data/ontology it is committed in full: the four tables, the
+# browser, the inputs it depends on, the verdicts, FROZEN.md and CHECKSUMS.sha256. The negations
+# are spelled out per extension because data/ontology/* above would otherwise swallow the lot.
+!data/ontology/frozen/
+!data/ontology/frozen/*/
+!data/ontology/frozen/*/*.tsv
+!data/ontology/frozen/*/*.json
+!data/ontology/frozen/*/*.md
+!data/ontology/frozen/*/*.html
+!data/ontology/frozen/*/*.sha256
