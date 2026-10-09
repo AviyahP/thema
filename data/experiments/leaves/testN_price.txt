@@ -1,0 +1,36 @@
+TEST N PRICE -- NO CALL MADE
+
+Scope: only themes that actually RECREATE a held-out summary at Jaccard > 0.5 on the TEST
+half can be scored against that summary's name, so those are the only ones worth naming.
+
+  L                 102 nameable themes
+  restricted        204 nameable themes
+  hidef_k4_m800     102 nameable themes
+
+  median theme size in thema_L: 8 members
+  175 input tokens per member (name + description line), cached system prompt
+  1,180 tokens, 136 output tokens -- the figures the 808-theme run used
+  input tokens per request: 2,580
+
+  model                 calls   batch $    live $
+  claude-haiku-4-5        102      0.13      0.25
+  claude-sonnet-5         102      0.38      0.76
+  claude-opus-5           102      0.63      1.27
+
+  Declared controls:
+    leakage control  -- no API calls; a substring check over member names
+    abstention control -- size-matched random leaf sets, the same count again
+
+  model                 calls   batch $    live $   with the abstention control
+  claude-haiku-4-5        204      0.24      0.48
+  claude-sonnet-5         204      0.72      1.43
+  claude-opus-5           204      1.19      2.39
+
+  All three arms together (L, restricted, HiDeF) with controls, claude-sonnet-5 batch: $2.73
+
+STOPPED, as the spec requires. Two separate gates are unmet:
+  1. COST -- this session is instructed no API spend.
+  2. PROMPT -- CLAUDE.md requires Aviyah to see the exact prompt text before any call, and
+     the namer would be pointed at a new kind of input (leaf-only themes from universe L).
+     Approving this price is not approving that prompt; --submit authorises spending, not
+     wording. The prompt text has not been drafted, shown or approved.

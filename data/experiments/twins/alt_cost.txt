@@ -1,0 +1,8 @@
+ALTERNATIVE DESIGN, measured components
+  1. one Ward tree on all 5,559 leaves: 2.4s, 3,382 recorded nodes (min_size 3, <= n/2)
+  2. load 200 resampled trees: 6.5s
+  3. support for 150 sampled nodes against 200 runs: 0.5s (3 ms a node)
+     -> all 3,382 nodes, real side: 11s (0.2 min)
+  4. same on 10 scramble seeds + 2 held out = 12 sides: 4 min
+
+  COMPUTE TOTAL: tree 2s + real 0.3 min + calibration 4 min = 0.06 h

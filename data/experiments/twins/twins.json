@@ -1,0 +1,35 @@
+{
+  "theta": 0.7,
+  "arms": {
+    "thema_L": {
+      "themes": 2815,
+      "pairs_above_theta": 964,
+      "nested": 954,
+      "identical": 3,
+      "non_nested": 7,
+      "themes_involved": 1087,
+      "themes_involved_share": 0.3861,
+      "final_merge": {
+        "themes_before": 2815,
+        "themes_after": 2804,
+        "dropped_identical_or_equal": 3,
+        "dropped_non_nested_overlap": 8
+      }
+    },
+    "thema_L_cal8": {
+      "themes": 9609,
+      "pairs_above_theta": 7368,
+      "nested": 7059,
+      "identical": 98,
+      "non_nested": 211,
+      "themes_involved": 6378,
+      "themes_involved_share": 0.6638,
+      "final_merge": {
+        "themes_before": 9609,
+        "themes_after": 9358,
+        "dropped_identical_or_equal": 80,
+        "dropped_non_nested_overlap": 171
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+GENE COHERENCE in the 51-1000 bands (need >= 3x random), and SHAPE
+  arm         51-100   101-300   301-1k   1001+  maxkids  >30kids  roots   multi
+  L            27.8x     21.5x     4.2x    1.6x      227        6     40   36.9%
+  L_cur        28.6x     19.4x     4.1x    1.5x      225        6     39   37.2%
+  L_cal        19.9x     12.5x     5.0x    2.4x      725       39    111   69.7%
+  L_cal8       20.4x     13.6x     4.9x    2.2x      585       29     97   65.9%
+  M5_cur       23.8x     15.7x     5.7x    1.7x      201        8     99   38.6%
+  M5_cal       17.3x     12.4x     5.5x    2.0x      681       75    115   72.3%
+  M5_cal8      16.2x     12.5x     5.3x    1.9x      682       75    116   72.1%
+  MS_cur       27.3x     25.2x     4.9x    1.5x      202        6     45   36.8%
+  MS_cal       19.1x     13.7x     5.3x    2.2x      700       41    108   70.1%
+  MS_cal8      19.1x     12.9x     4.8x    2.1x      592       32     88   66.8%
+
+THE DECLARED RULE, on COLLAPSED counts
+  arm            FDR   caps  3-10 vs L  small ok  51-1000  coh>=3x  <=30kids  QUALIFIES
+  L          0.00138     ok      100%        ok       27       ok      FAIL         no
+  L_cur      0.00138     ok      100%        ok       27       ok      FAIL         no
+  L_cal      0.01011   FAIL      140%        ok      235       ok      FAIL         no
+  L_cal8     0.00583     ok      134%        ok      196       ok      FAIL         no
+  M5_cur     0.00249     ok       61%      FAIL       56       ok      FAIL         no
+  M5_cal     0.00747     ok       87%      FAIL      378       ok      FAIL         no
+  M5_cal8    0.00736     ok       85%      FAIL      376       ok      FAIL         no
+  MS_cur     0.00138     ok      100%        ok       27       ok      FAIL         no
+  MS_cal     0.01009   FAIL      140%        ok      240       ok      FAIL         no
+  MS_cal8    0.00582     ok      134%        ok      198       ok      FAIL         no
+
+  => preferred arm: NONE QUALIFIES

@@ -1,0 +1,6430 @@
+{
+  "build": "thema_L_repair",
+  "big": 51,
+  "soft_theta": 0.5,
+  "themes": [
+    {
+      "node": "n06313",
+      "size": 2614,
+      "support": 0.05,
+      "support_at_0.5": 0.28,
+      "coherence_observed": 0.00241,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 2.12,
+      "children": 468,
+      "band": "1001+",
+      "sources": {
+        "btm": 177,
+        "go": 1462,
+        "hallmark": 29,
+        "reactome": 946
+      },
+      "nearest": [
+        "positive regulation of protein localization to centrosome",
+        "axial mesoderm development",
+        "Binding of TCF/LEF:CTNNB1 to target gene promoters",
+        "Rho GTPase cycle",
+        "negative regulation of transcription by RNA polymerase II",
+        "forebrain ventricular zone progenitor cell division",
+        "positive regulation of mesenchymal cell proliferation"
+      ]
+    },
+    {
+      "node": "n03678",
+      "size": 2586,
+      "support": 0.185,
+      "support_at_0.5": 0.48,
+      "coherence_observed": 0.00226,
+      "coherence_null": 0.00128,
+      "coherence_ratio": 1.76,
+      "children": 360,
+      "band": "1001+",
+      "sources": {
+        "btm": 244,
+        "go": 1525,
+        "hallmark": 27,
+        "reactome": 790
+      },
+      "nearest": [
+        "positive regulation of gamma-delta T cell differentiation",
+        "collagen, TGFB family et al",
+        "positive regulation of T-helper 1 cell differentiation",
+        "positive regulation of mesenchymal cell proliferation",
+        "TBA",
+        "pericardium morphogenesis",
+        "RUNX3 Regulates Immune Response and Cell Migration"
+      ]
+    },
+    {
+      "node": "n01755",
+      "size": 2527,
+      "support": 0.52,
+      "support_at_0.5": 0.77,
+      "coherence_observed": 0.00198,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 1.79,
+      "children": 533,
+      "band": "1001+",
+      "sources": {
+        "btm": 133,
+        "go": 1588,
+        "hallmark": 20,
+        "reactome": 786
+      },
+      "nearest": [
+        "neural plate morphogenesis",
+        "Ephrin signaling",
+        "Activation of RAC1",
+        "ventricular compact myocardium morphogenesis",
+        "negative regulation of filopodium assembly",
+        "cardiac neural crest cell migration involved in outflow tract morphogenesis",
+        "dopaminergic neuron axon guidance"
+      ]
+    },
+    {
+      "node": "n02452",
+      "size": 2261,
+      "support": 0.35,
+      "support_at_0.5": 0.385,
+      "coherence_observed": 0.00118,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 0.98,
+      "children": 292,
+      "band": "1001+",
+      "sources": {
+        "btm": 52,
+        "go": 1377,
+        "hallmark": 15,
+        "reactome": 817
+      },
+      "nearest": [
+        "succinate transmembrane transport",
+        "obsolete organic cation transport",
+        "medium-chain fatty acid catabolic process",
+        "obsolete organic anion transport",
+        "choline metabolic process",
+        "Degradation of GABA",
+        "aspartate metabolic process"
+      ]
+    },
+    {
+      "node": "n02239",
+      "size": 2138,
+      "support": 0.39,
+      "support_at_0.5": 0.4,
+      "coherence_observed": 0.0029,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 2.34,
+      "children": 343,
+      "band": "1001+",
+      "sources": {
+        "btm": 231,
+        "go": 1085,
+        "hallmark": 29,
+        "reactome": 793
+      },
+      "nearest": [
+        "negative regulation of viral transcription",
+        "SUMOylation of immune response proteins",
+        "IRF3 mediated activation of type 1 IFN",
+        "viral sensing & immunity; IRF2 targets network (II)",
+        "Termination of translesion DNA synthesis",
+        "positive regulation of type I interferon-mediated signaling pathway",
+        "protein deubiquitination involved in ubiquitin-dependent protein catabolic process"
+      ]
+    },
+    {
+      "node": "n05127",
+      "size": 1751,
+      "support": 0.08,
+      "support_at_0.5": 0.83,
+      "coherence_observed": 0.00274,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 2.36,
+      "children": 344,
+      "band": "1001+",
+      "sources": {
+        "btm": 88,
+        "go": 1053,
+        "hallmark": 18,
+        "reactome": 592
+      },
+      "nearest": [
+        "notochord morphogenesis",
+        "lung-associated mesenchyme development",
+        "mesodermal cell migration",
+        "positive regulation of mesenchymal cell proliferation",
+        "limb bud formation",
+        "neural plate morphogenesis",
+        "forebrain ventricular zone progenitor cell division"
+      ]
+    },
+    {
+      "node": "n04346",
+      "size": 1444,
+      "support": 0.12,
+      "support_at_0.5": 0.695,
+      "coherence_observed": 0.00332,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 2.78,
+      "children": 120,
+      "band": "1001+",
+      "sources": {
+        "btm": 81,
+        "go": 794,
+        "hallmark": 13,
+        "reactome": 556
+      },
+      "nearest": [
+        "positive regulation of chromatin binding",
+        "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+        "positive regulation of RNA export from nucleus",
+        "DNA replication-dependent chromatin assembly",
+        "telomere maintenance via recombination",
+        "SUMOylation of RNA binding proteins",
+        "DNA strand elongation involved in DNA replication"
+      ]
+    },
+    {
+      "node": "n01268",
+      "size": 1405,
+      "support": 0.69,
+      "support_at_0.5": 0.885,
+      "coherence_observed": 0.00134,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 1.12,
+      "children": 219,
+      "band": "1001+",
+      "sources": {
+        "btm": 33,
+        "go": 750,
+        "hallmark": 14,
+        "reactome": 608
+      },
+      "nearest": [
+        "medium-chain fatty acid catabolic process",
+        "long-chain fatty acid catabolic process",
+        "metabolism in mitochondria, peroxisome",
+        "alditol biosynthetic process",
+        "Glycine degradation",
+        "short-chain fatty acid catabolic process",
+        "Organic anion transport by SLC5/17/25 transporters"
+      ]
+    },
+    {
+      "node": "n07992",
+      "size": 1047,
+      "support": 0.03,
+      "support_at_0.5": 1.0,
+      "coherence_observed": 0.00345,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 3.02,
+      "children": 149,
+      "band": "1001+",
+      "sources": {
+        "btm": 70,
+        "go": 532,
+        "hallmark": 12,
+        "reactome": 433
+      },
+      "nearest": [
+        "positive regulation of chromatin binding",
+        "positive regulation of nuclear cell cycle DNA replication",
+        "DNA strand elongation involved in DNA replication",
+        "regulation of DNA stability",
+        "Inhibition of replication initiation of damaged DNA by RB1/E2F1",
+        "telomere maintenance via recombination",
+        "DNA replication-dependent chromatin assembly"
+      ]
+    },
+    {
+      "node": "n03474",
+      "size": 838,
+      "support": 0.205,
+      "support_at_0.5": 0.775,
+      "coherence_observed": 0.00233,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 1.81,
+      "children": 134,
+      "band": "301-1000",
+      "sources": {
+        "btm": 24,
+        "go": 456,
+        "hallmark": 10,
+        "reactome": 348
+      },
+      "nearest": [
+        "aspartate metabolic process",
+        "Glycine degradation",
+        "obsolete alpha-amino acid metabolic process",
+        "Vitamin B1 (thiamin) metabolism",
+        "glycine biosynthetic process",
+        "succinate transmembrane transport",
+        "obsolete cysteine catabolic process"
+      ]
+    },
+    {
+      "node": "n00962",
+      "size": 826,
+      "support": 0.83,
+      "support_at_0.5": 0.73,
+      "coherence_observed": 0.00418,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 3.54,
+      "children": 172,
+      "band": "301-1000",
+      "sources": {
+        "btm": 133,
+        "go": 454,
+        "hallmark": 8,
+        "reactome": 231
+      },
+      "nearest": [
+        "positive regulation of T-helper 1 cell differentiation",
+        "regulation of MyD88-dependent toll-like receptor signaling pathway",
+        "interleukin-10-mediated signaling pathway",
+        "TLR and inflammatory signaling",
+        "positive regulation of interleukin-12 production",
+        "positive regulation of type II interferon production",
+        "regulation of myeloid dendritic cell activation"
+      ]
+    },
+    {
+      "node": "n01402",
+      "size": 800,
+      "support": 0.64,
+      "support_at_0.5": 0.965,
+      "coherence_observed": 0.00663,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 5.99,
+      "children": 97,
+      "band": "301-1000",
+      "sources": {
+        "btm": 51,
+        "go": 403,
+        "hallmark": 7,
+        "reactome": 339
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "positive regulation of chromatin binding",
+        "telomere maintenance via semi-conservative replication",
+        "mRNA 3'-end processing by stem-loop binding and cleavage",
+        "positive regulation of nuclear cell cycle DNA replication",
+        "DNA replication-dependent chromatin assembly",
+        "telomere maintenance via recombination"
+      ]
+    },
+    {
+      "node": "n07993",
+      "size": 400,
+      "support": 0.03,
+      "support_at_0.5": 0.38,
+      "coherence_observed": 0.00777,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 6.96,
+      "children": 52,
+      "band": "301-1000",
+      "sources": {
+        "btm": 11,
+        "go": 196,
+        "hallmark": 2,
+        "reactome": 191
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "Translation initiation complex formation",
+        "tRNA 5'-leader removal",
+        "mRNA 3'-end processing by stem-loop binding and cleavage",
+        "RNA Polymerase III Transcription Termination",
+        "SLBP Dependent Processing of Replication-Dependent Histone Pre-mRNAs",
+        "RNA Polymerase III Abortive And Retractive Initiation"
+      ]
+    },
+    {
+      "node": "n04881",
+      "size": 373,
+      "support": 0.09,
+      "support_at_0.5": 0.925,
+      "coherence_observed": 0.00937,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 7.79,
+      "children": 22,
+      "band": "301-1000",
+      "sources": {
+        "btm": 35,
+        "go": 177,
+        "hallmark": 4,
+        "reactome": 157
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "Processing of DNA double-strand break ends",
+        "HALLMARK_E2F_TARGETS",
+        "cell division",
+        "mismatch repair (I)",
+        "negative regulation of sister chromatid cohesion",
+        "cell cycle (I)"
+      ]
+    },
+    {
+      "node": "n05416",
+      "size": 294,
+      "support": 0.07,
+      "support_at_0.5": 0.525,
+      "coherence_observed": 0.01108,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 9.87,
+      "children": 30,
+      "band": "101-300",
+      "sources": {
+        "btm": 9,
+        "go": 171,
+        "hallmark": 2,
+        "reactome": 112
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "tRNA 5'-leader removal",
+        "negative regulation of tRNA metabolic process",
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "termination of RNA polymerase I transcription",
+        "RNA Polymerase III Transcription Termination",
+        "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)"
+      ]
+    },
+    {
+      "node": "n01631",
+      "size": 211,
+      "support": 0.555,
+      "support_at_0.5": 0.63,
+      "coherence_observed": 0.03346,
+      "coherence_null": 0.00103,
+      "coherence_ratio": 32.37,
+      "children": 11,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 34,
+        "reactome": 176
+      },
+      "nearest": [
+        "sunitinib-resistant FLT3 mutants",
+        "Sunitinib-resistant PDGFR mutants",
+        "Signaling by ERBB2 ECD mutants",
+        "Signaling by ERBB2 TMD/JMD mutants",
+        "ponatinib-resistant FLT3 mutants",
+        "lestaurtinib-resistant FLT3 mutants",
+        "ceritinib-resistant ALK mutants"
+      ]
+    },
+    {
+      "node": "n06035",
+      "size": 201,
+      "support": 0.055,
+      "support_at_0.5": 0.595,
+      "coherence_observed": 0.01038,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 9.33,
+      "children": 17,
+      "band": "101-300",
+      "sources": {
+        "btm": 10,
+        "go": 117,
+        "hallmark": 3,
+        "reactome": 71
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "Translation initiation complex formation",
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "termination of RNA polymerase I transcription",
+        "RNA Polymerase III Transcription Termination",
+        "positive regulation of mRNA 3'-end processing",
+        "rRNA 5'-end processing"
+      ]
+    },
+    {
+      "node": "n00135",
+      "size": 180,
+      "support": 0.99,
+      "support_at_0.5": 0.645,
+      "coherence_observed": 0.00746,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 6.07,
+      "children": 5,
+      "band": "101-300",
+      "sources": {
+        "btm": 2,
+        "go": 58,
+        "reactome": 120
+      },
+      "nearest": [
+        "Defective B4GALT1 causes CDG-2d",
+        "Defective ALG12 causes CDG-1g",
+        "Lysosomal oligosaccharide catabolism",
+        "Defective DPM2 causes DPM2-CDG",
+        "Defective ALG9 causes CDG-1l",
+        "Defective B4GALT1 causes B4GALT1-CDG (CDG-2d)",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)"
+      ]
+    },
+    {
+      "node": "n01756",
+      "size": 179,
+      "support": 0.52,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.01972,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 17.31,
+      "children": 6,
+      "band": "101-300",
+      "sources": {
+        "btm": 9,
+        "go": 90,
+        "hallmark": 1,
+        "reactome": 79
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "telomere maintenance via semi-conservative replication",
+        "DNA repair",
+        "mismatch repair (I)",
+        "Processing of DNA double-strand break ends",
+        "HDR through Single Strand Annealing (SSA)",
+        "DNA strand resection involved in replication fork processing"
+      ]
+    },
+    {
+      "node": "n07994",
+      "size": 170,
+      "support": 0.03,
+      "support_at_0.5": 0.26,
+      "coherence_observed": 0.01409,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 13.26,
+      "children": 17,
+      "band": "101-300",
+      "sources": {
+        "btm": 6,
+        "go": 101,
+        "hallmark": 2,
+        "reactome": 61
+      },
+      "nearest": [
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "Translation initiation complex formation",
+        "RNA Polymerase III Transcription Termination",
+        "termination of RNA polymerase I transcription",
+        "rRNA 5'-end processing",
+        "negative regulation of tRNA metabolic process",
+        "transcription initiation at RNA polymerase III promoter"
+      ]
+    },
+    {
+      "node": "n05258",
+      "size": 167,
+      "support": 0.075,
+      "support_at_0.5": 0.725,
+      "coherence_observed": 0.01755,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 13.97,
+      "children": 11,
+      "band": "101-300",
+      "sources": {
+        "btm": 26,
+        "go": 71,
+        "hallmark": 4,
+        "reactome": 66
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "cell cycle (I)",
+        "APC/C:Cdc20 mediated degradation of Cyclin B",
+        "mitotic cell division",
+        "G2/M DNA replication checkpoint",
+        "Mitotic Metaphase/Anaphase Transition",
+        "regulation of exit from mitosis"
+      ]
+    },
+    {
+      "node": "n07438",
+      "size": 151,
+      "support": 0.035,
+      "support_at_0.5": 0.415,
+      "coherence_observed": 0.00935,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 8.7,
+      "children": 21,
+      "band": "101-300",
+      "sources": {
+        "btm": 2,
+        "go": 79,
+        "reactome": 70
+      },
+      "nearest": [
+        "axonal fasciculation",
+        "Axonal growth stimulation",
+        "positive regulation of collateral sprouting",
+        "negative regulation of axon extension involved in axon guidance",
+        "positive regulation of axon extension involved in axon guidance",
+        "Activation of RAC1",
+        "chemorepulsion of axon"
+      ]
+    },
+    {
+      "node": "n03723",
+      "size": 147,
+      "support": 0.235,
+      "support_at_0.5": 0.645,
+      "coherence_observed": 0.01018,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 9.53,
+      "children": 7,
+      "band": "101-300",
+      "sources": {
+        "btm": 2,
+        "go": 46,
+        "reactome": 99
+      },
+      "nearest": [
+        "chondroitin sulfate proteoglycan catabolic process",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)",
+        "Lysosomal oligosaccharide catabolism",
+        "Defective B4GALT1 causes CDG-2d",
+        "N-acetylglucosamine metabolic process",
+        "Defective B4GALT1 causes B4GALT1-CDG (CDG-2d)",
+        "Defective POMGNT1 causes MDDGA3, MDDGB3 and MDDGC3"
+      ]
+    },
+    {
+      "node": "n03886",
+      "size": 145,
+      "support": 0.16,
+      "support_at_0.5": 0.505,
+      "coherence_observed": 0.01671,
+      "coherence_null": 0.00136,
+      "coherence_ratio": 12.25,
+      "children": 15,
+      "band": "101-300",
+      "sources": {
+        "btm": 7,
+        "go": 88,
+        "hallmark": 2,
+        "reactome": 48
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "termination of RNA polymerase I transcription",
+        "rRNA 5'-end processing",
+        "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+        "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+        "Translation initiation complex formation"
+      ]
+    },
+    {
+      "node": "n03423",
+      "size": 139,
+      "support": 0.21,
+      "support_at_0.5": 0.23,
+      "coherence_observed": 0.01563,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 13.53,
+      "children": 5,
+      "band": "101-300",
+      "sources": {
+        "btm": 10,
+        "go": 47,
+        "hallmark": 1,
+        "reactome": 81
+      },
+      "nearest": [
+        "thrombin-activated receptor signaling pathway",
+        "cyclooxygenase pathway",
+        "arachidonate metabolite production involved in inflammatory response",
+        "lipoxin A4 metabolic process",
+        "Eicosanoids",
+        "Biosynthesis of Lipoxins (LX)",
+        "Biosynthesis of DPAn-3-derived maresins"
+      ]
+    },
+    {
+      "node": "n04501",
+      "size": 138,
+      "support": 0.11,
+      "support_at_0.5": 0.45,
+      "coherence_observed": 0.03953,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 33.47,
+      "children": 6,
+      "band": "101-300",
+      "sources": {
+        "btm": 2,
+        "go": 32,
+        "reactome": 104
+      },
+      "nearest": [
+        "SHC-mediated cascade:FGFR2",
+        "FRS-mediated FGFR2 signaling",
+        "SHC1 events in ERBB2 signaling",
+        "SHC-mediated cascade:FGFR4",
+        "GRB2 events in ERBB2 signaling",
+        "SHC-mediated cascade:FGFR1",
+        "MET activates PTPN11"
+      ]
+    },
+    {
+      "node": "n03679",
+      "size": 135,
+      "support": 0.185,
+      "support_at_0.5": 0.56,
+      "coherence_observed": 0.00571,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 4.31,
+      "children": 6,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 111,
+        "hallmark": 1,
+        "reactome": 22
+      },
+      "nearest": [
+        "negative regulation of meiotic cell cycle phase transition",
+        "regulation of meiosis I",
+        "positive regulation of fertilization",
+        "embryonic cleavage",
+        "negative regulation of meiotic nuclear division",
+        "male meiosis I",
+        "regulation of G2/MI transition of meiotic cell cycle"
+      ]
+    },
+    {
+      "node": "n07439",
+      "size": 130,
+      "support": 0.035,
+      "support_at_0.5": 0.16,
+      "coherence_observed": 0.02337,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 20.36,
+      "children": 13,
+      "band": "101-300",
+      "sources": {
+        "btm": 9,
+        "go": 68,
+        "hallmark": 1,
+        "reactome": 52
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "Processing of DNA double-strand break ends",
+        "mismatch repair (I)",
+        "DNA repair",
+        "Resolution of D-loop Structures through Synthesis-Dependent Strand Annealing (SDSA)",
+        "telomere maintenance via semi-conservative replication",
+        "DNA strand resection involved in replication fork processing"
+      ]
+    },
+    {
+      "node": "n06982",
+      "size": 124,
+      "support": 0.04,
+      "support_at_0.5": 0.555,
+      "coherence_observed": 0.00812,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 6.85,
+      "children": 23,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 71,
+        "hallmark": 3,
+        "reactome": 49
+      },
+      "nearest": [
+        "PDE3B signalling",
+        "positive regulation of adipose tissue development",
+        "AMPK inhibits chREBP transcriptional activation activity",
+        "adiponectin-activated signaling pathway",
+        "lipid droplet disassembly",
+        "NR1H2 & NR1H3 regulate gene expression linked to triglyceride lipolysis in adipose",
+        "Triglyceride catabolism"
+      ]
+    },
+    {
+      "node": "n03424",
+      "size": 123,
+      "support": 0.21,
+      "support_at_0.5": 0.53,
+      "coherence_observed": 0.02205,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 18.63,
+      "children": 9,
+      "band": "101-300",
+      "sources": {
+        "go": 109,
+        "reactome": 14
+      },
+      "nearest": [
+        "obsolete pattern specification involved in kidney development",
+        "metanephric tubule formation",
+        "nephric duct formation",
+        "regulation of branching involved in ureteric bud morphogenesis",
+        "regulation of mesonephros development",
+        "mesenchymal stem cell maintenance involved in nephron morphogenesis",
+        "ureter morphogenesis"
+      ]
+    },
+    {
+      "node": "n03209",
+      "size": 121,
+      "support": 0.235,
+      "support_at_0.5": 0.615,
+      "coherence_observed": 0.00587,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 4.9,
+      "children": 12,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 98,
+        "hallmark": 1,
+        "reactome": 21
+      },
+      "nearest": [
+        "negative regulation of meiotic cell cycle phase transition",
+        "regulation of meiosis I",
+        "positive regulation of fertilization",
+        "embryonic cleavage",
+        "male meiosis I",
+        "regulation of G2/MI transition of meiotic cell cycle",
+        "negative regulation of meiotic nuclear division"
+      ]
+    },
+    {
+      "node": "n04882",
+      "size": 114,
+      "support": 0.09,
+      "support_at_0.5": 0.65,
+      "coherence_observed": 0.01676,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 13.66,
+      "children": 9,
+      "band": "101-300",
+      "sources": {
+        "go": 82,
+        "hallmark": 1,
+        "reactome": 31
+      },
+      "nearest": [
+        "low-density lipoprotein particle remodeling",
+        "regulation of reverse cholesterol transport",
+        "acylglycerol transport",
+        "triglyceride-rich lipoprotein particle clearance",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "negative regulation of cholesterol storage",
+        "VLDL clearance"
+      ]
+    },
+    {
+      "node": "n05613",
+      "size": 114,
+      "support": 0.065,
+      "support_at_0.5": 0.15,
+      "coherence_observed": 0.01067,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 8.65,
+      "children": 2,
+      "band": "101-300",
+      "sources": {
+        "btm": 7,
+        "go": 71,
+        "hallmark": 2,
+        "reactome": 34
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "mitochondrial translational elongation",
+        "mitochondrial translational termination",
+        "Mitochondrial translation initiation",
+        "mitochondrial RNA 3'-end processing",
+        "tRNA pseudouridine synthesis",
+        "tRNA modification in the mitochondrion"
+      ]
+    },
+    {
+      "node": "n07440",
+      "size": 114,
+      "support": 0.035,
+      "support_at_0.5": 0.27,
+      "coherence_observed": 0.02237,
+      "coherence_null": 0.00098,
+      "coherence_ratio": 22.72,
+      "children": 14,
+      "band": "101-300",
+      "sources": {
+        "btm": 9,
+        "go": 62,
+        "hallmark": 1,
+        "reactome": 42
+      },
+      "nearest": [
+        "positive regulation of spindle checkpoint",
+        "mitotic cell division",
+        "Recruitment of NuMA to mitotic centrosomes",
+        "Separation of Sister Chromatids",
+        "Ran mediated mitosis",
+        "regulation of mitotic centrosome separation",
+        "Condensation of Prometaphase Chromosomes"
+      ]
+    },
+    {
+      "node": "n05614",
+      "size": 108,
+      "support": 0.065,
+      "support_at_0.5": 0.64,
+      "coherence_observed": 0.01006,
+      "coherence_null": 0.00134,
+      "coherence_ratio": 7.52,
+      "children": 22,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 70,
+        "reactome": 37
+      },
+      "nearest": [
+        "axonal fasciculation",
+        "negative regulation of axon extension involved in axon guidance",
+        "positive regulation of axon extension involved in axon guidance",
+        "chemorepulsion of axon",
+        "Activation of RAC1",
+        "Axonal growth stimulation",
+        "obsolete neuron projection extension involved in neuron projection guidance"
+      ]
+    },
+    {
+      "node": "n07995",
+      "size": 108,
+      "support": 0.03,
+      "support_at_0.5": 0.48,
+      "coherence_observed": 0.02031,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 18.27,
+      "children": 12,
+      "band": "101-300",
+      "sources": {
+        "btm": 5,
+        "go": 67,
+        "hallmark": 2,
+        "reactome": 34
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+        "7-methylguanosine cap hypermethylation",
+        "Translation initiation complex formation",
+        "rRNA 5'-end processing",
+        "poly(A)-dependent snoRNA 3'-end processing",
+        "snRNA catabolic process"
+      ]
+    },
+    {
+      "node": "n07442",
+      "size": 105,
+      "support": 0.035,
+      "support_at_0.5": 0.03,
+      "coherence_observed": 0.01009,
+      "coherence_null": 0.00127,
+      "coherence_ratio": 7.92,
+      "children": 17,
+      "band": "101-300",
+      "sources": {
+        "btm": 5,
+        "go": 69,
+        "reactome": 31
+      },
+      "nearest": [
+        "obsolete regulation of proteolysis involved in protein catabolic process",
+        "protein quality control for misfolded or incompletely synthesized proteins",
+        "aggresome assembly",
+        "regulation of protein oligomerization",
+        "obsolete positive regulation of proteolysis involved in protein catabolic process",
+        "protein K29-linked ubiquitination",
+        "protein K48-linked deubiquitination"
+      ]
+    },
+    {
+      "node": "n02240",
+      "size": 104,
+      "support": 0.39,
+      "support_at_0.5": 0.235,
+      "coherence_observed": 0.01142,
+      "coherence_null": 0.00088,
+      "coherence_ratio": 12.94,
+      "children": 9,
+      "band": "101-300",
+      "sources": {
+        "btm": 1,
+        "go": 34,
+        "reactome": 69
+      },
+      "nearest": [
+        "Replication of the SARS-CoV-1 genome",
+        "Viral Messenger RNA Synthesis",
+        "vRNP Assembly",
+        "vRNA Synthesis",
+        "viral translational termination-reinitiation",
+        "Synthesis and processing of ENV and VPU",
+        "SARS-CoV-1 modulates host translation machinery"
+      ]
+    },
+    {
+      "node": "n04280",
+      "size": 104,
+      "support": 0.125,
+      "support_at_0.5": 0.505,
+      "coherence_observed": 0.02387,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 18.98,
+      "children": 6,
+      "band": "101-300",
+      "sources": {
+        "go": 94,
+        "reactome": 10
+      },
+      "nearest": [
+        "obsolete pattern specification involved in kidney development",
+        "metanephric tubule formation",
+        "regulation of branching involved in ureteric bud morphogenesis",
+        "nephric duct formation",
+        "mesenchymal stem cell maintenance involved in nephron morphogenesis",
+        "ureteric bud elongation",
+        "metanephric S-shaped body morphogenesis"
+      ]
+    },
+    {
+      "node": "n01897",
+      "size": 102,
+      "support": 0.48,
+      "support_at_0.5": 0.6,
+      "coherence_observed": 0.00974,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 8.25,
+      "children": 8,
+      "band": "101-300",
+      "sources": {
+        "btm": 2,
+        "go": 38,
+        "reactome": 62
+      },
+      "nearest": [
+        "Defective ALG12 causes CDG-1g",
+        "Defective ALG9 causes CDG-1l",
+        "Defective DPM2 causes DPM2-CDG",
+        "Defective B4GALT1 causes CDG-2d",
+        "Defective ALG1 causes CDG-1k",
+        "Defective PMM2 causes PMM2-CDG",
+        "Defective MPDU1 causes CDG-1f"
+      ]
+    },
+    {
+      "node": "n03475",
+      "size": 102,
+      "support": 0.205,
+      "support_at_0.5": 0.75,
+      "coherence_observed": 0.01844,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 13.87,
+      "children": 5,
+      "band": "101-300",
+      "sources": {
+        "go": 63,
+        "hallmark": 2,
+        "reactome": 37
+      },
+      "nearest": [
+        "acylglycerol transport",
+        "low-density lipoprotein particle remodeling",
+        "regulation of reverse cholesterol transport",
+        "triglyceride-rich lipoprotein particle clearance",
+        "very-low-density lipoprotein particle assembly",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "VLDL clearance"
+      ]
+    },
+    {
+      "node": "n04214",
+      "size": 102,
+      "support": 0.13,
+      "support_at_0.5": 0.435,
+      "coherence_observed": 0.00911,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 7.71,
+      "children": 3,
+      "band": "101-300",
+      "sources": {
+        "btm": 5,
+        "go": 63,
+        "hallmark": 1,
+        "reactome": 33
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "mitochondrial translational elongation",
+        "mitochondrial translational termination",
+        "Mitochondrial translation initiation",
+        "tRNA modification in the mitochondrion",
+        "mitochondrial RNA 3'-end processing",
+        "mitochondrial small ribosomal subunit assembly"
+      ]
+    },
+    {
+      "node": "n06983",
+      "size": 100,
+      "support": 0.04,
+      "support_at_0.5": 0.16,
+      "coherence_observed": 0.03523,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 30.0,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 48,
+        "hallmark": 1,
+        "reactome": 46
+      },
+      "nearest": [
+        "DNA repair",
+        "mismatch repair (I)",
+        "DNA strand elongation involved in DNA replication",
+        "Processing of DNA double-strand break ends",
+        "Resolution of D-loop Structures through Synthesis-Dependent Strand Annealing (SDSA)",
+        "Defective homologous recombination repair (HRR) due to BRCA1 loss of function",
+        "HDR through Single Strand Annealing (SSA)"
+      ]
+    },
+    {
+      "node": "n07996",
+      "size": 99,
+      "support": 0.03,
+      "support_at_0.5": 0.125,
+      "coherence_observed": 0.018,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 16.08,
+      "children": 16,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 79,
+        "reactome": 19
+      },
+      "nearest": [
+        "regulation of reverse cholesterol transport",
+        "negative regulation of cholesterol storage",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "negative regulation of intracellular lipid transport",
+        "receptor-mediated endocytosis involved in cholesterol transport",
+        "low-density lipoprotein particle remodeling",
+        "regulation of very-low-density lipoprotein particle clearance"
+      ]
+    },
+    {
+      "node": "n05260",
+      "size": 97,
+      "support": 0.075,
+      "support_at_0.5": 0.485,
+      "coherence_observed": 0.01354,
+      "coherence_null": 0.00101,
+      "coherence_ratio": 13.45,
+      "children": 14,
+      "band": "51-100",
+      "sources": {
+        "btm": 37,
+        "go": 39,
+        "reactome": 21
+      },
+      "nearest": [
+        "Co-stimulation by ICOS",
+        "T cell differentiation",
+        "positive regulation of B cell differentiation",
+        "enriched in B cells (II)",
+        "T cell activation and signaling",
+        "CD27 signaling pathway",
+        "IL2, IL7, TCR network"
+      ]
+    },
+    {
+      "node": "n02794",
+      "size": 96,
+      "support": 0.29,
+      "support_at_0.5": 0.725,
+      "coherence_observed": 0.02839,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 23.23,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 38,
+        "hallmark": 1,
+        "reactome": 55
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "HALLMARK_DNA_REPAIR",
+        "nucleotide-excision repair, DNA gap filling",
+        "Displacement of DNA glycosylase by APEX1",
+        "Mismatch repair (MMR) directed by MSH2:MSH6 (MutSalpha)",
+        "Abasic sugar-phosphate removal via the single-nucleotide replacement pathway",
+        "PCNA-Dependent Long Patch Base Excision Repair"
+      ]
+    },
+    {
+      "node": "n01182",
+      "size": 95,
+      "support": 0.725,
+      "support_at_0.5": 0.945,
+      "coherence_observed": 0.01799,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 16.16,
+      "children": 13,
+      "band": "51-100",
+      "sources": {
+        "btm": 11,
+        "go": 49,
+        "hallmark": 2,
+        "reactome": 33
+      },
+      "nearest": [
+        "positive regulation of type I interferon-mediated signaling pathway",
+        "positive regulation of interferon-beta production",
+        "IRF3 mediated activation of type 1 IFN",
+        "positive regulation of interferon-alpha production",
+        "cellular response to virus",
+        "RIG-1 like receptor signaling",
+        "antiviral innate immune response"
+      ]
+    },
+    {
+      "node": "n01928",
+      "size": 95,
+      "support": 0.47,
+      "support_at_0.5": 0.855,
+      "coherence_observed": 0.03323,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 28.43,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 20,
+        "go": 26,
+        "hallmark": 2,
+        "reactome": 47
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "HALLMARK_E2F_TARGETS",
+        "CDK-mediated phosphorylation and removal of Cdc6",
+        "cell cycle (I)",
+        "E2F-enabled inhibition of pre-replication complex formation",
+        "G2/M DNA replication checkpoint",
+        "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex"
+      ]
+    },
+    {
+      "node": "n04595",
+      "size": 95,
+      "support": 0.105,
+      "support_at_0.5": 0.72,
+      "coherence_observed": 0.01719,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 15.51,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 37,
+        "hallmark": 1,
+        "reactome": 56
+      },
+      "nearest": [
+        "Defective MMAB causes MMA, cblB type",
+        "Beta oxidation of octanoyl-CoA to hexanoyl-CoA",
+        "Defective MUT causes MMAM",
+        "L-leucine catabolic process",
+        "Beta oxidation of hexanoyl-CoA to butanoyl-CoA",
+        "Propionyl-CoA catabolism",
+        "3-methylglutaconic aciduria"
+      ]
+    },
+    {
+      "node": "n05418",
+      "size": 93,
+      "support": 0.07,
+      "support_at_0.5": 0.275,
+      "coherence_observed": 0.01145,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 9.06,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 57,
+        "reactome": 33
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "rRNA base methylation",
+        "tRNA methylation",
+        "tRNA pseudouridine synthesis",
+        "mitochondrial translational termination",
+        "translation initiation",
+        "Mitochondrial translation initiation"
+      ]
+    },
+    {
+      "node": "n06597",
+      "size": 92,
+      "support": 0.045,
+      "support_at_0.5": 0.565,
+      "coherence_observed": 0.00723,
+      "coherence_null": 0.00127,
+      "coherence_ratio": 5.67,
+      "children": 12,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 73,
+        "hallmark": 1,
+        "reactome": 17
+      },
+      "nearest": [
+        "positive regulation of fertilization",
+        "regulation of meiosis I",
+        "spermatogonial cell division",
+        "egg activation",
+        "germ-line stem cell population maintenance",
+        "transposable element silencing by piRNA-mediated heterochromatin formation",
+        "maternal-to-zygotic transition of gene expression"
+      ]
+    },
+    {
+      "node": "n04215",
+      "size": 91,
+      "support": 0.13,
+      "support_at_0.5": 0.465,
+      "coherence_observed": 0.01726,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 15.04,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 61,
+        "hallmark": 1,
+        "reactome": 23
+      },
+      "nearest": [
+        "Separation of Sister Chromatids",
+        "mitotic cell division",
+        "meiotic metaphase chromosome alignment",
+        "positive regulation of spindle checkpoint",
+        "female meiosis chromosome segregation",
+        "mitotic spindle elongation",
+        "regulation of mitotic centrosome separation"
+      ]
+    },
+    {
+      "node": "n05417",
+      "size": 91,
+      "support": 0.07,
+      "support_at_0.5": 0.475,
+      "coherence_observed": 0.03912,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 32.45,
+      "children": 10,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 23,
+        "reactome": 67
+      },
+      "nearest": [
+        "SHC1 events in ERBB2 signaling",
+        "GRB2 events in ERBB2 signaling",
+        "GRB2 events in EGFR signaling",
+        "GRB7 events in ERBB2 signaling",
+        "SHC1 events in ERBB4 signaling",
+        "GAB1 signalosome",
+        "MET activates RAP1 and RAC1"
+      ]
+    },
+    {
+      "node": "n06984",
+      "size": 91,
+      "support": 0.04,
+      "support_at_0.5": 0.27,
+      "coherence_observed": 0.01271,
+      "coherence_null": 0.00108,
+      "coherence_ratio": 11.74,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "go": 54,
+        "reactome": 37
+      },
+      "nearest": [
+        "Glutamate Neurotransmitter Release Cycle",
+        "positive regulation of synaptic vesicle exocytosis",
+        "regulation of presynaptic membrane potential",
+        "Inhibition  of voltage gated Ca2+ channels via Gbeta/gamma subunits",
+        "Presynaptic function of Kainate receptors",
+        "Reuptake of GABA",
+        "presynaptic dense core vesicle exocytosis"
+      ]
+    },
+    {
+      "node": "n07441",
+      "size": 91,
+      "support": 0.035,
+      "support_at_0.5": 0.08,
+      "coherence_observed": 0.00706,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 6.62,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 60,
+        "reactome": 31
+      },
+      "nearest": [
+        "Defective visual phototransduction due to OPN1MW loss of function",
+        "Opsins",
+        "Defective visual phototransduction due to OPN1SW loss of function",
+        "The retinoid cycle in cones (daylight vision)",
+        "light absorption",
+        "Defective visual phototransduction due to RDH12 loss of function",
+        "retinal rod cell development"
+      ]
+    },
+    {
+      "node": "n07443",
+      "size": 91,
+      "support": 0.035,
+      "support_at_0.5": 0.185,
+      "coherence_observed": 0.01623,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 13.37,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 80,
+        "reactome": 11
+      },
+      "nearest": [
+        "Developmental Lineage of Mammary Gland Luminal Epithelial Cells",
+        "regulation of branching involved in prostate gland morphogenesis",
+        "Developmental Lineage of Mammary Stem Cells",
+        "mesenchymal-epithelial cell signaling",
+        "lung lobe development",
+        "regulation of branching involved in lung morphogenesis",
+        "oviduct development"
+      ]
+    },
+    {
+      "node": "n04347",
+      "size": 90,
+      "support": 0.12,
+      "support_at_0.5": 0.475,
+      "coherence_observed": 0.0194,
+      "coherence_null": 0.00108,
+      "coherence_ratio": 17.97,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 30,
+        "reactome": 60
+      },
+      "nearest": [
+        "poly-N-acetyllactosamine metabolic process",
+        "Defective CHST3 causes SEDCJD",
+        "DAG1 core M3 glycosylations",
+        "dermatan sulfate proteoglycan biosynthetic process",
+        "Defective B3GAT3 causes JDSSDHD",
+        "Transport of nucleotide sugars",
+        "Glycosaminoglycan-protein linkage region biosynthesis"
+      ]
+    },
+    {
+      "node": "n06314",
+      "size": 90,
+      "support": 0.05,
+      "support_at_0.5": 0.45,
+      "coherence_observed": 0.01212,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 10.05,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 57,
+        "hallmark": 1,
+        "reactome": 27
+      },
+      "nearest": [
+        "mitochondrial translational elongation",
+        "mitochondrial translational termination",
+        "Mitochondrial translation initiation",
+        "mitochondrial tRNA modification",
+        "tRNA modification in the mitochondrion",
+        "Mitochondrial ribosome-associated quality control",
+        "respiratory electron transport chain (mitochondrion)"
+      ]
+    },
+    {
+      "node": "n03593",
+      "size": 89,
+      "support": 0.58,
+      "support_at_0.5": 0.31,
+      "coherence_observed": 0.01373,
+      "coherence_null": 0.00132,
+      "coherence_ratio": 10.39,
+      "children": 13,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 72,
+        "reactome": 16
+      },
+      "nearest": [
+        "Ion homeostasis",
+        "regulation of cardiac muscle contraction by regulation of the release of sequestered calcium ion",
+        "regulation of membrane repolarization during ventricular cardiac muscle cell action potential",
+        "obsolete cell-cell signaling involved in cardiac conduction",
+        "membrane depolarization during AV node cell action potential",
+        "regulation of atrial cardiac muscle cell membrane repolarization",
+        "Phase 3 - rapid repolarisation"
+      ]
+    },
+    {
+      "node": "n03797",
+      "size": 89,
+      "support": 0.17,
+      "support_at_0.5": 0.395,
+      "coherence_observed": 0.00991,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 8.03,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 62,
+        "hallmark": 1,
+        "reactome": 21
+      },
+      "nearest": [
+        "protein localization to Golgi membrane",
+        "COPI-coated vesicle budding",
+        "HALLMARK_PROTEIN_SECRETION",
+        "vesicle fusion with Golgi apparatus",
+        "retrograde transport, vesicle recycling within Golgi",
+        "constitutive secretory pathway",
+        "obsolete vesicle targeting"
+      ]
+    },
+    {
+      "node": "n05259",
+      "size": 89,
+      "support": 0.075,
+      "support_at_0.5": 0.665,
+      "coherence_observed": 0.02005,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 16.45,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 25,
+        "reactome": 64
+      },
+      "nearest": [
+        "chondroitin sulfate proteoglycan catabolic process",
+        "Defective CHST3 causes SEDCJD",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)",
+        "dermatan sulfate proteoglycan biosynthetic process",
+        "Defective B3GAT3 causes JDSSDHD",
+        "keratan sulfate proteoglycan metabolic process",
+        "Defective B4GALT1 causes B4GALT1-CDG (CDG-2d)"
+      ]
+    },
+    {
+      "node": "n03132",
+      "size": 88,
+      "support": 0.245,
+      "support_at_0.5": 1.0,
+      "coherence_observed": 0.02409,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 21.55,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 64,
+        "reactome": 22
+      },
+      "nearest": [
+        "purine deoxyribonucleoside triphosphate metabolic process",
+        "dAMP metabolic process",
+        "dGMP catabolic process",
+        "Pyrimidine salvage",
+        "purine deoxyribonucleoside metabolic process",
+        "Purine salvage",
+        "IMP catabolic process"
+      ]
+    },
+    {
+      "node": "n04216",
+      "size": 87,
+      "support": 0.13,
+      "support_at_0.5": 0.105,
+      "coherence_observed": 0.02709,
+      "coherence_null": 0.00142,
+      "coherence_ratio": 19.1,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 84,
+        "reactome": 3
+      },
+      "nearest": [
+        "cardiac right ventricle morphogenesis",
+        "ventricular trabecula myocardium morphogenesis",
+        "cardiac ventricle formation",
+        "endocardial cushion to mesenchymal transition",
+        "ventricular compact myocardium morphogenesis",
+        "muscular septum morphogenesis",
+        "endocardial cell differentiation"
+      ]
+    },
+    {
+      "node": "n04701",
+      "size": 86,
+      "support": 0.1,
+      "support_at_0.5": 0.51,
+      "coherence_observed": 0.01609,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 14.17,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 55,
+        "hallmark": 1,
+        "reactome": 24
+      },
+      "nearest": [
+        "mitotic cell division",
+        "Separation of Sister Chromatids",
+        "positive regulation of spindle checkpoint",
+        "mitotic spindle elongation",
+        "positive regulation of protein localization to centrosome",
+        "regulation of mitotic centrosome separation",
+        "Recruitment of NuMA to mitotic centrosomes"
+      ]
+    },
+    {
+      "node": "n01585",
+      "size": 85,
+      "support": 0.61,
+      "support_at_0.5": 0.785,
+      "coherence_observed": 0.02136,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 18.63,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 56,
+        "hallmark": 1,
+        "reactome": 28
+      },
+      "nearest": [
+        "low-density lipoprotein particle remodeling",
+        "acylglycerol transport",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "regulation of reverse cholesterol transport",
+        "triglyceride-rich lipoprotein particle clearance",
+        "VLDL clearance",
+        "very-low-density lipoprotein particle assembly"
+      ]
+    },
+    {
+      "node": "n05615",
+      "size": 85,
+      "support": 0.065,
+      "support_at_0.5": 0.175,
+      "coherence_observed": 0.00639,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 5.19,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 59,
+        "reactome": 26
+      },
+      "nearest": [
+        "photoreceptor cell outer segment organization",
+        "photoreceptor cell morphogenesis",
+        "retinal rod cell development",
+        "protein localization to photoreceptor outer segment",
+        "receptor localization to non-motile cilium",
+        "detection of light stimulus involved in sensory perception",
+        "Intraflagellar transport"
+      ]
+    },
+    {
+      "node": "n04502",
+      "size": 84,
+      "support": 0.11,
+      "support_at_0.5": 0.165,
+      "coherence_observed": 0.02953,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 26.6,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 52,
+        "reactome": 29
+      },
+      "nearest": [
+        "Processing of DNA double-strand break ends",
+        "HDR through Single Strand Annealing (SSA)",
+        "Resolution of D-loop Structures through Synthesis-Dependent Strand Annealing (SDSA)",
+        "Impaired BRCA2 binding to RAD51",
+        "DNA strand resection involved in replication fork processing",
+        "Defective homologous recombination repair (HRR) due to BRCA1 loss of function",
+        "telomere maintenance via semi-conservative replication"
+      ]
+    },
+    {
+      "node": "n06598",
+      "size": 84,
+      "support": 0.045,
+      "support_at_0.5": 0.235,
+      "coherence_observed": 0.01493,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 13.05,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 51,
+        "hallmark": 1,
+        "reactome": 27
+      },
+      "nearest": [
+        "Heme biosynthesis",
+        "heme B biosynthetic process",
+        "Mitochondrial ABC transporters",
+        "manganese ion transmembrane transport",
+        "regulation of tetrapyrrole metabolic process",
+        "heme transport",
+        "response to iron(II) ion"
+      ]
+    },
+    {
+      "node": "n01319",
+      "size": 83,
+      "support": 0.675,
+      "support_at_0.5": 0.705,
+      "coherence_observed": 0.03844,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 34.5,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 28,
+        "hallmark": 1,
+        "reactome": 52
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "HALLMARK_DNA_REPAIR",
+        "nucleotide-excision repair, DNA gap filling",
+        "PCNA-Dependent Long Patch Base Excision Repair",
+        "Displacement of DNA glycosylase by APEX1",
+        "Translesion synthesis by POLK",
+        "Abasic sugar-phosphate removal via the single-nucleotide replacement pathway"
+      ]
+    },
+    {
+      "node": "n03594",
+      "size": 83,
+      "support": 0.195,
+      "support_at_0.5": 0.74,
+      "coherence_observed": 0.0182,
+      "coherence_null": 0.0015,
+      "coherence_ratio": 12.13,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 37,
+        "hallmark": 1,
+        "reactome": 44
+      },
+      "nearest": [
+        "Beta oxidation of octanoyl-CoA to hexanoyl-CoA",
+        "Beta oxidation of hexanoyl-CoA to butanoyl-CoA",
+        "fatty acid beta-oxidation using acyl-CoA dehydrogenase",
+        "Beta oxidation of lauroyl-CoA to decanoyl-CoA-CoA",
+        "Beta oxidation of decanoyl-CoA to octanoyl-CoA-CoA",
+        "Beta oxidation of butanoyl-CoA to acetyl-CoA",
+        "obsolete isoleucine metabolic process"
+      ]
+    },
+    {
+      "node": "n05128",
+      "size": 82,
+      "support": 0.08,
+      "support_at_0.5": 0.52,
+      "coherence_observed": 0.00967,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 8.72,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 72,
+        "reactome": 10
+      },
+      "nearest": [
+        "oviduct development",
+        "Leydig cell differentiation",
+        "luteinization",
+        "Developmental Lineage of Mammary Gland Luminal Epithelial Cells",
+        "Transcriptional regulation of testis differentiation",
+        "male sex determination",
+        "gonadal mesoderm development"
+      ]
+    },
+    {
+      "node": "n05419",
+      "size": 81,
+      "support": 0.07,
+      "support_at_0.5": 0.1,
+      "coherence_observed": 0.0366,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 28.32,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 17,
+        "hallmark": 3,
+        "reactome": 61
+      },
+      "nearest": [
+        "HALLMARK_WNT_BETA_CATENIN_SIGNALING",
+        "Beta-catenin phosphorylation cascade",
+        "Binding of TCF/LEF:CTNNB1 to target gene promoters",
+        "APC truncation mutants are not K63 polyubiquitinated",
+        "Deletions in the AXIN1 gene destabilize the destruction complex",
+        "negative regulation of canonical Wnt signaling pathway",
+        "Constitutive Signaling by NOTCH1 PEST Domain Mutants"
+      ]
+    },
+    {
+      "node": "n03839",
+      "size": 79,
+      "support": 0.165,
+      "support_at_0.5": 0.12,
+      "coherence_observed": 0.06132,
+      "coherence_null": 0.00109,
+      "coherence_ratio": 56.07,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 37,
+        "hallmark": 2,
+        "reactome": 37
+      },
+      "nearest": [
+        "Formation of HIV-1 elongation complex containing HIV-1 Tat",
+        "RNA Polymerase I Transcription Initiation",
+        "RNA Polymerase II Pre-transcription Events",
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "Tat-mediated HIV elongation arrest and recovery",
+        "Formation of the HIV-1 Early Elongation Complex",
+        "Formation of the Early Elongation Complex"
+      ]
+    },
+    {
+      "node": "n06317",
+      "size": 79,
+      "support": 0.05,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.01033,
+      "coherence_null": 0.00103,
+      "coherence_ratio": 10.03,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 72,
+        "hallmark": 1,
+        "reactome": 5
+      },
+      "nearest": [
+        "positive regulation of skeletal muscle fiber development",
+        "cardiac myofibril assembly",
+        "negative regulation of myotube differentiation",
+        "positive regulation of sarcomere organization",
+        "skeletal muscle thin filament assembly",
+        "positive regulation of skeletal muscle tissue growth",
+        "response to muscle inactivity"
+      ]
+    },
+    {
+      "node": "n03476",
+      "size": 78,
+      "support": 0.205,
+      "support_at_0.5": 0.335,
+      "coherence_observed": 0.01164,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 10.83,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 54,
+        "hallmark": 1,
+        "reactome": 18
+      },
+      "nearest": [
+        "vesicle fusion with Golgi apparatus",
+        "HALLMARK_PROTEIN_SECRETION",
+        "COPI-coated vesicle budding",
+        "protein localization to Golgi membrane",
+        "retrograde transport, vesicle recycling within Golgi",
+        "Intra-Golgi traffic",
+        "obsolete vesicle targeting"
+      ]
+    },
+    {
+      "node": "n05420",
+      "size": 78,
+      "support": 0.07,
+      "support_at_0.5": 0.145,
+      "coherence_observed": 0.01169,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 10.11,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 58,
+        "reactome": 19
+      },
+      "nearest": [
+        "establishment of centrosome localization",
+        "microtubule nucleation by microtubule organizing center",
+        "positive regulation of protein localization to centrosome",
+        "intraciliary transport involved in cilium assembly",
+        "maintenance of centrosome location",
+        "microtubule anchoring at microtubule organizing center",
+        "Recruitment of mitotic centrosome proteins and complexes"
+      ]
+    },
+    {
+      "node": "n05807",
+      "size": 78,
+      "support": 0.06,
+      "support_at_0.5": 0.535,
+      "coherence_observed": 0.01267,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 10.67,
+      "children": 14,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 34,
+        "hallmark": 2,
+        "reactome": 40
+      },
+      "nearest": [
+        "sodium-independent organic anion transport",
+        "HALLMARK_XENOBIOTIC_METABOLISM",
+        "xenobiotic metabolism",
+        "Atorvastatin ADME",
+        "glycoside transport",
+        "Aspirin ADME",
+        "Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol"
+      ]
+    },
+    {
+      "node": "n02115",
+      "size": 77,
+      "support": 0.855,
+      "support_at_0.5": 0.77,
+      "coherence_observed": 0.03096,
+      "coherence_null": 0.00135,
+      "coherence_ratio": 22.85,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 10,
+        "go": 18,
+        "hallmark": 1,
+        "reactome": 48
+      },
+      "nearest": [
+        "Defective F9 activation",
+        "platelet activation and degranulation",
+        "Fibrin formation",
+        "HALLMARK_COAGULATION",
+        "blood coagulation, common pathway",
+        "thrombin-activated receptor signaling pathway",
+        "Enhanced binding of GP1BA variant to VWF multimer:collagen"
+      ]
+    },
+    {
+      "node": "n03053",
+      "size": 77,
+      "support": 0.36,
+      "support_at_0.5": 0.42,
+      "coherence_observed": 0.00858,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 7.02,
+      "children": 12,
+      "band": "51-100",
+      "sources": {
+        "btm": 16,
+        "go": 47,
+        "reactome": 14
+      },
+      "nearest": [
+        "Transcriptional regulation of granulopoiesis",
+        "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+        "myeloid progenitor cell differentiation",
+        "negative regulation of erythrocyte differentiation",
+        "transcription regulation in cell development",
+        "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+        "common myeloid progenitor cell proliferation"
+      ]
+    },
+    {
+      "node": "n03933",
+      "size": 77,
+      "support": 0.155,
+      "support_at_0.5": 0.77,
+      "coherence_observed": 0.02277,
+      "coherence_null": 0.00086,
+      "coherence_ratio": 26.58,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 16,
+        "reactome": 61
+      },
+      "nearest": [
+        "chondroitin sulfate proteoglycan catabolic process",
+        "Defective CHST3 causes SEDCJD",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)",
+        "MPS VI - Maroteaux-Lamy syndrome",
+        "MPS IV - Morquio syndrome A",
+        "dermatan sulfate proteoglycan biosynthetic process",
+        "Defective B3GAT3 causes JDSSDHD"
+      ]
+    },
+    {
+      "node": "n06985",
+      "size": 77,
+      "support": 0.04,
+      "support_at_0.5": 0.07,
+      "coherence_observed": 0.01269,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 11.4,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 41,
+        "reactome": 36
+      },
+      "nearest": [
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Defective CYP27B1 causes VDDR1B",
+        "Vitamins",
+        "vitamin D3 metabolic process",
+        "Defective CYP24A1 causes HCAI",
+        "Defective CYP27B1 causes VDDR1A",
+        "mineralocorticoid biosynthetic process"
+      ]
+    },
+    {
+      "node": "n04101",
+      "size": 76,
+      "support": 0.14,
+      "support_at_0.5": 0.35,
+      "coherence_observed": 0.02262,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 19.18,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 23,
+        "reactome": 53
+      },
+      "nearest": [
+        "Defective CHST3 causes SEDCJD",
+        "dermatan sulfate proteoglycan biosynthetic process",
+        "poly-N-acetyllactosamine metabolic process",
+        "Defective B3GAT3 causes JDSSDHD",
+        "Defective B4GALT7 causes EDS, progeroid type",
+        "DAG1 core M3 glycosylations",
+        "Glycosaminoglycan-protein linkage region biosynthesis"
+      ]
+    },
+    {
+      "node": "n04781",
+      "size": 76,
+      "support": 0.555,
+      "support_at_0.5": 0.5,
+      "coherence_observed": 0.01006,
+      "coherence_null": 0.00099,
+      "coherence_ratio": 10.16,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 50,
+        "reactome": 25
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "rRNA base methylation",
+        "tRNA pseudouridine synthesis",
+        "tRNA methylation",
+        "tRNA modification in the mitochondrion",
+        "mitochondrial translational termination",
+        "mitochondrial RNA 3'-end processing"
+      ]
+    },
+    {
+      "node": "n03210",
+      "size": 75,
+      "support": 0.235,
+      "support_at_0.5": 0.44,
+      "coherence_observed": 0.01095,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 9.85,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 32,
+        "reactome": 41
+      },
+      "nearest": [
+        "Transport of nucleotide sugars",
+        "N-acetylneuraminate catabolic process",
+        "Lysosomal oligosaccharide catabolism",
+        "N-acetylglucosamine metabolic process",
+        "N-glycan processing",
+        "N-Glycan antennae elongation",
+        "Defective SLC35A3 causes arthrogryposis, mental retardation, and seizures (AMRS)"
+      ]
+    },
+    {
+      "node": "n00000",
+      "size": 74,
+      "support": 1.0,
+      "support_at_0.5": 1.0,
+      "coherence_observed": 0.0323,
+      "coherence_null": 0.00139,
+      "coherence_ratio": 23.25,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 52,
+        "reactome": 20
+      },
+      "nearest": [
+        "dGMP catabolic process",
+        "purine deoxyribonucleoside triphosphate metabolic process",
+        "purine deoxyribonucleoside metabolic process",
+        "dAMP metabolic process",
+        "Purine salvage",
+        "Pyrimidine salvage",
+        "IMP catabolic process"
+      ]
+    },
+    {
+      "node": "n01575",
+      "size": 74,
+      "support": 0.575,
+      "support_at_0.5": 0.69,
+      "coherence_observed": 0.02627,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 24.49,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 36,
+        "reactome": 35
+      },
+      "nearest": [
+        "Biosynthesis of aspirin-triggered D-series resolvins",
+        "Biosynthesis of E-series 18(S)-resolvins",
+        "lipoxin A4 metabolic process",
+        "Biosynthesis of E-series 18(R)-resolvins",
+        "Biosynthesis of DPAn-6 SPMs",
+        "Biosynthesis of DPAn-3-derived maresins",
+        "Biosynthesis of DPAn-3-derived protectins and resolvins"
+      ]
+    },
+    {
+      "node": "n01523",
+      "size": 73,
+      "support": 0.595,
+      "support_at_0.5": 0.64,
+      "coherence_observed": 0.01234,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 11.5,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 22,
+        "reactome": 51
+      },
+      "nearest": [
+        "Viral Messenger RNA Synthesis",
+        "Replication of the SARS-CoV-1 genome",
+        "vRNP Assembly",
+        "Maturation of protein E",
+        "viral translational termination-reinitiation",
+        "Maturation of protein E",
+        "viral protein processing"
+      ]
+    },
+    {
+      "node": "n04700",
+      "size": 73,
+      "support": 0.1,
+      "support_at_0.5": 0.055,
+      "coherence_observed": 0.00923,
+      "coherence_null": 0.00138,
+      "coherence_ratio": 6.71,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 49,
+        "reactome": 24
+      },
+      "nearest": [
+        "Defective visual phototransduction due to RDH12 loss of function",
+        "The retinoid cycle in cones (daylight vision)",
+        "vitamin A metabolic process",
+        "light absorption",
+        "The canonical retinoid cycle in rods (twilight vision)",
+        "retinal metabolic process",
+        "Opsins"
+      ]
+    },
+    {
+      "node": "n06986",
+      "size": 73,
+      "support": 0.04,
+      "support_at_0.5": 0.505,
+      "coherence_observed": 0.02161,
+      "coherence_null": 0.00113,
+      "coherence_ratio": 19.06,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 33,
+        "hallmark": 1,
+        "reactome": 37
+      },
+      "nearest": [
+        "mitotic G1/S transition checkpoint signaling",
+        "TP53 Regulates Transcription of Genes Involved in G1 Cell Cycle Arrest",
+        "Transcriptional  activation of  cell cycle inhibitor p21",
+        "Defective binding of RB1 mutants to E2F1,(E2F2, E2F3)",
+        "Inhibition of replication initiation of damaged DNA by RB1/E2F1",
+        "Phosphorylation of proteins involved in G1/S transition by active Cyclin E:Cdk2 complexes",
+        "Evasion of Oncogene Induced Senescence Due to Defective p16INK4A binding to CDK4 and CDK6"
+      ]
+    },
+    {
+      "node": "n07997",
+      "size": 73,
+      "support": 0.03,
+      "support_at_0.5": 0.41,
+      "coherence_observed": 0.04016,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 33.55,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 35,
+        "hallmark": 2,
+        "reactome": 32
+      },
+      "nearest": [
+        "interleukin-10-mediated signaling pathway",
+        "Interleukin-9 signaling",
+        "interleukin-7-mediated signaling pathway",
+        "cytokines - recepters cluster",
+        "Interleukin-2 signaling",
+        "response to interleukin-3",
+        "interleukin-2-mediated signaling pathway"
+      ]
+    },
+    {
+      "node": "n06315",
+      "size": 72,
+      "support": 0.05,
+      "support_at_0.5": 0.745,
+      "coherence_observed": 0.0159,
+      "coherence_null": 0.00164,
+      "coherence_ratio": 9.68,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 41,
+        "reactome": 30
+      },
+      "nearest": [
+        "axonal fasciculation",
+        "chemorepulsion of axon",
+        "Activation of RAC1",
+        "negative regulation of axon extension involved in axon guidance",
+        "positive regulation of axon extension involved in axon guidance",
+        "Roundabout signaling pathway",
+        "axon guidance"
+      ]
+    },
+    {
+      "node": "n06599",
+      "size": 72,
+      "support": 0.045,
+      "support_at_0.5": 0.335,
+      "coherence_observed": 0.02021,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 18.01,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "go": 40,
+        "reactome": 32
+      },
+      "nearest": [
+        "SLC-mediated transport of neurotransmitters",
+        "neurotransmitter loading into synaptic vesicle",
+        "obsolete norepinephrine transport",
+        "obsolete monoamine transport",
+        "obsolete dopamine transport",
+        "norepinephrine uptake",
+        "obsolete catecholamine uptake involved in synaptic transmission"
+      ]
+    },
+    {
+      "node": "n06993",
+      "size": 72,
+      "support": 0.04,
+      "support_at_0.5": 0.295,
+      "coherence_observed": 0.0146,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 13.17,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 62,
+        "reactome": 10
+      },
+      "nearest": [
+        "postsynaptic density protein 95 clustering",
+        "negative regulation of dendritic spine morphogenesis",
+        "regulation of modification of postsynaptic actin cytoskeleton",
+        "NMDA glutamate receptor clustering",
+        "positive regulation of neuron projection arborization",
+        "regulation of synapse structural plasticity",
+        "maintenance of postsynaptic density structure"
+      ]
+    },
+    {
+      "node": "n07444",
+      "size": 72,
+      "support": 0.035,
+      "support_at_0.5": 0.09,
+      "coherence_observed": 0.02027,
+      "coherence_null": 0.00145,
+      "coherence_ratio": 14.03,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 40,
+        "hallmark": 2,
+        "reactome": 29
+      },
+      "nearest": [
+        "Beta-oxidation of very long chain fatty acids",
+        "mitochondrial fatty acid beta-oxidation of unsaturated fatty acids",
+        "medium-chain fatty acid catabolic process",
+        "Beta oxidation of octanoyl-CoA to hexanoyl-CoA",
+        "Beta oxidation of lauroyl-CoA to decanoyl-CoA-CoA",
+        "Beta oxidation of decanoyl-CoA to octanoyl-CoA-CoA",
+        "long-chain fatty acid catabolic process"
+      ]
+    },
+    {
+      "node": "n01860",
+      "size": 71,
+      "support": 0.49,
+      "support_at_0.5": 0.51,
+      "coherence_observed": 0.11093,
+      "coherence_null": 0.00127,
+      "coherence_ratio": 87.1,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "reactome": 71
+      },
+      "nearest": [
+        "sunitinib-resistant FLT3 mutants",
+        "tamatinib-resistant FLT3 mutants",
+        "ponatinib-resistant FLT3 mutants",
+        "lestaurtinib-resistant FLT3 mutants",
+        "gilteritinib-resistant FLT3 mutants",
+        "KW2449-resistant FLT3 mutants",
+        "crenolanib-resistant FLT3 mutants"
+      ]
+    },
+    {
+      "node": "n04102",
+      "size": 71,
+      "support": 0.14,
+      "support_at_0.5": 0.54,
+      "coherence_observed": 0.01073,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 8.71,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 22,
+        "reactome": 49
+      },
+      "nearest": [
+        "Defective ALG12 causes CDG-1g",
+        "Defective DPM2 causes DPM2-CDG",
+        "Defective ALG9 causes CDG-1l",
+        "Defective DPM3 causes DPM3-CDG",
+        "Defective DPM1 causes DPM1-CDG",
+        "Defective PMM2 causes PMM2-CDG",
+        "Defective MPDU1 causes CDG-1f"
+      ]
+    },
+    {
+      "node": "n04348",
+      "size": 71,
+      "support": 0.12,
+      "support_at_0.5": 0.705,
+      "coherence_observed": 0.0516,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 42.15,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 20,
+        "hallmark": 1,
+        "reactome": 48
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "HALLMARK_DNA_REPAIR",
+        "nucleotide-excision repair, DNA gap filling",
+        "Mismatch repair (MMR) directed by MSH2:MSH6 (MutSalpha)",
+        "mismatch repair (II)",
+        "error-free translesion synthesis",
+        "Mismatch repair (MMR) directed by MSH2:MSH3 (MutSbeta)"
+      ]
+    },
+    {
+      "node": "n05264",
+      "size": 71,
+      "support": 0.075,
+      "support_at_0.5": 0.79,
+      "coherence_observed": 0.02787,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 22.65,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 15,
+        "go": 16,
+        "hallmark": 2,
+        "reactome": 38
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "HALLMARK_E2F_TARGETS",
+        "E2F-enabled inhibition of pre-replication complex formation",
+        "G2/M DNA replication checkpoint",
+        "Inhibition of replication initiation of damaged DNA by RB1/E2F1",
+        "cell cycle (I)",
+        "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex"
+      ]
+    },
+    {
+      "node": "n01827",
+      "size": 70,
+      "support": 0.5,
+      "support_at_0.5": 0.615,
+      "coherence_observed": 0.01034,
+      "coherence_null": 0.001,
+      "coherence_ratio": 10.34,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 53,
+        "hallmark": 1,
+        "reactome": 15
+      },
+      "nearest": [
+        "regulation of meiosis I",
+        "negative regulation of meiotic cell cycle phase transition",
+        "positive regulation of fertilization",
+        "meiotic metaphase chromosome alignment",
+        "male meiosis I",
+        "embryonic cleavage",
+        "meiotic DNA double-strand break formation"
+      ]
+    },
+    {
+      "node": "n06036",
+      "size": 70,
+      "support": 0.055,
+      "support_at_0.5": 0.955,
+      "coherence_observed": 0.0257,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 21.06,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 9,
+        "go": 34,
+        "hallmark": 1,
+        "reactome": 26
+      },
+      "nearest": [
+        "positive regulation of interferon-beta production",
+        "positive regulation of type I interferon-mediated signaling pathway",
+        "RIG-1 like receptor signaling",
+        "antiviral innate immune response",
+        "cellular response to virus",
+        "IRF3 mediated activation of type 1 IFN",
+        "positive regulation of interferon-alpha production"
+      ]
+    },
+    {
+      "node": "n07448",
+      "size": 70,
+      "support": 0.035,
+      "support_at_0.5": 0.115,
+      "coherence_observed": 0.0167,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 14.01,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 36,
+        "hallmark": 1,
+        "reactome": 32
+      },
+      "nearest": [
+        "Beta-oxidation of very long chain fatty acids",
+        "very long-chain fatty acid catabolic process",
+        "fatty acid beta-oxidation using acyl-CoA oxidase",
+        "long-chain fatty acid catabolic process",
+        "fatty-acyl-CoA catabolic process",
+        "medium-chain fatty acid catabolic process",
+        "fatty acid alpha-oxidation"
+      ]
+    },
+    {
+      "node": "n01812",
+      "size": 68,
+      "support": 0.505,
+      "support_at_0.5": 0.93,
+      "coherence_observed": 0.02697,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 20.95,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 13,
+        "reactome": 55
+      },
+      "nearest": [
+        "chondroitin sulfate proteoglycan catabolic process",
+        "Defective CHST3 causes SEDCJD",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)",
+        "MPS VI - Maroteaux-Lamy syndrome",
+        "MPS IV - Morquio syndrome A",
+        "dermatan sulfate proteoglycan biosynthetic process",
+        "MPS IV - Morquio syndrome B (Keratin metabolism)"
+      ]
+    },
+    {
+      "node": "n04702",
+      "size": 68,
+      "support": 0.1,
+      "support_at_0.5": 0.485,
+      "coherence_observed": 0.03474,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 30.04,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 31,
+        "hallmark": 1,
+        "reactome": 30
+      },
+      "nearest": [
+        "mitotic cell division",
+        "Separation of Sister Chromatids",
+        "regulation of exit from mitosis",
+        "APC/C:Cdc20 mediated degradation of Cyclin B",
+        "Inactivation of APC/C via direct inhibition of the APC/C complex",
+        "APC-Cdc20 mediated degradation of Nek2A",
+        "Mitotic Metaphase/Anaphase Transition"
+      ]
+    },
+    {
+      "node": "n05616",
+      "size": 68,
+      "support": 0.065,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.0069,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 5.62,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 48,
+        "reactome": 19
+      },
+      "nearest": [
+        "epidermis morphogenesis",
+        "hair follicle placode formation",
+        "ectodermal cell differentiation",
+        "positive regulation of hair follicle maturation",
+        "Differentiation of Keratinocytes in Interfollicular Epidermis in Mammalian Skin",
+        "positive regulation of melanocyte differentiation",
+        "anagen"
+      ]
+    },
+    {
+      "node": "n06600",
+      "size": 68,
+      "support": 0.045,
+      "support_at_0.5": 0.07,
+      "coherence_observed": 0.01477,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 11.1,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 35,
+        "reactome": 33
+      },
+      "nearest": [
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Defective CYP27B1 causes VDDR1B",
+        "Vitamins",
+        "Defective CYP24A1 causes HCAI",
+        "vitamin D3 metabolic process",
+        "Defective CYP27B1 causes VDDR1A",
+        "mineralocorticoid biosynthetic process"
+      ]
+    },
+    {
+      "node": "n07445",
+      "size": 68,
+      "support": 0.035,
+      "support_at_0.5": 0.3,
+      "coherence_observed": 0.02463,
+      "coherence_null": 0.00105,
+      "coherence_ratio": 23.38,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 23,
+        "reactome": 43
+      },
+      "nearest": [
+        "positive regulation of neurotrophin TRK receptor signaling pathway",
+        "NTF3 activates NTRK2 (TRKB) signaling",
+        "Signalling to ERK5",
+        "Activated NTRK3 signals through RAS",
+        "NTF3 activates NTRK3 signaling",
+        "NTF4 activates NTRK2 (TRKB) signaling",
+        "Activated NTRK2 signals through PI3K"
+      ]
+    },
+    {
+      "node": "n07998",
+      "size": 68,
+      "support": 0.03,
+      "support_at_0.5": 0.465,
+      "coherence_observed": 0.01955,
+      "coherence_null": 0.00144,
+      "coherence_ratio": 13.6,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "go": 38,
+        "reactome": 30
+      },
+      "nearest": [
+        "sulfur amino acid biosynthetic process",
+        "obsolete cysteine catabolic process",
+        "Metabolism of folate and pterines",
+        "tetrahydrofolate interconversion",
+        "sulfur amino acid catabolic process",
+        "pteridine-containing compound catabolic process",
+        "L-serine catabolic process"
+      ]
+    },
+    {
+      "node": "n07999",
+      "size": 68,
+      "support": 0.03,
+      "support_at_0.5": 0.395,
+      "coherence_observed": 0.035,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 30.47,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 39,
+        "reactome": 25
+      },
+      "nearest": [
+        "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+        "pre-mRNA catabolic process",
+        "snRNA catabolic process",
+        "Translation initiation complex formation",
+        "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+        "7-methylguanosine cap hypermethylation",
+        "Ribosomal scanning and start codon recognition"
+      ]
+    },
+    {
+      "node": "n03089",
+      "size": 67,
+      "support": 0.25,
+      "support_at_0.5": 0.385,
+      "coherence_observed": 0.01201,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 10.8,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 46,
+        "hallmark": 1,
+        "reactome": 15
+      },
+      "nearest": [
+        "protein localization to Golgi membrane",
+        "constitutive secretory pathway",
+        "HALLMARK_PROTEIN_SECRETION",
+        "COPI-coated vesicle budding",
+        "retrograde transport, vesicle recycling within Golgi",
+        "obsolete vesicle targeting",
+        "Intra-Golgi traffic"
+      ]
+    },
+    {
+      "node": "n03724",
+      "size": 67,
+      "support": 0.18,
+      "support_at_0.5": 0.535,
+      "coherence_observed": 0.02239,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 19.09,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 36,
+        "hallmark": 1,
+        "reactome": 24
+      },
+      "nearest": [
+        "mitotic cell division",
+        "Separation of Sister Chromatids",
+        "positive regulation of spindle checkpoint",
+        "mitotic spindle elongation",
+        "Condensation of Prometaphase Chromosomes",
+        "regulation of mitotic centrosome separation",
+        "mitotic chromosome condensation"
+      ]
+    },
+    {
+      "node": "n04597",
+      "size": 67,
+      "support": 0.105,
+      "support_at_0.5": 0.3,
+      "coherence_observed": 0.01441,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 12.69,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 46,
+        "hallmark": 1,
+        "reactome": 16
+      },
+      "nearest": [
+        "vesicle fusion with Golgi apparatus",
+        "COPI-coated vesicle budding",
+        "HALLMARK_PROTEIN_SECRETION",
+        "protein localization to Golgi membrane",
+        "retrograde transport, vesicle recycling within Golgi",
+        "obsolete protein exit from endoplasmic reticulum",
+        "obsolete positive regulation of protein exit from endoplasmic reticulum"
+      ]
+    },
+    {
+      "node": "n06987",
+      "size": 67,
+      "support": 0.04,
+      "support_at_0.5": 0.135,
+      "coherence_observed": 0.02158,
+      "coherence_null": 0.00132,
+      "coherence_ratio": 16.29,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 29,
+        "reactome": 36
+      },
+      "nearest": [
+        "positive regulation of lamellipodium assembly",
+        "small GTPase mediated signal transduction",
+        "RHOG GTPase cycle",
+        "positive regulation of focal adhesion disassembly",
+        "positive regulation of lamellipodium morphogenesis",
+        "RHOF GTPase cycle",
+        "negative regulation of ruffle assembly"
+      ]
+    },
+    {
+      "node": "n00436",
+      "size": 66,
+      "support": 0.95,
+      "support_at_0.5": 0.69,
+      "coherence_observed": 0.03182,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 24.76,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 29,
+        "reactome": 34
+      },
+      "nearest": [
+        "Biosynthesis of aspirin-triggered D-series resolvins",
+        "Biosynthesis of E-series 18(S)-resolvins",
+        "lipoxin A4 metabolic process",
+        "Biosynthesis of E-series 18(R)-resolvins",
+        "Biosynthesis of DPAn-6 SPMs",
+        "Biosynthesis of Lipoxins (LX)",
+        "Biosynthesis of DPAn-3-derived protectins and resolvins"
+      ]
+    },
+    {
+      "node": "n01597",
+      "size": 66,
+      "support": 0.565,
+      "support_at_0.5": 0.495,
+      "coherence_observed": 0.01219,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 10.55,
+      "children": 10,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 44,
+        "reactome": 21
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "rRNA base methylation",
+        "tRNA modification in the mitochondrion",
+        "tRNA methylation",
+        "tRNA pseudouridine synthesis",
+        "mitochondrial RNA 3'-end processing",
+        "mitochondrial translational termination"
+      ]
+    },
+    {
+      "node": "n02130",
+      "size": 66,
+      "support": 0.42,
+      "support_at_0.5": 0.765,
+      "coherence_observed": 0.01371,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 11.25,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "go": 29,
+        "hallmark": 1,
+        "reactome": 36
+      },
+      "nearest": [
+        "Fructose catabolism",
+        "Hereditary fructose intolerance",
+        "fructose 6-phosphate metabolic process",
+        "Essential fructosuria",
+        "Formation of xylulose-5-phosphate",
+        "Gluconeogenesis",
+        "D-xylulose 5-phosphate metabolic process"
+      ]
+    },
+    {
+      "node": "n02331",
+      "size": 66,
+      "support": 0.37,
+      "support_at_0.5": 0.795,
+      "coherence_observed": 0.02518,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 20.16,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 25,
+        "hallmark": 1,
+        "reactome": 39
+      },
+      "nearest": [
+        "Beta oxidation of octanoyl-CoA to hexanoyl-CoA",
+        "Beta oxidation of hexanoyl-CoA to butanoyl-CoA",
+        "Beta oxidation of lauroyl-CoA to decanoyl-CoA-CoA",
+        "Beta oxidation of decanoyl-CoA to octanoyl-CoA-CoA",
+        "fatty acid beta-oxidation using acyl-CoA dehydrogenase",
+        "Beta oxidation of butanoyl-CoA to acetyl-CoA",
+        "obsolete isoleucine metabolic process"
+      ]
+    },
+    {
+      "node": "n02537",
+      "size": 66,
+      "support": 0.335,
+      "support_at_0.5": 0.73,
+      "coherence_observed": 0.02672,
+      "coherence_null": 0.00105,
+      "coherence_ratio": 25.45,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 48,
+        "hallmark": 1,
+        "reactome": 17
+      },
+      "nearest": [
+        "regulation of reverse cholesterol transport",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "low-density lipoprotein particle remodeling",
+        "VLDL clearance",
+        "triglyceride-rich lipoprotein particle clearance",
+        "receptor-mediated endocytosis involved in cholesterol transport",
+        "acylglycerol transport"
+      ]
+    },
+    {
+      "node": "n03798",
+      "size": 66,
+      "support": 0.17,
+      "support_at_0.5": 0.445,
+      "coherence_observed": 0.0291,
+      "coherence_null": 0.00104,
+      "coherence_ratio": 28.05,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 38,
+        "reactome": 24
+      },
+      "nearest": [
+        "positive regulation of RNA export from nucleus",
+        "snRNA catabolic process",
+        "SLBP independent Processing of Histone Pre-mRNAs",
+        "SLBP Dependent Processing of Replication-Dependent Histone Pre-mRNAs",
+        "mRNA 3'-end processing by stem-loop binding and cleavage",
+        "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+        "7-methylguanosine cap hypermethylation"
+      ]
+    },
+    {
+      "node": "n03840",
+      "size": 66,
+      "support": 0.235,
+      "support_at_0.5": 0.545,
+      "coherence_observed": 0.04577,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 37.26,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 35,
+        "reactome": 30
+      },
+      "nearest": [
+        "IKK complex recruitment mediated by RIP1",
+        "obsolete positive regulation of NF-kappaB transcription factor activity",
+        "positive regulation of canonical NF-kappaB signal transduction",
+        "IRAK2 mediated activation of TAK1 complex",
+        "IRAK1 recruits IKK complex upon TLR7/8 or 9 stimulation",
+        "TICAM1, RIP1-mediated IKK complex recruitment",
+        "TICAM1,TRAF6-dependent induction of TAK1 complex"
+      ]
+    },
+    {
+      "node": "n03981",
+      "size": 66,
+      "support": 0.15,
+      "support_at_0.5": 0.125,
+      "coherence_observed": 0.10498,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 81.68,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 2,
+        "reactome": 64
+      },
+      "nearest": [
+        "ponatinib-resistant FLT3 mutants",
+        "tamatinib-resistant FLT3 mutants",
+        "lestaurtinib-resistant FLT3 mutants",
+        "sunitinib-resistant FLT3 mutants",
+        "crenolanib-resistant FLT3 mutants",
+        "sorafenib-resistant FLT3 mutants",
+        "gilteritinib-resistant FLT3 mutants"
+      ]
+    },
+    {
+      "node": "n04217",
+      "size": 66,
+      "support": 0.13,
+      "support_at_0.5": 0.335,
+      "coherence_observed": 0.00802,
+      "coherence_null": 0.00092,
+      "coherence_ratio": 8.73,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 53,
+        "reactome": 13
+      },
+      "nearest": [
+        "establishment of centrosome localization",
+        "microtubule nucleation by microtubule organizing center",
+        "intraciliary transport involved in cilium assembly",
+        "maintenance of centrosome location",
+        "protein localization to motile cilium",
+        "positive regulation of protein localization to centrosome",
+        "microtubule anchoring at microtubule organizing center"
+      ]
+    },
+    {
+      "node": "n06316",
+      "size": 66,
+      "support": 0.05,
+      "support_at_0.5": 0.31,
+      "coherence_observed": 0.00882,
+      "coherence_null": 0.00141,
+      "coherence_ratio": 6.25,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 41,
+        "reactome": 25
+      },
+      "nearest": [
+        "photoreceptor cell outer segment organization",
+        "photoreceptor cell morphogenesis",
+        "retinal rod cell development",
+        "Defective visual phototransduction due to RDH12 loss of function",
+        "protein localization to photoreceptor outer segment",
+        "detection of light stimulus involved in sensory perception",
+        "Defective visual phototransduction due to LRAT loss of function"
+      ]
+    },
+    {
+      "node": "n08000",
+      "size": 66,
+      "support": 0.03,
+      "support_at_0.5": 0.4,
+      "coherence_observed": 0.01667,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 14.58,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 38,
+        "reactome": 24
+      },
+      "nearest": [
+        "Acyl chain remodelling of PG",
+        "Synthesis of PA",
+        "Acyl chain remodelling of PE",
+        "phosphatidylglycerol acyl-chain remodeling",
+        "phosphatidylinositol acyl-chain remodeling",
+        "Acyl chain remodelling of PS",
+        "glycerophospholipid metabolism"
+      ]
+    },
+    {
+      "node": "n01777",
+      "size": 65,
+      "support": 0.515,
+      "support_at_0.5": 0.72,
+      "coherence_observed": 0.0133,
+      "coherence_null": 0.00141,
+      "coherence_ratio": 9.41,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 27,
+        "hallmark": 1,
+        "reactome": 35
+      },
+      "nearest": [
+        "xenobiotic metabolism",
+        "sodium-independent organic anion transport",
+        "HALLMARK_XENOBIOTIC_METABOLISM",
+        "FMO oxidises nucleophiles",
+        "xenobiotic catabolic process",
+        "phenylpropanoid metabolic process",
+        "Aspirin ADME"
+      ]
+    },
+    {
+      "node": "n02699",
+      "size": 65,
+      "support": 0.305,
+      "support_at_0.5": 0.72,
+      "coherence_observed": 0.0134,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 11.99,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 25,
+        "reactome": 40
+      },
+      "nearest": [
+        "Fructose catabolism",
+        "Hereditary fructose intolerance",
+        "Essential fructosuria",
+        "Formation of xylulose-5-phosphate",
+        "Defective GALK1 causes GALCT2",
+        "Defective GALT can cause GALCT",
+        "beta-D-galactose catabolic process via UDP-galactose, Leloir pathway"
+      ]
+    },
+    {
+      "node": "n07447",
+      "size": 65,
+      "support": 0.035,
+      "support_at_0.5": 0.485,
+      "coherence_observed": 0.04096,
+      "coherence_null": 0.00094,
+      "coherence_ratio": 43.63,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 58,
+        "reactome": 7
+      },
+      "nearest": [
+        "metanephric tubule formation",
+        "obsolete pattern specification involved in kidney development",
+        "metanephric S-shaped body morphogenesis",
+        "obsolete cell differentiation involved in metanephros development",
+        "ureteric bud elongation",
+        "nephric duct formation",
+        "metanephric mesenchymal cell differentiation"
+      ]
+    },
+    {
+      "node": "n04703",
+      "size": 64,
+      "support": 0.1,
+      "support_at_0.5": 0.495,
+      "coherence_observed": 0.02583,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 21.88,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 35,
+        "hallmark": 1,
+        "reactome": 28
+      },
+      "nearest": [
+        "acylglycerol transport",
+        "low-density lipoprotein particle remodeling",
+        "very-low-density lipoprotein particle assembly",
+        "HDL remodeling",
+        "triglyceride-rich lipoprotein particle clearance",
+        "regulation of reverse cholesterol transport",
+        "chylomicron assembly"
+      ]
+    },
+    {
+      "node": "n06323",
+      "size": 64,
+      "support": 0.05,
+      "support_at_0.5": 0.23,
+      "coherence_observed": 0.01482,
+      "coherence_null": 0.00132,
+      "coherence_ratio": 11.21,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 39,
+        "hallmark": 2,
+        "reactome": 22
+      },
+      "nearest": [
+        "positive regulation of adipose tissue development",
+        "NR1H2 & NR1H3 regulate gene expression linked to gluconeogenesis",
+        "NR1H2 & NR1H3 regulate gene expression linked to triglyceride lipolysis in adipose",
+        "NR1H2 & NR1H3 regulate gene expression linked to lipogenesis",
+        "ChREBP activates metabolic gene expression",
+        "PPARA activates gene expression",
+        "negative regulation of triglyceride biosynthetic process"
+      ]
+    },
+    {
+      "node": "n06601",
+      "size": 64,
+      "support": 0.115,
+      "support_at_0.5": 0.605,
+      "coherence_observed": 0.01547,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 12.65,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 29,
+        "reactome": 29
+      },
+      "nearest": [
+        "Proton-coupled neutral amino acid transporters",
+        "Amino acid transport across the plasma membrane",
+        "fructose transmembrane transport",
+        "Defective SLC36A2 causes iminoglycinuria (IG) and hyperglycinuria (HG)",
+        "Variant SLC6A20 affecting amino acid transport contributes towards hyperglycinuria (HG) and iminoglycinuria (IG)",
+        "Defective SLC5A1 causes congenital glucose/galactose malabsorption (GGM)",
+        "Intestinal hexose absorption"
+      ]
+    },
+    {
+      "node": "n08001",
+      "size": 64,
+      "support": 0.03,
+      "support_at_0.5": 0.21,
+      "coherence_observed": 0.01646,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 14.18,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 44,
+        "hallmark": 1,
+        "reactome": 15
+      },
+      "nearest": [
+        "respiratory electron transport chain (mitochondrion)",
+        "respiratory electron transport chain (mitochondrion)",
+        "mitochondrial electron transport, ubiquinol to cytochrome c",
+        "mitochondrial electron transport, cytochrome c to oxygen",
+        "protein import into mitochondrial matrix",
+        "Cristae formation",
+        "respiratory chain complex IV assembly"
+      ]
+    },
+    {
+      "node": "n00503",
+      "size": 63,
+      "support": 0.94,
+      "support_at_0.5": 0.29,
+      "coherence_observed": 0.03566,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 29.84,
+      "children": 15,
+      "band": "51-100",
+      "sources": {
+        "go": 61,
+        "reactome": 2
+      },
+      "nearest": [
+        "cardiac ventricle formation",
+        "cardiac right ventricle morphogenesis",
+        "ventricular trabecula myocardium morphogenesis",
+        "endocardial cushion to mesenchymal transition",
+        "ventricular compact myocardium morphogenesis",
+        "endocardial cushion fusion",
+        "muscular septum morphogenesis"
+      ]
+    },
+    {
+      "node": "n02332",
+      "size": 63,
+      "support": 0.37,
+      "support_at_0.5": 0.665,
+      "coherence_observed": 0.01488,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 11.94,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 13,
+        "reactome": 50
+      },
+      "nearest": [
+        "Viral Messenger RNA Synthesis",
+        "viral protein processing",
+        "vRNP Assembly",
+        "Maturation of protein E",
+        "Replication of the SARS-CoV-1 genome",
+        "Maturation of protein 3a",
+        "Transport of Ribonucleoproteins into the Host Nucleus"
+      ]
+    },
+    {
+      "node": "n04883",
+      "size": 63,
+      "support": 0.09,
+      "support_at_0.5": 0.105,
+      "coherence_observed": 0.03454,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 30.39,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 33,
+        "hallmark": 2,
+        "reactome": 23
+      },
+      "nearest": [
+        "positive regulation of transcription of nucleolar large rRNA by RNA polymerase I",
+        "termination of RNA polymerase I transcription",
+        "5S class rRNA transcription by RNA polymerase III",
+        "RNA Polymerase I Transcription Initiation",
+        "transcription initiation at RNA polymerase III promoter",
+        "RNA Polymerase III Abortive And Retractive Initiation",
+        "RNA polymerase I preinitiation complex assembly"
+      ]
+    },
+    {
+      "node": "n04886",
+      "size": 63,
+      "support": 0.09,
+      "support_at_0.5": 0.04,
+      "coherence_observed": 0.00979,
+      "coherence_null": 0.00113,
+      "coherence_ratio": 8.68,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 52,
+        "reactome": 10
+      },
+      "nearest": [
+        "autophagosome-lysosome fusion",
+        "vacuole fusion",
+        "late endosome to lysosome transport",
+        "protein targeting to vacuole involved in autophagy",
+        "protein localization to perinuclear region of cytoplasm",
+        "reticulophagy",
+        "aggresome assembly"
+      ]
+    },
+    {
+      "node": "n06989",
+      "size": 63,
+      "support": 0.04,
+      "support_at_0.5": 0.325,
+      "coherence_observed": 0.09463,
+      "coherence_null": 0.00102,
+      "coherence_ratio": 92.87,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 13,
+        "reactome": 50
+      },
+      "nearest": [
+        "SHC1 events in ERBB2 signaling",
+        "Signaling by ERBB2 TMD/JMD mutants",
+        "PI3K events in ERBB2 signaling",
+        "Signaling by ERBB2 KD Mutants",
+        "ERBB2-EGFR signaling pathway",
+        "Constitutive Signaling by Overexpressed ERBB2",
+        "Signaling by ERBB2 ECD mutants"
+      ]
+    },
+    {
+      "node": "n07446",
+      "size": 63,
+      "support": 0.035,
+      "support_at_0.5": 0.645,
+      "coherence_observed": 0.02416,
+      "coherence_null": 0.00128,
+      "coherence_ratio": 18.91,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 19,
+        "reactome": 43
+      },
+      "nearest": [
+        "Defective MMAB causes MMA, cblB type",
+        "Defective MUT causes MMAM",
+        "BCKDH synthesizes BCAA-CoA from KIC, KMVA, KIV",
+        "Cobalamin (Cbl) metabolism",
+        "Propionyl-CoA catabolism",
+        "succinyl-CoA biosynthetic process",
+        "L-leucine catabolic process"
+      ]
+    },
+    {
+      "node": "n08002",
+      "size": 63,
+      "support": 0.03,
+      "support_at_0.5": 0.435,
+      "coherence_observed": 0.04643,
+      "coherence_null": 0.001,
+      "coherence_ratio": 46.27,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 28,
+        "hallmark": 2,
+        "reactome": 29
+      },
+      "nearest": [
+        "interleukin-7-mediated signaling pathway",
+        "Interleukin-9 signaling",
+        "response to interleukin-3",
+        "Interleukin-2 signaling",
+        "interleukin-2-mediated signaling pathway",
+        "interleukin-5-mediated signaling pathway",
+        "interleukin-10-mediated signaling pathway"
+      ]
+    },
+    {
+      "node": "n02772",
+      "size": 62,
+      "support": 0.39,
+      "support_at_0.5": 0.325,
+      "coherence_observed": 0.02304,
+      "coherence_null": 0.001,
+      "coherence_ratio": 23.06,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 29,
+        "hallmark": 2,
+        "reactome": 31
+      },
+      "nearest": [
+        "Activation, translocation and oligomerization of BAX",
+        "positive regulation of release of cytochrome c from mitochondria",
+        "Activation of caspases through apoptosome-mediated cleavage",
+        "Release of apoptotic factors from the mitochondria",
+        "HALLMARK_APOPTOSIS",
+        "Activation and oligomerization of BAK protein",
+        "Activation of NOXA and translocation to mitochondria"
+      ]
+    },
+    {
+      "node": "n03756",
+      "size": 62,
+      "support": 0.175,
+      "support_at_0.5": 0.835,
+      "coherence_observed": 0.02784,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 24.19,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 14,
+        "go": 15,
+        "hallmark": 2,
+        "reactome": 31
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "HALLMARK_E2F_TARGETS",
+        "E2F-enabled inhibition of pre-replication complex formation",
+        "cell cycle (I)",
+        "G2/M DNA replication checkpoint",
+        "Inhibition of replication initiation of damaged DNA by RB1/E2F1",
+        "CDC6 association with the ORC:origin complex"
+      ]
+    },
+    {
+      "node": "n04505",
+      "size": 62,
+      "support": 0.11,
+      "support_at_0.5": 0.43,
+      "coherence_observed": 0.01853,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 15.6,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 45,
+        "reactome": 17
+      },
+      "nearest": [
+        "Presynaptic function of Kainate receptors",
+        "positive regulation of synaptic vesicle exocytosis",
+        "regulation of presynaptic membrane potential",
+        "Glutamate Neurotransmitter Release Cycle",
+        "regulation of calcium ion-dependent exocytosis of neurotransmitter",
+        "positive regulation of synaptic vesicle fusion to presynaptic active zone membrane",
+        "short-term synaptic potentiation"
+      ]
+    },
+    {
+      "node": "n04984",
+      "size": 62,
+      "support": 0.085,
+      "support_at_0.5": 0.47,
+      "coherence_observed": 0.01511,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 12.14,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 7,
+        "go": 48,
+        "reactome": 7
+      },
+      "nearest": [
+        "Specification of the neural plate border",
+        "Formation of the posterior neural plate",
+        "formation of anatomical boundary",
+        "outer ear morphogenesis",
+        "middle ear morphogenesis",
+        "embryonic hindlimb morphogenesis",
+        "Hox cluster VI"
+      ]
+    },
+    {
+      "node": "n05809",
+      "size": 62,
+      "support": 0.06,
+      "support_at_0.5": 0.355,
+      "coherence_observed": 0.02439,
+      "coherence_null": 0.00141,
+      "coherence_ratio": 17.32,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 36,
+        "reactome": 26
+      },
+      "nearest": [
+        "positive regulation of synaptic vesicle exocytosis",
+        "obsolete synaptic vesicle docking",
+        "Acetylcholine Neurotransmitter Release Cycle",
+        "Inhibition  of voltage gated Ca2+ channels via Gbeta/gamma subunits",
+        "presynaptic dense core vesicle exocytosis",
+        "positive regulation of synaptic vesicle fusion to presynaptic active zone membrane",
+        "Glutamate Neurotransmitter Release Cycle"
+      ]
+    },
+    {
+      "node": "n06321",
+      "size": 62,
+      "support": 0.05,
+      "support_at_0.5": 0.1,
+      "coherence_observed": 0.00857,
+      "coherence_null": 0.00103,
+      "coherence_ratio": 8.28,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 59,
+        "reactome": 3
+      },
+      "nearest": [
+        "otic vesicle formation",
+        "cochlea morphogenesis",
+        "vestibulocochlear nerve formation",
+        "optic nerve morphogenesis",
+        "retinal pigment epithelium development",
+        "auditory receptor cell stereocilium organization",
+        "optic cup morphogenesis involved in camera-type eye development"
+      ]
+    },
+    {
+      "node": "n06604",
+      "size": 62,
+      "support": 0.115,
+      "support_at_0.5": 0.475,
+      "coherence_observed": 0.0136,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 11.15,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 43,
+        "hallmark": 1,
+        "reactome": 14
+      },
+      "nearest": [
+        "obsolete cytolysis by host of symbiont cells",
+        "biological process involved in interaction with symbiont",
+        "induction of bacterial agglutination",
+        "complement activation (I)",
+        "HALLMARK_COMPLEMENT",
+        "regulation of opsonization",
+        "Activation of C3 and C5"
+      ]
+    },
+    {
+      "node": "n06988",
+      "size": 62,
+      "support": 0.04,
+      "support_at_0.5": 0.24,
+      "coherence_observed": 0.01963,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 16.1,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 37,
+        "reactome": 23
+      },
+      "nearest": [
+        "Synthesis of PA",
+        "diacylglycerol biosynthetic process",
+        "Acyl chain remodeling of DAG and TAG",
+        "phosphatidic acid metabolic process",
+        "lipid droplet disassembly",
+        "phosphatidylinositol acyl-chain remodeling",
+        "Triglyceride biosynthesis"
+      ]
+    },
+    {
+      "node": "n07000",
+      "size": 62,
+      "support": 0.04,
+      "support_at_0.5": 0.4,
+      "coherence_observed": 0.01349,
+      "coherence_null": 0.00135,
+      "coherence_ratio": 10.02,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 16,
+        "go": 38,
+        "reactome": 8
+      },
+      "nearest": [
+        "cell adhesion (lymphocyte homing)",
+        "myeloid dendritic cell chemotaxis",
+        "adhesion and migration, chemotaxis",
+        "lymphocyte aggregation",
+        "positive regulation of phospholipase C/protein kinase C signal transduction",
+        "positive regulation of T cell migration",
+        "chemokines and receptors"
+      ]
+    },
+    {
+      "node": "n07454",
+      "size": 62,
+      "support": 0.035,
+      "support_at_0.5": 0.4,
+      "coherence_observed": 0.0136,
+      "coherence_null": 0.0011,
+      "coherence_ratio": 12.32,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 43,
+        "reactome": 18
+      },
+      "nearest": [
+        "mitochondrial tRNA modification",
+        "rRNA base methylation",
+        "mitochondrial RNA 3'-end processing",
+        "tRNA methylation",
+        "Mitochondrial mRNA modification",
+        "tRNA modification in the mitochondrion",
+        "tRNA pseudouridine synthesis"
+      ]
+    },
+    {
+      "node": "n07455",
+      "size": 62,
+      "support": 0.035,
+      "support_at_0.5": 0.07,
+      "coherence_observed": 0.0101,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 9.12,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 43,
+        "reactome": 17
+      },
+      "nearest": [
+        "intraciliary transport involved in cilium assembly",
+        "cytosolic ciliogenesis",
+        "protein localization to motile cilium",
+        "regulation of cilium beat frequency involved in ciliary motility",
+        "Formation of tubulin folding intermediates by CCT/TriC",
+        "ciliary basal body organization",
+        "sperm axoneme assembly"
+      ]
+    },
+    {
+      "node": "n08003",
+      "size": 62,
+      "support": 0.03,
+      "support_at_0.5": 0.635,
+      "coherence_observed": 0.05585,
+      "coherence_null": 0.00131,
+      "coherence_ratio": 42.66,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "btm": 9,
+        "go": 9,
+        "hallmark": 2,
+        "reactome": 42
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "Cdc20:Phospho-APC/C mediated degradation of Cyclin A",
+        "G2/M DNA replication checkpoint",
+        "HALLMARK_E2F_TARGETS",
+        "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex",
+        "CDK-mediated phosphorylation and removal of Cdc6",
+        "APC/C:Cdh1 mediated degradation of Cdc20 and other APC/C:Cdh1 targeted proteins in late mitosis/early G1"
+      ]
+    },
+    {
+      "node": "n01426",
+      "size": 61,
+      "support": 0.63,
+      "support_at_0.5": 0.9,
+      "coherence_observed": 0.03297,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 26.29,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 12,
+        "reactome": 49
+      },
+      "nearest": [
+        "chondroitin sulfate proteoglycan catabolic process",
+        "MPS IV - Morquio syndrome B (CS/DS degradation)",
+        "Defective CHST3 causes SEDCJD",
+        "MPS VI - Maroteaux-Lamy syndrome",
+        "MPS IV - Morquio syndrome A",
+        "MPS IV - Morquio syndrome B (Keratin metabolism)",
+        "dermatan sulfate proteoglycan biosynthetic process"
+      ]
+    },
+    {
+      "node": "n04349",
+      "size": 61,
+      "support": 0.12,
+      "support_at_0.5": 0.29,
+      "coherence_observed": 0.02768,
+      "coherence_null": 0.00143,
+      "coherence_ratio": 19.36,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 12,
+        "go": 12,
+        "hallmark": 2,
+        "reactome": 35
+      },
+      "nearest": [
+        "cell cycle (III)",
+        "HALLMARK_E2F_TARGETS",
+        "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex",
+        "Phosphorylation of proteins involved in G1/S transition by active Cyclin E:Cdk2 complexes",
+        "HALLMARK_G2M_CHECKPOINT",
+        "G2/M DNA replication checkpoint",
+        "Inhibition of replication initiation of damaged DNA by RB1/E2F1"
+      ]
+    },
+    {
+      "node": "n06320",
+      "size": 61,
+      "support": 0.235,
+      "support_at_0.5": 0.775,
+      "coherence_observed": 0.02331,
+      "coherence_null": 0.00158,
+      "coherence_ratio": 14.71,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 29,
+        "reactome": 31
+      },
+      "nearest": [
+        "BCKDH synthesizes BCAA-CoA from KIC, KMVA, KIV",
+        "Loss-of-function mutations in DLD cause MSUD3/DLDD",
+        "succinyl-CoA biosynthetic process",
+        "PDH complex synthesizes acetyl-CoA from PYR",
+        "tricarboxylic acid cycle",
+        "obsolete valine metabolic process",
+        "Glycine degradation"
+      ]
+    },
+    {
+      "node": "n06996",
+      "size": 61,
+      "support": 0.04,
+      "support_at_0.5": 0.27,
+      "coherence_observed": 0.01711,
+      "coherence_null": 0.00132,
+      "coherence_ratio": 12.98,
+      "children": 17,
+      "band": "51-100",
+      "sources": {
+        "go": 52,
+        "reactome": 9
+      },
+      "nearest": [
+        "postsynaptic density protein 95 clustering",
+        "regulation of modification of postsynaptic actin cytoskeleton",
+        "negative regulation of dendritic spine morphogenesis",
+        "NMDA glutamate receptor clustering",
+        "maintenance of postsynaptic density structure",
+        "positive regulation of neuron projection arborization",
+        "regulation of synapse structural plasticity"
+      ]
+    },
+    {
+      "node": "n07451",
+      "size": 61,
+      "support": 0.035,
+      "support_at_0.5": 0.475,
+      "coherence_observed": 0.01169,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 10.53,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 46,
+        "hallmark": 1,
+        "reactome": 13
+      },
+      "nearest": [
+        "regulation of meiosis I",
+        "negative regulation of meiotic cell cycle phase transition",
+        "male meiosis I",
+        "meiotic metaphase chromosome alignment",
+        "embryonic cleavage",
+        "double-strand break repair involved in meiotic recombination",
+        "meiotic DNA double-strand break formation"
+      ]
+    },
+    {
+      "node": "n07452",
+      "size": 61,
+      "support": 0.035,
+      "support_at_0.5": 0.025,
+      "coherence_observed": 0.06186,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 58.11,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 23,
+        "reactome": 36
+      },
+      "nearest": [
+        "Formation of HIV-1 elongation complex containing HIV-1 Tat",
+        "Formation of the HIV-1 Early Elongation Complex",
+        "Formation of HIV elongation complex in the absence of HIV Tat",
+        "Tat-mediated HIV elongation arrest and recovery",
+        "HIV elongation arrest and recovery",
+        "RNA Polymerase II HIV Promoter Escape",
+        "Pausing and recovery of Tat-mediated HIV elongation"
+      ]
+    },
+    {
+      "node": "n02046",
+      "size": 60,
+      "support": 0.44,
+      "support_at_0.5": 0.29,
+      "coherence_observed": 0.02501,
+      "coherence_null": 0.00105,
+      "coherence_ratio": 23.74,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 55,
+        "reactome": 5
+      },
+      "nearest": [
+        "Developmental Lineage of Mammary Gland Luminal Epithelial Cells",
+        "regulation of branching involved in prostate gland morphogenesis",
+        "mesenchymal-epithelial cell signaling",
+        "lung-associated mesenchyme development",
+        "regulation of branching involved in lung morphogenesis",
+        "epithelial cell proliferation involved in salivary gland morphogenesis",
+        "bud elongation involved in lung branching"
+      ]
+    },
+    {
+      "node": "n03477",
+      "size": 60,
+      "support": 0.205,
+      "support_at_0.5": 0.245,
+      "coherence_observed": 0.01199,
+      "coherence_null": 0.00107,
+      "coherence_ratio": 11.17,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 55,
+        "hallmark": 1,
+        "reactome": 4
+      },
+      "nearest": [
+        "negative regulation of myotube differentiation",
+        "negative regulation of myoblast proliferation",
+        "myoblast fate commitment",
+        "positive regulation of skeletal muscle fiber development",
+        "cardiac muscle myoblast proliferation",
+        "negative regulation of muscle organ development",
+        "muscle hypertrophy in response to stress"
+      ]
+    },
+    {
+      "node": "n04596",
+      "size": 60,
+      "support": 0.105,
+      "support_at_0.5": 0.45,
+      "coherence_observed": 0.01297,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 11.36,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 18,
+        "reactome": 42
+      },
+      "nearest": [
+        "Defective ALG12 causes CDG-1g",
+        "Defective DPM2 causes DPM2-CDG",
+        "Defective ALG9 causes CDG-1l",
+        "Defective DPM3 causes DPM3-CDG",
+        "Defective DPM1 causes DPM1-CDG",
+        "Defective MPDU1 causes CDG-1f",
+        "Defective PMM2 causes PMM2-CDG"
+      ]
+    },
+    {
+      "node": "n04983",
+      "size": 60,
+      "support": 0.11,
+      "support_at_0.5": 0.36,
+      "coherence_observed": 0.01672,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 12.6,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 34,
+        "hallmark": 1,
+        "reactome": 20
+      },
+      "nearest": [
+        "mitochondrial translational elongation",
+        "mitochondrial translational termination",
+        "Mitochondrial translation initiation",
+        "respiratory electron transport chain (mitochondrion)",
+        "mitochondrial tRNA modification",
+        "Mitochondrial translation elongation",
+        "mitochondrial RNA 3'-end processing"
+      ]
+    },
+    {
+      "node": "n05263",
+      "size": 60,
+      "support": 0.075,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.01114,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 9.48,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 54,
+        "hallmark": 1,
+        "reactome": 4
+      },
+      "nearest": [
+        "positive regulation of skeletal muscle fiber development",
+        "HALLMARK_MYOGENESIS",
+        "skeletal muscle thin filament assembly",
+        "negative regulation of myotube differentiation",
+        "response to muscle inactivity",
+        "positive regulation of skeletal muscle tissue growth",
+        "cardiac myofibril assembly"
+      ]
+    },
+    {
+      "node": "n05266",
+      "size": 60,
+      "support": 0.075,
+      "support_at_0.5": 0.67,
+      "coherence_observed": 0.02208,
+      "coherence_null": 0.00129,
+      "coherence_ratio": 17.15,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 30,
+        "hallmark": 1,
+        "reactome": 27
+      },
+      "nearest": [
+        "Transcriptional  activation of  cell cycle inhibitor p21",
+        "TP53 Regulates Transcription of Genes Involved in G1 Cell Cycle Arrest",
+        "positive regulation of DNA damage response, signal transduction by p53 class mediator",
+        "Evasion of Oxidative Stress Induced Senescence Due to p14ARF Defects",
+        "Evasion of Oxidative Stress Induced Senescence Due to Defective p16INK4A binding to CDK4 and CDK6",
+        "Regulation of TP53 Activity through Phosphorylation",
+        "Regulation of TP53 Degradation"
+      ]
+    },
+    {
+      "node": "n05808",
+      "size": 60,
+      "support": 0.06,
+      "support_at_0.5": 0.08,
+      "coherence_observed": 0.01702,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 14.8,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 32,
+        "reactome": 28
+      },
+      "nearest": [
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Defective CYP27B1 causes VDDR1B",
+        "Vitamins",
+        "Defective CYP17A1 causes AH5",
+        "mineralocorticoid biosynthetic process",
+        "Defective CYP24A1 causes HCAI",
+        "vitamin D3 metabolic process"
+      ]
+    },
+    {
+      "node": "n06603",
+      "size": 60,
+      "support": 0.045,
+      "support_at_0.5": 0.465,
+      "coherence_observed": 0.0123,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 11.59,
+      "children": 14,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 51,
+        "reactome": 8
+      },
+      "nearest": [
+        "negative regulation of chondrocyte differentiation",
+        "bone trabecula formation",
+        "RUNX2 regulates chondrocyte maturation",
+        "regulation of chondrocyte development",
+        "cartilage condensation",
+        "chondroblast differentiation",
+        "osteoblast development"
+      ]
+    },
+    {
+      "node": "n07463",
+      "size": 60,
+      "support": 0.035,
+      "support_at_0.5": 0.305,
+      "coherence_observed": 0.01554,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 13.84,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 39,
+        "reactome": 21
+      },
+      "nearest": [
+        "Phase 4 - resting membrane potential",
+        "regulation of atrial cardiac muscle cell membrane repolarization",
+        "membrane repolarization during atrial cardiac muscle cell action potential",
+        "membrane depolarization during AV node cell action potential",
+        "Phase 3 - rapid repolarisation",
+        "obsolete cell-cell signaling involved in cardiac conduction",
+        "regulation of ventricular cardiac muscle cell membrane depolarization"
+      ]
+    },
+    {
+      "node": "n02131",
+      "size": 59,
+      "support": 0.42,
+      "support_at_0.5": 0.815,
+      "coherence_observed": 0.01064,
+      "coherence_null": 0.00123,
+      "coherence_ratio": 8.65,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 53,
+        "reactome": 6
+      },
+      "nearest": [
+        "luteinization",
+        "Leydig cell differentiation",
+        "Transcriptional regulation of testis differentiation",
+        "oviduct development",
+        "gonadal mesoderm development",
+        "cellular response to luteinizing hormone stimulus",
+        "Sertoli cell proliferation"
+      ]
+    },
+    {
+      "node": "n05262",
+      "size": 59,
+      "support": 0.075,
+      "support_at_0.5": 0.175,
+      "coherence_observed": 0.0225,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 18.98,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 31,
+        "hallmark": 3,
+        "reactome": 24
+      },
+      "nearest": [
+        "Beta-oxidation of very long chain fatty acids",
+        "very long-chain fatty acid catabolic process",
+        "fatty acid beta-oxidation using acyl-CoA oxidase",
+        "long-chain fatty acid catabolic process",
+        "fatty-acyl-CoA catabolic process",
+        "alpha-linolenic acid metabolic process",
+        "HALLMARK_PEROXISOME"
+      ]
+    },
+    {
+      "node": "n05423",
+      "size": 59,
+      "support": 0.07,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.01879,
+      "coherence_null": 0.0013,
+      "coherence_ratio": 14.44,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 49,
+        "reactome": 9
+      },
+      "nearest": [
+        "Dopamine receptors",
+        "operant conditioning",
+        "synaptic signaling via neuropeptide",
+        "response to isoquinoline alkaloid",
+        "conditioned place preference",
+        "behavioral response to cocaine",
+        "behavioral response to ethanol"
+      ]
+    },
+    {
+      "node": "n05617",
+      "size": 59,
+      "support": 0.065,
+      "support_at_0.5": 0.375,
+      "coherence_observed": 0.01925,
+      "coherence_null": 0.00099,
+      "coherence_ratio": 19.42,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 15,
+        "reactome": 44
+      },
+      "nearest": [
+        "Viral Messenger RNA Synthesis",
+        "Replication of the SARS-CoV-1 genome",
+        "vRNP Assembly",
+        "vRNA Synthesis",
+        "Minus-strand DNA synthesis",
+        "Rev-mediated nuclear export of HIV RNA",
+        "Viral RNP Complexes in the Host Cell Nucleus"
+      ]
+    },
+    {
+      "node": "n06602",
+      "size": 59,
+      "support": 0.075,
+      "support_at_0.5": 0.565,
+      "coherence_observed": 0.02082,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 16.8,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 30,
+        "reactome": 28
+      },
+      "nearest": [
+        "Acyl chain remodelling of PG",
+        "phosphatidylglycerol acyl-chain remodeling",
+        "phosphatidylcholine acyl-chain remodeling",
+        "Synthesis of PA",
+        "phosphatidylinositol acyl-chain remodeling",
+        "Acyl chain remodelling of PE",
+        "Acyl chain remodelling of PS"
+      ]
+    },
+    {
+      "node": "n07449",
+      "size": 59,
+      "support": 0.035,
+      "support_at_0.5": 0.095,
+      "coherence_observed": 0.01637,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 14.71,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 30,
+        "reactome": 29
+      },
+      "nearest": [
+        "Vitamins",
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Defective CYP27B1 causes VDDR1B",
+        "Defective CYP17A1 causes AH5",
+        "Defective CYP11B1 causes AH4",
+        "Defective CYP11B2 causes CMO-1 deficiency",
+        "mineralocorticoid biosynthetic process"
+      ]
+    },
+    {
+      "node": "n01946",
+      "size": 58,
+      "support": 0.685,
+      "support_at_0.5": 0.18,
+      "coherence_observed": 0.02287,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 18.51,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "go": 33,
+        "hallmark": 1,
+        "reactome": 24
+      },
+      "nearest": [
+        "Post-transcriptional silencing by small RNAs",
+        "miRNA-mediated gene silencing by mRNA destabilization",
+        "positive regulation of nuclear-transcribed mRNA catabolic process, deadenylation-dependent decay",
+        "regulation of nuclear-transcribed mRNA poly(A) tail shortening",
+        "positive regulation of cytoplasmic mRNA processing body assembly",
+        "RISC complex assembly",
+        "nuclear-transcribed mRNA catabolic process, deadenylation-independent decay"
+      ]
+    },
+    {
+      "node": "n02499",
+      "size": 58,
+      "support": 0.34,
+      "support_at_0.5": 0.52,
+      "coherence_observed": 0.0504,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 44.04,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 53,
+        "reactome": 5
+      },
+      "nearest": [
+        "metanephric tubule formation",
+        "obsolete pattern specification involved in kidney development",
+        "metanephric S-shaped body morphogenesis",
+        "obsolete cell differentiation involved in metanephros development",
+        "metanephric mesenchymal cell differentiation",
+        "nephric duct formation",
+        "mesenchymal stem cell maintenance involved in nephron morphogenesis"
+      ]
+    },
+    {
+      "node": "n03800",
+      "size": 58,
+      "support": 0.17,
+      "support_at_0.5": 0.255,
+      "coherence_observed": 0.01627,
+      "coherence_null": 0.0011,
+      "coherence_ratio": 14.85,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 33,
+        "hallmark": 1,
+        "reactome": 22
+      },
+      "nearest": [
+        "protein refolding",
+        "regulation of translational initiation in response to stress",
+        "ATF6 (ATF6-alpha) activates chaperone genes",
+        "positive regulation of translation in response to endoplasmic reticulum stress",
+        "negative regulation of IRE1-mediated unfolded protein response",
+        "'de novo' protein folding",
+        "HSF1 activation"
+      ]
+    },
+    {
+      "node": "n03982",
+      "size": 58,
+      "support": 0.15,
+      "support_at_0.5": 0.56,
+      "coherence_observed": 0.02138,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 17.03,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 33,
+        "hallmark": 1,
+        "reactome": 18
+      },
+      "nearest": [
+        "Separation of Sister Chromatids",
+        "mitotic cell division",
+        "positive regulation of spindle checkpoint",
+        "mitotic spindle elongation",
+        "Condensation of Prometaphase Chromosomes",
+        "regulation of mitotic centrosome separation",
+        "mitotic chromosome condensation"
+      ]
+    },
+    {
+      "node": "n04506",
+      "size": 58,
+      "support": 0.11,
+      "support_at_0.5": 0.065,
+      "coherence_observed": 0.03068,
+      "coherence_null": 0.00091,
+      "coherence_ratio": 33.6,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 39,
+        "reactome": 18
+      },
+      "nearest": [
+        "obsolete dopamine transport",
+        "obsolete monoamine transport",
+        "obsolete catecholamine transport",
+        "norepinephrine uptake",
+        "Dopamine receptors",
+        "obsolete norepinephrine transport",
+        "obsolete catecholamine uptake involved in synaptic transmission"
+      ]
+    },
+    {
+      "node": "n04986",
+      "size": 58,
+      "support": 0.085,
+      "support_at_0.5": 0.79,
+      "coherence_observed": 0.02231,
+      "coherence_null": 0.00114,
+      "coherence_ratio": 19.52,
+      "children": 14,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 32,
+        "reactome": 25
+      },
+      "nearest": [
+        "Activation of RAC1",
+        "chemorepulsion of axon",
+        "axonal fasciculation",
+        "negative regulation of axon extension involved in axon guidance",
+        "Roundabout signaling pathway",
+        "positive regulation of axon extension involved in axon guidance",
+        "Regulation of commissural axon pathfinding by SLIT and ROBO"
+      ]
+    },
+    {
+      "node": "n05271",
+      "size": 58,
+      "support": 0.075,
+      "support_at_0.5": 0.425,
+      "coherence_observed": 0.009,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 7.18,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 15,
+        "go": 33,
+        "reactome": 10
+      },
+      "nearest": [
+        "Transcriptional regulation of granulopoiesis",
+        "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+        "negative regulation of erythrocyte differentiation",
+        "transcription regulation in cell development",
+        "myeloid progenitor cell differentiation",
+        "common myeloid progenitor cell proliferation",
+        "RUNX1 regulates transcription of genes involved in differentiation of HSCs"
+      ]
+    },
+    {
+      "node": "n06038",
+      "size": 58,
+      "support": 0.15,
+      "support_at_0.5": 0.25,
+      "coherence_observed": 0.01398,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 11.54,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 51,
+        "hallmark": 1,
+        "reactome": 3
+      },
+      "nearest": [
+        "negative regulation of endothelial cell chemotaxis",
+        "regulation of vascular associated smooth muscle cell dedifferentiation",
+        "positive regulation of blood vessel remodeling",
+        "regulation of phenotypic switching",
+        "negative regulation of vascular endothelial cell proliferation",
+        "negative regulation of fibroblast growth factor production",
+        "negative regulation of vascular associated smooth muscle cell migration"
+      ]
+    },
+    {
+      "node": "n06318",
+      "size": 58,
+      "support": 0.055,
+      "support_at_0.5": 0.245,
+      "coherence_observed": 0.05629,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 52.95,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 8,
+        "hallmark": 2,
+        "reactome": 48
+      },
+      "nearest": [
+        "HALLMARK_WNT_BETA_CATENIN_SIGNALING",
+        "Beta-catenin phosphorylation cascade",
+        "APC truncation mutants are not K63 polyubiquitinated",
+        "Binding of TCF/LEF:CTNNB1 to target gene promoters",
+        "Deletions in the AXIN1 gene destabilize the destruction complex",
+        "Constitutive Signaling by NOTCH1 PEST Domain Mutants",
+        "CTNNB1 S45 mutants aren't phosphorylated"
+      ]
+    },
+    {
+      "node": "n06991",
+      "size": 58,
+      "support": 0.04,
+      "support_at_0.5": 0.295,
+      "coherence_observed": 0.01984,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 16.45,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 36,
+        "hallmark": 2,
+        "reactome": 14
+      },
+      "nearest": [
+        "Complex IV assembly",
+        "respiratory electron transport chain (mitochondrion)",
+        "mitochondrial electron transport, ubiquinol to cytochrome c",
+        "respiratory electron transport chain (mitochondrion)",
+        "mitochondrial electron transport, cytochrome c to oxygen",
+        "respiratory chain complex IV assembly",
+        "[4Fe-4S] cluster assembly"
+      ]
+    },
+    {
+      "node": "n07453",
+      "size": 58,
+      "support": 0.09,
+      "support_at_0.5": 0.29,
+      "coherence_observed": 0.03157,
+      "coherence_null": 0.00097,
+      "coherence_ratio": 32.56,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "go": 28,
+        "reactome": 30
+      },
+      "nearest": [
+        "obsolete norepinephrine transport",
+        "obsolete monoamine transport",
+        "obsolete dopamine transport",
+        "obsolete catecholamine transport",
+        "norepinephrine uptake",
+        "neurotransmitter loading into synaptic vesicle",
+        "obsolete catecholamine uptake involved in synaptic transmission"
+      ]
+    },
+    {
+      "node": "n07462",
+      "size": 58,
+      "support": 0.035,
+      "support_at_0.5": 0.665,
+      "coherence_observed": 0.02229,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 21.09,
+      "children": 11,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 31,
+        "reactome": 26
+      },
+      "nearest": [
+        "positive regulation of lamellipodium assembly",
+        "positive regulation of lamellipodium morphogenesis",
+        "RHOG GTPase cycle",
+        "negative regulation of ruffle assembly",
+        "protein localization to cell leading edge",
+        "small GTPase mediated signal transduction",
+        "positive regulation of focal adhesion disassembly"
+      ]
+    },
+    {
+      "node": "n08005",
+      "size": 58,
+      "support": 0.03,
+      "support_at_0.5": 0.225,
+      "coherence_observed": 0.02178,
+      "coherence_null": 0.00091,
+      "coherence_ratio": 23.99,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 41,
+        "hallmark": 1,
+        "reactome": 12
+      },
+      "nearest": [
+        "positive regulation of protein localization to centrosome",
+        "mitotic cell division",
+        "Recruitment of NuMA to mitotic centrosomes",
+        "mitotic spindle elongation",
+        "maintenance of centrosome location",
+        "microtubule nucleation by microtubule organizing center",
+        "astral microtubule organization"
+      ]
+    },
+    {
+      "node": "n08007",
+      "size": 58,
+      "support": 0.05,
+      "support_at_0.5": 0.12,
+      "coherence_observed": 0.00682,
+      "coherence_null": 0.00108,
+      "coherence_ratio": 6.34,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 34,
+        "reactome": 22
+      },
+      "nearest": [
+        "biological process involved in interaction with symbiont",
+        "cytolysis in another organism",
+        "induction of bacterial agglutination",
+        "obsolete cytolysis by host of symbiont cells",
+        "disruption of cellular anatomical structure in another organism",
+        "Mtb iron assimilation by chelation",
+        "positive regulation of defense response to bacterium"
+      ]
+    },
+    {
+      "node": "n08012",
+      "size": 58,
+      "support": 0.03,
+      "support_at_0.5": 0.025,
+      "coherence_observed": 0.01619,
+      "coherence_null": 0.00095,
+      "coherence_ratio": 17.01,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 50,
+        "reactome": 7
+      },
+      "nearest": [
+        "regulation of systemic arterial blood pressure by vasopressin",
+        "positive regulation of systemic arterial blood pressure",
+        "regulation of blood volume by renin-angiotensin",
+        "negative regulation of urine volume",
+        "aldosterone secretion",
+        "Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI)",
+        "response to vasopressin"
+      ]
+    },
+    {
+      "node": "n02668",
+      "size": 57,
+      "support": 0.31,
+      "support_at_0.5": 0.87,
+      "coherence_observed": 0.0409,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 35.06,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 13,
+        "hallmark": 1,
+        "reactome": 37
+      },
+      "nearest": [
+        "Defective F9 activation",
+        "platelet activation and degranulation",
+        "HALLMARK_COAGULATION",
+        "blood coagulation, common pathway",
+        "FXIIa, PKa-dependent activation of coagulation pathway",
+        "Fibrin formation",
+        "Enhanced binding of GP1BA variant to VWF multimer:collagen"
+      ]
+    },
+    {
+      "node": "n04034",
+      "size": 57,
+      "support": 0.145,
+      "support_at_0.5": 0.18,
+      "coherence_observed": 0.0174,
+      "coherence_null": 0.0015,
+      "coherence_ratio": 11.61,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 40,
+        "reactome": 17
+      },
+      "nearest": [
+        "manganese ion transmembrane transport",
+        "detoxification of cadmium ion",
+        "zinc ion import across plasma membrane",
+        "detoxification of copper ion",
+        "copper ion transmembrane transport",
+        "Defective CP causes aceruloplasminemia (ACERULOP)",
+        "cellular response to cadmium ion"
+      ]
+    },
+    {
+      "node": "n05261",
+      "size": 57,
+      "support": 0.075,
+      "support_at_0.5": 0.075,
+      "coherence_observed": 0.01964,
+      "coherence_null": 0.00132,
+      "coherence_ratio": 14.85,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 30,
+        "reactome": 27
+      },
+      "nearest": [
+        "Vitamins",
+        "Defective CYP17A1 causes AH5",
+        "Defective CYP27B1 causes VDDR1B",
+        "Defective CYP11B1 causes AH4",
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Mineralocorticoid biosynthesis",
+        "Defective CYP11B2 causes CMO-1 deficiency"
+      ]
+    },
+    {
+      "node": "n06992",
+      "size": 57,
+      "support": 0.04,
+      "support_at_0.5": 0.67,
+      "coherence_observed": 0.02305,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 19.93,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 32,
+        "reactome": 22
+      },
+      "nearest": [
+        "Eicosanoids",
+        "icosanoid catabolic process",
+        "cyclooxygenase pathway",
+        "lipid metabolism, endoplasmic reticulum",
+        "leukotriene catabolic process",
+        "lipoxygenase pathway",
+        "epoxygenase P450 pathway"
+      ]
+    },
+    {
+      "node": "n07450",
+      "size": 57,
+      "support": 0.035,
+      "support_at_0.5": 0.055,
+      "coherence_observed": 0.08582,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 71.55,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 2,
+        "reactome": 55
+      },
+      "nearest": [
+        "Signaling by ERBB2 ECD mutants",
+        "Signaling by ERBB2 TMD/JMD mutants",
+        "Resistance of ERBB2 KD mutants to afatinib",
+        "Resistance of ERBB2 KD mutants to osimertinib",
+        "Resistance of ERBB2 KD mutants to tesevatinib",
+        "Resistance of ERBB2 KD mutants to neratinib",
+        "ceritinib-resistant ALK mutants"
+      ]
+    },
+    {
+      "node": "n07460",
+      "size": 57,
+      "support": 0.035,
+      "support_at_0.5": 0.38,
+      "coherence_observed": 0.01463,
+      "coherence_null": 0.0011,
+      "coherence_ratio": 13.32,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 41,
+        "reactome": 16
+      },
+      "nearest": [
+        "Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI)",
+        "negative regulation of urine volume",
+        "response to vasopressin",
+        "cellular response to water stimulus",
+        "Defective AVP does not bind AVPR1A,B and causes neurohypophyseal diabetes insipidus (NDI)",
+        "Vasopressin regulates renal water homeostasis via Aquaporins",
+        "renal water absorption"
+      ]
+    },
+    {
+      "node": "n02626",
+      "size": 56,
+      "support": 0.32,
+      "support_at_0.5": 0.285,
+      "coherence_observed": 0.02194,
+      "coherence_null": 0.0011,
+      "coherence_ratio": 19.92,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 35,
+        "hallmark": 1,
+        "reactome": 14
+      },
+      "nearest": [
+        "mitotic cell division",
+        "positive regulation of protein localization to centrosome",
+        "Recruitment of NuMA to mitotic centrosomes",
+        "mitotic spindle elongation",
+        "positive regulation of spindle checkpoint",
+        "HALLMARK_MITOTIC_SPINDLE",
+        "regulation of mitotic centrosome separation"
+      ]
+    },
+    {
+      "node": "n03338",
+      "size": 56,
+      "support": 0.27,
+      "support_at_0.5": 0.18,
+      "coherence_observed": 0.01442,
+      "coherence_null": 0.00098,
+      "coherence_ratio": 14.76,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 46,
+        "reactome": 9
+      },
+      "nearest": [
+        "positive regulation of vasoconstriction",
+        "negative regulation of systemic arterial blood pressure",
+        "obsolete renal control of peripheral vascular resistance involved in regulation of systemic arterial blood pressure",
+        "regulation of renal sodium excretion",
+        "positive regulation of systemic arterial blood pressure",
+        "relaxation of vascular associated smooth muscle",
+        "regulation of relaxation of smooth muscle"
+      ]
+    },
+    {
+      "node": "n04218",
+      "size": 56,
+      "support": 0.13,
+      "support_at_0.5": 0.73,
+      "coherence_observed": 0.02994,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 23.74,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 43,
+        "reactome": 13
+      },
+      "nearest": [
+        "regulation of reverse cholesterol transport",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "low-density lipoprotein particle remodeling",
+        "VLDL clearance",
+        "receptor-mediated endocytosis involved in cholesterol transport",
+        "triglyceride-rich lipoprotein particle clearance",
+        "high-density lipoprotein particle assembly"
+      ]
+    },
+    {
+      "node": "n04503",
+      "size": 56,
+      "support": 0.11,
+      "support_at_0.5": 0.255,
+      "coherence_observed": 0.02018,
+      "coherence_null": 0.00113,
+      "coherence_ratio": 17.83,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 40,
+        "hallmark": 1,
+        "reactome": 11
+      },
+      "nearest": [
+        "respiratory electron transport chain (mitochondrion)",
+        "respiratory electron transport chain (mitochondrion)",
+        "mitochondrial electron transport, ubiquinol to cytochrome c",
+        "mitochondrial electron transport, cytochrome c to oxygen",
+        "Cristae formation",
+        "respiratory chain complex IV assembly",
+        "protein import into mitochondrial matrix"
+      ]
+    },
+    {
+      "node": "n06319",
+      "size": 56,
+      "support": 0.05,
+      "support_at_0.5": 0.085,
+      "coherence_observed": 0.00992,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 8.1,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "go": 39,
+        "reactome": 17
+      },
+      "nearest": [
+        "The retinoid cycle in cones (daylight vision)",
+        "light absorption",
+        "Defective visual phototransduction due to RDH12 loss of function",
+        "Opsins",
+        "detection of light stimulus involved in sensory perception",
+        "photoreceptor cell morphogenesis",
+        "Defective visual phototransduction due to OPN1MW loss of function"
+      ]
+    },
+    {
+      "node": "n06605",
+      "size": 56,
+      "support": 0.045,
+      "support_at_0.5": 0.1,
+      "coherence_observed": 0.01377,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 11.53,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 50,
+        "reactome": 6
+      },
+      "nearest": [
+        "Developmental Lineage of Mammary Gland Luminal Epithelial Cells",
+        "oviduct development",
+        "Developmental Lineage of Mammary Stem Cells",
+        "Leydig cell differentiation",
+        "Developmental Lineage of Mammary Gland Alveolar Cells",
+        "mammary gland branching involved in pregnancy",
+        "luteinization"
+      ]
+    },
+    {
+      "node": "n07456",
+      "size": 56,
+      "support": 0.045,
+      "support_at_0.5": 1.0,
+      "coherence_observed": 0.0457,
+      "coherence_null": 0.00112,
+      "coherence_ratio": 40.73,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 41,
+        "reactome": 13
+      },
+      "nearest": [
+        "purine deoxyribonucleoside metabolic process",
+        "dAMP metabolic process",
+        "Purine salvage",
+        "Pyrimidine salvage",
+        "IMP catabolic process",
+        "dGMP catabolic process",
+        "2'-deoxyribonucleoside catabolic process"
+      ]
+    },
+    {
+      "node": "n07457",
+      "size": 56,
+      "support": 0.035,
+      "support_at_0.5": 0.29,
+      "coherence_observed": 0.01426,
+      "coherence_null": 0.00106,
+      "coherence_ratio": 13.46,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 40,
+        "reactome": 14
+      },
+      "nearest": [
+        "aggresome assembly",
+        "protein quality control for misfolded or incompletely synthesized proteins",
+        "obsolete regulation of proteolysis involved in protein catabolic process",
+        "response to misfolded protein",
+        "obsolete positive regulation of proteolysis involved in protein catabolic process",
+        "regulation of protein oligomerization",
+        "Aggrephagy"
+      ]
+    },
+    {
+      "node": "n08004",
+      "size": 56,
+      "support": 0.03,
+      "support_at_0.5": 0.205,
+      "coherence_observed": 0.03315,
+      "coherence_null": 0.00122,
+      "coherence_ratio": 27.18,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 18,
+        "reactome": 38
+      },
+      "nearest": [
+        "Defective CHST3 causes SEDCJD",
+        "Defective B3GALT6 causes EDSP2 and SEMDJL1",
+        "Defective B4GALT7 causes EDS, progeroid type",
+        "Defective B3GAT3 causes JDSSDHD",
+        "DAG1 core M3 glycosylations",
+        "Glycosaminoglycan-protein linkage region biosynthesis",
+        "dermatan sulfate proteoglycan biosynthetic process"
+      ]
+    },
+    {
+      "node": "n01003",
+      "size": 55,
+      "support": 0.81,
+      "support_at_0.5": 0.87,
+      "coherence_observed": 0.13696,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 115.46,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "reactome": 55
+      },
+      "nearest": [
+        "tamatinib-resistant FLT3 mutants",
+        "sunitinib-resistant FLT3 mutants",
+        "ponatinib-resistant FLT3 mutants",
+        "lestaurtinib-resistant FLT3 mutants",
+        "gilteritinib-resistant FLT3 mutants",
+        "crenolanib-resistant FLT3 mutants",
+        "KW2449-resistant FLT3 mutants"
+      ]
+    },
+    {
+      "node": "n03133",
+      "size": 55,
+      "support": 0.245,
+      "support_at_0.5": 0.475,
+      "coherence_observed": 0.01517,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 12.9,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 25,
+        "reactome": 30
+      },
+      "nearest": [
+        "Transport of nucleotide sugars",
+        "N-Glycan antennae elongation",
+        "poly-N-acetyllactosamine metabolic process",
+        "N-acetylglucosamine metabolic process",
+        "oligosaccharide biosynthetic process",
+        "N-glycan processing",
+        "Defective SLC35A3 causes arthrogryposis, mental retardation, and seizures (AMRS)"
+      ]
+    },
+    {
+      "node": "n03337",
+      "size": 55,
+      "support": 0.22,
+      "support_at_0.5": 0.99,
+      "coherence_observed": 0.04076,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 32.76,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 36,
+        "reactome": 17
+      },
+      "nearest": [
+        "purine deoxyribonucleoside metabolic process",
+        "IMP catabolic process",
+        "Purine salvage",
+        "purine deoxyribonucleoside triphosphate metabolic process",
+        "dGMP catabolic process",
+        "inosine metabolic process",
+        "allantoin metabolic process"
+      ]
+    },
+    {
+      "node": "n05421",
+      "size": 55,
+      "support": 0.07,
+      "support_at_0.5": 0.185,
+      "coherence_observed": 0.00704,
+      "coherence_null": 0.00103,
+      "coherence_ratio": 6.82,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 36,
+        "reactome": 16
+      },
+      "nearest": [
+        "epidermis morphogenesis",
+        "Differentiation of Keratinocytes in Interfollicular Epidermis in Mammalian Skin",
+        "ectodermal cell differentiation",
+        "positive regulation of hair follicle maturation",
+        "cornification",
+        "skin morphogenesis",
+        "positive regulation of melanocyte differentiation"
+      ]
+    },
+    {
+      "node": "n05811",
+      "size": 55,
+      "support": 0.06,
+      "support_at_0.5": 0.09,
+      "coherence_observed": 0.02576,
+      "coherence_null": 0.00154,
+      "coherence_ratio": 16.7,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 21,
+        "reactome": 33
+      },
+      "nearest": [
+        "Displacement of DNA glycosylase by APEX1",
+        "Recognition and association of DNA glycosylase with site containing an affected pyrimidine",
+        "Abasic sugar-phosphate removal via the single-nucleotide replacement pathway",
+        "Cleavage of the damaged purine",
+        "Recognition and association of DNA glycosylase with site containing an affected purine",
+        "Defective NTHL1 substrate binding",
+        "depyrimidination"
+      ]
+    },
+    {
+      "node": "n06037",
+      "size": 55,
+      "support": 0.055,
+      "support_at_0.5": 0.105,
+      "coherence_observed": 0.08038,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 60.42,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 2,
+        "reactome": 53
+      },
+      "nearest": [
+        "Sunitinib-resistant KIT mutants",
+        "Nilotinib-resistant KIT mutants",
+        "lestaurtinib-resistant FLT3 mutants",
+        "Dasatinib-resistant KIT mutants",
+        "Regorafenib-resistant KIT mutants",
+        "KIT mutants bind TKIs",
+        "Masitinib-resistant KIT mutants"
+      ]
+    },
+    {
+      "node": "n06042",
+      "size": 55,
+      "support": 0.11,
+      "support_at_0.5": 0.505,
+      "coherence_observed": 0.02016,
+      "coherence_null": 0.001,
+      "coherence_ratio": 20.17,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 13,
+        "go": 40,
+        "reactome": 2
+      },
+      "nearest": [
+        "negative regulation of T cell mediated cytotoxicity",
+        "negative regulation of natural killer cell activation",
+        "regulation of myeloid dendritic cell activation",
+        "T cell activation (II)",
+        "regulation of T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell",
+        "regulation of T cell costimulation",
+        "Immunoregulatory interactions between a Lymphoid and a non-Lymphoid cell"
+      ]
+    },
+    {
+      "node": "n06045",
+      "size": 55,
+      "support": 0.055,
+      "support_at_0.5": 0.125,
+      "coherence_observed": 0.00912,
+      "coherence_null": 0.00099,
+      "coherence_ratio": 9.2,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 52,
+        "reactome": 3
+      },
+      "nearest": [
+        "otic vesicle formation",
+        "cochlea morphogenesis",
+        "vestibulocochlear nerve formation",
+        "optic nerve morphogenesis",
+        "semicircular canal morphogenesis",
+        "optic cup morphogenesis involved in camera-type eye development",
+        "cornea development in camera-type eye"
+      ]
+    },
+    {
+      "node": "n06326",
+      "size": 55,
+      "support": 0.05,
+      "support_at_0.5": 0.08,
+      "coherence_observed": 0.01696,
+      "coherence_null": 0.00108,
+      "coherence_ratio": 15.66,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 36,
+        "reactome": 17
+      },
+      "nearest": [
+        "obsolete regulation of proteolysis involved in protein catabolic process",
+        "protein K48-linked deubiquitination",
+        "regulation of protein autoubiquitination",
+        "protein K29-linked ubiquitination",
+        "free ubiquitin chain polymerization",
+        "Antigen processing: Ubiquitination & Proteasome degradation",
+        "protein K11-linked deubiquitination"
+      ]
+    },
+    {
+      "node": "n06624",
+      "size": 55,
+      "support": 0.045,
+      "support_at_0.5": 0.365,
+      "coherence_observed": 0.01558,
+      "coherence_null": 0.00121,
+      "coherence_ratio": 12.85,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 31,
+        "hallmark": 2,
+        "reactome": 16
+      },
+      "nearest": [
+        "adherens junction assembly",
+        "cell cell adhesion",
+        "HALLMARK_APICAL_JUNCTION",
+        "cell junction",
+        "Apoptotic cleavage of cell adhesion  proteins",
+        "protein localization to adherens junction",
+        "cell junction (GO)"
+      ]
+    },
+    {
+      "node": "n06990",
+      "size": 55,
+      "support": 0.04,
+      "support_at_0.5": 0.26,
+      "coherence_observed": 0.02016,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 17.13,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 31,
+        "hallmark": 1,
+        "reactome": 23
+      },
+      "nearest": [
+        "Activation, translocation and oligomerization of BAX",
+        "positive regulation of release of cytochrome c from mitochondria",
+        "positive regulation of mitochondrial outer membrane permeabilization involved in apoptotic signaling pathway",
+        "Activation and oligomerization of BAK protein",
+        "Release of apoptotic factors from the mitochondria",
+        "negative regulation of mitochondrial outer membrane permeabilization involved in apoptotic signaling pathway",
+        "BH3-only proteins associate with and inactivate anti-apoptotic BCL-2 members"
+      ]
+    },
+    {
+      "node": "n07458",
+      "size": 55,
+      "support": 0.035,
+      "support_at_0.5": 0.485,
+      "coherence_observed": 0.01571,
+      "coherence_null": 0.00104,
+      "coherence_ratio": 15.14,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 7,
+        "go": 41,
+        "reactome": 7
+      },
+      "nearest": [
+        "Specification of the neural plate border",
+        "Formation of the posterior neural plate",
+        "formation of anatomical boundary",
+        "Hox cluster VI",
+        "embryonic hindlimb morphogenesis",
+        "outer ear morphogenesis",
+        "middle ear morphogenesis"
+      ]
+    },
+    {
+      "node": "n02700",
+      "size": 54,
+      "support": 0.305,
+      "support_at_0.5": 0.67,
+      "coherence_observed": 0.07626,
+      "coherence_null": 0.00111,
+      "coherence_ratio": 68.89,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 18,
+        "hallmark": 1,
+        "reactome": 33
+      },
+      "nearest": [
+        "DNA strand elongation involved in DNA replication",
+        "HALLMARK_DNA_REPAIR",
+        "Polymerase switching",
+        "nucleotide-excision repair, DNA gap filling",
+        "error-free translesion synthesis",
+        "mismatch repair (II)",
+        "Mismatch repair (MMR) directed by MSH2:MSH6 (MutSalpha)"
+      ]
+    },
+    {
+      "node": "n04103",
+      "size": 54,
+      "support": 0.14,
+      "support_at_0.5": 0.405,
+      "coherence_observed": 0.02595,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 19.5,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 30,
+        "reactome": 24
+      },
+      "nearest": [
+        "sulfur amino acid biosynthetic process",
+        "tetrahydrofolate interconversion",
+        "sulfur amino acid catabolic process",
+        "Metabolism of folate and pterines",
+        "obsolete cysteine catabolic process",
+        "pteridine-containing compound catabolic process",
+        "Defective MTRR causes HMAE"
+      ]
+    },
+    {
+      "node": "n06039",
+      "size": 54,
+      "support": 0.375,
+      "support_at_0.5": 0.505,
+      "coherence_observed": 0.0342,
+      "coherence_null": 0.00095,
+      "coherence_ratio": 36.06,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 12,
+        "reactome": 41
+      },
+      "nearest": [
+        "NTF3 activates NTRK2 (TRKB) signaling",
+        "NTF4 activates NTRK2 (TRKB) signaling",
+        "Activated NTRK3 signals through RAS",
+        "positive regulation of neurotrophin TRK receptor signaling pathway",
+        "NTF3 activates NTRK3 signaling",
+        "Activated NTRK2 signals through FRS2 and FRS3",
+        "Activated NTRK2 signals through PI3K"
+      ]
+    },
+    {
+      "node": "n06322",
+      "size": 54,
+      "support": 0.05,
+      "support_at_0.5": 0.12,
+      "coherence_observed": 0.02369,
+      "coherence_null": 0.00113,
+      "coherence_ratio": 20.89,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 15,
+        "reactome": 38
+      },
+      "nearest": [
+        "Replication of the SARS-CoV-1 genome",
+        "Viral Messenger RNA Synthesis",
+        "Minus-strand DNA synthesis",
+        "vRNA Synthesis",
+        "vRNP Assembly",
+        "Plus-strand DNA synthesis",
+        "Inhibition of Host mRNA Processing and RNA Silencing"
+      ]
+    },
+    {
+      "node": "n06608",
+      "size": 54,
+      "support": 0.045,
+      "support_at_0.5": 0.15,
+      "coherence_observed": 0.01834,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 14.63,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 44,
+        "reactome": 9
+      },
+      "nearest": [
+        "Glucagon-type ligand receptors",
+        "cortisol secretion",
+        "adult feeding behavior",
+        "positive regulation of eating behavior",
+        "positive regulation of glucocorticoid secretion",
+        "positive regulation of growth hormone secretion",
+        "regulation of response to food"
+      ]
+    },
+    {
+      "node": "n06994",
+      "size": 54,
+      "support": 0.04,
+      "support_at_0.5": 0.465,
+      "coherence_observed": 0.0234,
+      "coherence_null": 0.00115,
+      "coherence_ratio": 20.34,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 46,
+        "reactome": 8
+      },
+      "nearest": [
+        "positive regulation of eating behavior",
+        "neuropeptide signaling pathway",
+        "synaptic signaling via neuropeptide",
+        "drinking behavior",
+        "adult feeding behavior",
+        "general adaptation syndrome, behavioral process",
+        "Glucagon-type ligand receptors"
+      ]
+    },
+    {
+      "node": "n07464",
+      "size": 54,
+      "support": 0.035,
+      "support_at_0.5": 0.145,
+      "coherence_observed": 0.01243,
+      "coherence_null": 0.00093,
+      "coherence_ratio": 13.38,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "go": 22,
+        "hallmark": 2,
+        "reactome": 30
+      },
+      "nearest": [
+        "Fatty Acids bound to GPR40 (FFAR1) regulate insulin secretion",
+        "positive regulation of D-glucose import across plasma membrane",
+        "PDE3B signalling",
+        "PKA activation in glucagon signalling",
+        "positive regulation of glycogen biosynthetic process",
+        "AMPK inhibits chREBP transcriptional activation activity",
+        "Glucagon-like Peptide-1 (GLP1) regulates insulin secretion"
+      ]
+    },
+    {
+      "node": "n03009",
+      "size": 53,
+      "support": 0.26,
+      "support_at_0.5": 0.94,
+      "coherence_observed": 0.03677,
+      "coherence_null": 0.0009,
+      "coherence_ratio": 40.95,
+      "children": 15,
+      "band": "51-100",
+      "sources": {
+        "btm": 9,
+        "go": 23,
+        "hallmark": 1,
+        "reactome": 20
+      },
+      "nearest": [
+        "positive regulation of interferon-beta production",
+        "positive regulation of type I interferon-mediated signaling pathway",
+        "RIG-1 like receptor signaling",
+        "antiviral innate immune response",
+        "IRF3 mediated activation of type 1 IFN",
+        "cellular response to virus",
+        "positive regulation of interferon-alpha production"
+      ]
+    },
+    {
+      "node": "n03595",
+      "size": 53,
+      "support": 0.195,
+      "support_at_0.5": 0.63,
+      "coherence_observed": 0.01007,
+      "coherence_null": 0.00136,
+      "coherence_ratio": 7.38,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 4,
+        "go": 36,
+        "hallmark": 1,
+        "reactome": 12
+      },
+      "nearest": [
+        "protein localization to Golgi membrane",
+        "constitutive secretory pathway",
+        "retrograde transport, vesicle recycling within Golgi",
+        "regulation of endosome organization",
+        "HALLMARK_PROTEIN_SECRETION",
+        "TBA",
+        "protein retention in Golgi apparatus"
+      ]
+    },
+    {
+      "node": "n03725",
+      "size": 53,
+      "support": 0.18,
+      "support_at_0.5": 0.365,
+      "coherence_observed": 0.01566,
+      "coherence_null": 0.00103,
+      "coherence_ratio": 15.17,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 5,
+        "go": 36,
+        "hallmark": 1,
+        "reactome": 11
+      },
+      "nearest": [
+        "HALLMARK_PROTEIN_SECRETION",
+        "COPI-coated vesicle budding",
+        "protein localization to Golgi membrane",
+        "retrograde transport, vesicle recycling within Golgi",
+        "vesicle fusion with Golgi apparatus",
+        "Intra-Golgi traffic",
+        "obsolete vesicle targeting"
+      ]
+    },
+    {
+      "node": "n03983",
+      "size": 53,
+      "support": 0.15,
+      "support_at_0.5": 0.345,
+      "coherence_observed": 0.06573,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 49.36,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 14,
+        "reactome": 39
+      },
+      "nearest": [
+        "SHC1 events in ERBB2 signaling",
+        "GRB2 events in ERBB2 signaling",
+        "ERBB2-EGFR signaling pathway",
+        "PI3K events in ERBB2 signaling",
+        "GRB7 events in ERBB2 signaling",
+        "GAB1 signalosome",
+        "GRB2 events in EGFR signaling"
+      ]
+    },
+    {
+      "node": "n04281",
+      "size": 53,
+      "support": 0.125,
+      "support_at_0.5": 0.795,
+      "coherence_observed": 0.03308,
+      "coherence_null": 0.0012,
+      "coherence_ratio": 27.49,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 17,
+        "reactome": 35
+      },
+      "nearest": [
+        "Beta oxidation of hexanoyl-CoA to butanoyl-CoA",
+        "Beta oxidation of octanoyl-CoA to hexanoyl-CoA",
+        "Beta oxidation of butanoyl-CoA to acetyl-CoA",
+        "Beta oxidation of decanoyl-CoA to octanoyl-CoA-CoA",
+        "obsolete isoleucine metabolic process",
+        "Beta oxidation of lauroyl-CoA to decanoyl-CoA-CoA",
+        "L-leucine catabolic process"
+      ]
+    },
+    {
+      "node": "n04504",
+      "size": 53,
+      "support": 0.11,
+      "support_at_0.5": 0.36,
+      "coherence_observed": 0.02795,
+      "coherence_null": 0.00099,
+      "coherence_ratio": 28.13,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "go": 24,
+        "hallmark": 1,
+        "reactome": 28
+      },
+      "nearest": [
+        "acylglycerol transport",
+        "very-low-density lipoprotein particle assembly",
+        "low-density lipoprotein particle remodeling",
+        "chylomicron assembly",
+        "triglyceride-rich lipoprotein particle clearance",
+        "HDL remodeling",
+        "VLDL assembly"
+      ]
+    },
+    {
+      "node": "n04598",
+      "size": 53,
+      "support": 0.105,
+      "support_at_0.5": 0.285,
+      "coherence_observed": 0.04862,
+      "coherence_null": 0.00128,
+      "coherence_ratio": 37.84,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 30,
+        "reactome": 21
+      },
+      "nearest": [
+        "Defective homologous recombination repair (HRR) due to BRCA1 loss of function",
+        "Impaired BRCA2 binding to PALB2",
+        "Defective HDR through Homologous Recombination Repair (HRR) due to PALB2 loss of BRCA2/RAD51/RAD51C binding function",
+        "Resolution of D-loop Structures through Synthesis-Dependent Strand Annealing (SDSA)",
+        "Processing of DNA double-strand break ends",
+        "Presynaptic phase of homologous DNA pairing and strand exchange",
+        "Impaired BRCA2 binding to RAD51"
+      ]
+    },
+    {
+      "node": "n04985",
+      "size": 53,
+      "support": 0.085,
+      "support_at_0.5": 0.2,
+      "coherence_observed": 0.01489,
+      "coherence_null": 0.00109,
+      "coherence_ratio": 13.69,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 47,
+        "hallmark": 1,
+        "reactome": 4
+      },
+      "nearest": [
+        "negative regulation of endothelial cell chemotaxis",
+        "negative regulation of cellular response to vascular endothelial growth factor stimulus",
+        "negative regulation of fibroblast growth factor production",
+        "endothelial cell fate commitment",
+        "positive regulation of sprouting angiogenesis",
+        "negative regulation of cell migration involved in sprouting angiogenesis",
+        "negative regulation of endothelial cell differentiation"
+      ]
+    },
+    {
+      "node": "n05267",
+      "size": 53,
+      "support": 0.195,
+      "support_at_0.5": 0.225,
+      "coherence_observed": 0.0192,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 15.47,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 47,
+        "reactome": 5
+      },
+      "nearest": [
+        "amyloid-beta clearance by cellular catabolic process",
+        "negative regulation of amyloid fibril formation",
+        "positive regulation of amyloid-beta clearance",
+        "positive regulation of apoptotic cell clearance",
+        "microglial cell activation involved in immune response",
+        "negative regulation of amyloid-beta clearance",
+        "negative regulation of microglial cell activation"
+      ]
+    },
+    {
+      "node": "n06040",
+      "size": 53,
+      "support": 0.055,
+      "support_at_0.5": 0.11,
+      "coherence_observed": 0.02042,
+      "coherence_null": 0.0011,
+      "coherence_ratio": 18.6,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 26,
+        "reactome": 27
+      },
+      "nearest": [
+        "obsolete calcitriol biosynthetic process from calciol",
+        "Defective CYP17A1 causes AH5",
+        "Defective CYP27B1 causes VDDR1B",
+        "mineralocorticoid biosynthetic process",
+        "Defective CYP11B1 causes AH4",
+        "Defective CYP11B2 causes CMO-1 deficiency",
+        "Vitamins"
+      ]
+    },
+    {
+      "node": "n06995",
+      "size": 53,
+      "support": 0.04,
+      "support_at_0.5": 0.105,
+      "coherence_observed": 0.04458,
+      "coherence_null": 0.00098,
+      "coherence_ratio": 45.43,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 11,
+        "hallmark": 2,
+        "reactome": 40
+      },
+      "nearest": [
+        "Constitutive Signaling by NOTCH1 PEST Domain Mutants",
+        "Notch-HLH transcription pathway",
+        "Constitutive Signaling by NOTCH1 HD+PEST Domain Mutants",
+        "SMAD2/3 MH2 Domain Mutants in Cancer",
+        "NOTCH4 Intracellular Domain Regulates Transcription",
+        "RUNX3 regulates NOTCH signaling",
+        "SMAD2/3 Phosphorylation Motif Mutants in Cancer"
+      ]
+    },
+    {
+      "node": "n08009",
+      "size": 53,
+      "support": 0.03,
+      "support_at_0.5": 0.525,
+      "coherence_observed": 0.0226,
+      "coherence_null": 0.00096,
+      "coherence_ratio": 23.59,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 31,
+        "reactome": 21
+      },
+      "nearest": [
+        "Acyl chain remodelling of PG",
+        "phosphatidylglycerol acyl-chain remodeling",
+        "Synthesis of PA",
+        "phosphatidylinositol acyl-chain remodeling",
+        "Acyl chain remodelling of PE",
+        "glycerophospholipid metabolism",
+        "Acyl chain remodelling of PS"
+      ]
+    },
+    {
+      "node": "n03211",
+      "size": 52,
+      "support": 0.235,
+      "support_at_0.5": 0.655,
+      "coherence_observed": 0.03142,
+      "coherence_null": 0.00098,
+      "coherence_ratio": 32.2,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 22,
+        "reactome": 27
+      },
+      "nearest": [
+        "Biosynthesis of aspirin-triggered D-series resolvins",
+        "Biosynthesis of E-series 18(S)-resolvins",
+        "Biosynthesis of E-series 18(R)-resolvins",
+        "lipoxin A4 metabolic process",
+        "Biosynthesis of Lipoxins (LX)",
+        "Biosynthesis of DPAn-6 SPMs",
+        "Biosynthesis of DPAn-3-derived maresins"
+      ]
+    },
+    {
+      "node": "n04158",
+      "size": 52,
+      "support": 0.135,
+      "support_at_0.5": 0.775,
+      "coherence_observed": 0.03805,
+      "coherence_null": 0.00124,
+      "coherence_ratio": 30.58,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "go": 37,
+        "reactome": 15
+      },
+      "nearest": [
+        "purine deoxyribonucleoside triphosphate metabolic process",
+        "dAMP metabolic process",
+        "dGMP catabolic process",
+        "Pyrimidine salvage",
+        "dCMP metabolic process",
+        "pyrimidine deoxyribonucleoside metabolic process",
+        "2'-deoxyribonucleoside catabolic process"
+      ]
+    },
+    {
+      "node": "n04419",
+      "size": 52,
+      "support": 0.115,
+      "support_at_0.5": 0.785,
+      "coherence_observed": 0.03392,
+      "coherence_null": 0.00131,
+      "coherence_ratio": 25.92,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 7,
+        "go": 14,
+        "hallmark": 1,
+        "reactome": 30
+      },
+      "nearest": [
+        "platelet activation and degranulation",
+        "thrombin-activated receptor signaling pathway",
+        "Fibrin formation",
+        "Enhanced binding of GP1BA variant to VWF multimer:collagen",
+        "HALLMARK_COAGULATION",
+        "FXIIa, PKa-dependent activation of coagulation pathway",
+        "Defective binding of VWF variant to GPIb:IX:V"
+      ]
+    },
+    {
+      "node": "n04599",
+      "size": 52,
+      "support": 0.105,
+      "support_at_0.5": 0.57,
+      "coherence_observed": 0.03414,
+      "coherence_null": 0.00139,
+      "coherence_ratio": 24.63,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "go": 35,
+        "reactome": 17
+      },
+      "nearest": [
+        "low-density lipoprotein particle remodeling",
+        "acylglycerol transport",
+        "triglyceride-rich lipoprotein particle clearance",
+        "very-low-density lipoprotein particle assembly",
+        "positive regulation of high-density lipoprotein particle clearance",
+        "VLDL clearance",
+        "HDL remodeling"
+      ]
+    },
+    {
+      "node": "n05265",
+      "size": 52,
+      "support": 0.075,
+      "support_at_0.5": 0.535,
+      "coherence_observed": 0.03108,
+      "coherence_null": 0.00153,
+      "coherence_ratio": 20.27,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 17,
+        "reactome": 33
+      },
+      "nearest": [
+        "Displacement of DNA glycosylase by APEX1",
+        "Defective NTHL1 substrate binding",
+        "Cleavage of the damaged purine",
+        "Defective Mismatch Repair Associated With MLH1",
+        "Abasic sugar-phosphate removal via the single-nucleotide replacement pathway",
+        "Recognition and association of DNA glycosylase with site containing an affected purine",
+        "Defective Mismatch Repair Associated With MSH3"
+      ]
+    },
+    {
+      "node": "n06044",
+      "size": 52,
+      "support": 0.055,
+      "support_at_0.5": 0.39,
+      "coherence_observed": 0.02059,
+      "coherence_null": 0.00117,
+      "coherence_ratio": 17.53,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 10,
+        "go": 18,
+        "reactome": 24
+      },
+      "nearest": [
+        "Endosomal/Vacuolar pathway",
+        "antigen processing and presentation of exogenous peptide antigen via MHC class I",
+        "Cross-presentation of soluble exogenous antigens (endosomes)",
+        "ER-Phagosome pathway",
+        "Cross-presentation of particulate exogenous antigens (phagosomes)",
+        "peptide antigen assembly with MHC class I protein complex",
+        "antigen processing and presentation of exogenous peptide antigen via MHC class II"
+      ]
+    },
+    {
+      "node": "n06325",
+      "size": 52,
+      "support": 0.05,
+      "support_at_0.5": 0.04,
+      "coherence_observed": 0.00965,
+      "coherence_null": 0.00136,
+      "coherence_ratio": 7.12,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 37,
+        "reactome": 15
+      },
+      "nearest": [
+        "Melanin biosynthesis",
+        "eye pigmentation",
+        "retinal pigment epithelium development",
+        "optic cup morphogenesis involved in camera-type eye development",
+        "pigment granule maturation",
+        "Defective SLC24A5 causes oculocutaneous albinism 6 (OCA6)",
+        "Regulation of MITF-M-dependent genes involved in pigmentation"
+      ]
+    },
+    {
+      "node": "n06607",
+      "size": 52,
+      "support": 0.045,
+      "support_at_0.5": 0.13,
+      "coherence_observed": 0.02313,
+      "coherence_null": 0.00149,
+      "coherence_ratio": 15.52,
+      "children": 8,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 45,
+        "reactome": 6
+      },
+      "nearest": [
+        "positive regulation of eating behavior",
+        "adult feeding behavior",
+        "cellular response to corticotropin-releasing hormone stimulus",
+        "cortisol secretion",
+        "positive regulation of glucocorticoid secretion",
+        "regulation of response to food",
+        "general adaptation syndrome, behavioral process"
+      ]
+    },
+    {
+      "node": "n06623",
+      "size": 52,
+      "support": 0.045,
+      "support_at_0.5": 0.485,
+      "coherence_observed": 0.01851,
+      "coherence_null": 0.0014,
+      "coherence_ratio": 13.18,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "go": 40,
+        "reactome": 12
+      },
+      "nearest": [
+        "Presynaptic function of Kainate receptors",
+        "positive regulation of synaptic vesicle exocytosis",
+        "Glutamate Neurotransmitter Release Cycle",
+        "regulation of calcium ion-dependent exocytosis of neurotransmitter",
+        "regulation of presynaptic membrane potential",
+        "positive regulation of synaptic vesicle fusion to presynaptic active zone membrane",
+        "short-term synaptic potentiation"
+      ]
+    },
+    {
+      "node": "n07459",
+      "size": 52,
+      "support": 0.065,
+      "support_at_0.5": 0.26,
+      "coherence_observed": 0.01809,
+      "coherence_null": 0.00113,
+      "coherence_ratio": 16.02,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 18,
+        "hallmark": 1,
+        "reactome": 33
+      },
+      "nearest": [
+        "sodium-independent organic anion transport",
+        "glycoside transport",
+        "Atorvastatin ADME",
+        "Recycling of bile acids and salts",
+        "Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol",
+        "bile acid and bile salt transport",
+        "Defective SLCO1B1 causes hyperbilirubinemia, Rotor type (HBLRR)"
+      ]
+    },
+    {
+      "node": "n08008",
+      "size": 52,
+      "support": 0.03,
+      "support_at_0.5": 0.385,
+      "coherence_observed": 0.01075,
+      "coherence_null": 0.00127,
+      "coherence_ratio": 8.5,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 23,
+        "reactome": 27
+      },
+      "nearest": [
+        "Lysosomal oligosaccharide catabolism",
+        "N-acetylneuraminate catabolic process",
+        "Defective HEXA causes GM2G1 (Hyaluronan metabolism)",
+        "ganglioside catabolic process",
+        "N-glycan processing",
+        "Transport of nucleotide sugars",
+        "glycoside catabolic process"
+      ]
+    },
+    {
+      "node": "n02795",
+      "size": 51,
+      "support": 0.29,
+      "support_at_0.5": 0.575,
+      "coherence_observed": 0.02273,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 18.13,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 6,
+        "go": 28,
+        "hallmark": 1,
+        "reactome": 16
+      },
+      "nearest": [
+        "mitotic cell division",
+        "Separation of Sister Chromatids",
+        "positive regulation of spindle checkpoint",
+        "mitotic spindle elongation",
+        "Amplification  of signal from unattached  kinetochores via a MAD2  inhibitory signal",
+        "Resolution of Sister Chromatid Cohesion",
+        "mitotic chromosome condensation"
+      ]
+    },
+    {
+      "node": "n02927",
+      "size": 51,
+      "support": 0.725,
+      "support_at_0.5": 0.84,
+      "coherence_observed": 0.02996,
+      "coherence_null": 0.00108,
+      "coherence_ratio": 27.84,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 23,
+        "reactome": 27
+      },
+      "nearest": [
+        "BCKDH synthesizes BCAA-CoA from KIC, KMVA, KIV",
+        "Loss-of-function mutations in DLD cause MSUD3/DLDD",
+        "PDH complex synthesizes acetyl-CoA from PYR",
+        "obsolete valine metabolic process",
+        "L-leucine catabolic process",
+        "succinyl-CoA biosynthetic process",
+        "3-methylglutaconic aciduria"
+      ]
+    },
+    {
+      "node": "n03638",
+      "size": 51,
+      "support": 0.66,
+      "support_at_0.5": 0.81,
+      "coherence_observed": 0.05414,
+      "coherence_null": 0.00119,
+      "coherence_ratio": 45.37,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "btm": 3,
+        "go": 10,
+        "hallmark": 1,
+        "reactome": 37
+      },
+      "nearest": [
+        "Defective F9 activation",
+        "Defective F8 binding to von Willebrand factor",
+        "Defective F8 accelerates dissociation of the A2 domain",
+        "FXIIa, PKa-dependent activation of coagulation pathway",
+        "Defective F8 cleavage by thrombin",
+        "Defective cofactor function of FVIIIa variant",
+        "Defective F8 binding to the cell membrane"
+      ]
+    },
+    {
+      "node": "n04884",
+      "size": 51,
+      "support": 0.09,
+      "support_at_0.5": 0.215,
+      "coherence_observed": 0.02171,
+      "coherence_null": 0.0013,
+      "coherence_ratio": 16.76,
+      "children": 5,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 42,
+        "reactome": 8
+      },
+      "nearest": [
+        "Dopamine receptors",
+        "operant conditioning",
+        "response to isoquinoline alkaloid",
+        "behavioral response to cocaine",
+        "synaptic signaling via neuropeptide",
+        "conditioned place preference",
+        "behavioral response to ethanol"
+      ]
+    },
+    {
+      "node": "n05129",
+      "size": 51,
+      "support": 0.08,
+      "support_at_0.5": 0.285,
+      "coherence_observed": 0.02411,
+      "coherence_null": 0.0014,
+      "coherence_ratio": 17.26,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 27,
+        "reactome": 22
+      },
+      "nearest": [
+        "Synthesis of PA",
+        "diacylglycerol biosynthetic process",
+        "Acyl chain remodelling of PG",
+        "phosphatidic acid metabolic process",
+        "lipid droplet disassembly",
+        "Acyl chain remodeling of DAG and TAG",
+        "phosphatidylinositol acyl-chain remodeling"
+      ]
+    },
+    {
+      "node": "n06043",
+      "size": 51,
+      "support": 0.055,
+      "support_at_0.5": 0.425,
+      "coherence_observed": 0.01144,
+      "coherence_null": 0.00131,
+      "coherence_ratio": 8.72,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 42,
+        "reactome": 9
+      },
+      "nearest": [
+        "protein localization to motile cilium",
+        "ciliary basal body organization",
+        "intraciliary transport involved in cilium assembly",
+        "regulation of cilium beat frequency involved in ciliary motility",
+        "receptor localization to non-motile cilium",
+        "regulation of motile cilium assembly",
+        "intraciliary anterograde transport"
+      ]
+    },
+    {
+      "node": "n06997",
+      "size": 51,
+      "support": 0.04,
+      "support_at_0.5": 0.5,
+      "coherence_observed": 0.01295,
+      "coherence_null": 0.00118,
+      "coherence_ratio": 11.0,
+      "children": 7,
+      "band": "51-100",
+      "sources": {
+        "btm": 24,
+        "go": 23,
+        "reactome": 4
+      },
+      "nearest": [
+        "enriched in B cells (II)",
+        "Memory B cell surface signature",
+        "Co-stimulation by ICOS",
+        "plasma cells & B cells, immunoglobulins",
+        "adaptive immune memory response",
+        "enriched in B cells (I)",
+        "germinal center B cell differentiation"
+      ]
+    },
+    {
+      "node": "n06998",
+      "size": 51,
+      "support": 0.04,
+      "support_at_0.5": 0.915,
+      "coherence_observed": 0.01435,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 10.78,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "go": 8,
+        "reactome": 43
+      },
+      "nearest": [
+        "viral protein processing",
+        "Maturation of protein E",
+        "Maturation of protein 3a",
+        "Viral Messenger RNA Synthesis",
+        "Maturation of protein 3a",
+        "vRNP Assembly",
+        "Maturation of protein E"
+      ]
+    },
+    {
+      "node": "n07461",
+      "size": 51,
+      "support": 0.035,
+      "support_at_0.5": 0.32,
+      "coherence_observed": 0.02402,
+      "coherence_null": 0.00095,
+      "coherence_ratio": 25.25,
+      "children": 3,
+      "band": "51-100",
+      "sources": {
+        "go": 38,
+        "hallmark": 1,
+        "reactome": 12
+      },
+      "nearest": [
+        "neural plate regionalization",
+        "convergent extension involved in gastrulation",
+        "ventral midline development",
+        "embryonic body morphogenesis",
+        "axial mesoderm development",
+        "floor plate development",
+        "convergent extension involved in axis elongation"
+      ]
+    },
+    {
+      "node": "n07466",
+      "size": 51,
+      "support": 0.035,
+      "support_at_0.5": 0.48,
+      "coherence_observed": 0.01516,
+      "coherence_null": 0.00133,
+      "coherence_ratio": 11.42,
+      "children": 4,
+      "band": "51-100",
+      "sources": {
+        "btm": 13,
+        "go": 30,
+        "reactome": 8
+      },
+      "nearest": [
+        "cell adhesion (lymphocyte homing)",
+        "myeloid dendritic cell chemotaxis",
+        "lymphocyte aggregation",
+        "adhesion and migration, chemotaxis",
+        "positive regulation of phospholipase C/protein kinase C signal transduction",
+        "positive regulation of T cell migration",
+        "membrane raft localization"
+      ]
+    },
+    {
+      "node": "n08006",
+      "size": 51,
+      "support": 0.03,
+      "support_at_0.5": 0.075,
+      "coherence_observed": 0.01755,
+      "coherence_null": 0.00125,
+      "coherence_ratio": 14.03,
+      "children": 2,
+      "band": "51-100",
+      "sources": {
+        "btm": 2,
+        "go": 35,
+        "hallmark": 1,
+        "reactome": 13
+      },
+      "nearest": [
+        "ER Quality Control Compartment (ERQC)",
+        "obsolete positive regulation of protein exit from endoplasmic reticulum",
+        "negative regulation of IRE1-mediated unfolded protein response",
+        "regulation of retrograde protein transport, ER to cytosol",
+        "protein retention in ER lumen",
+        "ATF6-mediated unfolded protein response",
+        "positive regulation of translation in response to endoplasmic reticulum stress"
+      ]
+    },
+    {
+      "node": "n08010",
+      "size": 51,
+      "support": 0.04,
+      "support_at_0.5": 0.33,
+      "coherence_observed": 0.02929,
+      "coherence_null": 0.00137,
+      "coherence_ratio": 21.42,
+      "children": 6,
+      "band": "51-100",
+      "sources": {
+        "go": 31,
+        "reactome": 20
+      },
+      "nearest": [
+        "sulfur amino acid biosynthetic process",
+        "tetrahydrofolate interconversion",
+        "Choline catabolism",
+        "Metabolism of folate and pterines",
+        "pteridine-containing compound catabolic process",
+        "Defective MTRR causes HMAE",
+        "L-serine catabolic process"
+      ]
+    },
+    {
+      "node": "n08015",
+      "size": 51,
+      "support": 0.03,
+      "support_at_0.5": 0.38,
+      "coherence_observed": 0.01153,
+      "coherence_null": 0.00116,
+      "coherence_ratio": 9.95,
+      "children": 9,
+      "band": "51-100",
+      "sources": {
+        "go": 43,
+        "reactome": 8
+      },
+      "nearest": [
+        "regulation of ovarian follicle development",
+        "positive regulation of fertilization",
+        "fused antrum stage",
+        "penetration of zona pellucida",
+        "ovulation from ovarian follicle",
+        "cellular response to follicle-stimulating hormone stimulus",
+        "regulation of binding of sperm to zona pellucida"
+      ]
+    },
+    {
+      "node": "n08025",
+      "size": 51,
+      "support": 0.03,
+      "support_at_0.5": 0.095,
+      "coherence_observed": 0.01736,
+      "coherence_null": 0.00126,
+      "coherence_ratio": 13.75,
+      "children": 13,
+      "band": "51-100",
+      "sources": {
+        "btm": 1,
+        "go": 32,
+        "hallmark": 2,
+        "reactome": 16
+      },
+      "nearest": [
+        "positive regulation of adipose tissue development",
+        "NR1H2 & NR1H3 regulate gene expression linked to triglyceride lipolysis in adipose",
+        "PPARA activates gene expression",
+        "NR1H2 & NR1H3 regulate gene expression linked to gluconeogenesis",
+        "NR1H2 & NR1H3 regulate gene expression linked to lipogenesis",
+        "white fat cell differentiation",
+        "Transcriptional regulation of white adipocyte differentiation"
+      ]
+    }
+  ]
+}

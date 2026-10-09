@@ -1,0 +1,143 @@
+{
+  "arm": "M5",
+  "rule": "cal8",
+  "source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+  "calibration": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout": [
+    4001,
+    4002
+  ],
+  "declared_m": null,
+  "calibration_target": 0.008,
+  "added": "declared 8 Oct 2026 before any structure result was seen, after seeing MS-cal's held-out FDR of 0.01009",
+  "solved": [
+    {
+      "stratum": "3-3",
+      "real": 694,
+      "floor": null,
+      "effective": null,
+      "calibration_fdr": null
+    },
+    {
+      "stratum": "4-4",
+      "real": 814,
+      "floor": null,
+      "effective": null,
+      "calibration_fdr": null
+    },
+    {
+      "stratum": "5-5",
+      "real": 1046,
+      "floor": null,
+      "effective": null,
+      "calibration_fdr": null
+    },
+    {
+      "stratum": "6-6",
+      "real": 1820,
+      "floor": 1.0,
+      "effective": 1.0,
+      "calibration_fdr": 0.00526
+    },
+    {
+      "stratum": "7-9",
+      "real": 5983,
+      "floor": 0.45,
+      "effective": 0.45,
+      "calibration_fdr": 0.00778
+    },
+    {
+      "stratum": "10+",
+      "real": 77550,
+      "floor": 0.035176,
+      "effective": 0.035176,
+      "calibration_fdr": 0.00778
+    }
+  ],
+  "confirmed": {
+    "strata": [
+      {
+        "stratum": "3-3",
+        "real": 694,
+        "floor": null,
+        "effective": null,
+        "calibration_fdr": null,
+        "heldout_fdr": null,
+        "heldout_real": 0
+      },
+      {
+        "stratum": "4-4",
+        "real": 814,
+        "floor": null,
+        "effective": null,
+        "calibration_fdr": null,
+        "heldout_fdr": null,
+        "heldout_real": 0
+      },
+      {
+        "stratum": "5-5",
+        "real": 1046,
+        "floor": null,
+        "effective": null,
+        "calibration_fdr": null,
+        "heldout_fdr": null,
+        "heldout_real": 0
+      },
+      {
+        "stratum": "6-6",
+        "real": 1820,
+        "floor": 1.0,
+        "effective": 1.0,
+        "calibration_fdr": 0.00526,
+        "heldout_null": 0.0,
+        "heldout_real": 19,
+        "heldout_fdr": 0.0
+      },
+      {
+        "stratum": "7-9",
+        "real": 5983,
+        "floor": 0.45,
+        "effective": 0.45,
+        "calibration_fdr": 0.00778,
+        "heldout_null": 7.0,
+        "heldout_real": 926,
+        "heldout_fdr": 0.00756
+      },
+      {
+        "stratum": "10+",
+        "real": 77550,
+        "floor": 0.035176,
+        "effective": 0.035176,
+        "calibration_fdr": 0.00778,
+        "heldout_null": 131.5,
+        "heldout_real": 17882,
+        "heldout_fdr": 0.00735
+      }
+    ],
+    "overall_fdr": 0.00736,
+    "overall_real": 18827,
+    "overall_null": 138.5
+  },
+  "per_stratum_heldout_fdr": {
+    "3-3": null,
+    "4-4": null,
+    "5-5": null,
+    "6-6": 0.0,
+    "7-9": 0.00756,
+    "10+": 0.00735
+  },
+  "over_cap": {},
+  "overall_over_cap": false,
+  "seconds": 26.2
+}

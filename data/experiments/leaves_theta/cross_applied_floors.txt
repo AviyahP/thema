@@ -1,0 +1,12 @@
+Cross-applying floors to sides: which difference is theta and which is calibration?
+  (gated candidate counts, before consensus -- 60-800 column is the decision statistic)
+  side (theta)  floors       gated    3-5   6-10  11-20  21-50  51-100  101-300  301-1k   1k+  60-800
+  L             L            2,905    500  1,329    732    297      36        3       3     5      26
+  L             MS           2,904    499  1,329    732    297      36        3       3     5      26
+  MS            L            2,909    500  1,329    732    297      35        4       5     7      31
+  MS            MS           2,908    499  1,329    732    297      35        4       5     7      31
+  M5            L            5,292    734  2,033  1,529    851      98       15      10    22      76
+  M5            MS           5,289    731  2,033  1,529    851      98       15      10    22      76
+
+  theta effect at FIXED floors: compare rows with the same floors column
+  calibration effect at FIXED theta: compare the two rows of the same side

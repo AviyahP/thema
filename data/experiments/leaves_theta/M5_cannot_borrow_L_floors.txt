@@ -1,0 +1,13 @@
+Why M5 cannot borrow thema_L's floors: apply them to M5's own side and scramble.
+  overall held-out FDR 0.25756 (cap 0.01)
+  stratum      floor    real    null       FDR
+  3-3           0.84     260   273.0      1.05   OVER the 0.02 cap
+  4-4          0.925     197   769.0   3.90355   OVER the 0.02 cap
+  5-5          0.425     277   140.0   0.50542   OVER the 0.02 cap
+  6-6           0.33     505   129.0   0.25545   OVER the 0.02 cap
+  7-9           0.33    1213    52.0   0.04287   OVER the 0.02 cap
+  10+           0.33    2840     0.0       0.0
+
+  M5's own solve found NO floor at all for 3-3, 4-4, 5-5 and 6-6: at theta_match 0.50 no
+  support cut-off in those strata reaches FDR <= 0.01 on the scrambles, which is why the
+  build has zero themes of 3-5 members rather than a high floor for them.

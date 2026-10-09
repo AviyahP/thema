@@ -1,0 +1,142 @@
+{
+  "n_placed": 1185,
+  "match": 0.5,
+  "seed": 0,
+  "arms": {
+    "L": {
+      "themes": 2815,
+      "path": "data/ontology/v0.4-leaves/thema_L",
+      "bands": {
+        "3-10": {
+          "n": 856,
+          "median_text_jaccard": 0.1538,
+          "share_text_above_0.5": 0.0666,
+          "median_gene_ceiling": 0.2928,
+          "median_random_floor": 0.001,
+          "median_best_possible": 0.2583
+        },
+        "11-50": {
+          "n": 280,
+          "median_text_jaccard": 0.1053,
+          "share_text_above_0.5": 0.0286,
+          "median_gene_ceiling": 0.2244,
+          "median_random_floor": 0.0019,
+          "median_best_possible": 0.2105
+        },
+        "51-200": {
+          "n": 48,
+          "median_text_jaccard": 0.0441,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.1912,
+          "median_random_floor": 0.0021,
+          "median_best_possible": 0.1217
+        },
+        "201-500": {
+          "n": 1,
+          "median_text_jaccard": 0.1009,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.2408,
+          "median_random_floor": 0.1009,
+          "median_best_possible": 0.192
+        }
+      },
+      "reactome_median_text_jaccard": 0.2468,
+      "go_median_text_jaccard": 0.1117,
+      "T2": {
+        "n_recovered": 101,
+        "top1": 0.6436,
+        "top5": 0.8614
+      }
+    },
+    "restricted": {
+      "themes": 4074,
+      "path": "data/ontology/v0.4-leaves/restricted_v04",
+      "bands": {
+        "3-10": {
+          "n": 856,
+          "median_text_jaccard": 0.2,
+          "share_text_above_0.5": 0.118,
+          "median_gene_ceiling": 0.3557,
+          "median_random_floor": 0.0,
+          "median_best_possible": 0.3333
+        },
+        "11-50": {
+          "n": 280,
+          "median_text_jaccard": 0.0792,
+          "share_text_above_0.5": 0.025,
+          "median_gene_ceiling": 0.2259,
+          "median_random_floor": 0.0016,
+          "median_best_possible": 0.2222
+        },
+        "51-200": {
+          "n": 48,
+          "median_text_jaccard": 0.0322,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.1915,
+          "median_random_floor": 0.0012,
+          "median_best_possible": 0.1192
+        },
+        "201-500": {
+          "n": 1,
+          "median_text_jaccard": 0.0105,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.2767,
+          "median_random_floor": 0.0013,
+          "median_best_possible": 0.1259
+        }
+      },
+      "reactome_median_text_jaccard": 0.2727,
+      "go_median_text_jaccard": 0.1333,
+      "T2": {
+        "n_recovered": 204,
+        "top1": 0.5294,
+        "top5": 0.848
+      }
+    },
+    "hidef_k4_m800": {
+      "themes": 2447,
+      "path": "data/ontology/v0.4-leaves/hidef_L_k4_maxres800",
+      "bands": {
+        "3-10": {
+          "n": 856,
+          "median_text_jaccard": 0.1333,
+          "share_text_above_0.5": 0.0678,
+          "median_gene_ceiling": 0.2879,
+          "median_random_floor": 0.0021,
+          "median_best_possible": 0.2857
+        },
+        "11-50": {
+          "n": 280,
+          "median_text_jaccard": 0.0937,
+          "share_text_above_0.5": 0.0214,
+          "median_gene_ceiling": 0.233,
+          "median_random_floor": 0.0055,
+          "median_best_possible": 0.2
+        },
+        "51-200": {
+          "n": 48,
+          "median_text_jaccard": 0.0644,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.2477,
+          "median_random_floor": 0.0209,
+          "median_best_possible": 0.1475
+        },
+        "201-500": {
+          "n": 1,
+          "median_text_jaccard": 0.0777,
+          "share_text_above_0.5": 0.0,
+          "median_gene_ceiling": 0.2649,
+          "median_random_floor": 0.0146,
+          "median_best_possible": 0.2019
+        }
+      },
+      "reactome_median_text_jaccard": 0.2105,
+      "go_median_text_jaccard": 0.1,
+      "T2": {
+        "n_recovered": 102,
+        "top1": 0.6275,
+        "top5": 0.8922
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+ITEM 3: FRESH CHECK of the cal8 floors on seeds never used before
+  the 0.008 target was chosen on 8 Oct AFTER seeing a held-out FDR of 0.01009, so the
+  4001+4002 confirmation is no longer independent of it. 4003-4005 are.
+  floors: 3-3:0.84, 4-4:0.915, 5-5:0.515, 6-6:0.33, 7-9:0.195, 10+:0.025126
+
+  ORIGINAL 4001+4002 (not independent any more)
+    overall 0.00583 (cap 0.01) -> within
+    per stratum: 10+=0.0056, 3-3=0.0, 4-4=0.0, 5-5=0.01389, 6-6=0.00142, 7-9=0.00979
+    over the 0.02 per-stratum cap: none
+    VERDICT: PASS
+
+  FRESH 4003+4004+4005 (never used)
+    overall 0.00638 (cap 0.01) -> within
+    per stratum: 10+=0.00606, 3-3=0.00347, 4-4=0.0058, 5-5=0.00556, 6-6=0.00472, 7-9=0.01078
+    over the 0.02 per-stratum cap: none
+    VERDICT: PASS
+
+  all five
+    overall 0.00616 (cap 0.01) -> within
+    per stratum: 10+=0.00587, 3-3=0.00208, 4-4=0.00348, 5-5=0.00889, 6-6=0.0034, 7-9=0.01038
+    over the 0.02 per-stratum cap: none
+    VERDICT: PASS
+

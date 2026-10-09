@@ -1,0 +1,2634 @@
+{
+  "bands": [
+    [
+      3,
+      5
+    ],
+    [
+      6,
+      10
+    ],
+    [
+      11,
+      20
+    ],
+    [
+      21,
+      50
+    ],
+    [
+      51,
+      100
+    ],
+    [
+      101,
+      300
+    ],
+    [
+      301,
+      1000
+    ],
+    [
+      1001,
+      1000000000
+    ]
+  ],
+  "seed": 0,
+  "coherence_sample": 150,
+  "arms": {
+    "L": {
+      "path": "data/ontology/v0.4-leaves/thema_L",
+      "themes": 2815,
+      "theta_match": null,
+      "match_split": null,
+      "bands": {
+        "3-5": 494,
+        "6-10": 1251,
+        "11-20": 751,
+        "21-50": 279,
+        "51-100": 31,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "themes_60_to_800": 23,
+      "n_roots": 40,
+      "root_sizes": [
+        2392,
+        2145,
+        2030,
+        1289,
+        759,
+        740,
+        64,
+        44,
+        43,
+        31,
+        30,
+        29,
+        23,
+        21,
+        18,
+        17,
+        16,
+        16,
+        14,
+        13
+      ],
+      "root_size_median": 12.5,
+      "multi_parent_share": 0.3687,
+      "n_effectively_unplaced": 218,
+      "floors_source": "recalibrated on L from seeds [3001, 3002, 3003] because the stored v0.4 floors failed their held-out check on L: overall 0.00332, and stratum/strata over the 0.02 per-stratum cap: 5-5 0.02715",
+      "build_seconds": null,
+      "inclusion_above_60": {
+        "median": 0.9787,
+        "share_below_0.7": 0.1554,
+        "n_themes": 26
+      },
+      "coherence": {
+        "3-5": {
+          "n_themes_in_band": 494,
+          "n_sampled": 150,
+          "observed": 0.7427,
+          "null": 0.03,
+          "ratio": 24.74
+        },
+        "6-10": {
+          "n_themes_in_band": 1251,
+          "n_sampled": 150,
+          "observed": 0.6062,
+          "null": 0.0302,
+          "ratio": 20.1
+        },
+        "11-20": {
+          "n_themes_in_band": 751,
+          "n_sampled": 150,
+          "observed": 0.4911,
+          "null": 0.0287,
+          "ratio": 17.11
+        },
+        "21-50": {
+          "n_themes_in_band": 279,
+          "n_sampled": 150,
+          "observed": 0.3638,
+          "null": 0.0294,
+          "ratio": 12.39
+        },
+        "51-100": {
+          "n_themes_in_band": 31,
+          "n_sampled": 31,
+          "observed": 0.2297,
+          "null": 0.0296,
+          "ratio": 7.76
+        },
+        "101-300": {
+          "n_themes_in_band": 3,
+          "n_sampled": 3,
+          "observed": 0.1607,
+          "null": 0.0291,
+          "ratio": 5.53
+        },
+        "301-1000": {
+          "n_themes_in_band": 2,
+          "n_sampled": 2,
+          "observed": 0.0994,
+          "null": 0.0295,
+          "ratio": 3.37
+        },
+        "1001+": {
+          "n_themes_in_band": 4,
+          "n_sampled": 4,
+          "observed": 0.0402,
+          "null": 0.0293,
+          "ratio": 1.37
+        }
+      },
+      "rtk_gene_jaccard": {
+        "best": 0.2438,
+        "node": "n01716",
+        "theme_size": 196
+      },
+      "examples": {
+        "3-5": [
+          {
+            "node": "n00717",
+            "size": 3,
+            "sources": {
+              "go": 1,
+              "reactome": 2
+            },
+            "members": [
+              "fatty acid beta-oxidation using acyl-CoA dehydrogenase",
+              "mitochondrial fatty acid beta-oxidation of unsaturated fatty acids",
+              "Beta oxidation of lauroyl-CoA to decanoyl-CoA-CoA"
+            ]
+          },
+          {
+            "node": "n00605",
+            "size": 3,
+            "sources": {
+              "hallmark": 1,
+              "reactome": 2
+            },
+            "members": [
+              "HALLMARK_COAGULATION",
+              "Initiation of coagulation cascade",
+              "Amplification and propagation of coagulation cascade"
+            ]
+          },
+          {
+            "node": "n00401",
+            "size": 4,
+            "sources": {
+              "go": 2,
+              "reactome": 2
+            },
+            "members": [
+              "adenylate cyclase-activating dopamine receptor signaling pathway",
+              "adenylate cyclase-inhibiting dopamine receptor signaling pathway",
+              "Adenylate cyclase activating pathway",
+              "Dopamine receptors"
+            ]
+          },
+          {
+            "node": "n00429",
+            "size": 4,
+            "sources": {
+              "reactome": 4
+            },
+            "members": [
+              "Regulation by c-FLIP",
+              "CASP8 activity is inhibited",
+              "Dimerization of procaspase-8",
+              "TRAIL  signaling"
+            ]
+          },
+          {
+            "node": "n00943",
+            "size": 5,
+            "sources": {
+              "go": 2,
+              "reactome": 3
+            },
+            "members": [
+              "heme transport",
+              "transferrin transport",
+              "Scavenging of heme from plasma",
+              "Defective SLC11A2 causes hypochromic microcytic anemia, with iron overload 1 (AHMIO1)",
+              "Transferrin endocytosis and recycling"
+            ]
+          }
+        ],
+        "6-10": [
+          {
+            "node": "n02306",
+            "size": 6,
+            "sources": {
+              "btm": 4,
+              "reactome": 2
+            },
+            "members": [
+              "integrin cell surface interactions (II)",
+              "extracellular matrix (I)",
+              "extracellular matrix (II)",
+              "extracellular matrix (III)",
+              "Fibronectin matrix formation",
+              "Integrin cell surface interactions"
+            ]
+          },
+          {
+            "node": "n01472",
+            "size": 9,
+            "sources": {
+              "btm": 1,
+              "go": 5,
+              "reactome": 3
+            },
+            "members": [
+              "xenobiotic metabolism",
+              "alkaloid catabolic process",
+              "xenobiotic catabolic process",
+              "benzene-containing compound metabolic process",
+              "detoxification of nitrogen compound",
+              "oxidative demethylation",
+              "Methylation",
+              "Acetylation",
+              "Aromatic amines can be N-hydroxylated or N-dealkylated by CYP1A2"
+            ]
+          },
+          {
+            "node": "n01844",
+            "size": 8,
+            "sources": {
+              "go": 8
+            },
+            "members": [
+              "negative regulation of neuroblast proliferation",
+              "negative regulation of Schwann cell proliferation",
+              "spinal cord oligodendrocyte cell differentiation",
+              "glial cell fate specification",
+              "negative regulation of neuron differentiation",
+              "positive regulation of neuron differentiation",
+              "positive regulation of astrocyte differentiation",
+              "negative regulation of oligodendrocyte differentiation"
+            ]
+          },
+          {
+            "node": "n02603",
+            "size": 9,
+            "sources": {
+              "go": 8,
+              "reactome": 1
+            },
+            "members": [
+              "positive regulation of bone mineralization",
+              "negative regulation of bone mineralization",
+              "bone mineralization involved in bone maturation",
+              "tooth eruption",
+              "positive regulation of enamel mineralization",
+              "cellular response to parathyroid hormone stimulus",
+              "dentinogenesis",
+              "response to sodium phosphate",
+              "Post-translational protein phosphorylation"
+            ]
+          },
+          {
+            "node": "n01731",
+            "size": 6,
+            "sources": {
+              "go": 1,
+              "reactome": 5
+            },
+            "members": [
+              "cellular response to indole-3-methanol",
+              "InlA-mediated entry of Listeria monocytogenes into host cells",
+              "Degradation of CDH1",
+              "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane",
+              "CDH11 homotypic and heterotypic interactions",
+              "SRC activates STAT3 in a quantitative manner, through Cadherin-11 (CDH11), RAC1 and gp130 (IL6ST)"
+            ]
+          }
+        ],
+        "11-20": [
+          {
+            "node": "n02134",
+            "size": 17,
+            "sources": {
+              "btm": 1,
+              "go": 12,
+              "reactome": 4
+            },
+            "members": [
+              "inflammasome receptors and signaling",
+              "positive regulation of JUN kinase activity",
+              "negative regulation of JUN kinase activity",
+              "positive regulation of JNK cascade",
+              "positive regulation of stress-activated protein kinase signaling cascade",
+              "positive regulation of nucleotide-binding domain, leucine rich repeat containing receptor signaling pathway",
+              "nucleotide-binding oligomerization domain containing 1 signaling pathway",
+              "regulation of nucleotide-binding oligomerization domain containing 2 signaling pathway",
+              "cellular response to peptidoglycan",
+              "cellular response to muramyl dipeptide",
+              "antibacterial innate immune response",
+              "positive regulation of protein K63-linked ubiquitination"
+            ]
+          },
+          {
+            "node": "n02424",
+            "size": 12,
+            "sources": {
+              "go": 2,
+              "hallmark": 1,
+              "reactome": 9
+            },
+            "members": [
+              "negative regulation of smoothened signaling pathway",
+              "positive regulation of smoothened signaling pathway",
+              "HALLMARK_HEDGEHOG_SIGNALING",
+              "Degradation of DVL",
+              "Negative regulation of TCF-dependent signaling by DVL-interacting proteins",
+              "Degradation of GLI1 by the proteasome",
+              "Degradation of GLI2 by the proteasome",
+              "GLI3 is processed to GLI3R by the proteasome",
+              "Ligand-receptor interactions",
+              "Activation of SMO",
+              "GLI proteins bind promoters of Hh responsive genes to promote transcription",
+              "Regulation of expression of SLITs and ROBOs"
+            ]
+          },
+          {
+            "node": "n01232",
+            "size": 14,
+            "sources": {
+              "go": 4,
+              "reactome": 10
+            },
+            "members": [
+              "brain-derived neurotrophic factor receptor signaling pathway",
+              "positive regulation of neurotrophin TRK receptor signaling pathway",
+              "trans-synaptic signaling by BDNF, modulating synaptic transmission",
+              "cellular response to brain-derived neurotrophic factor stimulus",
+              "PI3K/AKT activation",
+              "BDNF activates NTRK2 (TRKB) signaling",
+              "NTF3 activates NTRK2 (TRKB) signaling",
+              "NTF4 activates NTRK2 (TRKB) signaling",
+              "Activated NTRK2 signals through RAS",
+              "Activated NTRK2 signals through PLCG1",
+              "Activated NTRK2 signals through PI3K",
+              "Activated NTRK2 signals through FRS2 and FRS3"
+            ]
+          },
+          {
+            "node": "n02670",
+            "size": 11,
+            "sources": {
+              "go": 8,
+              "reactome": 3
+            },
+            "members": [
+              "response to iron(II) ion",
+              "response to selenium ion",
+              "response to lead ion",
+              "negative regulation of hydrogen peroxide metabolic process",
+              "response to cobalt ion",
+              "response to mercury ion",
+              "cellular response to copper ion",
+              "cellular response to zinc ion",
+              "MTF1 activates gene expression",
+              "Metallothioneins bind metals",
+              "Regulation of HMOX1 expression and activity"
+            ]
+          },
+          {
+            "node": "n01905",
+            "size": 13,
+            "sources": {
+              "btm": 2,
+              "go": 9,
+              "reactome": 2
+            },
+            "members": [
+              "TBA",
+              "regulation of transcription, transcription factors",
+              "promoter clearance during DNA-templated transcription",
+              "positive regulation of DNA-templated transcription, elongation",
+              "negative regulation of transcription elongation by RNA polymerase II",
+              "positive regulation of RNA polymerase II transcription preinitiation complex assembly",
+              "positive regulation of termination of DNA-templated transcription",
+              "transcription elongation-coupled chromatin remodeling",
+              "transcription pausing by RNA polymerase II",
+              "RNA polymerase II transcription initiation surveillance",
+              "regulation of termination of RNA polymerase II transcription, poly(A)-coupled",
+              "Formation of RNA Pol II elongation complex"
+            ]
+          }
+        ],
+        "21-50": [
+          {
+            "node": "n02312",
+            "size": 21,
+            "sources": {
+              "btm": 18,
+              "go": 3
+            },
+            "members": [
+              "TBA",
+              "TBA (source: B cells)",
+              "TBA (source: naive B cells)",
+              "TBA (source: memory B cells)",
+              "plasma cells & B cells, immunoglobulins",
+              "plasma cells, immunoglobulins",
+              "enriched in B cells (I)",
+              "enriched in B cells (II)",
+              "enriched in B cells (III)",
+              "enriched in B cells (IV)",
+              "enriched in B cells (V)",
+              "lymphocyte generic cluster"
+            ]
+          },
+          {
+            "node": "n02390",
+            "size": 35,
+            "sources": {
+              "go": 24,
+              "reactome": 11
+            },
+            "members": [
+              "noradrenergic neuron development",
+              "obsolete serotonin transport",
+              "amine catabolic process",
+              "regulation of serotonin secretion",
+              "obsolete monoamine transport",
+              "obsolete dopamine transport",
+              "obsolete norepinephrine transport",
+              "catechol-containing compound catabolic process",
+              "regulation of catecholamine metabolic process",
+              "epinephrine metabolic process",
+              "dopamine biosynthetic process",
+              "norepinephrine biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01073",
+            "size": 35,
+            "sources": {
+              "go": 14,
+              "reactome": 21
+            },
+            "members": [
+              "vitamin A metabolic process",
+              "response to high light intensity",
+              "light absorption",
+              "diterpenoid biosynthetic process",
+              "terpenoid catabolic process",
+              "regulation of opsin-mediated signaling pathway",
+              "response to vitamin A",
+              "retinol metabolic process",
+              "retinoic acid metabolic process",
+              "retinal metabolic process",
+              "detection of light stimulus involved in sensory perception",
+              "cellular response to retinoic acid"
+            ]
+          },
+          {
+            "node": "n02500",
+            "size": 23,
+            "sources": {
+              "go": 11,
+              "hallmark": 1,
+              "reactome": 11
+            },
+            "members": [
+              "negative regulation of tumor necrosis factor-mediated signaling pathway",
+              "TRAIL-activated apoptotic signaling pathway",
+              "positive regulation of necroptotic process",
+              "negative regulation of programmed necrotic cell death",
+              "regulation of activation-induced cell death of T cells",
+              "necroptotic signaling pathway",
+              "positive regulation of execution phase of apoptosis",
+              "negative regulation of extrinsic apoptotic signaling pathway via death domain receptors",
+              "positive regulation of extrinsic apoptotic signaling pathway via death domain receptors",
+              "negative regulation of Fas signaling pathway",
+              "negative regulation of hepatocyte apoptotic process",
+              "HALLMARK_APOPTOSIS"
+            ]
+          },
+          {
+            "node": "n00230",
+            "size": 22,
+            "sources": {
+              "go": 5,
+              "reactome": 17
+            },
+            "members": [
+              "heparan sulfate proteoglycan biosynthetic process",
+              "heparin proteoglycan biosynthetic process",
+              "keratan sulfate proteoglycan metabolic process",
+              "chondroitin sulfate proteoglycan biosynthetic process",
+              "dermatan sulfate proteoglycan biosynthetic process",
+              "Glycosaminoglycan-protein linkage region biosynthesis",
+              "Keratan sulfate biosynthesis",
+              "Keratan sulfate degradation",
+              "CS-GAG biosynthesis",
+              "DS-GAG biosynthesis",
+              "HS-GAG biosynthesis",
+              "Defective B4GALT7 causes EDS, progeroid type"
+            ]
+          }
+        ],
+        "51-100": [
+          {
+            "node": "n01480",
+            "size": 59,
+            "sources": {
+              "go": 11,
+              "reactome": 48
+            },
+            "members": [
+              "heparan sulfate proteoglycan biosynthetic process",
+              "heparan sulfate proteoglycan catabolic process",
+              "chondroitin sulfate proteoglycan catabolic process",
+              "heparin proteoglycan biosynthetic process",
+              "protein O-linked glycosylation via mannose",
+              "protein O-linked glycosylation via fucose",
+              "keratan sulfate proteoglycan metabolic process",
+              "positive regulation of Notch signaling pathway",
+              "chondroitin sulfate proteoglycan biosynthetic process",
+              "dermatan sulfate proteoglycan biosynthetic process",
+              "protein O-linked glycosylation via glucose",
+              "Pre-NOTCH Processing in the Endoplasmic Reticulum"
+            ]
+          },
+          {
+            "node": "n01650",
+            "size": 68,
+            "sources": {
+              "btm": 3,
+              "go": 32,
+              "reactome": 33
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway",
+              "negative regulation of prostaglandin biosynthetic process",
+              "positive regulation of prostaglandin biosynthetic process",
+              "positive regulation of fever generation"
+            ]
+          },
+          {
+            "node": "n01636",
+            "size": 68,
+            "sources": {
+              "go": 54,
+              "reactome": 14
+            },
+            "members": [
+              "regulation of the force of heart contraction by chemical signal",
+              "regulation of heart rate by chemical signal",
+              "detection of calcium ion",
+              "negative regulation of heart rate",
+              "positive regulation of heart rate",
+              "negative regulation of calcium ion transport into cytosol",
+              "positive regulation of striated muscle cell apoptotic process",
+              "regulation of cardiac muscle contraction by regulation of the release of sequestered calcium ion",
+              "regulation of skeletal muscle contraction by regulation of release of sequestered calcium ion",
+              "activation of store-operated calcium channel activity",
+              "negative regulation of endoplasmic reticulum calcium ion concentration",
+              "negative regulation of ATP-dependent activity"
+            ]
+          },
+          {
+            "node": "n02705",
+            "size": 55,
+            "sources": {
+              "go": 50,
+              "reactome": 5
+            },
+            "members": [
+              "organ induction",
+              "obsolete renal system process involved in regulation of blood volume",
+              "regulation of glomerular filtration",
+              "regulation of mesenchymal to epithelial transition involved in metanephros morphogenesis",
+              "glomerular basement membrane development",
+              "metanephric part of ureteric bud development",
+              "regulation of kidney size",
+              "cortical microtubule organization",
+              "pronephros development",
+              "ureteric bud formation",
+              "ureteric bud elongation",
+              "obsolete pattern specification involved in kidney development"
+            ]
+          },
+          {
+            "node": "n00514",
+            "size": 53,
+            "sources": {
+              "go": 51,
+              "reactome": 2
+            },
+            "members": [
+              "secondary heart field specification",
+              "embryonic heart tube morphogenesis",
+              "outflow tract septum morphogenesis",
+              "membranous septum morphogenesis",
+              "muscular septum morphogenesis",
+              "endocardium morphogenesis",
+              "atrioventricular node development",
+              "His-Purkinje system development",
+              "mitral valve development",
+              "tricuspid valve development",
+              "aortic valve morphogenesis",
+              "pulmonary valve morphogenesis"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n01851",
+            "size": 158,
+            "sources": {
+              "btm": 4,
+              "go": 74,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing",
+              "DNA synthesis involved in DNA repair",
+              "somatic diversification of immune receptors via somatic mutation"
+            ]
+          },
+          {
+            "node": "n00139",
+            "size": 162,
+            "sources": {
+              "btm": 2,
+              "go": 48,
+              "reactome": 112
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "protein sulfation",
+              "dolichol-linked oligosaccharide biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01716",
+            "size": 196,
+            "sources": {
+              "btm": 1,
+              "go": 27,
+              "reactome": 168
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "negative regulation of hippo signaling",
+              "positive regulation of hippo signaling",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-threonine dephosphorylation",
+              "peptidyl-tyrosine autophosphorylation"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n00978",
+            "size": 759,
+            "sources": {
+              "btm": 129,
+              "go": 410,
+              "hallmark": 7,
+              "reactome": 213
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster",
+              "cell adhesion (GO)",
+              "enriched in monocytes (IV)"
+            ]
+          },
+          {
+            "node": "n01453",
+            "size": 740,
+            "sources": {
+              "btm": 47,
+              "go": 364,
+              "hallmark": 7,
+              "reactome": 322
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n01850",
+            "size": 2392,
+            "sources": {
+              "btm": 126,
+              "go": 1499,
+              "hallmark": 18,
+              "reactome": 749
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n01307",
+            "size": 1289,
+            "sources": {
+              "btm": 28,
+              "go": 669,
+              "hallmark": 11,
+              "reactome": 581
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in G-protein coupled receptors",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "G protein coupled receptors cluster",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)"
+            ]
+          },
+          {
+            "node": "n02411",
+            "size": 2030,
+            "sources": {
+              "btm": 221,
+              "go": 1017,
+              "hallmark": 29,
+              "reactome": 763
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)"
+            ]
+          },
+          {
+            "node": "n02656",
+            "size": 2145,
+            "sources": {
+              "btm": 47,
+              "go": 1300,
+              "hallmark": 14,
+              "reactome": 784
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)"
+            ]
+          }
+        ]
+      }
+    },
+    "M5": {
+      "path": "data/ontology/v0.4-leaves/thema_L_M5",
+      "themes": 3314,
+      "theta_match": 0.5,
+      "match_split": null,
+      "bands": {
+        "3-5": 0,
+        "6-10": 1153,
+        "11-20": 1389,
+        "21-50": 674,
+        "51-100": 74,
+        "101-300": 13,
+        "301-1000": 5,
+        "1001+": 6
+      },
+      "themes_60_to_800": 63,
+      "n_roots": 96,
+      "root_sizes": [
+        2417,
+        2144,
+        1966,
+        1963,
+        840,
+        760,
+        471,
+        128,
+        106,
+        95,
+        75,
+        66,
+        65,
+        64,
+        56,
+        45,
+        45,
+        45,
+        43,
+        35
+      ],
+      "root_size_median": 12.0,
+      "multi_parent_share": 0.3844,
+      "n_effectively_unplaced": 134,
+      "floors_source": "solved on L from seeds [3001, 3002, 3003], confirmed on [4001]",
+      "build_seconds": null,
+      "inclusion_above_60": {
+        "median": 0.9143,
+        "share_below_0.7": 0.2444,
+        "n_themes": 66
+      },
+      "coherence": {
+        "6-10": {
+          "n_themes_in_band": 1153,
+          "n_sampled": 150,
+          "observed": 0.5472,
+          "null": 0.0284,
+          "ratio": 19.24
+        },
+        "11-20": {
+          "n_themes_in_band": 1389,
+          "n_sampled": 150,
+          "observed": 0.4951,
+          "null": 0.029,
+          "ratio": 17.06
+        },
+        "21-50": {
+          "n_themes_in_band": 674,
+          "n_sampled": 150,
+          "observed": 0.3818,
+          "null": 0.0288,
+          "ratio": 13.27
+        },
+        "51-100": {
+          "n_themes_in_band": 74,
+          "n_sampled": 74,
+          "observed": 0.2422,
+          "null": 0.0293,
+          "ratio": 8.27
+        },
+        "101-300": {
+          "n_themes_in_band": 13,
+          "n_sampled": 13,
+          "observed": 0.146,
+          "null": 0.0296,
+          "ratio": 4.93
+        },
+        "301-1000": {
+          "n_themes_in_band": 5,
+          "n_sampled": 5,
+          "observed": 0.1061,
+          "null": 0.0292,
+          "ratio": 3.63
+        },
+        "1001+": {
+          "n_themes_in_band": 6,
+          "n_sampled": 6,
+          "observed": 0.0409,
+          "null": 0.0292,
+          "ratio": 1.4
+        }
+      },
+      "rtk_gene_jaccard": {
+        "best": 0.2503,
+        "node": "n02452",
+        "theme_size": 43
+      },
+      "examples": {
+        "6-10": [
+          {
+            "node": "n01921",
+            "size": 7,
+            "sources": {
+              "go": 7
+            },
+            "members": [
+              "optic cup morphogenesis involved in camera-type eye development",
+              "embryonic retina morphogenesis in camera-type eye",
+              "eyelid development in camera-type eye",
+              "iris morphogenesis",
+              "cornea development in camera-type eye",
+              "lens fiber cell morphogenesis",
+              "negative regulation of lens fiber cell differentiation"
+            ]
+          },
+          {
+            "node": "n01915",
+            "size": 8,
+            "sources": {
+              "go": 8
+            },
+            "members": [
+              "negative regulation of Schwann cell proliferation",
+              "spinal cord oligodendrocyte cell differentiation",
+              "glial cell fate specification",
+              "negative regulation of neuron differentiation",
+              "positive regulation of astrocyte differentiation",
+              "negative regulation of oligodendrocyte differentiation",
+              "positive regulation of glial cell proliferation",
+              "negative regulation of glial cell migration"
+            ]
+          },
+          {
+            "node": "n01809",
+            "size": 8,
+            "sources": {
+              "go": 8
+            },
+            "members": [
+              "DNA endoreduplication",
+              "decidualization",
+              "embryonic process involved in female pregnancy",
+              "branching involved in labyrinthine layer morphogenesis",
+              "trophoblast giant cell differentiation",
+              "chorio-allantoic fusion",
+              "labyrinthine layer blood vessel development",
+              "chorionic trophoblast cell differentiation"
+            ]
+          },
+          {
+            "node": "n02674",
+            "size": 7,
+            "sources": {
+              "go": 4,
+              "reactome": 3
+            },
+            "members": [
+              "G protein-coupled receptor signaling pathway, coupled to cyclic nucleotide second messenger",
+              "negative regulation of adenylate cyclase activity",
+              "adenylate cyclase-inhibiting adrenergic receptor signaling pathway",
+              "positive regulation of adenylate cyclase-activating G protein-coupled receptor signaling pathway",
+              "Adenylate cyclase inhibitory pathway",
+              "Adrenaline signalling through Alpha-2 adrenergic receptor",
+              "G alpha (z) signalling events"
+            ]
+          },
+          {
+            "node": "n02401",
+            "size": 10,
+            "sources": {
+              "go": 5,
+              "reactome": 5
+            },
+            "members": [
+              "monoacylglycerol biosynthetic process",
+              "diacylglycerol biosynthetic process",
+              "positive regulation of triglyceride catabolic process",
+              "phosphatidic acid metabolic process",
+              "positive regulation of lipase activity",
+              "Acyl chain remodeling of DAG and TAG",
+              "Synthesis of PA",
+              "Triglyceride catabolism",
+              "PDE3B signalling",
+              "Triglyceride biosynthesis"
+            ]
+          }
+        ],
+        "11-20": [
+          {
+            "node": "n02163",
+            "size": 13,
+            "sources": {
+              "btm": 2,
+              "go": 6,
+              "hallmark": 1,
+              "reactome": 4
+            },
+            "members": [
+              "complement activation (I)",
+              "complement activation (II)",
+              "complement activation, lectin pathway",
+              "regulation of complement activation, alternative pathway",
+              "negative regulation of complement activation",
+              "positive regulation of complement activation",
+              "complement activation, GZMK pathway",
+              "regulation of opsonization",
+              "HALLMARK_COMPLEMENT",
+              "Classical antibody-mediated complement activation",
+              "Alternative complement activation",
+              "Activation of C3 and C5"
+            ]
+          },
+          {
+            "node": "n02959",
+            "size": 14,
+            "sources": {
+              "go": 6,
+              "reactome": 8
+            },
+            "members": [
+              "transcription initiation at RNA polymerase III promoter",
+              "termination of RNA polymerase III transcription",
+              "tRNA transcription",
+              "5S class rRNA transcription by RNA polymerase III",
+              "snRNA transcription by RNA polymerase III",
+              "regulation of snRNA transcription by RNA polymerase II",
+              "RNA polymerase II transcribes snRNA genes",
+              "mRNA Splicing - Minor Pathway",
+              "RNA Polymerase III Chain Elongation",
+              "RNA Polymerase III Transcription Termination",
+              "RNA Polymerase III Abortive And Retractive Initiation",
+              "RNA Polymerase III Transcription Initiation From Type 1 Promoter"
+            ]
+          },
+          {
+            "node": "n01956",
+            "size": 16,
+            "sources": {
+              "go": 13,
+              "reactome": 3
+            },
+            "members": [
+              "rRNA 2'-O-methylation",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "box C/D snoRNP assembly",
+              "tRNA methylation",
+              "tRNA pseudouridine synthesis",
+              "wybutosine biosynthetic process",
+              "RNA (guanine-N7)-methylation",
+              "snRNA modification",
+              "snoRNA localization",
+              "rRNA base methylation",
+              "negative regulation of tRNA metabolic process",
+              "mRNA pseudouridine synthesis"
+            ]
+          },
+          {
+            "node": "n01438",
+            "size": 11,
+            "sources": {
+              "go": 6,
+              "reactome": 5
+            },
+            "members": [
+              "xenobiotic transmembrane transport",
+              "sodium-independent organic anion transport",
+              "xenobiotic export from cell",
+              "flavone metabolic process",
+              "glycoside transport",
+              "xenobiotic transport across blood-brain barrier",
+              "Organic anion transport by SLCO transporters",
+              "Aspirin ADME",
+              "Atorvastatin ADME",
+              "Prednisone ADME",
+              "Ciprofloxacin ADME"
+            ]
+          },
+          {
+            "node": "n02647",
+            "size": 16,
+            "sources": {
+              "go": 6,
+              "reactome": 10
+            },
+            "members": [
+              "antigen processing and presentation of endogenous peptide antigen",
+              "peptide antigen assembly with MHC class I protein complex",
+              "antigen processing and presentation of exogenous peptide antigen via MHC class II",
+              "antigen processing and presentation of exogenous peptide antigen via MHC class I",
+              "cytosol to endoplasmic reticulum transport",
+              "CD8-positive, alpha-beta T cell homeostasis",
+              "Cross-presentation of particulate exogenous antigens (phagosomes)",
+              "ER-Phagosome pathway",
+              "Endosomal/Vacuolar pathway",
+              "Cross-presentation of soluble exogenous antigens (endosomes)",
+              "Vpu mediated degradation of CD4",
+              "MHC class II antigen presentation"
+            ]
+          }
+        ],
+        "21-50": [
+          {
+            "node": "n00377",
+            "size": 21,
+            "sources": {
+              "go": 13,
+              "reactome": 8
+            },
+            "members": [
+              "lncRNA-mediated post-transcriptional gene silencing",
+              "positive regulation of cytoplasmic mRNA processing body assembly",
+              "siRNA processing",
+              "miRNA-mediated gene silencing by inhibition of translation",
+              "miRNA-mediated gene silencing by mRNA destabilization",
+              "regulation of nuclear-transcribed mRNA poly(A) tail shortening",
+              "RISC complex assembly",
+              "target-directed miRNA degradation",
+              "positive regulation of nuclear-transcribed mRNA catabolic process, deadenylation-dependent decay",
+              "negative regulation of miRNA processing",
+              "positive regulation of miRNA catabolic process",
+              "regulation of pre-miRNA processing"
+            ]
+          },
+          {
+            "node": "n01406",
+            "size": 35,
+            "sources": {
+              "go": 26,
+              "reactome": 9
+            },
+            "members": [
+              "regulation of heart rate by chemical signal",
+              "His-Purkinje system development",
+              "negative regulation of action potential",
+              "regulation of atrial cardiac muscle cell membrane depolarization",
+              "regulation of atrial cardiac muscle cell membrane repolarization",
+              "regulation of ventricular cardiac muscle cell membrane depolarization",
+              "obsolete cell-cell signaling involved in cardiac conduction",
+              "bundle of His cell to Purkinje myocyte signaling",
+              "membrane depolarization during AV node cell action potential",
+              "membrane depolarization during SA node cell action potential",
+              "Purkinje myocyte to ventricular cardiac muscle cell communication",
+              "regulation of heart rate by cardiac conduction"
+            ]
+          },
+          {
+            "node": "n03033",
+            "size": 29,
+            "sources": {
+              "go": 25,
+              "reactome": 4
+            },
+            "members": [
+              "peptidoglycan metabolic process",
+              "response to yeast",
+              "innate immune response in mucosa",
+              "positive regulation of antimicrobial humoral response",
+              "antimicrobial peptide biosynthetic process",
+              "antibacterial peptide production",
+              "regulation of antimicrobial peptide production",
+              "response to symbiont",
+              "response to nematode",
+              "antifungal humoral response",
+              "peptide modification",
+              "induction of bacterial agglutination"
+            ]
+          },
+          {
+            "node": "n03146",
+            "size": 26,
+            "sources": {
+              "go": 22,
+              "reactome": 4
+            },
+            "members": [
+              "reduction of food intake in response to dietary excess",
+              "adult feeding behavior",
+              "response to sucrose",
+              "regulation of response to food",
+              "regulation of appetite",
+              "negative regulation of response to nutrient levels",
+              "positive regulation of response to nutrient levels",
+              "leptin-mediated signaling pathway",
+              "gastric motility",
+              "negative regulation of multicellular organism growth",
+              "positive regulation of multicellular organism growth",
+              "cortisol secretion"
+            ]
+          },
+          {
+            "node": "n01925",
+            "size": 38,
+            "sources": {
+              "btm": 1,
+              "go": 20,
+              "reactome": 17
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "obsolete membrane lipid metabolic process",
+              "phosphatidylethanolamine biosynthetic process",
+              "phosphatidylglycerol biosynthetic process",
+              "CDP-choline pathway",
+              "sphingomyelin catabolic process",
+              "sphingomyelin biosynthetic process",
+              "cardiolipin metabolic process",
+              "phosphatidylglycerol acyl-chain remodeling",
+              "phosphatidylinositol acyl-chain remodeling",
+              "phosphatidylserine acyl-chain remodeling",
+              "phosphatidylcholine acyl-chain remodeling"
+            ]
+          }
+        ],
+        "51-100": [
+          {
+            "node": "n01017",
+            "size": 68,
+            "sources": {
+              "btm": 3,
+              "go": 32,
+              "reactome": 33
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway",
+              "negative regulation of prostaglandin biosynthetic process",
+              "positive regulation of prostaglandin biosynthetic process",
+              "positive regulation of fever generation"
+            ]
+          },
+          {
+            "node": "n02238",
+            "size": 75,
+            "sources": {
+              "btm": 4,
+              "go": 53,
+              "hallmark": 1,
+              "reactome": 17
+            },
+            "members": [
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "golgi membrane (II)",
+              "retrograde transport, vesicle recycling within Golgi",
+              "positive regulation of receptor recycling",
+              "obsolete regulation of COPII vesicle coating",
+              "SRP-dependent cotranslational protein targeting to membrane, translocation",
+              "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+              "protein retention in ER lumen",
+              "protein targeting to lysosome",
+              "retrograde vesicle-mediated transport, Golgi to endoplasmic reticulum"
+            ]
+          },
+          {
+            "node": "n01643",
+            "size": 53,
+            "sources": {
+              "go": 49,
+              "reactome": 4
+            },
+            "members": [
+              "ovulation from ovarian follicle",
+              "antral ovarian follicle growth",
+              "luteinization",
+              "luteolysis",
+              "inner cell mass cell differentiation",
+              "trophectodermal cell differentiation",
+              "gonadal mesoderm development",
+              "primordial germ cell migration",
+              "male sex determination",
+              "male genitalia development",
+              "negative regulation of gonadotropin secretion",
+              "Leydig cell differentiation"
+            ]
+          },
+          {
+            "node": "n02451",
+            "size": 58,
+            "sources": {
+              "go": 17,
+              "reactome": 41
+            },
+            "members": [
+              "fructose 6-phosphate metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "dolichol-linked oligosaccharide biosynthetic process",
+              "N-glycan processing",
+              "GPI anchor metabolic process",
+              "GDP-mannose biosynthetic process",
+              "attachment of GPI anchor to protein",
+              "obsolete protein N-linked glycosylation via asparagine"
+            ]
+          },
+          {
+            "node": "n01922",
+            "size": 73,
+            "sources": {
+              "btm": 2,
+              "go": 33,
+              "reactome": 38
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "protein sulfation",
+              "dolichol-linked oligosaccharide biosynthetic process"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n00999",
+            "size": 190,
+            "sources": {
+              "btm": 2,
+              "go": 21,
+              "reactome": 167
+            },
+            "members": [
+              "MAPK, RAS signaling",
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-tyrosine autophosphorylation",
+              "ERBB3 signaling pathway",
+              "ERBB2-EGFR signaling pathway"
+            ]
+          },
+          {
+            "node": "n02348",
+            "size": 118,
+            "sources": {
+              "btm": 1,
+              "go": 22,
+              "reactome": 95
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-tyrosine autophosphorylation",
+              "ERBB3 signaling pathway",
+              "ERBB2-EGFR signaling pathway",
+              "ERBB2-ERBB4 signaling pathway"
+            ]
+          },
+          {
+            "node": "n00480",
+            "size": 155,
+            "sources": {
+              "btm": 3,
+              "go": 73,
+              "hallmark": 1,
+              "reactome": 78
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing",
+              "DNA synthesis involved in DNA repair",
+              "somatic diversification of immune receptors via somatic mutation",
+              "DNA topological change"
+            ]
+          },
+          {
+            "node": "n00003",
+            "size": 160,
+            "sources": {
+              "btm": 2,
+              "go": 47,
+              "reactome": 111
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "protein sulfation",
+              "dolichol-linked oligosaccharide biosynthetic process"
+            ]
+          },
+          {
+            "node": "n02779",
+            "size": 108,
+            "sources": {
+              "btm": 1,
+              "go": 64,
+              "hallmark": 2,
+              "reactome": 41
+            },
+            "members": [
+              "TBA",
+              "carbon catabolite regulation of transcription from RNA polymerase II promoter",
+              "diet induced thermogenesis",
+              "monoacylglycerol biosynthetic process",
+              "diacylglycerol biosynthetic process",
+              "sugar mediated signaling pathway",
+              "regulation of long-chain fatty acid import across plasma membrane",
+              "positive regulation of triglyceride biosynthetic process",
+              "negative regulation of triglyceride biosynthetic process",
+              "regulation of triglyceride storage",
+              "negative regulation of triglyceride catabolic process",
+              "positive regulation of triglyceride catabolic process"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n00210",
+            "size": 840,
+            "sources": {
+              "btm": 58,
+              "go": 410,
+              "hallmark": 7,
+              "reactome": 365
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02857",
+            "size": 414,
+            "sources": {
+              "btm": 36,
+              "go": 187,
+              "hallmark": 5,
+              "reactome": 186
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n01866",
+            "size": 754,
+            "sources": {
+              "btm": 52,
+              "go": 367,
+              "hallmark": 7,
+              "reactome": 328
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02881",
+            "size": 471,
+            "sources": {
+              "btm": 41,
+              "go": 218,
+              "hallmark": 5,
+              "reactome": 207
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA",
+              "enriched in cell cycle",
+              "mitosis (TF motif CCAATNNSNNNGCG)"
+            ]
+          },
+          {
+            "node": "n00002",
+            "size": 760,
+            "sources": {
+              "btm": 128,
+              "go": 412,
+              "hallmark": 7,
+              "reactome": 213
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster",
+              "cell adhesion (GO)",
+              "enriched in monocytes (IV)"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n02104",
+            "size": 1092,
+            "sources": {
+              "btm": 24,
+              "go": 593,
+              "hallmark": 8,
+              "reactome": 467
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "nucleotide metabolism",
+              "metabolism in mitochondria, peroxisome",
+              "transmembrane transport (II)"
+            ]
+          },
+          {
+            "node": "n00000",
+            "size": 2144,
+            "sources": {
+              "btm": 118,
+              "go": 1337,
+              "hallmark": 16,
+              "reactome": 673
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n00001",
+            "size": 1379,
+            "sources": {
+              "btm": 29,
+              "go": 729,
+              "hallmark": 12,
+              "reactome": 609
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in G-protein coupled receptors",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "G protein coupled receptors cluster",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)"
+            ]
+          },
+          {
+            "node": "n01836",
+            "size": 1963,
+            "sources": {
+              "btm": 216,
+              "go": 1017,
+              "hallmark": 23,
+              "reactome": 707
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)"
+            ]
+          },
+          {
+            "node": "n01506",
+            "size": 1966,
+            "sources": {
+              "btm": 43,
+              "go": 1164,
+              "hallmark": 13,
+              "reactome": 746
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)"
+            ]
+          }
+        ]
+      }
+    },
+    "MS": {
+      "path": "data/ontology/v0.4-leaves/thema_L_MS",
+      "themes": 2816,
+      "theta_match": 0.7,
+      "match_split": [
+        50,
+        0.7,
+        0.5
+      ],
+      "bands": {
+        "3-5": 494,
+        "6-10": 1252,
+        "11-20": 750,
+        "21-50": 280,
+        "51-100": 30,
+        "101-300": 4,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "themes_60_to_800": 25,
+      "n_roots": 45,
+      "root_sizes": [
+        2217,
+        2144,
+        2005,
+        1336,
+        814,
+        779,
+        67,
+        63,
+        44,
+        43,
+        42,
+        31,
+        29,
+        28,
+        25,
+        17,
+        17,
+        16,
+        13,
+        13
+      ],
+      "root_size_median": 11.0,
+      "multi_parent_share": 0.3683,
+      "n_effectively_unplaced": 242,
+      "floors_source": "solved on L from the declared 10-seed fallback [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed on [4001, 4002], because the 3-seed solve left 5-5 0.0297 over the 0.02 per-stratum cap",
+      "build_seconds": null,
+      "inclusion_above_60": {
+        "median": 0.9767,
+        "share_below_0.7": 0.1432,
+        "n_themes": 27
+      },
+      "coherence": {
+        "3-5": {
+          "n_themes_in_band": 494,
+          "n_sampled": 150,
+          "observed": 0.7251,
+          "null": 0.0289,
+          "ratio": 25.05
+        },
+        "6-10": {
+          "n_themes_in_band": 1252,
+          "n_sampled": 150,
+          "observed": 0.6018,
+          "null": 0.0293,
+          "ratio": 20.55
+        },
+        "11-20": {
+          "n_themes_in_band": 750,
+          "n_sampled": 150,
+          "observed": 0.5119,
+          "null": 0.0285,
+          "ratio": 17.96
+        },
+        "21-50": {
+          "n_themes_in_band": 280,
+          "n_sampled": 150,
+          "observed": 0.366,
+          "null": 0.0292,
+          "ratio": 12.55
+        },
+        "51-100": {
+          "n_themes_in_band": 30,
+          "n_sampled": 30,
+          "observed": 0.2263,
+          "null": 0.0294,
+          "ratio": 7.7
+        },
+        "101-300": {
+          "n_themes_in_band": 4,
+          "n_sampled": 4,
+          "observed": 0.1743,
+          "null": 0.0288,
+          "ratio": 6.06
+        },
+        "301-1000": {
+          "n_themes_in_band": 2,
+          "n_sampled": 2,
+          "observed": 0.0946,
+          "null": 0.03,
+          "ratio": 3.15
+        },
+        "1001+": {
+          "n_themes_in_band": 4,
+          "n_sampled": 4,
+          "observed": 0.0407,
+          "null": 0.0294,
+          "ratio": 1.38
+        }
+      },
+      "rtk_gene_jaccard": {
+        "best": 0.2658,
+        "node": "n02409",
+        "theme_size": 179
+      },
+      "examples": {
+        "3-5": [
+          {
+            "node": "n01888",
+            "size": 5,
+            "sources": {
+              "go": 5
+            },
+            "members": [
+              "negative regulation of nucleotide biosynthetic process",
+              "positive regulation of mitochondrial depolarization",
+              "positive regulation of oxidative stress-induced intrinsic apoptotic signaling pathway",
+              "negative regulation of intrinsic apoptotic signaling pathway in response to osmotic stress",
+              "negative regulation of hypoxia-induced intrinsic apoptotic signaling pathway"
+            ]
+          },
+          {
+            "node": "n00506",
+            "size": 3,
+            "sources": {
+              "go": 3
+            },
+            "members": [
+              "aggressive behavior",
+              "female mating behavior",
+              "parental behavior"
+            ]
+          },
+          {
+            "node": "n00654",
+            "size": 3,
+            "sources": {
+              "go": 3
+            },
+            "members": [
+              "regulation of the force of heart contraction by chemical signal",
+              "positive regulation of heart rate",
+              "positive regulation of cardiac muscle contraction"
+            ]
+          },
+          {
+            "node": "n00170",
+            "size": 5,
+            "sources": {
+              "reactome": 5
+            },
+            "members": [
+              "Enhanced cleavage of VWF variant by ADAMTS13",
+              "Enhanced binding of GP1BA variant to VWF multimer:collagen",
+              "Defective VWF cleavage by ADAMTS13 variant",
+              "Defective VWF binding to collagen type I",
+              "Defective binding of VWF variant to GPIb:IX:V"
+            ]
+          },
+          {
+            "node": "n00344",
+            "size": 3,
+            "sources": {
+              "reactome": 3
+            },
+            "members": [
+              "Defective SLC36A2 causes iminoglycinuria (IG) and hyperglycinuria (HG)",
+              "Variant SLC6A20 affecting neurotransmitter transport contributes towards hyperglycinuria (HG) and iminoglycinuria (IG)",
+              "Variant SLC6A20 affecting amino acid transport contributes towards hyperglycinuria (HG) and iminoglycinuria (IG)"
+            ]
+          }
+        ],
+        "6-10": [
+          {
+            "node": "n01002",
+            "size": 6,
+            "sources": {
+              "btm": 1,
+              "reactome": 5
+            },
+            "members": [
+              "RIG-1 like receptor signaling",
+              "TRAF3-dependent IRF activation pathway",
+              "TRAF6 mediated IRF7 activation",
+              "TRAF6 mediated NF-kB activation",
+              "NF-kB activation through FADD/RIP-1 pathway mediated by caspase-8 and -10",
+              "Evasion by RSV of host interferon responses"
+            ]
+          },
+          {
+            "node": "n02541",
+            "size": 9,
+            "sources": {
+              "go": 9
+            },
+            "members": [
+              "connective tissue replacement involved in inflammatory response wound healing",
+              "negative regulation of transforming growth factor beta1 production",
+              "positive regulation of transforming growth factor beta1 production",
+              "cardiac fibroblast cell differentiation",
+              "negative regulation of extracellular matrix assembly",
+              "negative regulation of cellular response to transforming growth factor beta stimulus",
+              "negative regulation of myofibroblast differentiation",
+              "negative regulation of fibroblast apoptotic process",
+              "positive regulation of fibroblast apoptotic process"
+            ]
+          },
+          {
+            "node": "n02569",
+            "size": 10,
+            "sources": {
+              "go": 10
+            },
+            "members": [
+              "ovulation from ovarian follicle",
+              "luteinization",
+              "luteolysis",
+              "negative regulation of gonadotropin secretion",
+              "positive regulation of luteinizing hormone secretion",
+              "estrous cycle",
+              "positive regulation of follicle-stimulating hormone secretion",
+              "cellular response to follicle-stimulating hormone stimulus",
+              "regulation of female gonad development",
+              "regulation of ovarian follicle development"
+            ]
+          },
+          {
+            "node": "n01927",
+            "size": 7,
+            "sources": {
+              "go": 6,
+              "reactome": 1
+            },
+            "members": [
+              "ARF protein signal transduction",
+              "regulation of Rab protein signal transduction",
+              "synaptic vesicle recycling via endosome",
+              "regulation of neurotransmitter receptor localization to postsynaptic specialization membrane",
+              "neurotransmitter receptor transport, endosome to postsynaptic membrane",
+              "regulation of postsynaptic neurotransmitter receptor internalization",
+              "TBC/RABGAPs"
+            ]
+          },
+          {
+            "node": "n02550",
+            "size": 6,
+            "sources": {
+              "go": 6
+            },
+            "members": [
+              "neuronal signal transduction",
+              "negative regulation of myelination",
+              "positive regulation of glial cell proliferation",
+              "negative regulation of astrocyte activation",
+              "reactive gliosis",
+              "negative regulation of glial cell migration"
+            ]
+          }
+        ],
+        "11-20": [
+          {
+            "node": "n00545",
+            "size": 11,
+            "sources": {
+              "go": 6,
+              "hallmark": 1,
+              "reactome": 4
+            },
+            "members": [
+              "response to interleukin-3",
+              "interleukin-5-mediated signaling pathway",
+              "interleukin-2-mediated signaling pathway",
+              "interleukin-7-mediated signaling pathway",
+              "interleukin-3-mediated signaling pathway",
+              "response to interleukin-9",
+              "HALLMARK_IL2_STAT5_SIGNALING",
+              "Interleukin-7 signaling",
+              "Interleukin-9 signaling",
+              "Interleukin-2 signaling",
+              "Inactivation of CSF3 (G-CSF) signaling"
+            ]
+          },
+          {
+            "node": "n01473",
+            "size": 12,
+            "sources": {
+              "go": 10,
+              "reactome": 2
+            },
+            "members": [
+              "neural plate morphogenesis",
+              "establishment of planar polarity of embryonic epithelium",
+              "paraxial mesoderm formation",
+              "convergent extension involved in gastrulation",
+              "convergent extension involved in axis elongation",
+              "convergent extension involved in organogenesis",
+              "regulation of establishment of planar polarity",
+              "positive regulation of protein localization to cilium",
+              "negative regulation of non-canonical Wnt signaling pathway",
+              "positive regulation of Wnt signaling pathway, planar cell polarity pathway",
+              "Asymmetric localization of PCP proteins",
+              "WNT5A-dependent internalization of FZD2, FZD5 and ROR2"
+            ]
+          },
+          {
+            "node": "n02063",
+            "size": 14,
+            "sources": {
+              "go": 10,
+              "reactome": 4
+            },
+            "members": [
+              "type I hypersensitivity",
+              "mast cell cytokine production",
+              "negative regulation of mast cell activation",
+              "positive regulation of mast cell activation",
+              "obsolete regulation of mast cell activation involved in immune response",
+              "Fc-epsilon receptor signaling pathway",
+              "negative regulation of mast cell degranulation",
+              "positive regulation of mast cell degranulation",
+              "mast cell differentiation",
+              "regulation of histamine secretion by mast cell",
+              "Role of LAT2/NTAL/LAB on calcium mobilization",
+              "FCERI mediated MAPK activation"
+            ]
+          },
+          {
+            "node": "n02045",
+            "size": 11,
+            "sources": {
+              "btm": 3,
+              "go": 1,
+              "hallmark": 1,
+              "reactome": 6
+            },
+            "members": [
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "mitotic cell cycle",
+              "positive regulation of cell cycle G2/M phase transition",
+              "HALLMARK_G2M_CHECKPOINT",
+              "Polo-like kinase mediated events",
+              "Activation of NIMA Kinases NEK9, NEK6, NEK7",
+              "G2 Phase",
+              "Cyclin A/B1/B2 associated events during G2/M transition",
+              "G2/M DNA replication checkpoint",
+              "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex"
+            ]
+          },
+          {
+            "node": "n01808",
+            "size": 13,
+            "sources": {
+              "go": 1,
+              "reactome": 12
+            },
+            "members": [
+              "viral translational termination-reinitiation",
+              "Transport of Ribonucleoproteins into the Host Nucleus",
+              "Inhibition of Host mRNA Processing and RNA Silencing",
+              "Viral Messenger RNA Synthesis",
+              "Viral RNP Complexes in the Host Cell Nucleus",
+              "Inhibition of PKR",
+              "vRNA Synthesis",
+              "Viral mRNA Translation",
+              "vRNP Assembly",
+              "Viral strategies to evade IFIT action",
+              "Assembly and release of respiratory syncytial virus (RSV) virions",
+              "Respiratory syncytial virus genome transcription"
+            ]
+          }
+        ],
+        "21-50": [
+          {
+            "node": "n00479",
+            "size": 28,
+            "sources": {
+              "go": 8,
+              "reactome": 20
+            },
+            "members": [
+              "promoter clearance during DNA-templated transcription",
+              "positive regulation of DNA-templated transcription, elongation",
+              "negative regulation of viral transcription",
+              "negative regulation of transcription elongation by RNA polymerase II",
+              "host-mediated activation of viral transcription",
+              "transcription elongation-coupled chromatin remodeling",
+              "transcription pausing by RNA polymerase II",
+              "RNA polymerase II transcription initiation surveillance",
+              "Formation of RNA Pol II elongation complex",
+              "Formation of the Early Elongation Complex",
+              "Formation of HIV elongation complex in the absence of HIV Tat",
+              "Formation of the HIV-1 Early Elongation Complex"
+            ]
+          },
+          {
+            "node": "n01770",
+            "size": 21,
+            "sources": {
+              "go": 18,
+              "reactome": 3
+            },
+            "members": [
+              "ectodermal cell differentiation",
+              "positive regulation of keratinocyte proliferation",
+              "negative regulation of keratinocyte proliferation",
+              "nail development",
+              "anagen",
+              "negative regulation of keratinocyte differentiation",
+              "positive regulation of keratinocyte differentiation",
+              "positive regulation of melanocyte differentiation",
+              "epidermis morphogenesis",
+              "sebaceous gland development",
+              "positive regulation of hair follicle maturation",
+              "negative regulation of hair follicle development"
+            ]
+          },
+          {
+            "node": "n02707",
+            "size": 34,
+            "sources": {
+              "go": 27,
+              "reactome": 7
+            },
+            "members": [
+              "positive regulation of cilium movement",
+              "sperm axoneme assembly",
+              "positive regulation of centrosome duplication",
+              "lateral ventricle development",
+              "third ventricle development",
+              "ciliary basal body organization",
+              "intraciliary anterograde transport",
+              "intraciliary retrograde transport",
+              "intraciliary transport involved in cilium assembly",
+              "outer dynein arm assembly",
+              "inner dynein arm assembly",
+              "chaperone-mediated protein complex assembly"
+            ]
+          },
+          {
+            "node": "n01846",
+            "size": 21,
+            "sources": {
+              "go": 17,
+              "reactome": 4
+            },
+            "members": [
+              "SRP-dependent cotranslational protein targeting to membrane, translocation",
+              "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+              "protein retention in ER lumen",
+              "post-translational protein targeting to membrane, translocation",
+              "obsolete protein exit from endoplasmic reticulum",
+              "protein demannosylation",
+              "protein insertion into ER membrane by stop-transfer membrane-anchor sequence",
+              "vesicle fusion with Golgi apparatus",
+              "obsolete regulation of protein exit from endoplasmic reticulum",
+              "obsolete negative regulation of protein exit from endoplasmic reticulum",
+              "obsolete positive regulation of protein exit from endoplasmic reticulum",
+              "tail-anchored membrane protein insertion into ER membrane"
+            ]
+          },
+          {
+            "node": "n01164",
+            "size": 32,
+            "sources": {
+              "go": 29,
+              "reactome": 3
+            },
+            "members": [
+              "cartilage condensation",
+              "osteoblast development",
+              "chondrocyte hypertrophy",
+              "growth plate cartilage chondrocyte development",
+              "negative regulation of chondrocyte differentiation",
+              "positive regulation of chondrocyte differentiation",
+              "negative regulation of osteoblast proliferation",
+              "positive regulation of osteoblast proliferation",
+              "tendon development",
+              "limb joint morphogenesis",
+              "direct ossification",
+              "replacement ossification"
+            ]
+          }
+        ],
+        "51-100": [
+          {
+            "node": "n02553",
+            "size": 56,
+            "sources": {
+              "go": 10,
+              "reactome": 46
+            },
+            "members": [
+              "7-methylguanosine mRNA capping",
+              "receptor-mediated endocytosis of virus by host cell",
+              "viral protein processing",
+              "host-mediated perturbation of viral RNA genome replication",
+              "regulation of viral entry into host cell",
+              "transport of virus",
+              "receptor-mediated virion attachment to host cell",
+              "positive regulation by symbiont of entry into host",
+              "viral translational termination-reinitiation",
+              "positive regulation of viral life cycle",
+              "Rev-mediated nuclear export of HIV RNA",
+              "Transport of Ribonucleoproteins into the Host Nucleus"
+            ]
+          },
+          {
+            "node": "n02520",
+            "size": 60,
+            "sources": {
+              "btm": 1,
+              "go": 22,
+              "hallmark": 1,
+              "reactome": 36
+            },
+            "members": [
+              "mitochondrial cluster",
+              "pyruvate decarboxylation to acetyl-CoA",
+              "obsolete isoleucine metabolic process",
+              "L-leucine catabolic process",
+              "obsolete lysine metabolic process",
+              "obsolete valine metabolic process",
+              "protein lipoylation",
+              "carnitine transport",
+              "coenzyme A biosynthetic process",
+              "pantothenate metabolic process",
+              "L-lysine catabolic process",
+              "short-chain fatty acid catabolic process"
+            ]
+          },
+          {
+            "node": "n01785",
+            "size": 70,
+            "sources": {
+              "btm": 1,
+              "go": 47,
+              "reactome": 22
+            },
+            "members": [
+              "transcription elongation, RNA polymerase II",
+              "tRNA-type intron splice site recognition and cleavage",
+              "rRNA 2'-O-methylation",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "box C/D snoRNP assembly",
+              "mitochondrial mRNA catabolic process",
+              "regulation of mitochondrial RNA catabolic process",
+              "mitochondrial RNA 3'-end processing",
+              "tRNA 5'-leader removal",
+              "tRNA wobble guanine modification",
+              "tRNA wobble position uridine thiolation",
+              "tRNA threonylcarbamoyladenosine modification"
+            ]
+          },
+          {
+            "node": "n00000",
+            "size": 72,
+            "sources": {
+              "btm": 2,
+              "go": 50,
+              "reactome": 20
+            },
+            "members": [
+              "nucleotide metabolism",
+              "purine nucleotide biosynthesis",
+              "allantoin metabolic process",
+              "purine ribonucleoside salvage",
+              "ADP biosynthetic process",
+              "GMP biosynthetic process",
+              "GTP biosynthetic process",
+              "'de novo' IMP biosynthetic process",
+              "AMP catabolic process",
+              "IMP catabolic process",
+              "'de novo' pyrimidine nucleobase biosynthetic process",
+              "pyrimidine nucleobase catabolic process"
+            ]
+          },
+          {
+            "node": "n01667",
+            "size": 68,
+            "sources": {
+              "btm": 3,
+              "go": 32,
+              "reactome": 33
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway",
+              "negative regulation of prostaglandin biosynthetic process",
+              "positive regulation of prostaglandin biosynthetic process",
+              "positive regulation of fever generation"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n01866",
+            "size": 158,
+            "sources": {
+              "btm": 4,
+              "go": 74,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing",
+              "DNA synthesis involved in DNA repair",
+              "somatic diversification of immune receptors via somatic mutation"
+            ]
+          },
+          {
+            "node": "n02242",
+            "size": 196,
+            "sources": {
+              "btm": 1,
+              "go": 27,
+              "reactome": 168
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "negative regulation of hippo signaling",
+              "positive regulation of hippo signaling",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-threonine dephosphorylation",
+              "peptidyl-tyrosine autophosphorylation"
+            ]
+          },
+          {
+            "node": "n00139",
+            "size": 161,
+            "sources": {
+              "btm": 2,
+              "go": 48,
+              "reactome": 111
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "protein sulfation",
+              "dolichol-linked oligosaccharide biosynthetic process"
+            ]
+          },
+          {
+            "node": "n02409",
+            "size": 179,
+            "sources": {
+              "btm": 1,
+              "go": 20,
+              "reactome": 158
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-threonine dephosphorylation",
+              "peptidyl-tyrosine autophosphorylation",
+              "ERBB3 signaling pathway",
+              "ERBB2-EGFR signaling pathway",
+              "ERBB2-ERBB4 signaling pathway",
+              "ERBB4-ERBB4 signaling pathway"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n01344",
+            "size": 814,
+            "sources": {
+              "btm": 129,
+              "go": 423,
+              "hallmark": 8,
+              "reactome": 254
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster",
+              "cell adhesion (GO)",
+              "enriched in monocytes (IV)"
+            ]
+          },
+          {
+            "node": "n01889",
+            "size": 779,
+            "sources": {
+              "btm": 54,
+              "go": 393,
+              "hallmark": 7,
+              "reactome": 325
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n02149",
+            "size": 2217,
+            "sources": {
+              "btm": 117,
+              "go": 1375,
+              "hallmark": 18,
+              "reactome": 707
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "TBA",
+              "TBA",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02408",
+            "size": 2005,
+            "sources": {
+              "btm": 210,
+              "go": 1058,
+              "hallmark": 24,
+              "reactome": 713
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)"
+            ]
+          },
+          {
+            "node": "n01356",
+            "size": 1336,
+            "sources": {
+              "btm": 28,
+              "go": 703,
+              "hallmark": 12,
+              "reactome": 593
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "nucleotide metabolism"
+            ]
+          },
+          {
+            "node": "n02656",
+            "size": 2144,
+            "sources": {
+              "btm": 47,
+              "go": 1299,
+              "hallmark": 14,
+              "reactome": 784
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

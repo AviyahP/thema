@@ -1,0 +1,175 @@
+{
+ "arm": "MS",
+ "containment": "strict",
+ "directory": "thema_L_MS_cal8",
+ "excluded": [],
+ "floors": [
+  {
+   "calibration_fdr": 0.00729,
+   "effective": 0.84,
+   "floor": 0.84,
+   "real": 804,
+   "stratum": "3-3"
+  },
+  {
+   "calibration_fdr": 0.00696,
+   "effective": 0.915,
+   "floor": 0.915,
+   "real": 1090,
+   "stratum": "4-4"
+  },
+  {
+   "calibration_fdr": 0.00778,
+   "effective": 0.515,
+   "floor": 0.515,
+   "real": 1455,
+   "stratum": "5-5"
+  },
+  {
+   "calibration_fdr": 0.00652,
+   "effective": 0.33,
+   "floor": 0.33,
+   "real": 2193,
+   "stratum": "6-6"
+  },
+  {
+   "calibration_fdr": 0.00774,
+   "effective": 0.195,
+   "floor": 0.195,
+   "real": 8026,
+   "stratum": "7-9"
+  },
+  {
+   "calibration_fdr": 0.00573,
+   "effective": 0.025126,
+   "floor": 0.025126,
+   "real": 87001,
+   "stratum": "10+"
+  }
+ ],
+ "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+ "inclusion_cut": 0.5,
+ "kept_stages": [
+  "completion",
+  "greedy seed absorption",
+  "per-size support floors"
+ ],
+ "leaves_digest": "8a050865ce65e7d7",
+ "match_split": [
+  50,
+  0.7,
+  0.5
+ ],
+ "matched_theme_cut": null,
+ "max_fdr_overall": 0.01,
+ "max_fdr_stratum": 0.02,
+ "method": "v0.4",
+ "min_size": 3,
+ "multi_parent_share": 0.6678,
+ "n": 5559,
+ "n_edges": 27063,
+ "n_effectively_unplaced": 0,
+ "n_excluded_no_genes": 0,
+ "n_multi_parent": 6424,
+ "n_near_members": null,
+ "n_nodes": 9619,
+ "n_root_only": 0,
+ "n_roots": 88,
+ "n_undescribed": 0,
+ "n_unplaced": 0,
+ "params": {
+  "arm": "MS",
+  "containment": "strict",
+  "floors": [],
+  "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+  "inclusion_cut": 0.5,
+  "kept_stages": [
+   "completion",
+   "greedy seed absorption",
+   "per-size support floors"
+  ],
+  "leaves_digest": "8a050865ce65e7d7",
+  "match_split": [
+   50,
+   0.7,
+   0.5
+  ],
+  "matched_theme_cut": null,
+  "max_fdr_overall": 0.01,
+  "max_fdr_stratum": 0.02,
+  "method": "v0.4",
+  "min_size": 3,
+  "multi_parent_share": 0.6678,
+  "n": 5559,
+  "n_effectively_unplaced": 0,
+  "n_multi_parent": 6424,
+  "n_nodes": 9619,
+  "n_root_only": 0,
+  "n_roots": 88,
+  "n_unplaced": 0,
+  "peak_mb": 1326.2,
+  "removed_stages": [
+   "size cap",
+   "TOL extras-only rule",
+   "STRAY",
+   "partial containment"
+  ],
+  "rows": "1-200",
+  "runs": 200,
+  "size_cap": null,
+  "strata": [],
+  "stray": 0.0,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "theta_match": 0.7,
+  "theta_merge": 0.7,
+  "tol": 0.0,
+  "universe": "L (every curated summary removed)",
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 1326.2,
+ "removed_stages": [
+  "size cap",
+  "TOL extras-only rule",
+  "STRAY",
+  "partial containment"
+ ],
+ "rows": "1-200",
+ "runs": 200,
+ "size_cap": null,
+ "strata": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   5
+  ],
+  [
+   6,
+   6
+  ],
+  [
+   7,
+   9
+  ],
+  [
+   10,
+   1000000000
+  ]
+ ],
+ "stray": 0.0,
+ "subsample": 0.8,
+ "theta": 0.7,
+ "theta_match": 0.7,
+ "theta_merge": 0.7,
+ "tol": 0.0,
+ "universe": "L (every curated summary removed)",
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4-leaves"
+}

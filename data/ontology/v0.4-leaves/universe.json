@@ -1,0 +1,37 @@
+{
+  "n_universe": 10770,
+  "n_embedded": 5559,
+  "universe_digest": "c54319cdfbbe9eb7",
+  "leaves_digest": "8a050865ce65e7d7",
+  "rule": "n_genes >= 1, then every curated summary removed",
+  "summary_rule": "a pathway with at least one universe descendant over the primary GO closure (clarification 9) or ReactomePathwaysRelation; Hallmark and BTM are flat and always kept",
+  "embedder": {
+    "id": "ncbi/MedCPT-Article-Encoder",
+    "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+    "pooling": "cls",
+    "max_length": 512,
+    "input": "description text only, single segment"
+  },
+  "space": "leaves_centred",
+  "vectors": "embeddings.npy holds the full universe's RAW MedCPT vectors for L. The centred-and-renormalised matrix every build actually clusters is the sidecar vectors_leaves_centred.npy, passed to the tree builder with --vectors; build_hidef centres embeddings.npy itself. One centring on L either way.",
+  "embeddings_sha256_16": "bb05d5378b72e3c3",
+  "vectors_centred_file": "vectors_leaves_centred.npy",
+  "vectors_centred_sha256_16": "da1b4094c76d25d0",
+  "centre_norm": 0.8429409861564636,
+  "counts": {
+    "btm_universe": 346,
+    "go_universe": 7538,
+    "go_internal": 4370,
+    "hallmark_universe": 50,
+    "reactome_universe": 2836,
+    "reactome_internal": 841,
+    "btm_leaves": 346,
+    "go_leaves": 3168,
+    "hallmark_leaves": 50,
+    "reactome_leaves": 1995,
+    "n_universe": 10770,
+    "n_internal": 5211,
+    "n_leaves": 5559
+  },
+  "seconds": 1.4
+}

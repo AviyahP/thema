@@ -1,0 +1,144 @@
+{
+  "calibration": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout": [
+    4001,
+    4002
+  ],
+  "declared_m": 0.33,
+  "arms": {
+    "L": {
+      "current": {
+        "overall_fdr": 0.00138,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.83,
+          "4-4": 0.915,
+          "5-5": 0.505,
+          "6-6": 0.33,
+          "7-9": 0.33,
+          "10+": 0.33
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_L_current.json"
+      },
+      "calibrated": {
+        "overall_fdr": 0.01011,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.83,
+          "4-4": 0.915,
+          "5-5": 0.505,
+          "6-6": 0.31,
+          "7-9": 0.185,
+          "10+": 0.020305
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_L_calibrated.json"
+      },
+      "cal8": {
+        "overall_fdr": 0.00583,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.84,
+          "4-4": 0.915,
+          "5-5": 0.515,
+          "6-6": 0.33,
+          "7-9": 0.195,
+          "10+": 0.025126
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_L_cal8.json"
+      }
+    },
+    "M5": {
+      "current": {
+        "overall_fdr": 0.00249,
+        "over_cap": {},
+        "floors": {
+          "3-3": null,
+          "4-4": null,
+          "5-5": null,
+          "6-6": 1.0,
+          "7-9": 0.43,
+          "10+": 0.33
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_M5_current.json"
+      },
+      "calibrated": {
+        "overall_fdr": 0.00747,
+        "over_cap": {},
+        "floors": {
+          "3-3": null,
+          "4-4": null,
+          "5-5": null,
+          "6-6": 1.0,
+          "7-9": 0.43,
+          "10+": 0.035176
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_M5_calibrated.json"
+      },
+      "cal8": {
+        "overall_fdr": 0.00736,
+        "over_cap": {},
+        "floors": {
+          "3-3": null,
+          "4-4": null,
+          "5-5": null,
+          "6-6": 1.0,
+          "7-9": 0.45,
+          "10+": 0.035176
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_M5_cal8.json"
+      }
+    },
+    "MS": {
+      "current": {
+        "overall_fdr": 0.00138,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.83,
+          "4-4": 0.915,
+          "5-5": 0.505,
+          "6-6": 0.33,
+          "7-9": 0.33,
+          "10+": 0.33
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_MS_current.json"
+      },
+      "calibrated": {
+        "overall_fdr": 0.01009,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.83,
+          "4-4": 0.915,
+          "5-5": 0.505,
+          "6-6": 0.31,
+          "7-9": 0.185,
+          "10+": 0.020305
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_MS_calibrated.json"
+      },
+      "cal8": {
+        "overall_fdr": 0.00582,
+        "over_cap": {},
+        "floors": {
+          "3-3": 0.84,
+          "4-4": 0.915,
+          "5-5": 0.515,
+          "6-6": 0.33,
+          "7-9": 0.195,
+          "10+": 0.025126
+        },
+        "path": "data/ontology/v0.4-leaves/regate/floors_MS_cal8.json"
+      }
+    }
+  }
+}

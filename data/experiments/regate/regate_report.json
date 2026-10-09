@@ -1,0 +1,5586 @@
+{
+  "bands": [
+    [
+      3,
+      5
+    ],
+    [
+      6,
+      10
+    ],
+    [
+      11,
+      20
+    ],
+    [
+      21,
+      50
+    ],
+    [
+      51,
+      100
+    ],
+    [
+      101,
+      300
+    ],
+    [
+      301,
+      1000
+    ],
+    [
+      1001,
+      1000000000
+    ]
+  ],
+  "chain_share": 0.7,
+  "seed": 0,
+  "arms": {
+    "L": {
+      "path": "data/ontology/v0.4-leaves/thema_L",
+      "themes": 2815,
+      "theta_match": null,
+      "match_split": null,
+      "floors_source": "recalibrated on L from seeds [3001, 3002, 3003] because the stored v0.4 floors failed their held-out check on L: overall 0.00332, and stratum/strata over the 0.02 per-stratum cap: 5-5 0.02715",
+      "effective_floors": {
+        "3-3": 0.84,
+        "4-4": 0.925,
+        "5-5": 0.425,
+        "6-6": 0.33,
+        "7-9": 0.33,
+        "10+": 0.33
+      },
+      "bands": {
+        "3-5": 494,
+        "6-10": 1251,
+        "11-20": 751,
+        "21-50": 279,
+        "51-100": 31,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands": {
+        "3-10": 1745,
+        "6-9": 1083,
+        "51-1000": 36
+      },
+      "themes_after_collapse": 2274,
+      "bands_collapsed": {
+        "3-5": 494,
+        "6-10": 1101,
+        "11-20": 495,
+        "21-50": 153,
+        "51-100": 22,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands_collapsed": {
+        "3-10": 1595,
+        "6-9": 987,
+        "51-1000": 27
+      },
+      "near_duplicate_share": 0.3861,
+      "n_roots": 40,
+      "root_sizes": [
+        2392,
+        2145,
+        2030,
+        1289,
+        759,
+        740,
+        64,
+        44,
+        43,
+        31,
+        30,
+        29
+      ],
+      "root_children": [
+        227,
+        193,
+        175,
+        98,
+        78,
+        50,
+        5,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "root_children_max": 227,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 227,
+      "n_over_30_children": 6,
+      "multi_parent_share": 0.3687,
+      "n_effectively_unplaced": 218,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 357,
+        "11-20": 931,
+        "21-50": 1319,
+        "3-5": 30,
+        "301-1000": 1497,
+        "51-100": 725,
+        "6-10": 544,
+        "none": 156
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 494,
+          "n_sampled": 150,
+          "observed": 0.17307,
+          "null": 0.00119,
+          "ratio": 145.18
+        },
+        "6-10": {
+          "n_nodes": 1251,
+          "n_sampled": 150,
+          "observed": 0.11452,
+          "null": 0.00123,
+          "ratio": 93.17
+        },
+        "11-20": {
+          "n_nodes": 751,
+          "n_sampled": 150,
+          "observed": 0.07558,
+          "null": 0.00112,
+          "ratio": 67.44
+        },
+        "21-50": {
+          "n_nodes": 279,
+          "n_sampled": 150,
+          "observed": 0.05447,
+          "null": 0.00121,
+          "ratio": 45.06
+        },
+        "51-100": {
+          "n_nodes": 31,
+          "n_sampled": 31,
+          "observed": 0.0341,
+          "null": 0.00123,
+          "ratio": 27.78
+        },
+        "101-300": {
+          "n_nodes": 3,
+          "n_sampled": 3,
+          "observed": 0.02558,
+          "null": 0.00119,
+          "ratio": 21.51
+        },
+        "301-1000": {
+          "n_nodes": 2,
+          "n_sampled": 2,
+          "observed": 0.00516,
+          "null": 0.00121,
+          "ratio": 4.25
+        },
+        "1001+": {
+          "n_nodes": 4,
+          "n_sampled": 4,
+          "observed": 0.00191,
+          "null": 0.00121,
+          "ratio": 1.59
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n01916",
+            "size": 67,
+            "sources": {
+              "go": 13,
+              "reactome": 54
+            },
+            "members": [
+              "heparan sulfate proteoglycan biosynthetic process",
+              "heparan sulfate proteoglycan catabolic process",
+              "chondroitin sulfate proteoglycan catabolic process",
+              "heparin proteoglycan biosynthetic process",
+              "purine nucleoside bisphosphate metabolic process",
+              "protein O-linked glycosylation via mannose",
+              "protein O-linked glycosylation via fucose",
+              "keratan sulfate proteoglycan metabolic process",
+              "positive regulation of Notch signaling pathway",
+              "chondroitin sulfate proteoglycan biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01664",
+            "size": 62,
+            "sources": {
+              "go": 41,
+              "reactome": 21
+            },
+            "members": [
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization",
+              "positive regulation of macrophage derived foam cell differentiation",
+              "negative regulation of macrophage derived foam cell differentiation",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of cholesterol storage",
+              "negative regulation of cholesterol storage",
+              "regulation of very-low-density lipoprotein particle clearance",
+              "positive regulation of high-density lipoprotein particle clearance",
+              "negative regulation of low-density lipoprotein particle clearance"
+            ]
+          },
+          {
+            "node": "n01480",
+            "size": 59,
+            "sources": {
+              "go": 11,
+              "reactome": 48
+            },
+            "members": [
+              "heparan sulfate proteoglycan biosynthetic process",
+              "heparan sulfate proteoglycan catabolic process",
+              "chondroitin sulfate proteoglycan catabolic process",
+              "heparin proteoglycan biosynthetic process",
+              "protein O-linked glycosylation via mannose",
+              "protein O-linked glycosylation via fucose",
+              "keratan sulfate proteoglycan metabolic process",
+              "positive regulation of Notch signaling pathway",
+              "chondroitin sulfate proteoglycan biosynthetic process",
+              "dermatan sulfate proteoglycan biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01547",
+            "size": 56,
+            "sources": {
+              "go": 37,
+              "reactome": 19
+            },
+            "members": [
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization",
+              "negative regulation of macrophage derived foam cell differentiation",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of cholesterol storage",
+              "negative regulation of cholesterol storage",
+              "regulation of very-low-density lipoprotein particle clearance",
+              "positive regulation of high-density lipoprotein particle clearance",
+              "negative regulation of low-density lipoprotein particle clearance",
+              "regulation of intestinal cholesterol absorption"
+            ]
+          },
+          {
+            "node": "n02211",
+            "size": 51,
+            "sources": {
+              "btm": 15,
+              "go": 9,
+              "hallmark": 2,
+              "reactome": 25
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "cell division",
+              "cell cycle (I)",
+              "cell cycle (II)",
+              "mitotic cell cycle in stimulated CD4 T cells",
+              "mitotic cell cycle - DNA replication",
+              "mitotic cell cycle in stimulated CD4 T cells",
+              "cell division in stimulated CD4 T cells"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n00139",
+            "size": 162,
+            "sources": {
+              "btm": 2,
+              "go": 48,
+              "reactome": 112
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01716",
+            "size": 196,
+            "sources": {
+              "btm": 1,
+              "go": 27,
+              "reactome": 168
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "negative regulation of hippo signaling",
+              "positive regulation of hippo signaling",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor"
+            ]
+          },
+          {
+            "node": "n01851",
+            "size": 158,
+            "sources": {
+              "btm": 4,
+              "go": 74,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n00978",
+            "size": 759,
+            "sources": {
+              "btm": 129,
+              "go": 410,
+              "hallmark": 7,
+              "reactome": 213
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n01453",
+            "size": 740,
+            "sources": {
+              "btm": 47,
+              "go": 364,
+              "hallmark": 7,
+              "reactome": 322
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n01850",
+            "size": 2392,
+            "sources": {
+              "btm": 126,
+              "go": 1499,
+              "hallmark": 18,
+              "reactome": 749
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance"
+            ]
+          },
+          {
+            "node": "n01307",
+            "size": 1289,
+            "sources": {
+              "btm": 28,
+              "go": 669,
+              "hallmark": 11,
+              "reactome": 581
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in G-protein coupled receptors",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "G protein coupled receptors cluster"
+            ]
+          },
+          {
+            "node": "n02656",
+            "size": 2145,
+            "sources": {
+              "btm": 47,
+              "go": 1300,
+              "hallmark": 14,
+              "reactome": 784
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02411",
+            "size": 2030,
+            "sources": {
+              "btm": 221,
+              "go": 1017,
+              "hallmark": 29,
+              "reactome": 763
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)"
+            ]
+          }
+        ]
+      }
+    },
+    "L_cur": {
+      "path": "data/ontology/v0.4-leaves/thema_L_g_cur",
+      "themes": 2816,
+      "theta_match": 0.7,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = max(0.33, floor)",
+      "effective_floors": {
+        "3-3": 0.83,
+        "4-4": 0.915,
+        "5-5": 0.505,
+        "6-6": 0.33,
+        "7-9": 0.33,
+        "10+": 0.33
+      },
+      "bands": {
+        "3-5": 494,
+        "6-10": 1252,
+        "11-20": 750,
+        "21-50": 280,
+        "51-100": 31,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands": {
+        "3-10": 1746,
+        "6-9": 1085,
+        "51-1000": 36
+      },
+      "themes_after_collapse": 2279,
+      "bands_collapsed": {
+        "3-5": 494,
+        "6-10": 1105,
+        "11-20": 495,
+        "21-50": 154,
+        "51-100": 22,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands_collapsed": {
+        "3-10": 1599,
+        "6-9": 991,
+        "51-1000": 27
+      },
+      "near_duplicate_share": 0.3853,
+      "n_roots": 39,
+      "root_sizes": [
+        2391,
+        2144,
+        2028,
+        1289,
+        759,
+        740,
+        64,
+        44,
+        43,
+        31,
+        29,
+        28
+      ],
+      "root_children": [
+        225,
+        192,
+        171,
+        98,
+        77,
+        49,
+        5,
+        4,
+        4,
+        4,
+        3,
+        3
+      ],
+      "root_children_max": 225,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 225,
+      "n_over_30_children": 6,
+      "multi_parent_share": 0.3718,
+      "n_effectively_unplaced": 231,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 357,
+        "11-20": 931,
+        "21-50": 1318,
+        "3-5": 19,
+        "301-1000": 1497,
+        "51-100": 726,
+        "6-10": 543,
+        "none": 168
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 494,
+          "n_sampled": 150,
+          "observed": 0.17944,
+          "null": 0.00106,
+          "ratio": 169.09
+        },
+        "6-10": {
+          "n_nodes": 1252,
+          "n_sampled": 150,
+          "observed": 0.08644,
+          "null": 0.00121,
+          "ratio": 71.22
+        },
+        "11-20": {
+          "n_nodes": 750,
+          "n_sampled": 150,
+          "observed": 0.08745,
+          "null": 0.00117,
+          "ratio": 74.79
+        },
+        "21-50": {
+          "n_nodes": 280,
+          "n_sampled": 150,
+          "observed": 0.05635,
+          "null": 0.00117,
+          "ratio": 48.09
+        },
+        "51-100": {
+          "n_nodes": 31,
+          "n_sampled": 31,
+          "observed": 0.03405,
+          "null": 0.00119,
+          "ratio": 28.65
+        },
+        "101-300": {
+          "n_nodes": 3,
+          "n_sampled": 3,
+          "observed": 0.02393,
+          "null": 0.00123,
+          "ratio": 19.44
+        },
+        "301-1000": {
+          "n_nodes": 2,
+          "n_sampled": 2,
+          "observed": 0.0053,
+          "null": 0.00128,
+          "ratio": 4.13
+        },
+        "1001+": {
+          "n_nodes": 4,
+          "n_sampled": 4,
+          "observed": 0.00187,
+          "null": 0.00122,
+          "ratio": 1.52
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n01611",
+            "size": 61,
+            "sources": {
+              "go": 15,
+              "reactome": 46
+            },
+            "members": [
+              "7-methylguanosine mRNA capping",
+              "receptor-mediated endocytosis of virus by host cell",
+              "viral protein processing",
+              "host-mediated perturbation of viral genome replication",
+              "host-mediated perturbation of viral RNA genome replication",
+              "positive regulation of viral genome replication",
+              "negative regulation of translational elongation",
+              "regulation of viral entry into host cell",
+              "regulation by virus of viral protein levels in host cell",
+              "transport of virus"
+            ]
+          },
+          {
+            "node": "n01951",
+            "size": 64,
+            "sources": {
+              "btm": 1,
+              "go": 49,
+              "hallmark": 1,
+              "reactome": 13
+            },
+            "members": [
+              "chromosome Y linked",
+              "resolution of meiotic recombination intermediates",
+              "acrosome assembly",
+              "DNA methylation-dependent constitutive heterochromatin formation",
+              "cytoplasm organization",
+              "spindle assembly involved in female meiosis",
+              "male meiosis I",
+              "female meiosis I",
+              "spermatogonial cell division",
+              "oocyte construction"
+            ]
+          },
+          {
+            "node": "n02520",
+            "size": 60,
+            "sources": {
+              "btm": 1,
+              "go": 22,
+              "hallmark": 1,
+              "reactome": 36
+            },
+            "members": [
+              "mitochondrial cluster",
+              "pyruvate decarboxylation to acetyl-CoA",
+              "obsolete isoleucine metabolic process",
+              "L-leucine catabolic process",
+              "obsolete lysine metabolic process",
+              "obsolete valine metabolic process",
+              "protein lipoylation",
+              "carnitine transport",
+              "coenzyme A biosynthetic process",
+              "pantothenate metabolic process"
+            ]
+          },
+          {
+            "node": "n02267",
+            "size": 70,
+            "sources": {
+              "btm": 10,
+              "go": 13,
+              "hallmark": 1,
+              "reactome": 46
+            },
+            "members": [
+              "blood coagulation",
+              "TBA",
+              "platelet activation - actin binding",
+              "platelet activation & blood coagulation",
+              "cell movement, Adhesion & Platelet activation",
+              "platelet activation (I)",
+              "platelet activation (II)",
+              "cytoskeletal remodeling",
+              "platelet activation (III)",
+              "platelet activation and degranulation"
+            ]
+          },
+          {
+            "node": "n00000",
+            "size": 72,
+            "sources": {
+              "btm": 2,
+              "go": 50,
+              "reactome": 20
+            },
+            "members": [
+              "nucleotide metabolism",
+              "purine nucleotide biosynthesis",
+              "allantoin metabolic process",
+              "purine ribonucleoside salvage",
+              "ADP biosynthetic process",
+              "GMP biosynthetic process",
+              "GTP biosynthetic process",
+              "'de novo' IMP biosynthetic process",
+              "AMP catabolic process",
+              "IMP catabolic process"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n01869",
+            "size": 158,
+            "sources": {
+              "btm": 4,
+              "go": 74,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing"
+            ]
+          },
+          {
+            "node": "n01734",
+            "size": 196,
+            "sources": {
+              "btm": 1,
+              "go": 27,
+              "reactome": 168
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "negative regulation of hippo signaling",
+              "positive regulation of hippo signaling",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor"
+            ]
+          },
+          {
+            "node": "n00139",
+            "size": 162,
+            "sources": {
+              "btm": 2,
+              "go": 48,
+              "reactome": 112
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n00993",
+            "size": 759,
+            "sources": {
+              "btm": 129,
+              "go": 410,
+              "hallmark": 7,
+              "reactome": 213
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n01471",
+            "size": 740,
+            "sources": {
+              "btm": 47,
+              "go": 364,
+              "hallmark": 7,
+              "reactome": 322
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n02410",
+            "size": 2028,
+            "sources": {
+              "btm": 221,
+              "go": 1016,
+              "hallmark": 29,
+              "reactome": 762
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)"
+            ]
+          },
+          {
+            "node": "n01325",
+            "size": 1289,
+            "sources": {
+              "btm": 28,
+              "go": 669,
+              "hallmark": 11,
+              "reactome": 581
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in G-protein coupled receptors",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "G protein coupled receptors cluster"
+            ]
+          },
+          {
+            "node": "n02656",
+            "size": 2144,
+            "sources": {
+              "btm": 47,
+              "go": 1299,
+              "hallmark": 14,
+              "reactome": 784
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n01868",
+            "size": 2391,
+            "sources": {
+              "btm": 126,
+              "go": 1498,
+              "hallmark": 18,
+              "reactome": 749
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance"
+            ]
+          }
+        ]
+      }
+    },
+    "L_cal": {
+      "path": "data/ontology/v0.4-leaves/thema_L_cal",
+      "themes": 10782,
+      "theta_match": 0.7,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.01",
+      "effective_floors": {
+        "3-3": 0.83,
+        "4-4": 0.915,
+        "5-5": 0.505,
+        "6-6": 0.31,
+        "7-9": 0.185,
+        "10+": 0.020305
+      },
+      "bands": {
+        "3-5": 494,
+        "6-10": 2245,
+        "11-20": 5202,
+        "21-50": 2442,
+        "51-100": 318,
+        "101-300": 43,
+        "301-1000": 7,
+        "1001+": 31
+      },
+      "extra_bands": {
+        "3-10": 2739,
+        "6-9": 1465,
+        "51-1000": 368
+      },
+      "themes_after_collapse": 7202,
+      "bands_collapsed": {
+        "3-5": 494,
+        "6-10": 1740,
+        "11-20": 3354,
+        "21-50": 1348,
+        "51-100": 196,
+        "101-300": 32,
+        "301-1000": 7,
+        "1001+": 31
+      },
+      "extra_bands_collapsed": {
+        "3-10": 2234,
+        "6-9": 1212,
+        "51-1000": 235
+      },
+      "near_duplicate_share": 0.6615,
+      "n_roots": 111,
+      "root_sizes": [
+        2835,
+        2662,
+        2634,
+        2571,
+        2497,
+        2390,
+        2295,
+        2173,
+        2122,
+        1992,
+        1969,
+        1931
+      ],
+      "root_children": [
+        725,
+        656,
+        604,
+        563,
+        525,
+        494,
+        480,
+        468,
+        453,
+        439,
+        422,
+        413
+      ],
+      "root_children_max": 725,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 725,
+      "n_over_30_children": 39,
+      "multi_parent_share": 0.697,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1328,
+        "11-20": 8,
+        "21-50": 303,
+        "301-1000": 2742,
+        "51-100": 1178
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 494,
+          "n_sampled": 150,
+          "observed": 0.17944,
+          "null": 0.00106,
+          "ratio": 169.09
+        },
+        "6-10": {
+          "n_nodes": 2245,
+          "n_sampled": 150,
+          "observed": 0.07617,
+          "null": 0.00132,
+          "ratio": 57.87
+        },
+        "11-20": {
+          "n_nodes": 5202,
+          "n_sampled": 150,
+          "observed": 0.0637,
+          "null": 0.00123,
+          "ratio": 51.97
+        },
+        "21-50": {
+          "n_nodes": 2442,
+          "n_sampled": 150,
+          "observed": 0.03948,
+          "null": 0.00121,
+          "ratio": 32.62
+        },
+        "51-100": {
+          "n_nodes": 318,
+          "n_sampled": 150,
+          "observed": 0.02373,
+          "null": 0.0012,
+          "ratio": 19.85
+        },
+        "101-300": {
+          "n_nodes": 43,
+          "n_sampled": 43,
+          "observed": 0.01496,
+          "null": 0.0012,
+          "ratio": 12.47
+        },
+        "301-1000": {
+          "n_nodes": 7,
+          "n_sampled": 7,
+          "observed": 0.00603,
+          "null": 0.0012,
+          "ratio": 5.03
+        },
+        "1001+": {
+          "n_nodes": 31,
+          "n_sampled": 31,
+          "observed": 0.0029,
+          "null": 0.00118,
+          "ratio": 2.44
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n00443",
+            "size": 69,
+            "sources": {
+              "btm": 3,
+              "go": 29,
+              "reactome": 37
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "leukocyte chemotaxis involved in inflammatory response",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway"
+            ]
+          },
+          {
+            "node": "n00514",
+            "size": 67,
+            "sources": {
+              "go": 65,
+              "reactome": 2
+            },
+            "members": [
+              "organ induction",
+              "secondary heart field specification",
+              "embryonic heart tube morphogenesis",
+              "outflow tract septum morphogenesis",
+              "membranous septum morphogenesis",
+              "muscular septum morphogenesis",
+              "endocardium morphogenesis",
+              "atrioventricular node development",
+              "His-Purkinje system development",
+              "mitral valve development"
+            ]
+          },
+          {
+            "node": "n06724",
+            "size": 58,
+            "sources": {
+              "go": 3,
+              "reactome": 55
+            },
+            "members": [
+              "interleukin-3-mediated signaling pathway",
+              "erythropoietin-mediated signaling pathway",
+              "thrombopoietin-mediated signaling pathway",
+              "Regulation of KIT signaling",
+              "Signaling by cytosolic FGFR1 fusion mutants",
+              "Signaling by FGFR1 amplification mutants",
+              "Signaling by FGFR2 amplification mutants",
+              "t(4;14) translocations of FGFR3",
+              "Signaling by BRAF and RAF1 fusions",
+              "Signaling by FGFR2 fusions"
+            ]
+          },
+          {
+            "node": "n02582",
+            "size": 73,
+            "sources": {
+              "btm": 15,
+              "go": 42,
+              "hallmark": 1,
+              "reactome": 15
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "leukocyte differentiation",
+              "erythrocyte differentiation",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n07742",
+            "size": 91,
+            "sources": {
+              "go": 54,
+              "reactome": 37
+            },
+            "members": [
+              "regulation of L-glutamate import across plasma membrane",
+              "obsolete vesicle docking involved in exocytosis",
+              "adenylate cyclase-inhibiting G protein-coupled glutamate receptor signaling pathway",
+              "neuromuscular synaptic transmission",
+              "acetylcholine metabolic process",
+              "obsolete GABA metabolic process",
+              "GABA biosynthetic process",
+              "regulation of synaptic vesicle priming",
+              "positive regulation of glutamate secretion",
+              "gamma-aminobutyric acid secretion"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n04693",
+            "size": 106,
+            "sources": {
+              "btm": 5,
+              "go": 66,
+              "hallmark": 1,
+              "reactome": 34
+            },
+            "members": [
+              "respiratory electron transport chain (mitochondrion)",
+              "respiratory electron transport chain (mitochondrion)",
+              "respiratory electron transport chain (mitochondrion)",
+              "transcription elongation, RNA polymerase II",
+              "respiratory electron transport chain (mitochondrion)",
+              "tRNA-type intron splice site recognition and cleavage",
+              "rRNA 2'-O-methylation",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "box C/D snoRNP assembly",
+              "mitochondrial mRNA catabolic process"
+            ]
+          },
+          {
+            "node": "n09681",
+            "size": 107,
+            "sources": {
+              "btm": 7,
+              "go": 65,
+              "hallmark": 2,
+              "reactome": 33
+            },
+            "members": [
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "C-MYC transcriptional network",
+              "spliceosomal tri-snRNP complex assembly",
+              "formation of quadruple SL/U4/U5/U6 snRNP",
+              "tRNA-type intron splice site recognition and cleavage"
+            ]
+          },
+          {
+            "node": "n09672",
+            "size": 176,
+            "sources": {
+              "btm": 1,
+              "go": 135,
+              "reactome": 40
+            },
+            "members": [
+              "enriched in calcium signaling proteins",
+              "negative regulation of receptor internalization",
+              "obsolete vesicle docking involved in exocytosis",
+              "neuron cell-cell adhesion",
+              "cell surface receptor protein tyrosine phosphatase signaling pathway",
+              "adenylate cyclase-inhibiting G protein-coupled glutamate receptor signaling pathway",
+              "neuron-neuron synaptic transmission",
+              "axonal fasciculation",
+              "short-term memory",
+              "long-term memory"
+            ]
+          },
+          {
+            "node": "n09679",
+            "size": 122,
+            "sources": {
+              "go": 75,
+              "reactome": 47
+            },
+            "members": [
+              "regulation of L-glutamate import across plasma membrane",
+              "succinate metabolic process",
+              "obsolete serotonin transport",
+              "obsolete vesicle docking involved in exocytosis",
+              "adenylate cyclase-inhibiting G protein-coupled glutamate receptor signaling pathway",
+              "neuromuscular synaptic transmission",
+              "visual behavior",
+              "acetylcholine metabolic process",
+              "amine catabolic process",
+              "obsolete GABA metabolic process"
+            ]
+          },
+          {
+            "node": "n05449",
+            "size": 115,
+            "sources": {
+              "go": 83,
+              "hallmark": 1,
+              "reactome": 31
+            },
+            "members": [
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization",
+              "microglial cell activation involved in immune response",
+              "positive regulation of macrophage derived foam cell differentiation",
+              "negative regulation of macrophage derived foam cell differentiation",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of cholesterol storage",
+              "negative regulation of cholesterol storage",
+              "negative regulation of triglyceride catabolic process",
+              "positive regulation of triglyceride catabolic process"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n08821",
+            "size": 414,
+            "sources": {
+              "btm": 15,
+              "go": 201,
+              "hallmark": 2,
+              "reactome": 196
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "innate antiviral response",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA",
+              "TBA",
+              "regulation of transcription, transcription factors",
+              "translation initiation"
+            ]
+          },
+          {
+            "node": "n05448",
+            "size": 380,
+            "sources": {
+              "btm": 35,
+              "go": 180,
+              "hallmark": 4,
+              "reactome": 161
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n08820",
+            "size": 930,
+            "sources": {
+              "btm": 68,
+              "go": 444,
+              "hallmark": 15,
+              "reactome": 403
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n06037",
+            "size": 304,
+            "sources": {
+              "btm": 12,
+              "go": 175,
+              "hallmark": 2,
+              "reactome": 115
+            },
+            "members": [
+              "TBA",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA",
+              "TBA",
+              "regulation of transcription, transcription factors",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex"
+            ]
+          },
+          {
+            "node": "n03813",
+            "size": 859,
+            "sources": {
+              "btm": 26,
+              "go": 470,
+              "hallmark": 10,
+              "reactome": 353
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "TBA"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n07018",
+            "size": 2662,
+            "sources": {
+              "btm": 181,
+              "go": 1493,
+              "hallmark": 29,
+              "reactome": 959
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "MAPK, RAS signaling",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex"
+            ]
+          },
+          {
+            "node": "n07020",
+            "size": 1969,
+            "sources": {
+              "btm": 119,
+              "go": 1195,
+              "hallmark": 20,
+              "reactome": 635
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "axon guidance",
+              "golgi membrane (I)"
+            ]
+          },
+          {
+            "node": "n08232",
+            "size": 1849,
+            "sources": {
+              "btm": 113,
+              "go": 1125,
+              "hallmark": 21,
+              "reactome": 590
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration"
+            ]
+          },
+          {
+            "node": "n08233",
+            "size": 1359,
+            "sources": {
+              "btm": 84,
+              "go": 654,
+              "hallmark": 19,
+              "reactome": 602
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing"
+            ]
+          },
+          {
+            "node": "n07330",
+            "size": 1210,
+            "sources": {
+              "btm": 74,
+              "go": 668,
+              "hallmark": 8,
+              "reactome": 460
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "phosphatidylinositol signaling system",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "inositol phosphate metabolism",
+              "Membrane, ER proteins",
+              "TBA"
+            ]
+          }
+        ]
+      }
+    },
+    "L_cal8": {
+      "path": "data/ontology/v0.4-leaves/thema_L_cal8",
+      "themes": 9609,
+      "theta_match": 0.7,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+      "effective_floors": {
+        "3-3": 0.84,
+        "4-4": 0.915,
+        "5-5": 0.515,
+        "6-6": 0.33,
+        "7-9": 0.195,
+        "10+": 0.025126
+      },
+      "bands": {
+        "3-5": 483,
+        "6-10": 2127,
+        "11-20": 4585,
+        "21-50": 2089,
+        "51-100": 265,
+        "101-300": 31,
+        "301-1000": 6,
+        "1001+": 23
+      },
+      "extra_bands": {
+        "3-10": 2610,
+        "6-9": 1416,
+        "51-1000": 302
+      },
+      "themes_after_collapse": 6378,
+      "bands_collapsed": {
+        "3-5": 483,
+        "6-10": 1650,
+        "11-20": 2912,
+        "21-50": 1114,
+        "51-100": 168,
+        "101-300": 22,
+        "301-1000": 6,
+        "1001+": 23
+      },
+      "extra_bands_collapsed": {
+        "3-10": 2133,
+        "6-9": 1176,
+        "51-1000": 196
+      },
+      "near_duplicate_share": 0.6638,
+      "n_roots": 97,
+      "root_sizes": [
+        2800,
+        2614,
+        2586,
+        2527,
+        2452,
+        2342,
+        2261,
+        2138,
+        2078,
+        1939,
+        1893,
+        1805
+      ],
+      "root_children": [
+        585,
+        535,
+        498,
+        466,
+        416,
+        410,
+        366,
+        359,
+        345,
+        345,
+        342,
+        321
+      ],
+      "root_children_max": 585,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 585,
+      "n_over_30_children": 29,
+      "multi_parent_share": 0.6592,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1061,
+        "11-20": 22,
+        "21-50": 449,
+        "301-1000": 2699,
+        "51-100": 1328
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 483,
+          "n_sampled": 150,
+          "observed": 0.17806,
+          "null": 0.00103,
+          "ratio": 172.78
+        },
+        "6-10": {
+          "n_nodes": 2127,
+          "n_sampled": 150,
+          "observed": 0.08209,
+          "null": 0.00123,
+          "ratio": 66.84
+        },
+        "11-20": {
+          "n_nodes": 4585,
+          "n_sampled": 150,
+          "observed": 0.06895,
+          "null": 0.00118,
+          "ratio": 58.5
+        },
+        "21-50": {
+          "n_nodes": 2089,
+          "n_sampled": 150,
+          "observed": 0.03857,
+          "null": 0.0012,
+          "ratio": 32.08
+        },
+        "51-100": {
+          "n_nodes": 265,
+          "n_sampled": 150,
+          "observed": 0.02389,
+          "null": 0.00117,
+          "ratio": 20.38
+        },
+        "101-300": {
+          "n_nodes": 31,
+          "n_sampled": 31,
+          "observed": 0.01602,
+          "null": 0.00118,
+          "ratio": 13.59
+        },
+        "301-1000": {
+          "n_nodes": 6,
+          "n_sampled": 6,
+          "observed": 0.00598,
+          "null": 0.00121,
+          "ratio": 4.94
+        },
+        "1001+": {
+          "n_nodes": 23,
+          "n_sampled": 23,
+          "observed": 0.00268,
+          "null": 0.0012,
+          "ratio": 2.24
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n05975",
+            "size": 81,
+            "sources": {
+              "go": 17,
+              "hallmark": 3,
+              "reactome": 61
+            },
+            "members": [
+              "N-terminal protein lipidation",
+              "Notch receptor processing",
+              "positive regulation of transcription of Notch receptor target",
+              "protein autoprocessing",
+              "membrane protein intracellular domain proteolysis",
+              "negative regulation of Notch signaling pathway",
+              "negative regulation of smoothened signaling pathway",
+              "positive regulation of smoothened signaling pathway",
+              "regulation of Wnt protein secretion",
+              "protein poly-ADP-ribosylation"
+            ]
+          },
+          {
+            "node": "n06412",
+            "size": 67,
+            "sources": {
+              "btm": 3,
+              "go": 43,
+              "hallmark": 1,
+              "reactome": 20
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "heme biosynthesis (I)",
+              "heme biosynthesis (II)",
+              "detection of oxygen",
+              "obsolete protoporphyrinogen IX biosynthetic process",
+              "heme A biosynthetic process",
+              "heme B biosynthetic process",
+              "cobalt ion transport",
+              "intracellular copper ion homeostasis",
+              "intracellular zinc ion homeostasis"
+            ]
+          },
+          {
+            "node": "n04108",
+            "size": 62,
+            "sources": {
+              "btm": 14,
+              "go": 15,
+              "hallmark": 2,
+              "reactome": 31
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "enriched in DNA interacting proteins",
+              "cell division",
+              "cell cycle and transcription",
+              "cell cycle (I)",
+              "cell cycle (II)",
+              "C-MYC transcriptional network"
+            ]
+          },
+          {
+            "node": "n06968",
+            "size": 52,
+            "sources": {
+              "go": 37,
+              "reactome": 15
+            },
+            "members": [
+              "luteolysis",
+              "optic cup morphogenesis involved in camera-type eye development",
+              "retinal pigment epithelium development",
+              "obsolete tyrosine metabolic process",
+              "response to blue light",
+              "synaptic vesicle coating",
+              "post-embryonic camera-type eye development",
+              "extracellular matrix-cell signaling",
+              "clathrin-coated vesicle cargo loading",
+              "lysosomal lumen pH elevation"
+            ]
+          },
+          {
+            "node": "n04855",
+            "size": 52,
+            "sources": {
+              "btm": 7,
+              "go": 14,
+              "hallmark": 1,
+              "reactome": 30
+            },
+            "members": [
+              "blood coagulation",
+              "platelet activation - actin binding",
+              "platelet activation & blood coagulation",
+              "cell movement, Adhesion & Platelet activation",
+              "platelet activation (I)",
+              "platelet activation (III)",
+              "platelet activation and degranulation",
+              "platelet degranulation",
+              "blood coagulation, intrinsic pathway",
+              "positive regulation of platelet activation"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n08771",
+            "size": 170,
+            "sources": {
+              "btm": 6,
+              "go": 101,
+              "hallmark": 2,
+              "reactome": 61
+            },
+            "members": [
+              "TBA",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "spliceosomal tri-snRNP complex assembly",
+              "formation of quadruple SL/U4/U5/U6 snRNP",
+              "tRNA-type intron splice site recognition and cleavage",
+              "regulation of alternative mRNA splicing, via spliceosome"
+            ]
+          },
+          {
+            "node": "n08181",
+            "size": 114,
+            "sources": {
+              "btm": 9,
+              "go": 62,
+              "hallmark": 1,
+              "reactome": 42
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA",
+              "cell cycle, mitotic phase",
+              "Rho GTPase cycle",
+              "PLK1 signaling events",
+              "mitotic cell division",
+              "mitotic spindle elongation"
+            ]
+          },
+          {
+            "node": "n04008",
+            "size": 135,
+            "sources": {
+              "btm": 1,
+              "go": 111,
+              "hallmark": 1,
+              "reactome": 22
+            },
+            "members": [
+              "chromosome Y linked",
+              "resolution of meiotic recombination intermediates",
+              "ovulation from ovarian follicle",
+              "antral ovarian follicle growth",
+              "luteinization",
+              "luteolysis",
+              "acrosome assembly",
+              "inner cell mass cell differentiation",
+              "trophectodermal cell differentiation",
+              "positive regulation of cilium movement"
+            ]
+          },
+          {
+            "node": "n03786",
+            "size": 102,
+            "sources": {
+              "go": 63,
+              "hallmark": 2,
+              "reactome": 37
+            },
+            "members": [
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization",
+              "cholesterol catabolic process",
+              "positive regulation of macrophage derived foam cell differentiation",
+              "negative regulation of macrophage derived foam cell differentiation",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of cholesterol storage",
+              "negative regulation of cholesterol storage",
+              "negative regulation of triglyceride catabolic process",
+              "positive regulation of triglyceride catabolic process"
+            ]
+          },
+          {
+            "node": "n06189",
+            "size": 114,
+            "sources": {
+              "btm": 7,
+              "go": 71,
+              "hallmark": 2,
+              "reactome": 34
+            },
+            "members": [
+              "heme biosynthesis (I)",
+              "respiratory electron transport chain (mitochondrion)",
+              "respiratory electron transport chain (mitochondrion)",
+              "heme biosynthesis (II)",
+              "respiratory electron transport chain (mitochondrion)",
+              "transcription elongation, RNA polymerase II",
+              "respiratory electron transport chain (mitochondrion)",
+              "tRNA-type intron splice site recognition and cleavage",
+              "rRNA 2'-O-methylation",
+              "enzyme-directed rRNA pseudouridine synthesis"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n01462",
+            "size": 800,
+            "sources": {
+              "btm": 51,
+              "go": 403,
+              "hallmark": 7,
+              "reactome": 339
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n08770",
+            "size": 400,
+            "sources": {
+              "btm": 11,
+              "go": 196,
+              "hallmark": 2,
+              "reactome": 191
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "innate antiviral response",
+              "TBA",
+              "TBA",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex"
+            ]
+          },
+          {
+            "node": "n00987",
+            "size": 826,
+            "sources": {
+              "btm": 133,
+              "go": 454,
+              "hallmark": 8,
+              "reactome": 231
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n03785",
+            "size": 838,
+            "sources": {
+              "btm": 24,
+              "go": 456,
+              "hallmark": 10,
+              "reactome": 348
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n08769",
+            "size": 915,
+            "sources": {
+              "btm": 68,
+              "go": 436,
+              "hallmark": 15,
+              "reactome": 396
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n01859",
+            "size": 2527,
+            "sources": {
+              "btm": 133,
+              "go": 1588,
+              "hallmark": 20,
+              "reactome": 786
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n08177",
+            "size": 1805,
+            "sources": {
+              "btm": 109,
+              "go": 1099,
+              "hallmark": 20,
+              "reactome": 577
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration"
+            ]
+          },
+          {
+            "node": "n06408",
+            "size": 1514,
+            "sources": {
+              "btm": 92,
+              "go": 764,
+              "hallmark": 22,
+              "reactome": 636
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination"
+            ]
+          },
+          {
+            "node": "n08762",
+            "size": 2342,
+            "sources": {
+              "btm": 141,
+              "go": 1415,
+              "hallmark": 19,
+              "reactome": 767
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n08766",
+            "size": 1105,
+            "sources": {
+              "btm": 78,
+              "go": 526,
+              "hallmark": 15,
+              "reactome": 486
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination"
+            ]
+          }
+        ]
+      }
+    },
+    "M5_cur": {
+      "path": "data/ontology/v0.4-leaves/thema_L_M5_g_cur",
+      "themes": 3350,
+      "theta_match": 0.5,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = max(0.33, floor)",
+      "effective_floors": {
+        "3-3": null,
+        "4-4": null,
+        "5-5": null,
+        "6-6": 1.0,
+        "7-9": 0.43,
+        "10+": 0.33
+      },
+      "bands": {
+        "3-5": 0,
+        "6-10": 1188,
+        "11-20": 1389,
+        "21-50": 675,
+        "51-100": 74,
+        "101-300": 13,
+        "301-1000": 5,
+        "1001+": 6
+      },
+      "extra_bands": {
+        "3-10": 1188,
+        "6-9": 941,
+        "51-1000": 92
+      },
+      "themes_after_collapse": 2209,
+      "bands_collapsed": {
+        "3-5": 0,
+        "6-10": 976,
+        "11-20": 852,
+        "21-50": 320,
+        "51-100": 43,
+        "101-300": 10,
+        "301-1000": 3,
+        "1001+": 5
+      },
+      "extra_bands_collapsed": {
+        "3-10": 976,
+        "6-9": 798,
+        "51-1000": 56
+      },
+      "near_duplicate_share": 0.6567,
+      "n_roots": 99,
+      "root_sizes": [
+        2417,
+        2145,
+        1966,
+        1963,
+        840,
+        761,
+        471,
+        128,
+        106,
+        95,
+        75,
+        68
+      ],
+      "root_children": [
+        201,
+        164,
+        151,
+        100,
+        72,
+        33,
+        27,
+        8,
+        6,
+        6,
+        6,
+        5
+      ],
+      "root_children_max": 201,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 201,
+      "n_over_30_children": 8,
+      "multi_parent_share": 0.386,
+      "n_effectively_unplaced": 134,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 737,
+        "11-20": 548,
+        "21-50": 1709,
+        "301-1000": 1603,
+        "51-100": 762,
+        "6-10": 102,
+        "none": 98
+      },
+      "coherence": {
+        "6-10": {
+          "n_nodes": 1188,
+          "n_sampled": 150,
+          "observed": 0.09634,
+          "null": 0.00114,
+          "ratio": 84.76
+        },
+        "11-20": {
+          "n_nodes": 1389,
+          "n_sampled": 150,
+          "observed": 0.06984,
+          "null": 0.00115,
+          "ratio": 60.96
+        },
+        "21-50": {
+          "n_nodes": 675,
+          "n_sampled": 150,
+          "observed": 0.04985,
+          "null": 0.00119,
+          "ratio": 41.99
+        },
+        "51-100": {
+          "n_nodes": 74,
+          "n_sampled": 74,
+          "observed": 0.02845,
+          "null": 0.00119,
+          "ratio": 23.81
+        },
+        "101-300": {
+          "n_nodes": 13,
+          "n_sampled": 13,
+          "observed": 0.0183,
+          "null": 0.00117,
+          "ratio": 15.67
+        },
+        "301-1000": {
+          "n_nodes": 5,
+          "n_sampled": 5,
+          "observed": 0.00693,
+          "null": 0.00121,
+          "ratio": 5.72
+        },
+        "1001+": {
+          "n_nodes": 6,
+          "n_sampled": 6,
+          "observed": 0.00205,
+          "null": 0.00118,
+          "ratio": 1.74
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n03272",
+            "size": 52,
+            "sources": {
+              "go": 24,
+              "hallmark": 1,
+              "reactome": 27
+            },
+            "members": [
+              "cholesterol catabolic process",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of triglyceride catabolic process",
+              "regulation of very-low-density lipoprotein particle clearance",
+              "bile acid and bile salt transport",
+              "regulation of intestinal cholesterol absorption",
+              "phospholipid efflux",
+              "acylglycerol transport",
+              "chylomicron remodeling",
+              "low-density lipoprotein particle remodeling"
+            ]
+          },
+          {
+            "node": "n00714",
+            "size": 53,
+            "sources": {
+              "go": 20,
+              "reactome": 33
+            },
+            "members": [
+              "regulation of glycogen catabolic process",
+              "fructose metabolic process",
+              "glucose catabolic process",
+              "glycerol metabolic process",
+              "glycerol-3-phosphate metabolic process",
+              "oxaloacetate metabolic process",
+              "obsolete alanine metabolic process",
+              "pentose-phosphate shunt, non-oxidative branch",
+              "hexose phosphate transport",
+              "pentose metabolic process"
+            ]
+          },
+          {
+            "node": "n02470",
+            "size": 58,
+            "sources": {
+              "go": 17,
+              "reactome": 41
+            },
+            "members": [
+              "fructose 6-phosphate metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process",
+              "dolichol-linked oligosaccharide biosynthetic process",
+              "N-glycan processing",
+              "GPI anchor metabolic process",
+              "GDP-mannose biosynthetic process"
+            ]
+          },
+          {
+            "node": "n02257",
+            "size": 75,
+            "sources": {
+              "btm": 4,
+              "go": 53,
+              "hallmark": 1,
+              "reactome": 17
+            },
+            "members": [
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "golgi membrane (II)",
+              "retrograde transport, vesicle recycling within Golgi",
+              "positive regulation of receptor recycling",
+              "obsolete regulation of COPII vesicle coating",
+              "SRP-dependent cotranslational protein targeting to membrane, translocation",
+              "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+              "protein retention in ER lumen"
+            ]
+          },
+          {
+            "node": "n02784",
+            "size": 65,
+            "sources": {
+              "btm": 4,
+              "go": 46,
+              "hallmark": 1,
+              "reactome": 14
+            },
+            "members": [
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "golgi membrane (II)",
+              "retrograde transport, vesicle recycling within Golgi",
+              "positive regulation of receptor recycling",
+              "obsolete regulation of COPII vesicle coating",
+              "protein targeting to lysosome",
+              "retrograde vesicle-mediated transport, Golgi to endoplasmic reticulum",
+              "Golgi to endosome transport"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n00499",
+            "size": 155,
+            "sources": {
+              "btm": 3,
+              "go": 73,
+              "hallmark": 1,
+              "reactome": 78
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing",
+              "DNA synthesis involved in DNA repair"
+            ]
+          },
+          {
+            "node": "n02815",
+            "size": 108,
+            "sources": {
+              "btm": 1,
+              "go": 64,
+              "hallmark": 2,
+              "reactome": 41
+            },
+            "members": [
+              "TBA",
+              "carbon catabolite regulation of transcription from RNA polymerase II promoter",
+              "diet induced thermogenesis",
+              "monoacylglycerol biosynthetic process",
+              "diacylglycerol biosynthetic process",
+              "sugar mediated signaling pathway",
+              "regulation of long-chain fatty acid import across plasma membrane",
+              "positive regulation of triglyceride biosynthetic process",
+              "negative regulation of triglyceride biosynthetic process",
+              "regulation of triglyceride storage"
+            ]
+          },
+          {
+            "node": "n00003",
+            "size": 160,
+            "sources": {
+              "btm": 2,
+              "go": 47,
+              "reactome": 111
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process"
+            ]
+          },
+          {
+            "node": "n03006",
+            "size": 254,
+            "sources": {
+              "btm": 6,
+              "go": 143,
+              "hallmark": 2,
+              "reactome": 103
+            },
+            "members": [
+              "nuclear pore, transport; mRNA splicing, processing",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "ribosomal large subunit export from nucleus",
+              "ribosomal small subunit export from nucleus",
+              "spliceosomal tri-snRNP complex assembly",
+              "formation of quadruple SL/U4/U5/U6 snRNP"
+            ]
+          },
+          {
+            "node": "n03246",
+            "size": 128,
+            "sources": {
+              "btm": 10,
+              "go": 43,
+              "hallmark": 1,
+              "reactome": 74
+            },
+            "members": [
+              "blood coagulation",
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "platelet activation - actin binding",
+              "platelet activation & blood coagulation",
+              "cell movement, Adhesion & Platelet activation",
+              "platelet activation (I)",
+              "platelet activation (III)",
+              "platelet activation and degranulation",
+              "lipid metabolism, endoplasmic reticulum"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n01885",
+            "size": 754,
+            "sources": {
+              "btm": 52,
+              "go": 367,
+              "hallmark": 7,
+              "reactome": 328
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n02917",
+            "size": 471,
+            "sources": {
+              "btm": 41,
+              "go": 218,
+              "hallmark": 5,
+              "reactome": 207
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02893",
+            "size": 414,
+            "sources": {
+              "btm": 36,
+              "go": 187,
+              "hallmark": 5,
+              "reactome": 186
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle"
+            ]
+          },
+          {
+            "node": "n00229",
+            "size": 840,
+            "sources": {
+              "btm": 58,
+              "go": 410,
+              "hallmark": 7,
+              "reactome": 365
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n00002",
+            "size": 761,
+            "sources": {
+              "btm": 128,
+              "go": 413,
+              "hallmark": 7,
+              "reactome": 213
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n02036",
+            "size": 2417,
+            "sources": {
+              "btm": 235,
+              "go": 1433,
+              "hallmark": 23,
+              "reactome": 726
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration"
+            ]
+          },
+          {
+            "node": "n00001",
+            "size": 1379,
+            "sources": {
+              "btm": 29,
+              "go": 729,
+              "hallmark": 12,
+              "reactome": 609
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in G-protein coupled receptors",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "G protein coupled receptors cluster"
+            ]
+          },
+          {
+            "node": "n02123",
+            "size": 1092,
+            "sources": {
+              "btm": 24,
+              "go": 593,
+              "hallmark": 8,
+              "reactome": 467
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "nucleotide metabolism"
+            ]
+          },
+          {
+            "node": "n01525",
+            "size": 1966,
+            "sources": {
+              "btm": 43,
+              "go": 1164,
+              "hallmark": 13,
+              "reactome": 746
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n01855",
+            "size": 1963,
+            "sources": {
+              "btm": 216,
+              "go": 1017,
+              "hallmark": 23,
+              "reactome": 707
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)"
+            ]
+          }
+        ]
+      }
+    },
+    "M5_cal": {
+      "path": "data/ontology/v0.4-leaves/thema_L_M5_cal",
+      "themes": 11094,
+      "theta_match": 0.5,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.01",
+      "effective_floors": {
+        "3-3": null,
+        "4-4": null,
+        "5-5": null,
+        "6-6": 1.0,
+        "7-9": 0.43,
+        "10+": 0.035176
+      },
+      "bands": {
+        "3-5": 0,
+        "6-10": 1897,
+        "11-20": 5579,
+        "21-50": 2933,
+        "51-100": 520,
+        "101-300": 89,
+        "301-1000": 21,
+        "1001+": 55
+      },
+      "extra_bands": {
+        "3-10": 1897,
+        "6-9": 941,
+        "51-1000": 630
+      },
+      "themes_after_collapse": 7167,
+      "bands_collapsed": {
+        "3-5": 0,
+        "6-10": 1381,
+        "11-20": 3724,
+        "21-50": 1630,
+        "51-100": 291,
+        "101-300": 69,
+        "301-1000": 18,
+        "1001+": 54
+      },
+      "extra_bands_collapsed": {
+        "3-10": 1381,
+        "6-9": 718,
+        "51-1000": 378
+      },
+      "near_duplicate_share": 0.7031,
+      "n_roots": 115,
+      "root_sizes": [
+        2911,
+        2635,
+        2619,
+        2610,
+        2608,
+        2583,
+        2552,
+        2439,
+        2367,
+        2304,
+        2207,
+        2203
+      ],
+      "root_children": [
+        681,
+        628,
+        557,
+        551,
+        537,
+        535,
+        490,
+        486,
+        476,
+        454,
+        436,
+        435
+      ],
+      "root_children_max": 681,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 681,
+      "n_over_30_children": 75,
+      "multi_parent_share": 0.7227,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1250,
+        "21-50": 96,
+        "301-1000": 3785,
+        "51-100": 428
+      },
+      "coherence": {
+        "6-10": {
+          "n_nodes": 1897,
+          "n_sampled": 150,
+          "observed": 0.07933,
+          "null": 0.00117,
+          "ratio": 68.04
+        },
+        "11-20": {
+          "n_nodes": 5579,
+          "n_sampled": 150,
+          "observed": 0.04849,
+          "null": 0.00122,
+          "ratio": 39.61
+        },
+        "21-50": {
+          "n_nodes": 2933,
+          "n_sampled": 150,
+          "observed": 0.03622,
+          "null": 0.00124,
+          "ratio": 29.2
+        },
+        "51-100": {
+          "n_nodes": 520,
+          "n_sampled": 150,
+          "observed": 0.02056,
+          "null": 0.00119,
+          "ratio": 17.27
+        },
+        "101-300": {
+          "n_nodes": 89,
+          "n_sampled": 89,
+          "observed": 0.01489,
+          "null": 0.0012,
+          "ratio": 12.42
+        },
+        "301-1000": {
+          "n_nodes": 21,
+          "n_sampled": 21,
+          "observed": 0.00671,
+          "null": 0.00121,
+          "ratio": 5.54
+        },
+        "1001+": {
+          "n_nodes": 55,
+          "n_sampled": 55,
+          "observed": 0.00241,
+          "null": 0.00119,
+          "ratio": 2.03
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n05475",
+            "size": 87,
+            "sources": {
+              "btm": 1,
+              "go": 54,
+              "hallmark": 1,
+              "reactome": 31
+            },
+            "members": [
+              "metabolism in mitochondria, peroxisome",
+              "sulfur amino acid biosynthetic process",
+              "sulfur amino acid catabolic process",
+              "pyrimidine nucleobase catabolic process",
+              "obsolete cysteine metabolic process",
+              "glycine biosynthetic process",
+              "obsolete L-histidine metabolic process",
+              "L-methionine metabolic process",
+              "obsolete L-phenylalanine metabolic process",
+              "L-serine catabolic process"
+            ]
+          },
+          {
+            "node": "n04600",
+            "size": 80,
+            "sources": {
+              "btm": 5,
+              "go": 58,
+              "hallmark": 1,
+              "reactome": 16
+            },
+            "members": [
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "TBA",
+              "golgi membrane (II)",
+              "retrograde transport, vesicle recycling within Golgi",
+              "positive regulation of receptor recycling",
+              "obsolete regulation of COPII vesicle coating",
+              "SRP-dependent cotranslational protein targeting to membrane, translocation",
+              "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition"
+            ]
+          },
+          {
+            "node": "n06880",
+            "size": 73,
+            "sources": {
+              "btm": 2,
+              "go": 45,
+              "hallmark": 1,
+              "reactome": 25
+            },
+            "members": [
+              "chaperonin mediated protein folding (I)",
+              "chaperonin mediated protein folding (II)",
+              "'de novo' protein folding",
+              "SRP-dependent cotranslational protein targeting to membrane, translocation",
+              "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+              "protein retention in ER lumen",
+              "ER overload response",
+              "post-chaperonin tubulin folding pathway",
+              "heat acclimation",
+              "post-translational protein targeting to membrane, translocation"
+            ]
+          },
+          {
+            "node": "n09949",
+            "size": 51,
+            "sources": {
+              "go": 35,
+              "reactome": 16
+            },
+            "members": [
+              "tRNA-type intron splice site recognition and cleavage",
+              "rRNA 2'-O-methylation",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "box C/D snoRNP assembly",
+              "mitochondrial mRNA catabolic process",
+              "mitochondrial RNA 3'-end processing",
+              "tRNA 5'-leader removal",
+              "tRNA wobble guanine modification",
+              "tRNA wobble position uridine thiolation",
+              "tRNA threonylcarbamoyladenosine modification"
+            ]
+          },
+          {
+            "node": "n00837",
+            "size": 55,
+            "sources": {
+              "btm": 1,
+              "go": 39,
+              "hallmark": 1,
+              "reactome": 14
+            },
+            "members": [
+              "chromosome Y linked",
+              "acrosome assembly",
+              "positive regulation of cilium movement",
+              "DNA methylation-dependent constitutive heterochromatin formation",
+              "cytoplasm organization",
+              "spermatogonial cell division",
+              "oocyte construction",
+              "penetration of zona pellucida",
+              "egg activation",
+              "regulation of mRNA export from nucleus"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n05709",
+            "size": 248,
+            "sources": {
+              "btm": 20,
+              "go": 134,
+              "hallmark": 2,
+              "reactome": 92
+            },
+            "members": [
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "type I interferon response",
+              "innate activation by cytosolic DNA sensing",
+              "MHC-TLR7-TLR8 cluster",
+              "innate antiviral response",
+              "interferon alpha response (I)",
+              "TLR and inflammatory signaling",
+              "enriched in activated dendritic cells (II)",
+              "T cell differentiation via ITK and PKC"
+            ]
+          },
+          {
+            "node": "n00499",
+            "size": 184,
+            "sources": {
+              "btm": 9,
+              "go": 94,
+              "hallmark": 1,
+              "reactome": 80
+            },
+            "members": [
+              "enriched for ubiquitination",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "enriched in DNA interacting proteins",
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "TBA",
+              "cell division",
+              "mitotic cell cycle - DNA replication",
+              "DNA repair",
+              "single strand break repair"
+            ]
+          },
+          {
+            "node": "n08273",
+            "size": 106,
+            "sources": {
+              "btm": 19,
+              "go": 62,
+              "reactome": 25
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "leukocyte differentiation",
+              "erythrocyte differentiation",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n05937",
+            "size": 234,
+            "sources": {
+              "btm": 29,
+              "go": 108,
+              "hallmark": 4,
+              "reactome": 93
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "enriched in DNA interacting proteins"
+            ]
+          },
+          {
+            "node": "n09401",
+            "size": 219,
+            "sources": {
+              "btm": 4,
+              "go": 161,
+              "reactome": 54
+            },
+            "members": [
+              "TBA",
+              "enriched in calcium signaling proteins",
+              "TBA",
+              "ATF targets network",
+              "suckling behavior",
+              "response to amphetamine",
+              "regulation of respiratory gaseous exchange by nervous system process",
+              "negative regulation of receptor internalization",
+              "aggressive behavior",
+              "microglial cell activation involved in immune response"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n09920",
+            "size": 845,
+            "sources": {
+              "btm": 42,
+              "go": 615,
+              "hallmark": 13,
+              "reactome": 175
+            },
+            "members": [
+              "Hox cluster VI",
+              "TBA",
+              "axon guidance",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "plasma membrane, cell junction",
+              "Hox cluster I",
+              "Hox cluster II"
+            ]
+          },
+          {
+            "node": "n00229",
+            "size": 952,
+            "sources": {
+              "btm": 71,
+              "go": 465,
+              "hallmark": 9,
+              "reactome": 407
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n09922",
+            "size": 343,
+            "sources": {
+              "btm": 6,
+              "go": 192,
+              "hallmark": 5,
+              "reactome": 140
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "metabolism in mitochondria, peroxisome",
+              "TBA",
+              "lipid metabolism, endoplasmic reticulum",
+              "carbon catabolite regulation of transcription from RNA polymerase II promoter",
+              "fatty acid alpha-oxidation",
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization"
+            ]
+          },
+          {
+            "node": "n04599",
+            "size": 416,
+            "sources": {
+              "btm": 29,
+              "go": 210,
+              "hallmark": 2,
+              "reactome": 175
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "TBA",
+              "TBA",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n03450",
+            "size": 819,
+            "sources": {
+              "btm": 25,
+              "go": 437,
+              "hallmark": 9,
+              "reactome": 348
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "TBA"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n04912",
+            "size": 1367,
+            "sources": {
+              "btm": 178,
+              "go": 654,
+              "hallmark": 16,
+              "reactome": 519
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "TBA",
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)"
+            ]
+          },
+          {
+            "node": "n02123",
+            "size": 1226,
+            "sources": {
+              "btm": 32,
+              "go": 675,
+              "hallmark": 10,
+              "reactome": 509
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)"
+            ]
+          },
+          {
+            "node": "n09396",
+            "size": 2367,
+            "sources": {
+              "btm": 105,
+              "go": 1407,
+              "hallmark": 20,
+              "reactome": 835
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n04304",
+            "size": 1678,
+            "sources": {
+              "btm": 107,
+              "go": 1030,
+              "hallmark": 13,
+              "reactome": 528
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration",
+              "blood coagulation"
+            ]
+          },
+          {
+            "node": "n10461",
+            "size": 1290,
+            "sources": {
+              "btm": 26,
+              "go": 930,
+              "hallmark": 1,
+              "reactome": 333
+            },
+            "members": [
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "axon guidance",
+              "TBA",
+              "inositol phosphate metabolism",
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "TBA",
+              "G protein mediated calcium signaling"
+            ]
+          }
+        ]
+      }
+    },
+    "M5_cal8": {
+      "path": "data/ontology/v0.4-leaves/thema_L_M5_cal8",
+      "themes": 11060,
+      "theta_match": 0.5,
+      "match_split": null,
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+      "effective_floors": {
+        "3-3": null,
+        "4-4": null,
+        "5-5": null,
+        "6-6": 1.0,
+        "7-9": 0.45,
+        "10+": 0.035176
+      },
+      "bands": {
+        "3-5": 0,
+        "6-10": 1868,
+        "11-20": 5584,
+        "21-50": 2928,
+        "51-100": 517,
+        "101-300": 87,
+        "301-1000": 21,
+        "1001+": 55
+      },
+      "extra_bands": {
+        "3-10": 1868,
+        "6-9": 908,
+        "51-1000": 625
+      },
+      "themes_after_collapse": 7135,
+      "bands_collapsed": {
+        "3-5": 0,
+        "6-10": 1359,
+        "11-20": 3725,
+        "21-50": 1621,
+        "51-100": 291,
+        "101-300": 67,
+        "301-1000": 18,
+        "1001+": 54
+      },
+      "extra_bands_collapsed": {
+        "3-10": 1359,
+        "6-9": 688,
+        "51-1000": 376
+      },
+      "near_duplicate_share": 0.7044,
+      "n_roots": 116,
+      "root_sizes": [
+        2909,
+        2634,
+        2615,
+        2610,
+        2603,
+        2583,
+        2552,
+        2437,
+        2367,
+        2304,
+        2208,
+        2203
+      ],
+      "root_children": [
+        682,
+        630,
+        556,
+        551,
+        549,
+        548,
+        488,
+        485,
+        477,
+        454,
+        435,
+        434
+      ],
+      "root_children_max": 682,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 682,
+      "n_over_30_children": 75,
+      "multi_parent_share": 0.7214,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1249,
+        "21-50": 97,
+        "301-1000": 3784,
+        "51-100": 429
+      },
+      "coherence": {
+        "6-10": {
+          "n_nodes": 1868,
+          "n_sampled": 150,
+          "observed": 0.07432,
+          "null": 0.00116,
+          "ratio": 64.32
+        },
+        "11-20": {
+          "n_nodes": 5584,
+          "n_sampled": 150,
+          "observed": 0.05441,
+          "null": 0.00118,
+          "ratio": 46.17
+        },
+        "21-50": {
+          "n_nodes": 2928,
+          "n_sampled": 150,
+          "observed": 0.03796,
+          "null": 0.00121,
+          "ratio": 31.44
+        },
+        "51-100": {
+          "n_nodes": 517,
+          "n_sampled": 150,
+          "observed": 0.0194,
+          "null": 0.0012,
+          "ratio": 16.19
+        },
+        "101-300": {
+          "n_nodes": 87,
+          "n_sampled": 87,
+          "observed": 0.01465,
+          "null": 0.00118,
+          "ratio": 12.46
+        },
+        "301-1000": {
+          "n_nodes": 21,
+          "n_sampled": 21,
+          "observed": 0.00653,
+          "null": 0.00124,
+          "ratio": 5.26
+        },
+        "1001+": {
+          "n_nodes": 55,
+          "n_sampled": 55,
+          "observed": 0.00223,
+          "null": 0.0012,
+          "ratio": 1.86
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n09377",
+            "size": 78,
+            "sources": {
+              "btm": 2,
+              "go": 50,
+              "reactome": 26
+            },
+            "members": [
+              "respiratory electron transport chain (mitochondrion)",
+              "transcription elongation, RNA polymerase II",
+              "tRNA-type intron splice site recognition and cleavage",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "mitochondrial mRNA catabolic process",
+              "regulation of mitochondrial RNA catabolic process",
+              "mitochondrial RNA 3'-end processing",
+              "tRNA 5'-leader removal",
+              "tRNA wobble guanine modification",
+              "tRNA wobble position uridine thiolation"
+            ]
+          },
+          {
+            "node": "n00448",
+            "size": 51,
+            "sources": {
+              "btm": 5,
+              "go": 10,
+              "hallmark": 1,
+              "reactome": 35
+            },
+            "members": [
+              "blood coagulation",
+              "platelet activation - actin binding",
+              "platelet activation & blood coagulation",
+              "platelet activation (III)",
+              "platelet activation and degranulation",
+              "platelet degranulation",
+              "blood coagulation, intrinsic pathway",
+              "positive regulation of plasminogen activation",
+              "negative regulation of plasminogen activation",
+              "regulation of circulating fibrinogen levels"
+            ]
+          },
+          {
+            "node": "n01704",
+            "size": 52,
+            "sources": {
+              "btm": 3,
+              "go": 28,
+              "reactome": 21
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway",
+              "peptide modification"
+            ]
+          },
+          {
+            "node": "n01168",
+            "size": 54,
+            "sources": {
+              "btm": 2,
+              "go": 22,
+              "hallmark": 1,
+              "reactome": 29
+            },
+            "members": [
+              "xenobiotic metabolism",
+              "metabolism of steroids",
+              "ethanol metabolic process",
+              "xenobiotic transmembrane transport",
+              "toxin catabolic process",
+              "phenylpropanoid metabolic process",
+              "alkaloid catabolic process",
+              "monoterpenoid metabolic process",
+              "glucuronate metabolic process",
+              "polyketide metabolic process"
+            ]
+          },
+          {
+            "node": "n10456",
+            "size": 56,
+            "sources": {
+              "btm": 18,
+              "go": 21,
+              "reactome": 17
+            },
+            "members": [
+              "enriched in monocytes (IV)",
+              "enriched in monocytes (surface)",
+              "MHC-TLR7-TLR8 cluster",
+              "enriched in dendritic cells",
+              "antigen processing and presentation",
+              "enriched in T cells (II)",
+              "antigen presentation (lipids and proteins)",
+              "myeloid cell enriched receptors and transporters",
+              "complement and other receptors in DCs",
+              "CD1 and other DC receptors"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n05052",
+            "size": 123,
+            "sources": {
+              "btm": 1,
+              "go": 90,
+              "reactome": 32
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization",
+              "microglial cell activation involved in immune response",
+              "immune complex clearance",
+              "positive regulation of macrophage derived foam cell differentiation",
+              "negative regulation of macrophage derived foam cell differentiation",
+              "positive regulation of cholesterol efflux",
+              "positive regulation of cholesterol storage",
+              "negative regulation of cholesterol storage"
+            ]
+          },
+          {
+            "node": "n09888",
+            "size": 139,
+            "sources": {
+              "btm": 2,
+              "go": 102,
+              "reactome": 35
+            },
+            "members": [
+              "enriched in calcium signaling proteins",
+              "TBA",
+              "negative regulation of receptor internalization",
+              "obsolete vesicle docking involved in exocytosis",
+              "neuron cell-cell adhesion",
+              "cell surface receptor protein tyrosine phosphatase signaling pathway",
+              "neuron-neuron synaptic transmission",
+              "short-term memory",
+              "long-term memory",
+              "regulation of synaptic vesicle priming"
+            ]
+          },
+          {
+            "node": "n10435",
+            "size": 172,
+            "sources": {
+              "btm": 5,
+              "go": 98,
+              "reactome": 69
+            },
+            "members": [
+              "innate activation by cytosolic DNA sensing",
+              "enriched in activated dendritic cells (II)",
+              "T cell differentiation via ITK and PKC",
+              "inflammasome receptors and signaling",
+              "enriched in activated dendritic cells/monocytes",
+              "response to protozoan",
+              "response to molecule of fungal origin",
+              "positive regulation of dendritic cell antigen processing and presentation",
+              "activation of NF-kappaB-inducing kinase activity",
+              "regulation of Toll signaling pathway"
+            ]
+          },
+          {
+            "node": "n06141",
+            "size": 152,
+            "sources": {
+              "btm": 1,
+              "go": 77,
+              "reactome": 74
+            },
+            "members": [
+              "axon guidance",
+              "substrate-dependent cell migration, cell extension",
+              "heterophilic cell-cell adhesion",
+              "neuron cell-cell adhesion",
+              "axonal fasciculation",
+              "negative regulation of Schwann cell proliferation",
+              "peripheral nervous system axon regeneration",
+              "axon midline choice point recognition",
+              "neuron remodeling",
+              "spinal cord oligodendrocyte cell differentiation"
+            ]
+          },
+          {
+            "node": "n05442",
+            "size": 111,
+            "sources": {
+              "btm": 4,
+              "go": 59,
+              "reactome": 48
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "obsolete membrane lipid metabolic process",
+              "phosphatidylethanolamine biosynthetic process",
+              "phosphatidylglycerol biosynthetic process",
+              "CDP-choline pathway"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n02857",
+            "size": 457,
+            "sources": {
+              "btm": 38,
+              "go": 212,
+              "hallmark": 5,
+              "reactome": 202
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle"
+            ]
+          },
+          {
+            "node": "n09886",
+            "size": 343,
+            "sources": {
+              "btm": 6,
+              "go": 192,
+              "hallmark": 5,
+              "reactome": 140
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "metabolism in mitochondria, peroxisome",
+              "TBA",
+              "lipid metabolism, endoplasmic reticulum",
+              "carbon catabolite regulation of transcription from RNA polymerase II promoter",
+              "fatty acid alpha-oxidation",
+              "negative regulation of receptor recycling",
+              "positive regulation of receptor internalization"
+            ]
+          },
+          {
+            "node": "n01885",
+            "size": 822,
+            "sources": {
+              "btm": 59,
+              "go": 407,
+              "hallmark": 7,
+              "reactome": 349
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n10428",
+            "size": 870,
+            "sources": {
+              "btm": 64,
+              "go": 615,
+              "hallmark": 11,
+              "reactome": 180
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Membrane, ER proteins",
+              "extracellular matrix, complement"
+            ]
+          },
+          {
+            "node": "n10431",
+            "size": 376,
+            "sources": {
+              "btm": 28,
+              "go": 213,
+              "hallmark": 4,
+              "reactome": 131
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "enriched in DNA interacting proteins",
+              "cell cycle, mitotic phase"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n07727",
+            "size": 1994,
+            "sources": {
+              "btm": 79,
+              "go": 1409,
+              "hallmark": 8,
+              "reactome": 498
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)"
+            ]
+          },
+          {
+            "node": "n08928",
+            "size": 1171,
+            "sources": {
+              "btm": 25,
+              "go": 832,
+              "hallmark": 2,
+              "reactome": 312
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "axon guidance",
+              "golgi membrane (I)",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "TBA",
+              "G protein mediated calcium signaling"
+            ]
+          },
+          {
+            "node": "n04269",
+            "size": 1676,
+            "sources": {
+              "btm": 107,
+              "go": 1029,
+              "hallmark": 13,
+              "reactome": 527
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration",
+              "blood coagulation"
+            ]
+          },
+          {
+            "node": "n10423",
+            "size": 1528,
+            "sources": {
+              "btm": 30,
+              "go": 1073,
+              "hallmark": 8,
+              "reactome": 417
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "axon guidance",
+              "golgi membrane (I)",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "TBA",
+              "intracellular transport",
+              "TBA",
+              "G protein coupled receptors cluster"
+            ]
+          },
+          {
+            "node": "n08923",
+            "size": 2583,
+            "sources": {
+              "btm": 170,
+              "go": 1435,
+              "hallmark": 29,
+              "reactome": 949
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "TBA"
+            ]
+          }
+        ]
+      }
+    },
+    "MS_cur": {
+      "path": "data/ontology/v0.4-leaves/thema_L_MS_g_cur",
+      "themes": 2816,
+      "theta_match": 0.7,
+      "match_split": [
+        50,
+        0.7,
+        0.5
+      ],
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = max(0.33, floor)",
+      "effective_floors": {
+        "3-3": 0.83,
+        "4-4": 0.915,
+        "5-5": 0.505,
+        "6-6": 0.33,
+        "7-9": 0.33,
+        "10+": 0.33
+      },
+      "bands": {
+        "3-5": 494,
+        "6-10": 1252,
+        "11-20": 750,
+        "21-50": 280,
+        "51-100": 30,
+        "101-300": 4,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands": {
+        "3-10": 1746,
+        "6-9": 1085,
+        "51-1000": 36
+      },
+      "themes_after_collapse": 2279,
+      "bands_collapsed": {
+        "3-5": 494,
+        "6-10": 1105,
+        "11-20": 495,
+        "21-50": 154,
+        "51-100": 22,
+        "101-300": 3,
+        "301-1000": 2,
+        "1001+": 4
+      },
+      "extra_bands_collapsed": {
+        "3-10": 1599,
+        "6-9": 991,
+        "51-1000": 27
+      },
+      "near_duplicate_share": 0.3857,
+      "n_roots": 45,
+      "root_sizes": [
+        2217,
+        2144,
+        2005,
+        1336,
+        814,
+        779,
+        67,
+        63,
+        44,
+        43,
+        42,
+        31
+      ],
+      "root_children": [
+        202,
+        192,
+        174,
+        106,
+        80,
+        51,
+        5,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "root_children_max": 202,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 202,
+      "n_over_30_children": 6,
+      "multi_parent_share": 0.3683,
+      "n_effectively_unplaced": 242,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 356,
+        "11-20": 902,
+        "21-50": 1318,
+        "3-5": 19,
+        "301-1000": 1588,
+        "51-100": 667,
+        "6-10": 546,
+        "none": 163
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 494,
+          "n_sampled": 150,
+          "observed": 0.17944,
+          "null": 0.00106,
+          "ratio": 169.09
+        },
+        "6-10": {
+          "n_nodes": 1252,
+          "n_sampled": 150,
+          "observed": 0.08644,
+          "null": 0.00121,
+          "ratio": 71.22
+        },
+        "11-20": {
+          "n_nodes": 750,
+          "n_sampled": 150,
+          "observed": 0.08745,
+          "null": 0.00117,
+          "ratio": 74.79
+        },
+        "21-50": {
+          "n_nodes": 280,
+          "n_sampled": 150,
+          "observed": 0.05635,
+          "null": 0.00117,
+          "ratio": 48.09
+        },
+        "51-100": {
+          "n_nodes": 30,
+          "n_sampled": 30,
+          "observed": 0.03359,
+          "null": 0.00123,
+          "ratio": 27.3
+        },
+        "101-300": {
+          "n_nodes": 4,
+          "n_sampled": 4,
+          "observed": 0.02873,
+          "null": 0.00114,
+          "ratio": 25.2
+        },
+        "301-1000": {
+          "n_nodes": 2,
+          "n_sampled": 2,
+          "observed": 0.00573,
+          "null": 0.00118,
+          "ratio": 4.86
+        },
+        "1001+": {
+          "n_nodes": 4,
+          "n_sampled": 4,
+          "observed": 0.0017,
+          "null": 0.00116,
+          "ratio": 1.46
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n00000",
+            "size": 72,
+            "sources": {
+              "btm": 2,
+              "go": 50,
+              "reactome": 20
+            },
+            "members": [
+              "nucleotide metabolism",
+              "purine nucleotide biosynthesis",
+              "allantoin metabolic process",
+              "purine ribonucleoside salvage",
+              "ADP biosynthetic process",
+              "GMP biosynthetic process",
+              "GTP biosynthetic process",
+              "'de novo' IMP biosynthetic process",
+              "AMP catabolic process",
+              "IMP catabolic process"
+            ]
+          },
+          {
+            "node": "n02283",
+            "size": 52,
+            "sources": {
+              "go": 20,
+              "reactome": 32
+            },
+            "members": [
+              "regulation of glycogen catabolic process",
+              "fructose metabolic process",
+              "fructose 6-phosphate metabolic process",
+              "glucose catabolic process",
+              "glycerol metabolic process",
+              "glycerol-3-phosphate metabolic process",
+              "oxaloacetate metabolic process",
+              "obsolete alanine metabolic process",
+              "pentose-phosphate shunt, non-oxidative branch",
+              "hexose phosphate transport"
+            ]
+          },
+          {
+            "node": "n02553",
+            "size": 56,
+            "sources": {
+              "go": 10,
+              "reactome": 46
+            },
+            "members": [
+              "7-methylguanosine mRNA capping",
+              "receptor-mediated endocytosis of virus by host cell",
+              "viral protein processing",
+              "host-mediated perturbation of viral RNA genome replication",
+              "regulation of viral entry into host cell",
+              "transport of virus",
+              "receptor-mediated virion attachment to host cell",
+              "positive regulation by symbiont of entry into host",
+              "viral translational termination-reinitiation",
+              "positive regulation of viral life cycle"
+            ]
+          },
+          {
+            "node": "n01766",
+            "size": 55,
+            "sources": {
+              "btm": 1,
+              "go": 36,
+              "reactome": 18
+            },
+            "members": [
+              "transcription elongation, RNA polymerase II",
+              "tRNA-type intron splice site recognition and cleavage",
+              "enzyme-directed rRNA pseudouridine synthesis",
+              "mitochondrial mRNA catabolic process",
+              "regulation of mitochondrial RNA catabolic process",
+              "mitochondrial RNA 3'-end processing",
+              "tRNA 5'-leader removal",
+              "tRNA wobble guanine modification",
+              "tRNA wobble position uridine thiolation",
+              "tRNA threonylcarbamoyladenosine modification"
+            ]
+          },
+          {
+            "node": "n01667",
+            "size": 68,
+            "sources": {
+              "btm": 3,
+              "go": 32,
+              "reactome": 33
+            },
+            "members": [
+              "enriched in G-protein coupled receptors",
+              "G protein coupled receptors cluster",
+              "lipid metabolism, endoplasmic reticulum",
+              "arachidonate metabolite production involved in inflammatory response",
+              "lipid hydroxylation",
+              "fatty acid omega-oxidation",
+              "cyclooxygenase pathway",
+              "lipoxygenase pathway",
+              "epoxygenase P450 pathway",
+              "negative regulation of prostaglandin biosynthetic process"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n01866",
+            "size": 158,
+            "sources": {
+              "btm": 4,
+              "go": 74,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "DNA repair",
+              "single strand break repair",
+              "regulation of mitotic recombination",
+              "meiotic mismatch repair",
+              "telomere maintenance via recombination",
+              "double-strand break repair via break-induced replication",
+              "DNA double-strand break processing"
+            ]
+          },
+          {
+            "node": "n02242",
+            "size": 196,
+            "sources": {
+              "btm": 1,
+              "go": 27,
+              "reactome": 168
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "obsolete peptidyl-serine modification",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "negative regulation of peptidyl-serine phosphorylation",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "negative regulation of hippo signaling",
+              "positive regulation of hippo signaling",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor"
+            ]
+          },
+          {
+            "node": "n00139",
+            "size": 161,
+            "sources": {
+              "btm": 2,
+              "go": 48,
+              "reactome": 111
+            },
+            "members": [
+              "lysosomal/endosomal proteins",
+              "lysosome",
+              "ganglioside biosynthetic process",
+              "fructose 6-phosphate metabolic process",
+              "fucose metabolic process",
+              "UDP-alpha-D-glucose metabolic process",
+              "mannose metabolic process",
+              "chitin metabolic process",
+              "N-acetylglucosamine metabolic process",
+              "UDP-N-acetylglucosamine biosynthetic process"
+            ]
+          },
+          {
+            "node": "n02409",
+            "size": 179,
+            "sources": {
+              "btm": 1,
+              "go": 20,
+              "reactome": 158
+            },
+            "members": [
+              "suppression of MAPK signaling",
+              "positive regulation of protein autophosphorylation",
+              "activation of protein kinase B activity",
+              "positive regulation of peptidyl-serine phosphorylation",
+              "peptidyl-tyrosine dephosphorylation",
+              "response to hepatocyte growth factor",
+              "peptidyl-threonine dephosphorylation",
+              "peptidyl-tyrosine autophosphorylation",
+              "ERBB3 signaling pathway",
+              "ERBB2-EGFR signaling pathway"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n01344",
+            "size": 814,
+            "sources": {
+              "btm": 129,
+              "go": 423,
+              "hallmark": 8,
+              "reactome": 254
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n01889",
+            "size": 779,
+            "sources": {
+              "btm": 54,
+              "go": 393,
+              "hallmark": 7,
+              "reactome": 325
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n02656",
+            "size": 2144,
+            "sources": {
+              "btm": 47,
+              "go": 1299,
+              "hallmark": 14,
+              "reactome": 784
+            },
+            "members": [
+              "phosphatidylinositol signaling system",
+              "golgi membrane (I)",
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "inositol phosphate metabolism",
+              "enriched in G-protein coupled receptors",
+              "Membrane, ER proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n02408",
+            "size": 2005,
+            "sources": {
+              "btm": 210,
+              "go": 1058,
+              "hallmark": 24,
+              "reactome": 713
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "TBA",
+              "cell cycle (III)",
+              "TBA",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response"
+            ]
+          },
+          {
+            "node": "n01356",
+            "size": 1336,
+            "sources": {
+              "btm": 28,
+              "go": 703,
+              "hallmark": 12,
+              "reactome": 593
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "lysosomal/endosomal proteins",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)"
+            ]
+          },
+          {
+            "node": "n02149",
+            "size": 2217,
+            "sources": {
+              "btm": 117,
+              "go": 1375,
+              "hallmark": 18,
+              "reactome": 707
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "TBA"
+            ]
+          }
+        ]
+      }
+    },
+    "MS_cal": {
+      "path": "data/ontology/v0.4-leaves/thema_L_MS_cal",
+      "themes": 10795,
+      "theta_match": 0.7,
+      "match_split": [
+        50,
+        0.7,
+        0.5
+      ],
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.01",
+      "effective_floors": {
+        "3-3": 0.83,
+        "4-4": 0.915,
+        "5-5": 0.505,
+        "6-6": 0.31,
+        "7-9": 0.185,
+        "10+": 0.020305
+      },
+      "bands": {
+        "3-5": 494,
+        "6-10": 2245,
+        "11-20": 5202,
+        "21-50": 2443,
+        "51-100": 322,
+        "101-300": 49,
+        "301-1000": 7,
+        "1001+": 33
+      },
+      "extra_bands": {
+        "3-10": 2739,
+        "6-9": 1465,
+        "51-1000": 378
+      },
+      "themes_after_collapse": 7209,
+      "bands_collapsed": {
+        "3-5": 494,
+        "6-10": 1740,
+        "11-20": 3354,
+        "21-50": 1348,
+        "51-100": 200,
+        "101-300": 34,
+        "301-1000": 6,
+        "1001+": 33
+      },
+      "extra_bands_collapsed": {
+        "3-10": 2234,
+        "6-9": 1212,
+        "51-1000": 240
+      },
+      "near_duplicate_share": 0.6619,
+      "n_roots": 108,
+      "root_sizes": [
+        2836,
+        2787,
+        2680,
+        2677,
+        2646,
+        2629,
+        2505,
+        2409,
+        2391,
+        2344,
+        2294,
+        2292
+      ],
+      "root_children": [
+        700,
+        668,
+        661,
+        653,
+        639,
+        618,
+        585,
+        575,
+        566,
+        554,
+        546,
+        538
+      ],
+      "root_children_max": 700,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 700,
+      "n_over_30_children": 41,
+      "multi_parent_share": 0.701,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1353,
+        "11-20": 10,
+        "21-50": 309,
+        "301-1000": 2642,
+        "51-100": 1245
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 494,
+          "n_sampled": 150,
+          "observed": 0.17944,
+          "null": 0.00106,
+          "ratio": 169.09
+        },
+        "6-10": {
+          "n_nodes": 2245,
+          "n_sampled": 150,
+          "observed": 0.07617,
+          "null": 0.00132,
+          "ratio": 57.87
+        },
+        "11-20": {
+          "n_nodes": 5202,
+          "n_sampled": 150,
+          "observed": 0.0637,
+          "null": 0.00123,
+          "ratio": 51.97
+        },
+        "21-50": {
+          "n_nodes": 2443,
+          "n_sampled": 150,
+          "observed": 0.0403,
+          "null": 0.00124,
+          "ratio": 32.49
+        },
+        "51-100": {
+          "n_nodes": 322,
+          "n_sampled": 150,
+          "observed": 0.02248,
+          "null": 0.00118,
+          "ratio": 19.1
+        },
+        "101-300": {
+          "n_nodes": 49,
+          "n_sampled": 49,
+          "observed": 0.01625,
+          "null": 0.00119,
+          "ratio": 13.71
+        },
+        "301-1000": {
+          "n_nodes": 7,
+          "n_sampled": 7,
+          "observed": 0.00639,
+          "null": 0.0012,
+          "ratio": 5.33
+        },
+        "1001+": {
+          "n_nodes": 33,
+          "n_sampled": 33,
+          "observed": 0.0026,
+          "null": 0.00118,
+          "ratio": 2.21
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n06745",
+            "size": 51,
+            "sources": {
+              "go": 37,
+              "reactome": 14
+            },
+            "members": [
+              "regulation of systemic arterial blood pressure by vasopressin",
+              "renal response to blood flow involved in circulatory renin-angiotensin regulation of systemic arterial blood pressure",
+              "positive regulation of systemic arterial blood pressure",
+              "renal sodium ion transport",
+              "osmosensory signaling pathway",
+              "response to water deprivation",
+              "intracellular water homeostasis",
+              "intracellular magnesium ion homeostasis",
+              "glycerol transmembrane transport",
+              "calcium-independent cell-cell adhesion"
+            ]
+          },
+          {
+            "node": "n03037",
+            "size": 64,
+            "sources": {
+              "go": 31,
+              "hallmark": 2,
+              "reactome": 31
+            },
+            "members": [
+              "defense response to tumor cell",
+              "apoptotic DNA fragmentation",
+              "negative regulation of tumor necrosis factor-mediated signaling pathway",
+              "protein import",
+              "apoptotic chromosome condensation",
+              "peptidyl-serine autophosphorylation",
+              "TRAIL-activated apoptotic signaling pathway",
+              "positive regulation of DNA damage response, signal transduction by p53 class mediator",
+              "autophagic cell death",
+              "positive regulation of necroptotic process"
+            ]
+          },
+          {
+            "node": "n08850",
+            "size": 53,
+            "sources": {
+              "btm": 1,
+              "go": 31,
+              "reactome": 21
+            },
+            "members": [
+              "glycerophospholipid metabolism",
+              "obsolete membrane lipid metabolic process",
+              "phosphatidylethanolamine biosynthetic process",
+              "phosphatidylglycerol biosynthetic process",
+              "CDP-choline pathway",
+              "sphingomyelin catabolic process",
+              "sphingomyelin biosynthetic process",
+              "positive regulation of mitochondrial fusion",
+              "cardiolipin metabolic process",
+              "phosphatidylglycerol acyl-chain remodeling"
+            ]
+          },
+          {
+            "node": "n08262",
+            "size": 61,
+            "sources": {
+              "btm": 1,
+              "go": 46,
+              "hallmark": 1,
+              "reactome": 13
+            },
+            "members": [
+              "chromosome Y linked",
+              "resolution of meiotic recombination intermediates",
+              "acrosome assembly",
+              "DNA methylation-dependent constitutive heterochromatin formation",
+              "cytoplasm organization",
+              "spindle assembly involved in female meiosis",
+              "male meiosis I",
+              "female meiosis I",
+              "spermatogonial cell division",
+              "oocyte construction"
+            ]
+          },
+          {
+            "node": "n09718",
+            "size": 63,
+            "sources": {
+              "btm": 31,
+              "go": 24,
+              "reactome": 8
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched in B cell differentiation",
+              "double positive thymocytes",
+              "T cell differentiation",
+              "TBA (source: B cells)",
+              "TBA (source: naive B cells)",
+              "TBA (source: memory B cells)",
+              "plasma cells & B cells, immunoglobulins"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n09683",
+            "size": 187,
+            "sources": {
+              "btm": 13,
+              "go": 104,
+              "hallmark": 2,
+              "reactome": 68
+            },
+            "members": [
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "type I interferon response",
+              "innate activation by cytosolic DNA sensing",
+              "enriched for ubiquitination",
+              "MHC-TLR7-TLR8 cluster",
+              "innate antiviral response",
+              "enriched in activated dendritic cells (II)",
+              "TLR8-BAFF network",
+              "inflammasome receptors and signaling"
+            ]
+          },
+          {
+            "node": "n09692",
+            "size": 107,
+            "sources": {
+              "btm": 7,
+              "go": 65,
+              "hallmark": 2,
+              "reactome": 33
+            },
+            "members": [
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "C-MYC transcriptional network",
+              "spliceosomal tri-snRNP complex assembly",
+              "formation of quadruple SL/U4/U5/U6 snRNP",
+              "tRNA-type intron splice site recognition and cleavage"
+            ]
+          },
+          {
+            "node": "n09690",
+            "size": 116,
+            "sources": {
+              "btm": 8,
+              "go": 68,
+              "hallmark": 1,
+              "reactome": 39
+            },
+            "members": [
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "cell cycle, mitotic phase",
+              "Rho GTPase cycle",
+              "PLK1 signaling events",
+              "mitotic cell cycle",
+              "mitotic cell division",
+              "DNA repair",
+              "mitotic spindle elongation",
+              "resolution of meiotic recombination intermediates"
+            ]
+          },
+          {
+            "node": "n03757",
+            "size": 127,
+            "sources": {
+              "btm": 1,
+              "go": 111,
+              "reactome": 15
+            },
+            "members": [
+              "TBA",
+              "organ induction",
+              "positive regulation of mesenchymal cell proliferation",
+              "glandular epithelial cell differentiation",
+              "columnar/cuboidal epithelial cell maturation",
+              "pancreatic A cell differentiation",
+              "regulation of mesenchymal to epithelial transition involved in metanephros morphogenesis",
+              "gonadal mesoderm development",
+              "lactation",
+              "negative regulation of epithelial to mesenchymal transition"
+            ]
+          },
+          {
+            "node": "n02442",
+            "size": 106,
+            "sources": {
+              "btm": 1,
+              "go": 34,
+              "reactome": 71
+            },
+            "members": [
+              "innate antiviral response",
+              "7-methylguanosine mRNA capping",
+              "DNA integration",
+              "cytidine to uridine editing",
+              "viral latency",
+              "receptor-mediated endocytosis of virus by host cell",
+              "viral protein processing",
+              "ISG15-protein conjugation",
+              "negative regulation of viral transcription",
+              "negative regulation of protein import into nucleus"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n05457",
+            "size": 306,
+            "sources": {
+              "btm": 12,
+              "go": 177,
+              "hallmark": 2,
+              "reactome": 115
+            },
+            "members": [
+              "TBA",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA",
+              "TBA",
+              "regulation of transcription, transcription factors",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex"
+            ]
+          },
+          {
+            "node": "n01344",
+            "size": 900,
+            "sources": {
+              "btm": 135,
+              "go": 475,
+              "hallmark": 8,
+              "reactome": 282
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n03708",
+            "size": 906,
+            "sources": {
+              "btm": 27,
+              "go": 503,
+              "hallmark": 10,
+              "reactome": 366
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n04054",
+            "size": 742,
+            "sources": {
+              "btm": 52,
+              "go": 373,
+              "hallmark": 7,
+              "reactome": 310
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n05456",
+            "size": 404,
+            "sources": {
+              "btm": 37,
+              "go": 189,
+              "hallmark": 5,
+              "reactome": 173
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n09673",
+            "size": 2192,
+            "sources": {
+              "btm": 97,
+              "go": 1449,
+              "hallmark": 11,
+              "reactome": 635
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)"
+            ]
+          },
+          {
+            "node": "n06730",
+            "size": 1438,
+            "sources": {
+              "btm": 89,
+              "go": 713,
+              "hallmark": 22,
+              "reactome": 614
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing"
+            ]
+          },
+          {
+            "node": "n07339",
+            "size": 1863,
+            "sources": {
+              "btm": 120,
+              "go": 1141,
+              "hallmark": 19,
+              "reactome": 583
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration"
+            ]
+          },
+          {
+            "node": "n08247",
+            "size": 1359,
+            "sources": {
+              "btm": 84,
+              "go": 654,
+              "hallmark": 19,
+              "reactome": 602
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing"
+            ]
+          },
+          {
+            "node": "n09674",
+            "size": 2111,
+            "sources": {
+              "btm": 143,
+              "go": 1232,
+              "hallmark": 25,
+              "reactome": 711
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "golgi membrane (I)"
+            ]
+          }
+        ]
+      }
+    },
+    "MS_cal8": {
+      "path": "data/ontology/v0.4-leaves/thema_L_MS_cal8",
+      "themes": 9619,
+      "theta_match": 0.7,
+      "match_split": [
+        50,
+        0.7,
+        0.5
+      ],
+      "floors_source": "solved on 10 seeds [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010], confirmed once on [4001, 4002]; effective = floor, no minimum, calibration target 0.008",
+      "effective_floors": {
+        "3-3": 0.84,
+        "4-4": 0.915,
+        "5-5": 0.515,
+        "6-6": 0.33,
+        "7-9": 0.195,
+        "10+": 0.025126
+      },
+      "bands": {
+        "3-5": 483,
+        "6-10": 2127,
+        "11-20": 4585,
+        "21-50": 2090,
+        "51-100": 268,
+        "101-300": 35,
+        "301-1000": 6,
+        "1001+": 25
+      },
+      "extra_bands": {
+        "3-10": 2610,
+        "6-9": 1416,
+        "51-1000": 309
+      },
+      "themes_after_collapse": 6382,
+      "bands_collapsed": {
+        "3-5": 483,
+        "6-10": 1650,
+        "11-20": 2912,
+        "21-50": 1114,
+        "51-100": 170,
+        "101-300": 23,
+        "301-1000": 5,
+        "1001+": 25
+      },
+      "extra_bands_collapsed": {
+        "3-10": 2133,
+        "6-9": 1176,
+        "51-1000": 198
+      },
+      "near_duplicate_share": 0.6641,
+      "n_roots": 88,
+      "root_sizes": [
+        2800,
+        2727,
+        2641,
+        2634,
+        2607,
+        2597,
+        2460,
+        2365,
+        2342,
+        2301,
+        2261,
+        2246
+      ],
+      "root_children": [
+        592,
+        562,
+        540,
+        531,
+        524,
+        519,
+        482,
+        478,
+        468,
+        457,
+        442,
+        419
+      ],
+      "root_children_max": 592,
+      "children_median_raw": 2.0,
+      "children_median_collapsed": 2.0,
+      "children_max_collapsed": 592,
+      "n_over_30_children": 32,
+      "multi_parent_share": 0.6678,
+      "n_effectively_unplaced": 0,
+      "build_seconds": null,
+      "leaf_placement": {
+        "101-300": 1105,
+        "11-20": 28,
+        "21-50": 463,
+        "301-1000": 2591,
+        "51-100": 1372
+      },
+      "coherence": {
+        "3-5": {
+          "n_nodes": 483,
+          "n_sampled": 150,
+          "observed": 0.17806,
+          "null": 0.00103,
+          "ratio": 172.78
+        },
+        "6-10": {
+          "n_nodes": 2127,
+          "n_sampled": 150,
+          "observed": 0.08209,
+          "null": 0.00123,
+          "ratio": 66.84
+        },
+        "11-20": {
+          "n_nodes": 4585,
+          "n_sampled": 150,
+          "observed": 0.06895,
+          "null": 0.00118,
+          "ratio": 58.5
+        },
+        "21-50": {
+          "n_nodes": 2090,
+          "n_sampled": 150,
+          "observed": 0.04109,
+          "null": 0.0012,
+          "ratio": 34.27
+        },
+        "51-100": {
+          "n_nodes": 268,
+          "n_sampled": 150,
+          "observed": 0.02308,
+          "null": 0.00121,
+          "ratio": 19.06
+        },
+        "101-300": {
+          "n_nodes": 35,
+          "n_sampled": 35,
+          "observed": 0.01551,
+          "null": 0.0012,
+          "ratio": 12.93
+        },
+        "301-1000": {
+          "n_nodes": 6,
+          "n_sampled": 6,
+          "observed": 0.0059,
+          "null": 0.00122,
+          "ratio": 4.83
+        },
+        "1001+": {
+          "n_nodes": 25,
+          "n_sampled": 25,
+          "observed": 0.0025,
+          "null": 0.0012,
+          "ratio": 2.08
+        }
+      },
+      "examples": {
+        "51-100": [
+          {
+            "node": "n03911",
+            "size": 53,
+            "sources": {
+              "btm": 4,
+              "go": 36,
+              "hallmark": 1,
+              "reactome": 12
+            },
+            "members": [
+              "TBA",
+              "intracellular transport",
+              "TBA",
+              "golgi membrane (II)",
+              "retrograde transport, vesicle recycling within Golgi",
+              "positive regulation of receptor recycling",
+              "protein targeting to lysosome",
+              "retrograde vesicle-mediated transport, Golgi to endoplasmic reticulum",
+              "Golgi to endosome transport",
+              "protein geranylgeranylation"
+            ]
+          },
+          {
+            "node": "n06198",
+            "size": 85,
+            "sources": {
+              "btm": 1,
+              "go": 19,
+              "hallmark": 3,
+              "reactome": 62
+            },
+            "members": [
+              "golgi membrane (I)",
+              "N-terminal protein lipidation",
+              "Notch receptor processing",
+              "positive regulation of transcription of Notch receptor target",
+              "Wnt signaling pathway, calcium modulating pathway",
+              "protein autoprocessing",
+              "membrane protein intracellular domain proteolysis",
+              "positive regulation of protein autophosphorylation",
+              "negative regulation of Notch signaling pathway",
+              "negative regulation of smoothened signaling pathway"
+            ]
+          },
+          {
+            "node": "n01972",
+            "size": 71,
+            "sources": {
+              "reactome": 71
+            },
+            "members": [
+              "Constitutive Signaling by Ligand-Responsive EGFR Cancer Variants",
+              "Regulation of KIT signaling",
+              "Signaling by cytosolic FGFR1 fusion mutants",
+              "Signaling by FGFR1 amplification mutants",
+              "Signaling by FGFR2 amplification mutants",
+              "t(4;14) translocations of FGFR3",
+              "Constitutive Signaling by EGFRvIII",
+              "Signaling by FGFR2 fusions",
+              "Signaling by FGFR3 fusions in cancer",
+              "Signaling by plasma membrane FGFR1 fusions"
+            ]
+          },
+          {
+            "node": "n06666",
+            "size": 60,
+            "sources": {
+              "go": 32,
+              "reactome": 28
+            },
+            "members": [
+              "obsolete renal system process involved in regulation of blood volume",
+              "progesterone biosynthetic process",
+              "androgen biosynthetic process",
+              "estrogen biosynthetic process",
+              "mineralocorticoid biosynthetic process",
+              "androgen catabolic process",
+              "positive regulation of bone mineralization",
+              "negative regulation of bone mineralization",
+              "intracellular phosphate ion homeostasis",
+              "negative regulation of glucocorticoid biosynthetic process"
+            ]
+          },
+          {
+            "node": "n01227",
+            "size": 95,
+            "sources": {
+              "btm": 11,
+              "go": 49,
+              "hallmark": 2,
+              "reactome": 33
+            },
+            "members": [
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "type I interferon response",
+              "innate activation by cytosolic DNA sensing",
+              "MHC-TLR7-TLR8 cluster",
+              "innate antiviral response",
+              "enriched in activated dendritic cells (II)",
+              "TLR8-BAFF network",
+              "activated dendritic cells",
+              "RIG-1 like receptor signaling"
+            ]
+          }
+        ],
+        "101-300": [
+          {
+            "node": "n01857",
+            "size": 179,
+            "sources": {
+              "btm": 9,
+              "go": 90,
+              "hallmark": 1,
+              "reactome": 79
+            },
+            "members": [
+              "TBA",
+              "enriched for ubiquitination",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "enriched in DNA interacting proteins",
+              "mismatch repair (I)",
+              "mismatch repair (II)",
+              "cell division",
+              "mitotic cell cycle - DNA replication",
+              "DNA repair",
+              "single strand break repair"
+            ]
+          },
+          {
+            "node": "n04258",
+            "size": 145,
+            "sources": {
+              "btm": 7,
+              "go": 88,
+              "hallmark": 2,
+              "reactome": 48
+            },
+            "members": [
+              "nuclear pore, transport; mRNA splicing, processing",
+              "TBA",
+              "translation initiation",
+              "transcription elongation, RNA polymerase II",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "ribosomal large subunit export from nucleus",
+              "ribosomal small subunit export from nucleus",
+              "spliceosomal tri-snRNP complex assembly"
+            ]
+          },
+          {
+            "node": "n08782",
+            "size": 108,
+            "sources": {
+              "btm": 5,
+              "go": 67,
+              "hallmark": 2,
+              "reactome": 34
+            },
+            "members": [
+              "nuclear pore, transport; mRNA splicing, processing",
+              "translation initiation",
+              "TBA",
+              "translation initiation factor 3 complex",
+              "spliceosome",
+              "spliceosomal tri-snRNP complex assembly",
+              "formation of quadruple SL/U4/U5/U6 snRNP",
+              "tRNA-type intron splice site recognition and cleavage",
+              "regulation of alternative mRNA splicing, via spliceosome",
+              "mRNA 3'-splice site recognition"
+            ]
+          },
+          {
+            "node": "n08195",
+            "size": 107,
+            "sources": {
+              "btm": 1,
+              "go": 68,
+              "hallmark": 2,
+              "reactome": 36
+            },
+            "members": [
+              "TBA",
+              "carbon catabolite regulation of transcription from RNA polymerase II promoter",
+              "diet induced thermogenesis",
+              "regulation of glycogen catabolic process",
+              "monoacylglycerol biosynthetic process",
+              "diacylglycerol biosynthetic process",
+              "sugar mediated signaling pathway",
+              "regulation of long-chain fatty acid import across plasma membrane",
+              "positive regulation of triglyceride biosynthetic process",
+              "negative regulation of triglyceride biosynthetic process"
+            ]
+          },
+          {
+            "node": "n08194",
+            "size": 114,
+            "sources": {
+              "btm": 9,
+              "go": 62,
+              "hallmark": 1,
+              "reactome": 42
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "TBA",
+              "cell cycle, mitotic phase",
+              "Rho GTPase cycle",
+              "PLK1 signaling events",
+              "mitotic cell division",
+              "mitotic spindle elongation"
+            ]
+          }
+        ],
+        "301-1000": [
+          {
+            "node": "n08780",
+            "size": 478,
+            "sources": {
+              "btm": 26,
+              "go": 228,
+              "hallmark": 4,
+              "reactome": 220
+            },
+            "members": [
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "innate antiviral response",
+              "TBA",
+              "mitosis (TF motif CCAATNNSNNNGCG)",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n01335",
+            "size": 880,
+            "sources": {
+              "btm": 133,
+              "go": 463,
+              "hallmark": 8,
+              "reactome": 276
+            },
+            "members": [
+              "TBA",
+              "TBA",
+              "receptors, cell migration",
+              "enriched in monocytes (II)",
+              "formyl peptide receptor mediated neutrophil response",
+              "viral sensing & immunity; IRF2 targets network (I)",
+              "viral sensing & immunity; IRF2 targets network (II)",
+              "complement activation (I)",
+              "complement activation (II)",
+              "cytokines - recepters cluster"
+            ]
+          },
+          {
+            "node": "n05391",
+            "size": 397,
+            "sources": {
+              "btm": 36,
+              "go": 186,
+              "hallmark": 5,
+              "reactome": 170
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "enriched for ubiquitination",
+              "cell cycle, ATP binding",
+              "Ran mediated mitosis",
+              "enriched in cell cycle"
+            ]
+          },
+          {
+            "node": "n01880",
+            "size": 847,
+            "sources": {
+              "btm": 60,
+              "go": 431,
+              "hallmark": 8,
+              "reactome": 348
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing",
+              "cell cycle, ATP binding"
+            ]
+          },
+          {
+            "node": "n03680",
+            "size": 882,
+            "sources": {
+              "btm": 24,
+              "go": 486,
+              "hallmark": 10,
+              "reactome": 362
+            },
+            "members": [
+              "enriched in membrane proteins",
+              "enriched in plasma membrane proteins (I)",
+              "enriched in plasma membrane proteins (II)",
+              "transmembrane and ion transporters (I)",
+              "amino acid metabolishm and transport",
+              "transmembrane transport (SLC cluster)",
+              "xenobiotic metabolism",
+              "heme biosynthesis (I)",
+              "erythrocyte differentiation",
+              "TBA"
+            ]
+          }
+        ],
+        "1001+": [
+          {
+            "node": "n06663",
+            "size": 1413,
+            "sources": {
+              "btm": 88,
+              "go": 703,
+              "hallmark": 22,
+              "reactome": 600
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "enriched for ubiquitination",
+              "nuclear pore, transport; mRNA splicing, processing"
+            ]
+          },
+          {
+            "node": "n07274",
+            "size": 2246,
+            "sources": {
+              "btm": 96,
+              "go": 1563,
+              "hallmark": 11,
+              "reactome": 576
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "phosphatidylinositol signaling system",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration",
+              "blood coagulation",
+              "axon guidance"
+            ]
+          },
+          {
+            "node": "n04500",
+            "size": 2607,
+            "sources": {
+              "btm": 241,
+              "go": 1539,
+              "hallmark": 27,
+              "reactome": 800
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "MAPK, RAS signaling",
+              "TBA",
+              "TBA",
+              "TBA",
+              "Hox cluster VI",
+              "TBA",
+              "receptors, cell migration"
+            ]
+          },
+          {
+            "node": "n07694",
+            "size": 1491,
+            "sources": {
+              "btm": 90,
+              "go": 754,
+              "hallmark": 23,
+              "reactome": 624
+            },
+            "members": [
+              "E2F1 targets (Q3)",
+              "E2F1 targets (Q4)",
+              "cell cycle (III)",
+              "nuclear pore complex",
+              "nuclear pore complex (mitosis)",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA",
+              "TBA"
+            ]
+          },
+          {
+            "node": "n08777",
+            "size": 1992,
+            "sources": {
+              "btm": 82,
+              "go": 1335,
+              "hallmark": 7,
+              "reactome": 568
+            },
+            "members": [
+              "targets of FOSL1/2",
+              "integrin cell surface interactions (I)",
+              "integrin cell surface interactions (II)",
+              "Hox cluster VI",
+              "TBA",
+              "blood coagulation",
+              "axon guidance",
+              "TBA",
+              "enriched for cell migration",
+              "cell adhesion, membrane"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

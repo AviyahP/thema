@@ -1,0 +1,30 @@
+THE 8 GIANT ROOTS, summary
+  node        size   supp  s@0.5    coh  kids  51-300 kids  shared kids  share
+  n06313     2,614  0.050  0.280  1.75x   468           42          388    83%
+  n03678     2,586  0.185  0.480  1.50x   360           31          319    89%
+  n01755     2,527  0.520  0.770  1.99x   533           44          427    80%
+  n02452     2,261  0.350  0.385  0.68x   292           20          138    47%
+  n02239     2,138  0.390  0.400  2.15x   343           31          138    40%
+  n05127     1,751  0.080  0.830  2.07x   344           25          289    84%
+  n04346     1,444  0.120  0.695  3.51x   120           12           79    66%
+  n07992     1,047  0.030  1.000  4.04x   149           15          108    72%
+
+  child slots across the 8 giants: 2,609   DISTINCT children: 1,376  (each child sits under 1.9 giants on average)
+  DISTINCT children of 51-300 members: 107
+  giant coherence range: 0.68x - 4.04x
+  their children's coherence: median 23.9x, 99% at or above 3x
+
+PART 2: WITHOUT THE 8 GIANTS
+  themes_before: 8793
+  themes_after: 8785
+  n_orphaned_to_top_level: 7460
+  roots_before: 124
+  roots_after: 905
+  largest_remaining_roots: [1405, 838, 826, 800, 400, 373, 294, 211, 201, 151, 139, 138, 135, 123, 114, 114, 114, 108, 105, 99]
+  children_median: 2.0
+  children_max: 219
+  multi_parent_share: 0.5175
+  leaf_placement:
+         11-50: 522
+      301-1000: 2,483
+        51-300: 2,554
