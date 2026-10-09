@@ -4834,3 +4834,299 @@ This is a standing rule, not a one-off: no scoring or construction path may read
 a method that needs them is disqualified rather than discounted. The descriptions are what THEMA
 reads, which is why the pre-existing name leak into descriptions (above) is recorded as a defect to
 fix rather than an effect to exploit.
+
+## 2026-10-08 09:32:27Z — THE LEAVES EXPERIMENT, declared verbatim before any build
+
+Copied verbatim from `docs/spec/2026-10-08-leaves-experiment.md` (sha256:16 `da8f9a6eacea60a2`), which
+Aviyah wrote. **No result below this line existed when it was recorded.** Branch `leaves-2026-10`,
+created from main after v0.4 was merged and tagged `v0.4`; v0.3 and v0.4 are untouched.
+
+One thing was run before this entry and is declared here as having been: **universe L itself**, by
+`scripts/leaves_universe.py`, because the spec's own last line requires a time estimate first and
+the estimate depends on L's size. It computes no experimental result -- only the universe the
+experiment runs on, which the spec's step 1 asks to be reported. L has **5,559** pathways
+(GO 3,168, Reactome 1,995, Hallmark 50, BTM 346). The spec expected about 5,599; the 40-pathway
+difference is in Reactome, whose universe here is 2,836 against the spec's 2,883, and the GO counts
+match the spec exactly (4,370 internal of 7,538). The difference is in the universe count, not in
+the summary rule.
+
+Test N is **not run**: it costs API spend, and the instruction for this session is no API spend. It
+is priced and stopped, as the spec itself requires.
+
+---
+
+> # The leaves experiment: declared 8 Oct 2026, before any result
+>
+> *Spec for ccode. Exploratory arm. Everything is declared here before any number exists. Any later change is labelled as post hoc.*
+>
+> ## Why
+>
+> Curated parents are summaries by construction. A Reactome parent's genes contain every child's (100% of edges), and GO propagates annotations upward. 58% of the GO pathways in the universe (4,370 of 7,538) and 29% of Reactome (848 of 2,883) are such internal nodes. They are large (median 43–51 genes; leaves have a median of 9–10).
+>
+> Today they are clustered alongside their own children as if they were independent items. The consequences (`docs/spec/2026-10-08-reviewer-monotonicity-notes.md`):
+> - general pathways cluster with their general synonyms instead of sitting above their specifics;
+> - the same genes appear all over the DAG;
+> - there is no middle-level theme for groups like "RTK signalling".
+>
+> Text-only direction signals have been tried and are weak (about 60%) or contaminated (the LLM pilot: 62.5%, with 63% verbatim GO ancestors).
+>
+> ## What we are trying to achieve
+>
+> Build THEMA from the **atomic** pathways only (the leaves), then test whether its themes **recreate the curated summaries** by merging leaves. If they do, THEMA's claim becomes: *"From the atomic pathways of four databases, text alone merges cross-database duplicates and recovers the curated summary structure."* Curated parents are then placed on the theme that recreates them, which gives users general-above-specific without using text direction.
+>
+> **Leakage statement.** The curated hierarchy is used ONLY to mark which pathways are summaries (internal nodes). It is never used to decide how leaves group. The placement layer (step 6) is display only and is never scored.
+>
+> ## Design
+>
+> 1. **Universe L.**
+>    - Remove every Reactome pathway with ≥ 1 descendant in the universe (ReactomePathwaysRelation).
+>    - Remove every GO term with ≥ 1 descendant in the universe (closure over `is_a`, `part_of`, `regulates`, `positively_regulates`, `negatively_regulates`, as in clarification 9).
+>    - Keep all Hallmark and BTM pathways.
+>    - Expected size: about 5,599. Report the counts per source.
+>    - Sensitivity, counts only: GO internal defined by `is_a` + `part_of` only.
+> 2. **Vectors.** The existing MedCPT vectors for L, **re-centred on L** and renormalised, as the protocol does for subsets.
+> 3. **Build.**
+>    - v0.4 as finalised: kept stages only, 200 runs, 80% subsamples.
+>    - Floors: reuse the stored 3-seed floors and check them on ONE held-out scramble of L (seed 4001). If held-out FDR > 0.01 overall or > 0.02 in any stratum, recalibrate on L (seeds 3001–3003) and say so.
+>    - Stability between run halves.
+>    - Output: `data/ontology/v0.4-leaves/thema_L/`.
+> 4. **Baselines on the same L.**
+>    - (a) **Full-universe v0.4 restricted to its L members**: keep themes of ≥ 3 after restriction, deduplicated. This answers "does building on leaves beat simply hiding the parents?"
+>    - (b) **HiDeF on L**, re-tuned on the TUNING half over k ∈ {3, 4, 5} × maxres ∈ {300, 500, 800}.
+> 5. **Answer key.**
+>    - For every internal node P (Reactome; GO with full links as primary, `is_a`-only as secondary), the target set is P's leaf descendants in L, kept if ≥ 3.
+>    - Split targets in half, seed 0, stratified by band (3–10, 11–50, 51–200, 201–500 leaves).
+>    - Any choice uses the TUNING half; the report uses the TEST half.
+> 6. **Placement layer (display only, report-only).** Attach each internal pathway to the theme with the highest Jaccard to its leaf set. Report the distribution of that best Jaccard per band.
+>
+> ## Tests (all on the TEST half; CIs from a cluster bootstrap over targets, 1,000 resamples, seed 0)
+>
+> - **Primary:** recall and precision of targets per band, per source, at Jaccard > 0.5 (the existing deciding-table code), for L, (a), and (b).
+> - Near-pair agreement among leaves (clarification 10).
+> - Matched theme count: L cut by support to HiDeF's count.
+> - Shape: themes per band, unplaced, multi-parent %, held-out FDR, stability, build time.
+> - **Named case:** Reactome "Signaling by Receptor Tyrosine Kinases" (R-HSA-9006934). Report its leaf-set size, the best theme Jaccard in each build, and whether "Signaling by SCF-KIT"'s leaves sit inside that theme.
+> - **Scatter:** for each internal pathway, the number of distinct root themes its leaves fall under, for L vs (a).
+>
+> ## Additional declared tests (added 8 Oct, before any result): can THEMA's TEXT place and name the held-out summaries?
+>
+> These test the thematic approach directly. The curated hierarchy is used only as the judge. Both tests are REPORTED, not decisive. They run on internal pathways in the TEST half only.
+>
+> ### Test T: text placement (no API cost)
+>
+> - Each internal pathway P was never in the build. Represent it by its own MedCPT description vector, centred with L's mean and renormalised.
+> - Represent each theme of the leaves build by the centroid of its members' vectors, centred on L and renormalised.
+> - **T1 (primary).** Place P on the theme with the highest cosine to P, among all themes of ≥ 3 members, with no size information. Score: Jaccard(P's leaf set, the placed theme's members). Report the median and the share > 0.5, per band and source.
+>   - Ceiling: gene placement (the theme whose gene union has the highest Jaccard with P's genes).
+>   - Floor: a random theme of the same size as the text-placed one (100 draws, seed 0).
+>   - Baseline: the same text procedure on HiDeF-on-L and on baseline (a).
+> - **T2.** For P whose leaves ARE recovered (some theme has Jaccard > 0.5 with P's leaf set): top-1 and top-5 accuracy of the text ranking in hitting that theme.
+>
+> ### Test N: naming from leaves (API cost; PRICED FIRST, Aviyah approves before any call)
+>
+> - For recovered P, run the current namer on the matching theme. The namer sees leaf members only; P was never in the build.
+> - Score: semantic similarity of the generated name to P's held-out name, as a percentile against all GO BP and Reactome pathway names, using the encoders in the existing naming evaluation. Report the share at ≥ 90th and ≥ 98th percentile.
+> - **Leakage control (required).** Child names often contain the parent's name (for example "regulation of X" under X). Report separately the themes where NO member name contains P's name as a substring.
+> - **Abstention control.** Size-matched random leaf sets; report the abstention rate.
+> - Before any call, write the price (dry run) to the status file and STOP for approval.
+>
+> ## Decision rule (declared now)
+>
+> The leaves version is preferred if, on the TEST half, it:
+> - is **not worse than (a) by more than 2 points** (CI excluding 0) in any 3–10 or 11–50 recall cell; and
+> - is **better than (a) by more than 2 points** (CI excluding 0) in at least one 11–50 or 51–200 recall cell; and
+> - keeps held-out FDR within the caps.
+>
+> Otherwise the full-universe v0.4 stays. Nothing is frozen; Aviyah decides.
+>
+> ## Preservation
+>
+> - Branch `leaves-2026-10`, created from main after v0.4 is merged and tagged `v0.4`.
+> - New files only. The universe filter is a new function or option whose default leaves v0.4's output byte-identical; re-run the byte-identity test.
+> - Outputs go to `data/ontology/v0.4-leaves/` and `data/experiments/leaves/`.
+> - `v0.3/` and `v0.4/` are untouched.
+> - Status: `docs/status/2026-10-08-leaves.md`.
+> - Estimate the time first; stop if it is over 3 h.
+
+## 2026-10-08 16:24:41Z — WORKING RULES: the reviewer analyses, ccode writes and runs all code
+
+Relayed by Aviyah and recorded by ccode. Two rules, from now on:
+
+1. **The reviewer only analyses and writes prompts. ccode writes and runs all code.** No parallel
+   reviewer scripts.
+2. **Everything Aviyah and the reviewer try outside ccode is relayed to ccode to record**, in the
+   form the 8 Oct relay took.
+
+The reason is in `docs/status/2026-10-08-reviewer-log.md`: it holds about a dozen results that
+nobody can now reproduce, because the scripts lived in `/tmp` on a VM and are gone. One of them -- the
+claim that Ward's size weighting lets large diffuse clusters swallow small groups -- had already
+shaped a declared experiment (the one-linkage brief) before it was withdrawn. An unreproducible
+number that changes a declared experiment costs more than the experiment.
+
+Everything in that log is labelled EXPLORATORY: not declared in advance, not run by ccode, not
+reproduced. Any number there that would change a decision must be re-run under the protocol first.
+
+## 2026-10-08 16:24:41Z — EVALUATION: independent coherence is primary, curated agreement is secondary
+
+EXPLORATORY evidence, from the reviewer's 8 Oct work, not reproduced by ccode.
+
+Reactome and GO group pathways on **different axes**, and neither is the only valid one. Reactome
+groups by protagonist molecule (a receptor or transcription factor) or by mechanism stage; GO groups
+by logical class -- regulation direction x target class, or an abstract form. Text plus Ward regroups
+the ERBB family by step type rather than by receptor, which disagrees with Reactome while describing
+the same biology.
+
+Mean within-group gene Jaccard, curated against text and LLM groupings:
+
+| | curated | text Ward | LLM | random |
+|---|---|---|---|---|
+| Reactome | 0.140 | 0.149 | 0.155 | 0.051 |
+| GO | 0.028 | 0.032 | 0.041 | 0.009 |
+
+**The text and LLM groups are at least as gene-coherent as the curated groups they disagree with.**
+So disagreement with curation is not evidence of error, and a benchmark built only on curated
+agreement penalises a valid alternative axis exactly as hard as a wrong answer.
+
+**DECISION: independent coherence -- gene coherence against a size-matched null, and an intruder test
+-- becomes the PRIMARY evaluation. Curated recall and precision become SECONDARY.**
+
+This reverses the weighting every evaluation in this repo has used to date, including the v0.4
+ablation, the leaves experiment and both threshold grids. Those verdicts are not retracted: each was
+decided under the rule in force when it was declared, and each reported its coherence numbers too.
+But a future arm is no longer disqualified by curated recall alone, and the intruder test does not
+exist yet -- it has to be built before this decision has teeth.
+
+## 2026-10-08 16:24:41Z — ONE-LINKAGE: step 2 for engine C is NOT approved; UPGMA recorded as a candidate
+
+The reviewer's reading of ccode's step 1 report (`docs/status/2026-10-08-one-linkage.md`), with one
+withdrawal that matters more than the verdict.
+
+**Engine C is not approved for step 2.** Its 6.4x advantage in nodes of 51-1000 members (1,085
+against Ward's 169) is **mostly chaining, not extra levels**: nested near-copies, one node with 72
+children after collapsing chain links, and 19 singletons in the cut at 30. ccode's step 1 report
+flagged all three symptoms; the reviewer's reading is that they are the whole effect.
+
+**The declared step 1 criterion counted raw tree nodes, which rewards chaining. Recorded as a flaw of
+the criterion**, not of the measurement: a criterion that counts nodes cannot distinguish a new level
+from a longer chain, and both arms that passed it did so partly on chains.
+
+**WITHDRAWN: the explanation that Ward's size weighting makes large diffuse clusters swallow small
+groups.** The raw Ward tree is balanced -- at most 4 children after collapsing, sensible cuts at every
+level. **The roots with 100-227 children come from the BUILT DAG, not the tree**: intermediate nodes
+fail the gate, and their children attach to the root instead. This withdrawal is why the next test is
+the gate rather than the merge rule.
+
+**UPGMA (engine A) is recorded as a candidate alternative engine, to revisit later depending on
+results.** On step 1 it had well-formed cuts at every level, the best curated recall of the three
+(Reactome 3-10 0.364 against Ward's 0.334), took 0.2 s per tree, and needs no new engine code -- it
+is one `method="average"` call on cosine distance. **For now Ward stays unchanged.**
+
+`src/thema/ontology/linkage.py` and its tests stay in the repo: `run_from_merges` is proved
+field-for-field identical to `recurrent.tree_from_subset` on Ward's own merges, so it is the adapter
+any future non-Ward engine needs, and engine C remains callable for a later attempt.
+
+## 2026-10-09 08:38:47Z — REPAIR ROUTE (a), v3: declared before any result
+
+Aviyah's decision, 8-9 Oct 2026. Exploratory. Base: **L_cal8 settings** -- match threshold 0.70,
+floors solved to a 0.008 calibration target, **no 0.33 minimum**. **Ward stays.** Build:
+`thema_L_repair`. **No rule for big themes is declared**; that is decided after Aviyah sees the
+description in item 4.
+
+**1. FIX: stale merges.** After an accepted theme grows (rule 2 / `STRAY_FLOOR`), it must be
+re-compared with the accepted themes, so **no identical or non-nested >0.70 pair survives**.
+Equivalently, the 0.70 merge is applied once more as the LAST step, on final memberships.
+
+The defect is diagnosed in `docs/status/2026-10-08-twins-diagnosis.md`: consensus compares only the
+newcomer against the stack, so two themes already side by side are never compared again after one of
+them grows. In `thema_L`, 822 themes grow and all 10 anomalous pairs -- 3 identical, 7 non-nested
+above 0.70 -- involve a grown theme. Growth is live even at `stray=0.0` because `STRAY_FLOOR = 1`
+bypasses the share test.
+
+**Implemented as a post-pass in a new module, not as an edit to `consensus.py`.** That file is
+load-bearing for v0.4's byte-identity proof against the frozen `recurrent_dag_10770`; changing it in
+place would break the one guarantee that makes v0.4 comparable to v0.3. The post-pass is iterated to
+a fixed point and the build asserts that no such pair remains.
+
+**2. CHAIN COLLAPSE, in construction.** A child holding **>= 90%** of its parent's members is the
+same theme: the two are merged into one node. **Keep the parent's membership; keep the higher
+support and record both.** Edges are re-linked and strict containment is preserved. Aviyah's
+framing: this is a correctness fix, not cosmetic -- a theme and the-same-theme-plus-one are not two
+themes.
+
+**90% is the declared rule.** 80% is reported as well, **and the choice between them is not made
+from the results.**
+
+**3. FRESH CHECK OF THE cal8 FLOORS.** The 0.008 calibration target was chosen on 8 Oct *after*
+seeing a held-out FDR of 0.01009, and was labelled as such. It is therefore confirmed here on
+scramble seeds **never used before** -- 4003, 4004 and 4005, whose trees already exist. Overall and
+per-stratum FDR are reported. Caps unchanged: 0.01 overall, 0.02 per stratum.
+
+**4. DESCRIBE THE BIG THEMES, no rule yet.** For every theme of 51+ members in the repaired build:
+support, **support at Jaccard 0.5**, gene coherence against a size-matched null, number of children,
+and the 7 member names nearest the centroid. A table sorted by size, plus histograms of support and
+coherence per band (51-100, 101-300, 301-1000, >1000). **Described, not gated** -- no rule is
+declared on this and none is inferred from it.
+
+Reported beside `thema_L` and `L_cal8`: themes per band; roots, root sizes and root children; median
+and maximum children; multi-parent share; leaves by the largest theme of 1,000 or fewer they reach;
+gene coherence per band; curated recall (secondary, per the 8 Oct decision); the top level with
+names; and held-out FDR per stratum including the fresh seeds. Status:
+`docs/status/2026-10-09-repair.md`.
+
+## 2026-10-09 11:22:53Z — TRANSCRIBED LATE: the theta grid and the re-gate grid
+
+**These two experiments were declared by Aviyah before any result, and were run that way, but their
+declarations were never written into this file.** They existed only in the session prompts, which are
+not in the repo. Transcribed here on 9 Oct **after their results were known**, so they must not be
+read as pre-registrations: the record of *when* each was declared is the session, not this entry. The
+results are in `docs/status/2026-10-08-leaves-theta.md` and `docs/status/2026-10-08-regate.md`.
+
+This is recorded as a process failure of mine. Every other experiment this week was transcribed
+before it ran; these two were not, and the gap was found by Aviyah asking whether the documentation
+was complete rather than by any check of mine.
+
+### The theta grid, declared 8 Oct before any build
+
+> Split `THETA` into `THETA_MATCH` (recurrence matching and support) and `THETA_MERGE` (merging,
+> stays 0.70). Both at 0.70 must give byte-identical v0.4; rerun the byte-identity test.
+>
+> Arms on L, reusing the cached trees: **M5**, `THETA_MATCH` 0.50 at all sizes; **MS**,
+> `THETA_MATCH` 0.70 for clusters under 50 members and 0.50 at 50 or more. Per arm: re-solve floors
+> on seeds 3001-3003 and check on held-out 4001; if a cap fails, use 10 seeds 3001-3010 checked on
+> 4001+4002. Build; report stability between run halves.
+>
+> **Decision rule, declared in advance:** prefer the arm with the most themes of 60-800 members,
+> among arms meeting ALL of: FDR within caps; 3-10 and 11-50 recall not worse than `thema_L` by more
+> than 2 points with a CI excluding 0; gene coherence at least 3x random in every band.
+
+Motivation, from the reviewer's diagnostic: Ward clusters of 60-2,000 members recur at Jaccard 0.5
+but almost never at 0.70 (median support 60-200: 0.26 against 0.00; 801-2,000: 0.81 against 0.05),
+while scrambled clusters recur at neither.
+
+**Outcome: MS was the only arm meeting the FDR and recall conditions, and it gained 2 themes of
+60-800 against `thema_L`'s 23.** M5 failed recall because at 0.50 four of six strata get no solved
+floor at all. The coherence condition failed for every arm including the reference, at 1001+.
+
+### The re-gate grid, declared 8 Oct before any result
+
+> Reuse the cached materials, re-gate and build. Match threshold: 0.70 (`thema_L` material), 0.50
+> (M5), and 0.70 below 50 / 0.50 at 50 or more (MS). Floor rule: "current" (with the 0.33 minimum)
+> and "calibrated" (effective = the solved floor, no minimum). Six arms; only the three "-cal" arms
+> are new. Calibration: 10 scramble seeds 3001-3010 and held-out 4001+4002 for every arm. Caps:
+> overall at most 0.01, every stratum at most 0.02. Report any cap failure; do not pick floors from
+> the held-out side.
+>
+> **Decision rule, declared in advance:** among arms with FDR within the caps and no loss of small
+> themes (3-10 band within 5% of L, clarified mid-run to mean at least 95% of L's count, more being
+> fine), prefer the arm with the most themes of 51-1000 members, provided gene coherence in 51-1000
+> is at least 3x random and no theme has more than 30 children after collapse.
+>
+> Two additions, each declared before the result it bears on and labelled in the report: the
+> **"-cal8" arms**, floors solved to a 0.008 overall calibration target, added after seeing MS-cal's
+> held-out FDR of 0.01009; and **ranking on theme counts AFTER collapsing near-copies** rather than
+> raw counts.
+
+**Outcome: no arm met every condition, because the 30-children condition fails for the reference
+too.** Setting it aside, `L_cal8` and `MS_cal8` passed the rest. The 0.33 minimum does remove the
+middle -- 51-1000 goes from 27 to 196 themes after collapsing -- but opening the gate makes the
+widest root worse, 227 children to 585, which refuted the mechanism the grid was built to test.
