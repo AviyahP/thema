@@ -86,6 +86,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--version", default="0.4-leaves")
     parser.add_argument("--space", default="leaves_centred")
     parser.add_argument("--rows", type=int, default=TOTAL_ROWS)
+    parser.add_argument("--exclude", type=Path, default=None,
+                        help="a TSV with a `key` column listing inputs to drop from the universe "
+                             "BEFORE the summary rule is applied; data/excluded_inputs.tsv. The "
+                             "source table is never edited, so an exclusion is a config choice "
+                             "and stays reversible")
     parser.add_argument("--sensitivity", action="store_true",
                         help="also report the is_a + part_of counts; writes nothing extra")
     args = parser.parse_args(argv)
@@ -100,6 +105,20 @@ def main(argv: list[str] | None = None) -> int:
 
     embedded = load_embedded(source, args.data / "pathways.tsv")
     row_of = {key: i for i, key in enumerate(embedded.keys)}
+
+    source_digest = universe_digest(full_keys)   # the UNREDUCED universe, before exclusions
+    dropped: set[str] = set()
+    if args.exclude is not None and args.exclude.is_file():
+        import csv as _csv
+
+        with args.exclude.open() as handle:
+            dropped = {row["key"] for row in _csv.DictReader(handle, delimiter="\t")}
+        # Excluded BEFORE the summary rule, because dropping an input can turn a pathway that was
+        # internal into a leaf: a parent whose only universe descendant was excluded now has none.
+        before = len(full_keys)
+        full_keys = full_keys - dropped
+        print(f"  EXCLUSIONS from {args.exclude}: {len(dropped)} listed, "
+              f"{before - len(full_keys)} were in the universe -> {len(full_keys):,} remain")
 
     edges = curated_edges(args.data, PRIMARY_RELATIONS)
     leaves, counts = leaf_universe(full_keys, edges, sources)
@@ -160,9 +179,18 @@ def main(argv: list[str] | None = None) -> int:
     centred_digest = hashlib.sha256((root / VECTORS_CENTRED).read_bytes()).hexdigest()[:16]
     (root / "universe.json").write_text(json.dumps({
         "n_universe": len(full_keys), "n_embedded": len(leaves),
-        "universe_digest": universe_digest(full_keys),
+        # universe_digest asserts that pathways.tsv has not moved since this artifact was
+        # written, which is what load_embedded checks it against -- so it must be the digest of the
+        # UNREDUCED universe even when exclusions are applied. Recording the reduced digest here
+        # instead made load_embedded refuse the artifact, correctly: it claimed a universe the
+        # source table does not give. The reduced set has its own fields.
+        "universe_digest": source_digest,
+        "universe_digest_after_exclusions": universe_digest(full_keys),
         "leaves_digest": universe_digest(set(leaves)),
-        "rule": "n_genes >= 1, then every curated summary removed",
+        "rule": "n_genes >= 1, then listed exclusions dropped, then every curated summary removed",
+        "exclusions_file": None if args.exclude is None else str(args.exclude),
+        "n_excluded": len(dropped),
+        "excluded_keys": sorted(dropped),
         "summary_rule": "a pathway with at least one universe descendant over the primary GO "
                         "closure (clarification 9) or ReactomePathwaysRelation; Hallmark and BTM "
                         "are flat and always kept",

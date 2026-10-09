@@ -110,6 +110,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data", type=Path, default=Path("data"))
     parser.add_argument("--version", default="0.4-leaves")
     parser.add_argument("--build", default="thema_L_repair")
+    parser.add_argument("--build-version", default=None,
+                        help="the version directory the BUILD lives under, when it differs from "
+                             "--version (which supplies the universe, vectors and trees). An "
+                             "exclusion rebuild reads one universe and is written beside another")
     parser.add_argument("--space", default="leaves_centred")
     parser.add_argument("--runs", type=int, default=200)
     parser.add_argument("--out", type=Path, default=None)
@@ -130,7 +134,8 @@ def main(argv: list[str] | None = None) -> int:
     names = {p.key: p.name for p in collection.pathways}
     sources = {p.key: p.source for p in collection.pathways}
 
-    path = root / args.build
+    path = (args.data / "ontology" / f"v{args.build_version}" / args.build
+            if args.build_version else root / args.build)
     members: dict[str, list[str]] = defaultdict(list)
     with (path / "members.tsv").open() as handle:
         for row in csv.DictReader(handle, delimiter="\t"):

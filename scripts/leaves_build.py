@@ -148,6 +148,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=Path("data"))
     parser.add_argument("--version", default="0.4-leaves")
+    parser.add_argument("--out-version", default=None,
+                        help="write the build under this version instead of --version, so an "
+                             "exclusion rebuild can sit beside the build it is compared with")
     parser.add_argument("--space", default="leaves_centred")
     parser.add_argument("--stored-floors", type=Path,
                         default=Path("data/ontology/v0.4/calibration/floors.json"))
@@ -400,6 +403,8 @@ def main(argv: list[str] | None = None) -> int:
                 "rows": f"{first}-{last}", "runs": last - first + 1, "floors": solved,
                 "floors_source": record["source"], "leaves_digest": meta["leaves_digest"],
                 "universe_digest": meta["universe_digest"],
+                "exclusions_file": meta.get("exclusions_file"),
+                "n_excluded_inputs": meta.get("n_excluded", 0),
                 "matched_theme_cut": args.match_themes or None,
                 "repair": None if repaired is None else {
                     "collapse_share": (args.collapse_share
@@ -420,8 +425,8 @@ def main(argv: list[str] | None = None) -> int:
     written = export.write(
         Ontology(method="v0.4-leaves", params=manifest, nodes=nodes, unplaced=unplaced,
                  manifest=manifest),
-        args.data / "ontology", args.version, genes, manifest, dry_run=False,
-        info=info, directory=directory)
+        args.data / "ontology", args.out_version or args.version, genes, manifest,
+        dry_run=False, info=info, directory=directory)
     print(f"  -> {written}  (peak {peak_mb():.0f} MB)", flush=True)
     return 0
 
