@@ -142,16 +142,23 @@ data/ontology/v*/ablate/superseded_*/
 # The rule is scoped to ablate_* so the final v0.4 build keeps its members.tsv.
 data/ontology/v*/ablate_*/members.tsv
 
-# The direction pilot's unblinding key: it maps the blinded pilot ids (P0186) back to real pathway
-# identities. Committing it would destroy the blinding for anyone who re-runs the pilot, and the
-# file name is an explicit instruction. Kept local, never in version control.
-data/experiments/direction_pilot/KEY_DO_NOT_SHARE.tsv
+# Unblinding keys, ANYWHERE. These map blinded pilot ids back to real pathway identities, so
+# committing one destroys the blinding for anyone who re-runs that pilot, and the file name is an
+# explicit instruction. The rule was first written for data/experiments/direction_pilot/ and is
+# deliberately path-free: a second one appeared in data/experiments/llm_grouping_pilot/ the same
+# week, and a per-path rule would have missed it. Kept local, never in version control.
+KEY_DO_NOT_SHARE.tsv
+**/KEY_DO_NOT_SHARE.tsv
 
 # v0.4 cached side material, 8 Oct. 73 MB of matched-and-completed family bitsets plus their
 # inclusion votes, for the real side with and without the stages restored. Regenerable in about
 # 300 s each from the persisted trees. floors.json beside them is the calibration record -- the
 # solved floors and the single held-out confirmation -- and is kept.
-data/ontology/v*/calibration/*.npz
+# The glob is calibration* , not calibration , because each recurrence-threshold arm gets its own
+# store (calibration_M5, calibration_MS): the side material depends on the threshold, so reusing
+# one arm's cached sides for another would score it on the wrong material. A per-path rule here
+# left 477 MB of arm sides exposed -- the same mistake as the first, path-specific key rule below.
+data/ontology/v*/calibration*/*.npz
 
 # v0.4 stability halves and the matched-count cut: intermediate, built for one statistic each
 # (between-half stability, and the equal-theme-count comparison row). Same rule the ablation
@@ -161,3 +168,29 @@ data/ontology/v*/calibration/*.npz
 data/ontology/v*/thema_10770_r*/members.tsv
 data/ontology/v*/thema_10770_matched*/members.tsv
 data/ontology/v*/thema_10770_all_stages_on*/
+
+# The HiDeF-on-L tuning grid, 8 Oct. Nine settings were built to pick baseline (b) on the tuning
+# half; only the winner (k4/maxres800) is a reported arm, and it is kept in full. The other eight
+# are regenerable in about 10 minutes from the committed builder, and every recall/precision cell
+# they produced is committed as data/experiments/leaves/scores_tuning.json. Same rule the 10,770
+# HiDeF grid got above. File-level, not directory-level, so the negation can re-include the winner.
+data/ontology/v*/hidef_L_k*/*
+!data/ontology/v*/hidef_L_k4_maxres800/*
+
+# L's stability halves and matched-count cut: intermediate, one statistic each, as for the
+# full-universe equivalents above. The leaves build's own roster, thema_L/members.tsv, is kept.
+# thema_L* , so the arms' halves are covered too: thema_L_M5_r1-100 and thema_L_MS_r101-200 do
+# not match a thema_L_r* glob. The reported arm builds keep their rosters; only the halves and the
+# matched-count cut, each built for one statistic, lose theirs.
+data/ontology/v*/thema_L*_r[0-9]*/members.tsv
+data/ontology/v*/thema_L*matched*/members.tsv
+
+# Re-gate grid member rosters, 8 Oct. The nine grid arms come to 150 MB of members.tsv, because
+# removing the 0.33 minimum triples the theme count; nodes/edges/unplaced/manifest for all nine are
+# about 18 MB and are kept, so every arm's shape, floors and provenance stay auditable. The grid
+# selects nothing for adoption -- nothing is frozen -- so no arm here is a current core whose roster
+# has to live in the repo, and each regenerates in about 4 minutes from the cached sides and the
+# stored floors under data/ontology/v0.4-leaves/regate/.
+data/ontology/v*/thema_L*_cal/members.tsv
+data/ontology/v*/thema_L*_cal8/members.tsv
+data/ontology/v*/thema_L*_g_cur/members.tsv
