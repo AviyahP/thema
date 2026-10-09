@@ -5438,3 +5438,323 @@ useful result: the samples were not optimistic.
 Source 2 is a different kind of failure from source 1 and is **not fixable by dropping inputs**: the
 sets are individually meaningful and it is the embedding that groups them by their shared wording.
 Noted for whenever the text representation is revisited; nothing follows from it now.
+
+## 2026-10-09 15:22:28Z — PLAUSIBILITY means a shared THEME, not shared genes
+
+**Aviyah's decision, 9 Oct 2026.** A theme is plausible when its members share a **theme** -- a
+process, system, pathway, mechanism, cell type or tissue, or a shared regulator. **Gene overlap is
+reported for information only and is not the criterion.**
+
+This settles something that has been ambiguous all week. Gene coherence against a size-matched null
+has been the primary quantitative measure since the 8 Oct decision, and it remains useful -- but it
+is **evidence about**, not the **definition of**, plausibility. The reviewer's §7.3 is the reason:
+neither resampling support nor gene overlap separates the incoherent clusters from the coherent
+ones. A grouping can share genes and no theme, or share a theme and few genes.
+
+Consequence: gene coherence keeps being reported in every build table and is no longer the thing a
+build is judged on. Where the two disagree, the theme judgement decides.
+
+## 2026-10-09 15:22:28Z — REGULATORY-SIGNATURE sets are acceptable groupings; no action
+
+**Aviyah's decision, 9 Oct 2026.** TF motif sets, TF target sets and "regulation of transcription of
+gene X" sets are **acceptable groupings**. A shared regulator is a theme.
+
+This **supersedes** the observation recorded earlier today, which treated them as the second source
+of census failures on the grounds that they "group by form, not by process". Under the definition
+above a shared regulator counts, so grouping by regulator is grouping by theme. **No action**: they
+are not excluded, not flagged, and not counted against a build.
+
+## 2026-10-09 15:22:28Z — EXCLUSION 2 agreed; the plan is the reviewer's four open items
+
+**Aviyah, 9 Oct 2026.** Exclusion 2 is **agreed** -- the declared rule is the next entry, written
+before any judging.
+
+**The plan is the four steps in the reviewer's open items** (`REVIEW_FULL_REPORT.md` §12 items 1-4;
+the prompt called this section 15 and the file ends at §13, so this is recorded by content):
+
+1. exclusion 2 -- rule, then a blind run, then append to `data/excluded_inputs.tsv`;
+2. the chain-collapse survivor rule -- measure, then decide, **then** decide on 0.85;
+3. rebuild with the exclusions and the chosen structural rules, reused floors noted;
+4. the giant roots and a recursive top level.
+
+**Explicitly NOT decided, and not to be inferred from any measurement already taken: the chain
+threshold, the chain survivor rule, the giant roots, and the recursive top level. They come after
+the re-evaluation.** Step 2's measurement exists (62% of edges in [0.85, 0.90) keep the less stable
+node); the decision it feeds does not.
+
+## 2026-10-09 15:22:28Z — RECORDED: the reviewer disputes ccode's "keeping the child breaks containment", and the reviewer is right
+
+**ccode's claim was wrong and is withdrawn.** It is recorded here rather than quietly dropped
+because it appeared in a status file and could have discouraged a rule on a false ground.
+
+The claim: a chain-collapse survivor rule that keeps the higher-support **child** instead of the
+containing **parent** would break containment. The reviewer's dispute (`REVIEW_FULL_REPORT.md` §12
+item 0): not shown.
+
+**ccode tested it. The DAG does not become invalid.** Over the 341 edges in [0.85, 0.90) where the
+child's support exceeds the parent's -- the edges such a rule would act on -- deleting the parent and
+keeping the child always leaves a set of nodes over which `hasse` produces a **valid strict-
+containment DAG**. Re-stacking is already what both repair fixes do. So "breaks containment" was
+simply wrong.
+
+**What the test does show, which is a cost but not that cost:** in **241 of 341 cases (70.7%)** the
+deleted parent has another child that is **not** inside the surviving child, so that sibling must
+re-parent upward, skipping a level; in **7** cases the parent has no parent either, so the sibling
+would be orphaned to root. And the members only the parent held -- median 3, max 14 -- lose their
+grouping at that level.
+
+**No rule is changed.** The concrete cases are in
+`docs/status/2026-10-09-exclusion2-rebuild.md` for whenever step 2 is decided.
+
+## 2026-10-09 15:23:11Z — EXCLUSION 2: the declared rule, written BEFORE any judging
+
+**Aviyah's rule, 9 Oct 2026. Recorded here before a single candidate was judged**, and before the
+mechanical screen was run.
+
+> **Exclude an input set if NEITHER its source name NOR its generated description identifies one
+> specific biological theme.**
+>
+> A theme counts if it is a **process, system, pathway, mechanism, cell type or tissue, or a shared
+> regulator** -- a TF, motif or target set counts.
+
+Worked example of an exclusion, from Aviyah: `btm:M248`, whose description says its members have
+"in common little more than a shared place in interaction screens". A shared place in a screen is
+not a process, a system, a mechanism, a cell type or a regulator.
+
+**Scope: all 10,770 sets in the universe**, which covers universe L as a subset.
+
+**Two stages, both recorded.**
+
+- **Stage 1, a mechanical screen**, so the candidate set is reproducible and not chosen by eye: all
+  unnamed ("TBA") BTMs, plus every set whose description contains any of -- *no single*,
+  *no coherent*, *heterogeneous*, *loosely*, *mixed*, *little more than*, *best read*,
+  *rather than a single*, *grab*, *miscellaneous*, *uncharacterised*. Candidate counts are reported
+  per source.
+- **Stage 2, blind judging by Claude Code subagents** -- not an external API, so no spend -- against
+  a fixed written rubric. **Judges see ONLY the name and the full description.** No genes, no cluster
+  or theme data, and none of the reviewer's verdict files, so the judgement cannot be contaminated by
+  how a set happened to cluster. Output per set: yes/no plus **the one sentence that decides it**.
+
+**The 17 exclusion-1 sets stay excluded regardless of what stage 2 says about them.**
+
+Results append to `data/excluded_inputs.tsv` with `rule = exclusion-2`, the deciding sentence as
+evidence, and whether the set is in universe L. `data/pathways.tsv` is **not** edited, as for
+exclusion 1.
+
+## 2026-10-09 16:25:14Z — STEP 3 DONE: thema_L_x2 evaluates at 97.7%, and the incoherent count falls 44 -> 18
+
+**EXPLORATORY**, same standing as every judging round this week: LLM-judge assessments by the
+reviewer with Aviyah using Claude Code subagents, outside ccode, not declared, not reproduced here.
+Copy at `docs/status/2026-10-09-x2-evaluation.md`; raw files in
+`data/experiments/reviewer_eval_x2_2026-10-09/`.
+
+**All 8,740 themes judged.** 1,310 carried their `thema_L_repair` verdict (identical member sets);
+7,430 newly judged with `rubric4_x2.md`, which adds one line: judge by shared biological **theme**,
+not by gene overlap -- the 9 Oct definition.
+
+| | `thema_L_repair` | **`thema_L_x2`** |
+|---|---|---|
+| coherent or linked umbrella | 97.4% | **97.7%** |
+| incoherent | 44 | **18** |
+| small incoherent | 39 | **8** |
+
+**The 22-cluster family of unnamed housekeeping modules is gone** -- that is exclusion 1 and 2 doing
+exactly what they were for. The 8 small incoherent that remain are the drug/ethanol/anesthetic sets
+(3), magnesium/creatine orphans (2), a motif-defined BTM, a 5-member leftover-BTM cluster, and a
+3-member phosphoinositide cluster.
+
+**A free check worth having: judging noise is about 1%.** For the 5,465 newly judged themes that
+match a `thema_L_repair` theme at Jaccard >= 0.7, the two independent judgements agree on
+ok/not-ok in 98.9% of cases (36 went ok -> not, 24 not -> ok).
+
+**And the top got worse, which the headline hides.** Every theme over 1,000 members is bad: 10 roots,
+9 incoherent and 1 mixture, against `thema_L_repair`'s 9 roots of which 2 were coherent. Between 301
+and 1,000, four of six are bad. **The middle -- everything up to 300 members -- is 97.7-100% ok in
+every band.** ccode's own structural measurement agrees on the direction: giants went 8 -> 10.
+
+## 2026-10-09 16:25:14Z — EXCLUSION-2 CORRECTION: go:GO:0010800 was excluded against the declared rule
+
+**The rule tests whether NEITHER the name NOR the description identifies a theme.**
+`go:GO:0010800`, *positive regulation of peptidyl-threonine phosphorylation*, has a **name that
+identifies a specific mechanism**, so the test is not met and it should not have been excluded. The
+blind judge excluded it on the description alone ("heterogeneous rather than a single cascade"),
+which is half the rule.
+
+ccode flagged this one in `docs/status/2026-10-09-exclusion2-rebuild.md` as "the single call most
+worth reviewing, because the name arguably does identify a mechanism", and the reviewer reached the
+same conclusion independently.
+
+**Marked, not reversed now.** `data/excluded_inputs.tsv` gains a `status` column; this row reads
+*"reinstate at next rebuild"* with the reason. **No rebuild** -- `thema_L_x2` keeps it excluded and
+its numbers stand as measured.
+
+| | |
+|---|---:|
+| rows in `data/excluded_inputs.tsv` | 23 |
+| **effective exclusions** | **22** |
+| of those, in universe L | **19** |
+| marked for reinstatement | 1 |
+
+By rule, of the 22 effective: exclusion 1 **17**, exclusion 2 **5**.
+
+## 2026-10-09 16:25:14Z — btm:M248, the rule's own example, was judged "yes" and STAYS IN
+
+The exclusion-2 rule quoted `btm:M248` as an example of a set to exclude -- "in common little more
+than a shared place in interaction screens". **The blind judges kept it**, on the sentence *"Several
+of them converge on mitotic and genome-maintenance functions, marking proliferation-linked
+processes."*
+
+**The rule decides, not the example.** `btm:M248` stays in the universe. ccode confirmed it was among
+the 172 screened candidates and that its verdict was `yes`, so this is the rule being applied, not
+an omission.
+
+Worth recording for what it says about the method: an example attached to a rule is an illustration
+of intent, and a blind judge applying the rule to the full description can legitimately reach the
+opposite verdict on it. The reviewer's §17.1 reads the same module as part of a weak "proliferative
+housekeeping and protein turnover" umbrella, which is consistent.
+
+## 2026-10-09 16:25:14Z — The large-theme verdict changes are JUDGING, not structure
+
+**Every large `thema_L_x2` theme has a close counterpart in `thema_L_repair`, at Jaccard 0.72-0.93**
+(reviewer's §17.2): metabolism 1,433 <-> 1,405 at J 0.92; immune 814 <-> 826 at 0.92; nuclear genome
+789 <-> 800 at 0.93; the giant bags at 0.56-0.91.
+
+**The clusters did not move; the rubric did.** The old large themes were judged under rubric2
+(coherent / partial / incoherent); the new ones under rubric4, which requires an umbrella to state a
+**specific** link. Metabolism 1,433 went coherent -> incoherent, nuclear genome 789 coherent ->
+mixture, immune 814 coherent -> umbrella -- all on the same 40-member random sample from 800-2,600
+members. Forty random members of a genuine area look diverse, and the strict rubric penalises that.
+
+**So the "top got worse" figure in the previous entry is two different things and both are true**:
+the number of 1,000+ roots really did rise 8 -> 10 (structural, ccode measured it), and the verdicts
+on large themes really did fall for rubric reasons (not structural). Neither cancels the other.
+
+One genuine structural loss: `thema_L_repair`'s 1,751-member "development, adhesion, ECM, migration"
+theme, judged coherent, **has no clean counterpart in x2.**
+
+## 2026-10-09 16:25:14Z — AREA LEVELS: immune, metabolism and genome exist; signalling, development and neuro do not
+
+A name-keyword check over themes of 80+ members (evaluation only, reviewer's §17.3):
+
+| area | best theme | recall | precision | support | verdict |
+|---|---|---:|---:|---:|---|
+| immune | `n01014` (814) | 0.88 | 0.46 | 0.805 | **yes** |
+| metabolism / transport | `n01438` (1,433) | 0.78 | 0.42 | 0.63 | **yes** |
+| genome maintenance / cell division | `n04626` (369) | 0.80 | 0.30 | 0.105 | **yes** |
+| signalling | only the giant bags (2,000+) | 0.6-0.7 | ~0.2 | low | **no** |
+| development | giants; best clean one is 116 members | 0.18 | 0.67 | | **no** |
+| neuro | giants; best clean one is 98 members | 0.23 | 0.61 | | **no** |
+
+Also present: nuclear genome / gene expression (789, support 0.695), RNA processing / translation
+(289), RTK signalling (213), DNA repair (181), glycosylation (180), hemostasis + eicosanoids (155).
+
+**Signalling, development and neuro sit inside the giant bags.** The reviewer's working explanation,
+explicitly **not yet tested**: these form one continuum in the embedding -- signalling runs through
+development, neuro and cancer -- Ward cuts it differently every run, so no stable 300-800-member
+sub-area recurs; what recurs rarely is "half the universe", and the 10+ floor at 0.025 admits those
+halves as overlapping giants.
+
+That is the case for a recursive top level: cluster the good middle themes into areas rather than
+relying on Ward's top splits. **It is not decided** -- it is step 4.
+
+## 2026-10-09 16:25:14Z — STABILITY refined: the 22.5% churn is concentrated in low-support themes
+
+ccode reported that 22.5% of `thema_L_x2`'s themes have no `thema_L_repair` counterpart at Jaccard
+0.7, and that the cause was the trees rather than the removed members. The reviewer's breakdown
+**refines that in a way that matters**, and ccode's figure alone was more alarming than the truth:
+
+| | |
+|---|---:|
+| **themes with support >= 0.1 that reproduce** | **89%** |
+| themes with support >= 0.5 that reproduce | **91%** |
+| median support of **identical** themes | 0.685 |
+| median support of **new** themes | **0.045** |
+
+**The churn is almost entirely low-support themes.** Among themes that recur reliably at all, 89-91%
+survive a universe change of 0.36% -- which is close to the 82-85% between-half stability measured
+within a single build, and this is effectively two independent builds.
+
+Plausibility by match class tells the same story: identical 98.4% ok, matched at J >= 0.7 98.3%, new
+95.7% -- the new themes are slightly less plausible and mostly weak.
+
+## 2026-10-09 16:25:14Z — STEP 4 IS PENDING AVIYAH: no decision on the chain rule, the giants, or a recursive top
+
+Recorded so the next session does not infer a decision from the measurements. **Pending Aviyah, with
+nothing decided and nothing to be read as decided:**
+
+1. **the chain-collapse threshold** (0.80 / 0.85 / 0.90) -- measured: 550 edges in [0.85, 0.90), no
+   distributional valley, the range above 0.90 empty by construction;
+2. **the chain survivor rule** -- measured: the declared rule keeps the less stable node on 62% of
+   those edges; the alternative was shown not to break containment, at the cost of 241 of 341
+   siblings re-parenting upward;
+3. **the giant roots** -- 10 of them, all judged bad, sharing most of their children;
+4. **a recursive top level** -- clustering the good middle themes into areas instead of using Ward's
+   top splits, which §17.3 argues for and nobody has tested.
+
+The measurements for 1 and 2 exist and are in `docs/status/2026-10-09-redundancy-measure.md`. **The
+decisions they feed do not.**
+
+## 2026-10-09 16:56:29Z — Baseline frozen 2026-10-09 (thema_L_x2)
+
+**Aviyah's decision, 9 Oct 2026.** `thema_L_x2` is frozen, **exactly as built**, as the baseline
+**"THEMA baseline 2026-10-09"**.
+
+> Baseline frozen 2026-10-09 (thema_L_x2). New builds go to new directories and report a comparison
+> to the baseline: theme counts by band, match at J >= 0.7, and plausibility where judged.
+
+If work gets tangled, this is what we revert to.
+
+**The frozen copy** is `data/ontology/frozen/baseline-2026-10-09/` -- 18.9 MB, 15 files plus
+`CHECKSUMS.sha256`. It holds the build (`nodes.tsv`, `members.tsv`, `edges.tsv`, `unplaced.tsv`,
+`manifest.json`, `browse.html`, `match_to_repair.tsv`, `compare_to_repair.json`), the inputs it
+depends on (`excluded_inputs.tsv` as of the freeze, `floors_L_cal8.json`, `universe.json`, the
+subsample manifest `trees_build_log.json`), the evaluation (`all_verdicts_x2.json`, `REPORT_x2.md`),
+and `FROZEN.md` -- the full command line, every parameter, the universe, the code identity, the
+headline numbers, and how to rebuild and how to revert.
+
+**It is frozen for real, not by convention.** `tests/ontology/test_frozen_baseline.py` re-hashes
+every file against `CHECKSUMS.sha256` on every test run and fails on a changed file, a deleted file,
+or a new file added without a checksum. All three were confirmed to fail before this was written.
+Files are also mode 444 as a speed bump; git does not preserve that, so the test is the real guard.
+
+**Frozen as built, including the one known error.** `go:GO:0010800` was excluded against the
+declared rule and is marked *"reinstate at next rebuild"*, but **this baseline keeps it excluded**,
+so every recorded number is exactly what was measured. The baseline stands on **23** exclusions
+while **22 (19 in L)** are effective going forward; the next rebuild differs by that one input, and
+`FROZEN.md` says so in the universe section rather than quietly reconciling the counts.
+
+**The code.** `HEAD` at build time was `7ba3720703bec06ea9610f4976e7934ee0b69faf`, but the working
+tree was **dirty** -- four modified and two untracked scripts -- so that hash alone does not
+reproduce the build. `docs/status/commit-2026-10-09-baseline.sh` commits exactly that work and
+creates the annotated tag **`thema-baseline-2026-10-09`**, which is the reproducible pointer.
+`FROZEN.md` also records the sha256 of the nine sources that ran, so identity is checkable without
+the tag.
+
+**One correction found while writing it up.** The browse export needs
+`--version 0.4-leaves-x2 --build-version 0.4-leaves` together; `--version 0.4-leaves` alone reads
+the wrong `universe.json` and reports 5,559 pathways instead of 5,539. The recorded command was
+verified to reproduce the frozen `browse.html` byte-identically, and the trap is written into
+`FROZEN.md` rather than left to be rediscovered.
+
+**What this does not decide.** Step 4 -- the chain threshold, the chain survivor rule, what to do
+about the giant roots, and whether the top level is built recursively -- is **open and pending
+Aviyah**. Freezing a baseline is not choosing any of it.
+
+## 2026-10-09 21:23:27Z — Statistics layer: the reviewer's implementation considerations, recorded
+
+> Statistics layer: reviewer's implementation considerations recorded (testing resolution /
+> DAG-structured testing, support weighting, facet-distinctive attribution, giant roots excluded
+> from testing, validation). These are possibilities, NOT decisions; decide and declare them when
+> the statistics layer is implemented.
+
+Recorded at `docs/plans/2026-10-09-stats-implementation-considerations.md`, copied verbatim from
+`data/experiments/reviewer_notes/2026-10-09-stats-implementation-considerations.md`.
+
+**Nothing in it is declared.** The note itself says so in its second line, and it is filed under
+`docs/plans/` rather than as a decision for that reason. The existing plan stays authoritative:
+`thema-master-spec.md`, `thema-brief.md` section 5 (BASIS / CHILD-UNIQUE / PARENT-BEYOND, BH / BY,
+the empirical-FDR audit, planted truth), `thema-soft-membership-plan.md`, and the paper's stats
+section. The note only adds what the multi-facet DAG of Oct 2026 raises, chiefly that the BH family
+is now 8,740 themes and many more edges rather than the 30-50 the plan was written for.
+
+Each option must be **chosen and declared before results are seen**, per the standing rule.
