@@ -45,7 +45,7 @@ from typing import NamedTuple
 import numpy as np
 
 from thema.ontology import bitset as bits
-from thema.ontology.consensus import DEFAULT_JACCARD, consensus
+from thema.ontology.consensus import consensus
 from thema.ontology.recurrent import (
     DEFAULTS,
     families,
@@ -56,7 +56,23 @@ from thema.ontology.recurrent import (
     score,
 )
 
-#: Match threshold, for recurrence and for merging alike. One knob, used twice.
+#: Recurrence matching and support: is this grouping the same theme as that cluster in another run?
+#: Split out of the single ``THETA`` on 8 Oct 2026 after a reviewer diagnostic found that Ward
+#: clusters of 60-2,000 members recur at Jaccard >= 0.5 but almost never at 0.70 (median support
+#: 60-200: 0.26 vs 0.00; 801-2,000: 0.81 vs 0.05), while scrambled clusters recur at neither. A
+#: single 0.70 therefore deletes the middle of the hierarchy rather than filtering it.
+THETA_MATCH = 0.70
+#: Merging: absorption and consensus. Unchanged, and held separate so a matching change cannot
+#: silently widen what counts as the same theme once found.
+#:
+#: Note what this does and does not reach. Consensus takes it directly. **Absorption does not use a
+#: Jaccard at all** -- :func:`~thema.ontology.recurrent.families` groups by the twin rule, where a
+#: variant may differ by ``TWIN_FRACTION`` (0.10) of the seed's members -- so there is no absorption
+#: threshold for this to set. Saying "absorption + consensus" names the stage it belongs to; only
+#: consensus reads it.
+THETA_MERGE = 0.70
+#: The two agree in v0.4, and both must equal v0.3's single threshold. Kept as one name for the
+#: tests that assert that, and for a caller that means "the v0.4 value".
 THETA = 0.70
 #: Smallest theme. Two pathways are a pair, not a theme.
 MIN_SIZE = 3
@@ -181,21 +197,28 @@ class Material:
                         [round(float(s), 6) for s in self.supports], strict=True))
 
 
-def settings_for(runs: int, *, legacy: bool = False) -> dict[str, object]:
+def settings_for(
+    runs: int, *, legacy: bool = False, theta_match: float = THETA_MATCH
+) -> dict[str, object]:
     """Matching settings for one side.
 
     Args:
         runs: Number of runs on this side.
         legacy: Restore v0.3's inert ``TOL`` so the frozen build can be reproduced.
+        theta_match: Recurrence threshold. :data:`THETA_MATCH` reproduces v0.4.
 
     Returns:
         A settings mapping for :func:`~thema.ontology.recurrent.prepare`.
     """
-    return {**DEFAULTS, "runs": runs, "min_size": MIN_SIZE, "theta": THETA,
+    return {**DEFAULTS, "runs": runs, "min_size": MIN_SIZE, "theta": float(theta_match),
             "families": "joined", "tol": LEGACY_TOL if legacy else 0.0}
 
 
-def material(runs: Sequence[object], n: int, *, legacy: bool = False) -> Material:
+def material(
+    runs: Sequence[object], n: int, *, legacy: bool = False,
+    theta_match: float = THETA_MATCH,
+    match_split: tuple[int, float, float] | None = None,
+) -> Material:
     """Match, complete and absorb: everything the gate needs, for one side.
 
     The stage order is v0.3's and is the one thing in this pipeline that must not be rearranged.
@@ -213,14 +236,39 @@ def material(runs: Sequence[object], n: int, *, legacy: bool = False) -> Materia
         runs: Loaded per-run records, in run order, cut with or without the cap.
         n: Universe size.
         legacy: Restore v0.3's inert ``TOL``.
+        theta_match: Recurrence threshold for every grouping, unless ``match_split`` is given.
+        match_split: ``(size, theta_below, theta_at_or_above)`` for a per-size threshold. The
+            first pass must run at ``theta_below``, so pass ``theta_match=theta_below`` with it.
 
     Returns:
         The gate's input.
+
+    Raises:
+        ValueError: If ``match_split``'s small-size threshold is not the one the first pass used.
     """
-    conf = settings_for(len(runs), legacy=legacy)
+    if match_split is not None:
+        cut, theta_small, _theta_large = match_split
+        if float(theta_match) != float(theta_small):
+            raise ValueError(
+                f"match_split's below-{cut} threshold is {theta_small} but theta_match is "
+                f"{theta_match}; pass theta_match=theta_small so the small groupings keep it")
+    conf = settings_for(len(runs), legacy=legacy, theta_match=theta_match)
     ready = prepare(np.zeros((n, 1), dtype=np.float32), n, conf, 0, records=list(runs))
     pool = score(ready, conf)
     words = ready.present.shape[1] * bits.WORD
+
+    if match_split is not None:
+        # A size-dependent recurrence threshold, without touching the frozen matcher. prepare()
+        # does everything that does not depend on theta -- the dedup and the eligibility matrix --
+        # so the grouping pool is identical whatever theta is, and a grouping's support depends only
+        # on theta and the grouping itself. Scoring the SAME pool twice and taking each grouping's
+        # support from the pass that matches its own size is therefore exactly a per-size threshold,
+        # and costs a second score() rather than a second prepare().
+        cut, theta_small, theta_large = match_split
+        other = score(ready, settings_for(len(runs), legacy=legacy, theta_match=theta_large))
+        sizes = np.bitwise_count(pool.groupings).sum(axis=1).astype(np.int64)
+        take_large = sizes >= cut
+        pool.support[take_large] = other.support[take_large]
 
     # STAGE 1: completion. A family's membership is the union of its matched copies, keeping only
     # pathways present in at least INCLUSION_CUT of the copies that could have held them.
@@ -362,7 +410,7 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False) -> Bui
     # Consensus merges near-duplicate themes at the same THETA used for recurrence. STRAY is 0:
     # nothing is inherited, and the ablation found nothing lost by that.
     verdict = consensus(blocks, supports, inclusions, words,
-                        stray=LEGACY_STRAY if legacy else 0.0, jaccard=DEFAULT_JACCARD)
+                        stray=LEGACY_STRAY if legacy else 0.0, jaccard=THETA_MERGE)
     members = [verdict.members[i] for i in range(len(verdict.accepted))]
     kept_support = [supports[c] for c in verdict.accepted]
     # The node's inclusion column is the ACCEPTED CANDIDATE's own vote, as v0.3 writes it -- not a
@@ -387,7 +435,8 @@ def parameters(n: int, *, legacy: bool = False) -> dict[str, object]:
         A manifest fragment.
     """
     return {"method": "v0.4" if not legacy else "v0.4-legacy-all-stages",
-            "theta": THETA, "min_size": MIN_SIZE, "inclusion_cut": INCLUSION_CUT,
+            "theta": THETA, "theta_match": THETA_MATCH, "theta_merge": THETA_MERGE,
+            "min_size": MIN_SIZE, "inclusion_cut": INCLUSION_CUT,
             "subsample": SUBSAMPLE, "strata": [list(s) for s in STRATA],
             "max_fdr_overall": MAX_FDR_OVERALL, "max_fdr_stratum": MAX_FDR_STRATUM,
             "kept_stages": [s.name for s in STAGES],

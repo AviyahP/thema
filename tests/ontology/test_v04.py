@@ -26,6 +26,9 @@ def test_shared_parameters_match_v03() -> None:
     import cut_trees
 
     assert v04.THETA == cut_trees.THETA
+    # The split must not move either side: v0.4 is v0.3 with the knob named twice, not retuned.
+    assert v04.THETA_MATCH == cut_trees.THETA
+    assert v04.THETA_MERGE == cut_trees.THETA
     assert v04.MIN_SIZE == cut_trees.MIN_SIZE
     assert v04.INCLUSION_CUT == build_10770.INCLUSION_CUT
     assert v04.STRATA == build_10770.STRATA
@@ -40,6 +43,10 @@ def test_legacy_constants_match_the_frozen_build() -> None:
 
     assert v04.LEGACY_TOL == cut_trees.TOL
     assert v04.LEGACY_STRAY == DEFAULT_STRAY
+    # THETA_MERGE replaced a direct read of consensus's own default; they must still agree.
+    from thema.ontology.consensus import DEFAULT_JACCARD
+
+    assert v04.THETA_MERGE == DEFAULT_JACCARD
     assert v04.LEGACY_CAP_SHARE == cut_trees.CAP_SHARE
     assert v04.cap_for(10770) == cut_trees.cap_for(10770) == 3125
 
@@ -68,6 +75,19 @@ def test_settings_carry_tol_only_in_legacy() -> None:
     assert v04.settings_for(200)["tol"] == 0.0
     assert v04.settings_for(200, legacy=True)["tol"] == v04.LEGACY_TOL
     assert v04.settings_for(200)["theta"] == v04.THETA
+
+
+def test_settings_theta_is_the_match_threshold_not_the_merge_one() -> None:
+    """Only the matching threshold reaches ``settings``; merging is applied in build()."""
+    assert v04.settings_for(200, theta_match=0.5)["theta"] == 0.5
+    assert v04.settings_for(200)["theta"] == v04.THETA_MATCH
+
+
+def test_match_split_refuses_a_mismatched_first_pass() -> None:
+    """A split whose small-size threshold is not the one already scored is rejected, not silently
+    applied to the wrong pass."""
+    with pytest.raises(ValueError, match="pass theta_match=theta_small"):
+        v04.material([], 4, theta_match=0.7, match_split=(50, 0.5, 0.7))
 
 
 def test_stratum_of_covers_every_size_above_min() -> None:
