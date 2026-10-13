@@ -5758,3 +5758,278 @@ section. The note only adds what the multi-facet DAG of Oct 2026 raises, chiefly
 is now 8,740 themes and many more edges rather than the 30-50 the plan was written for.
 
 Each option must be **chosen and declared before results are seen**, per the standing rule.
+
+## 2026-10-09 23:38:04Z — CHAIN COLLAPSE 0.85 with a support survivor rule: declared before running
+
+**Aviyah's decision, 9 Oct 2026.** Written **before the builds ran**. The rule changes themselves are
+**POST-HOC** -- they were chosen after seeing the n00150 lattice and the 550-pair survivor
+measurement -- and are labelled so. The **success criteria below are declared now, before any
+result**, and are not changed afterwards whatever they say.
+
+### The rule
+
+- **Chain collapse threshold 0.90 -> 0.85.** A child whose size is at least 0.85 of its parent's
+  collapses with it. Strict containment only, as before.
+- **Survivor rule: keep the node with higher support.** If the supports tie, **or the parent has no
+  parents** (it is top level), keep the parent. This replaces the baseline's unconditional
+  keep-the-parent.
+- **Sibling merge stays at 0.70.** Fans are intended multi-parent DAG behaviour. **No twin rule is
+  added.**
+- **`go:GO:0010800` stays excluded** for now; it is reinstated at the next universe rebuild.
+
+### Success criteria, declared now
+
+**"Better than the baseline" means ALL of:**
+
+| | criterion |
+|---|---|
+| **(a)** | **Redundancy removed** -- no remaining parent-child pair with ratio at or above 0.85. |
+| **(b)** | **No facet lost** -- every multi-parent theme in the baseline keeps all of its parents, except parents that were chain-collapsed into one another. Any exception is listed. |
+| **(c)** | **No pathway loses all of its themes under 1,000 members.** |
+| **(d)** | **Reproducibility up** -- the share of themes matched at J >= 0.7 between two independent builds is higher after the rule than before. |
+| **(e)** | **Plausibility not lower** -- carried verdicts give at least 97.7% coherent or umbrella. |
+
+**If a criterion fails it is reported as a failure. The rule is not changed to make it pass.**
+
+### Scope and route
+
+New directories only: `data/ontology/v0.4-leaves/thema_L_x2_c85` and
+`data/ontology/v0.4-leaves/thema_L_repair_c85`. **`data/ontology/frozen/` is not touched** -- it is
+the baseline and `tests/ontology/test_frozen_baseline.py` would fail if it were. No new trees, no
+universe change, no API calls.
+
+**Route: re-run the build from the cached sides with the one changed rule**, same universe, trees,
+floors, thresholds and seeds. The alternative -- applying 0.85 as a second post-pass over the
+baseline's exported tables -- was rejected because the baseline has **already** collapsed every pair
+at or above 0.90 under keep-the-parent, so a second pass would produce a hybrid of two survivor
+rules rather than the declared rule. Re-running from cached sides applies the declared rule to the
+same consensus output the baseline was built from. The harness is checked by rebuilding at 0.90 with
+the old survivor rule and requiring the frozen baseline back, so the only difference between the
+builds is the rule.
+
+A consequence of keeping the higher-support node is recorded now, before it is measured: when the
+child wins, the surviving set is the child's, so **members the parent alone held lose that level**
+and the parent's other children re-attach upward. That is the cost criteria (b) and (c) exist to
+measure.
+
+## 2026-10-10 00:22:25Z — RESULT of the 0.85 chain-collapse arm: THREE OF FIVE CRITERIA FAIL, not adopted
+
+The criteria were declared in the entry above, before the builds ran. They are reported unchanged.
+
+| | criterion | verdict |
+|---|---|---|
+| (a) | no containment pair at ratio >= 0.85 remains | **PASS**, 0 pairs |
+| (b) | every multi-parent baseline theme keeps all its parents | **FAIL**, 971 exceptions of 5,183 |
+| (c) | no pathway loses all its themes under 1,000 members | **PASS**, 0 stranded |
+| (d) | reproducibility at J >= 0.7 higher after the rule | **FAIL**, 77.5% -> 76.4% |
+| (e) | carried plausibility at least 97.7% | **FAIL**, 97.6% |
+
+**The arm is therefore not better than the baseline and is NOT adopted. The frozen baseline stands.**
+No rule was changed to make a criterion pass. Full numbers in
+`docs/status/2026-10-09-chain-c85.md`; builds in `data/ontology/v0.4-leaves/thema_L_x2_c85` and
+`thema_L_repair_c85`.
+
+**The harness was proved before the result was read.** Rebuilding each universe at 0.90 with the old
+keep-the-parent survivor reproduces its build byte-identically in all four tables
+(`thema_L_x2_verify` against the frozen baseline, `thema_L_repair_verify` against `thema_L_repair`),
+so the only difference between the baseline and the 0.85 arm is the rule. Both c85 builds are
+deterministic across two runs.
+
+**Why (d) failed, measured not guessed.** Over the 1,147 collapse events the support margin between
+the two nodes has median 0.120, but **28.3% of pairs are decided by a margin under 0.05** and 1.7%
+are exact ties. Two independent builds disagree about which node of a near-tied pair scores higher,
+keep different survivors, and the matched share falls -- in every support band, not just overall.
+Keep-the-parent has no such sensitivity.
+
+**What the rule did well.** 489 fewer themes, the loss entirely in the 11-50 band -- the
+over-resolved staircase -- and on the n00150 lattice it removed exactly its two weakest rungs
+(`n03987`, 15 members, support 0.155; `n02882`, 33 members, support 0.285) while all 13 tracked
+nodes, all three routes, all four parents and all 7 root routes survived unchanged.
+
+**What it did not touch.** **121 roots and the same ten giants at the same sizes, before and after.**
+The giant-bag problem is untouched by chain collapse at any threshold.
+
+**Corrections to the record, found while measuring.**
+
+1. The n00150 fan's "**6 parents**" is a `thema_L_repair` fact. The identical 7-member set has **4**
+   parents in the frozen baseline and 4 in the 0.85 arm; the drop from 6 to 4 happened at the
+   **exclusion rebuild**, before this rule. Cross-universe node tracking needs best-Jaccard on
+   projected sets, not set identity -- exact identity reports every one of the 13 tracked nodes as
+   absent, which is an artefact of the 20 excluded inputs and not a structural change.
+2. Criterion (b)'s 971 exceptions split: **296** lost parents still exist and remain an ancestor one
+   level up, **675** are gone entirely. The lost parents' ratios run from 0.009 to 0.879, so
+   re-parenting detaches genuine facets and not only near-copies.
+
+**The untried combination, recorded as a question and NOT a decision.** The threshold and the
+survivor rule were changed together and never tested apart. The 0.85 threshold looks defensible on
+its own; the support survivor rule is the part that demonstrably costs reproducibility. **0.85 with
+the baseline's keep-the-parent survivor is untested.** Deciding whether to test it is Aviyah's.
+
+**Code.** `collapse_chains(..., survivor=...)` in `src/thema/ontology/repair.py`, default
+`"parent"`, so the baseline and every existing caller are unaffected; `--survivor` on
+`scripts/leaves_build.py`, recorded in the manifest; a new `repair_map.json` per repaired build
+recording which node of each collapsed pair died; `scripts/chain_c85_report.py` for the
+measurements; nine new tests in `tests/ontology/test_repair.py`.
+
+## 2026-10-10 19:51:38Z — SIBLING MERGE RULE ACCEPTED (2026-10-10), NOT YET RUN; names test in progress
+
+### The accepted rule
+
+**Aviyah accepted the sibling merge rule on 10 Oct 2026. It has NOT been run.** Do not apply it
+until she says so. Exact specification, from the decision record:
+
+- **Candidate pairs:** sibling themes A, B in the c85 build that are non-nested, share a parent of
+  under 1,000 members, and have J >= 0.4. That is 5,574 pairs.
+- **Pair condition:** **J(A,B) >= 0.60 AND min(|A\B|, |B\A|) <= 2.**
+- **Grouping:** **complete linkage** -- qualifying pairs processed in descending J, two groups
+  joined only if every cross pair qualifies. No chaining, no unjudged pairs swept in, groups of at
+  most 3.
+- **In each group: keep the theme with the highest support**, ties to the larger theme then the
+  lower node id. The others become variants of the kept theme.
+- **Expected effect:** 454 of 8,251 themes flagged or removed; twins collapsed 386 of 2,752
+  (14.0%); facets collapsed 74 of 2,815 (2.6%).
+
+**Decision record:** `data/experiments/reviewer_eval_x2_2026-10-09/REPORT_twin_merge_decision_record.md`
+
+Two things in it are worth carrying forward because they are costs, not details. **Only the
+`md <= 2` cutoff is label-free** -- it follows from the pipeline's minimum cluster size of 3, so a
+difference of two pathways cannot be a theme of its own. **The J >= 0.60 cutoff was read off
+labelled tables and is post-hoc.** And the rule knowingly eliminates about **35 strong facets** of
+the 74 it collapses; the reviewer's preferred implementation is a reversible `variant_of` flag
+rather than deletion, and **flag versus deletion is not yet confirmed**.
+
+### The names test, in progress
+
+Aviyah's naming idea is being tested as a standalone **alternative** to the rule above: can
+embeddings of the theme NAMES separate twins from facets?
+
+**Pre-registration:**
+`data/experiments/reviewer_eval_x2_2026-10-09/names_test/PREREG_names_test.md`, written before any
+result. It declares the features (N1 = cosine of the two names; N2 = cosine of the name
+displacements from the smallest shared parent) and the bar: **viable only if N1 AUC >= 0.70 in both
+halves and >= 0.60 J-band-stratified**, and better than the cutoff rule only if its precision at
+matched volume is higher with a bootstrap CI excluding 0. Otherwise the cutoff rule stands.
+
+**ccode's part, done today and nothing more:** the name vectors, because Hugging Face is unreachable
+from the reviewer's VM. `scripts/embed_theme_names.py` embeds all 8,251 c85 names in file order,
+twice, and writes four files into `names_test/`:
+
+| | |
+|---|---|
+| `name_vecs_article.npy` | **primary** -- the pinned article encoder `ncbi/MedCPT-Article-Encoder` rev `d05a736d`, name in the **title** slot with an **empty abstract**, CLS, L2-normalised |
+| `name_vecs_query.npy` | **secondary** -- `ncbi/MedCPT-Query-Encoder` rev `d83a36cc`, single segment, CLS, L2-normalised |
+| `name_keys.txt` | the 8,251 node ids in row order |
+| `name_vecs_manifest.json` | models, revisions, n, windows, token census, date, input sha256 |
+
+Both are 8,251 x 768 float32. No truncation: names run 3 to 20 tokens against windows of 512 and
+64. 27 s and 1.4 GB for both arms.
+
+**This is an analysis input and changes no build.** Nothing in `src/thema/ontology` reads these
+files. The query encoder is new to `src/thema/embed.py` and **no build may start using it without a
+declaration** -- every frozen artifact was embedded with the article encoder.
+
+**The title/empty-abstract form is NOT the single-segment form the frozen artifacts used.** The
+tokenizer builds `[CLS] name [SEP] [SEP]` here against `[CLS] text [SEP]` there, so a name embedded
+one way is not comparable with a description embedded the other. `embed_medcpt_titles` is therefore
+a separate function from `embed_medcpt`, and the manifest records which ran.
+
+**The blind test was not contaminated.** The script reads exactly one file and asserts it: the
+answer key `KEY_DO_NOT_SHARE.json`, the 15 `blind_*.json`, the 15 `judged_*.json` and
+`rubric_nameblind.md` were never opened. Nine tests in `tests/test_embed_names.py` check the guard,
+including that it runs before the read.
+
+**A real exposure closed on the way.** `names_test/KEY_DO_NOT_SHARE.json` was **not gitignored** --
+the existing rules named only `KEY_DO_NOT_SHARE.tsv`. `.gitignore` now carries an extension-free
+`KEY_DO_NOT_SHARE*`, which also covers `facet_strength/KEY_DO_NOT_SHARE.json`. No key file has ever
+been tracked, checked against `git ls-files`.
+
+### What is NOT done
+
+**The merge was not run.** No build was changed, no theme was merged or flagged, and
+`data/ontology/` is untouched by this work. Running the accepted rule, and choosing flag versus
+deletion, both wait for Aviyah.
+
+## 2026-10-11 20:25:29Z — naming-c1 implemented as code and proved against the pilot; the run is NOT approved
+
+The reviewer's naming pilot of 11 Oct 2026 (`data/experiments/naming_pilot_2026-10-11/`) ran
+naming-c1 on 200 c85 themes through in-session subagents, with **no API spend**. This is the API
+implementation of sections 1-5 of `spec/ALGORITHM.md`, and it is held to reproducing that run rather
+than to matching a reading of the spec.
+
+**It reproduces the pilot exactly.** Every deterministic artifact the pilot wrote is rebuilt from the
+same build and compared:
+
+| what | reproduced |
+|---|---|
+| confusable lists | **200 / 200** themes |
+| N1 items, main run | **600 / 600** (3 candidates x 200 themes), item for item |
+| N1 items, re-run arm | **180 / 180** (candidate indices 10-12) |
+| S1 back-match items, main | **600 / 600** |
+| S1 back-match items, re-run | **180 / 180** |
+| selections, main | **200 / 200**, including the two re-asked themes |
+| selections, re-run | **60 / 60** |
+| uniqueness round | 6 / 6 items, `confusables_after_dedup` 200 / 200, 6 / 6 back-match items |
+| duplicates | `{wnt ligand secretion...: 2}` before, `{}` after -- both as recorded |
+
+**The answer keys were never opened.** `np_select.py` reads `KEY_DO_NOT_SHARE_{run}.json` to learn
+which letter is correct; this port instead **reconstructs the correct letter** from the build, which
+is what `backmatch_item` already returns, and combines it with the judges' recorded choices. So the
+selection test is a genuine end-to-end check and no barred file is read. A guard in the runner
+refuses a barred path and a test asserts it.
+
+**Four pilot behaviours are reproduced rather than tidied**, each marked `PILOT:` in
+`src/thema/naming_c1.py` because silently improving any of them would break the reproduction and
+nothing else:
+
+1. the description table's precedence quirk -- `(btm and status_ok) or unseen`, which is what
+   Python's operator precedence makes of the reviewer's one-liner, and which decides the rendered
+   text of every untitled BTM module;
+2. one `random.Random` shuffling members and then confusables from the same stream, so the two
+   shuffles are not independent and the order of the two calls is part of the output;
+3. confusables left **unshuffled** in the uniqueness round, unlike the first round;
+4. the medoid **chosen from the correct candidates but scored against all nameable ones**, so a
+   correct candidate can win on agreeing with incorrect ones.
+
+One deliberate deviation, documented at the call site: the unnameable branch reports the
+**lowest-index** candidate's rationale where the pilot hardcodes index 0, which would raise on the
+re-run arm whose indices start at 10. No theme was ever unnameable, so the two have never differed.
+
+### The run is priced and STOPPED
+
+**No API call has been made.** The default path prices the work and exits before a client is
+constructed; a test monkeypatches `LLMClient` and `load_api_key` to raise and asserts the estimate
+path still returns 0.
+
+For the 100-theme equivalence run -- 300 N1 calls plus at most 300 S1 calls, one call each, no
+batching:
+
+| | |
+|---|---|
+| **central** | **$9.83** (system prompt cached) |
+| system prompt uncached | $11.04 |
+| **ceiling** | **$15.02** (uncached system and p90 output) |
+
+Basis, and its limits: input tokens from the **measured** character counts of the actual messages at
+**2.766 chars/token**, which is this repo's own v4 system prompt (6,946 characters billed as 2,511
+cached input tokens across 10,801 calls); output tokens from this repo's `claude-opus-5` ledgers with
+thinking included, bracketed by `adjudicate-v1` (401 characters: median 255, p90 411) for N1 and
+`verify-v1` (276 characters: median 165, p90 419) for S1. The provider's own token counter was not
+used because calling it is an API call.
+
+**Two things Aviyah must decide before `--submit`.**
+
+1. **The model id `claude-opus-5-5` is unverified.** It is the id the reviewer's session was
+   configured with; it is not one of the published ids and confirming it resolves means an API call.
+   It is registered in `llm.MODELS` so the run can be built, and its **price is assumed equal to
+   `claude-opus-5` and is not verified** -- both entries say so in `llm.py`, and the manifest
+   records `price_basis`. If the id does not resolve the run fails on its first call rather than
+   silently using another model. The alternative is `--model claude-opus-5`, which is published and
+   priced, but then it is not the pilot's model and the equivalence test is weaker.
+2. **The exact prompt text.** The two templates are the reviewer's files used verbatim as system
+   prompts, and the per-item JSON is the user message at `json.dumps(item, indent=1)`, the pilot's
+   own rendering. The estimate run writes the first call of each kind out in full to
+   `api_run/example_request.json` so approving the price and approving the wording stay separate
+   acts, as the prompts gate requires.
+
+The accepted sibling merge rule was not run and is not touched here. `naming.py` and name-v5 are
+unchanged: a second naming method sits beside the first.

@@ -87,6 +87,78 @@ shasum -a 256 -c data/ontology/frozen/baseline-2026-10-09/CHECKSUMS.sha256
 uv run scripts/compare_x2.py --new NEW_BUILD --old thema_L_x2   # the comparison a new build owes
 ```
 
+### naming-c1 — the naming algorithm, ported and proved (11 Oct)
+
+The reviewer's pilot (`data/experiments/naming_pilot_2026-10-11/`) named 200 c85 themes with
+contrastive prompts, 3 candidates and back-match selection, on subagents with no spend. The API
+implementation is `src/thema/naming_c1.py` plus `scripts/name_themes_c1.py`, and it **reproduces
+every deterministic artifact of that pilot**: 200/200 confusable lists, 600/600 and 180/180 N1
+items, 600/600 and 180/180 back-match items, 200/200 and 60/60 selections, and the uniqueness round.
+`tests/test_naming_c1.py` is that proof; it skips when the x2 embeddings are absent.
+
+**Nothing is sent without `--submit`**, and the estimate run writes the exact text it would send to
+`api_run/example_request.json` -- approving a price is not approving a prompt. Four pilot quirks are
+reproduced on purpose and marked `PILOT:` in the module; do not tidy them.
+
+```sh
+uv run scripts/name_themes_c1.py --themes 100                  # price it and stop
+uv run scripts/name_themes_c1.py --themes 100 --submit --max-dollars 20
+```
+
+**Open:** the pilot's model id `claude-opus-5-5` is registered in `llm.MODELS` but **unverified**,
+and its price is **assumed equal to `claude-opus-5`**. The prompts are the reviewer's two template
+files used verbatim; `naming.py` and name-v5 are untouched.
+
+### The sibling merge rule (ACCEPTED 10 Oct, NOT RUN) and the names test
+
+**Accepted and deliberately not applied.** `J >= 0.60 AND min(|A\B|, |B\A|) <= 2`, complete
+linkage, keep the highest-support theme. Expected: 454 of 8,251 themes flagged or removed, 386
+twins collapsed, 74 facets lost of which about 35 are rated strong. Record:
+`data/experiments/reviewer_eval_x2_2026-10-09/REPORT_twin_merge_decision_record.md`. **Do not run
+it**, and note that flag versus deletion is still unconfirmed. Only `md <= 2` is label-free; the
+`J >= 0.60` cutoff is post-hoc.
+
+The names test asks whether name embeddings can replace that rule. Pre-registration:
+`names_test/PREREG_names_test.md`. ccode supplies only the vectors, because Hugging Face is
+unreachable from the reviewer's VM.
+
+```sh
+uv run scripts/embed_theme_names.py --dry-run   # token census, writes nothing
+uv run scripts/embed_theme_names.py             # 8,251 x 768 twice, 27 s
+```
+
+Writes `name_vecs_article.npy` (primary: the pinned article encoder, **name as the title with an
+empty abstract**), `name_vecs_query.npy` (secondary: the query encoder, single segment),
+`name_keys.txt` and `name_vecs_manifest.json`. **Analysis input only — no build reads them.** The
+title/empty-abstract form is NOT the single-segment form the frozen artifacts used, so
+`embed_medcpt_titles` is a separate function from `embed_medcpt` and the two are not comparable.
+The script opens exactly one file and asserts it: the answer key and the blind and judged chunks
+are never read.
+
+### Chain collapse at 0.85 with a support survivor — ANSWERED NO, 9 Oct
+
+Threshold 0.90 -> 0.85 plus keep-the-higher-support. **Three of five declared criteria FAIL**, so it
+is not adopted and the baseline stands: reproducibility 77.5% -> 76.4%, 971 multi-parent themes lose
+an unrelated parent, plausibility 97.7% -> 97.6%. It did remove the staircase (489 themes, all in the
+11-50 band) and left the n00150 fan intact, but **121 roots and the same ten giants, unchanged**.
+The survivor rule is the part that costs reproducibility: 28.3% of pairs are decided by a support
+margin under 0.05, which two builds resolve differently. `docs/status/2026-10-09-chain-c85.md`.
+
+The rule is `collapse_chains(..., survivor=...)`, default `"parent"` so the baseline is unaffected.
+`--survivor` is recorded in the manifest, and every repaired build now writes `repair_map.json`
+saying which node of each collapsed pair died.
+
+```sh
+uv run scripts/leaves_build.py --arm L --version 0.4-leaves-x2 --space leaves_centred_x2 \
+    --out-version 0.4-leaves --floors-file data/ontology/v0.4-leaves/regate/floors_L_cal8.json \
+    --repair --collapse-share 0.85 --survivor support --directory thema_L_x2_c85
+uv run scripts/chain_c85_report.py    # criteria (a)-(e), the fan, the DAG check
+# the harness proof: 0.90 with the old survivor must return the frozen baseline byte for byte
+uv run scripts/leaves_build.py --arm L --version 0.4-leaves-x2 --space leaves_centred_x2 \
+    --out-version 0.4-leaves --floors-file data/ontology/v0.4-leaves/regate/floors_L_cal8.json \
+    --repair --directory thema_L_x2_verify
+```
+
 ### The leaves experiment (v0.4-leaves) — ANSWERED NO, 8 Oct
 
 Universe L is the 5,559 atomic pathways: the 10,770 with every curated summary removed (a pathway

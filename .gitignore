@@ -206,3 +206,14 @@ data/ontology/v*/thema_L*_g_cur/members.tsv
 !data/ontology/frozen/*/*.md
 !data/ontology/frozen/*/*.html
 !data/ontology/frozen/*/*.sha256
+
+# The _verify directories are the chain-collapse harness proof: a rebuild at 0.90 with the old
+# survivor rule, kept on disk because it must come back byte-identical to a build already tracked
+# (thema_L_x2_verify to the frozen baseline, thema_L_repair_verify to thema_L_repair). Committing
+# them would add 28 MB of exact duplicates, so they are not tracked. Delete them freely.
+data/ontology/v*/thema_L*_verify/
+
+# Answer keys for blind tests, whatever directory and extension they appear in. The .tsv rule above
+# did not cover names_test/KEY_DO_NOT_SHARE.json, which appeared on 10 Oct; this one is extension
+# free so the next one is covered before it is written.
+KEY_DO_NOT_SHARE*
