@@ -172,6 +172,11 @@ def main(argv: list[str] | None = None) -> int:
                              "re-apply the 0.70 merge on final memberships to a fixed point")
     parser.add_argument("--collapse-share", type=float, default=None,
                         help="chain-collapse share; the declared rule is 0.90")
+    parser.add_argument("--survivor", choices=["parent", "support"], default="parent",
+                        help="which node of a collapsed chain pair survives. parent is the frozen "
+                             "baseline rule; support keeps the higher-support node, keeping the "
+                             "parent on a tie or when the parent is top level (declared 9 Oct 2026 "
+                             "for the 0.85 arm, POST-HOC)")
     parser.add_argument("--floors-file", type=Path, default=None,
                         help="build from these floors instead of calibrating. Used by the re-gate "
                              "grid, which solves several floor sets from one set of cached sides")
@@ -340,10 +345,11 @@ def main(argv: list[str] | None = None) -> int:
 
         share = COLLAPSE_SHARE if args.collapse_share is None else args.collapse_share
         before = len(stale_pairs(built.members, MERGE_JACCARD))
-        repaired = repair(built.members, built.supports, built.inclusions, share, MERGE_JACCARD)
-        print(f"  REPAIR, collapse share {share}: {len(built.members):,} themes -> "
-              f"{len(repaired.members):,}", flush=True)
-        print(f"    fix 2, chain collapse: {len(repaired.collapsed):,} absorbed into their parent "
+        repaired = repair(built.members, built.supports, built.inclusions, share, MERGE_JACCARD,
+                          args.survivor)
+        print(f"  REPAIR, collapse share {share}, survivor {args.survivor}: "
+              f"{len(built.members):,} themes -> {len(repaired.members):,}", flush=True)
+        print(f"    fix 2, chain collapse: {len(repaired.collapsed):,} absorbed "
               f"in {repaired.rounds.get('collapse', 0)} round(s); "
               f"{len(repaired.collapsed_supports):,} kept a second support", flush=True)
         kinds = repaired.merged_kind.values()
@@ -352,6 +358,21 @@ def main(argv: list[str] | None = None) -> int:
               f"{sum(1 for k in kinds if k == 'overlap'):,} non-nested) in "
               f"{repaired.rounds.get('merge', 0)} round(s)", flush=True)
         print(f"    stale pairs before {before:,}, after 0 (asserted)", flush=True)
+        # Collapse provenance, so which node of each pair died is checkable afterwards without
+        # re-running the build. Sizes and supports only -- the victim never gets an exported id.
+        collapse_sizes = [len(bits.unpack(block)) for block in built.members]
+        repair_map = {
+            "collapse_share": share, "survivor": args.survivor,
+            "collapsed": [
+                {"victim_size": collapse_sizes[victim], "keeper_size": collapse_sizes[keeper],
+                 "victim_support": round(float(built.supports[victim]), 6),
+                 "keeper_support": round(float(built.supports[keeper]), 6),
+                 "kept": "child" if collapse_sizes[keeper] < collapse_sizes[victim] else "parent"}
+                for victim, keeper in sorted(repaired.collapsed.items())],
+            "merged": [
+                {"dropped_size": collapse_sizes[dropped], "kept_size": collapse_sizes[kept],
+                 "kind": repaired.merged_kind[dropped]}
+                for dropped, kept in sorted(repaired.merged.items())]}
         # Re-stack containment over the surviving sets; the old edges referred to dropped nodes.
         built = v04.Built(
             members=repaired.members, supports=repaired.supports,
@@ -409,6 +430,7 @@ def main(argv: list[str] | None = None) -> int:
                 "repair": None if repaired is None else {
                     "collapse_share": (args.collapse_share
                                        if args.collapse_share is not None else 0.90),
+                    "survivor": args.survivor,
                     "merge_jaccard": 0.70,
                     "n_collapsed": len(repaired.collapsed),
                     "n_merged": len(repaired.merged),
@@ -427,6 +449,9 @@ def main(argv: list[str] | None = None) -> int:
                  manifest=manifest),
         args.data / "ontology", args.out_version or args.version, genes, manifest,
         dry_run=False, info=info, directory=directory)
+    if repaired is not None:
+        (Path(written) / "repair_map.json").write_text(
+            json.dumps(repair_map, indent=1) + "\n", encoding="utf-8")
     print(f"  -> {written}  (peak {peak_mb():.0f} MB)", flush=True)
     return 0
 
