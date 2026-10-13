@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n04593",
+  "nameable": true,
+  "core": "Nucleotide metabolism",
+  "qualifier": "pyrimidine and deoxyribonucleotide pools, not purine ribonucleotide synthesis",
+  "name": "Pyrimidine and deoxyribonucleotide synthesis, salvage and breakdown",
+  "rationale": "All members handle nucleotide/nucleoside pools (pyrimidine synthesis, salvage and catabolism, dNTP synthesis, NUDT sanitation, nucleoside-analog drug handling), distinguished from confusables by pyrimidine and deoxyribonucleotide content rather than purine ribonucleotide synthesis, purine salvage or abacavir handling."
+ },
+ {
+  "theme_id": "n04156",
+  "nameable": true,
+  "core": "Sphingolipid metabolism",
+  "qualifier": "synthesis and homeostatic regulation",
+  "name": "Sphingolipid synthesis and homeostatic regulation",
+  "rationale": "Members cover sphingolipid/ceramide (amide membrane lipid) synthesis, catabolism and homeostasis, distinguished from confusables that add TNFR1-driven ceramide production, sphingomyelin breakdown or ER-Golgi lipid transfer."
+ },
+ {
+  "theme_id": "n02168",
+  "nameable": true,
+  "core": "Lipid droplet biology",
+  "qualifier": "biogenesis and triglyceride storage",
+  "name": "Lipid droplet biogenesis and triglyceride storage homeostasis",
+  "rationale": "Members concern lipid droplet formation, fusion and organization plus triglyceride/fatty acid storage homeostasis, distinguished from confusables focused on lipophagy, droplet disassembly, lipolysis or LXR-driven lipogenic transcription."
+ },
+ {
+  "theme_id": "n05610",
+  "nameable": true,
+  "core": "Leukocyte chemotaxis",
+  "qualifier": "chemokine-receptor binding, monocyte-centred",
+  "name": "Chemokine receptor-driven monocyte and leukocyte chemotaxis",
+  "rationale": "Members share chemokine/chemokine-receptor-guided migration of monocytes, macrophages and NK cells, distinguished from confusables by chemokine-receptor binding clusters rather than monocyte activation, surface signatures or endothelial adhesion/extravasation."
+ },
+ {
+  "theme_id": "n06226",
+  "nameable": true,
+  "core": "Organismal behaviour",
+  "qualifier": "social, motor and reward-conditioned",
+  "name": "Social, motor and reward-conditioned behaviour",
+  "rationale": "Members are whole-animal behaviours (mating, parental, aggressive, grooming, locomotor, drinking, ethanol/nicotine response, conditioning), distinguished from confusables by reward conditioning, nicotine response and motor behaviours without stress-hormone, cocaine or neuropeptide/sleep signalling."
+ },
+ {
+  "theme_id": "n04807",
+  "nameable": true,
+  "core": "Notch signalling",
+  "qualifier": "receptor cleavage to intracellular-domain target transcription across paralogs",
+  "name": "Notch receptor cleavage and intracellular-domain target gene transcription",
+  "rationale": "All members concern canonical Notch activation and NICD-driven transcription (NOTCH1-4, Notch-HLH, developmental and Th2 targets), distinguished by NOTCH2/3/4 transcription and receptor processing rather than PEST/FBXW7 degradation or noncanonical NOTCH3/4 activation."
+ },
+ {
+  "theme_id": "n03890",
+  "nameable": true,
+  "core": "NF-kappaB and stress kinase activation",
+  "qualifier": "innate receptor TAK1-IKK route incl. NOD1/2 and non-canonical NIK",
+  "name": "Innate receptor TAK1-IKK activation of NF-kappaB and stress kinases",
+  "rationale": "Members describe TLR/TRIF, NOD1/2 and TNFSF-driven TAK1/IKK/NIK activation of NF-kappaB, JNK and p38, distinguished from confusables by NOD1/2 peptidoglycan sensing and non-canonical NIK signalling rather than TBK1-IRF3, TNFR1/linear ubiquitin or negative NF-kappaB control."
+ },
+ {
+  "theme_id": "n00847",
+  "nameable": true,
+  "core": "Kidney development",
+  "qualifier": "nephron tubule patterning and differentiation",
+  "name": "Kidney development with nephron tubule patterning and differentiation",
+  "rationale": "Members cover metanephric/pronephric kidney and urinary duct development, distinguished from confusables (ureteric bud induction, kidney size) by nephron segment patterning and tubule differentiation (comma/S-shaped body, loop of Henle, distal tubule)."
+ },
+ {
+  "theme_id": "n02912",
+  "nameable": true,
+  "core": "Cell-matrix adhesion",
+  "qualifier": "fibroblast focal adhesion and fibronectin matrix",
+  "name": "Fibroblast focal adhesion and fibronectin matrix assembly",
+  "rationale": "Members concern integrin-fibronectin adhesion, focal adhesion assembly, SRF-linked cytoskeletal remodeling and fibroblast migration, distinguished from confusables by fibronectin matrix and focal adhesion assembly rather than syndecan/stress-fibre, MET signalling or broad EMT/ECM signatures."
+ },
+ {
+  "theme_id": "n06486",
+  "nameable": true,
+  "core": "Blood vessel development",
+  "qualifier": "endothelial fate specification and vascular smooth muscle, without BMP-driven cardiac remodeling",
+  "name": "Endothelial fate specification and blood vessel morphogenesis with smooth muscle",
+  "rationale": "Members concern endothelial fate commitment and arterial/venous/lymphatic differentiation, vasculogenesis, artery/vein morphogenesis and vessel maturation with vascular smooth muscle, distinguished from confusables by endothelial specification and coronary/smooth-muscle content rather than BMP/SMAD signalling, valve/septum or pulmonary/outflow-tract development."
+ },
+ {
+  "theme_id": "n02923",
+  "nameable": true,
+  "core": "Metal ion response",
+  "qualifier": "heavy/transition metals with copper detoxification and redox control",
+  "name": "Heavy metal ion response with copper detoxification and redox control",
+  "rationale": "Members are cellular responses to copper, zinc, manganese, iron, cobalt, lead, mercury and selenium with metallothionein/MTF1 and redox/HMOX1 control, distinguished by copper detoxification and multi-metal scope rather than cadmium, ROS detoxification, AhR xenobiotics or ferroptosis."
+ },
+ {
+  "theme_id": "n01038",
+  "nameable": true,
+  "core": "Neurotransmitter release",
+  "qualifier": "vesicle docking/priming and transmitter-specific release cycles",
+  "name": "Synaptic vesicle docking, priming and calcium-triggered neurotransmitter release",
+  "rationale": "Members cover synaptic vesicle docking, SNARE assembly, priming and Ca2+-dependent exocytosis including glutamate, acetylcholine and monoamine release cycles, distinguished from confusables by these release cycles and positive exocytosis control rather than active zone maintenance, cholinergic NMJ or short-term plasticity."
+ },
+ {
+  "theme_id": "n07996",
+  "nameable": true,
+  "core": "Oxidative stress response",
+  "qualifier": "peroxide and nitrosative stress controlling intrinsic apoptosis",
+  "name": "Peroxide and nitrosative stress responses and intrinsic apoptosis control",
+  "rationale": "Members concern cellular responses to hydrogen peroxide, nitric oxide and reactive nitrogen species and their control of intrinsic apoptosis, distinguished by HMOX1 and NO/RNS responses rather than ferroptosis, mitochondrial respiration or ischemia."
+ },
+ {
+  "theme_id": "n07578",
+  "nameable": true,
+  "core": "Water and electrolyte homeostasis",
+  "qualifier": "vasopressin-aquaporin water handling and epithelial salt transport",
+  "name": "Vasopressin-aquaporin water and epithelial salt transport homeostasis",
+  "rationale": "Most members concern renal/epithelial water and Na/K/Cl transport, osmotic responses and blood pressure, distinguished from confusables by vasopressin-aquaporin water handling, chloride-transporter channelopathies (CFTR, SLC12/26) and osmosensing rather than aldosterone synthesis, P-type ATPases or NHEs."
+ },
+ {
+  "theme_id": "n06703",
+  "nameable": true,
+  "core": "Glutathione and sulfur metabolism",
+  "qualifier": "with vitamin B6/molybdenum cofactor metabolism and aldehyde detoxification",
+  "name": "Glutathione, sulfur and cofactor metabolism with aldehyde detoxification",
+  "rationale": "Members cover glutathione synthesis/recycling, cysteine and sulfide metabolism, methylglyoxal/aldehyde detoxification and cofactor (vitamin B6, molybdenum) metabolism, distinguished by vitamin B6 and aldehyde detoxification rather than selenium metabolism, transsulfuration or ROS/NADPH."
+ },
+ {
+  "theme_id": "n04626",
+  "nameable": true,
+  "core": "Melanocyte biology",
+  "qualifier": "pigmentation, melanin synthesis and light response",
+  "name": "Melanocyte differentiation, melanin pigmentation and UV-light response",
+  "rationale": "Members concern the MITF-M melanocyte programme, melanocyte differentiation and proliferation, melanin and pigment granule biology and UV/blue-light response, distinguished from confusables by pigmentation and light response rather than MITF-M cell-cycle/DNA-repair or melanosome assembly."
+ },
+ {
+  "theme_id": "n07943",
+  "nameable": true,
+  "core": "Fasting fuel mobilization",
+  "qualifier": "glucagon-PKA control of glycogen and triglyceride",
+  "name": "Glucagon-PKA control of glycogen and triglyceride mobilization",
+  "rationale": "Members concern glucagon/PKA, AMPK and adiponectin control of glycogen turnover, glucokinase and triglyceride breakdown, distinguished from confusables by glycogen metabolism and glucokinase regulation rather than gluconeogenesis, insulin or glucose-sensing transcription."
+ },
+ {
+  "theme_id": "n05760",
+  "nameable": true,
+  "core": "MECP2 neuronal gene regulation",
+  "qualifier": "with sensorimotor function",
+  "name": "MECP2-dependent neuronal gene regulation and sensorimotor function",
+  "rationale": "Most members concern MECP2 function/dysfunction in neuronal transcription and chromatin, with related sensory and motor phenotypes, distinguished from confusables (broad neurobehaviour, glycinergic transmission) by the MECP2 transcriptional axis."
+ },
+ {
+  "theme_id": "n03585",
+  "nameable": true,
+  "core": "Regulated intramembrane proteolysis",
+  "qualifier": "Notch3/4 and p75NTR",
+  "name": "Regulated intramembrane proteolysis of Notch and p75 neurotrophin receptors",
+  "rationale": "Members describe cleavage-dependent nuclear signalling of membrane receptors, distinguished from confusables by p75NTR-NRIF death signalling and NOTCH3/4 rather than NOTCH1/2 or ERBB4."
+ },
+ {
+  "theme_id": "n00101",
+  "nameable": true,
+  "core": "Planar cell polarity",
+  "qualifier": "driving convergent extension",
+  "name": "Planar cell polarity-driven convergent extension in embryonic morphogenesis",
+  "rationale": "Members concern PCP establishment and the convergent extension it drives in gastrulation, axis elongation and neural plate, distinguished from confusables by convergent extension rather than WNT5A receptor internalization, axial/paraxial mesoderm or neural patterning."
+ },
+ {
+  "theme_id": "n03173",
+  "nameable": true,
+  "core": "Neuropeptide control of behaviour",
+  "qualifier": "sleep-wake and stress hormone response",
+  "name": "Neuropeptide GPCR control of sleep-wake, stress and social behaviour",
+  "rationale": "Members link neuropeptide/GPCR signalling to sleep-wake states, stress and corticosteroid responses and social behaviours, distinguished by sleep-wake regulation and relaxin/orexin receptors rather than opioid or dense-core vesicle release."
+ },
+ {
+  "theme_id": "n00552",
+  "nameable": true,
+  "core": "Type 2 immunity",
+  "qualifier": "Th2 cytokines, mast cells and eosinophils",
+  "name": "Th2-type allergic immunity of mast cells and eosinophils",
+  "rationale": "Members concern Th2 differentiation, IL-4/5/13/33 signalling, FcepsilonRI mast-cell and eosinophil effector functions and IgE switching, distinguished from confusables (IL-2/7/15, IL-6, IL-10/12/23 families) by this type 2 axis."
+ },
+ {
+  "theme_id": "n02463",
+  "nameable": true,
+  "core": "Ovarian cycle",
+  "qualifier": "oocyte maturation and luteal phase",
+  "name": "Ovarian cycle from follicle growth to ovulation and luteolysis",
+  "rationale": "Members cover ovarian follicle growth, oocyte maturation, ovulation, luteinization/luteolysis and the estrous cycle, distinguished from confusables by oocyte maturation and luteal events rather than gonadotropin secretion/response or Sertoli cells."
+ },
+ {
+  "theme_id": "n02573",
+  "nameable": true,
+  "core": "Telomere maintenance",
+  "qualifier": "end protection and telomerase-independent replication",
+  "name": "Telomere end protection, capping and telomerase-independent replication",
+  "rationale": "Members concern telomere capping, protection from NHEJ/recombination, C-strand fill-in and recombination-based maintenance, distinguished from confusables by these telomerase-independent processes rather than telomerase recruitment, ATRX/DAXX defects or general fork processing."
+ },
+ {
+  "theme_id": "n08198",
+  "nameable": true,
+  "core": "Neutrophil chemotaxis",
+  "qualifier": "formyl-peptide and complement receptors",
+  "name": "Neutrophil chemotaxis via formyl-peptide and complement chemoattractant receptors",
+  "rationale": "Members concern GPCR-mediated neutrophil recruitment and responses, distinguished from confusables by complement receptor and formyl-peptide receptor signalling rather than chemokine production or extravasation."
+ }
+]

@@ -1,0 +1,198 @@
+[
+ {
+  "theme_id": "n07426",
+  "size": 11,
+  "members": [
+   "Wnt signaling pathway, calcium modulating pathway",
+   "paraxial mesoderm formation",
+   "regulation of Wnt protein secretion",
+   "Signaling by LRP5 mutants",
+   "WNT5A-dependent internalization of FZD2, FZD5 and ROR2",
+   "positive regulation of protein localization to cilium",
+   "negative regulation of non-canonical Wnt signaling pathway",
+   "LGK974 inhibits PORCN",
+   "Regulation of FZD by ubiquitination",
+   "Ca2+ pathway",
+   "WNT ligand biogenesis and trafficking"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Regulation of FZD by ubiquitination",
+     "Signaling by LRP5 mutants",
+     "paraxial mesoderm formation",
+     "positive regulation of protein localization to cilium"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 9,
+    "only_in_theme": [
+     "paraxial mesoderm formation",
+     "positive regulation of protein localization to cilium"
+    ],
+    "only_in_confusable": [
+     "Degradation of DVL",
+     "Disassembly of the destruction complex and recruitment of AXIN to the membrane",
+     "Negative regulation of TCF-dependent signaling by DVL-interacting proteins",
+     "Negative regulation of TCF-dependent signaling by WNT ligand antagonists",
+     "Signaling by RNF43 mutants",
+     "WNT mediated activation of DVL",
+     "golgi membrane (I)",
+     "negative regulation of canonical Wnt signaling pathway",
+     "positive regulation of canonical Wnt signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 9,
+    "only_in_theme": [
+     "paraxial mesoderm formation",
+     "positive regulation of protein localization to cilium"
+    ],
+    "only_in_confusable": [
+     "APC truncation mutants are not K63 polyubiquitinated",
+     "Binding of TCF/LEF:CTNNB1 to target gene promoters",
+     "Deactivation of the beta-catenin transactivating complex",
+     "Degradation of AXIN",
+     "Degradation of DVL",
+     "Deletions in the AXIN1 gene destabilize the destruction complex",
+     "Disassembly of the destruction complex and recruitment of AXIN to the membrane",
+     "HALLMARK_WNT_BETA_CATENIN_SIGNALING",
+     "Negative regulation of TCF-dependent signaling by DVL-interacting proteins",
+     "Negative regulation of TCF-dependent signaling by WNT ligand antagonists",
+     "RUNX3 regulates WNT signaling",
+     "Repression of WNT target genes",
+     "Signaling by RNF43 mutants",
+     "Signaling by TCF7L2 mutants",
+     "WNT mediated activation of DVL",
+     "XAV939 stabilizes AXIN",
+     "negative regulation of canonical Wnt signaling pathway",
+     "positive regulation of canonical Wnt signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 1,
+    "only_in_theme": [
+     "Ca2+ pathway",
+     "LGK974 inhibits PORCN",
+     "Regulation of FZD by ubiquitination",
+     "Signaling by LRP5 mutants",
+     "WNT ligand biogenesis and trafficking",
+     "WNT5A-dependent internalization of FZD2, FZD5 and ROR2",
+     "Wnt signaling pathway, calcium modulating pathway",
+     "negative regulation of non-canonical Wnt signaling pathway",
+     "paraxial mesoderm formation",
+     "regulation of Wnt protein secretion"
+    ],
+    "only_in_confusable": [
+     "Activation of SMO",
+     "Degradation of DVL",
+     "Degradation of GLI1 by the proteasome",
+     "Degradation of GLI2 by the proteasome",
+     "GLI proteins bind promoters of Hh responsive genes to promote transcription",
+     "GLI3 is processed to GLI3R by the proteasome",
+     "HALLMARK_HEDGEHOG_SIGNALING",
+     "Ligand-receptor interactions",
+     "Negative regulation of TCF-dependent signaling by DVL-interacting proteins",
+     "Regulation of expression of SLITs and ROBOs",
+     "negative regulation of smoothened signaling pathway",
+     "positive regulation of smoothened signaling pathway"
+    ]
+   }
+  ],
+  "note": "The name 'Wnt ligand secretion and non-canonical Wnt/calcium signaling' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01786",
+  "size": 7,
+  "members": [
+   "negative regulation of non-canonical Wnt signaling pathway",
+   "Ca2+ pathway",
+   "Wnt signaling pathway, calcium modulating pathway",
+   "WNT5A-dependent internalization of FZD2, FZD5 and ROR2",
+   "regulation of Wnt protein secretion",
+   "LGK974 inhibits PORCN",
+   "WNT ligand biogenesis and trafficking"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 7,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Regulation of FZD by ubiquitination",
+     "Signaling by LRP5 mutants",
+     "paraxial mesoderm formation",
+     "positive regulation of protein localization to cilium"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "LGK974 inhibits PORCN",
+     "WNT ligand biogenesis and trafficking"
+    ],
+    "only_in_confusable": [
+     "Degradation of DVL",
+     "Disassembly of the destruction complex and recruitment of AXIN to the membrane",
+     "Negative regulation of TCF-dependent signaling by DVL-interacting proteins",
+     "Negative regulation of TCF-dependent signaling by WNT ligand antagonists",
+     "Regulation of FZD by ubiquitination",
+     "Signaling by LRP5 mutants",
+     "Signaling by RNF43 mutants",
+     "WNT mediated activation of DVL",
+     "positive regulation of canonical Wnt signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Ca2+ pathway",
+     "WNT5A-dependent internalization of FZD2, FZD5 and ROR2",
+     "Wnt signaling pathway, calcium modulating pathway",
+     "negative regulation of non-canonical Wnt signaling pathway"
+    ],
+    "only_in_confusable": [
+     "Disassembly of the destruction complex and recruitment of AXIN to the membrane",
+     "Negative regulation of TCF-dependent signaling by WNT ligand antagonists",
+     "Regulation of FZD by ubiquitination",
+     "Signaling by LRP5 mutants",
+     "Signaling by RNF43 mutants",
+     "WNT mediated activation of DVL",
+     "negative regulation of canonical Wnt signaling pathway",
+     "positive regulation of canonical Wnt signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "LGK974 inhibits PORCN",
+     "WNT ligand biogenesis and trafficking",
+     "regulation of Wnt protein secretion"
+    ],
+    "only_in_confusable": [
+     "Asymmetric localization of PCP proteins",
+     "convergent extension involved in axis elongation",
+     "convergent extension involved in gastrulation",
+     "convergent extension involved in organogenesis",
+     "embryonic body morphogenesis",
+     "establishment of planar polarity of embryonic epithelium",
+     "neural plate morphogenesis",
+     "paraxial mesoderm formation",
+     "positive regulation of Wnt signaling pathway, planar cell polarity pathway",
+     "positive regulation of protein localization to cilium",
+     "regulation of establishment of planar polarity"
+    ]
+   }
+  ],
+  "note": "The name 'Wnt ligand secretion and non-canonical Wnt/calcium signaling' is already used by another theme; give a name that distinguishes this theme."
+ }
+]
