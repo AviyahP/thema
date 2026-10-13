@@ -35,6 +35,12 @@ _T = TypeVar("_T")
 #: wherever they are compared rather than buried here.
 MODELS: dict[str, dict[str, object]] = {
     "claude-opus-5": {"thinking": {"type": "adaptive"}, "effort": "low"},
+    # The id the naming pilot's session was configured with. Registered so the API implementation
+    # can be built and priced against it, and configured like Opus 5 because that is the closest
+    # thing in this table. UNVERIFIED: whether this id resolves at the provider was not checked,
+    # because checking means an API call and the naming run is gated on Aviyah's approval. If it
+    # does not resolve, the run fails on its first call rather than silently using another model.
+    "claude-opus-5-5": {"thinking": {"type": "adaptive"}, "effort": "low"},
     "claude-sonnet-5": {"thinking": {"type": "adaptive"}, "effort": "low"},
     "claude-haiku-4-5": {},
 }
@@ -724,6 +730,10 @@ BATCH_DISCOUNT = 0.5
 #: ($2/$10) runs through 2026-08-31; the standard rate is used here so no estimate silently expires.
 PRICES: dict[str, tuple[float, float]] = {
     "claude-opus-5": (5.0, 25.0),
+    # ASSUMED EQUAL TO OPUS 5 AND NOT VERIFIED. No published rate for this id was confirmable
+    # without a network call. Every estimate that uses it must say so; ``name_themes_c1.py`` records
+    # ``price_basis`` in its manifest for exactly this reason.
+    "claude-opus-5-5": (5.0, 25.0),
     "claude-sonnet-5": (3.0, 15.0),
     "claude-haiku-4-5": (1.0, 5.0),
 }
