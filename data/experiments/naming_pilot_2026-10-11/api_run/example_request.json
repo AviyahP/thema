@@ -1,0 +1,81 @@
+{
+ "note": "the exact text that would be sent; no call has been made",
+ "N1": {
+  "model": "claude-opus-5-5",
+  "system": "# N1 — namer prompt (naming-c1, 2026-10-11)\n\nYou name clusters (\"themes\") in a data-driven ontology of human biological pathways. A theme is a set of pathways from Reactome, GO Biological Process, MSigDB Hallmark and blood transcription modules (BTM). For each theme you see its COMPLETE member list and its closest neighbouring themes (\"confusables\"). For each confusable you see the pathways the theme has that the confusable lacks (\"only_in_theme\"), the pathways the confusable has that the theme lacks (\"only_in_confusable\"), and how many they share.\n\nWrite a name that does two things:\n1. It is true of ALL the theme's members: the most specific biological theme or process they share, no broader than the members require.\n2. It lets a biologist tell this theme apart from each confusable. Think of it as a core (what the theme is) plus, when a confusable has the same core, a qualifier stating what this theme has that the confusables lack: a receptor family, cell type, tissue, mechanism, stage or context. The qualifier must rest on pathways actually in the theme.\n\nRules:\n- One noun phrase, at most 10 words, preferably 7 or fewer. Sentence case, no leading article.\n- No filler words (\"various\", \"related\", \"processes\", \"pathways\", \"mechanisms\"), no database names, no identifiers.\n- Never use one member's own title as the whole name.\n- Do not assert a gene, mechanism or compartment that only one or two members concern, unless it is exactly what distinguishes the theme from its confusables.\n- If the members share no nameable biological theme, set \"nameable\" to false and say why. That is a valid answer.\n\nTreat every theme independently. Read every member before naming.\n\nReturn one JSON object per theme:\n{\"theme_id\": \"...\", \"nameable\": true|false, \"core\": \"...\", \"qualifier\": \"... or empty\", \"name\": \"...\", \"rationale\": \"one sentence: what all members share and what distinguishes the theme\"}\n",
+  "system_sha256": "8377472d211bfce707db6f3cb756c1df2f6ab6252b636794bf72d91c33e0415f",
+  "user": "{\n \"theme_id\": \"n06213\",\n \"size\": 16,\n \"members\": [\n  \"enriched in B cells (I)\",\n  \"enriched in B cells (V)\",\n  \"plasma cells, immunoglobulins\",\n  \"germinal center B cell differentiation\",\n  \"B cell development/activation\",\n  \"Memory B cell surface signature\",\n  \"T follicular helper cell differentiation\",\n  \"plasma cells & B cells, immunoglobulins\",\n  \"enriched in B cells (II)\",\n  \"adaptive immune memory response\",\n  \"regulation of plasma cell differentiation\",\n  \"positive regulation of B cell differentiation\",\n  \"B-1 B cell differentiation\",\n  \"enriched in naive and memory B cells\",\n  \"Co-stimulation by ICOS\",\n  \"[untitled BTM module] This grouping describes lymphocyte activation within organised lymphoid tissue, the process by which antigen-experienced B and T cells are positioned, co-stimulated and driven toward antibody secretion. It underlies germinal centre reactions and the generation of plasma cells, and its components are the surface markers used to identify activated and malignant lymphoid cells.\"\n ],\n \"confusables\": [\n  {\n   \"confusable\": \"C1\",\n   \"n_shared\": 14,\n   \"only_in_theme\": [\n    \"plasma cells, immunoglobulins\",\n    \"regulation of plasma cell differentiation\"\n   ],\n   \"only_in_confusable\": [\n    \"B cell proliferation involved in immune response\",\n    \"enriched in B cells (III)\",\n    \"enriched in B cells (IV)\",\n    \"lymphocyte generic cluster\",\n    \"positive regulation of B cell proliferation\",\n    \"positive regulation of B cell receptor signaling pathway\",\n    \"positive regulation of humoral immune response mediated by circulating immunoglobulin\"\n   ]\n  },\n  {\n   \"confusable\": \"C2\",\n   \"n_shared\": 10,\n   \"only_in_theme\": [\n    \"B cell development/activation\",\n    \"B-1 B cell differentiation\",\n    \"Co-stimulation by ICOS\",\n    \"T follicular helper cell differentiation\",\n    \"germinal center B cell differentiation\",\n    \"positive regulation of B cell differentiation\"\n   ],\n   \"only_in_confusable\": [\n    \"enriched in B cells (III)\",\n    \"enriched in B cells (IV)\",\n    \"lymphocyte generic cluster\"\n   ]\n  },\n  {\n   \"confusable\": \"C3\",\n   \"n_shared\": 10,\n   \"only_in_theme\": [\n    \"adaptive immune memory response\",\n    \"enriched in B cells (V)\",\n    \"enriched in naive and memory B cells\",\n    \"plasma cells & B cells, immunoglobulins\",\n    \"plasma cells, immunoglobulins\",\n    \"regulation of plasma cell differentiation\"\n   ],\n   \"only_in_confusable\": [\n    \"B cell proliferation involved in immune response\",\n    \"CD27 signaling pathway\",\n    \"RUNX1 regulates transcription of genes involved in BCR signaling\",\n    \"positive regulation of B cell proliferation\",\n    \"positive regulation of B cell receptor signaling pathway\"\n   ]\n  },\n  {\n   \"confusable\": \"C4\",\n   \"n_shared\": 11,\n   \"only_in_theme\": [\n    \"Co-stimulation by ICOS\",\n    \"Memory B cell surface signature\",\n    \"T follicular helper cell differentiation\",\n    \"adaptive immune memory response\",\n    \"enriched in B cells (V)\"\n   ],\n   \"only_in_confusable\": [\n    \"B cell proliferation involved in immune response\",\n    \"enriched in B cells (III)\",\n    \"enriched in B cells (IV)\",\n    \"lymphocyte generic cluster\",\n    \"positive regulation of B cell proliferation\",\n    \"positive regulation of B cell receptor signaling pathway\"\n   ]\n  }\n ]\n}",
+  "user_for": {
+   "theme": "n06213",
+   "candidate_index": 0
+  },
+  "response_format": {
+   "type": "json_schema",
+   "schema": {
+    "type": "object",
+    "properties": {
+     "theme_id": {
+      "type": "string"
+     },
+     "nameable": {
+      "type": "boolean"
+     },
+     "core": {
+      "type": "string"
+     },
+     "qualifier": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "rationale": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "theme_id",
+     "nameable",
+     "core",
+     "qualifier",
+     "name",
+     "rationale"
+    ],
+    "additionalProperties": false
+   }
+  }
+ },
+ "S1": {
+  "model": "claude-opus-5-5",
+  "system": "# S1 / E1 — back-matching prompt (naming-c1). Used for SELECTION (S1) and, by different fresh judges, for EVALUATION (E1)\n\nEach item shows a NAME and five overlapping clusters of human biological pathways, labelled A to E. You see the pathways common to all five once (\"in_all\"), then what each cluster contains beyond that (\"also_in\"). Decide which ONE cluster the name describes best. The clusters overlap heavily, so decide by the pathways that differ. Judge by biological meaning, not by shared words.\n\nReturn one JSON object per item: {\"item_id\": \"...\", \"choice\": \"A\"|\"B\"|\"C\"|\"D\"|\"E\"}\n",
+  "system_sha256": "f40609016cd4f7def36679a3c4c9b358b003e497965cdc98bab8edcd3d8c89ad",
+  "user": "{\n \"item_id\": \"M0000\",\n \"name\": \"Germinal centre B cell and T follicular helper regulation\",\n \"in_all\": [],\n \"also_in\": {\n  \"A\": [\n   \"B cell homeostasis\",\n   \"Co-stimulation by ICOS\",\n   \"Memory B cell surface signature\",\n   \"T follicular helper cell differentiation\",\n   \"adaptive immune memory response\",\n   \"enriched in B cells (V)\",\n   \"germinal center B cell differentiation\",\n   \"negative regulation of B cell apoptotic process\",\n   \"negative regulation of B cell proliferation\",\n   \"regulation of germinal center formation\"\n  ],\n  \"B\": [\n   \"Co-stimulation by ICOS\",\n   \"Memory B cell surface signature\",\n   \"T follicular helper cell differentiation\",\n   \"[untitled BTM module] This grouping describes lymphocyte activation within organised lymphoid tissue, the process by which antigen-experienced B and T cells are positioned, co-stimulated and driven toward antibody secretion. It underlies germinal centre reactions and the generation of plasma cells, and its components are the surface markers used to identify activated and malignant lymphoid cells.\",\n   \"enriched in B cells (I)\",\n   \"enriched in B cells (II)\",\n   \"germinal center B cell differentiation\",\n   \"plasma cells & B cells, immunoglobulins\",\n   \"plasma cells, immunoglobulins\",\n   \"regulation of plasma cell differentiation\"\n  ],\n  \"C\": [\n   \"B cell homeostasis\",\n   \"Co-stimulation by ICOS\",\n   \"T follicular helper cell differentiation\",\n   \"TBA (source: B cells)\",\n   \"TBA (source: memory B cells)\",\n   \"TBA (source: naive B cells)\",\n   \"adaptive immune memory response\",\n   \"germinal center B cell differentiation\",\n   \"negative regulation of B cell apoptotic process\",\n   \"negative regulation of B cell proliferation\",\n   \"regulation of germinal center formation\"\n  ],\n  \"D\": [\n   \"Co-stimulation by ICOS\",\n   \"Memory B cell surface signature\",\n   \"T follicular helper cell differentiation\",\n   \"[untitled BTM module] This grouping describes lymphocyte activation within organised lymphoid tissue, the process by which antigen-experienced B and T cells are positioned, co-stimulated and driven toward antibody secretion. It underlies germinal centre reactions and the generation of plasma cells, and its components are the surface markers used to identify activated and malignant lymphoid cells.\",\n   \"adaptive immune memory response\",\n   \"enriched in B cells (I)\",\n   \"enriched in B cells (II)\",\n   \"enriched in B cells (III)\",\n   \"enriched in B cells (IV)\",\n   \"enriched in B cells (V)\",\n   \"enriched in naive and memory B cells\",\n   \"germinal center B cell differentiation\",\n   \"lymphocyte generic cluster\",\n   \"positive regulation of B cell proliferation\"\n  ],\n  \"E\": [\n   \"Memory B cell surface signature\",\n   \"[untitled BTM module] This grouping describes lymphocyte activation within organised lymphoid tissue, the process by which antigen-experienced B and T cells are positioned, co-stimulated and driven toward antibody secretion. It underlies germinal centre reactions and the generation of plasma cells, and its components are the surface markers used to identify activated and malignant lymphoid cells.\",\n   \"adaptive immune memory response\",\n   \"enriched in B cells (I)\",\n   \"enriched in B cells (II)\",\n   \"enriched in B cells (III)\",\n   \"enriched in B cells (IV)\",\n   \"enriched in B cells (V)\",\n   \"enriched in naive and memory B cells\",\n   \"lymphocyte generic cluster\",\n   \"plasma cells & B cells, immunoglobulins\",\n   \"plasma cells, immunoglobulins\",\n   \"regulation of plasma cell differentiation\"\n  ]\n }\n}",
+  "user_for": "one of the pilot's own selection items, shown for its shape",
+  "response_format": {
+   "type": "json_schema",
+   "schema": {
+    "type": "object",
+    "properties": {
+     "item_id": {
+      "type": "string"
+     },
+     "choice": {
+      "type": "string",
+      "enum": [
+       "A",
+       "B",
+       "C",
+       "D",
+       "E"
+      ]
+     }
+    },
+    "required": [
+     "item_id",
+     "choice"
+    ],
+    "additionalProperties": false
+   }
+  }
+ }
+}
