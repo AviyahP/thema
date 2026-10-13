@@ -21,9 +21,25 @@ sets and non-nested overlaps at or above the threshold are merged.
 
 **Fix 2, chain collapse.** A child holding at least ``COLLAPSE_SHARE`` of its parent's members is
 the same theme with a little added, not a second theme. :func:`collapse_chains` merges the two into
-one node: **the parent's membership is kept, the higher support is kept, and both supports are
-recorded** so nothing is lost. Edges are re-linked so the collapsed child's own children become the
-parent's, and strict containment still holds afterwards because every surviving set is unchanged.
+one node: **the higher support is kept and both supports are recorded** so nothing is lost. Edges
+are re-linked so the collapsed node's own children move to the survivor, and strict containment
+still holds afterwards because every surviving set is unchanged.
+
+Which of the pair survives is the ``survivor`` rule:
+
+``"parent"``
+    The declared rule of the 8-9 Oct repair and of the frozen baseline: the parent's membership is
+    always kept and the child is absorbed.
+``"support"``
+    Declared 9 Oct 2026 for the 0.85 arm: **keep the node with the higher support**; on a tie, or
+    when the parent is top level (no live theme strictly contains it), keep the parent. Chosen after
+    seeing the n00150 lattice and the 550-pair measurement, so it is a POST-HOC rule and labelled so
+    wherever it is reported. Keeping the child means the members the parent alone held lose that
+    level, which is the cost the 0.85 arm's criteria (b) and (c) measure.
+
+The traversal is identical under both rules -- children smallest first, each pairing with its
+smallest qualifying parent -- so ``"parent"`` reproduces the baseline exactly and the only
+difference is which node of the chosen pair dies.
 
 The two are ordered: collapse first, then the stale-merge pass, because collapsing changes
 memberships and could otherwise leave a fresh identical pair behind.
@@ -45,6 +61,8 @@ COLLAPSE_SHARE = 0.90
 MERGE_JACCARD = 0.70
 #: Guard on the fixed-point loops: far above any real number of rounds.
 MAX_ROUNDS = 50
+#: Survivor rules for :func:`collapse_chains`. ``"parent"`` is the frozen baseline's rule.
+SURVIVORS = ("parent", "support")
 
 
 @dataclass
@@ -102,27 +120,58 @@ def _index(sets: Sequence[set[int]], alive: Sequence[int]) -> dict[int, list[int
     return out
 
 
+def _top_level(sets: Sequence[set[int]], holders: dict[int, list[int]],
+               node: int, alive: set[int], doomed: dict[int, int]) -> bool:
+    """Whether no live theme strictly contains ``node``.
+
+    Args:
+        sets: Member index sets.
+        holders: Inverted member index over the live themes.
+        node: The theme to test.
+        alive: Live theme positions.
+        doomed: Themes already condemned this round, which do not count as live parents.
+
+    Returns:
+        True if ``node`` has no live strict superset, i.e. it is a root of the live DAG.
+    """
+    for other in {o for m in sets[node] for o in holders.get(m, ())}:
+        if other == node or other in doomed or other not in alive:
+            continue
+        if sets[node] < sets[other]:
+            return False
+    return True
+
+
 def collapse_chains(
     members: Sequence[np.ndarray], supports: Sequence[float],
-    inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE
+    inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE,
+    survivor: str = "parent"
 ) -> Repaired:
-    """Fix 2: merge a child holding at least ``share`` of its parent into the parent.
+    """Fix 2: collapse a child holding at least ``share`` of its parent into one node.
 
     Only strict containment counts as a parent-child pair, which is what the DAG's edges mean.
     Identical sets are left to :func:`merge_stale`, since neither is the other's parent.
 
-    Iterated to a fixed point: absorbing a child can make a grandchild a near-copy of the surviving
-    parent, and collapsing one link of a chain should collapse the whole chain.
+    Iterated to a fixed point: absorbing one node can make a grandchild a near-copy of the
+    survivor, and collapsing one link of a chain should collapse the whole chain.
 
     Args:
         members: Member bitsets.
         supports: Support per theme.
         inclusions: Inclusion vote per theme.
         share: The declared share, :data:`COLLAPSE_SHARE`.
+        survivor: ``"parent"`` to keep the parent always, as the frozen baseline does, or
+            ``"support"`` to keep the higher-support node, keeping the parent on a tie or when the
+            parent is top level. See the module docstring.
 
     Returns:
         The surviving themes, with what was absorbed into what.
+
+    Raises:
+        ValueError: If ``survivor`` is not one of :data:`SURVIVORS`.
     """
+    if survivor not in SURVIVORS:
+        raise ValueError(f"survivor must be one of {SURVIVORS}, not {survivor!r}")
     sets = _sets(members)
     alive = set(range(len(sets)))
     kept_support = {i: float(supports[i]) for i in alive}
@@ -146,16 +195,24 @@ def collapse_chains(
                 if len(sets[child]) >= share * len(sets[parent]):
                     if best is None or len(sets[parent]) < best[1]:
                         best = (parent, len(sets[parent]))
-            if best is not None:
-                doomed[child] = best[0]
+            if best is None:
+                continue
+            parent = best[0]
+            # Which of the pair dies. The traversal above is the same under both rules.
+            if (survivor == "support"
+                    and kept_support[child] > kept_support[parent]
+                    and not _top_level(sets, holders, parent, alive, doomed)):
+                doomed[parent] = child
+            else:
+                doomed[child] = parent
         if not doomed:
             break
-        for child, parent in doomed.items():
-            alive.discard(child)
-            absorbed[child] = parent
-            # The parent's membership is kept; the higher support wins and both are recorded.
-            second[parent] = max(second.get(parent, 0.0), kept_support.pop(child))
-            kept_support[parent] = max(kept_support[parent], second[parent])
+        for victim, keeper in doomed.items():
+            alive.discard(victim)
+            absorbed[victim] = keeper
+            # The keeper's membership stands; the higher support wins and both are recorded.
+            second[keeper] = max(second.get(keeper, 0.0), kept_support.pop(victim))
+            kept_support[keeper] = max(kept_support[keeper], second[keeper])
 
     order = sorted(alive)
     return Repaired(
@@ -279,7 +336,7 @@ def assert_no_stale_pair(members: Sequence[np.ndarray],
 def repair(
     members: Sequence[np.ndarray], supports: Sequence[float],
     inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE,
-    jaccard: float = MERGE_JACCARD
+    jaccard: float = MERGE_JACCARD, survivor: str = "parent"
 ) -> Repaired:
     """Both fixes, in order: collapse chains, then merge what is stale.
 
@@ -292,11 +349,12 @@ def repair(
         inclusions: Inclusion vote per theme.
         share: Chain-collapse share.
         jaccard: Merge threshold.
+        survivor: Chain-collapse survivor rule, ``"parent"`` or ``"support"``.
 
     Returns:
         The repaired build.
     """
-    first = collapse_chains(members, supports, inclusions, share)
+    first = collapse_chains(members, supports, inclusions, share, survivor)
     second = merge_stale(first.members, first.supports, first.inclusions, jaccard)
     assert_no_stale_pair(second.members, jaccard)
     return Repaired(

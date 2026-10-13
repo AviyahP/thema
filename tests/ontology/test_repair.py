@@ -170,3 +170,106 @@ def test_empty_input_is_handled() -> None:
     """No themes in, no themes out, and no exception."""
     got = repair([], [], [])
     assert got.members == []
+
+
+# The support survivor rule, declared 9 Oct 2026 for the 0.85 arm. The rule is POST-HOC; these
+# tests only check it does what it says, not that it is the right rule.
+
+
+def test_support_rule_keeps_the_higher_support_child() -> None:
+    # grandparent 0-9, parent 0-8, child 0-7: child/parent = 8/9 = 0.889, parent has a parent.
+    members = [pack(*range(10)), pack(*range(9)), pack(*range(8))]
+    got = collapse_chains(members, [0.9, 0.2, 0.8], votes(3), 0.85, "support")
+    assert sets_of(got.members) == [set(range(10)), set(range(8))], (
+        "the child outscores the parent 0.8 to 0.2, so the child's membership should survive"
+    )
+    assert got.collapsed == {1: 2}, "the parent should be absorbed into the child"
+    assert got.collapsed_supports[2] == pytest.approx(0.2), "the parent's support is recorded"
+    assert got.supports[1] == pytest.approx(0.8), "the higher support is kept"
+
+
+def test_support_rule_keeps_the_parent_when_the_parent_is_top_level() -> None:
+    # Same pair, but now the parent is a root: no live theme strictly contains it.
+    members = [pack(*range(9)), pack(*range(8))]
+    got = collapse_chains(members, [0.2, 0.8], votes(2), 0.85, "support")
+    assert sets_of(got.members) == [set(range(9))], (
+        "the parent is top level, so it survives even though the child scores higher"
+    )
+    assert got.collapsed == {1: 0}
+    assert got.supports[0] == pytest.approx(0.8), "the higher support is still kept"
+
+
+def test_support_rule_keeps_the_parent_on_a_tie() -> None:
+    # The grandparent is deliberately too big to qualify (9/12 = 0.75), so the chain stops after
+    # one link and the tie-break is what the result shows.
+    members = [pack(*range(12)), pack(*range(9)), pack(*range(8))]
+    got = collapse_chains(members, [0.9, 0.5, 0.5], votes(3), 0.85, "support")
+    assert sets_of(got.members) == [set(range(12)), set(range(9))], (
+        "equal supports keep the parent, as declared"
+    )
+    assert got.collapsed == {2: 1}
+
+
+def test_parent_rule_is_unchanged_by_the_new_argument() -> None:
+    members = [pack(*range(10)), pack(*range(9)), pack(*range(8))]
+    supports = [0.9, 0.2, 0.8]
+    default = collapse_chains(members, supports, votes(3), 0.85)
+    named = collapse_chains(members, supports, votes(3), 0.85, "parent")
+    assert sets_of(default.members) == sets_of(named.members)
+    assert default.collapsed == named.collapsed == {2: 1, 1: 0}, (
+        "keep-the-parent collapses the whole chain into the grandparent"
+    )
+
+
+def test_keeping_the_child_can_break_the_chain_and_collapse_fewer_nodes() -> None:
+    # 10 / 9 / 8 with supports 0.9 / 0.2 / 0.8. Keep-the-parent walks the whole chain into the
+    # grandparent, two collapses, one survivor. Keep-the-higher-support absorbs the middle into the
+    # child, and the surviving child is then only 8/10 = 0.80 of the grandparent, below 0.85, so the
+    # chain stops: one collapse, two survivors. The rule is not merely a relabelling of the victim.
+    members = [pack(*range(10)), pack(*range(9)), pack(*range(8))]
+    supports = [0.9, 0.2, 0.8]
+    keep_parent = collapse_chains(members, supports, votes(3), 0.85, "parent")
+    keep_support = collapse_chains(members, supports, votes(3), 0.85, "support")
+    assert len(keep_parent.collapsed) == 2 and len(keep_support.collapsed) == 1
+    assert sets_of(keep_parent.members) == [set(range(10))]
+    assert sets_of(keep_support.members) == [set(range(10)), set(range(8))]
+
+
+def test_no_qualifying_pair_survives_either_rule() -> None:
+    # Criterion (a) of the 0.85 arm, as a property: the fixed point leaves no strictly contained
+    # child at or above the share. Collapse terminates only when no live pair qualifies.
+    members = [pack(*range(20)), pack(*range(18)), pack(*range(17)),
+               pack(*range(16)), pack(0, 1, 2, 3)]
+    supports = [0.3, 0.9, 0.4, 0.8, 0.6]
+    for rule in ("parent", "support"):
+        got = collapse_chains(members, supports, votes(5), 0.85, rule)
+        alive = sets_of(got.members)
+        for child in alive:
+            for parent in alive:
+                if child < parent:
+                    assert len(child) < 0.85 * len(parent), (
+                        f"{rule} left a pair at ratio {len(child) / len(parent):.3f}"
+                    )
+
+
+def test_an_unknown_survivor_rule_is_refused() -> None:
+    members = [pack(0, 1, 2)]
+    with pytest.raises(ValueError, match="survivor must be one of"):
+        collapse_chains(members, [1.0], votes(1), 0.85, "whichever")
+
+
+def test_repair_threads_the_survivor_rule_through() -> None:
+    members = [pack(*range(10)), pack(*range(9)), pack(*range(8))]
+    got = repair(members, [0.9, 0.2, 0.8], votes(3), 0.85, 0.70, "support")
+    assert sets_of(got.members) == [set(range(10)), set(range(8))]
+
+
+def test_every_surviving_set_was_an_input_set_under_either_rule() -> None:
+    # Collapse only ever drops nodes, so a survivor is always one of the originals. That is what
+    # makes carrying verdicts from the baseline sound.
+    members = [pack(*range(12)), pack(*range(11)), pack(*range(10)), pack(0, 1, 2)]
+    before = sets_of(members)
+    for rule in ("parent", "support"):
+        got = collapse_chains(members, [0.4, 0.9, 0.5, 0.3], votes(4), 0.85, rule)
+        for survivor in sets_of(got.members):
+            assert survivor in before, f"{rule} invented a new member set"
