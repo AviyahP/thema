@@ -69,6 +69,20 @@ MEDCPT_REVISION = "d05a736da4bb84ee4057b7f7999485be6ed85465"
 #: choice: its contrastive training put the sentence representation there.
 MEDCPT_POOLING = "cls"
 
+#: MedCPT's **query** encoder, the other half of the same contrastive pair. Added 10 Oct 2026 for
+#: the reviewer's name-embedding test, where it is the SECONDARY arm and is reported rather than
+#: decisive: the primary is the article encoder with the name as the title. Nothing in a build uses
+#: it, and nothing should start to without a declaration -- the article encoder is what every frozen
+#: artifact was embedded with.
+MEDCPT_QUERY_MODEL = "ncbi/MedCPT-Query-Encoder"
+
+#: Pinned to a commit, like the article encoder, so a name-vector file can be reproduced from its
+#: manifest alone. Resolved from the local cache rather than taken on trust.
+MEDCPT_QUERY_REVISION = "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc"
+
+#: The query encoder's window. Queries are short; this is the model's cap, enforced not assumed.
+QUERY_MAX_TOKENS = 64
+
 #: How many descriptions go to the encoder at once.
 BATCH_SIZE = 64
 
@@ -155,6 +169,107 @@ def embed_medcpt(
             hidden = encoder(**encoded).last_hidden_state[:, 0, :]
             out.append(hidden.numpy())
     return l2_normalize(np.vstack(out).astype(np.float32))
+
+
+def embed_medcpt_titles(
+    texts: Sequence[str],
+    model: str = MEDCPT_MODEL,
+    revision: str = MEDCPT_REVISION,
+    batch_size: int = BATCH_SIZE,
+    max_length: int = MODEL_MAX_TOKENS,
+) -> np.ndarray:
+    """Embed short texts as MedCPT **titles with an empty abstract**, CLS-pooled and normalized.
+
+    The article encoder was trained on ``[title, abstract]`` pairs, and the tokenizer builds
+    ``[CLS] title [SEP] abstract [SEP]`` from a two-element list. :func:`embed_medcpt` passes a
+    single segment, which is what every frozen artifact used for its *descriptions*; a theme name is
+    a title, so it goes in the title slot with the abstract left empty. The two are **not
+    interchangeable**: the segment ids and the trailing separator differ, so a name embedded one way
+    is not comparable with a name embedded the other.
+
+    Args:
+        texts: The names, in the order they will be reported in.
+        model: The model id.
+        revision: The revision.
+        batch_size: How many to encode at once.
+        max_length: Token window.
+
+    Returns:
+        A ``(len(texts), 768)`` float32 array of unit vectors.
+
+    Raises:
+        ValueError: If there is nothing to embed.
+    """
+    if not texts:
+        raise ValueError("nothing to embed")
+    import torch
+
+    tokenizer, encoder = load_medcpt(model, revision)
+    out: list[np.ndarray] = []
+    with torch.no_grad():
+        for begin in range(0, len(texts), batch_size):
+            block = [[text, ""] for text in texts[begin : begin + batch_size]]
+            encoded = tokenizer(
+                block, truncation=True, padding=True, return_tensors="pt", max_length=max_length
+            )
+            hidden = encoder(**encoded).last_hidden_state[:, 0, :]
+            out.append(hidden.numpy())
+    return l2_normalize(np.vstack(out).astype(np.float32))
+
+
+def embed_medcpt_query(
+    texts: Sequence[str],
+    model: str = MEDCPT_QUERY_MODEL,
+    revision: str = MEDCPT_QUERY_REVISION,
+    batch_size: int = BATCH_SIZE,
+    max_length: int = QUERY_MAX_TOKENS,
+) -> np.ndarray:
+    """Embed short texts with MedCPT's query encoder, CLS-pooled, then unit-normalize.
+
+    A query is a single segment, not a title/abstract pair, which is why this is a separate function
+    rather than a model argument to :func:`embed_medcpt_titles`.
+
+    Args:
+        texts: The names, in the order they will be reported in.
+        model: The model id.
+        revision: The revision.
+        batch_size: How many to encode at once.
+        max_length: Token window.
+
+    Returns:
+        A ``(len(texts), 768)`` float32 array of unit vectors.
+
+    Raises:
+        ValueError: If there is nothing to embed.
+    """
+    if not texts:
+        raise ValueError("nothing to embed")
+    import torch
+
+    tokenizer, encoder = load_medcpt(model, revision)
+    out: list[np.ndarray] = []
+    with torch.no_grad():
+        for begin in range(0, len(texts), batch_size):
+            block = list(texts[begin : begin + batch_size])
+            encoded = tokenizer(
+                block, truncation=True, padding=True, return_tensors="pt", max_length=max_length
+            )
+            hidden = encoder(**encoded).last_hidden_state[:, 0, :]
+            out.append(hidden.numpy())
+    return l2_normalize(np.vstack(out).astype(np.float32))
+
+
+def medcpt_query_token_counts(texts: Sequence[str]) -> list[int]:
+    """Token length of each text under the query encoder's tokenizer, untruncated.
+
+    Args:
+        texts: The names.
+
+    Returns:
+        One token count per text, special tokens included.
+    """
+    tokenizer, _ = load_medcpt(MEDCPT_QUERY_MODEL, MEDCPT_QUERY_REVISION)
+    return [len(tokenizer.encode(t, truncation=False)) for t in texts]
 
 
 def load_model(model: str = BIOLORD_MODEL, revision: str = BIOLORD_REVISION) -> object:
