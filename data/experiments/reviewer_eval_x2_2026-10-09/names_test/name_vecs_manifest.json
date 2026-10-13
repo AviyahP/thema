@@ -1,0 +1,71 @@
+{
+  "written": "2026-10-10",
+  "written_utc": "2026-10-10T19:48:15Z",
+  "purpose": "analysis input for the reviewer name-embedding test; no build reads these",
+  "prereg": "data/experiments/reviewer_eval_x2_2026-10-09/names_test/PREREG_names_test.md",
+  "merge_rule_run": false,
+  "input": {
+    "path": "data/experiments/reviewer_eval_x2_2026-10-09/names_test/theme_names_c85.tsv",
+    "sha256": "6ec6c0bd4043718cff48114a6d4bbadd941ba933b73fadd882df5c32f8360f8d",
+    "n": 8251,
+    "distinct_names": 6928,
+    "duplicate_names": 1323,
+    "order": "file order, unchanged"
+  },
+  "n": 8251,
+  "dim": 768,
+  "dtype": "float32",
+  "arms": {
+    "article": {
+      "role": "primary",
+      "model": "ncbi/MedCPT-Article-Encoder",
+      "revision": "d05a736da4bb84ee4057b7f7999485be6ed85465",
+      "pooling": "cls",
+      "input": "name in the TITLE slot with an EMPTY abstract, i.e. the pair [name, ''] -- NOT the single-segment form the frozen artifacts used",
+      "max_tokens": 512,
+      "tokens": {
+        "min": 3,
+        "median": 8,
+        "max": 20,
+        "window": 512,
+        "over_window": 0
+      },
+      "normalised": "L2, rows to unit length",
+      "shape": [
+        8251,
+        768
+      ],
+      "seconds": 12.2,
+      "file": "name_vecs_article.npy",
+      "sha256": "837e99057b8e2ad2447fe39aea8f85d6931e0eb2c95db58f57327f8cad4f93c9"
+    },
+    "query": {
+      "role": "secondary, reported not decisive",
+      "model": "ncbi/MedCPT-Query-Encoder",
+      "revision": "d83a36cc6b8e3a5c5e9d9d6ba156808c1643dcbc",
+      "pooling": "cls",
+      "input": "name as a single segment",
+      "max_tokens": 64,
+      "tokens": {
+        "min": 3,
+        "median": 8,
+        "max": 20,
+        "window": 64,
+        "over_window": 0
+      },
+      "normalised": "L2, rows to unit length",
+      "shape": [
+        8251,
+        768
+      ],
+      "seconds": 11.2,
+      "file": "name_vecs_query.npy",
+      "sha256": "6d2cbe7d118ad0ca4ee9344ef3dd00a3e15624ba3847cfe6f46314adb46c2420"
+    }
+  },
+  "keys_file": "name_keys.txt",
+  "files_read": [
+    "data/experiments/reviewer_eval_x2_2026-10-09/names_test/theme_names_c85.tsv"
+  ],
+  "files_not_read": "KEY_DO_NOT_SHARE.json, blind_*.json, judged_*.json, rubric_nameblind.md"
+}
