@@ -227,3 +227,10 @@ data/ontology/v*/thema_L*_harness/
 # 552 namer files byte-identical to inputs/, plus the 275 back-match files derived from raw/. It is
 # a function of committed inputs and committed code, so it is regenerated rather than stored.
 data/experiments/naming_O50_2026-10-14/code_run/
+
+# demo/preview-O50/ontology.js is 104.6 MB, over GitHub's 100 MB per-file limit, so it cannot be
+# committed at all. It is a pure function of three committed things -- the frozen O50 build, the
+# deduplicated names TSV, and scripts/export_landing.py -- and the one command that regenerates it
+# is in docs/status/2026-10-15-landing-O50.md. The size itself is the finding: 98% of it is pathway
+# objects inlined once per occurrence, 61,218 copies of 5,539 pathways.
+demo/preview-*/ontology.js

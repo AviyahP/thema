@@ -16,7 +16,14 @@ Decisions implemented here, each recorded in an addendum:
 - **A5/A6** — the build line renders from the manifest.
 - **B8** — an example card shows the smallest node containing all the pathways it lists.
 
-**Labels are provisional.** Naming has not run. A node is labelled by the two or three most
+**Names, when there are any.** ``--names`` takes a TSV of ``theme_id, name, method, unnameable,
+duplicate_group`` -- the shape ``naming-c1`` writes. A theme shows its real name only when the namer
+produced one AND it is unique. Three kinds of theme keep the keyword label and the amber chip: one
+the namer **declined**, one whose name still **collides** with another theme's, and one the naming
+run never covered (over 200 members, outside naming-c1's scope). Three different reasons, one honest
+signal. The file and its sha256 go in the manifest, so the page can say which names it shows.
+
+**Labels are provisional.** Without names, a node is labelled by the two or three most
 distinctive terms in its members' names -- frequency within the node against frequency across the
 collection -- joined by a separator no curator would write, and carries ``provisional: true`` so the
 page shows the amber chip. Short keyword labels were chosen over central member names: three full
@@ -34,7 +41,12 @@ import json
 import sys
 from pathlib import Path
 
-from thema.demo import LABEL_SEPARATOR, distinctive_terms, document_frequency
+from thema.data.tables import sha256_file
+from thema.demo import (
+    LABEL_SEPARATOR,
+    distinctive_terms,
+    document_frequency,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATA = REPO_ROOT / "data"
@@ -222,6 +234,36 @@ def label_nodes(
     return labels
 
 
+def read_names_tsv(path: Path) -> tuple[dict[str, str], set[str], set[str], dict[str, int]]:
+    """Read a naming-c1 names table into the three categories the page distinguishes.
+
+    Only a theme with a name that is **both** accepted and unique counts as named. The other two
+    categories are kept apart rather than merged into "no name", because they are different
+    findings: a declined theme says the hierarchy put something unnameable together, while a
+    collision says the naming run has not finished.
+
+    Args:
+        path: The TSV, with ``theme_id, name, method, unnameable, duplicate_group``.
+
+    Returns:
+        ``(named, declined, colliding, methods)`` where ``methods`` counts the ``method`` column.
+    """
+    named: dict[str, str] = {}
+    declined: set[str] = set()
+    colliding: set[str] = set()
+    methods: dict[str, int] = {}
+    for row in read_rows(path):
+        node = row["theme_id"]
+        methods[row.get("method", "")] = methods.get(row.get("method", ""), 0) + 1
+        if row.get("unnameable", "").strip().lower() in ("1", "true", "yes"):
+            declined.add(node)
+        elif row.get("duplicate_group", "").strip():
+            colliding.add(node)
+        else:
+            named[node] = row["name"]
+    return named, declined, colliding, methods
+
+
 def pairs(items: list[str]) -> list[tuple[str, str]]:
     """Every unordered pair.
 
@@ -296,20 +338,39 @@ def check_cards(
                 )
 
 
-def build(data: Path, version: str, method: str) -> dict[str, object]:
+def build(
+    data: Path,
+    version: str,
+    method: str,
+    build_dir: Path | None = None,
+    names_file: Path | None = None,
+) -> dict[str, object]:
     """Assemble the payload the landing page renders.
 
     Args:
         data: The data directory.
         version: Ontology version.
         method: Builder method.
+        build_dir: Read the build from this directory instead of ``v<version>/<method>``. Used for a
+            frozen build, which does not sit in the versioned layout. None keeps the default.
+        names_file: A naming-c1 names TSV. None keeps the old behaviour, which looks for
+            ``data/theme_names.tsv``.
 
     Returns:
         ``manifest``, ``cards`` and ``data`` -- the last being the tree the page walks.
     """
-    versioned = data / "ontology" / f"v{version}"
-    export_dir = versioned / method
+    export_dir = build_dir if build_dir is not None else data / "ontology" / f"v{version}" / method
     manifest = json.loads((export_dir / "manifest.json").read_text(encoding="utf-8"))
+    # A build's own manifest does not always carry the collection-level figures; a frozen leaves
+    # build records its pathway count as "n" and leaves the universe size to universe.json beside
+    # it. Those are read as END-OF-CHAIN fallbacks only, so a manifest that already states a figure
+    # keeps it and the existing exports are unchanged.
+    universe_meta: dict[str, object] = {}
+    for candidate in (export_dir / "universe.json", data / "ontology" / f"v{version}"
+                      / "universe.json"):
+        if candidate.is_file():
+            universe_meta = json.loads(candidate.read_text(encoding="utf-8"))
+            break
 
     members: dict[str, list[str]] = {}
     for row in read_rows(export_dir / "members.tsv"):
@@ -333,15 +394,20 @@ def build(data: Path, version: str, method: str) -> dict[str, object]:
     # finding about the hierarchy and a keyword label would bury it.
     generated: dict[str, str] = {}
     declined: set[str] = set()
-    names_table = data / "theme_names.tsv"
-    if names_table.is_file():
-        for row in read_rows(names_table):
-            if row.get("status") != "current":
-                continue
-            if row["nameable"] == "true":
-                generated[row["example_node"]] = row["name"]
-            else:
-                declined.add(row["example_node"])
+    colliding: set[str] = set()
+    naming_methods: dict[str, int] = {}
+    if names_file is not None:
+        generated, declined, colliding, naming_methods = read_names_tsv(names_file)
+    else:
+        names_table = data / "theme_names.tsv"
+        if names_table.is_file():
+            for row in read_rows(names_table):
+                if row.get("status") != "current":
+                    continue
+                if row["nameable"] == "true":
+                    generated[row["example_node"]] = row["name"]
+                else:
+                    declined.add(row["example_node"])
 
     def gene_union(member_keys: list[str]) -> int:
         union: set[str] = set()
@@ -455,24 +521,50 @@ def build(data: Path, version: str, method: str) -> dict[str, object]:
             "method": manifest.get("method", method),
             "version": manifest.get("version", version),
             "levels": list(LEVELS) if levelled else [],
-            "n_pathways": manifest.get("n_pathways", manifest.get("n_embedded")),
-            "collection_rows": manifest.get("collection_rows", manifest.get("n_universe")),
+            "n_pathways": manifest.get(
+                "n_pathways",
+                manifest.get("n_embedded", manifest.get("n", universe_meta.get("n_embedded"))),
+            ),
+            "collection_rows": manifest.get(
+                "collection_rows", manifest.get("n_universe", universe_meta.get("n_universe"))
+            ),
             "n_sources": len(sources),
             "sources": sources,
             "prompt_version": manifest.get("prompt_version", "v4-repaired"),
             "descriptions_sha256": manifest.get(
                 "descriptions_sha256", manifest.get("descriptions_digest", "")
             ),
-            "embedder": manifest.get("embedder"),
+            "embedder": manifest.get("embedder", universe_meta.get("embedder")),
             "named": bool(generated),
             "n_named": len(generated),
             "n_declined": len(declined),
-            "universe": manifest.get("n_universe"),
+            "universe": manifest.get("n_universe", universe_meta.get("n_universe")),
+            **(
+                {}
+                if names_file is None
+                else {
+                    "names_file": str(names_file).replace("\\", "/"),
+                    "names_sha256": sha256_file(names_file),
+                    "naming_methods": dict(sorted(naming_methods.items())),
+                    "n_colliding": len(colliding),
+                    "n_out_of_naming_scope": sum(
+                        1
+                        for node in members
+                        if node not in generated
+                        and node not in declined
+                        and node not in colliding
+                    ),
+                    "n_themes": len(members),
+                }
+            ),
         },
         "cards": cards,
         "data": {
             "id": "root",
-            "n": manifest.get("n_pathways", manifest.get("n_embedded")),
+            "n": manifest.get(
+                "n_pathways",
+                manifest.get("n_embedded", manifest.get("n", universe_meta.get("n_embedded"))),
+            ),
             "children": tree,
         },
     }
@@ -485,16 +577,29 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--version", default="0.2", help="ontology version (default: %(default)s)")
     parser.add_argument("--method", default="ward_tree")
+    parser.add_argument("--build", type=Path, default=None,
+                        help="read the build from this directory instead of "
+                             "data/ontology/v<version>/<method>. For a frozen build, which does "
+                             "not sit in the versioned layout")
+    parser.add_argument("--names", type=Path, default=None,
+                        help="a naming-c1 names TSV (theme_id, name, method, unnameable, "
+                             "duplicate_group). Without it the keyword labels are used, as before")
     args = parser.parse_args(argv)
 
-    export_dir = args.data / "ontology" / f"v{args.version}" / args.method
+    export_dir = (
+        args.build if args.build is not None
+        else args.data / "ontology" / f"v{args.version}" / args.method
+    )
     if not (export_dir / "manifest.json").is_file():
         print(f"missing input: {export_dir / 'manifest.json'}", file=sys.stderr)
         print("run scripts/build_ontology.py first", file=sys.stderr)
         return 1
+    if args.names is not None and not args.names.is_file():
+        print(f"missing names file: {args.names}", file=sys.stderr)
+        return 1
 
     try:
-        payload = build(args.data, args.version, args.method)
+        payload = build(args.data, args.version, args.method, args.build, args.names)
     except ValueError as exc:
         print(f"refusing to export: {exc}", file=sys.stderr)
         return 1
@@ -509,7 +614,14 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     print(f"\nEXPORTED  v{meta['version']}/{meta['method']}  prompt={meta['prompt_version']}\n")
-    print(f"  pathways   {meta['n_pathways']:,} of {meta['collection_rows']:,}")
+    if meta.get("n_pathways") is not None and meta.get("collection_rows") is not None:
+        print(f"  pathways   {meta['n_pathways']:,} of {meta['collection_rows']:,}")
+    if args.names is not None:
+        print(f"  names      {meta['names_file']}  sha256 {meta['names_sha256'][:16]}")
+        print(f"             {meta['n_named']:,} named of {meta['n_themes']:,} themes; "
+              f"provisional: {meta['n_declined']} declined, {meta['n_colliding']} colliding, "
+              f"{meta['n_out_of_naming_scope']} out of scope")
+        print(f"             methods {meta['naming_methods']}")
     print(f"  sources    {meta['n_sources']}   levels {' -> '.join(f'k={k}' for k in LEVELS)}")
     cards = payload["cards"]
     assert isinstance(cards, dict)
