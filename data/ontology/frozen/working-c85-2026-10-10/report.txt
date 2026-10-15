@@ -1,0 +1,191 @@
+CHAIN COLLAPSE 0.85, survivor support -- POST-HOC RULE
+  baseline data/ontology/frozen/baseline-2026-10-09  (8,740 themes)
+  new      data/ontology/v0.4-leaves/thema_L_x2_c85  (8,251 themes)
+
+==============================================================================
+3. REPRODUCIBILITY BETWEEN TWO INDEPENDENT BUILDS (criterion d)
+==============================================================================
+  BEFORE the rule
+    thema_L_x2 (8,740 themes) against thema_L_repair (8,793), projected
+      support band     themes   matched    share
+      < 0.1             3,784     2,361    62.4%
+      0.1-0.3           2,045     1,800    88.0%
+      0.3-0.5             996       881    88.5%
+      >= 0.5            1,915     1,735    90.6%
+      OVERALL           8,740     6,777    77.5%
+
+  AFTER the rule
+    thema_L_x2_c85 (8,251 themes) against thema_L_repair_c85 (8,291), projected
+      support band     themes   matched    share
+      < 0.1             3,490     2,088    59.8%
+      0.1-0.3           1,919     1,668    86.9%
+      0.3-0.5             955       837    87.6%
+      >= 0.5            1,887     1,708    90.5%
+      OVERALL           8,251     6,301    76.4%
+
+  overall 77.5% -> 76.4%  (-1.2 points)
+
+==============================================================================
+4. AGAINST THE FROZEN BASELINE
+==============================================================================
+
+  themes 8,740 -> 8,251  (-489)
+    baseline themes with no identical theme in the new build: 805
+    new themes identical to a baseline theme:                 7,935
+    new themes NOT identical to any baseline theme:           316
+
+  themes removed, by size band
+    band        baseline     new   delta  removed
+    3-5              524     524      +0        0
+    6-10           2,100   2,101      +1        1
+    11-20          4,287   4,061    -226      323
+    21-50          1,550   1,324    -226      420
+    51-100           229     193     -36       59
+    101-300           34      32      -2        2
+    301-1000           6       6      +0        0
+    1001+             10      10      +0        0
+
+  collapse direction, from thema_L_x2_c85/repair_map.json
+    collapse events: 1,147
+      child kept  (the parent was absorbed): 742
+      parent kept (the child was absorbed):  405
+    stale merges afterwards: 176
+    support margin between the two nodes of each collapsed pair
+      median 0.120, mean 0.191
+      exact ties (parent kept by the rule): 19 (1.7%)
+      margin under 0.05:                    325 (28.3%)
+
+  support of baseline themes, removed against surviving
+    removed   n=805  mean 0.2113  median 0.1100
+    surviving n=7,935  mean 0.2910  median 0.1400
+
+  parents of surviving themes
+    themes whose parent set changed at all:          1,836 of 7,935
+    of which gained a baseline ANCESTOR as a parent: 747 (re-attached one level up)
+
+    of the 971 lost parents (criterion b exceptions):
+      the parent theme still exists in the new build:     296
+      and is still an ANCESTOR of the theme, one level up: 296
+      the parent theme is gone entirely (absorbed):       675
+
+  pathway levels (themes under 1,000 members holding each pathway)
+    pathways that lost at least one level: 4,646 of 5,539
+      median levels lost 2, max 12
+    pathways left with NO theme under 1,000: 0
+
+  depth distribution (longest path to a root)
+    depth     baseline     new
+    0              121     121
+    1            1,079   1,084
+    2            1,116   1,141
+    3            1,074   1,144
+    4            1,101   1,164
+    5            1,072   1,107
+    6              984     958
+    7              806     679
+    8              578     422
+    9              387     253
+    10             215     120
+    11             126      43
+    12              53      11
+    13              20       4
+    14               7       0
+    15               1       0
+
+  the fan around n00150
+    n00150 in thema_L_repair: 7 members, 6 parents
+    the same member set is n00156 in the baseline and n00160 in the new build
+    parents before (4):
+      n06927    2673 members  support 0.040  ratio 0.003  -> n06656
+      n04144     13 members  support 0.140  ratio 0.538  -> n04152
+      n02193     10 members  support 0.410  ratio 0.700  -> n02230
+      n01628     10 members  support 0.565  ratio 0.700  -> n01666
+    parents after (4):
+      n06656    2673 members  support 0.040  ratio 0.003
+      n04152     13 members  support 0.140  ratio 0.538
+      n01666     10 members  support 0.565  ratio 0.700
+      n02230     10 members  support 0.410  ratio 0.700
+    PROVENANCE: the reviewer counted 6 parents in thema_L_repair, over the wider universe. The fan node's own set survives the projection exactly, but its parents do not, so the count read as 6 there and 4 in the baseline. That change is the EXCLUSION REBUILD, before this rule. Each is tracked below by best match.
+      node      size  baseline       J   new            J  rule
+      n05989      11  n02193     0.750   n02230     0.750  unchanged  (parent)
+      n03581      11  n04144     0.846   n04152     0.846  unchanged  (parent)
+      n04153      11  n01628     0.909   n01666     0.909  unchanged  (parent)
+      n06563      11  n00156     0.636   n00160     0.636  unchanged  (parent)
+      n01638      10  n02193     0.818   n02230     0.818  unchanged  (parent)
+      n05795      10  n00156     0.700   n00160     0.700  unchanged  (parent)
+      n00918      27  n00857     0.786   n00876     0.786  unchanged  (route A)
+      n03842      35  n02723     0.842   n02758     0.842  unchanged  (route A)
+      n08023      41  n05462     0.826   n05357     0.826  unchanged  (route A)
+      n04419      52  n06955     0.796   n06677     0.796  unchanged  (route A)
+      n02115      77  n02949     0.849   n02982     0.849  unchanged  (route A)
+      n03423     139  n04530     0.804   n04502     0.804  unchanged  (route B)
+      n07791      17  n03638     0.579   n03658     0.579  unchanged  (route C)
+    13 of 13 tracked nodes match the baseline and the new build at the SAME Jaccard: the 0.85 rule did not touch this fan.
+    ancestors: 23 -> 21
+    roots reached: 7 -> 7
+      before ['n01935', 'n02949', 'n03450', 'n04530', 'n06304', 'n06927', 'n08012']
+      after  ['n01974', 'n02982', 'n03476', 'n04502', 'n06113', 'n06656', 'n07600']
+
+  plausibility, verdicts carried from the baseline by identical member set
+    carried onto 7,935 of 8,251 new themes (96.2%); 316 are unjudged
+      coherent           7,094   89.40%
+      umbrella             648    8.17%
+      core_plus_misfits    125    1.58%
+      mixture               50    0.63%
+      incoherent            18    0.23%
+    coherent or umbrella: 7,742 of 7,935 = 97.6%
+
+  -> data/ontology/v0.4-leaves/thema_L_x2_c85/match_to_baseline.tsv
+
+==============================================================================
+5. DAG CHECK
+==============================================================================
+    edges: 18,707
+    edges violating strict containment: 0
+    nodes whose parent is not strictly shallower (cycle evidence): 0
+    duplicate member sets: 0
+    VERDICT: valid DAG with strict containment
+
+==============================================================================
+6. CRITERIA, DECLARED BEFORE THE BUILDS RAN
+==============================================================================
+    (a) PASS  no containment pair at ratio >= 0.85 remains
+         0 such pairs
+    (b) FAIL  every multi-parent baseline theme keeps all parents
+         971 exceptions over 5,183 multi-parent themes
+    (c) PASS  no pathway loses all themes under 1,000
+         0 stranded pathways
+    (d) FAIL  reproducibility at J >= 0.7 is higher after the rule
+         77.5% -> 76.4%
+    (e) FAIL  carried plausibility >= 97.7%
+         97.6%
+
+    ALL FIVE: FAIL
+
+    criterion (b), the 971 exceptions (baseline theme, parent lost):
+      n00002 lost n04739 (25 members, ratio 0.720)
+      n00003 lost n04251 (21 members, ratio 0.857)
+      n00017 lost n06943 (61 members, ratio 0.180)
+      n00017 lost n04725 (81 members, ratio 0.136)
+      n00017 lost n03232 (1245 members, ratio 0.009)
+      n00029 lost n03119 (14 members, ratio 0.714)
+      n00044 lost n00482 (15 members, ratio 0.533)
+      n00049 lost n04739 (25 members, ratio 0.280)
+      n00066 lost n06367 (24 members, ratio 0.250)
+      n00077 lost n06365 (20 members, ratio 0.150)
+      n00084 lost n07996 (53 members, ratio 0.321)
+      n00085 lost n02925 (18 members, ratio 0.722)
+      n00085 lost n04316 (45 members, ratio 0.289)
+      n00089 lost n02673 (19 members, ratio 0.526)
+      n00092 lost n08058 (31 members, ratio 0.290)
+      n00148 lost n02577 (20 members, ratio 0.400)
+      n00164 lost n05656 (20 members, ratio 0.250)
+      n00170 lost n04705 (15 members, ratio 0.200)
+      n00176 lost n07433 (40 members, ratio 0.525)
+      n00179 lost n06405 (17 members, ratio 0.647)
+      n00185 lost n03238 (23 members, ratio 0.304)
+      n00222 lost n02912 (87 members, ratio 0.862)
+      n00223 lost n01740 (33 members, ratio 0.879)
+      n00223 lost n07981 (72 members, ratio 0.403)
+      n00225 lost n05820 (40 members, ratio 0.325)
+      ... and 946 more

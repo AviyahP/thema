@@ -1,10 +1,18 @@
-"""The frozen baseline cannot change silently.
+"""The frozen builds cannot change silently.
 
-`data/ontology/frozen/baseline-2026-10-09/` is the reference build (`thema_L_x2`, frozen 9 Oct
-2026). Every later change is built in a new directory and compared against it, and if work gets
-tangled it is what we revert to. That only works if the bytes are the ones that were measured, so
-these tests re-hash every file against `CHECKSUMS.sha256` and fail on any drift -- a changed file, a
-deleted one, or a new file slipped in without a checksum.
+Two folders under `data/ontology/frozen/` are frozen, and both are guarded the same way:
+
+`baseline-2026-10-09/`
+    The reference build (`thema_L_x2`, 8,740 themes), frozen 9 Oct 2026, kept as the **fallback**.
+
+`working-c85-2026-10-10/`
+    `thema_L_x2_c85` (8,251 themes), the **working version** every analysis from 10 Oct uses. It
+    differs from the baseline in the chain-collapse rule and nothing else.
+
+Each is only a reference if its bytes are the ones that were measured, so these tests re-hash every
+file against that folder's own `CHECKSUMS.sha256` and fail on any drift -- a changed file, a deleted
+one, or a new file slipped in without a checksum. The tests are parametrised over the folders, so a
+third freeze is guarded by adding one entry to :data:`FROZEN`.
 """
 
 from __future__ import annotations
@@ -14,30 +22,35 @@ from pathlib import Path
 
 import pytest
 
-BASELINE = Path("data/ontology/frozen/baseline-2026-10-09")
-CHECKSUMS = BASELINE / "CHECKSUMS.sha256"
+#: Every frozen build, and the files each is DEFINED by. A folder may hold more than these; it may
+#: never hold fewer.
+FROZEN: dict[str, frozenset[str]] = {
+    "baseline-2026-10-09": frozenset({
+        "nodes.tsv", "members.tsv", "edges.tsv", "unplaced.tsv", "manifest.json",
+        "browse.html", "match_to_repair.tsv", "compare_to_repair.json",
+        "excluded_inputs.tsv", "floors_L_cal8.json", "universe.json", "trees_build_log.json",
+        "all_verdicts_x2.json", "REPORT_x2.md", "FROZEN.md",
+    }),
+    "working-c85-2026-10-10": frozenset({
+        "nodes.tsv", "members.tsv", "edges.tsv", "unplaced.tsv", "manifest.json",
+        "match_to_baseline.tsv", "repair_map.json", "report.txt",
+        "excluded_inputs.tsv", "floors_L_cal8.json", "universe.json", "trees_build_log.json",
+        "all_verdicts_c85.json", "REPORT_c85_reassessment.md", "FROZEN.md",
+    }),
+}
 
-REQUIRED = frozenset({
-    "nodes.tsv",
-    "members.tsv",
-    "edges.tsv",
-    "unplaced.tsv",
-    "manifest.json",
-    "browse.html",
-    "match_to_repair.tsv",
-    "compare_to_repair.json",
-    "excluded_inputs.tsv",
-    "floors_L_cal8.json",
-    "universe.json",
-    "trees_build_log.json",
-    "all_verdicts_x2.json",
-    "REPORT_x2.md",
-    "FROZEN.md",
-})
+ROOT = Path("data/ontology/frozen")
 
 
 def sha256(path: Path) -> str:
-    """Return the hex sha256 of a file, read in chunks."""
+    """Return the hex sha256 of a file, read in chunks.
+
+    Args:
+        path: The file.
+
+    Returns:
+        The digest.
+    """
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for block in iter(lambda: handle.read(1 << 20), b""):
@@ -45,10 +58,17 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def recorded() -> dict[str, str]:
-    """Return {filename: sha256} as recorded in CHECKSUMS.sha256."""
+def recorded(folder: Path) -> dict[str, str]:
+    """Return ``{filename: sha256}`` as that folder's ``CHECKSUMS.sha256`` records it.
+
+    Args:
+        folder: A frozen build directory.
+
+    Returns:
+        Filename to checksum.
+    """
     entries: dict[str, str] = {}
-    for line in CHECKSUMS.read_text().splitlines():
+    for line in (folder / "CHECKSUMS.sha256").read_text().splitlines():
         if not line.strip():
             continue
         checksum, name = line.split(maxsplit=1)
@@ -56,41 +76,86 @@ def recorded() -> dict[str, str]:
     return entries
 
 
-pytestmark = pytest.mark.skipif(
-    not CHECKSUMS.exists(),
-    reason="the frozen baseline is not present in this checkout",
+def present(name: str) -> bool:
+    """Whether a frozen build is in this checkout at all.
+
+    Args:
+        name: The folder name.
+
+    Returns:
+        True if its checksum file exists.
+    """
+    return (ROOT / name / "CHECKSUMS.sha256").exists()
+
+
+frozen = pytest.mark.parametrize(
+    "name",
+    [
+        pytest.param(
+            name,
+            marks=pytest.mark.skipif(
+                not present(name), reason=f"{name} is not present in this checkout"
+            ),
+        )
+        for name in FROZEN
+    ],
 )
 
 
-def test_checksum_file_lists_every_required_file() -> None:
-    assert REQUIRED <= set(recorded()), (
-        "CHECKSUMS.sha256 no longer covers every file the baseline is defined by; "
-        f"missing {sorted(REQUIRED - set(recorded()))}"
+@frozen
+def test_both_freezes_are_present(name: str) -> None:
+    # Guards against a freeze quietly disappearing: if the folder is gone the parametrised case
+    # skips, so this asserts the one thing a skip cannot -- that what is there is a directory.
+    assert (ROOT / name).is_dir()
+
+
+@frozen
+def test_the_checksum_file_lists_every_required_file(name: str) -> None:
+    missing = sorted(FROZEN[name] - set(recorded(ROOT / name)))
+    assert not missing, (
+        f"{name}/CHECKSUMS.sha256 no longer covers every file the build is defined by; "
+        f"missing {missing}"
     )
 
 
-def test_no_file_is_missing() -> None:
-    absent = sorted(name for name in recorded() if not (BASELINE / name).exists())
-    assert not absent, f"files recorded in CHECKSUMS.sha256 are gone from the baseline: {absent}"
+@frozen
+def test_no_file_is_missing(name: str) -> None:
+    folder = ROOT / name
+    absent = sorted(entry for entry in recorded(folder) if not (folder / entry).exists())
+    assert not absent, f"files recorded in {name}/CHECKSUMS.sha256 are gone: {absent}"
 
 
-def test_no_unrecorded_file_was_added() -> None:
-    present = {p.name for p in BASELINE.iterdir() if p.is_file()} - {CHECKSUMS.name}
-    extra = sorted(present - set(recorded()))
+@frozen
+def test_no_unrecorded_file_was_added(name: str) -> None:
+    folder = ROOT / name
+    here = {path.name for path in folder.iterdir() if path.is_file()} - {"CHECKSUMS.sha256"}
+    extra = sorted(here - set(recorded(folder)))
     assert not extra, (
-        "files were added to the frozen baseline without a checksum: "
-        f"{extra}. The baseline is frozen; put new material in a new directory."
+        f"files were added to {name} without a checksum: {extra}. "
+        "A frozen build is frozen; put new material in a new directory."
     )
 
 
-def test_every_file_matches_its_checksum() -> None:
+@frozen
+def test_every_file_matches_its_checksum(name: str) -> None:
+    folder = ROOT / name
     changed = sorted(
-        name
-        for name, checksum in recorded().items()
-        if (BASELINE / name).exists() and sha256(BASELINE / name) != checksum
+        entry
+        for entry, checksum in recorded(folder).items()
+        if (folder / entry).exists() and sha256(folder / entry) != checksum
     )
     assert not changed, (
-        f"the frozen baseline has been modified: {changed}. "
-        "It is the reference every later build is compared against -- restore it from git "
-        "(git checkout -- data/ontology/frozen/baseline-2026-10-09) rather than re-hashing it."
+        f"{name} has been modified: {changed}. It is a frozen reference -- restore it from git "
+        f"(git checkout -- data/ontology/frozen/{name}) rather than re-hashing it."
     )
+
+
+def test_the_two_freezes_are_different_builds() -> None:
+    # The working version is not a copy of the fallback: that is the point of having both.
+    if not (present("baseline-2026-10-09") and present("working-c85-2026-10-10")):
+        pytest.skip("both freezes are needed for this comparison")
+    baseline = ROOT / "baseline-2026-10-09" / "nodes.tsv"
+    working = ROOT / "working-c85-2026-10-10" / "nodes.tsv"
+    assert sha256(baseline) != sha256(working)
+    rows = lambda path: len(path.read_text().splitlines()) - 1  # noqa: E731
+    assert rows(baseline) == 8740 and rows(working) == 8251
