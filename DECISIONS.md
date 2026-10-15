@@ -6402,3 +6402,148 @@ build, the manifest, the inputs, `match_to_c85.tsv`, `O50_new_themes.json`, `all
 the reviewer's report verbatim, `FROZEN.md` and `CHECKSUMS.sha256`. Tag **`thema-O50-2026-10-14`**,
 created by `docs/status/commit-2026-10-14-adopt-O50.sh`, which also merges `overlap-2026-10` into
 `leaves-2026-10` with `--no-ff`. Both existing freezes were left untouched and still verify.
+
+## 2026-10-15 13:11:01 UTC+1 — RECURSIVE TOP LEVEL on O50: declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/PROMPT_34.md`, Aviyah's prompt of 15 Oct
+2026, and reproduced here **before any build ran**. Adapted from prompt 19, which was never
+executed. Everything below this line is the prompt text unchanged.
+
+Confirmed before building, as the prompt requires: **661 units** (184 non-giant roots + 476
+giant-only themes + 1 loose pathway) and an estimate of **about 4 minutes** -- one real side timed
+at 7.7 s, thirteen sides at level 2, plus consensus, repair and mapping. Well under the 3 h ceiling.
+
+---
+
+Prompt 34: the recursive top level on O50 (THEMA applied to its own themes), declared 15 Oct 2026 before any result. Adapted from prompt 19, which was never run. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not touch frozen folders; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Before building, estimate the run time and stop if it is over 3 h.
+
+WHY
+- In O50 (data/ontology/frozen/working-O50-2026-10-14/), 4 roots are giant grab bags (2,332 / 2,018 / 2,015 / 1,412 members, 140-283 children each), and 97% of pathways sit inside one of them.
+- 476 themes have only giants as parents.
+- 184 other roots are mostly small themes (168 have 50 members or fewer).
+- So there is no area layer. For 20% of pathways, the largest real theme above them has 50 members or fewer.
+- A one-off test on 8 Oct (Ward on theme centroids, k = 30 chosen by hand) gave about 30 intuitive areas. This prompt does it properly: the same algorithm one level up, with resampling, recurrence and a scramble null, and k coming from the data.
+
+STEPS
+1. Units, from the frozen O50, read-only.
+   - Drop the giants (themes with more than 1,000 members).
+   - Units = every remaining theme with no non-giant parent: the 184 non-giant roots plus the themes whose parents are all giants. Report the count; expected about 660.
+   - Add any pathway that is in no non-giant theme as a unit of its own.
+   - Represent each unit by the normalised mean of its members' rows in vectors_leaves_centred (the x2 universe, rows L2-normalised). Record each unit's size in pathways.
+2. Level 2 = the O50 configuration, unchanged, on units:
+   - 200 runs on 80% subsamples of units, Ward on unit centroids;
+   - recurrence matching 0.70 on unit membership;
+   - same-theme cutoff 0.50 in consensus and the stale pass;
+   - joint fixed point with chain collapse at 0.85;
+   - strict containment.
+   - Floors are calibrated on unit scrambles (seeds 3001-3010, held out 4001 and 4002) and solved to a 0.008 target.
+   - Unit membership may overlap, so a unit can get two areas.
+3. Map back.
+   - An area's pathway members are the union of its units' members.
+   - Add edges area -> unit theme.
+   - The giants are not part of the combined DAG; they stay only in the O50 freeze.
+4. Repeat steps 2-3 on the level-2 roots only if more than 60 remain. Stop at 20-60 roots.
+5. Output: data/ontology/v0.4-leaves/thema_L_x2_O50_rec/ (O50 nodes, plus areas, plus area edges), with a manifest. Adopt nothing.
+
+REPORT (docs/status/2026-10-15-recursive-top-O50.md)
+- **Per level:**
+  - nodes, sizes in units and in pathways;
+  - held-out FDR per stratum;
+  - multi-parent share;
+  - max and median children per node.
+- **The top level:** every root with its size in units and pathways, its child units, and the 10 pathway names nearest its centroid. Names are for judging only.
+- **Coverage:**
+  - how many of the 476 giant-only themes now have an area parent;
+  - roots before and after;
+  - per pathway, the largest non-giant ancestor, by band, before and after (today: 51-200 = 2,362; 11-50 = 1,096; 201-1,000 = 2,079).
+- **Gene coherence per level** against size-matched random. Report it, do not gate on it; low coherence is expected at the top.
+- **Agreement with Reactome's top-level pathways (secondary):** for each, the best area by Jaccard on leaves.
+- **Summary placement (display only, report only).** For every curated summary pathway in the 10,747 universe that is not in L, take its leaf descendants in L (the leaves-experiment closure). Report the smallest node containing at least 80% of them:
+  - by summary size band;
+  - in O50 alone and in the combined DAG;
+  - with the share landing on a giant (O50) or on an area (combined).
+  This measures whether areas give the summaries a home. Nothing is attached in this prompt.
+- **Run time and memory.**
+
+DECISION (declared now)
+The recursive top is accepted for further work if:
+- held-out FDR is within the caps at level 2;
+- the top has 20-60 roots;
+- no node has more than 60 children;
+- at least 95% of the 476 giant-only themes get an area parent;
+- C6 (reviewer, after the build) passes. C6 is a blind intruder test on every area with 4 or more units: 5 random units of the area plus 1 unit from a different area, shuffled, shown as full member lists without names. Pass if judges spot the intruder in at least 70% of areas (chance about 17%).
+- Aviyah judges the top level intuitive.
+
+FINAL
+- Copy this prompt verbatim into DECISIONS.md as "declared before running", before building.
+- Write docs/status/commit-2026-10-15-recursive-top.sh. It commits the code, the tests, the new build folder and the status note on leaves-2026-10, with no branch operations and no push of main.
+
+END OF PROMPT. Before building, confirm in one line:
+- the number of units;
+- your time estimate.
+After the build, give:
+- the counts per level and the number of top roots;
+- held-out FDR;
+- giant-only themes re-parented;
+- summary placement before/after;
+- the commit script path.
+
+## 2026-10-15 13:23:16 UTC+1 — RECURSIVE TOP RESULT: one of four criteria FAILS. Adopted nothing.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-15-recursive-top-O50.md`.
+
+| criterion | result |
+|---|---|
+| held-out FDR within the caps at level 2 | **FAIL** — overall 0.00882 inside the 0.01 cap, but **3-3 at 0.03846 and 7-9 at 0.02604 breach the 0.02 per-stratum cap** |
+| the top has 20-60 roots | **PASS** — 30 |
+| no node has more than 60 children | **PASS** — max 21 |
+| at least 95% of the 476 giant-only themes get an area | **PASS** — **100%**, 476 of 476 |
+| C6 blind intruder test | the reviewer's, not judged |
+| the top level is intuitive | Aviyah's, not judged |
+
+**Units: 661** — 184 non-giant roots + 476 giant-only themes + 1 loose pathway (`btm:M205`, O50's
+accepted C2 exception). Confirmed before building, with an estimate of ~4 minutes against **131 s**
+actual.
+
+**Level 2:** 5,685 candidates, 556 after consensus, **470 nodes and 30 roots** after the joint fixed
+point. Multi-parent 42.1%; children per node max 21 in the combined DAG (14 counting area-to-area
+edges alone). Sizes: 3-251 units, 20-3,053 pathways. **Stratum 4-4 got no floor at all** -- no cut
+reached the 0.008 target -- so it admits nothing.
+
+**What the recursion achieves.** **Every one of the 476 giant-only themes gets an area parent**, all
+661 units are placed, **188 roots become 30**, and no node exceeds 21 children. For pathways, the
+"largest non-giant theme above me" distribution reproduced the declaration's stated baseline exactly
+before the change (51-200 = 2,362; 11-50 = 1,096; 201-1,000 = 2,079), which is the check that the
+measurement is the same one.
+
+**Summary placement is the strongest result, and it is display-only.** Of 2,370 curated summaries
+with 3+ leaf descendants in L, the share with a node holding 80% of their leaves rises from **85.3%
+in O50 to 92.8% in the combined DAG**, and the gain is concentrated exactly where the layer was
+missing: the 51-200 band goes from 55 of 96 to **76 of 96**. **Nothing was attached.**
+
+**What it does not achieve, stated plainly.** **Five of the 30 roots hold more than 1,000 pathways**
+(3,053 / 2,675 / 2,651 / 1,776 / 1,405) and 16 of the 470 areas do. The four giants were replaced by
+five large areas plus twenty-five smaller ones: **the shape changed, the bags did not go away**, and
+the 200-1,000 member layer the declaration wanted is not what came out. After the change every
+pathway's largest non-giant ancestor is over 1,000 members, which is the same sentence read from the
+other side.
+
+**Secondary measures.** Gene coherence at level 2 is median 0.0115 against 0.0011 size-matched random
+(**10.2x**) over the 182 areas of 2-120 pathways -- low in absolute terms, as expected at the top,
+and clearly above random. Agreement with Reactome's 29 top-level branches is **median Jaccard
+0.100**, best Cellular responses to stimuli 0.238; `a2_00105` is the best match for Cell Cycle, DNA
+Repair *and* DNA Replication, so the areas are coarser than curated areas rather than a rediscovery
+of them.
+
+**On the FDR failure.** The two breaches sit on **13 and 96 real candidates**, where a single false
+positive in the averaged null is already 0.038. That is a reason to recalibrate with more scramble
+seeds, not a reason to read the cap as met. **Recorded as a failure**, and the declaration's rule
+settles the question for now.
+
+**Code:** `scripts/recursive_top_O50.py` (units, level 2, the combined DAG),
+`scripts/recursive_top_report.py` (every figure), 13 tests in `tests/test_recursive_top.py`. Output:
+`data/ontology/v0.4-leaves/thema_L_x2_O50_rec/`. **The frozen folders were not touched and the
+giants are never units and never joined.** Cost 131 s and 0.7 GB for the build, 4 s for the report.
