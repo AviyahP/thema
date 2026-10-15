@@ -1,0 +1,40 @@
+set   n  same partly different | partly-or-diff (CI)
+HIGH  300   273     27      0   | 9.0% (6.0-12.3)
+LOW    60    36     22      2   | 40.0% (28.3-51.7)
+SYN    60    58      2      0   | 3.3% (0.0-8.3)
+
+P1 HIGH minus floor: +5.7 pts (CI -0.3 to +10.7)
+P2 same 300 pairs: old design 23.0%  new design 9.0%
+   old->new (re-read?): {'False->False': 221, 'False->True': 10, 'True->False': 52, 'True->True': 17}
+P3 LOW minus floor: +36.7 pts (CI +23.3 to +50.0)
+   J 0.1-0.2: new 60%  old design (same pairs) 75%  n=20
+   J 0.2-0.3: new 25%  old design (same pairs) 35%  n=20
+   J 0.3-0.4: new 35%  old design (same pairs) 45%  n=20
+
+Declared reading: CONFIRMED
+
+Secondary — by old label (HIGH):
+  twin: {'same': 143, 'partly': 7}  re-read 5%
+  facet: {'partly': 20, 'same': 130}  re-read 13%
+  AUC vs labels: whole-reading 0.543  old core-reading 0.623  md 0.664
+  re-read by md: {2: '12% (n=83)', 3: '6% (n=104)', 4: '7% (n=58)', 5: '12% (n=25)'}
+
+== HIGH re-read reasons (27):
+  [partly] J 0.50 facet: Shared scavenger receptors are the uptake machinery for apoptotic-cell clearance in X (foam cells a side effect) but the oxLDL-uptake route to atherogenic foam cells in Y.
+  [partly] J 0.43 facet: In X the shared UV-response sets are the centre with senescence one outcome among survival/death choices, while in Y senescence is the centre and UV is merely its trigger.
+  [partly] J 0.41 twin: Shared threonine/glycine/glyoxylate terms are the central small amino acid interconversion node in X but one catabolic route within Phe/Tyr-centred catabolism in Y.
+  [partly] J 0.40 facet: X uses shared nicotinate/NAD items as the core of NAD synthesis with ATP/ADP and phosphocreatine as peripheral links, whereas Y makes ATP/ADP and phosphocreatine the centre and NAD an added redox arm.
+  [partly] J 0.53 facet: Shared leukotriene synthesis/catabolism terms are pro-inflammatory 5-LOX signals in X but examples of glutathione-conjugated mediators alongside resolution conjugates in Y.
+  [partly] J 0.58 facet: Shared BCAA-catabolism and organic acidaemia terms are the pathway itself in X but client routes converging on lipoate-dependent 2-oxoacid dehydrogenases in Y.
+
+== SYN re-read reasons (2):
+  [partly] J 0.71 : Shared pancreatic and reproductive-gland pathways are unified in X as one secretory-gland epithelium programme, but in Y the reproductive ones are recast under sex determination as a separate programme from pancreas.
+  [partly] J 0.69 : Shared terms frame general fatty acid oxidation for energy in X but are recast as peroxisomal breakdown with acyl-CoA bookkeeping in Y.
+
+== LOW re-read reasons (24):
+  [partly] J 0.13 : Shared neural plate regionalisation is a ventral response to notochord/Shh midline signals in X but anterior/posterior and border patterning in Y.
+  [partly] J 0.32 : The shared glutamate/glutamine nitrogen hub feeds urea-cycle ammonia disposal in X but conjugative detoxification of aromatic acids in Y.
+  [partly] J 0.33 : Shared toxin uptake and CD163/leishmania terms are scattered pathogen-handling and anti-inflammatory myeloid items in X but toxins are part of the core host-cell entry theme in Y.
+  [partly] J 0.38 : Shared myeloid/DC/T cell signatures are a generic cell-composition marker panel in X but the receptor repertoire of antigen-presenting cells in Y.
+  [partly] J 0.14 : X treats shared CHD1/2 and HDMs as chromatin remodellers and erasers setting gene state, while Y puts them in a protein-methylation story as methyl readers and reversal.
+  [partly] J 0.22 : Shared thymocyte proliferation and survival terms serve cell-number homeostasis in X but the selection of a self-tolerant repertoire in Y.
