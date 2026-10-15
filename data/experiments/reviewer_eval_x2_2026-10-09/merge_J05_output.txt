@@ -1,0 +1,64 @@
+BEFORE: themes 8251 leaves 1140 max depth 13
+
+J>=0.5 complete: groups 1539 themes_removed 1766 (21.4%) groupsizes {2: 1323, 3: 206, 4: 9, 5: 1} max 5
+  pairs collapsed 2005; orig labels twin 1231 facet 773 (precision 61%); full-list labels twin 247 facet 297 (precision 45%)
+
+J>=0.5 single: groups 1100 themes_removed 2865 (34.7%) groupsizes {2: 551, 3: 224, 4: 118, 5: 70, 6: 40, 7: 19, 8: 16, 9: 11} max 31
+  pairs collapsed 3955; orig labels twin 2194 facet 1760 (precision 55%); full-list labels twin 451 facet 607 (precision 43%)
+
+J>=0.6 complete: groups 812 themes_removed 840 (10.2%) groupsizes {2: 785, 3: 26, 4: 1} max 4
+  pairs collapsed 869; orig labels twin 606 facet 263 (precision 70%); full-list labels twin 107 facet 103 (precision 51%)
+
+J>=0.6 single: groups 766 themes_removed 1105 (13.4%) groupsizes {2: 546, 3: 151, 4: 39, 5: 17, 6: 7, 7: 5, 8: 1} max 8
+  pairs collapsed 1356; orig labels twin 905 facet 451 (precision 67%); full-list labels twin 172 facet 172 (precision 50%)
+union size / kept size: median 1.27, 90th 1.45, max 1.96
+groups with a parent that does not contain the union: 1143 of 1539 ; parent links dropped: 2601
+union theme would itself be within J>=0.85 of a shared parent (chain-collapse candidate): 835
+KEEP-ONE variant: pathway-theme memberships lost 7727 distinct pathways affected 3673
+  children of dropped themes not nested in the kept theme (must re-attach higher): 1707
+parents with >=2 children: 4422 children per parent median before 2 after 2; mean 3.6 -> 3.1; parents left with 1 child: 514
+themes per giant bucket removed:
+  Very large grab-bag of signalling and housekeeping       3008 themes, 21% removed
+  Broad signaling and development grab-bag                 3184 themes, 22% removed
+  Large grab-bag of signaling and development              2888 themes, 20% removed
+  Grab-bag of signalling and development                   2743 themes, 21% removed
+  Grab-bag of signalling, immunity, metabolism             2339 themes, 22% removed
+  Large grab-bag of unrelated processes                    2669 themes, 23% removed
+  Unrelated grab-bag of processes                          2674 themes, 22% removed
+  Broad metabolism grab-bag                                1752 themes, 23% removed
+  Genome-wide grab-bag                                     1527 themes, 23% removed
+  Broad nuclear and mitochondrial housekeeping             1394 themes, 23% removed
+whole-reading HIGH J 0.4-0.5: n 118, shared pathways used differently 13%
+whole-reading HIGH J 0.5-0.6: n 124, shared pathways used differently 6%
+whole-reading HIGH J 0.6-1: n 58, shared pathways used differently 7%
+
+examples (kept name first):
+ - Renal amino acid and organic anion SLC transport || Amino acid transporters (SLC) and aminoacidurias || Amino acid and oligopeptide membrane transport | sizes [25, 19, 18] union 31
+ - TCA cycle and mitochondrial energy metabolism || TCA cycle and NADPH regeneration | sizes [10, 10] union 13
+ - Copper, manganese and iron transport || Copper/heavy metal transport and detoxification | sizes [10, 12] union 14
+ - Genome stability: R-loops and replication stress || Transcription-associated DNA damage and SSB repair | sizes [10, 12] union 14
+ - Integrin cell-matrix adhesion and migration || Integrin adhesion and matrix-dependent migration | sizes [15, 13] union 18
+ - Antiviral type I interferon innate sensing || Antiviral IFN induction and dendritic cells | sizes [22, 21] union 28
+ - Blood pressure and renal volume regulation || Blood pressure regulation: RAAS and NO-cGMP | sizes [19, 20] union 24
+ - Cell cycle E2F and G2/M transcription || Cell proliferation and cell-cycle progression | sizes [28, 24] union 32
+ - RLR/TLR3 IRF3 type I IFN induction || Type I IFN antiviral innate immunity || RLR antiviral type I interferon signaling || Antiviral type I interferon and RLR signalling || Type I interferon / RIG-I antiviral response | sizes [28, 26, 23, 36, 24] union 45
+
+largest SINGLE-linkage chain (31 themes), sample names:
+    IKK/NF-kappaB activation (canonical and noncanonical)
+    TLR/NLR innate signalling to NF-kB and MAPK
+    TLR/TNFR-driven NF-kB activation
+    TLR/TNF signalling to IKK and NF-kB
+    TLR/TNFR NF-kB and IKK signalling
+    Ubiquitin-mediated NF-kB negative regulation
+    Canonical and non-canonical NF-kB regulation
+    NF-kB activation via TLR/IL-1/TNF
+    TNFR1/TLR IKK-NF-kB activation
+    Deubiquitination and NF-kB regulation
+BEFORE                             themes  8241 | 0 parents  962  1 parent  3056  2+ parents  4223 (51%) | parents not nested in each other: 4223 (51%) | reach 2+ top roots: 4596 (56%)
+AFTER merge (drop parents)         themes  6475 | 0 parents  964  1 parent  3205  2+ parents  2306 (36%) | parents not nested in each other: 2306 (36%) | reach 2+ top roots: 2918 (45%)
+   merged themes only: 2+ parents 327 of 1539; before, their members had 2+ parents: 910
+AFTER merge (reattach parents)     themes  6475 | 0 parents  964  1 parent  3065  2+ parents  2446 (38%) | parents not nested in each other: 2446 (38%) | reach 2+ top roots: 3019 (47%)
+   merged themes only: 2+ parents 467 of 1539; before, their members had 2+ parents: 910
+
+--- why unmerged themes lose 2+ parents ---
+{'still 2+': 1979, 'all its parents were variants merged into one': 181, 'parents now nested in each other (after union)': 96, 'some parents merged, rest now nested/ancestral': 14}

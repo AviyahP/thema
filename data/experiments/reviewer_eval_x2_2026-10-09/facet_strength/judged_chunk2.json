@@ -1,0 +1,492 @@
+[
+ {
+  "pid": "P098",
+  "strength": 2,
+  "reason": "X raises cytosolic Ca2+ (store-operated entry); Y lowers it (NCX, ER reuptake); directional emphasis within same Ca2+ handling story."
+ },
+ {
+  "pid": "P099",
+  "strength": 3,
+  "reason": "Y adds TNFa-NFkB and immediate-early/growth-arrest stress program; X only adds other light wavelengths (UV-A, blue light)."
+ },
+ {
+  "pid": "P100",
+  "strength": 2,
+  "reason": "X: sulfur amino acid/H2S catabolism, aldehyde detox, MoCo; Y: glutamate homeostasis and ferroptosis extending glutathione axis."
+ },
+ {
+  "pid": "P101",
+  "strength": 3,
+  "reason": "Y is cardiac muscle contraction/heart rate; shared is skeletal Ca2+ release; tissue axis. X adds SERCA regulation."
+ },
+ {
+  "pid": "P102",
+  "strength": 3,
+  "reason": "Y is nucleolar snoRNP/rRNA modification (nuclear); X is mitochondrial respiratory chain assembly; distinct compartments."
+ },
+ {
+  "pid": "P103",
+  "strength": 3,
+  "reason": "X serotonergic/histamine systems vs Y noradrenergic/adrenergic synthesis and neuron development; distinct transmitter systems."
+ },
+ {
+  "pid": "P104",
+  "strength": 2,
+  "reason": "X adds lipoxins/HETEs and prostanoid receptors (resolution); Y adds PAF/ether lipid mediators; secondary branches of lipid mediators."
+ },
+ {
+  "pid": "P105",
+  "strength": 2,
+  "reason": "X nuclear envelope breakdown/lamina disassembly vs reassembly; Y cytokinesis/spindle regulation; recognizable stages of mitotic NE cycle."
+ },
+ {
+  "pid": "P106",
+  "strength": 3,
+  "reason": "X planar cell polarity/convergent extension morphogenesis; Y forebrain radial glia; distinct mechanisms beyond axial patterning."
+ },
+ {
+  "pid": "P107",
+  "strength": 2,
+  "reason": "X humoral antimicrobial peptides, nutritional immunity, Gram-positive/antifungal; Y neutrophil-mediated cytotoxicity; secondary split."
+ },
+ {
+  "pid": "P108",
+  "strength": 3,
+  "reason": "Y endosomal recycling/Rab-ARF signaling, plasma membrane to endosome; X COPI intra-Golgi/retrograde; distinct compartments."
+ },
+ {
+  "pid": "P109",
+  "strength": 3,
+  "reason": "X osteoblast differentiation/bone formation, Wnt and RUNX2; Y only cartilage morphogenesis; bone vs cartilage lineage."
+ },
+ {
+  "pid": "P110",
+  "strength": 3,
+  "reason": "Y non-canonical Wnt/Ca2+ and WNT5A-ROR2; X RNF43/ZNRF3 FZD ubiquitination in canonical signaling."
+ },
+ {
+  "pid": "P111",
+  "strength": 2,
+  "reason": "X intestinal absorption/chylomicron assembly, sitosterolemia; Y triglyceride catabolism; phases of one lipoprotein story."
+ },
+ {
+  "pid": "P112",
+  "strength": 1,
+  "reason": "Both add monocyte/DC activation modules; same myeloid inflammatory story."
+ },
+ {
+  "pid": "P113",
+  "strength": 2,
+  "reason": "X glycosphingolipid/ganglioside catabolism (GM2 gangliosidoses); Y lysosomal enzyme secretion/Golgi; secondary split."
+ },
+ {
+  "pid": "P114",
+  "strength": 3,
+  "reason": "Y meiotic prophase recombination (DSB formation, synaptonemal complex); X female meiosis I spindle; distinct meiotic stages."
+ },
+ {
+  "pid": "P115",
+  "strength": 2,
+  "reason": "Y glomerular mesangial/endothelial development; X kidney size/metanephros regulation; recognizable cell-type emphasis."
+ },
+ {
+  "pid": "P116",
+  "strength": 3,
+  "reason": "Y Fanconi anemia/ICL repair, PARylation and DNA-protein crosslink repair; X just strand invasion within HR."
+ },
+ {
+  "pid": "P117",
+  "strength": 2,
+  "reason": "Y plasma lipoprotein (HDL/LDL) remodeling vs intestinal absorption core; X ABC lipid transporters; secondary emphasis."
+ },
+ {
+  "pid": "P118",
+  "strength": 3,
+  "reason": "X monocyte differentiation (M-CSF) vs Y granulocyte/neutrophil differentiation (G-CSF); distinct myeloid lineages."
+ },
+ {
+  "pid": "P119",
+  "strength": 2,
+  "reason": "X viral genome replication vs Y viral entry; different life-cycle stages within host-virus interaction."
+ },
+ {
+  "pid": "P120",
+  "strength": 2,
+  "reason": "X lysosomal glycosphingolipid catabolism (GM2); Y GDP-mannose synthesis; secondary aspects of glycan metabolism."
+ },
+ {
+  "pid": "P121",
+  "strength": 3,
+  "reason": "Y DNA alkylation repair/oxidative demethylation (ALKBH, MGMT, TET); X HIV APOBEC3G restriction; distinct mechanisms."
+ },
+ {
+  "pid": "P122",
+  "strength": 3,
+  "reason": "X postsynaptic/dendritic receptor surface recycling vs Y presynaptic active zone and vesicle cycle."
+ },
+ {
+  "pid": "P123",
+  "strength": 2,
+  "reason": "Y renal natriuresis/cGMP synthesis vs X endothelin/cGMP effects; secondary mechanisms of blood pressure control."
+ },
+ {
+  "pid": "P124",
+  "strength": 1,
+  "reason": "X glial proliferation, Y amyloid-beta clearance; small additions to same amyloid/neuroinflammation story."
+ },
+ {
+  "pid": "P125",
+  "strength": 2,
+  "reason": "X mitochondrial ribosome assembly and mRNA processing; Y cytosolic RNA methylation; secondary emphases of RNA processing."
+ },
+ {
+  "pid": "P126",
+  "strength": 3,
+  "reason": "Y COPII ER export/ER exit sites vs X endosome-to-Golgi retrograde; distinct trafficking routes."
+ },
+ {
+  "pid": "P127",
+  "strength": 3,
+  "reason": "Y ubiquinone (CoQ) biosynthesis is a distinct pathway; X adds vitamin D/retinoic acid CYP disorders."
+ },
+ {
+  "pid": "P128",
+  "strength": 2,
+  "reason": "X ERAD and pexophagy; Y nitrogen starvation/ATG8 delipidation; secondary aspects of proteostasis/autophagy."
+ },
+ {
+  "pid": "P129",
+  "strength": 2,
+  "reason": "Y ADA/PNP deficiencies (immunodeficiency disease axis); X pyrimidine synthesis/salvage; secondary emphasis."
+ },
+ {
+  "pid": "P130",
+  "strength": 3,
+  "reason": "X hypusine/protein hydroxylation and translation elongation; Y snoRNP rRNA/snRNA modification; distinct processes."
+ },
+ {
+  "pid": "P131",
+  "strength": 2,
+  "reason": "X Th2/mast cell/helminth response; Y IgE class switching; secondary aspects of type 2 immunity."
+ },
+ {
+  "pid": "P132",
+  "strength": 3,
+  "reason": "X FLT3 signaling and ITD mutants (AML axis); Y STAT negative regulation/IL2-IL7 TCR network."
+ },
+ {
+  "pid": "P133",
+  "strength": 2,
+  "reason": "X ERBB4/NOTCH2 nuclear signaling; Y p75NTR proteolysis and NRIF death; other RIP substrates, secondary."
+ },
+ {
+  "pid": "P134",
+  "strength": 2,
+  "reason": "X intra-Golgi/secretory traffic; Y endosome organization and cholesterol transport; overlapping trafficking emphases."
+ },
+ {
+  "pid": "P135",
+  "strength": 3,
+  "reason": "Y VSMC phenotypic switching and leukocyte-endothelial adhesion (atherosclerotic inflammation) vs X VSMC development/matrix adhesion."
+ },
+ {
+  "pid": "P136",
+  "strength": 3,
+  "reason": "X IL-6/JAK-STAT3 signaling and its negative regulation; Y p38/JNK negative regulation; distinct pathways."
+ },
+ {
+  "pid": "P137",
+  "strength": 3,
+  "reason": "Y lipid droplet biogenesis/fusion (organelle biology) vs X phosphatidylcholine CDP-choline synthesis."
+ },
+ {
+  "pid": "P138",
+  "strength": 2,
+  "reason": "X MyD88/IRAK4 deficiencies (immunodeficiency); Y monocyte/DC inflammatory modules, endogenous TLR ligands; secondary."
+ },
+ {
+  "pid": "P139",
+  "strength": 3,
+  "reason": "X lung branching and pneumocyte differentiation (organ-specific); Y mammary, bile duct, lacrimal glands."
+ },
+ {
+  "pid": "P140",
+  "strength": 3,
+  "reason": "X postsynaptic AMPA trafficking/actin vs Y presynaptic active zone; pre vs post synapse."
+ },
+ {
+  "pid": "P141",
+  "strength": 3,
+  "reason": "X TET-mediated epigenetic DNA demethylation vs Y base excision repair gap-filling; distinct mechanisms."
+ },
+ {
+  "pid": "P142",
+  "strength": 3,
+  "reason": "Y base excision repair vs X POLH translesion synthesis; distinct DNA repair pathways."
+ },
+ {
+  "pid": "P143",
+  "strength": 2,
+  "reason": "Y BH4 cofactor synthesis (linked to PKU); X other amino acid (Gly/Thr/Pro) metabolism; secondary."
+ },
+ {
+  "pid": "P144",
+  "strength": 3,
+  "reason": "X glutathione synthesis/recycling vs Y carnitine/choline/FMO metabolism; distinct pathways."
+ },
+ {
+  "pid": "P145",
+  "strength": 2,
+  "reason": "X cholesterol transport/COPI-independent retrograde; Y lysosome vesicle biogenesis; secondary trafficking emphases."
+ },
+ {
+  "pid": "P146",
+  "strength": 1,
+  "reason": "X generic organic acid terms; Y threonine; same amino acid metabolism story."
+ },
+ {
+  "pid": "P147",
+  "strength": 3,
+  "reason": "X zinc homeostasis (SLC30/SLC39, acrodermatitis) vs Y systemic iron; distinct metal axis."
+ },
+ {
+  "pid": "P148",
+  "strength": 2,
+  "reason": "X mtDNA replication vs Y mitochondrial transcription; recognizable sub-processes of mitochondrial gene expression."
+ },
+ {
+  "pid": "P149",
+  "strength": 2,
+  "reason": "Y adds kainate receptors to AMPA; X AMPA/electrical stimulus; secondary emphasis on non-NMDA receptors."
+ },
+ {
+  "pid": "P150",
+  "strength": 3,
+  "reason": "Y tooth/enamel/bone mineralization (biomineralization) vs X pulmonary alveolar microlithiasis; distinct tissue axis."
+ },
+ {
+  "pid": "P151",
+  "strength": 2,
+  "reason": "X dolichol-P-mannose CDG-I; Y Golgi N-glycan processing CDG-II; recognizable subtype distinction."
+ },
+ {
+  "pid": "P152",
+  "strength": 2,
+  "reason": "X other viruses' entry/maturation; Y SARS-CoV targeting junctional PDZ proteins; secondary mechanism."
+ },
+ {
+  "pid": "P153",
+  "strength": 3,
+  "reason": "X nicotinic acetylcholine receptors vs Y kainate/AMPA glutamate receptors; distinct transmitter systems."
+ },
+ {
+  "pid": "P154",
+  "strength": 2,
+  "reason": "Y Pol I transcription/rRNA processing; X G1/G0 quiescence; secondary aspects of ribosome biogenesis regulation."
+ },
+ {
+  "pid": "P155",
+  "strength": 3,
+  "reason": "Y NGF-TRKA signaling (ERK5, CREB) vs X BDNF/NT3-TRKB PI3K; distinct neurotrophin-receptor axes."
+ },
+ {
+  "pid": "P156",
+  "strength": 3,
+  "reason": "X NOD1/NOD2 and inflammasome signaling vs Y canonical NF-kB; distinct innate receptor family."
+ },
+ {
+  "pid": "P157",
+  "strength": 3,
+  "reason": "Y non-canonical NF-kB (NIK, CD40) and lymphocyte NF-kB; X ZBP1/K48 ubiquitination."
+ },
+ {
+  "pid": "P158",
+  "strength": 3,
+  "reason": "Y type I/III interferon and IL-20 family vs X IL-27/IL-35; distinct cytokine systems."
+ },
+ {
+  "pid": "P159",
+  "strength": 3,
+  "reason": "Y heme degradation/bilirubin and xenobiotic organic anion transport vs X intestinal cholesterol absorption."
+ },
+ {
+  "pid": "P160",
+  "strength": 3,
+  "reason": "X cytokinesis/abscission vs Y Ran-mediated mitosis; distinct mitotic stage."
+ },
+ {
+  "pid": "P161",
+  "strength": 2,
+  "reason": "Y snRNA gene transcription (type 3 promoters) and snRNP; X Pol I/III regulation; secondary emphasis."
+ },
+ {
+  "pid": "P162",
+  "strength": 2,
+  "reason": "Y intracellular cobalamin metabolism disorders and alpha-oxidation vs X ubiquinol; secondary extension of vitamin uptake."
+ },
+ {
+  "pid": "P163",
+  "strength": 3,
+  "reason": "X sleep regulation (REM/NREM) vs Y drinking/stress/ethanol behaviors; distinct physiological processes."
+ },
+ {
+  "pid": "P164",
+  "strength": 3,
+  "reason": "Y inhibitory B cell regulation (CD22, SIRP) vs X ADCC/type II hypersensitivity; distinct immune axes."
+ },
+ {
+  "pid": "P165",
+  "strength": 2,
+  "reason": "Y mevalonate/isoprenoid upstream sterol synthesis; X cholestasis transporters; secondary emphases of sterol/bile acid."
+ },
+ {
+  "pid": "P166",
+  "strength": 2,
+  "reason": "Y prolactin signaling vs X organismal growth/IGF; related cytokine-receptor hormones, secondary."
+ },
+ {
+  "pid": "P167",
+  "strength": 3,
+  "reason": "X DNA methylation, PRC2, imprinting vs Y histone methylation/deacetylation complexes; distinct epigenetic mechanisms."
+ },
+ {
+  "pid": "P168",
+  "strength": 3,
+  "reason": "X B cell/plasma cell modules vs Y T cell differentiation/signaling; distinct lymphocyte lineages."
+ },
+ {
+  "pid": "P169",
+  "strength": 3,
+  "reason": "Y hereditary spastic paraplegia disorders (neurological disease axis) vs X classic bile acid synthesis."
+ },
+ {
+  "pid": "P170",
+  "strength": 2,
+  "reason": "X microautophagy/misfolded protein response; Y proteasomal degradation; secondary proteostasis emphases."
+ },
+ {
+  "pid": "P171",
+  "strength": 2,
+  "reason": "X neutrophil chemokine (IL-8/CXCL2), oxLDL; Y MyD88/IRAK4 deficiency and TLR negative regulation; secondary."
+ },
+ {
+  "pid": "P172",
+  "strength": 3,
+  "reason": "X non-canonical Wnt/Ca2+ signaling vs Y Wnt ligand biogenesis/PORCN; distinct branches."
+ },
+ {
+  "pid": "P173",
+  "strength": 2,
+  "reason": "Y methionine salvage from MTA and agmatine; X polyamine transport/ODC regulation; linked secondary pathway."
+ },
+ {
+  "pid": "P174",
+  "strength": 3,
+  "reason": "Y incretin-stimulated beta-cell insulin secretion and GLUT4 vs X IRS insulin receptor signaling."
+ },
+ {
+  "pid": "P175",
+  "strength": 3,
+  "reason": "X mRNA 3'-end processing/polyadenylation and histone mRNA; Y capping; distinct mRNA processing steps."
+ },
+ {
+  "pid": "P176",
+  "strength": 3,
+  "reason": "X p53-driven p21/G1 arrest vs Y p53-driven apoptosis genes; classic distinct cell-fate outcomes."
+ },
+ {
+  "pid": "P177",
+  "strength": 3,
+  "reason": "Y Fc receptor phagocytosis, BCR, immune complex clearance vs X endopeptidase regulation strays."
+ },
+ {
+  "pid": "P178",
+  "strength": 3,
+  "reason": "Y growth hormone/IGF axis vs X thyroid hormone generation/receptor; distinct endocrine axes."
+ },
+ {
+  "pid": "P179",
+  "strength": 2,
+  "reason": "Y Golgi ribbon organization/disassembly vs X constitutive secretion; secondary emphases."
+ },
+ {
+  "pid": "P180",
+  "strength": 3,
+  "reason": "Y definitive endoderm specification, primitive streak, EMT vs X lateral mesoderm/gut morphogenesis."
+ },
+ {
+  "pid": "P181",
+  "strength": 2,
+  "reason": "Y oxidative-stress-induced apoptosis; X ATP/nucleotide synthesis; secondary aspects of respiration regulation."
+ },
+ {
+  "pid": "P182",
+  "strength": 2,
+  "reason": "X pyrimidine dNTP synthesis/salvage vs Y pyrimidine catabolism; anabolic vs catabolic emphasis."
+ },
+ {
+  "pid": "P183",
+  "strength": 2,
+  "reason": "Y oncogenic RTK fusions (FGFR, PDGFR, FLT3); X PI signaling; extends existing cancer RTK story."
+ },
+ {
+  "pid": "P184",
+  "strength": 2,
+  "reason": "Y ER-phagy (reticulophagy); X nitrogen starvation/OGD; secondary selective autophagy emphases."
+ },
+ {
+  "pid": "P185",
+  "strength": 2,
+  "reason": "X COPI retrograde/anterograde; Y Golgi to endosome/lysosome; overlapping secondary trafficking routes."
+ },
+ {
+  "pid": "P186",
+  "strength": 3,
+  "reason": "Y mitotic spindle orientation/positioning vs X centriole cohesion; distinct process."
+ },
+ {
+  "pid": "P187",
+  "strength": 3,
+  "reason": "X NRF2 antioxidant/detox transcriptional program vs Y fibroblast proliferation/checkpoint."
+ },
+ {
+  "pid": "P188",
+  "strength": 3,
+  "reason": "X ectopic calcification disorders (PXE, PALM, IBGC) vs Y vitamin D metabolism; distinct axes."
+ },
+ {
+  "pid": "P189",
+  "strength": 2,
+  "reason": "X CGRP/amylin/calcitonin receptors; Y free fatty acid/HCA receptors; secondary GPCR families."
+ },
+ {
+  "pid": "P190",
+  "strength": 3,
+  "reason": "Y inflammasome/NLRP3 signaling vs X IL-37 anti-inflammatory TLR negative regulation."
+ },
+ {
+  "pid": "P191",
+  "strength": 3,
+  "reason": "Y PNS Schwann cell myelination vs X CNS myelin/reactive gliosis; distinct tissues."
+ },
+ {
+  "pid": "P192",
+  "strength": 3,
+  "reason": "X desmosome/hemidesmosome, intermediate filaments, invadopodia vs Y Listeria entry/CDH11; distinct junction types."
+ },
+ {
+  "pid": "P193",
+  "strength": 3,
+  "reason": "Y proton-oligopeptide transporters vs X monocarboxylate/lactate and CO2/ammonium; distinct transport systems."
+ },
+ {
+  "pid": "P194",
+  "strength": 2,
+  "reason": "X Golgi organization/COPI; Y endosomal recycling; secondary trafficking emphases."
+ },
+ {
+  "pid": "P195",
+  "strength": 2,
+  "reason": "Y bone marrow niche/stem cell proliferation; X gamma-delta T/thymocyte apoptosis; secondary emphases."
+ }
+]

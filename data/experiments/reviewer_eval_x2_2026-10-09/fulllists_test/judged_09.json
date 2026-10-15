@@ -1,0 +1,502 @@
+[
+ {
+  "id": "R0800",
+  "verdict": "facet",
+  "reason": "only_A is chromosome condensation, cohesion and centromeric CENP-A chromatin, whereas only_B is centrosome maturation and nuclear envelope/lamina disassembly at mitotic entry."
+ },
+ {
+  "id": "R0801",
+  "verdict": "twin",
+  "reason": "only_A interferon-gamma/type III IFN and Th17/IL-17 terms and only_B generic cytokine/immunoregulation sets both sit within the shared IL-12/IL-23/IL-10 family cytokine-signaling theme."
+ },
+ {
+  "id": "R0802",
+  "verdict": "twin",
+  "reason": "Both are the inflammasome/IL-1 processing theme; only_A adds NLRP1 and IL-1 processing and only_B generic inflammasome signaling and cytokine regulation."
+ },
+ {
+  "id": "R0803",
+  "verdict": "twin",
+  "reason": "Both are negative regulation of cell adhesion, spreading and migration via Rho/Rac signaling; only_A and only_B are small variants of the same theme."
+ },
+ {
+  "id": "R0804",
+  "verdict": "facet",
+  "reason": "only_A is tRNA methylation whereas only_B is rRNA cleavage/processing in ribosome biogenesis, two distinct extensions of the shared snoRNP rRNA modification core."
+ },
+ {
+  "id": "R0805",
+  "verdict": "facet",
+  "reason": "only_A is enamel/bone mineralization (amelogenesis) while only_B is EDA/TNF-driven ectodermal appendage (hair follicle) development and EDA-ID."
+ },
+ {
+  "id": "R0806",
+  "verdict": "facet",
+  "reason": "only_A is de novo purine (IMP/AMP/GMP) biosynthesis while only_B is deoxyribonucleotide/dTTP synthesis."
+ },
+ {
+  "id": "R0807",
+  "verdict": "facet",
+  "reason": "only_A is melanosome/lysosome-related organelle biogenesis and vesicle cargo loading, whereas only_B is melanocyte proliferation and response to UV/blue light."
+ },
+ {
+  "id": "R0808",
+  "verdict": "facet",
+  "reason": "only_A is mitochondrial permeabilization-driven apoptosis while only_B is adenine nucleotide metabolism and mitochondrial ADP transport."
+ },
+ {
+  "id": "R0809",
+  "verdict": "facet",
+  "reason": "only_A is prolactin receptor signaling while only_B is IGF response, GH secretion and somatostatin signaling, distinct hormones within the growth axis."
+ },
+ {
+  "id": "R0810",
+  "verdict": "facet",
+  "reason": "only_A is pentose phosphate/glycerol/inositol sugar metabolism while only_B is glycogen synthesis/breakdown and glycogen storage diseases plus gluconeogenesis."
+ },
+ {
+  "id": "R0811",
+  "verdict": "facet",
+  "reason": "only_A is mitotic centrosome maturation and spindle assembly (TPX2/AURKA, NuMA) while only_B is centriole duplication and elongation."
+ },
+ {
+  "id": "R0812",
+  "verdict": "facet",
+  "reason": "only_A is RIG-I/MDA5 cytosolic RNA sensing while only_B is cGAS-STING and AIM2 cytosolic DNA sensing."
+ },
+ {
+  "id": "R0813",
+  "verdict": "facet",
+  "reason": "only_A is BH3-only activators (BIM, BMF) upstream of MOMP, while only_B is post-mitochondrial apoptosome/caspase activation and SMAC-IAP release."
+ },
+ {
+  "id": "R0814",
+  "verdict": "facet",
+  "reason": "only_A is the dystrophin-glycoprotein complex and neuromuscular junction AChR clustering, while only_B is elastic fibers and generic ECM/glomerular basement membrane."
+ },
+ {
+  "id": "R0815",
+  "verdict": "facet",
+  "reason": "only_A is SLC34A2 lung microlithiasis while only_B is ectopic calcification disorders (PXE, basal ganglia calcification) and bone mineralization."
+ },
+ {
+  "id": "R0816",
+  "verdict": "facet",
+  "reason": "only_A is G2/M mitotic kinase events (PLK, NEK, cyclin B) while only_B is E2F-driven S-phase/DNA replication programs."
+ },
+ {
+  "id": "R0817",
+  "verdict": "twin",
+  "reason": "only_A pexophagy and only_B reticulophagy, xenophagy and autophagosome assembly/maturation regulation are all within the same selective-autophagy theme."
+ },
+ {
+  "id": "R0818",
+  "verdict": "facet",
+  "reason": "only_A is cardiac muscle cell growth/proliferation and regeneration while only_B is sarcomere assembly, contraction and skeletal muscle atrophy."
+ },
+ {
+  "id": "R0819",
+  "verdict": "twin",
+  "reason": "only_A small RNA biogenesis/turnover and only_B deadenylation-dependent mRNA decay are both parts of the shared miRNA-mediated silencing theme."
+ },
+ {
+  "id": "R0820",
+  "verdict": "facet",
+  "reason": "only_A is pharyngeal-pouch/arch derivatives (thymus, parathyroid, thyroid, outer ear) plus spleen, while only_B is neurocranium, nose and anterior head development."
+ },
+ {
+  "id": "R0821",
+  "verdict": "facet",
+  "reason": "only_A is DNA/arginine methylation-based silencing and imprinting, whereas only_B is histone deacetylation (HDACs, MECP2-NCoR)."
+ },
+ {
+  "id": "R0822",
+  "verdict": "facet",
+  "reason": "only_A is telomere replication, D-loop and recombination control, while only_B is telomerase holoenzyme assembly and Cajal body trafficking."
+ },
+ {
+  "id": "R0823",
+  "verdict": "facet",
+  "reason": "only_A is humoral antimicrobial defense (metal sequestration, antifungal/Gram-positive peptides), while only_B is neutrophil-mediated cytotoxicity and phagocytic killing."
+ },
+ {
+  "id": "R0824",
+  "verdict": "facet",
+  "reason": "only_A is amylin/CGRP receptor signaling and gastrointestinal motility, while only_B is leptin signaling and organismal growth regulation."
+ },
+ {
+  "id": "R0825",
+  "verdict": "facet",
+  "reason": "only_A is coronary vasculature and cardiac vascular smooth muscle, while only_B is ventricular/atrial myocardium morphogenesis and trabeculation."
+ },
+ {
+  "id": "R0826",
+  "verdict": "facet",
+  "reason": "only_A is glycolysis/fermentation and fructose-2,6-bisphosphate regulation, while only_B is intestinal and renal hexose transport and dietary carbohydrate digestion."
+ },
+ {
+  "id": "R0827",
+  "verdict": "facet",
+  "reason": "only_A is drug ADME, transporters and glucuronidation/bilirubin handling, while only_B is tryptophan-kynurenine catabolism to NAD+."
+ },
+ {
+  "id": "R0828",
+  "verdict": "facet",
+  "reason": "only_A is COPI-mediated Golgi-ER retrograde and anterograde traffic, while only_B is Golgi-to-endosome/lysosome and constitutive secretory traffic."
+ },
+ {
+  "id": "R0829",
+  "verdict": "facet",
+  "reason": "only_A is ghrelin and glucagon signaling, while only_B is calcitonin-like, amylin, CGRP and relaxin receptor families."
+ },
+ {
+  "id": "R0830",
+  "verdict": "facet",
+  "reason": "only_A is tachykinin receptor signaling, while only_B is TRP channels and histamine response, different receptor families driving GI/urinary smooth muscle."
+ },
+ {
+  "id": "R0831",
+  "verdict": "facet",
+  "reason": "only_A is TrkB (NTRK2) signaling via NTF3/PI3K, while only_B is NGF/TrkA downstream transcription, ERK5 and p38 events."
+ },
+ {
+  "id": "R0832",
+  "verdict": "facet",
+  "reason": "only_A is IL-6/JAK-STAT3 signaling and ERK2 activation, while only_B is negative regulation of JNK and p38 stress MAPKs."
+ },
+ {
+  "id": "R0833",
+  "verdict": "facet",
+  "reason": "only_A is HDL assembly and ABCA1-mediated cholesterol/phospholipid efflux, while only_B is cholesterol biosynthesis, distinct from the shared LDL uptake core."
+ },
+ {
+  "id": "R0834",
+  "verdict": "facet",
+  "reason": "only_A is nephron segmentation and tubule patterning (S-shaped body, loop of Henle, distal tubule), while only_B is ureteric bud induction and formation."
+ },
+ {
+  "id": "R0835",
+  "verdict": "facet",
+  "reason": "only_A is NLRP3 inflammasome assembly regulation, while only_B is IL-36/IL-38 IL-1-family cytokine signaling."
+ },
+ {
+  "id": "R0836",
+  "verdict": "facet",
+  "reason": "only_A is lysosomal glycan/glycosphingolipid catabolism (GM2 gangliosidosis, sialidosis) and GDP-mannose, while only_B is GDP-fucose biosynthesis and PAPS sulfation."
+ },
+ {
+  "id": "R0837",
+  "verdict": "twin",
+  "reason": "only_A isoleucine/short-chain acyl catabolism and only_B 2-hydroxyglutarate interconversion both fit the shared mitochondrial branched-chain amino acid catabolism and metabolite repair theme."
+ },
+ {
+  "id": "R0838",
+  "verdict": "facet",
+  "reason": "only_A is netrin/semaphorin repulsive axon guidance, while only_B is collateral sprouting and neuron projection regeneration."
+ },
+ {
+  "id": "R0839",
+  "verdict": "facet",
+  "reason": "only_A is TLR/dendritic cell inflammatory signaling, while only_B is formyl peptide receptor-driven neutrophil recruitment."
+ },
+ {
+  "id": "R0840",
+  "verdict": "twin",
+  "reason": "only_A lamellipodium/pseudopod protrusion and only_B actin crosslinking and polymerization-driven motility are the same actin-cytoskeleton-in-cell-motility theme."
+ },
+ {
+  "id": "R0841",
+  "verdict": "facet",
+  "reason": "only_A is presynaptic calcium entry and short-term potentiation, while only_B is postsynaptic GABA receptor/gephyrin clustering and inhibitory synapse assembly."
+ },
+ {
+  "id": "R0842",
+  "verdict": "twin",
+  "reason": "only_A upstream RAS regulation (RAS/GAP mutants, Sprouty, RTK inputs) and only_B ERK inactivation/feedback both belong to the shared RAS-RAF-MAPK signaling theme."
+ },
+ {
+  "id": "R0843",
+  "verdict": "facet",
+  "reason": "only_A is metanephric mesenchyme proliferation and tubule differentiation, while only_B is nephric duct/mesonephros development, a different embryonic kidney tissue."
+ },
+ {
+  "id": "R0844",
+  "verdict": "facet",
+  "reason": "only_A is SLC34A2 pulmonary microlithiasis, while only_B is pH regulation by Na+/H+ exchangers, carbonic anhydrase and proton transport."
+ },
+ {
+  "id": "R0845",
+  "verdict": "twin",
+  "reason": "only_A leukotriene and CYP epoxygenase/omega-hydroxylase eicosanoids and only_B omega-3 oxo-derivatives are all within the oxylipin lipid-mediator biosynthesis theme."
+ },
+ {
+  "id": "R0846",
+  "verdict": "facet",
+  "reason": "only_A is cholesterol efflux and foam cell suppression, while only_B is cholesterol uptake by endocytosis and biosynthesis control."
+ },
+ {
+  "id": "R0847",
+  "verdict": "twin",
+  "reason": "only_A FGFR1/FGFR2 activation and mutants and only_B Sprouty/FGFRL1 negative regulation are both parts of the shared FGFR signaling theme."
+ },
+ {
+  "id": "R0848",
+  "verdict": "facet",
+  "reason": "only_A is GnRH response and primordial germ cell migration, while only_B is female ovulation, luteal function and gonadotropin secretion."
+ },
+ {
+  "id": "R0849",
+  "verdict": "twin",
+  "reason": "only_A cGMP effects and only_B renal sodium/volume, bradykinin and cGMP synthesis all fit the shared systemic blood pressure regulation theme."
+ },
+ {
+  "id": "R0850",
+  "verdict": "facet",
+  "reason": "only_A is muscarinic acetylcholine receptor signaling, while only_B is gastric motility, acid secretion and stomach development."
+ },
+ {
+  "id": "R0851",
+  "verdict": "twin",
+  "reason": "only_A RHOBTB1/3 cycles and only_B negative regulation of proteasomal proteolysis both fit the shared RHOBTB-linked protein stability theme."
+ },
+ {
+  "id": "R0852",
+  "verdict": "facet",
+  "reason": "only_A is IL-6/gp130-family (CNTF, LIF) STAT3 signaling, while only_B is common-gamma-chain IL-15/IL-21 NK signaling and EPO/TPO receptors."
+ },
+ {
+  "id": "R0853",
+  "verdict": "facet",
+  "reason": "only_A is telomere recombination/replication and D-loop control, while only_B is telomerase extension and its Cajal body recruitment."
+ },
+ {
+  "id": "R0854",
+  "verdict": "facet",
+  "reason": "only_A is ER quality control, ERAD and UPR, while only_B is COPI Golgi-to-ER retrograde traffic."
+ },
+ {
+  "id": "R0855",
+  "verdict": "facet",
+  "reason": "only_A is intestinal lipid absorption and chylomicron/VLDL assembly, while only_B is lipase activation and phospholipid catabolism."
+ },
+ {
+  "id": "R0856",
+  "verdict": "facet",
+  "reason": "only_A is ovarian follicle growth, oocyte maturation and progesterone, while only_B is gonadotropin responses and testis (Leydig, seminiferous tubule) development."
+ },
+ {
+  "id": "R0857",
+  "verdict": "facet",
+  "reason": "only_A is galactose (Leloir), pentose phosphate and urate transport, while only_B is glycerol/alditol metabolism."
+ },
+ {
+  "id": "R0858",
+  "verdict": "facet",
+  "reason": "only_A is peripheral neuron/DRG development and axon regeneration, while only_B is netrin and semaphorin-plexin axon guidance signaling."
+ },
+ {
+  "id": "R0859",
+  "verdict": "twin",
+  "reason": "only_A mammary epithelial lineages and only_B mammary duct branching and thelarche both fall within the shared mammary gland development theme."
+ },
+ {
+  "id": "R0860",
+  "verdict": "facet",
+  "reason": "only_A is mRNA stabilization by IGF2BPs/CRD and translation, while only_B is replication-dependent histone mRNA 3'-end processing and Pol II termination."
+ },
+ {
+  "id": "R0861",
+  "verdict": "twin",
+  "reason": "only_A ERBB2 motility/PLCG1 and only_B EGFR transactivation, ERBB4 PI3K and ERBB regulation are all the same ERBB-family receptor signaling theme."
+ },
+ {
+  "id": "R0862",
+  "verdict": "facet",
+  "reason": "only_A is dolichol-linked N-glycosylation and its CDGs, while only_B is glycosaminoglycan/proteoglycan synthesis and degradation (MPS) plus O-mannosylation of dystroglycan."
+ },
+ {
+  "id": "R0863",
+  "verdict": "facet",
+  "reason": "only_A is ureteric bud/ureter and intermediate mesoderm formation, while only_B is nephron progenitor (metanephric mesenchyme) maintenance and survival."
+ },
+ {
+  "id": "R0864",
+  "verdict": "facet",
+  "reason": "only_A is endosomal TLR3-TRIF pathway trafficking and its HSE deficiencies, while only_B is cGAS-STING regulation and IFN-beta responses."
+ },
+ {
+  "id": "R0865",
+  "verdict": "facet",
+  "reason": "only_A is endosomal TLR3-TRIF pathway and HSE deficiencies, while only_B is cGAS-STING DNA sensing and IFN-beta regulation."
+ },
+ {
+  "id": "R0866",
+  "verdict": "twin",
+  "reason": "only_A transsulfuration/selenite reduction and only_B sulfide oxidation are both within the shared sulfur/selenium amino acid catabolism theme."
+ },
+ {
+  "id": "R0867",
+  "verdict": "facet",
+  "reason": "only_A is de novo phospholipid synthesis (Kennedy pathway, cardiolipin, PG, PS), while only_B is phospholipid/ether lipid catabolism and PAF metabolism."
+ },
+ {
+  "id": "R0868",
+  "verdict": "facet",
+  "reason": "only_A is microtubule severing and depolymerization, while only_B is neurofilament organization and neuron projection maintenance."
+ },
+ {
+  "id": "R0869",
+  "verdict": "facet",
+  "reason": "only_A is plasma cell differentiation and immunoglobulin output, while only_B is B cell homeostasis, survival and germinal center regulation."
+ },
+ {
+  "id": "R0870",
+  "verdict": "twin",
+  "reason": "only_A cardiac membrane potential and SR calcium release and only_B calcium/caffeine responses and Ca channel activity are the same cellular calcium handling theme."
+ },
+ {
+  "id": "R0871",
+  "verdict": "twin",
+  "reason": "only_A Th2 cytokine IL-4/IL-13/IL-5 signaling with eosinophil/mast differentiation and only_B IL-33 signaling belong to the same type 2 immunity theme."
+ },
+ {
+  "id": "R0872",
+  "verdict": "facet",
+  "reason": "only_A is telomerase and genotoxic drug response, while only_B is cell cycle control (APC/C, E2F, G1/S and G2/M, p53 arrest)."
+ },
+ {
+  "id": "R0873",
+  "verdict": "twin",
+  "reason": "only_A basement membrane, laminin and hemidesmosome terms and only_B generic extracellular matrix sets belong to the same ECM organization theme."
+ },
+ {
+  "id": "R0874",
+  "verdict": "facet",
+  "reason": "only_A is GPCR-driven neutrophil/granulocyte chemotaxis, while only_B is TLR and monocyte/dendritic cell inflammatory signaling."
+ },
+ {
+  "id": "R0875",
+  "verdict": "twin",
+  "reason": "only_A ERK5/RAS-MAPK and only_B CREB, TRKA and ERK5 signaling are the same neurotrophin-receptor downstream signaling theme."
+ },
+ {
+  "id": "R0876",
+  "verdict": "facet",
+  "reason": "only_A is snRNA capping and snRNP assembly, while only_B is rRNA cleavage/ribosome assembly and nuclear RNA exosome decay and surveillance."
+ },
+ {
+  "id": "R0877",
+  "verdict": "facet",
+  "reason": "only_A is cerebellar granule/Bergmann glia development and locomotor behavior, while only_B is pons, hindbrain maturation and striatum development."
+ },
+ {
+  "id": "R0878",
+  "verdict": "facet",
+  "reason": "only_A is NTF3-TrkC (NTRK3) receptor signaling, while only_B is downstream MAPK cascades (ERK5, p38, MAPK4/6) and neuron maturation."
+ },
+ {
+  "id": "R0879",
+  "verdict": "facet",
+  "reason": "only_A is N-glycan processing and glycan/oligosaccharide catabolism, while only_B is glycosphingolipid/ganglioside biosynthesis and Golgi nucleotide-sugar/acetyl-CoA transport."
+ },
+ {
+  "id": "R0880",
+  "verdict": "twin",
+  "reason": "only_A postsynaptic receptor/PSD-95 and neurexin-neuroligin assembly and only_B general synapse/presynapse assembly regulation are the same synapse assembly theme."
+ },
+ {
+  "id": "R0881",
+  "verdict": "twin",
+  "reason": "only_A NK cell differentiation/proliferation and only_B IL-7/IL-9 signaling both belong to the shared common-gamma-chain cytokine signaling theme."
+ },
+ {
+  "id": "R0882",
+  "verdict": "facet",
+  "reason": "only_A is responses to heavy metals (cobalt, lead, mercury), while only_B is heme oxygenase and oxidoreductase/H2O2 redox regulation."
+ },
+ {
+  "id": "R0883",
+  "verdict": "twin",
+  "reason": "only_A myoblast/satellite cell regulation is the shared myogenesis theme and only_B's single lithium-response term adds no distinct biology."
+ },
+ {
+  "id": "R0884",
+  "verdict": "facet",
+  "reason": "only_A is CFTR-mediated ion and water transport, while only_B is tight junctions and brush border/microvillus assembly."
+ },
+ {
+  "id": "R0885",
+  "verdict": "facet",
+  "reason": "only_A is vitamin B6 metabolism, while only_B is selenium compound metabolism and excretion."
+ },
+ {
+  "id": "R0886",
+  "verdict": "facet",
+  "reason": "only_A is hypoxia/HIF oxygen sensing, while only_B is mTORC1, PKA and p53 control of metabolism."
+ },
+ {
+  "id": "R0887",
+  "verdict": "facet",
+  "reason": "only_A is deoxyribonucleotide (dAMP/dTMP/dNTP) metabolism, while only_B is ribonucleotide purine catabolism to inosine and allantoin."
+ },
+ {
+  "id": "R0888",
+  "verdict": "twin",
+  "reason": "only_A TRAIL/death-receptor positive regulation and only_B TNFR1 proapoptotic signaling and necroptosis regulation are the same extrinsic death-receptor apoptosis theme."
+ },
+ {
+  "id": "R0889",
+  "verdict": "facet",
+  "reason": "only_A is Golgi ribbon structure, disassembly and reassembly, while only_B is endosome membrane tubulation and Golgi membrane protein localization."
+ },
+ {
+  "id": "R0890",
+  "verdict": "twin",
+  "reason": "only_A cadherin processing/degradation and only_B adherens junction maintenance and epithelial adhesion are the same cadherin-based adherens junction theme."
+ },
+ {
+  "id": "R0891",
+  "verdict": "facet",
+  "reason": "only_A is branched-chain ketoacid dehydrogenase/MSUD and threonine catabolism, while only_B is cobalamin uptake/transport and thiamine/riboflavin vitamin metabolism."
+ },
+ {
+  "id": "R0892",
+  "verdict": "twin",
+  "reason": "only_A sialic acid lysosomal export and amino sugar catabolism and only_B GDP-mannose synthesis and lysosomal oligosaccharide catabolism all fit the shared amino-sugar/sialic acid/mannose metabolism theme."
+ },
+ {
+  "id": "R0893",
+  "verdict": "facet",
+  "reason": "only_A is type II Na+/Pi cotransporters, while only_B is vitamin K metabolism/gamma-carboxylation and FGF23-Klotho signaling."
+ },
+ {
+  "id": "R0894",
+  "verdict": "twin",
+  "reason": "only_A Rab/ARF GTPase regulators and only_B endosomal transport and docking are the same endosomal recycling/membrane trafficking theme."
+ },
+ {
+  "id": "R0895",
+  "verdict": "facet",
+  "reason": "only_A is L1CAM signaling and recycling, while only_B is SLIT-ROBO commissural midline guidance."
+ },
+ {
+  "id": "R0896",
+  "verdict": "facet",
+  "reason": "only_A is mitochondrial protein import and membrane potential, while only_B is receptor-mediated mitophagy and autophagosome regulation."
+ },
+ {
+  "id": "R0897",
+  "verdict": "facet",
+  "reason": "only_A is endocytic recycling and Rab regulation from endosome to plasma membrane, while only_B is intra-Golgi traffic."
+ },
+ {
+  "id": "R0898",
+  "verdict": "facet",
+  "reason": "only_A is 2-oxoglutarate and pyruvate metabolism, while only_B is Fe-S cluster assembly and TCA enzyme maturation."
+ },
+ {
+  "id": "R0899",
+  "verdict": "facet",
+  "reason": "only_A is kidney size and metanephros regulation, while only_B is glomerular mesangium and glomerular vasculature development."
+ }
+]

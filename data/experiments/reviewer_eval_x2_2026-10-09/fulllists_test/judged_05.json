@@ -1,0 +1,502 @@
+[
+ {
+  "id": "R0400",
+  "verdict": "facet",
+  "reason": "only_A is negative regulation of sprouting angiogenesis, only_B is VEGFR/neuropilin and Tie2 receptor signaling plus lymphangiogenesis."
+ },
+ {
+  "id": "R0401",
+  "verdict": "twin",
+  "reason": "Both sides are renal salt/osmotic homeostasis: aldosterone/sodium regulation in A and SLC12 cation-chloride cotransporters in B."
+ },
+ {
+  "id": "R0402",
+  "verdict": "facet",
+  "reason": "only_A is lysosomal glycosphingolipid catabolism, only_B is dolichol-linked N-glycan synthesis and CDG defects."
+ },
+ {
+  "id": "R0403",
+  "verdict": "twin",
+  "reason": "Both concern cardiac calcium handling and contractility: heart rate/force regulation in A and Na/Ca exchange for Ca extrusion in B."
+ },
+ {
+  "id": "R0404",
+  "verdict": "twin",
+  "reason": "Both sides are cellular senescence: SASP/replicative senescence in A, p53-related proliferation arrest in B."
+ },
+ {
+  "id": "R0405",
+  "verdict": "twin",
+  "reason": "Both are regulation of cell adhesion/migration machinery (Cdc42 leading edge vs junctions, ruffles, spreading)."
+ },
+ {
+  "id": "R0406",
+  "verdict": "twin",
+  "reason": "Both are retinoid/vitamin A metabolism, CYP26 RA degradation in A and STRA6/retinoid disease in B."
+ },
+ {
+  "id": "R0407",
+  "verdict": "twin",
+  "reason": "Both are MHC class II antigen presentation, regulation terms in A and antigen-presentation modules in B."
+ },
+ {
+  "id": "R0408",
+  "verdict": "twin",
+  "reason": "Both are adrenal/gonadal steroidogenesis, pregnenolone/progesterone synthesis in A and its negative regulation in B."
+ },
+ {
+  "id": "R0409",
+  "verdict": "twin",
+  "reason": "Both are antimicrobial innate defense: defensins/AMPs in A and neutrophil microbial killing in B."
+ },
+ {
+  "id": "R0410",
+  "verdict": "twin",
+  "reason": "Both are viral entry and viral protein maturation in host cells."
+ },
+ {
+  "id": "R0411",
+  "verdict": "facet",
+  "reason": "only_A is TLR/TRIF-IRAK2-TAK1 signaling, only_B is TNFR1 signaling and linear ubiquitination, i.e. different receptor families."
+ },
+ {
+  "id": "R0412",
+  "verdict": "facet",
+  "reason": "only_A is plasma-membrane anion transporters (SLC12/SLC26/SLC4), distinct from the organelle V-ATPase acidification core that B keeps."
+ },
+ {
+  "id": "R0413",
+  "verdict": "twin",
+  "reason": "Both are cell-cell junctions: E-cadherin trafficking/intercalated disc in A and apical junction/polarity in B."
+ },
+ {
+  "id": "R0414",
+  "verdict": "twin",
+  "reason": "Both are lymphocyte homing to lymphoid tissues, S1P receptor signaling in A and RUNX3/GALT in B."
+ },
+ {
+  "id": "R0415",
+  "verdict": "facet",
+  "reason": "only_A is proprioception/voluntary movement, only_B is glycinergic synaptic transmission and hyperekplexia."
+ },
+ {
+  "id": "R0416",
+  "verdict": "facet",
+  "reason": "only_A is ECM/collagen regulation, only_B is miRNA transcription and processing."
+ },
+ {
+  "id": "R0417",
+  "verdict": "facet",
+  "reason": "only_A is Wnt/Hh pathway signaling and autoprocessing, only_B is general protein palmitoylation/depalmitoylation."
+ },
+ {
+  "id": "R0418",
+  "verdict": "facet",
+  "reason": "only_A is presynaptic glutamate release, only_B is inhibitory GABA receptor clustering and synapse assembly."
+ },
+ {
+  "id": "R0419",
+  "verdict": "twin",
+  "reason": "Only_A is uninformative and only_B adds RUNX1 HSC differentiation, consistent with the shared megakaryopoiesis theme."
+ },
+ {
+  "id": "R0420",
+  "verdict": "twin",
+  "reason": "Both are ureteric bud and metanephric kidney development."
+ },
+ {
+  "id": "R0421",
+  "verdict": "facet",
+  "reason": "only_A is autophagy (aggrephagy, CMA, microautophagy), only_B is ubiquitin chain linkage types and proteasome degradation."
+ },
+ {
+  "id": "R0422",
+  "verdict": "facet",
+  "reason": "only_A is intestinal cobalamin uptake/transport, only_B is downstream cobalamin-dependent enzyme defects and propionyl-CoA catabolism."
+ },
+ {
+  "id": "R0423",
+  "verdict": "twin",
+  "reason": "Both are triglyceride-rich lipoprotein lipolysis/clearance, VLDL in A and triglyceride catabolism in B."
+ },
+ {
+  "id": "R0424",
+  "verdict": "facet",
+  "reason": "only_A is thyroid hormone/retinoic acid nuclear receptor signaling, only_B is progesterone/estrous/testosterone sex steroid biology."
+ },
+ {
+  "id": "R0425",
+  "verdict": "twin",
+  "reason": "Both are lymphocyte/leukocyte trafficking into lymphoid tissues, S1P/Rac in A and RUNX3/GALT/DC chemotaxis in B."
+ },
+ {
+  "id": "R0426",
+  "verdict": "twin",
+  "reason": "Both are Golgi-endosome membrane trafficking (retrograde transport in A, Rab GAPs and secretion in B)."
+ },
+ {
+  "id": "R0427",
+  "verdict": "twin",
+  "reason": "Both are FGFR signaling, downstream PI3K/PLC cascades in A and Sprouty/FGFRL1 feedback in B."
+ },
+ {
+  "id": "R0428",
+  "verdict": "twin",
+  "reason": "Both are scavenger-receptor-mediated clearance, receptor classes in A and oxLDL/amyloid-beta uptake in B."
+ },
+ {
+  "id": "R0429",
+  "verdict": "facet",
+  "reason": "only_A is pentose/glucuronate-xylulose metabolism, only_B is gluconeogenesis."
+ },
+ {
+  "id": "R0430",
+  "verdict": "facet",
+  "reason": "only_A is proton-coupled oligopeptide transport, only_B is neutral/aromatic amino acid transporters."
+ },
+ {
+  "id": "R0431",
+  "verdict": "facet",
+  "reason": "only_A is biotin/carnitine/ubiquinol cofactor metabolism, only_B is organic cation/anion SLC transport."
+ },
+ {
+  "id": "R0432",
+  "verdict": "facet",
+  "reason": "only_A is tangential interneuron migration, only_B is commissural axon tract morphogenesis."
+ },
+ {
+  "id": "R0433",
+  "verdict": "facet",
+  "reason": "only_A is androgen receptor signaling, only_B is progesterone/estrous cycle."
+ },
+ {
+  "id": "R0434",
+  "verdict": "facet",
+  "reason": "only_A is glycerol metabolism, only_B is galactose Leloir pathway."
+ },
+ {
+  "id": "R0435",
+  "verdict": "facet",
+  "reason": "only_A is glycosylase-initiated base excision repair, only_B is direct reversal of alkylation damage."
+ },
+ {
+  "id": "R0436",
+  "verdict": "twin",
+  "reason": "Both are DNA replication under stress and its checkpoint control."
+ },
+ {
+  "id": "R0437",
+  "verdict": "facet",
+  "reason": "only_A is skeletal muscle atrophy, only_B is phosphatase activity regulation."
+ },
+ {
+  "id": "R0438",
+  "verdict": "facet",
+  "reason": "only_A is alanine/gluconeogenesis, only_B is TCA cycle and malate-aspartate shuttle."
+ },
+ {
+  "id": "R0439",
+  "verdict": "twin",
+  "reason": "Both are E2F-driven DNA replication initiation and origin licensing."
+ },
+ {
+  "id": "R0440",
+  "verdict": "facet",
+  "reason": "only_A is myeloid/macrophage differentiation and CSF production, only_B is RUNX-family transcriptional programs across many lineages and interleukin signaling."
+ },
+ {
+  "id": "R0441",
+  "verdict": "twin",
+  "reason": "Both are RNA Pol II transcription initiation/termination; HIV promoter escape uses the same machinery."
+ },
+ {
+  "id": "R0442",
+  "verdict": "twin",
+  "reason": "Both are cholesterol efflux/HDL biology, sterol homeostasis in A and HDL assembly in B."
+ },
+ {
+  "id": "R0443",
+  "verdict": "twin",
+  "reason": "Both are nucleotide metabolism regulation (nucleotide biosynthesis regulation in A, PRPP synthesis in B)."
+ },
+ {
+  "id": "R0444",
+  "verdict": "twin",
+  "reason": "Both are renal Na/K/Cl transport by SLC12 cotransporters and ion channels."
+ },
+ {
+  "id": "R0445",
+  "verdict": "facet",
+  "reason": "only_A is cobalamin uptake/transport, only_B is biotin metabolism, a different vitamin cofactor."
+ },
+ {
+  "id": "R0446",
+  "verdict": "facet",
+  "reason": "only_A is axon regeneration and growth inhibition, only_B is developmental axon guidance and PNS neuron development."
+ },
+ {
+  "id": "R0447",
+  "verdict": "facet",
+  "reason": "only_A is chromosome condensation, cohesion and centromere assembly, only_B is ESCRT-mediated nuclear envelope reformation."
+ },
+ {
+  "id": "R0448",
+  "verdict": "facet",
+  "reason": "only_A is DNA methylation, imprinting and retroelement silencing, only_B is histone deacetylation/methylation."
+ },
+ {
+  "id": "R0449",
+  "verdict": "facet",
+  "reason": "only_A is pyrimidine metabolism, only_B is purine salvage."
+ },
+ {
+  "id": "R0450",
+  "verdict": "twin",
+  "reason": "Both are cell-cell junction/adhesion structures and their cleavage."
+ },
+ {
+  "id": "R0451",
+  "verdict": "facet",
+  "reason": "only_A is glycolysis and galactose catabolism, only_B is pyruvate/alanine/oxaloacetate anaplerotic metabolism."
+ },
+ {
+  "id": "R0452",
+  "verdict": "twin",
+  "reason": "Both are cellular responses to metals and associated oxidative stress (manganese in A, HMOX1/heme in B)."
+ },
+ {
+  "id": "R0453",
+  "verdict": "unclear",
+  "reason": "Lists are mostly TBA; only_A adds intestinal stem cells and only_B hepatocyte nuclear factor modules."
+ },
+ {
+  "id": "R0454",
+  "verdict": "facet",
+  "reason": "only_A is aggression/mating behavior, only_B is orexin-driven wakefulness."
+ },
+ {
+  "id": "R0455",
+  "verdict": "facet",
+  "reason": "only_A is peroxisome biogenesis/protein import, only_B is cholesterol/isoprenoid biosynthesis."
+ },
+ {
+  "id": "R0456",
+  "verdict": "twin",
+  "reason": "Both are canonical Wnt/beta-catenin signaling (destruction complex in A, FZD/LRP5/RNF43 receptor level in B)."
+ },
+ {
+  "id": "R0457",
+  "verdict": "facet",
+  "reason": "only_A is insulin/glucagon/adiponectin hormonal and SREBP control, only_B is ChREBP glucose-sensing transcription."
+ },
+ {
+  "id": "R0458",
+  "verdict": "twin",
+  "reason": "Both are RAS-MAPK signaling; only_B is just generic serine phosphorylation terms."
+ },
+ {
+  "id": "R0459",
+  "verdict": "facet",
+  "reason": "only_A is meiosis and meiotic recombination, only_B is APC/C-controlled mitotic exit."
+ },
+ {
+  "id": "R0460",
+  "verdict": "twin",
+  "reason": "Both are mitochondrial gene expression (mitochondrial translation in A, mt-RNA/tRNA processing in B)."
+ },
+ {
+  "id": "R0461",
+  "verdict": "facet",
+  "reason": "only_A is postsynaptic plasticity/PSD95/NMDAR, only_B is Reelin-driven pyramidal neuron and dendrite development."
+ },
+ {
+  "id": "R0462",
+  "verdict": "facet",
+  "reason": "only_A is Wnt/DVL, cilium and SLIT/ROBO regulation, only_B is nuclear receptor (ER/RAR) and p75NTR regulation."
+ },
+ {
+  "id": "R0463",
+  "verdict": "facet",
+  "reason": "only_A is articular cartilage, joint and tendon development, only_B is osteoblast and trabecular bone formation."
+ },
+ {
+  "id": "R0464",
+  "verdict": "twin",
+  "reason": "Both are renal/hormonal blood pressure and fluid volume regulation."
+ },
+ {
+  "id": "R0465",
+  "verdict": "facet",
+  "reason": "only_A is gonadotropin hormone axis and ovarian cycle, only_B is oocyte maturation and germ cell migration."
+ },
+ {
+  "id": "R0466",
+  "verdict": "facet",
+  "reason": "only_A is skeletal muscle atrophy, only_B is muscle contraction and fiber-type specification."
+ },
+ {
+  "id": "R0467",
+  "verdict": "twin",
+  "reason": "Both are NOTCH1 activation and transcriptional signaling including cancer mutants."
+ },
+ {
+  "id": "R0468",
+  "verdict": "twin",
+  "reason": "Both are APC/C regulation in mitosis."
+ },
+ {
+  "id": "R0469",
+  "verdict": "twin",
+  "reason": "Both are neutrophil-driven innate defense, chemotaxis in A and antifungal response in B."
+ },
+ {
+  "id": "R0470",
+  "verdict": "facet",
+  "reason": "only_A is plasma cell differentiation and immunoglobulins, only_B is Tfh/germinal center B cell biology."
+ },
+ {
+  "id": "R0471",
+  "verdict": "twin",
+  "reason": "Both are B cell development, activation and memory modules."
+ },
+ {
+  "id": "R0472",
+  "verdict": "facet",
+  "reason": "only_A is urea cycle, only_B is proline metabolism."
+ },
+ {
+  "id": "R0473",
+  "verdict": "facet",
+  "reason": "only_A is alveolar epithelial (pneumocyte) differentiation, only_B is lung mesenchyme and diaphragm development."
+ },
+ {
+  "id": "R0474",
+  "verdict": "facet",
+  "reason": "only_A is presynaptic glutamate release, only_B is inhibitory postsynaptic assembly and K2P channels."
+ },
+ {
+  "id": "R0475",
+  "verdict": "facet",
+  "reason": "only_A is planar cell polarity/convergent extension, only_B is Shh signaling and limb bud formation."
+ },
+ {
+  "id": "R0476",
+  "verdict": "twin",
+  "reason": "Both are Golgi/endosome vesicular trafficking."
+ },
+ {
+  "id": "R0477",
+  "verdict": "twin",
+  "reason": "Both are ER-Golgi vesicle budding, tethering and targeting."
+ },
+ {
+  "id": "R0478",
+  "verdict": "facet",
+  "reason": "only_A is male sex determination and testis differentiation, only_B is Sertoli barrier and sperm mitochondrial sheath."
+ },
+ {
+  "id": "R0479",
+  "verdict": "facet",
+  "reason": "only_A is p53-driven apoptosis, only_B is p53 degradation and G2/M cell cycle control."
+ },
+ {
+  "id": "R0480",
+  "verdict": "facet",
+  "reason": "only_A is epigenetic retroelement silencing (KRAB-ZFP/HUSH), only_B is APOBEC3 cytidine deamination/editing restriction."
+ },
+ {
+  "id": "R0481",
+  "verdict": "twin",
+  "reason": "Both are G2/M DNA damage checkpoint control."
+ },
+ {
+  "id": "R0482",
+  "verdict": "twin",
+  "reason": "Both are HPA-axis glucocorticoid stress biology (behavioral stress response in A, glucocorticoid response in B)."
+ },
+ {
+  "id": "R0483",
+  "verdict": "facet",
+  "reason": "only_A is agmatine/amine and nitric oxide metabolism, only_B is responses to drugs like nicotine and anesthetics."
+ },
+ {
+  "id": "R0484",
+  "verdict": "twin",
+  "reason": "Both are renal Na/K/Cl and osmotic homeostasis."
+ },
+ {
+  "id": "R0485",
+  "verdict": "facet",
+  "reason": "only_A is centrosome, spindle and cytokinesis in mitosis, only_B is meiotic recombination and segregation."
+ },
+ {
+  "id": "R0486",
+  "verdict": "twin",
+  "reason": "Both are p53-mediated apoptosis, its positive transcriptional arm in A and negative regulation in B."
+ },
+ {
+  "id": "R0487",
+  "verdict": "twin",
+  "reason": "Both are Notch intracellular domain transcriptional signaling across Notch paralogs."
+ },
+ {
+  "id": "R0488",
+  "verdict": "facet",
+  "reason": "only_A is thiamine/riboflavin/biotin vitamin metabolism, only_B is folate and methionine one-carbon metabolism."
+ },
+ {
+  "id": "R0489",
+  "verdict": "facet",
+  "reason": "only_A is telomere capping/protection, only_B is replication stress and DNA damage responses."
+ },
+ {
+  "id": "R0490",
+  "verdict": "twin",
+  "reason": "Both are death-receptor extrinsic apoptosis and necroptosis."
+ },
+ {
+  "id": "R0491",
+  "verdict": "twin",
+  "reason": "Both are TNFR/NF-kB signaling regulation by ubiquitin/SUMO."
+ },
+ {
+  "id": "R0492",
+  "verdict": "twin",
+  "reason": "Both are hormonal (glucagon/insulin/adiponectin) regulation of fasting lipid and glucose metabolism."
+ },
+ {
+  "id": "R0493",
+  "verdict": "facet",
+  "reason": "only_A is peroxisomal VLCFA catabolism, only_B is malonyl-CoA and medium-chain fatty acid synthesis."
+ },
+ {
+  "id": "R0494",
+  "verdict": "facet",
+  "reason": "only_A is articular cartilage/joint development, only_B is RUNX2 osteoblast and bone development."
+ },
+ {
+  "id": "R0495",
+  "verdict": "facet",
+  "reason": "only_A is ER N-glycan processing, only_B is general lysosome and mannose/glucosamine catabolism."
+ },
+ {
+  "id": "R0496",
+  "verdict": "facet",
+  "reason": "only_A is peripheral T cell activation (TCR/IL2/IL7), only_B is thymic selection and thymocyte development."
+ },
+ {
+  "id": "R0497",
+  "verdict": "twin",
+  "reason": "Both are type I interferon induction via TBK1/IRF3/7 in antiviral innate immunity."
+ },
+ {
+  "id": "R0498",
+  "verdict": "twin",
+  "reason": "Both are viral RNA genome replication/transcription in host cells (RSV in A, coronaviruses in B)."
+ },
+ {
+  "id": "R0499",
+  "verdict": "twin",
+  "reason": "Both are metanephric kidney and nephron/collecting duct development."
+ }
+]

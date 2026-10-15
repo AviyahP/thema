@@ -1,0 +1,492 @@
+[
+ {
+  "pid": "P000",
+  "strength": 2,
+  "reason": "X adds synaptic vesicle endocytosis/recycling; Y adds inhibitory modulation of exocytosis; secondary presynaptic emphases."
+ },
+ {
+  "pid": "P001",
+  "strength": 3,
+  "reason": "X: antimicrobial peptide/defensin production and nutritional iron/heme immunity; Y: neutrophil phagocytic killing. Distinct effector mechanisms."
+ },
+ {
+  "pid": "P002",
+  "strength": 3,
+  "reason": "X: proteasome assembly/function and neddylation; Y: ubiquitin chain-type writing by E3s. Degradation machinery vs ubiquitin code."
+ },
+ {
+  "pid": "P003",
+  "strength": 3,
+  "reason": "X: pyruvate dehydrogenase/acetyl-CoA production node; Y only peroxisome fission. PDH regulation is a distinct metabolic theme from CoA biosynthesis."
+ },
+ {
+  "pid": "P004",
+  "strength": 2,
+  "reason": "X: nitric oxide/nitrosative stress response; Y: hydroperoxide and ferroptosis. Recognizable but small secondary axes."
+ },
+ {
+  "pid": "P005",
+  "strength": 3,
+  "reason": "Y: LDL/HDL remodeling and clearance vs shared triglyceride-rich lipoprotein (VLDL/chylomicron) handling; distinct lipoprotein class."
+ },
+ {
+  "pid": "P006",
+  "strength": 3,
+  "reason": "Y: GPI anchor biosynthesis/attachment, a distinct glycolipid pathway; X only GDP-fucose."
+ },
+ {
+  "pid": "P007",
+  "strength": 2,
+  "reason": "X: postnatal hyaloid regression/retinal vascular barrier (Norrin-FZD4); Y: embryonic optic cup morphogenesis/pigmentation. Developmental stage emphases."
+ },
+ {
+  "pid": "P008",
+  "strength": 2,
+  "reason": "Y adds TCA cycle/2-oxoglutarate core; X minor citrulline/aspartate family. Related central carbon-nitrogen story with secondary emphasis."
+ },
+ {
+  "pid": "P009",
+  "strength": 2,
+  "reason": "Y: carbonic anhydrase/proton transport and pH; X: SLC34A2 PALM synonyms. Modest secondary axis."
+ },
+ {
+  "pid": "P010",
+  "strength": 3,
+  "reason": "X: male sex determination and gonad specification (SRY/AMH); Y: Sertoli barrier and sperm mitochondrial sheath. Distinct developmental stage."
+ },
+ {
+  "pid": "P011",
+  "strength": 2,
+  "reason": "X: mast/eosinophil/erythroid/CMP lineages; Y: monocyte/macrophage/dendritic cell differentiation. Lineage emphasis within myelopoiesis."
+ },
+ {
+  "pid": "P012",
+  "strength": 3,
+  "reason": "Y: GPI anchor biosynthesis distinct from nucleotide-sugar transport/glycosphingolipids; X minor UDP-sugar transport."
+ },
+ {
+  "pid": "P013",
+  "strength": 3,
+  "reason": "X: rRNA subunit/tRNA export; Y: histone mRNA 3'-end processing and Pol II termination. Distinct RNA processes."
+ },
+ {
+  "pid": "P014",
+  "strength": 3,
+  "reason": "X: tRNA wybutosine modification; Y: protein lysine/arginine methylation. Distinct modification chemistries and substrates."
+ },
+ {
+  "pid": "P015",
+  "strength": 2,
+  "reason": "X: mitochondrial transcription; Y: mitoribosome and ATP synthase assembly. Related mitochondrial gene expression steps."
+ },
+ {
+  "pid": "P016",
+  "strength": 3,
+  "reason": "X: early secretory ER-Golgi COPI/COPII vesicle traffic, distinct from post-Golgi/endosomal sorting; Y negligible."
+ },
+ {
+  "pid": "P017",
+  "strength": 3,
+  "reason": "Y: glycinergic synaptic transmission/hyperekplexia; X: serine transport/metabolism. Distinct neurotransmitter system vs glutamate uptake."
+ },
+ {
+  "pid": "P018",
+  "strength": 3,
+  "reason": "X: histone acetylation/deacetylation and CHD remodeling; Y: DNA-repair chromatin remodeling/PARylation. Distinct chromatin mechanisms."
+ },
+ {
+  "pid": "P019",
+  "strength": 2,
+  "reason": "X: IL-3/IL-5 signaling; Y: EPO/TPO receptor signaling. Different cytokines, same JAK-STAT5 hematopoietic signaling story."
+ },
+ {
+  "pid": "P020",
+  "strength": 3,
+  "reason": "X: selenium/selenocysteine incorporation; Y: vitamin C/E antioxidant metabolism. Distinct micronutrient pathways."
+ },
+ {
+  "pid": "P021",
+  "strength": 2,
+  "reason": "X: oligodendrocyte differentiation/myelination; Y: astrocyte activation/migration. Glial subtype emphasis."
+ },
+ {
+  "pid": "P022",
+  "strength": 2,
+  "reason": "X: E-cadherin trafficking/degradation and CDH11; Y: negative regulation and endothelial morphogenesis. Secondary aspects of adherens junctions."
+ },
+ {
+  "pid": "P023",
+  "strength": 3,
+  "reason": "X: nephron tubule segment development (proximal, distal, loop, collecting duct) vs glomerular focus; distinct kidney compartments."
+ },
+ {
+  "pid": "P024",
+  "strength": 2,
+  "reason": "X: norepinephrine/dopamine transporter defects; Y: catecholamine biosynthesis. Uptake vs synthesis, both catecholamine story."
+ },
+ {
+  "pid": "P025",
+  "strength": 3,
+  "reason": "Y: sister chromatid cohesion and separation; X: cytokinesis/Rho. Distinct mitotic subprocesses."
+ },
+ {
+  "pid": "P026",
+  "strength": 3,
+  "reason": "X: hydrogen peroxide/oxidative-stress-induced apoptosis vs shared OXPHOS regulation; distinct cell death axis. Y minor ferroptosis/PGC-1a."
+ },
+ {
+  "pid": "P027",
+  "strength": 2,
+  "reason": "Y: megakaryocyte development/platelet morphogenesis; X: RUNX1 ER/keratinocyte targets. Lineage emphasis within RUNX1 story."
+ },
+ {
+  "pid": "P028",
+  "strength": 3,
+  "reason": "X: ectodermal appendage placode organogenesis (hair, mammary, papillae, EDA/TNF); Y: keratinocyte proliferation/differentiation and wound healing."
+ },
+ {
+  "pid": "P029",
+  "strength": 2,
+  "reason": "X: NGF-TrkA downstream signaling (retrograde, CREB, transcription); Y: TrkB PI3K and RhoA inhibition. Same neurotrophin story."
+ },
+ {
+  "pid": "P030",
+  "strength": 2,
+  "reason": "Y: FGFR3 signaling (paralog, skeletal dysplasia relevance); X: FGFR2 splicing. Receptor-paralog emphasis of one pathway."
+ },
+ {
+  "pid": "P031",
+  "strength": 3,
+  "reason": "X: nucleoside transport and drug metabolism (thiopurine, ribavirin, NUDT); Y: de novo purine biosynthesis. Distinct axes."
+ },
+ {
+  "pid": "P032",
+  "strength": 2,
+  "reason": "Y: kainate receptor activation and excitotoxicity; X: AMPA clustering/learning. Secondary receptor emphasis."
+ },
+ {
+  "pid": "P033",
+  "strength": 2,
+  "reason": "X: Reelin signaling; Y: synapse structural plasticity/local translation. Recognizable but secondary to dendritic spine story."
+ },
+ {
+  "pid": "P034",
+  "strength": 3,
+  "reason": "X: urinary bladder smooth muscle/micturition; Y: enteric nervous system development/endothelin (Hirschsprung). Distinct organ/process axes."
+ },
+ {
+  "pid": "P035",
+  "strength": 2,
+  "reason": "X: mammary cell lineages (stem, luminal, myoepithelial); Y: lactation/alveolar differentiation. Secondary stage emphasis."
+ },
+ {
+  "pid": "P036",
+  "strength": 2,
+  "reason": "X: endosomal TLR7/8/9 and cGAS-STING regulation; Y: TLR3-pathway HSE deficiencies. Related nucleic-acid sensing emphases."
+ },
+ {
+  "pid": "P037",
+  "strength": 3,
+  "reason": "X: post-MOMP apoptosome/SMAC/caspase activation; Y: p53-driven transcriptional induction of intrinsic apoptosis. Distinct steps."
+ },
+ {
+  "pid": "P038",
+  "strength": 3,
+  "reason": "X: galactose Leloir pathway/galactosemias; Y: fructose metabolism/fructosuria. Distinct sugar pathways."
+ },
+ {
+  "pid": "P039",
+  "strength": 3,
+  "reason": "X: skeletal muscle adaptation (fiber type, atrophy, satellite cells); Y: cardiac development. Distinct tissues."
+ },
+ {
+  "pid": "P040",
+  "strength": 1,
+  "reason": "X: stray mitochondrial depolarization/nucleotide regulation terms; Y: PRPP synthesis. Loosely related additions to nucleotide energy story."
+ },
+ {
+  "pid": "P041",
+  "strength": 2,
+  "reason": "X: glutamate/glutamine/GABA and ammonium homeostasis; Y: ornithine/lysine transport. Secondary nitrogen metabolism emphasis."
+ },
+ {
+  "pid": "P042",
+  "strength": 2,
+  "reason": "X: angiotensin peptide generation/catabolism; Y: natriuretic cGMP signaling. Secondary aspects of blood pressure control."
+ },
+ {
+  "pid": "P043",
+  "strength": 3,
+  "reason": "Y: mammary gland development/lactation vs prostate/salivary; X: limb bud. Distinct organ."
+ },
+ {
+  "pid": "P044",
+  "strength": 2,
+  "reason": "X: HIV Rev and inositol phosphate transport; Y: NLS import and ribosome export. Secondary aspects of nucleocytoplasmic transport."
+ },
+ {
+  "pid": "P045",
+  "strength": 3,
+  "reason": "X: axial mesoderm/notochord formation; Y: brain ventricles/CSF circulation. Distinct developmental processes."
+ },
+ {
+  "pid": "P046",
+  "strength": 3,
+  "reason": "X: skeletal muscle activity/atrophy/regeneration; Y: cardiac muscle regeneration. Distinct tissue axes."
+ },
+ {
+  "pid": "P047",
+  "strength": 3,
+  "reason": "X: biotin metabolism/carboxylase deficiencies and carnitine deficiency; Y: organic cation/anion transport. Distinct cofactor vs transport axes."
+ },
+ {
+  "pid": "P048",
+  "strength": 3,
+  "reason": "X: telomerase-mediated extension/Cajal body; Y: subtelomeric heterochromatin/senescence. Telomerase vs ALT-type maintenance."
+ },
+ {
+  "pid": "P049",
+  "strength": 2,
+  "reason": "X: neutrophil recruitment/chemotaxis (FPR); Y: antifungal and generic inflammatory responses. Secondary step emphasis."
+ },
+ {
+  "pid": "P050",
+  "strength": 2,
+  "reason": "Y: JNK/p38 activation via TAK1, AP-1; X: phosphatase dephosphorylation. Activation vs negative feedback of MAPK."
+ },
+ {
+  "pid": "P051",
+  "strength": 3,
+  "reason": "X: influenza/RSV negative-strand RNA virus replication; Y: SARS replicase maturation. Distinct virus families."
+ },
+ {
+  "pid": "P052",
+  "strength": 3,
+  "reason": "X: bile acid secretion/PFIC and lipoprotein remodeling; Y: LDL receptor internalization/degradation. Distinct mechanisms."
+ },
+ {
+  "pid": "P053",
+  "strength": 2,
+  "reason": "X: calcineurin-NFAT and fiber type switching; Y: activity/homeostasis terms. Same muscle adaptation story."
+ },
+ {
+  "pid": "P054",
+  "strength": 3,
+  "reason": "X: intraflagellar transport machinery; Y: photoreceptor outer segment development. Distinct mechanism vs cell type."
+ },
+ {
+  "pid": "P055",
+  "strength": 3,
+  "reason": "X: cholinergic/neuromuscular transmission and ACh metabolism; Y: serotonin receptor signaling. Distinct neurotransmitter systems."
+ },
+ {
+  "pid": "P056",
+  "strength": 2,
+  "reason": "X: ABCA1 phospholipid efflux/HDL assembly; Y: SREBP regulation and foam cells. Recognized arms of cholesterol homeostasis."
+ },
+ {
+  "pid": "P057",
+  "strength": 3,
+  "reason": "Y: primordial germ cell specification and pluripotency network; X: Sertoli/seminiferous. Germline specification is distinct."
+ },
+ {
+  "pid": "P058",
+  "strength": 2,
+  "reason": "X: TLR7/8/9 endosomal signaling; Y: PKR signaling. Secondary nucleic-acid sensing emphases."
+ },
+ {
+  "pid": "P059",
+  "strength": 2,
+  "reason": "X: pyruvate transport/PDH and SLC anion disorders; Y: aspartate/2-OG. Secondary emphasis on TCA anaplerotic story."
+ },
+ {
+  "pid": "P060",
+  "strength": 3,
+  "reason": "Y: Fe-S cluster assembly and TCA maturation/complex II; X: PDH, lysine catabolism. Distinct cofactor biogenesis axis."
+ },
+ {
+  "pid": "P061",
+  "strength": 3,
+  "reason": "X: germinal center reaction (Tfh, ICOS, GC B); Y: memory responses. Distinct immunological process."
+ },
+ {
+  "pid": "P062",
+  "strength": 3,
+  "reason": "Y: base excision repair gap filling; X: telomere C-strand synthesis. Distinct DNA processes from replication/TLS."
+ },
+ {
+  "pid": "P063",
+  "strength": 2,
+  "reason": "Y: peroxisomal alpha-oxidation of phytanate; X: minor CoA terms. Related fatty acid oxidation."
+ },
+ {
+  "pid": "P064",
+  "strength": 2,
+  "reason": "X: subtelomeric heterochromatin/senescence; Y: C-strand fill-in and capping. Secondary telomere aspects."
+ },
+ {
+  "pid": "P065",
+  "strength": 3,
+  "reason": "Y: oocyte meiotic maturation, ovulation, female gonad; X: LH/GnRH response. Female vs male reproduction axis."
+ },
+ {
+  "pid": "P066",
+  "strength": 3,
+  "reason": "X: adrenal glucocorticoid/HPA regulation; Y: thyroid hormone. Distinct endocrine axes."
+ },
+ {
+  "pid": "P067",
+  "strength": 2,
+  "reason": "Y: GABA-B/GIRK presynaptic inhibition and extrasynaptic GABA; X: LGI-ADAM. Secondary inhibitory synapse emphases."
+ },
+ {
+  "pid": "P068",
+  "strength": 3,
+  "reason": "X: cohesin loading/chromatin looping; Y: APC/C-mediated mitotic exit and cell cycle control. Distinct processes."
+ },
+ {
+  "pid": "P069",
+  "strength": 3,
+  "reason": "X: cation-chloride cotransporters/NHE (Gitelman); Y: aquaporin/paracellular water transport. Distinct transport axes."
+ },
+ {
+  "pid": "P070",
+  "strength": 2,
+  "reason": "X: fever and itch; Y: K2P channels. Secondary aspects of nociception."
+ },
+ {
+  "pid": "P071",
+  "strength": 3,
+  "reason": "Y: chylomicron/VLDL remodeling and phospholipid catabolism vs HDL/efflux/foam cell; distinct lipoprotein axis."
+ },
+ {
+  "pid": "P072",
+  "strength": 3,
+  "reason": "X: KATP channels (ABCC8/9, insulin secretion disorders); Y: Kir/Kv excitability. Distinct channel types and physiology."
+ },
+ {
+  "pid": "P073",
+  "strength": 2,
+  "reason": "Y: p75NTR death signaling/glial apoptosis; X: non-injury collateral sprouting. Secondary emphasis on axon regeneration."
+ },
+ {
+  "pid": "P074",
+  "strength": 3,
+  "reason": "X: postsynaptic receptor trafficking/internalization; Y minor. Postsynaptic vs presynaptic vesicle recycling compartments."
+ },
+ {
+  "pid": "P075",
+  "strength": 2,
+  "reason": "Y: kainate/AMPA activation; X: presynaptic calcium. Secondary emphases on synaptic transmission."
+ },
+ {
+  "pid": "P076",
+  "strength": 2,
+  "reason": "X: Tfh/ICOS and memory B cells; Y: B cell development. Secondary emphases of B cell story."
+ },
+ {
+  "pid": "P077",
+  "strength": 3,
+  "reason": "Y: mismatch repair and repeat maintenance; X: mitochondrial DNA repair. Distinct repair pathways from TLS/replication."
+ },
+ {
+  "pid": "P078",
+  "strength": 2,
+  "reason": "X: SREBP cholesterol sensing; Y: reverse cholesterol transport/efflux. Secondary arms of cholesterol homeostasis."
+ },
+ {
+  "pid": "P079",
+  "strength": 3,
+  "reason": "X: ARE-binding protein mRNA decay/translational silencing; Y: nuclear polyadenylation/3'-end processing. Distinct mechanisms."
+ },
+ {
+  "pid": "P080",
+  "strength": 3,
+  "reason": "Y: ketone body synthesis/utilization; X: minor CoA/peroxisomal. Ketogenesis is a distinct metabolic theme."
+ },
+ {
+  "pid": "P081",
+  "strength": 2,
+  "reason": "X: diphtheria toxin uptake; Y: anti-protozoal GBP defense and IL-10 anti-inflammatory. Secondary host-pathogen aspects."
+ },
+ {
+  "pid": "P082",
+  "strength": 2,
+  "reason": "X: ODC regulation/putrescine synthesis; Y: hypusine eIF5A. Polyamine story with secondary emphases."
+ },
+ {
+  "pid": "P083",
+  "strength": 3,
+  "reason": "X: riboflavin/thiamine and intestinal cobalamin uptake (cubilin/AMN); Y: biotin disorders. Distinct vitamin axes."
+ },
+ {
+  "pid": "P084",
+  "strength": 3,
+  "reason": "Y: CYP450 epoxygenase/omega-hydroxylase eicosanoids (EET, HETE); X: PGE response/fever. Distinct arachidonate branch."
+ },
+ {
+  "pid": "P085",
+  "strength": 3,
+  "reason": "Y: vitamin D and retinoid CYP metabolism; X: adrenal corticosteroid regulation. Distinct hormone systems."
+ },
+ {
+  "pid": "P086",
+  "strength": 3,
+  "reason": "Y: nuclear tRNA processing/splicing; X: mitochondrial translation and mtDNA replication. Distinct compartments."
+ },
+ {
+  "pid": "P087",
+  "strength": 3,
+  "reason": "Y: RAS C-terminal processing (prenylation); X: palmitoylation/Hh autoprocessing. Distinct lipid modification mechanisms."
+ },
+ {
+  "pid": "P088",
+  "strength": 2,
+  "reason": "Y: de novo pyrimidine biosynthesis vs salvage/dNTP interconversion; X stray. Secondary emphasis."
+ },
+ {
+  "pid": "P089",
+  "strength": 2,
+  "reason": "Y: sebaceous gland and melanocyte; X: negative proliferation. Secondary skin aspects."
+ },
+ {
+  "pid": "P090",
+  "strength": 3,
+  "reason": "Y: telomere recombination/ALT; X: intra-S checkpoint and p53 repair genes. Distinct processes."
+ },
+ {
+  "pid": "P091",
+  "strength": 3,
+  "reason": "X: valve/endocardial cushion EMT and septation; Y: ascending aorta. Distinct cardiac morphogenesis program."
+ },
+ {
+  "pid": "P092",
+  "strength": 3,
+  "reason": "Y: basement membrane/laminin-integrin and anchoring fibrils; X: collagen crosslinking. Distinct ECM structures."
+ },
+ {
+  "pid": "P093",
+  "strength": 3,
+  "reason": "Y: PTK6 (BRK) signaling; X: ERBB4/PTEN. Distinct kinase pathway vs ERBB downregulation."
+ },
+ {
+  "pid": "P094",
+  "strength": 3,
+  "reason": "Y: cardiovascular adrenergic effects (heart rate, contractility, BP); X: alpha-2 receptor. Distinct tissue context."
+ },
+ {
+  "pid": "P095",
+  "strength": 2,
+  "reason": "X: negative regulation of p53 apoptosis; Y: p53 expression/COP1 regulation. Same p53 apoptosis story."
+ },
+ {
+  "pid": "P096",
+  "strength": 3,
+  "reason": "Y: second heart field specification/progenitors; X: ventricle and septum formation. Distinct progenitor axis."
+ },
+ {
+  "pid": "P097",
+  "strength": 2,
+  "reason": "X: DUB families and K48 deubiquitination; Y: SUMOylation of immune proteins/NF-kB. Secondary emphases."
+ }
+]

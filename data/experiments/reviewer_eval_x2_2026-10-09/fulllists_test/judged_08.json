@@ -1,0 +1,502 @@
+[
+ {
+  "id": "R0700",
+  "verdict": "facet",
+  "reason": "only_A is Rh-glycoprotein/blood-group membrane biology while only_B is erythrocyte O2/CO2/NO gas exchange."
+ },
+ {
+  "id": "R0701",
+  "verdict": "facet",
+  "reason": "only_A covers ERBB4 downregulation and PTEN localization while only_B is a distinct PTK6 (BRK) kinase signaling module."
+ },
+ {
+  "id": "R0702",
+  "verdict": "twin",
+  "reason": "Both sides add steps of the cardiac action potential and conduction system (plateau, AV node, Purkinje, repolarization)."
+ },
+ {
+  "id": "R0703",
+  "verdict": "twin",
+  "reason": "Both sides are drug/xenobiotic ADME and organic anion/glycoside transport."
+ },
+ {
+  "id": "R0704",
+  "verdict": "facet",
+  "reason": "only_A is IL-2/STAT5 (common gamma chain) signaling while only_B is IL-3/IL-5/G-CSF (beta-common/myeloid) cytokine signaling."
+ },
+ {
+  "id": "R0705",
+  "verdict": "twin",
+  "reason": "Both add positive and negative regulators of the same angiogenic growth-factor/endothelial program."
+ },
+ {
+  "id": "R0706",
+  "verdict": "twin",
+  "reason": "only_A adds spindle/centrosome mitotic regulators and only_B adds generic cohesion regulation, all within mitotic chromosome segregation."
+ },
+ {
+  "id": "R0707",
+  "verdict": "facet",
+  "reason": "only_A is inhibitory (glycinergic) neurotransmission/hyperekplexia while only_B is cerebellar motor coordination and proprioception."
+ },
+ {
+  "id": "R0708",
+  "verdict": "facet",
+  "reason": "only_A is osteoblast/cranial suture bone formation while only_B is chondrocyte and cartilage development."
+ },
+ {
+  "id": "R0709",
+  "verdict": "facet",
+  "reason": "only_A adds DNA damage checkpoints and recombination intermediate resolution while only_B is core DNA replication (priming, elongation, flap removal)."
+ },
+ {
+  "id": "R0710",
+  "verdict": "facet",
+  "reason": "only_A is sister chromatid cohesion and G2/M kinase regulation while only_B is cytokinesis (contractile ring, cleavage furrow, midzone)."
+ },
+ {
+  "id": "R0711",
+  "verdict": "twin",
+  "reason": "Both add cell-matrix adhesion/cytoskeletal components (syndecans, stress fibers, focal adhesions, collagen/TGFB)."
+ },
+ {
+  "id": "R0712",
+  "verdict": "facet",
+  "reason": "only_A is cardiac valve/endocardial cushion EMT development while only_B is ventricular myocardium and chamber formation."
+ },
+ {
+  "id": "R0713",
+  "verdict": "facet",
+  "reason": "only_A is post-embryonic hyaloid vascular regression and retinal cell death while only_B is optic nerve/retinal ganglion axon guidance."
+ },
+ {
+  "id": "R0714",
+  "verdict": "facet",
+  "reason": "only_A is MHC class I loading and cross-presentation while only_B is non-classical MHC Ib/lipid antigen and TLR7/8 presentation."
+ },
+ {
+  "id": "R0715",
+  "verdict": "facet",
+  "reason": "only_A is IL-18 signaling while only_B is IL-36/IL-38, different IL-1 family receptor systems."
+ },
+ {
+  "id": "R0716",
+  "verdict": "facet",
+  "reason": "only_A is monocyte/MHC II expression modules while only_B is CD1 lipid antigen presentation and TLR7/8 dendritic cell receptors."
+ },
+ {
+  "id": "R0717",
+  "verdict": "twin",
+  "reason": "Both add regulators of systemic blood pressure (renal renin-angiotensin/cGMP vs vasoconstriction/vasopressin)."
+ },
+ {
+  "id": "R0718",
+  "verdict": "twin",
+  "reason": "Both add canonical Notch signaling steps (NOTCH1/2 activation and NICD-driven transcription in tissue contexts)."
+ },
+ {
+  "id": "R0719",
+  "verdict": "twin",
+  "reason": "Both add tRNA/RNA modification and tRNA processing steps of translation-related RNA maturation."
+ },
+ {
+  "id": "R0720",
+  "verdict": "facet",
+  "reason": "only_A is early embryo lineage specification (ICM, trophectoderm, germ cells) while only_B is mammary gland development and lactation."
+ },
+ {
+  "id": "R0721",
+  "verdict": "facet",
+  "reason": "only_A is IL-4/IL-13 receptor signaling while only_B is IL-33 alarmin signaling and anti-nematode response."
+ },
+ {
+  "id": "R0722",
+  "verdict": "facet",
+  "reason": "only_A is islet hormone secretion control while only_B is peripheral insulin receptor signaling, GLUT4 and glycogen regulation."
+ },
+ {
+  "id": "R0723",
+  "verdict": "facet",
+  "reason": "only_A is sperm flagellar motility while only_B is spermatid manchette and meiotic telomere attachment."
+ },
+ {
+  "id": "R0724",
+  "verdict": "facet",
+  "reason": "only_A is IFN-gamma/MHC I expression and CD8 T cells while only_B is NK cell cytotoxicity and granzyme killing."
+ },
+ {
+  "id": "R0725",
+  "verdict": "facet",
+  "reason": "only_A is retinoic acid/retinol metabolism and signaling while only_B is photoreceptor cilium and outer segment morphogenesis."
+ },
+ {
+  "id": "R0726",
+  "verdict": "facet",
+  "reason": "only_A is optic nerve axon guidance while only_B is lacrimal gland, bile duct and gap-junction biology."
+ },
+ {
+  "id": "R0727",
+  "verdict": "twin",
+  "reason": "Both add regulators of hematopoietic lineage differentiation (granulocyte/G-CSF/RUNX1 vs erythroid restraint)."
+ },
+ {
+  "id": "R0728",
+  "verdict": "facet",
+  "reason": "only_A is TFAP2 transcription factor regulation while only_B is limb and digit morphogenesis."
+ },
+ {
+  "id": "R0729",
+  "verdict": "twin",
+  "reason": "Both add components of reverse cholesterol transport (LXR-driven efflux, foam cells, ABCA1/HDL assembly)."
+ },
+ {
+  "id": "R0730",
+  "verdict": "facet",
+  "reason": "only_A is lipid droplet formation, lipogenesis and adipogenesis while only_B is fatty acid uptake and beta-oxidation control."
+ },
+ {
+  "id": "R0731",
+  "verdict": "twin",
+  "reason": "Both add proximal ERBB-family receptor adaptor/effector signaling events (GRB2/SHC vs PLCG/GAB1/PI3K)."
+ },
+ {
+  "id": "R0732",
+  "verdict": "facet",
+  "reason": "only_A is netrin-mediated axon guidance while only_B is axon collateral sprouting, regeneration and peripheral neuron development."
+ },
+ {
+  "id": "R0733",
+  "verdict": "facet",
+  "reason": "only_A is negative regulation of myoblast differentiation while only_B is satellite-cell-driven regeneration and muscle growth/homeostasis."
+ },
+ {
+  "id": "R0734",
+  "verdict": "twin",
+  "reason": "Both add parts of the same RLR/IRF3 antiviral type I interferon program (TBK1/IKKe regulation vs downstream ISG/IFN-alpha response)."
+ },
+ {
+  "id": "R0735",
+  "verdict": "twin",
+  "reason": "Both add generic amino acid/organic acid metabolism (threonine, citrulline)."
+ },
+ {
+  "id": "R0736",
+  "verdict": "twin",
+  "reason": "Both add neutrophil migration and inflammatory myeloid modules."
+ },
+ {
+  "id": "R0737",
+  "verdict": "facet",
+  "reason": "only_A is leukocyte-endothelial adhesion and extravasation while only_B is NF-kB-driven monocyte/dendritic cell activation."
+ },
+ {
+  "id": "R0738",
+  "verdict": "facet",
+  "reason": "only_A is UDP-GlcNAc hexosamine biosynthesis and lysosome function while only_B is lysosomal oligosaccharide catabolism."
+ },
+ {
+  "id": "R0739",
+  "verdict": "twin",
+  "reason": "Both add generic amino acid metabolism (proline/glutamine vs organic acid terms)."
+ },
+ {
+  "id": "R0740",
+  "verdict": "facet",
+  "reason": "only_A is microglial activation/proliferation while only_B is scavenger receptor oxLDL uptake and foam cell formation."
+ },
+ {
+  "id": "R0741",
+  "verdict": "twin",
+  "reason": "Both add renal renin-angiotensin components (ACE bradykinin catabolism vs glomerular filtration/blood volume)."
+ },
+ {
+  "id": "R0742",
+  "verdict": "twin",
+  "reason": "Both add regulation of islet hormone secretion and glucagon/metabolite receptor signaling."
+ },
+ {
+  "id": "R0743",
+  "verdict": "twin",
+  "reason": "only_A AP-1 activation and only_B UV/PMA stress responses are the same immediate-early stress program."
+ },
+ {
+  "id": "R0744",
+  "verdict": "twin",
+  "reason": "Both add non-vesicular lipid transfer at membrane contacts (ER-PM tethering vs glycolipid transfer)."
+ },
+ {
+  "id": "R0745",
+  "verdict": "twin",
+  "reason": "Both add hepatic xenobiotic/organic anion disposition (drug ADME vs flavonoid glycosides)."
+ },
+ {
+  "id": "R0746",
+  "verdict": "twin",
+  "reason": "Both add epidermal keratinocyte differentiation and cornification."
+ },
+ {
+  "id": "R0747",
+  "verdict": "twin",
+  "reason": "Both add viral manipulation of host mRNA translation and viral genome replication."
+ },
+ {
+  "id": "R0748",
+  "verdict": "twin",
+  "reason": "Both add RIG-I/TLR3 TRAF-TBK1-IRF3/7 signaling and its viral evasion."
+ },
+ {
+  "id": "R0749",
+  "verdict": "facet",
+  "reason": "only_A is oxidative-stress (H2O2)-induced apoptosis while only_B is PGC-1alpha mitochondrial biogenesis and ferroptosis control."
+ },
+ {
+  "id": "R0750",
+  "verdict": "facet",
+  "reason": "only_A is Sema3A repulsive guidance while only_B is axon regeneration after injury."
+ },
+ {
+  "id": "R0751",
+  "verdict": "twin",
+  "reason": "Both add regulators of the same angiogenic program (negative VEGF/FGF control vs positive VEGF signaling)."
+ },
+ {
+  "id": "R0752",
+  "verdict": "twin",
+  "reason": "Both add xenobiotic detoxification routes (ethanol oxidation vs sulfonation/xenobiotic catabolism)."
+ },
+ {
+  "id": "R0753",
+  "verdict": "facet",
+  "reason": "only_A is limb/digit morphogenesis while only_B is head, neurocranium and nose development."
+ },
+ {
+  "id": "R0754",
+  "verdict": "twin",
+  "reason": "Both add glutamate/aspartate-linked TCA anaplerosis and gluconeogenic metabolism."
+ },
+ {
+  "id": "R0755",
+  "verdict": "twin",
+  "reason": "Both add mitochondrial 2-oxoacid dehydrogenase complexes (OGDH/OADH vs PDH)."
+ },
+ {
+  "id": "R0756",
+  "verdict": "twin",
+  "reason": "Both add hepatic drug disposition (xenobiotic export transport vs SLCO/glucuronidation)."
+ },
+ {
+  "id": "R0757",
+  "verdict": "twin",
+  "reason": "Both add dopaminergic/catecholaminergic transmission (dopamine release/signaling vs synthesis and reuptake transporters)."
+ },
+ {
+  "id": "R0758",
+  "verdict": "facet",
+  "reason": "only_A is general clathrin cargo recognition and GPCR internalization while only_B is LDL/VLDL receptor lipoprotein clearance."
+ },
+ {
+  "id": "R0759",
+  "verdict": "facet",
+  "reason": "only_A is de novo/salvage nucleotide biosynthesis while only_B is nucleoside-analog drug (abacavir) metabolism."
+ },
+ {
+  "id": "R0760",
+  "verdict": "facet",
+  "reason": "only_A is long/medium-chain fatty acid catabolism and spastic paraplegia while only_B is bile acid synthesis from cholesterol."
+ },
+ {
+  "id": "R0761",
+  "verdict": "facet",
+  "reason": "only_A is plasma cell differentiation and immunoglobulin modules while only_B is B cell homeostasis, survival and germinal center regulation."
+ },
+ {
+  "id": "R0762",
+  "verdict": "facet",
+  "reason": "only_A is ER-Golgi phospholipid transfer and PI synthesis while only_B is ER tubular network shaping and fusion."
+ },
+ {
+  "id": "R0763",
+  "verdict": "facet",
+  "reason": "only_A is cGAS-STING/cGAMP signaling while only_B is endosomal TLR trafficking (UNC93B1, TLR3)."
+ },
+ {
+  "id": "R0764",
+  "verdict": "twin",
+  "reason": "Both add regulators of metanephric/nephric kidney development."
+ },
+ {
+  "id": "R0765",
+  "verdict": "twin",
+  "reason": "Both add phosphate transport and homeostasis disorders."
+ },
+ {
+  "id": "R0766",
+  "verdict": "facet",
+  "reason": "only_A is myelin/p75-type axon growth inhibition (RHOA, ceramide) while only_B is netrin and ephrin axon guidance."
+ },
+ {
+  "id": "R0767",
+  "verdict": "twin",
+  "reason": "Both add glutamine/glutamate-linked nitrogen and carbon metabolism (ammonium vs alanine/gluconeogenesis/dicarboxylate transport)."
+ },
+ {
+  "id": "R0768",
+  "verdict": "twin",
+  "reason": "Both add regulators of hematopoietic stem/progenitor cell maintenance and lineage output."
+ },
+ {
+  "id": "R0769",
+  "verdict": "facet",
+  "reason": "only_A is coenzyme A/NADP and PDH metabolism while only_B is methylglyoxal/aldehyde detoxification and protein repair."
+ },
+ {
+  "id": "R0770",
+  "verdict": "twin",
+  "reason": "Both add regulators of autophagosome cargo and machinery (ATG8 delipidation, depalmitoylation, substrate targeting)."
+ },
+ {
+  "id": "R0771",
+  "verdict": "facet",
+  "reason": "only_A is glial differentiation and myelination while only_B is axon regeneration."
+ },
+ {
+  "id": "R0772",
+  "verdict": "facet",
+  "reason": "only_A is plasma cell differentiation and immunoglobulin modules while only_B is BCR-driven B cell proliferation and activation."
+ },
+ {
+  "id": "R0773",
+  "verdict": "twin",
+  "reason": "Both add innate antimicrobial defense (AMP production/mucus vs neutrophil and antifungal killing)."
+ },
+ {
+  "id": "R0774",
+  "verdict": "facet",
+  "reason": "only_A is glycerol/polyol/fructose metabolism while only_B is lysophospholipid hydrolysis."
+ },
+ {
+  "id": "R0775",
+  "verdict": "twin",
+  "reason": "Both add more Rho-family GTPase cycles."
+ },
+ {
+  "id": "R0776",
+  "verdict": "twin",
+  "reason": "Both add integrin/ECM-driven cell migration (fibronectin, fibroblast and endothelial chemotaxis)."
+ },
+ {
+  "id": "R0777",
+  "verdict": "twin",
+  "reason": "Both add pentose/sugar interconversion (non-oxidative PPP vs fructose/glycerol polyol)."
+ },
+ {
+  "id": "R0778",
+  "verdict": "facet",
+  "reason": "only_A is ECM/collagen deposition control while only_B is miRNA processing regulation."
+ },
+ {
+  "id": "R0779",
+  "verdict": "twin",
+  "reason": "Both add Th2/type 2 immunity components (IL-4/IL-13 regulation, mast cell and eosinophil differentiation)."
+ },
+ {
+  "id": "R0780",
+  "verdict": "twin",
+  "reason": "Both add T cell suppression/tolerance mechanisms (IL-2/Th1 inhibition vs anergy and peripheral tolerance)."
+ },
+ {
+  "id": "R0781",
+  "verdict": "facet",
+  "reason": "only_A is estrogen receptor signaling while only_B is progesterone response and testosterone biosynthesis."
+ },
+ {
+  "id": "R0782",
+  "verdict": "twin",
+  "reason": "Both add synapse assembly and excitatory postsynaptic function."
+ },
+ {
+  "id": "R0783",
+  "verdict": "facet",
+  "reason": "only_A is neddylation/COP9 signalosome while only_B is ubiquitin chain-type ubiquitination and E3 ligases."
+ },
+ {
+  "id": "R0784",
+  "verdict": "twin",
+  "reason": "Both add amino acid catabolism (aromatic/proline vs alanine)."
+ },
+ {
+  "id": "R0785",
+  "verdict": "facet",
+  "reason": "only_A is stress-induced cardiomyocyte hypertrophy and survival while only_B is early heart tube and second heart field cardiogenesis."
+ },
+ {
+  "id": "R0786",
+  "verdict": "twin",
+  "reason": "Both add positive and negative regulation of Th2 cytokine responses."
+ },
+ {
+  "id": "R0787",
+  "verdict": "twin",
+  "reason": "Both add Notch signaling components (oncogenic NOTCH1 mutants vs receptor processing and NICD targets)."
+ },
+ {
+  "id": "R0788",
+  "verdict": "facet",
+  "reason": "only_A is ocular vascular regression and barrier (FZD4, hyaloid) while only_B is retinal morphogenesis and pigmentation."
+ },
+ {
+  "id": "R0789",
+  "verdict": "twin",
+  "reason": "Both add control of meiosis I chromosome segregation (cohesion/chiasma vs meiotic cell cycle transitions)."
+ },
+ {
+  "id": "R0790",
+  "verdict": "facet",
+  "reason": "only_A is skeletal muscle SR calcium release while only_B is cardiac SR calcium handling and membrane potential."
+ },
+ {
+  "id": "R0791",
+  "verdict": "twin",
+  "reason": "Both add B cell and plasma cell signature modules."
+ },
+ {
+  "id": "R0792",
+  "verdict": "twin",
+  "reason": "Both add angiogenic growth factor signaling (sprouting angiogenesis vs VEGF/lymphangiogenesis)."
+ },
+ {
+  "id": "R0793",
+  "verdict": "facet",
+  "reason": "only_A is skeletal muscle atrophy, fiber type and satellite activation while only_B is cardiac muscle regeneration."
+ },
+ {
+  "id": "R0794",
+  "verdict": "twin",
+  "reason": "Both add heavy metal detoxification and associated redox responses (cadmium vs copper/HMOX1)."
+ },
+ {
+  "id": "R0795",
+  "verdict": "twin",
+  "reason": "Both add regulation of selective autophagy (negative autophagosome control vs pexophagy/mitophagy)."
+ },
+ {
+  "id": "R0796",
+  "verdict": "facet",
+  "reason": "only_A is TCR proximal signaling and IL-2 while only_B is canonical NF-kB defects (NEMO/IkBa EDA-ID)."
+ },
+ {
+  "id": "R0797",
+  "verdict": "facet",
+  "reason": "only_A is leukotriene/PAF lipid mediator GPCRs while only_B is P2Y purinergic nucleotide signaling."
+ },
+ {
+  "id": "R0798",
+  "verdict": "twin",
+  "reason": "Both add type I interferon antiviral sensing and response."
+ },
+ {
+  "id": "R0799",
+  "verdict": "facet",
+  "reason": "only_A is AKT/TORC2 kinase signaling while only_B is nuclear inositol phosphate/pyrophosphate metabolism."
+ }
+]

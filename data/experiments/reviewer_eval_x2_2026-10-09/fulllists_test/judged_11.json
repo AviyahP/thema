@@ -1,0 +1,502 @@
+[
+ {
+  "id": "R1000",
+  "verdict": "twin",
+  "reason": "Both describe BCL-2-family intrinsic mitochondrial apoptosis; only_A adds BMF/hallmark apoptosis and only_B adds BAX/BAK oligomerization and MOMP regulation, the same cascade."
+ },
+ {
+  "id": "R1001",
+  "verdict": "facet",
+  "reason": "only_A is telomerase holoenzyme assembly and telomere extension, while only_B is box C/D snoRNP assembly and ribosome assembly, different RNP functions."
+ },
+ {
+  "id": "R1002",
+  "verdict": "facet",
+  "reason": "only_A is HIV Rev-mediated nuclear RNA import/export, while only_B is viral protein maturation and host shutoff/PKR antagonism, different stages of viral infection."
+ },
+ {
+  "id": "R1003",
+  "verdict": "twin",
+  "reason": "Both sides are cadherin-based cell-cell/adherens junction adhesion (apical junction, AJ assembly, E-cadherin/CDH11 interactions)."
+ },
+ {
+  "id": "R1004",
+  "verdict": "facet",
+  "reason": "only_A is host autophagy/xenophagy while only_B is bacterial (Listeria) entry into host cells, different host-pathogen mechanisms."
+ },
+ {
+  "id": "R1005",
+  "verdict": "facet",
+  "reason": "only_A is non-canonical Wnt/Ca2+ and DVL regulation, while only_B is Wnt ligand biogenesis/PORCN secretion and canonical antagonism."
+ },
+ {
+  "id": "R1006",
+  "verdict": "twin",
+  "reason": "Both sides are chemokine-driven leukocyte chemotaxis (NK cells vs T cells, chemokine receptors), one chemotaxis theme."
+ },
+ {
+  "id": "R1007",
+  "verdict": "facet",
+  "reason": "only_A is canalicular/xenobiotic transporters in bile secretion (ABCB4, CYP7B1), while only_B is mevalonate/isoprenoid and cholesterol biosynthesis."
+ },
+ {
+  "id": "R1008",
+  "verdict": "facet",
+  "reason": "only_A is cornified envelope and epidermal barrier formation, while only_B is hair follicle cycling, nail and melanocyte biology."
+ },
+ {
+  "id": "R1009",
+  "verdict": "facet",
+  "reason": "only_A covers OTU DUBs and K48 (proteasomal) linkage, while only_B covers JAMM metalloprotease DUBs and K63/monoubiquitin signaling linkages."
+ },
+ {
+  "id": "R1010",
+  "verdict": "facet",
+  "reason": "only_A is p75NTR-specific signaling (NRIF, NF-kB survival, receptor proteolysis), while only_B is generic dependence-receptor apoptosis in absence of ligand and neuronal oxidative-stress survival."
+ },
+ {
+  "id": "R1011",
+  "verdict": "twin",
+  "reason": "Both extend mitochondrial dynamics and quality control: only_A mitophagy and fission/fusion, only_B Miro transport and ER-mito tethering/autophagosome docking."
+ },
+ {
+  "id": "R1012",
+  "verdict": "twin",
+  "reason": "Both are central hexose metabolism (fructose/gluconeogenesis vs glycolysis through fructose phosphates), one carbohydrate energy-metabolism theme."
+ },
+ {
+  "id": "R1013",
+  "verdict": "twin",
+  "reason": "Both concern tRNA and translation fidelity: only_A selenocysteine/diphthamide/readthrough, only_B termination and tRNA 3' processing."
+ },
+ {
+  "id": "R1014",
+  "verdict": "facet",
+  "reason": "only_A is RIPK1/ZBP1/TRIF-driven necroptosis, while only_B is TNFR1 proapoptotic signaling, distinct cell-death modes."
+ },
+ {
+  "id": "R1015",
+  "verdict": "twin",
+  "reason": "Both are RIG-I/IRF3 type I interferon antiviral signaling; only_A frames it as coronavirus modulation of the same innate response."
+ },
+ {
+  "id": "R1016",
+  "verdict": "facet",
+  "reason": "only_A is tRNA end processing, splicing and tRF biogenesis, while only_B is chemical nucleotide modification (pseudouridine, t6A, wybutosine) across RNAs."
+ },
+ {
+  "id": "R1017",
+  "verdict": "facet",
+  "reason": "only_A is drug-resistant ALK mutants, while only_B is oncogenic EGFR/ERBB2 mutants, different receptor tyrosine kinase families."
+ },
+ {
+  "id": "R1018",
+  "verdict": "twin",
+  "reason": "Both are mitotic spindle and centrosome function; only_A adds centrosome maturation/NEK/AURKA and only_B kinetochore-microtubule attachment."
+ },
+ {
+  "id": "R1019",
+  "verdict": "facet",
+  "reason": "only_A is serotonin/melatonin synthesis and transport (plus histamine), while only_B is norepinephrine/epinephrine synthesis and noradrenergic neurons."
+ },
+ {
+  "id": "R1020",
+  "verdict": "facet",
+  "reason": "only_A is adrenal corticosteroid (aldosterone/cortisol) regulation, while only_B is vitamin D and retinoic acid CYP metabolism."
+ },
+ {
+  "id": "R1021",
+  "verdict": "twin",
+  "reason": "Both are regulation of sprouting angiogenesis/VEGF signaling; only_A lists positive and only_B negative regulators of the same process."
+ },
+ {
+  "id": "R1022",
+  "verdict": "facet",
+  "reason": "only_A is PD-L1 degradation and anti-tumor T cell immunity, while only_B is cullin-ligase degradation of DVL, AURKA and NOTCH4."
+ },
+ {
+  "id": "R1023",
+  "verdict": "twin",
+  "reason": "Both are heart morphogenesis (septum, ventricle, endocardium, coronary vessels), one cardiac development theme."
+ },
+ {
+  "id": "R1024",
+  "verdict": "twin",
+  "reason": "Both are Gi-coupled adrenergic inhibition of adenylate cyclase; only_A names adrenoceptors/epinephrine secretion, only_B the cAMP/exocytosis readouts."
+ },
+ {
+  "id": "R1025",
+  "verdict": "facet",
+  "reason": "only_A is incretin (GLP-1/GIP) beta-cell stimulation, while only_B is calcitonin/amylin/CGRP receptor signaling and adrenergic inhibition of insulin."
+ },
+ {
+  "id": "R1026",
+  "verdict": "facet",
+  "reason": "only_A is functional plasticity (LTP/LTD, calcium, memory), while only_B is structural postsynaptic actin/spine remodeling."
+ },
+ {
+  "id": "R1027",
+  "verdict": "facet",
+  "reason": "only_A is acrosome biogenesis and exocytosis, while only_B is sperm flagellar motility."
+ },
+ {
+  "id": "R1028",
+  "verdict": "facet",
+  "reason": "only_A is phosphatase-mediated MAPK dephosphorylation, while only_B is ERK5 and atypical MAPK4/6 cascades."
+ },
+ {
+  "id": "R1029",
+  "verdict": "twin",
+  "reason": "Both are chemokine-driven leukocyte migration/homing (CXCR4, Rac, DC and lymphocyte chemotaxis)."
+ },
+ {
+  "id": "R1030",
+  "verdict": "facet",
+  "reason": "only_A is Reelin signaling and dendrite development, while only_B is amyloid-beta response and LTP suppression."
+ },
+ {
+  "id": "R1031",
+  "verdict": "facet",
+  "reason": "only_A is skin appendages (interfollicular epidermis, sebaceous, mammary), while only_B is tooth/odontogenesis and taste papilla development."
+ },
+ {
+  "id": "R1032",
+  "verdict": "facet",
+  "reason": "only_A is radiation-induced DNA damage checkpoint signaling, while only_B is p14ARF/TP53 loss-of-function in cancer and oncogene-induced senescence."
+ },
+ {
+  "id": "R1033",
+  "verdict": "twin",
+  "reason": "Both are complement cascade activation; only_A adds classical pathway and only_B C3/C5 activation and opsonization."
+ },
+ {
+  "id": "R1034",
+  "verdict": "facet",
+  "reason": "only_A is post-chaperonin tubulin folding and complex stabilization, while only_B is HSF1 heat shock response and UPRmt stress signaling."
+ },
+ {
+  "id": "R1035",
+  "verdict": "facet",
+  "reason": "only_A is beta-cell KATP channels (insulin secretion), while only_B is peripheral insulin receptor signaling, GLUT4 and glycogen (insulin action)."
+ },
+ {
+  "id": "R1036",
+  "verdict": "twin",
+  "reason": "Both are the NO-cGMP axis; only_A is eNOS/NO synthesis and only_B is cGMP generation by guanylyl cyclase."
+ },
+ {
+  "id": "R1037",
+  "verdict": "twin",
+  "reason": "Both are lysosomal storage/catabolism of glycoconjugates (GAGs, gangliosides, oligosaccharides)."
+ },
+ {
+  "id": "R1038",
+  "verdict": "facet",
+  "reason": "only_A is neutrophil microbicidal killing and ROS, while only_B is neutrophil recruitment via formyl peptide receptors and chemotaxis."
+ },
+ {
+  "id": "R1039",
+  "verdict": "twin",
+  "reason": "Both are innate antibacterial defense at the host-microbe interface (bacterial killing/peptidoglycan vs iron sequestration and entry)."
+ },
+ {
+  "id": "R1040",
+  "verdict": "facet",
+  "reason": "only_A is inhibitory KIR/MHC-Ib NK receptors and tolerance, while only_B is NK activating receptor signaling."
+ },
+ {
+  "id": "R1041",
+  "verdict": "facet",
+  "reason": "only_A is adrenal glucocorticoid/mineralocorticoid regulation, while only_B is thyroid hormone transport and signaling."
+ },
+ {
+  "id": "R1042",
+  "verdict": "facet",
+  "reason": "only_A is lipid droplet organization and fusion, while only_B is phospholipid/phosphatidylcholine synthesis and lipase regulation."
+ },
+ {
+  "id": "R1043",
+  "verdict": "twin",
+  "reason": "Both are early embryonic axis and neural plate formation (primitive streak/apical constriction vs neural plate and D/V specification)."
+ },
+ {
+  "id": "R1044",
+  "verdict": "facet",
+  "reason": "only_A is hematopoietic stem cell homeostasis, while only_B is terminal erythrocyte maturation and oxygen transport."
+ },
+ {
+  "id": "R1045",
+  "verdict": "facet",
+  "reason": "only_A is presynaptic vesicle priming and fusion, while only_B is postsynaptic receptor trafficking and mGluR signaling."
+ },
+ {
+  "id": "R1046",
+  "verdict": "facet",
+  "reason": "only_A is origin licensing (ORC/CDC6 pre-RC, E2F), while only_B is intra-S DNA damage checkpoint and recombination resolution."
+ },
+ {
+  "id": "R1047",
+  "verdict": "twin",
+  "reason": "Both are phase I/II xenobiotic and drug metabolism (CYP2E1, TPMT, paracetamol vs ethanol oxidation, xenobiotic hallmark)."
+ },
+ {
+  "id": "R1048",
+  "verdict": "facet",
+  "reason": "only_A is the TAK1-JNK stress kinase branch, while only_B is the IRAK1/IKK-NF-kB branch."
+ },
+ {
+  "id": "R1049",
+  "verdict": "facet",
+  "reason": "only_A is NOTCH1 oncogenic mutants and NICD transcription, while only_B is other gamma-secretase targets (ERBB4, p75NTR, APP/amyloid)."
+ },
+ {
+  "id": "R1050",
+  "verdict": "twin",
+  "reason": "Both are renal sodium/potassium transport and its hormonal (aldosterone) regulation."
+ },
+ {
+  "id": "R1051",
+  "verdict": "facet",
+  "reason": "only_A is B cell development/differentiation, while only_B is germinal center/memory B cells with Tfh/ICOS help."
+ },
+ {
+  "id": "R1052",
+  "verdict": "facet",
+  "reason": "only_A is proteasomal protein degradation, while only_B is aggrephagy, chaperone-mediated and microautophagy."
+ },
+ {
+  "id": "R1053",
+  "verdict": "twin",
+  "reason": "Both are xenobiotic metabolism (CYP2E1/FMO/TPMT vs flavonoid and steroid metabolism)."
+ },
+ {
+  "id": "R1054",
+  "verdict": "facet",
+  "reason": "only_A is thyroid hormone signaling and sulfonation, while only_B is hydrogen peroxide/ROS metabolism."
+ },
+ {
+  "id": "R1055",
+  "verdict": "twin",
+  "reason": "Both are cellular cholesterol homeostasis via LDL uptake, SREBP and lysosomal handling."
+ },
+ {
+  "id": "R1056",
+  "verdict": "twin",
+  "reason": "Both are FGFR signaling; only_A lists FGFR1/2 downstream adaptors and only_B FGFR2 splice isoforms."
+ },
+ {
+  "id": "R1057",
+  "verdict": "facet",
+  "reason": "only_A is fatty acid transport across barriers (basigin, SLC27A4), while only_B is pyruvate/creatine energy metabolism and mitochondrial ATP transport."
+ },
+ {
+  "id": "R1058",
+  "verdict": "twin",
+  "reason": "Both are glycogen metabolism and glycogen storage diseases; synthesis and breakdown are the same pathway theme."
+ },
+ {
+  "id": "R1059",
+  "verdict": "facet",
+  "reason": "only_A is mammary gland lineages and development, while only_B is pancreatic lineages and gonad/sex determination."
+ },
+ {
+  "id": "R1060",
+  "verdict": "facet",
+  "reason": "only_A is sperm flagellar motility, while only_B is cytoplasmic microtubule organization, spindle orientation and tubulin glutamylation."
+ },
+ {
+  "id": "R1061",
+  "verdict": "facet",
+  "reason": "only_A is DSCAM/nectin/SDK adhesion and dendrite self-avoidance, while only_B is L1/NCAM adhesion signaling."
+ },
+ {
+  "id": "R1062",
+  "verdict": "twin",
+  "reason": "Both are type 2 (Th2/IL-4/IL-13) allergic immunity; only_A IgE switching/mast cells and only_B Th2 differentiation are parts of one response."
+ },
+ {
+  "id": "R1063",
+  "verdict": "facet",
+  "reason": "only_A is thymic selection-related migration and tolerance, while only_B is peripheral T cell activation and costimulation."
+ },
+ {
+  "id": "R1064",
+  "verdict": "twin",
+  "reason": "Both are early embryonic axial/neural development (forebrain and paraxial mesoderm vs primitive streak and apical constriction)."
+ },
+ {
+  "id": "R1065",
+  "verdict": "facet",
+  "reason": "only_A is cadmium detoxification and oxidative/selenium response, while only_B is membrane transport and host-pathogen ion/iron handling."
+ },
+ {
+  "id": "R1066",
+  "verdict": "facet",
+  "reason": "only_A is monoamine catabolism (MAO/COMT) and serotonin synthesis, while only_B is dopamine receptor signaling."
+ },
+ {
+  "id": "R1067",
+  "verdict": "facet",
+  "reason": "only_A is Notch/TSR O-fucosylation and O-glucosylation, while only_B is PAPS sulfate supply for proteoglycan sulfation."
+ },
+ {
+  "id": "R1068",
+  "verdict": "twin",
+  "reason": "Both are positive regulation of sprouting angiogenesis and endothelial proliferation."
+ },
+ {
+  "id": "R1069",
+  "verdict": "facet",
+  "reason": "only_A is behavioral phenotypes (grooming, exploration, amygdala), while only_B is MECP2 molecular regulation and Rett mutations."
+ },
+ {
+  "id": "R1070",
+  "verdict": "facet",
+  "reason": "only_A is microtubule severing/depolymerization, while only_B is chaperone-mediated complex assembly and protein stability."
+ },
+ {
+  "id": "R1071",
+  "verdict": "twin",
+  "reason": "Both are axon guidance and growth (chemorepulsion vs guidance/innervation)."
+ },
+ {
+  "id": "R1072",
+  "verdict": "facet",
+  "reason": "only_A is inflammasome-driven pyroptotic cell death (AIM2), while only_B is downstream IL-18 cytokine signaling."
+ },
+ {
+  "id": "R1073",
+  "verdict": "twin",
+  "reason": "Both are ubiquitin-proteasome protein quality control (proteasomal catabolism vs ERAD, UCH, N-end rule)."
+ },
+ {
+  "id": "R1074",
+  "verdict": "twin",
+  "reason": "Both add T cell activation and proliferation (CD8 vs CD4) to the same NK/T cytotoxic regulation theme."
+ },
+ {
+  "id": "R1075",
+  "verdict": "facet",
+  "reason": "only_A is ERK dephosphorylation and AP-1, while only_B is AKT-TSC and IGF1R-SHC signaling."
+ },
+ {
+  "id": "R1076",
+  "verdict": "twin",
+  "reason": "Both are regulation of lymphocyte activation and tolerance (KIR, T/NK activation, Fc inhibitory signaling)."
+ },
+ {
+  "id": "R1077",
+  "verdict": "facet",
+  "reason": "only_A is sister chromatid cohesion/mitotic cycle, while only_B is nuclear envelope breakdown/reassembly and abscission."
+ },
+ {
+  "id": "R1078",
+  "verdict": "facet",
+  "reason": "only_A is intraflagellar transport, while only_B is photoreceptor outer segment and retinal cell development."
+ },
+ {
+  "id": "R1079",
+  "verdict": "facet",
+  "reason": "only_A is piRNA biogenesis and oocyte construction, while only_B is germ cell specification, spermatogenesis and zygotic genome activation."
+ },
+ {
+  "id": "R1080",
+  "verdict": "twin",
+  "reason": "Both are NF-kB signaling; only_A lists negative regulators and only_B TLR/TCR upstream activation of the same pathway."
+ },
+ {
+  "id": "R1081",
+  "verdict": "facet",
+  "reason": "only_A is exploratory/grooming behavior and amygdala, while only_B is orexin, sleep-wake, drinking and mating behavior."
+ },
+ {
+  "id": "R1082",
+  "verdict": "twin",
+  "reason": "Both are endolysosomal fusion and organelle size control."
+ },
+ {
+  "id": "R1083",
+  "verdict": "facet",
+  "reason": "only_A is gut tube/hindgut morphogenesis, while only_B is heart and coronary vessel development."
+ },
+ {
+  "id": "R1084",
+  "verdict": "facet",
+  "reason": "only_A is bone marrow cell number and proliferation homeostasis, while only_B is thymocyte and B/gamma-delta lymphocyte differentiation."
+ },
+ {
+  "id": "R1085",
+  "verdict": "twin",
+  "reason": "Both are skeletal myogenesis and muscle regeneration (satellite cells, myoblast fusion)."
+ },
+ {
+  "id": "R1086",
+  "verdict": "twin",
+  "reason": "Both are stem cell homeostasis and maintenance in hematopoiesis/LIF context."
+ },
+ {
+  "id": "R1087",
+  "verdict": "twin",
+  "reason": "Both are CSF1/DAP12-driven myeloid osteoclast differentiation and fusion."
+ },
+ {
+  "id": "R1088",
+  "verdict": "facet",
+  "reason": "only_A is cortical/forebrain neurogenesis and commissures, while only_B is cerebellar granular layer and Bergmann glia."
+ },
+ {
+  "id": "R1089",
+  "verdict": "facet",
+  "reason": "only_A is antimicrobial peptides (defensins), while only_B is iron/heme nutritional immunity and bacterial entry."
+ },
+ {
+  "id": "R1090",
+  "verdict": "facet",
+  "reason": "only_A is nephron tubule development, while only_B is pancreatic lineages and epithelial branching."
+ },
+ {
+  "id": "R1091",
+  "verdict": "facet",
+  "reason": "only_A is inhibitory GABAergic synapse assembly, while only_B is excitatory AMPA/PSD postsynapse assembly."
+ },
+ {
+  "id": "R1092",
+  "verdict": "facet",
+  "reason": "only_A is insulin handling and fatty acid/glycogen metabolic control, while only_B is PGC-1alpha activation by muscle activity."
+ },
+ {
+  "id": "R1093",
+  "verdict": "facet",
+  "reason": "only_A is mitochondrial genome replication, transcription and translation, while only_B is cytosolic rRNA modification and diphthamide."
+ },
+ {
+  "id": "R1094",
+  "verdict": "facet",
+  "reason": "only_A is LXR-driven cholesterol efflux and macrophage foam cells, while only_B is LDL receptor degradation and cholesterol biosynthesis."
+ },
+ {
+  "id": "R1095",
+  "verdict": "twin",
+  "reason": "Both are G2 DNA damage checkpoint/p53 regulation (COP1, Cdc25A degradation vs GTSE1, checkpoint)."
+ },
+ {
+  "id": "R1096",
+  "verdict": "twin",
+  "reason": "Both are RUNX-regulated myeloid/hematopoietic differentiation."
+ },
+ {
+  "id": "R1097",
+  "verdict": "twin",
+  "reason": "Both are GI smooth muscle contraction/relaxation and tachykinin signaling."
+ },
+ {
+  "id": "R1098",
+  "verdict": "facet",
+  "reason": "only_A is nucleoside/nucleobase membrane transport, while only_B is pyrimidine nucleotide catabolism and salvage."
+ },
+ {
+  "id": "R1099",
+  "verdict": "twin",
+  "reason": "Both are Th2/IL-4/IL-13/IL-33 type 2 immunity."
+ }
+]

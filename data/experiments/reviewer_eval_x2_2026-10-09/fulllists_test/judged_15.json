@@ -1,0 +1,502 @@
+[
+ {
+  "id": "R1400",
+  "verdict": "facet",
+  "reason": "only_A covers peripheral T cell activation and B cell development while only_B is thymic selection, thymocyte proliferation/apoptosis and central tolerance."
+ },
+ {
+  "id": "R1401",
+  "verdict": "facet",
+  "reason": "only_A is naive/memory B cell signatures and proliferation while only_B is plasma cell differentiation and immunoglobulin production."
+ },
+ {
+  "id": "R1402",
+  "verdict": "twin",
+  "reason": "Both only_A (suppression of T cell IL-2/cytokines) and only_B (regulation of TCR-driven T cell activation, DC activation) fall under regulation of T cell activation and tolerance."
+ },
+ {
+  "id": "R1403",
+  "verdict": "twin",
+  "reason": "only_A (amino acid conjugation, ethanol oxidation) and only_B (AhR, drug ADME, xenobiotic metabolism) are both xenobiotic/drug biotransformation."
+ },
+ {
+  "id": "R1404",
+  "verdict": "facet",
+  "reason": "only_A is early autophagosome assembly at the phagophore while only_B is autophagosome maturation/lysosomal targeting and xenophagy."
+ },
+ {
+  "id": "R1405",
+  "verdict": "facet",
+  "reason": "only_A is lung/trachea-specific organ development (vasculature, cartilage) while only_B is generic epithelial-mesenchymal signaling in salivary gland and limb bud branching."
+ },
+ {
+  "id": "R1406",
+  "verdict": "twin",
+  "reason": "only_A (AMPA/kainate receptors, CaMK-CREB activity-dependent signaling) and only_B (positive regulation of glutamatergic transmission) are the same glutamatergic synaptic signaling theme."
+ },
+ {
+  "id": "R1407",
+  "verdict": "twin",
+  "reason": "only_A (valine catabolism defects) and only_B (isoleucine/short-chain acyl catabolism) are both branched-chain amino acid catabolism."
+ },
+ {
+  "id": "R1408",
+  "verdict": "facet",
+  "reason": "only_A is mitochondrial protein import, processing and cristae organization while only_B is receptor-mediated mitophagy and autophagosome machinery."
+ },
+ {
+  "id": "R1409",
+  "verdict": "facet",
+  "reason": "only_A is collagen biosynthesis and crosslinking while only_B is cell-matrix adhesion receptors (integrins, dystroglycan complex, hemidesmosomes, DDR)."
+ },
+ {
+  "id": "R1410",
+  "verdict": "twin",
+  "reason": "only_A (synaptic plasticity, local translation) and only_B (spine maintenance, LTP regulation) both describe postsynaptic structural/functional plasticity."
+ },
+ {
+  "id": "R1411",
+  "verdict": "facet",
+  "reason": "only_A is plasma chylomicron remodeling by LPL/LIPC while only_B is intestinal dietary lipid absorption and chylomicron/VLDL assembly."
+ },
+ {
+  "id": "R1412",
+  "verdict": "facet",
+  "reason": "only_A is snRNP assembly and splicing while only_B is lncRNA transcription and chromatin tethering at the nuclear periphery."
+ },
+ {
+  "id": "R1413",
+  "verdict": "facet",
+  "reason": "only_A is p75NTR-mediated apoptotic death signaling while only_B is p75NTR control of axonal growth via RhoA."
+ },
+ {
+  "id": "R1414",
+  "verdict": "facet",
+  "reason": "only_A is COPI and endosome-to-Golgi retrograde traffic while only_B is anterograde Golgi-to-endosome/lysosome transport."
+ },
+ {
+  "id": "R1415",
+  "verdict": "twin",
+  "reason": "only_A (SLC36A2/SLC6A20 iminoglycinuria) and only_B (SLC1A1, SLC6A14 variants) are all amino acid transporter defects."
+ },
+ {
+  "id": "R1416",
+  "verdict": "facet",
+  "reason": "only_A is essential iron/zinc uptake and homeostasis while only_B is cadmium detoxification and metallothionein sequestration."
+ },
+ {
+  "id": "R1417",
+  "verdict": "facet",
+  "reason": "only_A is natriuretic peptide/guanylyl cyclase cGMP signaling while only_B is the renin-angiotensin system and neural blood pressure control."
+ },
+ {
+  "id": "R1418",
+  "verdict": "facet",
+  "reason": "only_A is exploratory/locomotor behavior and amygdala development while only_B is vocal and observational learning and pheromone response."
+ },
+ {
+  "id": "R1419",
+  "verdict": "facet",
+  "reason": "only_A is bone mineralization while only_B is tooth-specific dentinogenesis and eruption."
+ },
+ {
+  "id": "R1420",
+  "verdict": "facet",
+  "reason": "only_A is fructose catabolism and its disorders while only_B is aquaporin-mediated glycerol/urea transport."
+ },
+ {
+  "id": "R1421",
+  "verdict": "twin",
+  "reason": "only_A (glycine/glyoxylate metabolism) and only_B (glutamine, nitrogen and organic acid metabolism) both describe mitochondrial amino/organic acid metabolism feeding glycine/glutamine conjugation."
+ },
+ {
+  "id": "R1422",
+  "verdict": "facet",
+  "reason": "only_A is BDNF/NT4-TrkB signaling while only_B is NGF-TrkA signaling."
+ },
+ {
+  "id": "R1423",
+  "verdict": "twin",
+  "reason": "only_A (CDK regulation, checkpoints, mitotic progression) and only_B (proliferation/mitosis signatures, MYC network) are the same cell cycle/proliferation theme."
+ },
+ {
+  "id": "R1424",
+  "verdict": "twin",
+  "reason": "only_A (MyD88/IRAK4 deficiencies) and only_B (negative regulation of TLR2/4 signaling) both concern TLR2/4 innate signaling."
+ },
+ {
+  "id": "R1425",
+  "verdict": "facet",
+  "reason": "only_A is NK cell receptors and tolerance/cytotoxicity inhibition while only_B is Th1 CD4 T cell activation."
+ },
+ {
+  "id": "R1426",
+  "verdict": "facet",
+  "reason": "only_A is IL-3/5/7/9 and G-CSF cytokine receptor STAT signaling while only_B is type I/III interferon responses."
+ },
+ {
+  "id": "R1427",
+  "verdict": "facet",
+  "reason": "only_A is dendrite arborization and postsynapse assembly while only_B is activity-dependent synaptic plasticity and local translation."
+ },
+ {
+  "id": "R1428",
+  "verdict": "twin",
+  "reason": "only_A (postsynaptic assembly, PSD95/NMDA clustering) and only_B (synapse assembly, presynapse organization, trans-synaptic complexes) are all synapse assembly/organization."
+ },
+ {
+  "id": "R1429",
+  "verdict": "facet",
+  "reason": "only_A is 5-lipoxygenase leukotriene synthesis while only_B is cytochrome P450 epoxygenase/omega-hydroxylase EET/HETE production."
+ },
+ {
+  "id": "R1430",
+  "verdict": "twin",
+  "reason": "only_A (Ca sequestration, contraction force) and only_B (negative regulation of contraction, heart rate, Ca release) are the same cardiac excitation-contraction Ca handling theme."
+ },
+ {
+  "id": "R1431",
+  "verdict": "facet",
+  "reason": "only_A is organelle-selective macroautophagy (pexophagy, mitophagy, reticulophagy) while only_B is aggrephagy, chaperone-mediated and endosomal microautophagy with lysosome fusion."
+ },
+ {
+  "id": "R1432",
+  "verdict": "facet",
+  "reason": "only_A is canonical/non-canonical NF-kB, NOD and inflammasome signaling while only_B is TBK1/IKKe-mediated IRF3/7 activation."
+ },
+ {
+  "id": "R1433",
+  "verdict": "facet",
+  "reason": "only_A is spindle orientation and centriole/basal body assembly while only_B is tubulin post-translational modification and microtubule severing."
+ },
+ {
+  "id": "R1434",
+  "verdict": "facet",
+  "reason": "only_A is mRNA 3'-end processing/polyadenylation while only_B is Pol I/III rRNA/tRNA transcription and ribosome biogenesis."
+ },
+ {
+  "id": "R1435",
+  "verdict": "twin",
+  "reason": "only_A (PI3K/AKT, p38, NGF transcription) and only_B (RIT/RIN-p38, MAP2K signaling) are the same Trk downstream kinase signaling."
+ },
+ {
+  "id": "R1436",
+  "verdict": "twin",
+  "reason": "only_A (IL-12-STAT, T helper lineage choice) and only_B (MHC II induction, IFN-gamma response) both belong to the Th1/IFN-gamma axis."
+ },
+ {
+  "id": "R1437",
+  "verdict": "facet",
+  "reason": "only_A is insulin-stimulated GLUT4 glucose uptake and adiponectin while only_B is hepatic glucokinase regulation and glycogenolysis."
+ },
+ {
+  "id": "R1438",
+  "verdict": "twin",
+  "reason": "only_A (platelet adhesion/GP1b activation) and only_B (platelet degranulation/SNARE) are the same platelet activation theme."
+ },
+ {
+  "id": "R1439",
+  "verdict": "facet",
+  "reason": "only_A is proton-coupled peptide/histidine transporters while only_B is inositol transport and metabolism."
+ },
+ {
+  "id": "R1440",
+  "verdict": "facet",
+  "reason": "only_A is clathrin coat assembly and endocytosis while only_B is presynaptic active zone and cytoskeleton structure."
+ },
+ {
+  "id": "R1441",
+  "verdict": "facet",
+  "reason": "only_A is forebrain neuron fate specification and thalamus/pyramidal development while only_B is neuronal migration."
+ },
+ {
+  "id": "R1442",
+  "verdict": "facet",
+  "reason": "only_A is mRNA decapping and 5'-3' decay while only_B is A-to-I RNA editing and PKR/translational silencing."
+ },
+ {
+  "id": "R1443",
+  "verdict": "facet",
+  "reason": "only_A is regulated cytoplasmic mRNA decay/stability while only_B is replication-dependent histone pre-mRNA 3' processing and Pol II termination."
+ },
+ {
+  "id": "R1444",
+  "verdict": "twin",
+  "reason": "only_A (heme scavenging and assimilation) and only_B (ferroportin/ceruloplasmin iron export defects) are both systemic iron homeostasis."
+ },
+ {
+  "id": "R1445",
+  "verdict": "twin",
+  "reason": "only_A (tRNA 5' leader removal, transport) and only_B (pseudouridylation, mitochondrial RNA processing) are the same RNA processing/modification theme largely mitochondrial."
+ },
+ {
+  "id": "R1446",
+  "verdict": "facet",
+  "reason": "only_A is mitotic centrosome maturation and spindle assembly/orientation while only_B is cytokinesis contractile ring and septins."
+ },
+ {
+  "id": "R1447",
+  "verdict": "facet",
+  "reason": "only_A is beta-cell KATP channel coupling of metabolism to insulin secretion while only_B is glucagon, somatostatin and other GPCR control of islet hormone secretion."
+ },
+ {
+  "id": "R1448",
+  "verdict": "facet",
+  "reason": "only_A is Gi-coupled adenylate cyclase inhibition (alpha-2 adrenergic) while only_B is Gs adenylate cyclase activation, CREB and DARPP-32."
+ },
+ {
+  "id": "R1449",
+  "verdict": "twin",
+  "reason": "only_A (TRIF-dependent TLR3/4 signaling, cell death) and only_B (endosomal TLR trafficking, UNC93B1, TLR3 regulation) are the same TLR3-TRIF pathway."
+ },
+ {
+  "id": "R1450",
+  "verdict": "facet",
+  "reason": "only_A is exploratory/emotional behavior and amygdala development while only_B is sensory perception (touch, vision) and GABA gene regulation."
+ },
+ {
+  "id": "R1451",
+  "verdict": "twin",
+  "reason": "only_A (negative regulation of granulocyte/monocyte differentiation, GM-CSF) and only_B (myeloid progenitor and granulocyte differentiation, RUNX1) are the same myelopoiesis theme."
+ },
+ {
+  "id": "R1452",
+  "verdict": "facet",
+  "reason": "only_A is Notch in developmental contexts (Th2, pancreas, RUNX3) while only_B is oncogenic NOTCH1 PEST/HD mutants and FBXW7 loss in cancer."
+ },
+ {
+  "id": "R1453",
+  "verdict": "twin",
+  "reason": "only_A (Na/K transport regulation, osmotic response) and only_B (Bartter, SLC26A3, K channels, paracellular transport) are all epithelial salt/ion transport."
+ },
+ {
+  "id": "R1454",
+  "verdict": "twin",
+  "reason": "only_A (bacterial attachment/entry) and only_B (antifungal, antimicrobial humoral and neutrophil killing) are the same mucosal antimicrobial defense theme."
+ },
+ {
+  "id": "R1455",
+  "verdict": "facet",
+  "reason": "only_A is GPI anchor biosynthesis while only_B is nucleotide-sugar synthesis and Golgi transport (SLC35 CDGs)."
+ },
+ {
+  "id": "R1456",
+  "verdict": "facet",
+  "reason": "only_A is canonical TGF-beta/SMAD signaling regulation while only_B is RUNX3 transcriptional targets and regulation."
+ },
+ {
+  "id": "R1457",
+  "verdict": "facet",
+  "reason": "only_A is MHC class II exogenous antigen presentation while the shared/only_B core is MHC class I/Ib presentation."
+ },
+ {
+  "id": "R1458",
+  "verdict": "twin",
+  "reason": "only_A (inhibition of collateral sprouting/regeneration) and only_B (positive axon extension, DRG development) are the same axon growth/guidance theme."
+ },
+ {
+  "id": "R1459",
+  "verdict": "facet",
+  "reason": "only_A is CD1 lipid antigen presentation and DC/monocyte differentiation while only_B is lymphocyte/plasma cell surface signatures and butyrophilins."
+ },
+ {
+  "id": "R1460",
+  "verdict": "facet",
+  "reason": "only_A is inhibitory Fc receptor control of B cell/humoral responses while only_B is activating FcgammaR effector functions (ADCC, type II hypersensitivity)."
+ },
+ {
+  "id": "R1461",
+  "verdict": "twin",
+  "reason": "only_A (positive axon extension in guidance) and only_B (axon guidance, PNS/sympathetic axon outgrowth, sprouting) are the same peripheral axon growth theme."
+ },
+ {
+  "id": "R1462",
+  "verdict": "facet",
+  "reason": "only_A is broader lipid mediators (PAF, linoleic acid, ether lipids) while only_B is cysteinyl leukotriene synthesis and signaling."
+ },
+ {
+  "id": "R1463",
+  "verdict": "facet",
+  "reason": "only_A is V-ATPase phagosome acidification while only_B is Na+/H+ exchanger-mediated organellar pH regulation and its neurological disorders."
+ },
+ {
+  "id": "R1464",
+  "verdict": "facet",
+  "reason": "only_A is NGF-TrkA specific signaling while only_B is generic MAPK (ERK5, p38, atypical MAPK) cascades."
+ },
+ {
+  "id": "R1465",
+  "verdict": "facet",
+  "reason": "only_A is type I/III interferon responses while only_B is IL-37 and other interleukin signaling."
+ },
+ {
+  "id": "R1466",
+  "verdict": "facet",
+  "reason": "only_A is lipid droplet formation and fusion while only_B is triglyceride lipolysis."
+ },
+ {
+  "id": "R1467",
+  "verdict": "facet",
+  "reason": "only_A is HIV Nef/Vpu-mediated immune receptor downregulation while only_B is proteasome assembly and function."
+ },
+ {
+  "id": "R1468",
+  "verdict": "facet",
+  "reason": "only_A is leukotriene catabolism by omega-oxidation while only_B is leukotriene/prostaglandin receptor signaling."
+ },
+ {
+  "id": "R1469",
+  "verdict": "facet",
+  "reason": "only_A is catecholamine biosynthesis while only_B is monoamine transporter reuptake (DAT/NET) and its disorders."
+ },
+ {
+  "id": "R1470",
+  "verdict": "twin",
+  "reason": "only_A (TRAF3/TRAF6-IRF activation, RSV evasion) and only_B (IRF3 type I IFN induction, RIG-I regulation) are the same RLR antiviral IFN theme."
+ },
+ {
+  "id": "R1471",
+  "verdict": "facet",
+  "reason": "only_A is retina/iris morphogenesis and retinal ganglion axon guidance while only_B is developmental cell death and hyaloid vessel regression."
+ },
+ {
+  "id": "R1472",
+  "verdict": "facet",
+  "reason": "only_A is Slit-Robo midline axon guidance while only_B is neuronal cell adhesion molecules, dendrite self-avoidance and pruning."
+ },
+ {
+  "id": "R1473",
+  "verdict": "facet",
+  "reason": "only_A is heme, quinone and steroidogenic ferredoxin biosynthesis while only_B is the TCA cycle and oxidative phosphorylation."
+ },
+ {
+  "id": "R1474",
+  "verdict": "twin",
+  "reason": "only_A (circadian clock control of gluconeogenesis) and only_B (nuclear receptor transcription) are the same nuclear receptor/circadian metabolic transcription theme."
+ },
+ {
+  "id": "R1475",
+  "verdict": "twin",
+  "reason": "only_A (GAG linkage region and chondroitin synthesis defects) and only_B (sulfate/nucleotide-sugar transporter chondrodysplasias) are all proteoglycan biosynthesis."
+ },
+ {
+  "id": "R1476",
+  "verdict": "twin",
+  "reason": "only_A (mRNA stabilization, IGF2BPs) and only_B (3'-UTR stabilization, translational silencing) are the same RNA-binding-protein post-transcriptional control theme."
+ },
+ {
+  "id": "R1477",
+  "verdict": "facet",
+  "reason": "only_A is systemic phosphate/FGF23-Klotho and PTH regulation while only_B is odontogenesis and cementum mineralization."
+ },
+ {
+  "id": "R1478",
+  "verdict": "facet",
+  "reason": "only_A is CHD chromatin remodelers and rRNA gene activation while only_B is DNA/histone/protein methylation and PRC2."
+ },
+ {
+  "id": "R1479",
+  "verdict": "twin",
+  "reason": "only_A (crosslink repair, camptothecin/hydroxyurea response) and only_B (HR, BIR, ICL repair) are the same replication stress/DNA repair theme."
+ },
+ {
+  "id": "R1480",
+  "verdict": "facet",
+  "reason": "only_A is oocyte/piRNA-mediated transposon silencing and imprinting while only_B is spermatogenesis and sperm chromatin."
+ },
+ {
+  "id": "R1481",
+  "verdict": "twin",
+  "reason": "only_A (t6A modification, selenocysteine, fidelity) and only_B (wybutosine, tRNA 3' processing, termination) are the same tRNA modification/translational fidelity theme."
+ },
+ {
+  "id": "R1482",
+  "verdict": "facet",
+  "reason": "only_A is voluntary motor movement while only_B is sensory perception, sensorimotor gating and social behavior."
+ },
+ {
+  "id": "R1483",
+  "verdict": "facet",
+  "reason": "only_A is peroxisomal VLCFA beta-oxidation while only_B is cholesterol/isoprenoid biosynthesis."
+ },
+ {
+  "id": "R1484",
+  "verdict": "facet",
+  "reason": "only_A is glial differentiation, proliferation and reactive gliosis while only_B is connexin/gap junction assembly and trafficking."
+ },
+ {
+  "id": "R1485",
+  "verdict": "facet",
+  "reason": "only_A is axial/paraxial mesoderm and notochord formation while only_B is brain ventricle development and CSF circulation."
+ },
+ {
+  "id": "R1486",
+  "verdict": "facet",
+  "reason": "only_A is FLT3 tyrosine kinase inhibitor resistance mutants while only_B is erythropoietin receptor signaling."
+ },
+ {
+  "id": "R1487",
+  "verdict": "facet",
+  "reason": "only_A is replication-associated DNA synthesis and recombination resolution while only_B is double-strand break sensing, NHEJ/MMEJ and PARP signaling."
+ },
+ {
+  "id": "R1488",
+  "verdict": "facet",
+  "reason": "only_A is MYC-driven rRNA processing and ribosome biogenesis while only_B is RNA Pol II initiation/elongation including HIV transcription."
+ },
+ {
+  "id": "R1489",
+  "verdict": "twin",
+  "reason": "only_A (leucine catabolism defects) and only_B (biotin, threonine and 2-oxoglutarate metabolism) are the same mitochondrial branched-chain/organic acid catabolism theme."
+ },
+ {
+  "id": "R1490",
+  "verdict": "facet",
+  "reason": "only_A is protein degradation via aggrephagy, CMA and ubiquitination while only_B is protein folding/refolding and amyloid formation."
+ },
+ {
+  "id": "R1491",
+  "verdict": "facet",
+  "reason": "only_A is IL-33 signaling while only_B is IL-27/IL-35 signaling and wound-healing regulation."
+ },
+ {
+  "id": "R1492",
+  "verdict": "facet",
+  "reason": "only_A is cerebellar motor control and voluntary movement while only_B is sensory perception and respiratory neural control."
+ },
+ {
+  "id": "R1493",
+  "verdict": "facet",
+  "reason": "only_A is non-histone protein arginine/lysine methylation while only_B is chromatin remodeling complexes (CHD, NuRD) and PRC2."
+ },
+ {
+  "id": "R1494",
+  "verdict": "twin",
+  "reason": "only_A (IFN-gamma response, DC activation and cytokines) and only_B (IFN-gamma receptor signaling and its regulation) are the same Th1/IFN-gamma theme."
+ },
+ {
+  "id": "R1495",
+  "verdict": "facet",
+  "reason": "only_A is phospholipid flippase translocation while only_B is lysophospholipid hydrolysis and glycerophospholipid catabolism."
+ },
+ {
+  "id": "R1496",
+  "verdict": "twin",
+  "reason": "only_A (Ca removal, NCX, RyR regulation, T-tubules) and only_B (Ca sequestration, cardiac force) are the same muscle excitation-contraction Ca handling theme."
+ },
+ {
+  "id": "R1497",
+  "verdict": "twin",
+  "reason": "only_A (actin polymerization, ruffles, motility) and only_B (EPHB, RHOF, cell polarity) are the same actin cytoskeleton remodeling theme."
+ },
+ {
+  "id": "R1498",
+  "verdict": "facet",
+  "reason": "only_A is generic viral attachment/entry and cell-cell fusion while only_B is Dengue virus-specific life cycle and immune modulation."
+ },
+ {
+  "id": "R1499",
+  "verdict": "twin",
+  "reason": "only_A (axonal mitochondrial/organelle transport) and only_B (kinesins, microtubule dynamics) are the same microtubule-based neuronal transport theme."
+ }
+]

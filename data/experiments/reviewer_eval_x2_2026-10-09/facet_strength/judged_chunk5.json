@@ -1,0 +1,492 @@
+[
+ {
+  "pid": "P392",
+  "strength": 3,
+  "reason": "Y is PI3K/AKT signaling, a distinct axis; X is DNA-damage G2 checkpoint/p53 response."
+ },
+ {
+  "pid": "P393",
+  "strength": 2,
+  "reason": "Y adds TNFR1 signaling, linear ubiquitination and apoptosis; X adds lymphocyte antigen-receptor NF-kB. Secondary receptor-context emphases."
+ },
+ {
+  "pid": "P394",
+  "strength": 3,
+  "reason": "X is nucleolar/cytosolic rRNA, snoRNA and tRNA wobble modification; Y is mitochondrial tRNA processing. Distinct compartments."
+ },
+ {
+  "pid": "P395",
+  "strength": 1,
+  "reason": "X bicarbonate transport is near-synonymous with shared anion exchange; Y adds a few stray transporter diseases."
+ },
+ {
+  "pid": "P396",
+  "strength": 3,
+  "reason": "Y defines chondrocyte/articular cartilage differentiation; X is RUNX2-driven osteoblast differentiation. Distinct skeletal cell lineages."
+ },
+ {
+  "pid": "P397",
+  "strength": 2,
+  "reason": "X adds cation-chloride cotransporter tubulopathies (Bartter, Gitelman) and NHE disorders; Y adds stray alkanesulfonate transport."
+ },
+ {
+  "pid": "P398",
+  "strength": 2,
+  "reason": "Y adds SREBP-mediated cholesterol biosynthesis feedback; X adds generic clathrin endocytosis. Both fall within cholesterol homeostasis."
+ },
+ {
+  "pid": "P399",
+  "strength": 3,
+  "reason": "Y is NIK-dependent noncanonical NF-kB; X is TRIF-mediated cell death. Distinct mechanisms beyond the shared TLR signaling."
+ },
+ {
+  "pid": "P400",
+  "strength": 3,
+  "reason": "Y is PAPS sulfate activation (sulfation); X is SLC35 nucleotide-sugar transport glycosylation disorders. Distinct biochemical axes."
+ },
+ {
+  "pid": "P401",
+  "strength": 3,
+  "reason": "X is androgen/estrogen sex-steroid synthesis; Y is pregnenolone/progesterone and ACTH-corticosteroid regulation. Distinct steroid classes."
+ },
+ {
+  "pid": "P402",
+  "strength": 3,
+  "reason": "Y is de novo pyrimidine (UMP) biosynthesis, distinct from shared deoxynucleotide salvage; X adds stray dNMP terms."
+ },
+ {
+  "pid": "P403",
+  "strength": 3,
+  "reason": "X defines Schwann cell/PNS myelination; Y adds astrocyte migration and activation. Distinct glial cell types."
+ },
+ {
+  "pid": "P404",
+  "strength": 3,
+  "reason": "X is HIV Nef/Vpu evasion of CD4/MHC-I plus the proteasome; Y is IFN-gamma MHC-I induction. Distinct contexts."
+ },
+ {
+  "pid": "P405",
+  "strength": 3,
+  "reason": "Y is HGF/MET receptor signaling, a distinct RTK; X adds nuclear ERBB4 signaling."
+ },
+ {
+  "pid": "P406",
+  "strength": 2,
+  "reason": "Y adds mitochondrial ADP/ATP translocation and MOMP apoptosis; X adds NADP synthesis. Moderately distinct from NAD salvage."
+ },
+ {
+  "pid": "P407",
+  "strength": 3,
+  "reason": "X is clock output to metabolism (REV-ERB/ROR, PPARA, PGC-1a, beta cells); Y is stray redox/acetylation terms."
+ },
+ {
+  "pid": "P408",
+  "strength": 3,
+  "reason": "X defines glycogen storage diseases, glycophagy and galactosemia; distinct from fructose/PPP. Y adds glycerol."
+ },
+ {
+  "pid": "P409",
+  "strength": 2,
+  "reason": "Y adds learning/memory and LTP outputs; X adds CaMKK-AMPK. Both are secondary to neuronal CREB activation."
+ },
+ {
+  "pid": "P410",
+  "strength": 1,
+  "reason": "Same RIG-I/IFN antiviral story; X adds TBK1 regulation and Y adds negative regulators/DC terms."
+ },
+ {
+  "pid": "P411",
+  "strength": 3,
+  "reason": "X defines NK-cell cytotoxicity, KIRs and granzyme killing; distinct from T-cell tolerance/costimulation. Y adds stray Fc terms."
+ },
+ {
+  "pid": "P412",
+  "strength": 1,
+  "reason": "Same EGFR/ERBB adaptor signaling; X adds SHC/GRB2 and Y adds PLCG/PI3K/GAB1 branches of one story."
+ },
+ {
+  "pid": "P413",
+  "strength": 2,
+  "reason": "Y emphasizes p53/DNA-damage checkpoint; X adds DREAM-mediated E2F repression. Secondary emphases on G2/M progression."
+ },
+ {
+  "pid": "P414",
+  "strength": 3,
+  "reason": "X defines megakaryocyte differentiation/RUNX1 (platelet lineage); distinct from erythroid. Y adds HSC homeostasis."
+ },
+ {
+  "pid": "P415",
+  "strength": 2,
+  "reason": "X adds TAK1-JNK/MAPK and noncanonical NF-kB branches; Y adds TLR3/4 regulation. Secondary emphasis."
+ },
+ {
+  "pid": "P416",
+  "strength": 3,
+  "reason": "Y defines tooth/odontoblast and cranial sensory development; X adds keratinocyte proliferation and wound healing. Distinct organs."
+ },
+ {
+  "pid": "P417",
+  "strength": 3,
+  "reason": "Y covers GABA synthesis/reuptake and cholinergic metabolism; distinct transmitter systems from glutamate. X adds glycinergic transmission."
+ },
+ {
+  "pid": "P418",
+  "strength": 2,
+  "reason": "Y adds carnitine transport/deficiency and GLUT1; X adds sialic acid (Salla). Loosely related solute-transport additions."
+ },
+ {
+  "pid": "P419",
+  "strength": 1,
+  "reason": "Both are grab-bags of amino acid catabolism with obsolete terms; X adds glyoxylate/proline and Y adds BH4. Same story."
+ },
+ {
+  "pid": "P420",
+  "strength": 2,
+  "reason": "Y adds integrin/focal adhesion (ILK-PINCH), podosomes and macropinocytosis; X adds lamellipodia-driven migration."
+ },
+ {
+  "pid": "P421",
+  "strength": 2,
+  "reason": "X adds type II/III interferon signaling and Th17 regulation versus the IL-10-family anti-inflammatory core; Y is stray."
+ },
+ {
+  "pid": "P422",
+  "strength": 2,
+  "reason": "Y adds mitochondrial mRNA stability/decay (FASTK); X adds stray Pol II and mtDNA repair."
+ },
+ {
+  "pid": "P423",
+  "strength": 2,
+  "reason": "Y adds oxLDL response and foam-cell formation (atherosclerosis context); X is stray. Moderately implied by scavenger receptors."
+ },
+ {
+  "pid": "P424",
+  "strength": 3,
+  "reason": "X is hepatic lipogenesis/triglyceride/SREBP; Y is insulin signaling and glucose uptake. Distinct metabolic axes."
+ },
+ {
+  "pid": "P425",
+  "strength": 2,
+  "reason": "Y adds netrin and L1/CHL1/DSCAM adhesion-molecule guidance; X adds SLIT-ROBO RhoA. Different cue families, same guidance story."
+ },
+ {
+  "pid": "P426",
+  "strength": 2,
+  "reason": "X is alpha2-adrenergic Gi inhibition of adenylate cyclase; Y is Gq/PLC calcium signaling. Secondary G-protein branches."
+ },
+ {
+  "pid": "P427",
+  "strength": 1,
+  "reason": "Same IL-12/IFN-gamma Th1 axis; X adds DC cytokine production and Y adds Th1 differentiation."
+ },
+ {
+  "pid": "P428",
+  "strength": 3,
+  "reason": "X defines de novo pyrimidine synthesis and pyrimidine catabolism, distinct from deoxynucleotide salvage; Y adds stray purine deoxynucleosides."
+ },
+ {
+  "pid": "P429",
+  "strength": 3,
+  "reason": "X defines Schwann-cell PNS myelination and axon caliber; Y adds astrocyte/glial proliferation. Distinct cell types."
+ },
+ {
+  "pid": "P430",
+  "strength": 3,
+  "reason": "Y defines tooth/odontogenesis and taste papillae; X adds keratinocyte, mammary and sebaceous glands. Distinct ectodermal organs."
+ },
+ {
+  "pid": "P431",
+  "strength": 2,
+  "reason": "X emphasizes zinc transport/homeostasis and Y adds iron (hemochromatosis). Metal-specific emphases within metal homeostasis."
+ },
+ {
+  "pid": "P432",
+  "strength": 2,
+  "reason": "Y adds ribosomal subunit and tRNA nuclear export, distinct from mRNA export; X is stray."
+ },
+ {
+  "pid": "P433",
+  "strength": 3,
+  "reason": "Y defines cobalamin metabolism/methylmalonic acidemia; X is BCKDH/MSUD. Distinct inborn-error axes."
+ },
+ {
+  "pid": "P434",
+  "strength": 3,
+  "reason": "X defines vitamin K metabolism and gamma-carboxylation (coagulation); distinct from vitamin D/phosphate. Y adds NaPi cotransporters."
+ },
+ {
+  "pid": "P435",
+  "strength": 3,
+  "reason": "Y is histone acetylation/deacetylation and chromatin remodelers (BAF, CHD); X adds arginine/monomethylation. Distinct from heterochromatin/DNA methylation."
+ },
+ {
+  "pid": "P436",
+  "strength": 2,
+  "reason": "X adds biomineralization/ectopic calcification and enamel; Y adds Na/H exchangers. Secondary transporter-disease groupings."
+ },
+ {
+  "pid": "P437",
+  "strength": 2,
+  "reason": "X adds classic SLIT-ROBO/ephrin guidance and Y adds axon regeneration. Both are secondary to Sema3A repulsion/sprouting."
+ },
+ {
+  "pid": "P438",
+  "strength": 3,
+  "reason": "Y defines lymphoid gamma-chain cytokines (IL-2/7/9); distinct from myeloid FLT3/EPO/G-CSF. X adds oncogenic fusions."
+ },
+ {
+  "pid": "P439",
+  "strength": 2,
+  "reason": "Y adds cadmium detoxification/metallothioneins and X adds iron export. Metal-specific secondary emphases."
+ },
+ {
+  "pid": "P440",
+  "strength": 2,
+  "reason": "Y adds systemic vascular tone and blood pressure (endothelin, NO); X is stray cAMP/cGMP. Moderate shift from renal natriuresis."
+ },
+ {
+  "pid": "P441",
+  "strength": 2,
+  "reason": "Y adds EGFR downregulation via ubiquitin endocytosis/MVB sorting; X adds stray estrogen/AKT. Moderate distinction."
+ },
+ {
+  "pid": "P442",
+  "strength": 2,
+  "reason": "Y adds CaMK/cAMP-driven CREB phosphorylation; X adds HDAC/NCoR. Both are aspects of activity-dependent neuronal transcription."
+ },
+ {
+  "pid": "P443",
+  "strength": 3,
+  "reason": "X defines thyroid hormone and retinoic acid receptor signaling, distinct from sex-steroid receptors; Y adds progesterone/estrous."
+ },
+ {
+  "pid": "P444",
+  "strength": 3,
+  "reason": "Y defines base excision repair gap-filling, distinct from replicative lagging-strand synthesis; X adds telomere C-strand."
+ },
+ {
+  "pid": "P445",
+  "strength": 2,
+  "reason": "Y adds centriole duplication control; X adds AURKA/PLK1 regulation at G2/M. Moderately distinct centrosome processes."
+ },
+ {
+  "pid": "P446",
+  "strength": 1,
+  "reason": "Same gonadotropin/ovarian follicle story; X adds hormone-receptor terms and Y adds luteinization/Sertoli strays."
+ },
+ {
+  "pid": "P447",
+  "strength": 1,
+  "reason": "Same cGAS-STING/type I IFN regulation story; X and Y add a few near-synonymous or stray terms."
+ },
+ {
+  "pid": "P448",
+  "strength": 2,
+  "reason": "Y adds creatine/phosphocreatine energy buffering and PRPP synthesis; X is stray nucleotide terms."
+ },
+ {
+  "pid": "P449",
+  "strength": 3,
+  "reason": "X defines ER quality control/ERAD retrotranslocation, distinct from anterograde ER-Golgi targeting; Y adds COPI retrograde."
+ },
+ {
+  "pid": "P450",
+  "strength": 2,
+  "reason": "X emphasizes nephron segmentation (S-shaped body, tubule patterning); Y emphasizes ureteric bud induction. Same kidney development."
+ },
+ {
+  "pid": "P451",
+  "strength": 3,
+  "reason": "Y defines cohesin loading and sister chromatid cohesion, distinct from condensation; X adds CENP-A deposition."
+ },
+ {
+  "pid": "P452",
+  "strength": 3,
+  "reason": "Y defines NMD/no-go/non-stop mRNA surveillance, distinct from translation-factor modification; X adds methylation/wybutosine."
+ },
+ {
+  "pid": "P453",
+  "strength": 1,
+  "reason": "Same erythrocyte Rh/ammonium-CO2 transport story; X adds Rh blood group and Y adds RBC gas exchange."
+ },
+ {
+  "pid": "P454",
+  "strength": 1,
+  "reason": "Same Pol II transcription cycle; X adds initiation/termination terms and Y is stray."
+ },
+ {
+  "pid": "P455",
+  "strength": 2,
+  "reason": "Y adds ionotropic nicotinic acetylcholine receptors; X adds tachykinin GPCRs. Secondary receptor-class emphases."
+ },
+ {
+  "pid": "P456",
+  "strength": 2,
+  "reason": "X adds TAK1-JNK/p38 MAPK branch; Y adds TNFR1/LUBAC signaling. Secondary branches of NF-kB signaling."
+ },
+ {
+  "pid": "P457",
+  "strength": 3,
+  "reason": "Y defines osteoclast differentiation and bone resorption, a distinct tissue context from M-CSF macrophage biology; X adds DAP12."
+ },
+ {
+  "pid": "P458",
+  "strength": 2,
+  "reason": "X adds pre-rRNA processing/cleavage and Pol III 5S; Y adds NoRC repression. Moderate distinction from Pol I transcription."
+ },
+ {
+  "pid": "P459",
+  "strength": 3,
+  "reason": "Y defines osteoblast differentiation and ossification, a distinct lineage from chondrocyte maturation; X adds condensation."
+ },
+ {
+  "pid": "P460",
+  "strength": 2,
+  "reason": "Y adds Na+/K+-ATPase ion gradients and glycoside response; X adds stray NLRP1. Moderate distinction."
+ },
+ {
+  "pid": "P461",
+  "strength": 3,
+  "reason": "Y defines de novo purine (IMP/GMP/AMP) biosynthesis, distinct from pyrimidine synthesis; X adds stray salvage terms."
+ },
+ {
+  "pid": "P462",
+  "strength": 3,
+  "reason": "Y defines GI motility and gastric acid secretion as a tissue-physiology context; X adds histamine receptors."
+ },
+ {
+  "pid": "P463",
+  "strength": 1,
+  "reason": "Same antimicrobial peptide/innate defense story; Y adds defensins and X adds stray terms."
+ },
+ {
+  "pid": "P464",
+  "strength": 2,
+  "reason": "X adds the non-oxidative pentose phosphate pathway and its defects; Y adds glycerol/fructose biosynthesis."
+ },
+ {
+  "pid": "P465",
+  "strength": 2,
+  "reason": "Y adds microglial proliferation/differentiation and neuroinflammation; X is stray. Moderate shift from amyloid handling."
+ },
+ {
+  "pid": "P466",
+  "strength": 2,
+  "reason": "Y adds the natriuretic/cGMP natriuresis axis; X adds glomerular filtration. Secondary renal blood-pressure mechanisms."
+ },
+ {
+  "pid": "P467",
+  "strength": 2,
+  "reason": "Y adds intraflagellar transport machinery; X adds basal body docking/centrosome duplication. Moderately distinct ciliary processes."
+ },
+ {
+  "pid": "P468",
+  "strength": 3,
+  "reason": "X defines notochord/floor plate and Hedgehog-driven neural fold formation; distinct from L/R asymmetry/PCP. Y adds Wnt/Ca2+."
+ },
+ {
+  "pid": "P469",
+  "strength": 2,
+  "reason": "X emphasizes snoRNP/rRNA processing and Y emphasizes tRNA methylation. Moderate RNA-class distinction."
+ },
+ {
+  "pid": "P470",
+  "strength": 3,
+  "reason": "Y defines myeloid beta-common cytokines (IL-3/IL-5/G-CSF), distinct from lymphoid gamma-chain cytokines; X adds IL-2."
+ },
+ {
+  "pid": "P471",
+  "strength": 2,
+  "reason": "Y adds glycolysis/hexokinase/GLUT1 defects versus fructose and gluconeogenesis; X is stray."
+ },
+ {
+  "pid": "P472",
+  "strength": 3,
+  "reason": "Y defines direct alkylation reversal, ICL/Fanconi repair and DNA demethylation, distinct from BER; X adds glycosylase defects."
+ },
+ {
+  "pid": "P473",
+  "strength": 2,
+  "reason": "X adds mtDNA transcription and replication; Y adds RNA import. Moderate distinction from mt RNA processing/translation."
+ },
+ {
+  "pid": "P474",
+  "strength": 2,
+  "reason": "Y adds receptor internalization/lysosomal routing and foam cells; X adds triglyceride catabolism. Secondary lipoprotein emphases."
+ },
+ {
+  "pid": "P475",
+  "strength": 2,
+  "reason": "X adds synaptic vesicle loading/release and Y adds sympathoadrenal development. Secondary aspects of catecholamine biology."
+ },
+ {
+  "pid": "P476",
+  "strength": 3,
+  "reason": "Y defines the HPA axis/glucocorticoid secretion, distinct from appetite control; X adds leptin signaling."
+ },
+ {
+  "pid": "P477",
+  "strength": 3,
+  "reason": "Y defines cytosolic NOD1/2 and inflammasome sensing, distinct from TLR2/4/5 surface sensing; X is stray."
+ },
+ {
+  "pid": "P478",
+  "strength": 2,
+  "reason": "X adds miRNA biogenesis/RISC assembly and Y adds deadenylation-dependent decay. Moderate emphases within miRNA silencing."
+ },
+ {
+  "pid": "P479",
+  "strength": 3,
+  "reason": "X defines desmosome/hemidesmosome and intermediate filament adhesion, distinct from adherens/polarity/EMT; Y is stray."
+ },
+ {
+  "pid": "P480",
+  "strength": 1,
+  "reason": "Same ephrin/netrin axon-guidance story; X adds L1 and Y adds netrin terms."
+ },
+ {
+  "pid": "P481",
+  "strength": 2,
+  "reason": "X emphasizes peripheral TCR/CD28 costimulation; Y adds ICOS/RHOH. Moderate shift from thymic development."
+ },
+ {
+  "pid": "P482",
+  "strength": 2,
+  "reason": "Y adds mitotic nuclear envelope breakdown/reassembly; X adds ribosomal subunit export. Moderate distinction from NPC biology."
+ },
+ {
+  "pid": "P483",
+  "strength": 2,
+  "reason": "X adds inhibitory synapse assembly (gephyrin/GABA-A clustering); Y adds TASK channels. Moderate shift from presynaptic modulation."
+ },
+ {
+  "pid": "P484",
+  "strength": 3,
+  "reason": "Y defines GH, prolactin and leptin receptor signaling, distinct hormones from IL-6-family cytokines; X is stray."
+ },
+ {
+  "pid": "P485",
+  "strength": 3,
+  "reason": "X defines chemosensation (taste, olfaction, pheromones, itch), distinct from pain/thermosensation; Y adds TWIK/resting potential."
+ },
+ {
+  "pid": "P486",
+  "strength": 2,
+  "reason": "X defines transcription-coupled NER versus global-genome NER; Y adds GG-NER gap filling. Recognized NER subpathway."
+ },
+ {
+  "pid": "P487",
+  "strength": 1,
+  "reason": "Same death-receptor apoptosis/necroptosis story; X adds caspase-8/c-FLIP detail and Y adds generic apoptosis terms."
+ },
+ {
+  "pid": "P488",
+  "strength": 2,
+  "reason": "X adds hindgut/digestive tract morphogenesis and Y adds coronary vasculature/heart growth. Secondary organ emphases of mesoderm."
+ },
+ {
+  "pid": "P489",
+  "strength": 2,
+  "reason": "Y adds the glucuronate-xylulose (pentosuria) pathway; X adds glycerol. Moderate distinction from fructose metabolism."
+ }
+]
