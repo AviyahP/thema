@@ -1,0 +1,2374 @@
+{
+ "new": {
+  "n01733": {
+   "theme_id": "n01733",
+   "head": "NRF2 transcriptional program",
+   "parts": [
+    "target genes",
+    "NRF2 expression",
+    "GSK3B-BTRC degradation"
+   ],
+   "name": "NRF2 transcriptional program (target genes, NRF2 expression, GSK3B-BTRC degradation)",
+   "unifying": true,
+   "rationale": "Every member is NRF2 (NFE2L2) target-gene regulation or control of NRF2 itself, which separates it from the FOXO/UPR, ROS-detoxification and p53-metabolic neighbours."
+  },
+  "n01628": {
+   "theme_id": "n01628",
+   "head": "Myeloid progenitor commitment to granulocytes",
+   "parts": [
+    "transcriptional control",
+    "promyelocytes",
+    "monocyte-macrophage suppression"
+   ],
+   "name": "Myeloid progenitor commitment to granulocytes (transcriptional control, promyelocytes, monocyte-macrophage suppression)",
+   "unifying": true,
+   "rationale": "Members describe progenitor proliferation, transcriptional granulopoiesis and repression of monocyte/macrophage fate, unlike the erythroid-megakaryocyte, monocyte and G-CSF/eosinophil neighbours."
+  },
+  "n03614": {
+   "theme_id": "n03614",
+   "head": "Respiratory system development",
+   "parts": [
+    "lung branching and growth",
+    "pneumocyte differentiation",
+    "trachea and diaphragm"
+   ],
+   "name": "Respiratory system development (lung branching and growth, pneumocyte differentiation, trachea and diaphragm)",
+   "unifying": true,
+   "rationale": "Members build the lung, trachea and diaphragm; pneumocytes, trachea and diaphragm separate it from the surfactant and generic salivary-branching neighbours."
+  },
+  "n03950": {
+   "theme_id": "n03950",
+   "head": "Gluconeogenic amino acid and choline-carnitine metabolism",
+   "parts": [
+    "alanine",
+    "threonine",
+    "oxaloacetate"
+   ],
+   "name": "Gluconeogenic amino acid and choline-carnitine metabolism (alanine, threonine, oxaloacetate)",
+   "unifying": false,
+   "rationale": "Two unrelated strands (alanine/threonine feeding gluconeogenesis via oxaloacetate, and choline/carnitine metabolism) with no honest single idea; the pairing distinguishes it from the acyl-CoA, broad amino acid, TCA and biotin/carnitine-transport neighbours."
+  },
+  "n00085": {
+   "theme_id": "n00085",
+   "head": "FGF receptor signaling",
+   "parts": [
+    "isoform-specific ligand binding",
+    "FRS/PLC/PI3K cascades",
+    "oncogenic mutants"
+   ],
+   "name": "FGF receptor signaling (isoform-specific ligand binding, FRS/PLC/PI3K cascades, oncogenic mutants)",
+   "unifying": true,
+   "rationale": "Nearly all members are FGFR1-4 ligand binding, downstream adaptor cascades or activating FGFR mutations, separating it from the broad RTK/RAS, ALK/PDGFR and drug-resistance neighbours."
+  },
+  "n00330": {
+   "theme_id": "n00330",
+   "head": "Inherited glycogen synthesis defects",
+   "parts": [
+    "glycogen synthase",
+    "glycogenin",
+    "branching enzyme"
+   ],
+   "name": "Inherited glycogen synthesis defects (glycogen synthase, glycogenin, branching enzyme)",
+   "unifying": true,
+   "rationale": "All four are glycogen storage diseases of the synthesis enzymes, unlike neighbours centred on glycogen breakdown, glucose-6-phosphatase and glucokinase."
+  },
+  "n00244": {
+   "theme_id": "n00244",
+   "head": "Endosomal TLR7/8/9 signaling regulation",
+   "parts": [
+    "SLC15A4-TASL-IRF5 axis",
+    "self-ligand sensing"
+   ],
+   "name": "Endosomal TLR7/8/9 signaling regulation (SLC15A4-TASL-IRF5 axis, self-ligand sensing)",
+   "unifying": true,
+   "rationale": "Members regulate endosomal nucleic-acid TLRs, including IRF5 activation and defective TLR7 control by self ligands, rather than the cytosolic sensor or type I IFN output emphasised by neighbours."
+  },
+  "n01593": {
+   "theme_id": "n01593",
+   "head": "Glutathione degradation and gamma-glutamyl cycle",
+   "parts": [
+    "GGT1/OPLAH/ACY1 defects",
+    "glutathione and cystine transport"
+   ],
+   "name": "Glutathione degradation and gamma-glutamyl cycle (GGT1/OPLAH/ACY1 defects, glutathione and cystine transport)",
+   "unifying": true,
+   "rationale": "Members cover breakdown and transport of glutathione and its inborn errors, distinct from the glutathione synthesis and cystinuria/SLC transport neighbours."
+  },
+  "n04313": {
+   "theme_id": "n04313",
+   "head": "Craniofacial development",
+   "parts": [
+    "olfactory system",
+    "trigeminal/facial nerves",
+    "lacrimal and salivary glands"
+   ],
+   "name": "Craniofacial development (olfactory system, trigeminal/facial nerves, lacrimal and salivary glands)",
+   "unifying": true,
+   "rationale": "Members build nose, olfactory nerve and GnRH-neuron route, cranial nerves, taste papillae and head glands; olfactory and gland parts separate it from the ear and hindbrain neighbours."
+  },
+  "n03469": {
+   "theme_id": "n03469",
+   "head": "Excitatory and inhibitory postsynapse assembly",
+   "parts": [
+    "neurexin-neuroligin",
+    "receptor clustering",
+    "glutamatergic transmission"
+   ],
+   "name": "Excitatory and inhibitory postsynapse assembly (neurexin-neuroligin, receptor clustering, glutamatergic transmission)",
+   "unifying": true,
+   "rationale": "Members assemble glutamatergic and GABAergic postsynaptic sites and tune their potentials; glutamatergic transmission and inhibitory synapse parts separate it from the adhesion-focused neighbours."
+  },
+  "n03247": {
+   "theme_id": "n03247",
+   "head": "Embryonic eye development",
+   "parts": [
+    "optic cup and retina",
+    "retinal neuron differentiation",
+    "optic nerve"
+   ],
+   "name": "Embryonic eye development (optic cup and retina, retinal neuron differentiation, optic nerve)",
+   "unifying": true,
+   "rationale": "Members form the optic cup, retinal layers and neurons, iris, eyelid and optic nerve, unlike neighbours on lens/cornea, retinal vasculature and phototransduction."
+  },
+  "n03222": {
+   "theme_id": "n03222",
+   "head": "ER tubular network shaping",
+   "parts": [
+    "membrane bending",
+    "ER fusion",
+    "contact-site lipid transfer"
+   ],
+   "name": "ER tubular network shaping (membrane bending, ER fusion, contact-site lipid transfer)",
+   "unifying": true,
+   "rationale": "Members shape, fuse and position the ER tubular network and move lipids at its contacts, unlike the mitochondrial-contact and phosphoinositide neighbours."
+  },
+  "n01911": {
+   "theme_id": "n01911",
+   "head": "Mitotic spindle assembly",
+   "parts": [
+    "centrosome separation",
+    "PLK1",
+    "NEK6/7/9 kinases"
+   ],
+   "name": "Mitotic spindle assembly (centrosome separation, PLK1, NEK6/7/9 kinases)",
+   "unifying": true,
+   "rationale": "Members drive centrosome separation and spindle formation via PLK1 and NEK kinases, unlike neighbours on the spindle checkpoint, midzone and Aurora A."
+  },
+  "n04087": {
+   "theme_id": "n04087",
+   "head": "Eicosanoid synthesis and signaling",
+   "parts": [
+    "cyclooxygenase prostanoids",
+    "P450 HETEs and EETs",
+    "prostanoid receptors"
+   ],
+   "name": "Eicosanoid synthesis and signaling (cyclooxygenase prostanoids, P450 HETEs and EETs, prostanoid receptors)",
+   "unifying": true,
+   "rationale": "Members make arachidonate-derived eicosanoids by cyclooxygenase and P450 and act through prostanoid receptors, unlike the lipoxygenase, resolvin and leukotriene neighbours."
+  },
+  "n00475": {
+   "theme_id": "n00475",
+   "head": "Collagen degradation",
+   "parts": [
+    "matrix metalloproteinase activation"
+   ],
+   "name": "Collagen degradation (matrix metalloproteinase activation)",
+   "unifying": true,
+   "rationale": "All three members concern collagen breakdown by activated MMPs, unlike the ECM-structure and fibrinolysis neighbours."
+  },
+  "n01922": {
+   "theme_id": "n01922",
+   "head": "Neuropeptide GPCR signaling",
+   "parts": [
+    "orexin wakefulness",
+    "opioid receptors",
+    "dense-core vesicle release"
+   ],
+   "name": "Neuropeptide GPCR signaling (orexin wakefulness, opioid receptors, dense-core vesicle release)",
+   "unifying": true,
+   "rationale": "Members are neuropeptide release and G-protein signaling including orexin-driven wakefulness, unlike neighbours on drug reward, sleep stages and stress behaviour."
+  },
+  "n04531": {
+   "theme_id": "n04531",
+   "head": "Recombination-based telomere maintenance",
+   "parts": [
+    "break-induced replication",
+    "D-loop and t-circle control",
+    "telomere capping"
+   ],
+   "name": "Recombination-based telomere maintenance (break-induced replication, D-loop and t-circle control, telomere capping)",
+   "unifying": true,
+   "rationale": "Members maintain and protect telomeres by recombination and break-induced replication, unlike neighbours on general DNA repair, telomere packaging and C-strand synthesis."
+  },
+  "n01477": {
+   "theme_id": "n01477",
+   "head": "Interferon-stimulated host control of viral replication",
+   "parts": [
+    "ISG15 conjugation",
+    "viral entry and release"
+   ],
+   "name": "Interferon-stimulated host control of viral replication (ISG15 conjugation, viral entry and release)",
+   "unifying": true,
+   "rationale": "Members are ISG15 and other interferon-stimulated effects on viral entry, replication and release, unlike the OAS/PKR/IFN-signaling and generic viral life-cycle neighbours."
+  },
+  "n00502": {
+   "theme_id": "n00502",
+   "head": "GPCR control of growth hormone release",
+   "parts": [
+    "glucagon-family receptors",
+    "somatostatin receptors",
+    "adenylate cyclase"
+   ],
+   "name": "GPCR control of growth hormone release (glucagon-family receptors, somatostatin receptors, adenylate cyclase)",
+   "unifying": true,
+   "rationale": "Glucagon-family (GHRH) and somatostatin receptors steer cAMP and growth hormone secretion, unlike the GH-receptor, glucagon-metabolic and insulin-secretion neighbours."
+  },
+  "n02226": {
+   "theme_id": "n02226",
+   "head": "Polyunsaturated fatty acid oxygenation",
+   "parts": [
+    "lipoxygenase products",
+    "P450 HETEs and EETs",
+    "ichthyosis defects"
+   ],
+   "name": "Polyunsaturated fatty acid oxygenation (lipoxygenase products, P450 HETEs and EETs, ichthyosis defects)",
+   "unifying": true,
+   "rationale": "Members oxygenate arachidonate and linoleate by lipoxygenases and P450s, including skin-barrier ichthyosis genes, unlike the leukotriene-receptor, resolvin and cyclooxygenase neighbours."
+  },
+  "n00547": {
+   "theme_id": "n00547",
+   "head": "Cochlear hair cell mechanotransduction",
+   "parts": [
+    "stereocilia organization",
+    "inner hair cell sound processing"
+   ],
+   "name": "Cochlear hair cell mechanotransduction (stereocilia organization, inner hair cell sound processing)",
+   "unifying": true,
+   "rationale": "All members concern sound detection by cochlear hair-cell stereocilia, unlike the vestibular, ear-morphogenesis and photoreceptor neighbours."
+  },
+  "n02883": {
+   "theme_id": "n02883",
+   "head": "Immunoregulatory cytokine signaling",
+   "parts": [
+    "IL-12/23 and IL-10",
+    "IL-15 and IL-21",
+    "NK cell development"
+   ],
+   "name": "Immunoregulatory cytokine signaling (IL-12/23 and IL-10, IL-15 and IL-21, NK cell development)",
+   "unifying": true,
+   "rationale": "Members are cytokines that steer lymphocyte and NK responses; IL-10/12/23 separate it from the interferon and IL-2/7 neighbours and IL-15/21 with NK development from the IL-27/35 neighbour."
+  },
+  "n01952": {
+   "theme_id": "n01952",
+   "head": "Promotion of structural synaptic plasticity",
+   "parts": [
+    "dendritic spine morphogenesis",
+    "synapse maturation",
+    "local translation"
+   ],
+   "name": "Promotion of structural synaptic plasticity (dendritic spine morphogenesis, synapse maturation, local translation)",
+   "unifying": true,
+   "rationale": "Members promote spine growth, synapse maturation and synaptic translation, unlike the CREB/memory, postsynaptic-actin and LTP/LTD neighbours."
+  },
+  "n02217": {
+   "theme_id": "n02217",
+   "head": "Potentiation of synaptic transmission",
+   "parts": [
+    "glutamatergic and GABAergic",
+    "NCAM1 interactions",
+    "sensorimotor gating"
+   ],
+   "name": "Potentiation of synaptic transmission (glutamatergic and GABAergic, NCAM1 interactions, sensorimotor gating)",
+   "unifying": true,
+   "rationale": "Members enhance glutamatergic and GABAergic transmission with prepulse inhibition and nonassociative learning, unlike the exploratory-behaviour, synapse-assembly and AMPA-receptor neighbours."
+  },
+  "n03207": {
+   "theme_id": "n03207",
+   "head": "Protein glycan biosynthesis",
+   "parts": [
+    "N- and O-glycans",
+    "glycosaminoglycan chains",
+    "fucosylated blood-group antigens"
+   ],
+   "name": "Protein glycan biosynthesis (N- and O-glycans, glycosaminoglycan chains, fucosylated blood-group antigens)",
+   "unifying": true,
+   "rationale": "Members build glycans on proteins and proteoglycans and their inherited defects, unlike the nucleotide-sugar transport and glycosphingolipid neighbours."
+  },
+  "n01446": {
+   "theme_id": "n01446",
+   "head": "Neutrophil granulopoiesis",
+   "parts": [
+    "G-CSF/GM-CSF signaling",
+    "transcriptional control",
+    "negative regulation"
+   ],
+   "name": "Neutrophil granulopoiesis (G-CSF/GM-CSF signaling, transcriptional control, negative regulation)",
+   "unifying": true,
+   "rationale": "All members drive or restrain neutrophil production from myeloid progenitors; the CSF signaling and negative-regulation members separate it from progenitor, monocyte-macrophage and eosinophil/mast cell themes."
+  },
+  "n00192": {
+   "theme_id": "n00192",
+   "head": "Global-genome excision repair of UV damage",
+   "parts": [
+    "lesion recognition",
+    "dual incision"
+   ],
+   "name": "Global-genome excision repair of UV damage (lesion recognition, dual incision)",
+   "unifying": true,
+   "rationale": "Members cover UV pyrimidine dimer recognition and incision by global-genome NER, distinct from gap-filling/translesion synthesis themes and from transcription-coupled NER."
+  },
+  "n00372": {
+   "theme_id": "n00372",
+   "head": "Beta-catenin-TCF transcription and its repression",
+   "parts": [
+    "AXIN/APC mutants",
+    "RUNX3"
+   ],
+   "name": "Beta-catenin-TCF transcription and its repression (AXIN/APC mutants, RUNX3)",
+   "unifying": true,
+   "rationale": "Members concern the nuclear beta-catenin-TCF output of canonical Wnt and its negative control, unlike confusables centred on receptor, DVL and ligand-level Wnt events."
+  },
+  "n00012": {
+   "theme_id": "n00012",
+   "head": "Pentose metabolism",
+   "parts": [
+    "non-oxidative pentose phosphate branch",
+    "glucuronate-xylulose pathway",
+    "xylulose 5-phosphate"
+   ],
+   "name": "Pentose metabolism (non-oxidative pentose phosphate branch, glucuronate-xylulose pathway, xylulose 5-phosphate)",
+   "unifying": true,
+   "rationale": "Members interconvert pentose phosphates via the non-oxidative shunt and the glucuronate-xylulose route, separating them from fructose, polyol and galactose themes."
+  },
+  "n04415": {
+   "theme_id": "n04415",
+   "head": "Receptor tyrosine kinase-driven AKT/ERK activation",
+   "parts": [
+    "oncogenic fusions and amplifications",
+    "FGFR/PDGFR/ALK/LTK"
+   ],
+   "name": "Receptor tyrosine kinase-driven AKT/ERK activation (oncogenic fusions and amplifications, FGFR/PDGFR/ALK/LTK)",
+   "unifying": true,
+   "rationale": "Members are RTKs, mostly oncogenic fusion and amplification variants, signaling to PI3K-AKT and ERK, distinct from normal ERBB/MET/FGFR cascades and TKI-resistance mutant themes."
+  },
+  "n03609": {
+   "theme_id": "n03609",
+   "head": "Apical membrane trafficking in ductal epithelia",
+   "parts": [
+    "CFTR anion-water secretion",
+    "membrane rafts",
+    "pancreatic duct"
+   ],
+   "name": "Apical membrane trafficking in ductal epithelia (CFTR anion-water secretion, membrane rafts, pancreatic duct)",
+   "unifying": true,
+   "rationale": "Members build and use the polarized surface of secretory ductal epithelia for CFTR-driven fluid secretion, unlike confusables on ion channels, tight junctions or lipid flippases."
+  },
+  "n03491": {
+   "theme_id": "n03491",
+   "head": "HGF-MET and TGF-beta/activin receptor signaling",
+   "parts": [
+    "cancer mutants",
+    "TGFBR3 co-receptor",
+    "AMH receptor"
+   ],
+   "name": "HGF-MET and TGF-beta/activin receptor signaling (cancer mutants, TGFBR3 co-receptor, AMH receptor)",
+   "unifying": false,
+   "rationale": "Members split between HGF-MET (and MSP) receptor tyrosine kinase signaling and TGF-beta/activin/AMH receptor-SMAD signaling with cancer mutants, with no single shared process; the TGF-beta half separates it from PTK6, liver and RTK confusables."
+  },
+  "n01367": {
+   "theme_id": "n01367",
+   "head": "Monocyte-macrophage differentiation",
+   "parts": [
+    "M-CSF signaling",
+    "macrophage proliferation",
+    "myeloid dendritic cells"
+   ],
+   "name": "Monocyte-macrophage differentiation (M-CSF signaling, macrophage proliferation, myeloid dendritic cells)",
+   "unifying": true,
+   "rationale": "Members promote M-CSF-driven monocyte, macrophage and myeloid dendritic cell development, unlike the granulocyte and interleukin-signaling confusables."
+  },
+  "n00104": {
+   "theme_id": "n00104",
+   "head": "MITF-M-dependent gene regulation",
+   "parts": [
+    "non-pigmentation targets",
+    "invasion and proliferation",
+    "lysosome and metabolism"
+   ],
+   "name": "MITF-M-dependent gene regulation (non-pigmentation targets, invasion and proliferation, lysosome and metabolism)",
+   "unifying": true,
+   "rationale": "Members are MITF-M control and its target programmes outside pigmentation, which separates the theme from melanin and pigmentation confusables."
+  },
+  "n03660": {
+   "theme_id": "n03660",
+   "head": "RNA polymerase II elongation control",
+   "parts": [
+    "promoter escape",
+    "pausing",
+    "termination"
+   ],
+   "name": "RNA polymerase II elongation control (promoter escape, pausing, termination)",
+   "unifying": true,
+   "rationale": "Most members govern Pol II passage from promoter clearance through pausing, elongation and termination (two translation-elongation terms are minor outliers), unlike broader RNA processing and Pol I/III confusables."
+  },
+  "n04077": {
+   "theme_id": "n04077",
+   "head": "Nutrient-sensing transcriptional control of metabolism",
+   "parts": [
+    "lipogenesis and gluconeogenesis",
+    "ChREBP/SREBP/LXR",
+    "circadian clock"
+   ],
+   "name": "Nutrient-sensing transcriptional control of metabolism (lipogenesis and gluconeogenesis, ChREBP/SREBP/LXR, circadian clock)",
+   "unifying": true,
+   "rationale": "Members are sugar-, lipid- and energy-sensing transcriptional regulators of lipid and glucose metabolism, distinct from adipogenesis, glucagon-PKA and cholesterol-SREBP confusables."
+  },
+  "n00470": {
+   "theme_id": "n00470",
+   "head": "Mitochondrial protein import",
+   "parts": [
+    "outer membrane",
+    "matrix"
+   ],
+   "name": "Mitochondrial protein import (outer membrane, matrix)",
+   "unifying": true,
+   "rationale": "Members deliver proteins across the outer membrane into the matrix, unlike confusables on mitochondrial protein processing, degradation or respiratory complex assembly."
+  },
+  "n00936": {
+   "theme_id": "n00936",
+   "head": "Death receptor-induced extrinsic apoptosis",
+   "parts": [
+    "Fas and TRAIL",
+    "caspase-8 and c-FLIP",
+    "BID"
+   ],
+   "name": "Death receptor-induced extrinsic apoptosis (Fas and TRAIL, caspase-8 and c-FLIP, BID)",
+   "unifying": true,
+   "rationale": "Members form the Fas/TRAIL to caspase-8 apoptotic route and its c-FLIP control, separate from necroptosis and intrinsic mitochondrial apoptosis confusables."
+  },
+  "n00567": {
+   "theme_id": "n00567",
+   "head": "Rho subfamily GTPase cycle",
+   "parts": [
+    "RhoA",
+    "RhoB",
+    "RhoC"
+   ],
+   "name": "Rho subfamily GTPase cycle (RhoA, RhoB, RhoC)",
+   "unifying": true,
+   "rationale": "Members are the GTPase cycles of the three Rho subfamily members, distinct from Rac, Cdc42 and atypical Rho confusables."
+  },
+  "n01563": {
+   "theme_id": "n01563",
+   "head": "Stress and innate motivated behavior",
+   "parts": [
+    "glucocorticoid-CRH response",
+    "fear",
+    "reproductive and aggressive behavior"
+   ],
+   "name": "Stress and innate motivated behavior (glucocorticoid-CRH response, fear, reproductive and aggressive behavior)",
+   "unifying": true,
+   "rationale": "Members are innate behaviors and behavioral stress responses (mating, parenting, aggression, drinking, fear, CRH/corticosterone), unlike confusables on neuropeptide signaling, HPA secretion, sleep or drug reward."
+  },
+  "n04381": {
+   "theme_id": "n04381",
+   "head": "Endocrine hormone synthesis and signaling",
+   "parts": [
+    "adrenal-gonadal steroidogenesis",
+    "thyroid hormone",
+    "GH-prolactin-leptin"
+   ],
+   "name": "Endocrine hormone synthesis and signaling (adrenal-gonadal steroidogenesis, thyroid hormone, GH-prolactin-leptin)",
+   "unifying": true,
+   "rationale": "Members make or respond to classical endocrine hormones, distinguishing the theme from vitamin A/D/K and phosphate-mineral confusables and from GH-secretion/amino-acid transport."
+  },
+  "n00304": {
+   "theme_id": "n00304",
+   "head": "Branched-chain amino acid catabolism",
+   "parts": [
+    "leucine",
+    "valine",
+    "organic acidurias"
+   ],
+   "name": "Branched-chain amino acid catabolism (leucine, valine, organic acidurias)",
+   "unifying": true,
+   "rationale": "Members are leucine and valine breakdown steps and their inborn errors, unlike confusables featuring isoleucine, biotin or short-chain fatty acid metabolism."
+  },
+  "n03620": {
+   "theme_id": "n03620",
+   "head": "Proteotoxic stress response",
+   "parts": [
+    "HSF1 heat shock",
+    "stress granules",
+    "mitochondrial UPR"
+   ],
+   "name": "Proteotoxic stress response (HSF1 heat shock, stress granules, mitochondrial UPR)",
+   "unifying": true,
+   "rationale": "Members respond to protein-damaging stress via HSF1 refolding, stress granules and UPRmt, unlike confusables on chaperonin folding, the ER UPR or aggrephagy."
+  },
+  "n04584": {
+   "theme_id": "n04584",
+   "head": "RIG-I-like receptor antiviral signaling",
+   "parts": [
+    "feedback regulation",
+    "NF-kB and IRF3 output",
+    "dsRNA sensing"
+   ],
+   "name": "RIG-I-like receptor antiviral signaling (feedback regulation, NF-kB and IRF3 output, dsRNA sensing)",
+   "unifying": true,
+   "rationale": "Members are cytosolic RNA sensing by RIG-I/MDA5 and its positive and negative regulation, distinct from TLR, cGAS-STING and broader interferon response confusables."
+  },
+  "n01673": {
+   "theme_id": "n01673",
+   "head": "Triglyceride-rich lipoprotein metabolism",
+   "parts": [
+    "chylomicron and VLDL assembly",
+    "lipolysis",
+    "clearance"
+   ],
+   "name": "Triglyceride-rich lipoprotein metabolism (chylomicron and VLDL assembly, lipolysis, clearance)",
+   "unifying": true,
+   "rationale": "Members cover dietary fat absorption and the assembly, lipase remodeling and clearance of chylomicrons and VLDL, unlike LDL/HDL remodeling and phospholipase confusables."
+  },
+  "n03887": {
+   "theme_id": "n03887",
+   "head": "TCA cycle and 2-oxoacid dehydrogenases",
+   "parts": [
+    "protein lipoylation",
+    "Fe-S cluster assembly",
+    "lysine/glycine catabolism"
+   ],
+   "name": "TCA cycle and 2-oxoacid dehydrogenases (protein lipoylation, Fe-S cluster assembly, lysine/glycine catabolism)",
+   "unifying": true,
+   "rationale": "Members are TCA reactions and the lipoylated, Fe-S-dependent enzymes that feed and run them, distinct from CoA/PDH regulation and serine/vitamin B6 confusables."
+  },
+  "n00150": {
+   "theme_id": "n00150",
+   "head": "Epithelial hexose transport",
+   "parts": [
+    "intestinal absorption",
+    "renal glucose reabsorption",
+    "SGLT/GLUT defects"
+   ],
+   "name": "Epithelial hexose transport (intestinal absorption, renal glucose reabsorption, SGLT/GLUT defects)",
+   "unifying": true,
+   "rationale": "Members move glucose, galactose and fructose across gut and kidney epithelia and their inherited defects, unlike carbohydrate digestion, galactose catabolism, urate and amino acid transport confusables."
+  },
+  "n03848": {
+   "theme_id": "n03848",
+   "head": "Canonical NF-kappaB activation via RIP1",
+   "parts": [
+    "TNFR1 signaling",
+    "linear ubiquitination",
+    "TLR4-TRIF"
+   ],
+   "name": "Canonical NF-kappaB activation via RIP1 (TNFR1 signaling, linear ubiquitination, TLR4-TRIF)",
+   "unifying": true,
+   "rationale": "Members are RIP1-dependent IKK recruitment downstream of TNFR1 and TLR4, separating the theme from non-canonical NF-kB, IRAK-dependent TLR and negative-regulation confusables."
+  },
+  "n01515": {
+   "theme_id": "n01515",
+   "head": "Lysosomal glycosphingolipid catabolism",
+   "parts": [
+    "gangliosidoses",
+    "sialidosis",
+    "glycolipid transport"
+   ],
+   "name": "Lysosomal glycosphingolipid catabolism (gangliosidoses, sialidosis, glycolipid transport)",
+   "unifying": true,
+   "rationale": "Members degrade and move glycosphingolipids through the lysosome, unlike glycosphingolipid biosynthesis and sialic acid/N-glycan confusables."
+  },
+  "n02234": {
+   "theme_id": "n02234",
+   "head": "Ras-ERK signal regulation",
+   "parts": [
+    "phosphatase attenuation",
+    "RSK activation",
+    "p38 via RIT/RIN"
+   ],
+   "name": "Ras-ERK signal regulation (phosphatase attenuation, RSK activation, p38 via RIT/RIN)",
+   "unifying": true,
+   "rationale": "Members tune Ras-MAPK signaling up and down and carry its RSK and p38 outputs, distinct from confusables on RAF activation, RAS mutants and GAP-mediated control."
+  },
+  "n02034": {
+   "theme_id": "n02034",
+   "head": "ER-Golgi vesicle trafficking",
+   "parts": [
+    "COPI budding",
+    "Golgi-to-ER retrograde transport",
+    "vesicle targeting"
+   ],
+   "name": "ER-Golgi vesicle trafficking (COPI budding, Golgi-to-ER retrograde transport, vesicle targeting)",
+   "unifying": true,
+   "rationale": "All members concern vesicle traffic between ER and Golgi; COPI budding and retrograde transport separate it from the COPII/ER-export and tethering neighbours."
+  },
+  "n03117": {
+   "theme_id": "n03117",
+   "head": "Sensorimotor behaviour and motor control",
+   "parts": [
+    "locomotion",
+    "proprioception",
+    "glycinergic inhibition"
+   ],
+   "name": "Sensorimotor behaviour and motor control (locomotion, proprioception, glycinergic inhibition)",
+   "unifying": true,
+   "rationale": "Members are neural control of movement and sensation (locomotion, reflexes, touch, vision, inhibitory transmission; one neural RNA-binding module is a loose fit); glycinergic inhibition and proprioception separate it from the exploratory/vocal behaviour and neuronal excitability neighbours."
+  },
+  "n01095": {
+   "theme_id": "n01095",
+   "head": "Gonadotropin and GnRH signaling",
+   "parts": [
+    "FSH",
+    "LH",
+    "glycoprotein hormone receptors"
+   ],
+   "name": "Gonadotropin and GnRH signaling (FSH, LH, glycoprotein hormone receptors)",
+   "unifying": true,
+   "rationale": "Members are cellular responses to GnRH, FSH and LH and their glycoprotein hormone receptors, unlike neighbours centred on gonadotropin secretion, activin and gonadal development."
+  },
+  "n01092": {
+   "theme_id": "n01092",
+   "head": "Alpha-2 adrenergic inhibitory signaling",
+   "parts": [
+    "Gi/Gz adenylate cyclase inhibition",
+    "catecholamine release",
+    "insulin secretion"
+   ],
+   "name": "Alpha-2 adrenergic inhibitory signaling (Gi/Gz adenylate cyclase inhibition, catecholamine release, insulin secretion)",
+   "unifying": true,
+   "rationale": "Alpha-2 adrenoceptors couple through Gi/Gz to inhibit adenylate cyclase and suppress catecholamine and insulin secretion; the secretion arm and Gz separate it from generic cAMP and adrenoceptor neighbours."
+  },
+  "n00800": {
+   "theme_id": "n00800",
+   "head": "Gap junction coupling in cardiac conduction",
+   "parts": [],
+   "name": "Gap junction coupling in cardiac conduction",
+   "unifying": true,
+   "rationale": "All members concern electrical coupling via gap junctions in cardiac conduction, which no neighbour (depolarisation, conduction system development) covers."
+  },
+  "n02504": {
+   "theme_id": "n02504",
+   "head": "Synaptic vesicle recycling",
+   "parts": [
+    "clathrin-mediated endocytosis",
+    "active zone",
+    "vesicle clustering"
+   ],
+   "name": "Synaptic vesicle recycling (clathrin-mediated endocytosis, active zone, vesicle clustering)",
+   "unifying": true,
+   "rationale": "Members regulate the presynaptic vesicle cycle with clathrin coat assembly and endocytosis, distinguishing it from neighbours on release, docking and priming or postsynaptic receptor trafficking."
+  },
+  "n00264": {
+   "theme_id": "n00264",
+   "head": "12-lipoxygenase eicosanoid synthesis",
+   "parts": [
+    "hepoxilins",
+    "trioxilins",
+    "12-HETE"
+   ],
+   "name": "12-lipoxygenase eicosanoid synthesis (hepoxilins, trioxilins, 12-HETE)",
+   "unifying": true,
+   "rationale": "All members are 12-lipoxygenase products of arachidonate, separating it from 5-/15-lipoxygenase, lipoxin and skin-barrier lipid neighbours."
+  },
+  "n00269": {
+   "theme_id": "n00269",
+   "head": "Cytoskeletal organelle transport",
+   "parts": [
+    "axonal and dendritic cargo",
+    "mitochondria",
+    "endolysosomes"
+   ],
+   "name": "Cytoskeletal organelle transport (axonal and dendritic cargo, mitochondria, endolysosomes)",
+   "unifying": true,
+   "rationale": "Members move organelles and vesicles along microtubules and actin, notably in neurons, plus endolysosome size; unlike neighbours on microtubule modification, kinesins or lysosomal fusion."
+  },
+  "n03163": {
+   "theme_id": "n03163",
+   "head": "Stress response and survival signaling",
+   "parts": [
+    "unfolded protein response",
+    "integrated stress response",
+    "AKT-FOXO"
+   ],
+   "name": "Stress response and survival signaling (unfolded protein response, integrated stress response, AKT-FOXO)",
+   "unifying": true,
+   "rationale": "Members are ER/mitochondrial unfolded protein and eIF2-kinase stress responses and AKT-FOXO survival-versus-apoptosis control; AKT-FOXO separates it from ER folding neighbours and the UPR/ISR from NRF2 neighbours."
+  },
+  "n04222": {
+   "theme_id": "n04222",
+   "head": "Immunoregulatory cytokine signaling",
+   "parts": [
+    "IL-10/IL-12 families",
+    "IL-15/IL-21 on NK/NKT",
+    "interferon-lambda"
+   ],
+   "name": "Immunoregulatory cytokine signaling (IL-10/IL-12 families, IL-15/IL-21 on NK/NKT, interferon-lambda)",
+   "unifying": true,
+   "rationale": "Members are IL-10/IL-20, IL-12/23/27/35, IL-15/21 and type III interferon signaling with NK/NKT regulation; IL-15/21, NK/NKT and interferon-lambda separate it from the broader Th2/IL-6 and IL-17/IL-33 cytokine neighbours."
+  },
+  "n02892": {
+   "theme_id": "n02892",
+   "head": "Mesenchymal progenitor fate signaling",
+   "parts": [
+    "TGF-beta/activin",
+    "BMP",
+    "Wnt"
+   ],
+   "name": "Mesenchymal progenitor fate signaling (TGF-beta/activin, BMP, Wnt)",
+   "unifying": true,
+   "rationale": "Members are morphogen signals driving mesenchymal stem cell proliferation and differentiation, upstream of the osteoblast and cadherin neighbours."
+  },
+  "n01968": {
+   "theme_id": "n01968",
+   "head": "Differentiated intestinal epithelial identity",
+   "parts": [
+    "CDX-driven",
+    "absorptive enterocytes",
+    "barrier maintenance"
+   ],
+   "name": "Differentiated intestinal epithelial identity (CDX-driven, absorptive enterocytes, barrier maintenance)",
+   "unifying": true,
+   "rationale": "Members mark the CDX-specified differentiated gut epithelium and its barrier (leukocyte migration is a stray member); CDX and differentiation separate it from HNF4 hepatic-intestinal, crypt stem and antimicrobial neighbours."
+  },
+  "n03392": {
+   "theme_id": "n03392",
+   "head": "Peroxisome function",
+   "parts": [
+    "protein import",
+    "very-long-chain fatty acid oxidation"
+   ],
+   "name": "Peroxisome function (protein import, very-long-chain fatty acid oxidation)",
+   "unifying": true,
+   "rationale": "Members cover peroxisome biogenesis (import, fission) and its very-long-chain beta-oxidation; combining both separates it from neighbours with only fatty acid oxidation or only import plus pexophagy."
+  },
+  "n03733": {
+   "theme_id": "n03733",
+   "head": "Glycan elongation and sialylation",
+   "parts": [
+    "N- and O-glycans",
+    "gangliosides",
+    "sialic acid synthesis"
+   ],
+   "name": "Glycan elongation and sialylation (N- and O-glycans, gangliosides, sialic acid synthesis)",
+   "unifying": true,
+   "rationale": "Members build and sialylate N-, O-glycan and ganglioside chains with CMP-sialic acid supply; gangliosides and sialic acid synthesis separate it from fucosylation, nucleotide-sugar and early N-glycan neighbours."
+  },
+  "n03825": {
+   "theme_id": "n03825",
+   "head": "Myeloid cell identity signatures",
+   "parts": [
+    "circulating monocytes",
+    "resting dendritic cells",
+    "surface markers"
+   ],
+   "name": "Myeloid cell identity signatures (circulating monocytes, resting dendritic cells, surface markers)",
+   "unifying": true,
+   "rationale": "Members are monocyte, dendritic cell and related myeloid signatures; resting surface identity separates it from monocyte activation and antigen-presentation neighbours."
+  },
+  "n00091": {
+   "theme_id": "n00091",
+   "head": "Pro-resolving lipid mediator biosynthesis",
+   "parts": [
+    "resolvins",
+    "protectins",
+    "maresins"
+   ],
+   "name": "Pro-resolving lipid mediator biosynthesis (resolvins, protectins, maresins)",
+   "unifying": true,
+   "rationale": "All members synthesise specialised pro-resolving mediators from DHA, EPA and DPA, unlike the arachidonate lipoxin, HETE and leukotriene neighbours."
+  },
+  "n02423": {
+   "theme_id": "n02423",
+   "head": "Renal epithelial specialization",
+   "parts": [
+    "podocyte filtration barrier",
+    "brush-border microvilli",
+    "albumin reabsorption"
+   ],
+   "name": "Renal epithelial specialization (podocyte filtration barrier, brush-border microvilli, albumin reabsorption)",
+   "unifying": true,
+   "rationale": "Members build the glomerular podocyte barrier and the tubular brush border that reabsorbs albumin; the microvillus and podocyte parts separate it from glomerular vasculature/mesangium and generic polarity neighbours."
+  },
+  "n01692": {
+   "theme_id": "n01692",
+   "head": "DNA double-strand break response",
+   "parts": [
+    "break sensing",
+    "ATM signaling",
+    "classical end joining"
+   ],
+   "name": "DNA double-strand break response (break sensing, ATM signaling, classical end joining)",
+   "unifying": true,
+   "rationale": "Members sense breaks, recruit ATM-phosphorylated factors and repair by classical NHEJ, separating it from homologous recombination, alt-NHEJ and ADP-ribosylation neighbours."
+  },
+  "n00321": {
+   "theme_id": "n00321",
+   "head": "Mitotic sister chromatid cohesion and separation",
+   "parts": [
+    "centromeric cohesion",
+    "anaphase release"
+   ],
+   "name": "Mitotic sister chromatid cohesion and separation (centromeric cohesion, anaphase release)",
+   "unifying": true,
+   "rationale": "Members maintain centromeric cohesion and resolve it at anaphase, unlike neighbours on cohesion establishment, APC/C or spindle checkpoint."
+  },
+  "n02475": {
+   "theme_id": "n02475",
+   "head": "Polyubiquitin chain assembly and editing",
+   "parts": [
+    "atypical K6/K27/K29 linkages",
+    "E1-E2 enzymes",
+    "deubiquitinases"
+   ],
+   "name": "Polyubiquitin chain assembly and editing (atypical K6/K27/K29 linkages, E1-E2 enzymes, deubiquitinases)",
+   "unifying": true,
+   "rationale": "Members write and erase linkage-specific ubiquitin chains; atypical linkages and free chains separate it from NF-kB, proteasome/neddylation and E3-ligase neighbours."
+  },
+  "n01104": {
+   "theme_id": "n01104",
+   "head": "Lipoate-dependent dehydrogenase complexes",
+   "parts": [
+    "protein lipoylation",
+    "2-oxoacid dehydrogenases",
+    "glycine cleavage"
+   ],
+   "name": "Lipoate-dependent dehydrogenase complexes (protein lipoylation, 2-oxoacid dehydrogenases, glycine cleavage)",
+   "unifying": true,
+   "rationale": "Members share lipoylated E2/DLD complexes (PDH, OGDH, 2-oxoadipate for lysine catabolism, glycine cleavage), separating it from TCA, CoA, BCKDH and GABA neighbours."
+  },
+  "n02004": {
+   "theme_id": "n02004",
+   "head": "Eye morphogenesis",
+   "parts": [
+    "lens and anterior segment",
+    "optic cup",
+    "retinal vascular barrier"
+   ],
+   "name": "Eye morphogenesis (lens and anterior segment, optic cup, retinal vascular barrier)",
+   "unifying": true,
+   "rationale": "Members build eye structures and retinal vasculature with its blood-retinal barrier, unlike neighbours on retinal neuron and photoreceptor differentiation or phototransduction."
+  },
+  "n03891": {
+   "theme_id": "n03891",
+   "head": "Innate bacterial sensing",
+   "parts": [
+    "TLR2/4/5-MyD88",
+    "NOD1/2",
+    "inflammasome"
+   ],
+   "name": "Innate bacterial sensing (TLR2/4/5-MyD88, NOD1/2, inflammasome)",
+   "unifying": true,
+   "rationale": "Members detect bacterial cell-wall ligands via TLR-MyD88/IRAK4 and NOD1/2; having both arms separates it from TLR-only and TAK1/ALPK1 neighbours."
+  },
+  "n03635": {
+   "theme_id": "n03635",
+   "head": "Glycolysis to lactate",
+   "parts": [
+    "hexokinase",
+    "fructose 2,6-bisphosphate regulation"
+   ],
+   "name": "Glycolysis to lactate (hexokinase, fructose 2,6-bisphosphate regulation)",
+   "unifying": true,
+   "rationale": "Members are glucose fermentation to lactate and its fructose bisphosphate control (oxygen transport is a stray member), unlike the gluconeogenesis, PPP-regulation and creatine neighbours."
+  },
+  "n04181": {
+   "theme_id": "n04181",
+   "head": "Mitotic exit",
+   "parts": [
+    "ESCRT-III nuclear envelope resealing",
+    "abscission",
+    "endoreduplication"
+   ],
+   "name": "Mitotic exit (ESCRT-III nuclear envelope resealing, abscission, endoreduplication)",
+   "unifying": true,
+   "rationale": "Members complete or bypass mitosis via ESCRT-III envelope sealing and abscission; ESCRT and endoreduplication separate it from contractile ring, spindle and condensation neighbours."
+  },
+  "n03237": {
+   "theme_id": "n03237",
+   "head": "Rap1-mediated integrin activation",
+   "parts": [
+    "endothelial shear stress",
+    "platelet activation",
+    "PIEZO1"
+   ],
+   "name": "Rap1-mediated integrin activation (endothelial shear stress, platelet activation, PIEZO1)",
+   "unifying": true,
+   "rationale": "Members converge on Rap1-driven inside-out integrin activation and its cytoskeletal coupling; the shear-stress and platelet contexts separate it from the Rho/focal-adhesion, leukocyte-adhesion and platelet-GPCR neighbours."
+  },
+  "n02190": {
+   "theme_id": "n02190",
+   "head": "Neurotrophin receptor downstream signaling",
+   "parts": [
+    "TRKA",
+    "TRKC",
+    "Ras-MAPK-CREB"
+   ],
+   "name": "Neurotrophin receptor downstream signaling (TRKA, TRKC, Ras-MAPK-CREB)",
+   "unifying": true,
+   "rationale": "All members are effector branches of TRK neurotrophin receptors; naming TRKA and TRKC with Ras-MAPK-CREB outputs separates it from the TRKB/BDNF and NGF-activation/retrograde neighbours."
+  },
+  "n02008": {
+   "theme_id": "n02008",
+   "head": "De novo glycerophospholipid synthesis and turnover",
+   "parts": [
+    "PC/PE/PS",
+    "PG-cardiolipin",
+    "lysophospholipid hydrolysis"
+   ],
+   "name": "De novo glycerophospholipid synthesis and turnover (PC/PE/PS, PG-cardiolipin, lysophospholipid hydrolysis)",
+   "unifying": true,
+   "rationale": "Members build PC, PE, PS, PG and cardiolipin via CDP routes and degrade lysophospholipids, distinguishing it from neighbours centred on acyl-chain remodelling, PI synthesis/transport and endocannabinoids."
+  },
+  "n01529": {
+   "theme_id": "n01529",
+   "head": "Cardiac impulse conduction",
+   "parts": [
+    "depolarization",
+    "SA node pacemaking",
+    "gap junction coupling"
+   ],
+   "name": "Cardiac impulse conduction (depolarization, SA node pacemaking, gap junction coupling)",
+   "unifying": true,
+   "rationale": "Members cover depolarization and electrical spread through nodal, His-Purkinje and working myocardium, unlike neighbours on repolarization/potassium channels or conduction-system development."
+  },
+  "n03438": {
+   "theme_id": "n03438",
+   "head": "Kidney epithelial polarity and specialization",
+   "parts": [
+    "brush border",
+    "tight junctions",
+    "podocyte slit diaphragm"
+   ],
+   "name": "Kidney epithelial polarity and specialization (brush border, tight junctions, podocyte slit diaphragm)",
+   "unifying": true,
+   "rationale": "Members establish apical-basal polarity and its specializations in tubular and glomerular epithelium, separating it from apical trafficking, glomerular vasculature/mesangium and adherens-junction neighbours."
+  },
+  "n00107": {
+   "theme_id": "n00107",
+   "head": "Endocannabinoid metabolism and signaling",
+   "parts": [
+    "anandamide",
+    "2-AG",
+    "retrograde synaptic signaling"
+   ],
+   "name": "Endocannabinoid metabolism and signaling (anandamide, 2-AG, retrograde synaptic signaling)",
+   "unifying": true,
+   "rationale": "Members make and degrade N-acylethanolamines and 2-AG and use them as retrograde synaptic lipid messengers, distinct from the eicosanoid, histamine and leukotriene neighbours."
+  },
+  "n03464": {
+   "theme_id": "n03464",
+   "head": "Axon pathfinding",
+   "parts": [
+    "midline crossing",
+    "chemorepulsion",
+    "neuron-type-specific tracts"
+   ],
+   "name": "Axon pathfinding (midline crossing, chemorepulsion, neuron-type-specific tracts)",
+   "unifying": true,
+   "rationale": "Members guide axons of commissural, retinal, dopaminergic and serotonergic neurons through repulsive and midline cues, rather than the SLIT-ROBO, ephrin, netrin or semaphorin signalling detail held by neighbours."
+  },
+  "n01019": {
+   "theme_id": "n01019",
+   "head": "Cullin neddylation and deneddylation",
+   "parts": [
+    "COP9 signalosome",
+    "CUL1 substrate degradation"
+   ],
+   "name": "Cullin neddylation and deneddylation (COP9 signalosome, CUL1 substrate degradation)",
+   "unifying": true,
+   "rationale": "Members form the NEDD8 on/off cycle that controls cullin-RING ligases, distinct from neighbours on deubiquitination, ubiquitin chain types and PD-L1 degradation."
+  },
+  "n03239": {
+   "theme_id": "n03239",
+   "head": "Restraint of VEGF-driven angiogenic sprouting",
+   "parts": [
+    "Tie2",
+    "endothelial survival",
+    "adherens junctions"
+   ],
+   "name": "Restraint of VEGF-driven angiogenic sprouting (Tie2, endothelial survival, adherens junctions)",
+   "unifying": true,
+   "rationale": "Members hold endothelium quiescent by limiting VEGFR2-driven sprouting while Tie2 supports survival and junctions, unlike the pro-angiogenic, cell-matrix and VEGF-production neighbours."
+  },
+  "n03902": {
+   "theme_id": "n03902",
+   "head": "Nuclear RNA export",
+   "parts": [
+    "mRNA",
+    "tRNA",
+    "ribosomal subunits"
+   ],
+   "name": "Nuclear RNA export (mRNA, tRNA, ribosomal subunits)",
+   "unifying": true,
+   "rationale": "Members move mature RNAs and pre-ribosomes out through the nuclear pore, separating it from the RNA processing, decay and nuclear pore assembly/protein-import neighbours."
+  },
+  "n04569": {
+   "theme_id": "n04569",
+   "head": "Transcription elongation and termination",
+   "parts": [
+    "RNA polymerase I",
+    "RNA polymerase III",
+    "early rRNA processing"
+   ],
+   "name": "Transcription elongation and termination (RNA polymerase I, RNA polymerase III, early rRNA processing)",
+   "unifying": true,
+   "rationale": "Members are the elongation and termination steps of Pol I and Pol III transcription plus 5'-ETS processing, distinct from neighbours on initiation and rRNA regulation."
+  },
+  "n00911": {
+   "theme_id": "n00911",
+   "head": "Blood coagulation and fibrinolysis",
+   "parts": [
+    "common pathway",
+    "fibrin formation",
+    "factor V defects"
+   ],
+   "name": "Blood coagulation and fibrinolysis (common pathway, fibrin formation, factor V defects)",
+   "unifying": true,
+   "rationale": "Members form and dissolve fibrin clots via the common pathway with factor V variants, unlike neighbours on the intrinsic/FXII contact pathway, factor VIII/IX defects or VWF."
+  },
+  "n01571": {
+   "theme_id": "n01571",
+   "head": "Monoamine neurotransmitter metabolism and transport",
+   "parts": [
+    "catecholamines",
+    "serotonin",
+    "sympathoadrenal development"
+   ],
+   "name": "Monoamine neurotransmitter metabolism and transport (catecholamines, serotonin, sympathoadrenal development)",
+   "unifying": true,
+   "rationale": "Members synthesize, package, reuptake and degrade catecholamines and serotonin, with sympathoadrenal development separating it from the broader neurotransmitter-transport and dopamine-receptor neighbours."
+  },
+  "n00923": {
+   "theme_id": "n00923",
+   "head": "Platelet activation",
+   "parts": [
+    "cytoskeletal remodeling"
+   ],
+   "name": "Platelet activation (cytoskeletal remodeling)",
+   "unifying": true,
+   "rationale": "The three expression modules capture platelet activation with its cytoskeletal reorganization, unlike neighbours on fibroblast matrix adhesion and integrin-Rap1 signalling."
+  },
+  "n03294": {
+   "theme_id": "n03294",
+   "head": "Glycine-centred amino acid metabolism",
+   "parts": [
+    "threonine",
+    "proline",
+    "aromatic acid conjugation"
+   ],
+   "name": "Glycine-centred amino acid metabolism (threonine, proline, aromatic acid conjugation)",
+   "unifying": true,
+   "rationale": "Members make and degrade glycine (via threonine and glyoxylate), handle proline and use glycine or glutamine to conjugate aromatic acids, distinct from sulfur/aromatic, glutamate and alanine neighbours."
+  },
+  "n02900": {
+   "theme_id": "n02900",
+   "head": "Intrinsic mitochondrial apoptosis",
+   "parts": [
+    "p53",
+    "BCL-2 family",
+    "apoptosome"
+   ],
+   "name": "Intrinsic mitochondrial apoptosis (p53, BCL-2 family, apoptosome)",
+   "unifying": true,
+   "rationale": "Members run the p53-induced BCL-2 family decision, cytochrome c release and apoptosome-caspase activation, distinct from p53 cell-cycle/senescence and apoptosis-execution neighbours."
+  },
+  "n02830": {
+   "theme_id": "n02830",
+   "head": "PLC-IP3 calcium signaling",
+   "parts": [
+    "G protein-coupled receptors",
+    "noncanonical Wnt/Ca2+",
+    "LPA receptors"
+   ],
+   "name": "PLC-IP3 calcium signaling (G protein-coupled receptors, noncanonical Wnt/Ca2+, LPA receptors)",
+   "unifying": true,
+   "rationale": "Members raise cytosolic calcium through phospholipase C and IP3 downstream of GPCRs and Wnt/Ca2+, separating it from cAMP, PKC, eicosanoid-receptor and purinergic neighbours."
+  },
+  "n00389": {
+   "theme_id": "n00389",
+   "head": "Glutamate reuptake",
+   "parts": [
+    "astrocytic glutamate-glutamine cycle"
+   ],
+   "name": "Glutamate reuptake (astrocytic glutamate-glutamine cycle)",
+   "unifying": true,
+   "rationale": "Members clear synaptic glutamate into astrocytes for recycling via glutamine, distinct from monoamine, GABA and aspartate transporter neighbours."
+  },
+  "n00280": {
+   "theme_id": "n00280",
+   "head": "Nuclear export of mature mRNA",
+   "parts": [],
+   "name": "Nuclear export of mature mRNA",
+   "unifying": true,
+   "rationale": "All members export processed mRNAs from the nucleus, distinct from neighbours on mRNA processing and nuclear pore complex organization."
+  },
+  "n00705": {
+   "theme_id": "n00705",
+   "head": "Gastrulation and germ layer formation",
+   "parts": [
+    "definitive endoderm",
+    "lateral mesoderm",
+    "early gut"
+   ],
+   "name": "Gastrulation and germ layer formation (definitive endoderm, lateral mesoderm, early gut)",
+   "unifying": true,
+   "rationale": "Members cover exit from pluripotency, primitive streak EMT and germ-layer specification through early gut morphogenesis, unlike the heart and pancreas development neighbours."
+  },
+  "n00766": {
+   "theme_id": "n00766",
+   "head": "Pyroptotic cell death execution",
+   "parts": [
+    "gasdermin pores",
+    "pyroptosis defects"
+   ],
+   "name": "Pyroptotic cell death execution (gasdermin pores, pyroptosis defects)",
+   "unifying": true,
+   "rationale": "Members are the lytic execution of pyroptosis and its defects, downstream of the inflammasome assembly held by neighbours."
+  },
+  "n00174": {
+   "theme_id": "n00174",
+   "head": "JNK stress-activated kinase cascade activation",
+   "parts": [],
+   "name": "JNK stress-activated kinase cascade activation",
+   "unifying": true,
+   "rationale": "All members positively regulate the JNK stress kinase cascade, distinct from NF-kappaB, NOD and TAK1-upstream neighbours."
+  },
+  "n01493": {
+   "theme_id": "n01493",
+   "head": "DNA structural remodeling in genome maintenance",
+   "parts": [
+    "topology",
+    "fork reversal",
+    "protein-DNA disassembly"
+   ],
+   "name": "DNA structural remodeling in genome maintenance (topology, fork reversal, protein-DNA disassembly)",
+   "unifying": true,
+   "rationale": "Members change DNA topology and structure during replication and repair, unlike neighbours on chromatin remodelling, telomere maintenance or replication stress."
+  },
+  "n04107": {
+   "theme_id": "n04107",
+   "head": "Synapse assembly and receptor clustering",
+   "parts": [
+    "neurexin-neuroligin",
+    "NMDA/PSD-95",
+    "GABA/gephyrin"
+   ],
+   "name": "Synapse assembly and receptor clustering (neurexin-neuroligin, NMDA/PSD-95, GABA/gephyrin)",
+   "unifying": true,
+   "rationale": "Members build pre- and postsynaptic membranes and cluster excitatory and inhibitory receptors, distinct from neighbours on SALM and receptor phosphatase synaptic adhesion."
+  },
+  "n01452": {
+   "theme_id": "n01452",
+   "head": "Type 2 eosinophilic inflammation",
+   "parts": [
+    "Th2 differentiation",
+    "IL-5",
+    "eosinophil recruitment"
+   ],
+   "name": "Type 2 eosinophilic inflammation (Th2 differentiation, IL-5, eosinophil recruitment)",
+   "unifying": true,
+   "rationale": "Members promote Th2 cells and IL-5 that drive eosinophil migration and activation, unlike neighbours on negative Th2 regulation, IL-4/IL-13/IL-33 signalling or granulocyte differentiation."
+  },
+  "n02439": {
+   "theme_id": "n02439",
+   "head": "Regulation of kidney development",
+   "parts": [
+    "kidney size restraint",
+    "nephric duct and ureter",
+    "mesenchyme survival"
+   ],
+   "name": "Regulation of kidney development (kidney size restraint, nephric duct and ureter, mesenchyme survival)",
+   "unifying": true,
+   "rationale": "All members regulate kidney development, and the restraint of growth and size, nephric duct-ureter morphogenesis and mesenchymal anti-apoptosis separate it from the ureteric bud and metanephric differentiation confusables."
+  },
+  "n03058": {
+   "theme_id": "n03058",
+   "head": "Reelin signalling in synapse maturation",
+   "parts": [
+    "dendritic spines",
+    "dendrite development",
+    "long-term depression"
+   ],
+   "name": "Reelin signalling in synapse maturation (dendritic spines, dendrite development, long-term depression)",
+   "unifying": true,
+   "rationale": "Reelin signalling drives dendrite, spine and synapse maturation and plasticity, which separates it from the amyloid-beta and actin-based postsynaptic structure confusables."
+  },
+  "n02680": {
+   "theme_id": "n02680",
+   "head": "Glucogenic amino acid metabolism and gluconeogenesis",
+   "parts": [
+    "glutamate and glutamine",
+    "aspartate",
+    "alanine"
+   ],
+   "name": "Glucogenic amino acid metabolism and gluconeogenesis (glutamate and glutamine, aspartate, alanine)",
+   "unifying": true,
+   "rationale": "Glutamate, glutamine, aspartate and alanine metabolism feed carbon via oxaloacetate into gluconeogenesis, distinguishing it from the proline/glycine, TCA cycle and conjugation confusables."
+  },
+  "n00953": {
+   "theme_id": "n00953",
+   "head": "Sphingolipid metabolism",
+   "parts": [
+    "ceramide",
+    "sphingomyelin"
+   ],
+   "name": "Sphingolipid metabolism (ceramide, sphingomyelin)",
+   "unifying": true,
+   "rationale": "Members cover sphingolipid synthesis, breakdown and homeostasis centred on ceramide and sphingomyelin, unlike the glycerophospholipid confusables."
+  },
+  "n00671": {
+   "theme_id": "n00671",
+   "head": "Lipoprotein particle remodeling",
+   "parts": [
+    "HDL",
+    "LDL"
+   ],
+   "name": "Lipoprotein particle remodeling (HDL, LDL)",
+   "unifying": true,
+   "rationale": "All members are remodeling of HDL and LDL particles, which separates it from the chylomicron and VLDL assembly and clearance confusables."
+  },
+  "n01216": {
+   "theme_id": "n01216",
+   "head": "Mitochondrial gene expression and genome maintenance",
+   "parts": [
+    "mtDNA replication",
+    "mRNA turnover",
+    "mitoribosome translation"
+   ],
+   "name": "Mitochondrial gene expression and genome maintenance (mtDNA replication, mRNA turnover, mitoribosome translation)",
+   "unifying": true,
+   "rationale": "Members span mitochondrial DNA replication and repair, transcription, mRNA stability and mitoribosome translation, whereas the confusables add tRNA processing and RNA import."
+  },
+  "n02416": {
+   "theme_id": "n02416",
+   "head": "Neuropeptide signalling in sleep-wake regulation",
+   "parts": [
+    "opioid receptors",
+    "orexin",
+    "dense-core vesicle release"
+   ],
+   "name": "Neuropeptide signalling in sleep-wake regulation (opioid receptors, orexin, dense-core vesicle release)",
+   "unifying": true,
+   "rationale": "Neuropeptide and opioid GPCR signalling released from dense-core vesicles, chiefly controlling sleep and wakefulness, distinguishes it from the stress-hormone and social/mating behaviour confusables."
+  },
+  "n00965": {
+   "theme_id": "n00965",
+   "head": "Response to replication-blocking DNA damage",
+   "parts": [
+    "protein-DNA crosslinks",
+    "camptothecin",
+    "hydroxyurea"
+   ],
+   "name": "Response to replication-blocking DNA damage (protein-DNA crosslinks, camptothecin, hydroxyurea)",
+   "unifying": true,
+   "rationale": "Protein-DNA crosslink repair and responses to camptothecin and hydroxyurea all deal with lesions that stall replication, unlike the Fanconi, double-strand break and fork-reversal confusables."
+  },
+  "n02089": {
+   "theme_id": "n02089",
+   "head": "Inflammatory monocyte recruitment and activation",
+   "parts": [
+    "chemotaxis and extravasation",
+    "aggregation",
+    "proinflammatory cytokines"
+   ],
+   "name": "Inflammatory monocyte recruitment and activation (chemotaxis and extravasation, aggregation, proinflammatory cytokines)",
+   "unifying": true,
+   "rationale": "Members describe monocyte activation, aggregation and migration into inflamed tissue together with the inflammatory cytokine response, which separates it from monocyte surface-signature and anti-inflammatory confusables."
+  },
+  "n02561": {
+   "theme_id": "n02561",
+   "head": "Intrinsic pathway coagulation",
+   "parts": [
+    "defective factor VIII",
+    "defective factor IX"
+   ],
+   "name": "Intrinsic pathway coagulation (defective factor VIII, defective factor IX)",
+   "unifying": true,
+   "rationale": "Members are the intrinsic coagulation pathway and its factor VIII and IX variant defects, distinguishing it from the factor XII, von Willebrand factor, factor V and fibrinolysis confusables."
+  },
+  "n03229": {
+   "theme_id": "n03229",
+   "head": "Endothelial specification and vascular morphogenesis",
+   "parts": [
+    "VEGFR2",
+    "Tie2",
+    "arterial-venous-lymphatic fate"
+   ],
+   "name": "Endothelial specification and vascular morphogenesis (VEGFR2, Tie2, arterial-venous-lymphatic fate)",
+   "unifying": true,
+   "rationale": "Members cover endothelial fate commitment and vessel formation driven by VEGFR2 and Tie2 signalling, unlike the sprouting-angiogenesis and BMP-driven cardiac vessel confusables."
+  },
+  "n02651": {
+   "theme_id": "n02651",
+   "head": "Cardiomyocyte calcium homeostasis",
+   "parts": [
+    "sodium-calcium exchange",
+    "cytosolic calcium clearance"
+   ],
+   "name": "Cardiomyocyte calcium homeostasis (sodium-calcium exchange, cytosolic calcium clearance)",
+   "unifying": true,
+   "rationale": "Members control cardiac calcium handling with emphasis on sodium-calcium exchange lowering cytosolic calcium, which the SR pump, ryanodine-receptor and caffeine-response confusables lack."
+  },
+  "n03855": {
+   "theme_id": "n03855",
+   "head": "Damaged-protein repair under cellular stress",
+   "parts": [
+    "methylglyoxal glycation",
+    "nitrosative stress",
+    "chaperone-mediated autophagy"
+   ],
+   "name": "Damaged-protein repair under cellular stress (methylglyoxal glycation, nitrosative stress, chaperone-mediated autophagy)",
+   "unifying": true,
+   "rationale": "Members protect and repair proteins under stress, with methylglyoxal handling and protein repair distinguishing it from the aggrephagy, heat-shock and ROS detoxification confusables."
+  },
+  "n00413": {
+   "theme_id": "n00413",
+   "head": "Hindbrain branchiomotor neuron development",
+   "parts": [
+    "tangential migration",
+    "facial nerve",
+    "trigeminal nerve"
+   ],
+   "name": "Hindbrain branchiomotor neuron development (tangential migration, facial nerve, trigeminal nerve)",
+   "unifying": true,
+   "rationale": "Branchiomotor neuron migration and axon guidance build the facial and trigeminal nerves, unlike the brainstem maturation, cerebellar and sensory placode confusables."
+  },
+  "n02001": {
+   "theme_id": "n02001",
+   "head": "Differentiated intestinal epithelium identity",
+   "parts": [
+    "CDX and HNF4 factors",
+    "enterocytes",
+    "barrier maintenance"
+   ],
+   "name": "Differentiated intestinal epithelium identity (CDX and HNF4 factors, enterocytes, barrier maintenance)",
+   "unifying": true,
+   "rationale": "Members mark the CDX/HNF4-specified differentiated absorptive gut epithelium and its barrier, distinguishing it from the crypt stem cell, antimicrobial and pancreatic lineage confusables."
+  },
+  "n03030": {
+   "theme_id": "n03030",
+   "head": "Chemokine receptor-driven leukocyte chemotaxis",
+   "parts": [
+    "dendritic cells",
+    "T and NK cells",
+    "CCR7 and CXCR4"
+   ],
+   "name": "Chemokine receptor-driven leukocyte chemotaxis (dendritic cells, T and NK cells, CCR7 and CXCR4)",
+   "unifying": true,
+   "rationale": "Chemokine receptor signalling directs dendritic cell, T cell and NK cell migration, which separates it from the integrin, B cell homing and monocyte confusables."
+  },
+  "n02751": {
+   "theme_id": "n02751",
+   "head": "Amino acid and oligopeptide transport",
+   "parts": [
+    "proton-coupled oligopeptide cotransport",
+    "cationic amino acids"
+   ],
+   "name": "Amino acid and oligopeptide transport (proton-coupled oligopeptide cotransport, cationic amino acids)",
+   "unifying": true,
+   "rationale": "Members move amino acids and di/oligopeptides across membranes, and proton-coupled peptide transport and cationic amino acid import distinguish it from the neutral amino acid, polyamine and ornithine confusables."
+  },
+  "n02434": {
+   "theme_id": "n02434",
+   "head": "Epithelial cell migration control",
+   "parts": [
+    "reduced cell-matrix adhesion",
+    "Rho and Rac inhibition",
+    "keratinocytes"
+   ],
+   "name": "Epithelial cell migration control (reduced cell-matrix adhesion, Rho and Rac inhibition, keratinocytes)",
+   "unifying": true,
+   "rationale": "Members tune epithelial and keratinocyte migration by suppressing matrix adhesion, spreading and Rho/Rac-driven protrusion, unlike the CDC42/actin-polymerization and VEGF confusables."
+  },
+  "n02028": {
+   "theme_id": "n02028",
+   "head": "Double-strand break sensing and repair choice",
+   "parts": [
+    "NHEJ",
+    "ATM signalling",
+    "BRCA1 and BRCA2 defects"
+   ],
+   "name": "Double-strand break sensing and repair choice (NHEJ, ATM signalling, BRCA1 and BRCA2 defects)",
+   "unifying": true,
+   "rationale": "Members sense breaks, signal via ATM and choose between NHEJ and homologous recombination including BRCA1/BRCA2 defects, distinguishing it from the PARylation and resection/HR-execution confusables."
+  },
+  "n00627": {
+   "theme_id": "n00627",
+   "head": "Golgi nucleotide-sugar transport",
+   "parts": [
+    "SLC35 transporter defects",
+    "congenital glycosylation disorders",
+    "UDP-glucuronate"
+   ],
+   "name": "Golgi nucleotide-sugar transport (SLC35 transporter defects, congenital glycosylation disorders, UDP-glucuronate)",
+   "unifying": true,
+   "rationale": "Members supply nucleotide sugars to the Golgi lumen and include transporter defects causing glycosylation disorders, unlike the GPI, glycosphingolipid, sialic acid and N-glycan confusables."
+  },
+  "n01173": {
+   "theme_id": "n01173",
+   "head": "Hematopoietic interleukin receptor signalling",
+   "parts": [
+    "IL-2/7/9",
+    "IL-3/5",
+    "STAT5"
+   ],
+   "name": "Hematopoietic interleukin receptor signalling (IL-2/7/9, IL-3/5, STAT5)",
+   "unifying": true,
+   "rationale": "Members are common gamma-chain and beta-common interleukin receptor signalling through STAT5, with the IL-3/IL-5 arm separating it from the IL-15/21 T cell, IL-6 and FLT3 confusables."
+  },
+  "n01164": {
+   "theme_id": "n01164",
+   "head": "Purine ribonucleotide catabolism",
+   "parts": [
+    "AMP and IMP",
+    "ADA and PNP defects",
+    "allantoin"
+   ],
+   "name": "Purine ribonucleotide catabolism (AMP and IMP, ADA and PNP defects, allantoin)",
+   "unifying": true,
+   "rationale": "Members degrade purine ribonucleotides and nucleosides via inosine towards allantoin, unlike the salvage and deoxyribonucleotide confusables."
+  },
+  "n01303": {
+   "theme_id": "n01303",
+   "head": "Chemosensory perception",
+   "parts": [
+    "smell",
+    "sour taste"
+   ],
+   "name": "Chemosensory perception (smell, sour taste)",
+   "unifying": true,
+   "rationale": "Members are chemical sensing by smell and sour taste, distinguishing it from olfactory receptor expression, acid-sensing channel and sweet/bitter/umami taste confusables."
+  },
+  "n03115": {
+   "theme_id": "n03115",
+   "head": "AP-1 immediate-early gene response",
+   "parts": [
+    "UV",
+    "nitric oxide",
+    "mitogens and phorbol ester"
+   ],
+   "name": "AP-1 immediate-early gene response (UV, nitric oxide, mitogens and phorbol ester)",
+   "unifying": true,
+   "rationale": "AP-1/FOS-driven immediate-early transcription in response to UV, nitric oxide and mitogenic stimuli distinguishes it from the TAK1-JNK/p38 kinase and ERK feedback confusables."
+  },
+  "n00440": {
+   "theme_id": "n00440",
+   "head": "Regulation of nucleocytoplasmic protein transport",
+   "parts": [
+    "nuclear import",
+    "nuclear export"
+   ],
+   "name": "Regulation of nucleocytoplasmic protein transport (nuclear import, nuclear export)",
+   "unifying": true,
+   "rationale": "Members regulate protein import into and export from the nucleus, unlike the nuclear pore assembly and RNA/inositol phosphate transport confusables."
+  },
+  "n01383": {
+   "theme_id": "n01383",
+   "head": "Oncogenic RTK mutants and TKI resistance",
+   "parts": [
+    "KIT and PDGFR",
+    "ALK",
+    "FGFR"
+   ],
+   "name": "Oncogenic RTK mutants and TKI resistance (KIT and PDGFR, ALK, FGFR)",
+   "unifying": true,
+   "rationale": "All members are signaling by cancer-mutant, fused or amplified receptor tyrosine kinases and their resistance to kinase inhibitors; KIT/PDGFR, ALK and FGFR separate it from the FLT3, ERBB2 and cytokine-receptor neighbours."
+  },
+  "n01186": {
+   "theme_id": "n01186",
+   "head": "Neutral amino acid transport",
+   "parts": [
+    "SLC6A19",
+    "Hartnup disorder"
+   ],
+   "name": "Neutral amino acid transport (SLC6A19, Hartnup disorder)",
+   "unifying": true,
+   "rationale": "Plasma-membrane uptake of neutral amino acids such as tryptophan and glycine, centred on SLC6A19 and its Hartnup defects, which distinguishes it from the broader amino acid, peptide and SLC6A20/SLC36A2 transport neighbours."
+  },
+  "n04360": {
+   "theme_id": "n04360",
+   "head": "Immune cell surface marker signatures",
+   "parts": [
+    "B cells",
+    "T cells",
+    "dendritic cells"
+   ],
+   "name": "Immune cell surface marker signatures (B cells, T cells, dendritic cells)",
+   "unifying": true,
+   "rationale": "Surface-protein signatures of leukocytes, mostly B cell with CD4 T cell and dendritic cell sets; the B cell plus T/DC mix separates it from neighbours centred on plasma cells, monocytes or antigen presentation."
+  },
+  "n00293": {
+   "theme_id": "n00293",
+   "head": "Leloir pathway galactose catabolism",
+   "parts": [
+    "inherited galactosemias"
+   ],
+   "name": "Leloir pathway galactose catabolism (inherited galactosemias)",
+   "unifying": true,
+   "rationale": "Galactose breakdown via UDP-galactose and the GALK1, GALT, GALE and GALM deficiencies, distinct from the fructose, pentose and alditol neighbours."
+  },
+  "n01194": {
+   "theme_id": "n01194",
+   "head": "Presynaptic catecholamine reuptake",
+   "parts": [
+    "dopamine transporter",
+    "norepinephrine transporter"
+   ],
+   "name": "Presynaptic catecholamine reuptake (dopamine transporter, norepinephrine transporter)",
+   "unifying": true,
+   "rationale": "Clearance of dopamine and norepinephrine from the synapse by SLC6A3 and SLC6A2 and their disease variants, distinct from vesicular loading, catecholamine degradation and dopamine synthesis/signaling neighbours."
+  },
+  "n04334": {
+   "theme_id": "n04334",
+   "head": "Regulation of intrinsic and extrinsic apoptosis",
+   "parts": [
+    "oxidative stress",
+    "death receptors",
+    "ligand deprivation"
+   ],
+   "name": "Regulation of intrinsic and extrinsic apoptosis (oxidative stress, death receptors, ligand deprivation)",
+   "unifying": true,
+   "rationale": "Control of apoptotic signaling triggered by peroxide, oxidative stress and hypoxia or by death receptors and dependence-receptor ligand absence; the apoptosis focus and extrinsic arm separate it from oxidative-stress response and ferroptosis neighbours."
+  },
+  "n03564": {
+   "theme_id": "n03564",
+   "head": "Cullin-RING ligase control of protein stability",
+   "parts": [
+    "neddylation",
+    "RHOBTB adaptors",
+    "PD-L1 in tumor immunity"
+   ],
+   "name": "Cullin-RING ligase control of protein stability (neddylation, RHOBTB adaptors, PD-L1 in tumor immunity)",
+   "unifying": true,
+   "rationale": "Neddylation/deneddylation of cullin ligases and the substrate turnover they drive, with PD-L1 stability and anti-tumor T cell response as the main readout; distinct from general ubiquitination, PD-L1 transcription and proteolysis neighbours."
+  },
+  "n02502": {
+   "theme_id": "n02502",
+   "head": "Visceral smooth muscle contraction and relaxation",
+   "parts": [
+    "gastrointestinal motility",
+    "micturition",
+    "tachykinins"
+   ],
+   "name": "Visceral smooth muscle contraction and relaxation (gastrointestinal motility, micturition, tachykinins)",
+   "unifying": true,
+   "rationale": "Contractility of gut and urinary tract smooth muscle with stomach function and tachykinin input, distinct from reproductive smooth muscle, histamine and serotonin neighbours."
+  },
+  "n02928": {
+   "theme_id": "n02928",
+   "head": "Glucagon and glucose-sensing metabolic control",
+   "parts": [
+    "gluconeogenesis",
+    "ChREBP",
+    "triglyceride breakdown"
+   ],
+   "name": "Glucagon and glucose-sensing metabolic control (gluconeogenesis, ChREBP, triglyceride breakdown)",
+   "unifying": true,
+   "rationale": "Hormonal (glucagon-PKA, PP2A, PDE3B) and glucose-sensing (ChREBP, carbon catabolite) control of gluconeogenesis and triglyceride use, distinct from insulin, glycogen, LXR lipogenesis and adipogenesis neighbours."
+  },
+  "n00879": {
+   "theme_id": "n00879",
+   "head": "ERBB receptor adaptor signaling",
+   "parts": [
+    "SHC1",
+    "GRB2"
+   ],
+   "name": "ERBB receptor adaptor signaling (SHC1, GRB2)",
+   "unifying": true,
+   "rationale": "SHC1 and GRB2 docking events downstream of EGFR, ERBB2 and ERBB4, distinct from neighbours with GRB7, PI3K, PLCG1 or ERBB3/4 dimer signaling."
+  },
+  "n00469": {
+   "theme_id": "n00469",
+   "head": "Cardiomyocyte hypertrophic growth",
+   "parts": [
+    "cardiac muscle adaptation",
+    "sarcomere organization"
+   ],
+   "name": "Cardiomyocyte hypertrophic growth (cardiac muscle adaptation, sarcomere organization)",
+   "unifying": true,
+   "rationale": "Regulation of cardiac muscle adaptation, cardiomyocyte growth and sarcomere assembly, distinct from skeletal muscle atrophy/hypertrophy, calcineurin and contractility neighbours."
+  },
+  "n01459": {
+   "theme_id": "n01459",
+   "head": "RNA virus infection cycle",
+   "parts": [
+    "entry",
+    "genome replication and translation",
+    "assembly"
+   ],
+   "name": "RNA virus infection cycle (entry, genome replication and translation, assembly)",
+   "unifying": true,
+   "rationale": "Life-cycle stages and host interactions of coronaviruses, influenza, RSV, dengue and retroviral protein maturation, distinct from neighbours on DNA integration, reverse transcription, HCMV and latency."
+  },
+  "n01436": {
+   "theme_id": "n01436",
+   "head": "Hypothalamic-pituitary-adrenal stress axis",
+   "parts": [
+    "corticotropin",
+    "glucocorticoid secretion and response"
+   ],
+   "name": "Hypothalamic-pituitary-adrenal stress axis (corticotropin, glucocorticoid secretion and response)",
+   "unifying": true,
+   "rationale": "CRH-ACTH control of cortisol/corticosterone secretion, glucocorticoid responses and stress behaviour, distinct from feeding, growth hormone, sleep and social-behaviour neuroendocrine neighbours."
+  },
+  "n03786": {
+   "theme_id": "n03786",
+   "head": "Fc receptor signaling",
+   "parts": [
+    "mast cell activation",
+    "Fc-gamma phagocytosis",
+    "hypersensitivity"
+   ],
+   "name": "Fc receptor signaling (mast cell activation, Fc-gamma phagocytosis, hypersensitivity)",
+   "unifying": true,
+   "rationale": "Antibody Fc receptor signaling through FcERI in mast cells and FcGR in phagocytosis and ADCC, with hypersensitivity, distinct from B cell receptor and inhibitory-receptor neighbours."
+  },
+  "n03008": {
+   "theme_id": "n03008",
+   "head": "Hard tissue mineralization",
+   "parts": [
+    "bone",
+    "dentin, enamel and cementum",
+    "tooth development"
+   ],
+   "name": "Hard tissue mineralization (bone, dentin, enamel and cementum, tooth development)",
+   "unifying": true,
+   "rationale": "Mineralization of bone and dental tissues with odontogenesis and FGF23-Klotho/PTH inputs, distinct from phosphate-transporter and osteoclast/resorption neighbours."
+  },
+  "n01253": {
+   "theme_id": "n01253",
+   "head": "Aromatic xenobiotic metabolism",
+   "parts": [
+    "CYP2E1 oxidation",
+    "N-acetylation",
+    "paracetamol"
+   ],
+   "name": "Aromatic xenobiotic metabolism (CYP2E1 oxidation, N-acetylation, paracetamol)",
+   "unifying": true,
+   "rationale": "Oxidation by CYP2E1 and N-acetylation of benzene-containing and nitrogenous compounds such as paracetamol, distinct from glycine conjugation, methylation/sulfonation and CYP1A2 neighbours."
+  },
+  "n03134": {
+   "theme_id": "n03134",
+   "head": "Golgi glycoconjugate synthesis",
+   "parts": [
+    "nucleotide-sugar transporter defects",
+    "GDP-fucose",
+    "glycosphingolipids"
+   ],
+   "name": "Golgi glycoconjugate synthesis (nucleotide-sugar transporter defects, GDP-fucose, glycosphingolipids)",
+   "unifying": true,
+   "rationale": "Supply of sugar donors to the Golgi (SLC35 transporter CDGs, SLC33A1, GDP-fucose) and Golgi glycosphingolipid synthesis, distinct from UDP-sugar, N-/O-glycan and PAPS neighbours."
+  },
+  "n00140": {
+   "theme_id": "n00140",
+   "head": "Meiotic chromosome segregation and division",
+   "parts": [
+    "oocyte spindle",
+    "cohesion",
+    "meiotic cell-cycle control"
+   ],
+   "name": "Meiotic chromosome segregation and division (oocyte spindle, cohesion, meiotic cell-cycle control)",
+   "unifying": true,
+   "rationale": "Segregation and division steps of meiosis, mostly in oocytes, with cohesion and meiotic checkpoints, distinct from recombination, synapsis and male meiosis neighbours."
+  },
+  "n03230": {
+   "theme_id": "n03230",
+   "head": "RUNX1-directed myeloid lineage specification",
+   "parts": [
+    "megakaryocytes",
+    "granulopoiesis",
+    "monocyte-macrophage restraint"
+   ],
+   "name": "RUNX1-directed myeloid lineage specification (megakaryocytes, granulopoiesis, monocyte-macrophage restraint)",
+   "unifying": true,
+   "rationale": "RUNX1-driven myeloid progenitor fate decisions toward megakaryocytes and granulocytes while restraining monocyte-macrophage fate, distinct from erythroid and stem cell homeostasis neighbours."
+  },
+  "n02668": {
+   "theme_id": "n02668",
+   "head": "Axon guidance signaling",
+   "parts": [
+    "netrin-DCC",
+    "ephrin growth cone collapse",
+    "fasciculation"
+   ],
+   "name": "Axon guidance signaling (netrin-DCC, ephrin growth cone collapse, fasciculation)",
+   "unifying": true,
+   "rationale": "Netrin-DCC attraction/repulsion and ephrin-induced growth cone collapse with RAC1 and fasciculation, distinct from SLIT-ROBO, L1 and ephrin cell-repulsion neighbours."
+  },
+  "n00977": {
+   "theme_id": "n00977",
+   "head": "Alditol metabolism",
+   "parts": [
+    "glycerol",
+    "glycerol-3-phosphate",
+    "polyol-pathway fructose synthesis"
+   ],
+   "name": "Alditol metabolism (glycerol, glycerol-3-phosphate, polyol-pathway fructose synthesis)",
+   "unifying": true,
+   "rationale": "Synthesis and breakdown of sugar alcohols including glycerol and sorbitol-to-fructose conversion, distinct from fructose catabolism disorders, pentose and acylglycerol neighbours."
+  },
+  "n04349": {
+   "theme_id": "n04349",
+   "head": "Transepithelial water and solute transport",
+   "parts": [
+    "aquaporins",
+    "paracellular magnesium",
+    "inositol"
+   ],
+   "name": "Transepithelial water and solute transport (aquaporins, paracellular magnesium, inositol)",
+   "unifying": true,
+   "rationale": "Movement of water, magnesium, inositol and lipids across epithelial and blood-brain barriers via aquaporins, claudin paracellular routes and transporters, distinct from cation-chloride cotransporter and tight junction neighbours."
+  },
+  "n00273": {
+   "theme_id": "n00273",
+   "head": "Second heart field cardiogenesis",
+   "parts": [
+    "right ventricle formation",
+    "septal cell differentiation"
+   ],
+   "name": "Second heart field cardiogenesis (right ventricle formation, septal cell differentiation)",
+   "unifying": true,
+   "rationale": "Specification and proliferation of second heart field progenitors forming the right ventricle and septum, distinct from trabeculation, heart tube and mesoderm-specification neighbours."
+  },
+  "n00546": {
+   "theme_id": "n00546",
+   "head": "Constitutive oncogenic ERBB receptor signaling",
+   "parts": [
+    "EGFR variants",
+    "ERBB2 domain mutants"
+   ],
+   "name": "Constitutive oncogenic ERBB receptor signaling (EGFR variants, ERBB2 domain mutants)",
+   "unifying": true,
+   "rationale": "Ligand-independent signaling by EGFRvIII, cancer EGFR variants and ERBB2 domain mutants, distinct from ERBB2 drug-resistance and FGFR mutant neighbours."
+  },
+  "n00463": {
+   "theme_id": "n00463",
+   "head": "Tubulin polyglutamylation cycle",
+   "parts": [
+    "microtubule severing and depolymerization"
+   ],
+   "name": "Tubulin polyglutamylation cycle (microtubule severing and depolymerization)",
+   "unifying": true,
+   "rationale": "Addition and removal of tubulin glutamate side chains and the severing/depolymerization they promote, distinct from centrosome, tubulin folding, kinesin transport and cilia neighbours."
+  },
+  "n02108": {
+   "theme_id": "n02108",
+   "head": "Collagen synthesis and fibril assembly regulation",
+   "parts": [],
+   "name": "Collagen synthesis and fibril assembly regulation",
+   "unifying": true,
+   "rationale": "Members are positive and negative control of collagen synthesis and fibril/matrix assembly; confusables instead add crosslinking, elastic fibres or collagen degradation."
+  },
+  "n01770": {
+   "theme_id": "n01770",
+   "head": "Xenobiotic and steroid metabolism",
+   "parts": [
+    "cytochromes",
+    "sulfonation",
+    "flavones and glycosides"
+   ],
+   "name": "Xenobiotic and steroid metabolism (cytochromes, sulfonation, flavones and glycosides)",
+   "unifying": true,
+   "rationale": "Cytochrome and sulfotransferase biotransformation of xenobiotics and steroids; flavone metabolism and glycoside transport separate it from toxin/alkaloid/drug-ADME confusables."
+  },
+  "n04224": {
+   "theme_id": "n04224",
+   "head": "Endocrine hormone axis regulation",
+   "parts": [
+    "thyroid hormone",
+    "HPA-glucocorticoid",
+    "leptin and growth"
+   ],
+   "name": "Endocrine hormone axis regulation (thyroid hormone, HPA-glucocorticoid, leptin and growth)",
+   "unifying": true,
+   "rationale": "Secretion and action of thyroid and adrenal glucocorticoid hormones plus leptin/growth signalling; thyroid content separates it from HPA-stress confusables and leptin from the steroidogenesis confusable."
+  },
+  "n00843": {
+   "theme_id": "n00843",
+   "head": "Kidney development",
+   "parts": [
+    "nephron tubule patterning",
+    "nephric duct",
+    "intermediate mesoderm"
+   ],
+   "name": "Kidney development (nephron tubule patterning, nephric duct, intermediate mesoderm)",
+   "unifying": true,
+   "rationale": "Embryonic kidney formation from intermediate mesoderm through nephric duct to segmented nephron tubules; confusables centre on ureteric bud branching, kidney size and proliferation/apoptosis."
+  },
+  "n03100": {
+   "theme_id": "n03100",
+   "head": "Epithelial-mesenchymal signaling in organogenesis",
+   "parts": [
+    "lung",
+    "prostate",
+    "salivary and lacrimal glands"
+   ],
+   "name": "Epithelial-mesenchymal signaling in organogenesis (lung, prostate, salivary and lacrimal glands)",
+   "unifying": true,
+   "rationale": "Reciprocal epithelial-mesenchymal signalling shaping lung, trachea, prostate and exocrine glands; confusables are mammary, pancreatic and gonadal development."
+  },
+  "n00492": {
+   "theme_id": "n00492",
+   "head": "FOXO transcription factor regulation",
+   "parts": [
+    "AKT phosphorylation",
+    "acetylation",
+    "nuclear localization"
+   ],
+   "name": "FOXO transcription factor regulation (AKT phosphorylation, acetylation, nuclear localization)",
+   "unifying": true,
+   "rationale": "All members describe control of FOXO activity, chiefly by AKT; confusables are p53/mTORC1, NRF2 and metabolic transcription programmes."
+  },
+  "n01656": {
+   "theme_id": "n01656",
+   "head": "Pituitary-testis gonadotropin axis",
+   "parts": [
+    "FSH and LH secretion",
+    "Sertoli cell proliferation",
+    "seminiferous tubules"
+   ],
+   "name": "Pituitary-testis gonadotropin axis (FSH and LH secretion, Sertoli cell proliferation, seminiferous tubules)",
+   "unifying": true,
+   "rationale": "Gonadotropin release and FSH action on Sertoli cells in seminiferous tubule development; confusables cover gonadotropin inhibition, activin or germ/Leydig cells."
+  },
+  "n01009": {
+   "theme_id": "n01009",
+   "head": "Microtubule-based organelle transport",
+   "parts": [
+    "mitochondria",
+    "synaptic vesicles",
+    "endolysosome size"
+   ],
+   "name": "Microtubule-based organelle transport (mitochondria, synaptic vesicles, endolysosome size)",
+   "unifying": true,
+   "rationale": "Microtubule-driven positioning of mitochondria and vesicles plus endosome/lysosome size control; confusables are autophagy-lysosome fusion or kinesin neuronal cargo without size control."
+  },
+  "n00309": {
+   "theme_id": "n00309",
+   "head": "Type II sodium-phosphate cotransport",
+   "parts": [
+    "phosphate homeostasis",
+    "hypophosphatemic rickets",
+    "alveolar microlithiasis"
+   ],
+   "name": "Type II sodium-phosphate cotransport (phosphate homeostasis, hypophosphatemic rickets, alveolar microlithiasis)",
+   "unifying": true,
+   "rationale": "Type II Na+/Pi cotransporters, their regulation and hereditary defects; confusables are bicarbonate/anion exchangers and mineralization transporters."
+  },
+  "n00513": {
+   "theme_id": "n00513",
+   "head": "Nephric duct and ureter morphogenesis",
+   "parts": [
+    "epithelial tube formation",
+    "mesonephros"
+   ],
+   "name": "Nephric duct and ureter morphogenesis (epithelial tube formation, mesonephros)",
+   "unifying": true,
+   "rationale": "Formation of the nephric duct and ureter epithelial tubes; confusables centre on ureteric bud budding, nephron development or kidney size."
+  },
+  "n02509": {
+   "theme_id": "n02509",
+   "head": "Immunosuppressive cytokine signaling",
+   "parts": [
+    "IL-10",
+    "IL-27",
+    "IL-35"
+   ],
+   "name": "Immunosuppressive cytokine signaling (IL-10, IL-27, IL-35)",
+   "unifying": true,
+   "rationale": "IL-10-family regulatory cytokine signalling and control of IL-10/IL-12 production; confusables are IL-12/23/17 and fungal C-type lectin responses."
+  },
+  "n03876": {
+   "theme_id": "n03876",
+   "head": "Myeloid lineage differentiation",
+   "parts": [
+    "RUNX transcriptional control",
+    "granulocytes",
+    "megakaryocytes and erythrocytes"
+   ],
+   "name": "Myeloid lineage differentiation (RUNX transcriptional control, granulocytes, megakaryocytes and erythrocytes)",
+   "unifying": true,
+   "rationale": "Commitment and maturation of granulocyte, erythroid and megakaryocyte lineages under RUNX control; confusables are HSC maintenance/erythropoiesis or non-haematopoietic RUNX1 targets."
+  },
+  "n01615": {
+   "theme_id": "n01615",
+   "head": "Caspase-8-controlled cell death",
+   "parts": [
+    "death receptor apoptosis",
+    "RIPK1 necroptosis",
+    "TLR3-TRIF"
+   ],
+   "name": "Caspase-8-controlled cell death (death receptor apoptosis, RIPK1 necroptosis, TLR3-TRIF)",
+   "unifying": true,
+   "rationale": "Death-receptor and TRIF signals converging on caspase-8 to give apoptosis or RIPK1 necroptosis; confusables are mitochondrial, execution-phase or T-cell apoptosis."
+  },
+  "n00864": {
+   "theme_id": "n00864",
+   "head": "Regulation of stress-induced intrinsic apoptosis",
+   "parts": [
+    "hydrogen peroxide",
+    "hypoxia"
+   ],
+   "name": "Regulation of stress-induced intrinsic apoptosis (hydrogen peroxide, hypoxia)",
+   "unifying": true,
+   "rationale": "Positive and negative control of intrinsic apoptosis triggered by H2O2 and hypoxia; confusables are general oxidative stress responses, respiration or MOMP control."
+  },
+  "n04470": {
+   "theme_id": "n04470",
+   "head": "Innate behaviour",
+   "parts": [
+    "mating and reproduction",
+    "social interaction",
+    "exploratory locomotion"
+   ],
+   "name": "Innate behaviour (mating and reproduction, social interaction, exploratory locomotion)",
+   "unifying": true,
+   "rationale": "Innate behaviours spanning mating, social and exploratory locomotor acts; confusables lack the reproductive or locomotor parts and add sensory, drinking or learned behaviours."
+  },
+  "n01003": {
+   "theme_id": "n01003",
+   "head": "Cardiac impulse conduction",
+   "parts": [
+    "phase 0 depolarization",
+    "gap-junction coupling",
+    "His-Purkinje"
+   ],
+   "name": "Cardiac impulse conduction (phase 0 depolarization, gap-junction coupling, His-Purkinje)",
+   "unifying": true,
+   "rationale": "Propagation of the cardiac action potential by fast depolarization and electrical coupling; confusables are SA-node pacemaking, repolarization or conduction-system development."
+  },
+  "n02105": {
+   "theme_id": "n02105",
+   "head": "Postsynaptic neurotransmitter receptor trafficking",
+   "parts": [
+    "AMPA receptors",
+    "endosomal recycling",
+    "postsynaptic actin"
+   ],
+   "name": "Postsynaptic neurotransmitter receptor trafficking (AMPA receptors, endosomal recycling, postsynaptic actin)",
+   "unifying": true,
+   "rationale": "Endosomal internalization and recycling of postsynaptic receptors; confusables are presynaptic organization, BDNF signalling or AMPA clustering and plasticity."
+  },
+  "n02433": {
+   "theme_id": "n02433",
+   "head": "Leak potassium control of nociception",
+   "parts": [
+    "K2P channels",
+    "resting potential",
+    "thermal and mechanical pain"
+   ],
+   "name": "Leak potassium control of nociception (K2P channels, resting potential, thermal and mechanical pain)",
+   "unifying": true,
+   "rationale": "K2P leak channels setting resting potential in pain and temperature detection; confusables are TRP/tachykinin, Ca2+-activated K+ channels or itch and fever."
+  },
+  "n01070": {
+   "theme_id": "n01070",
+   "head": "Coagulation and fibrinolysis",
+   "parts": [
+    "factor XII contact activation",
+    "plasma kallikrein",
+    "plasminogen activation"
+   ],
+   "name": "Coagulation and fibrinolysis (factor XII contact activation, plasma kallikrein, plasminogen activation)",
+   "unifying": true,
+   "rationale": "Clot formation and dissolution with FXII-kallikrein contact activation; confusables are factor VIII/IX/V defects or von Willebrand factor variants."
+  },
+  "n00438": {
+   "theme_id": "n00438",
+   "head": "Mitochondrial tRNA maturation",
+   "parts": [
+    "3'-end processing",
+    "modification"
+   ],
+   "name": "Mitochondrial tRNA maturation (3'-end processing, modification)",
+   "unifying": true,
+   "rationale": "Processing and modification of mitochondrial tRNAs; confusables are aminoacylation, pseudouridylation, ribosome assembly or mRNA stability."
+  },
+  "n01171": {
+   "theme_id": "n01171",
+   "head": "Endocardial cushion development",
+   "parts": [
+    "EMT",
+    "heart valves",
+    "cardiac septa"
+   ],
+   "name": "Endocardial cushion development (EMT, heart valves, cardiac septa)",
+   "unifying": true,
+   "rationale": "Endocardial cushion EMT forming valves and septa; confusables are myocardial, heart-tube or ventricular morphogenesis."
+  },
+  "n04399": {
+   "theme_id": "n04399",
+   "head": "Organelle positioning and ER network shaping",
+   "parts": [
+    "kinesin transport",
+    "Miro GTPases",
+    "contact-site tethering"
+   ],
+   "name": "Organelle positioning and ER network shaping (kinesin transport, Miro GTPases, contact-site tethering)",
+   "unifying": true,
+   "rationale": "Placement and shape of organelles by kinesin transport, Miro GTPases, ER tubule shaping and membrane tethering; contact-site tethering and ER shaping separate it from the transport and lipid-transfer confusables."
+  },
+  "n04049": {
+   "theme_id": "n04049",
+   "head": "Nucleocytoplasmic transport and GTPase regulation",
+   "parts": [
+    "nuclear import",
+    "nuclear export",
+    "growth and cell-fate gene modules"
+   ],
+   "name": "Nucleocytoplasmic transport and GTPase regulation (nuclear import, nuclear export, growth and cell-fate gene modules)",
+   "unifying": false,
+   "rationale": "Most members regulate nuclear import/export and GTPase activity, but two gene modules on mTOR growth control and neuronal cell fate do not share that idea; confusables are nuclear pore, PML/senescence and viral host targeting."
+  },
+  "n01821": {
+   "theme_id": "n01821",
+   "head": "Downstream antigen receptor signaling",
+   "parts": [
+    "second messengers",
+    "PKC",
+    "NF-\u03baB and IL-2"
+   ],
+   "name": "Downstream antigen receptor signaling (second messengers, PKC, NF-\u03baB and IL-2)",
+   "unifying": true,
+   "rationale": "Signalling distal to TCR/BCR through second messengers and PKC to NF-\u03baB and IL-2; confusables are proximal CD3/ZAP-70, CD28 costimulation or non-canonical NF-\u03baB."
+  },
+  "n01391": {
+   "theme_id": "n01391",
+   "head": "RNA polymerase II initiation-to-elongation transition",
+   "parts": [
+    "preinitiation complex assembly",
+    "promoter clearance",
+    "elongation activation"
+   ],
+   "name": "RNA polymerase II initiation-to-elongation transition (preinitiation complex assembly, promoter clearance, elongation activation)",
+   "unifying": true,
+   "rationale": "Positive control of Pol II from preinitiation complex through promoter escape and pausing into elongation; confusables are negative elongation control and HIV transcription."
+  },
+  "n00658": {
+   "theme_id": "n00658",
+   "head": "Phagosome maturation and its mycobacterial subversion",
+   "parts": [
+    "acidification",
+    "phagolysosome fusion",
+    "host defence evasion"
+   ],
+   "name": "Phagosome maturation and its mycobacterial subversion (acidification, phagolysosome fusion, host defence evasion)",
+   "unifying": true,
+   "rationale": "Members cover phagosome/endosome acidification and lysosome fusion together with the Mycobacterium tuberculosis strategies that block them and other host defences, which separates the theme from the toxin and bacterial-entry confusables."
+  },
+  "n00079": {
+   "theme_id": "n00079",
+   "head": "Endocannabinoid retrograde synaptic signaling",
+   "parts": [
+    "diacylglycerol hydrolysis"
+   ],
+   "name": "Endocannabinoid retrograde synaptic signaling (diacylglycerol hydrolysis)",
+   "unifying": true,
+   "rationale": "Diacylglycerol breakdown supplies 2-AG for retrograde lipid signaling at synapses, distinct from the DAG/TAG synthesis and neuropeptide confusables."
+  },
+  "n02050": {
+   "theme_id": "n02050",
+   "head": "Cardiac outflow tract morphogenesis",
+   "parts": [
+    "great and coronary arteries",
+    "semilunar valves",
+    "neural crest migration"
+   ],
+   "name": "Cardiac outflow tract morphogenesis (great and coronary arteries, semilunar valves, neural crest migration)",
+   "unifying": true,
+   "rationale": "Members shape the arterial pole of the heart (pharyngeal arch, pulmonary and coronary arteries, aortic and pulmonary valves, outflow septation by neural crest), unlike the atrioventricular cushion and heart-tube confusables."
+  },
+  "n03869": {
+   "theme_id": "n03869",
+   "head": "Nuclear RNA synthesis and processing",
+   "parts": [
+    "RNA polymerase I/III transcription",
+    "pre-mRNA splicing",
+    "nuclear RNA decay"
+   ],
+   "name": "Nuclear RNA synthesis and processing (RNA polymerase I/III transcription, pre-mRNA splicing, nuclear RNA decay)",
+   "unifying": true,
+   "rationale": "Members transcribe rRNA, tRNA and snRNA and process and degrade nuclear transcripts including splicing and histone pre-mRNA processing, distinguishing them from the translation, mRNA export and RNA modification confusables."
+  },
+  "n00075": {
+   "theme_id": "n00075",
+   "head": "Glomerular vasculature development",
+   "parts": [
+    "mesangial cells",
+    "endothelium"
+   ],
+   "name": "Glomerular vasculature development (mesangial cells, endothelium)",
+   "unifying": true,
+   "rationale": "All members build the glomerular capillary tuft through mesangial and endothelial development, whereas confusables concern general control of kidney growth and nephron tubules."
+  },
+  "n00504": {
+   "theme_id": "n00504",
+   "head": "CFTR-mediated epithelial chloride and water transport",
+   "parts": [
+    "cystic fibrosis",
+    "CFTR trafficking"
+   ],
+   "name": "CFTR-mediated epithelial chloride and water transport (cystic fibrosis, CFTR trafficking)",
+   "unifying": true,
+   "rationale": "Members concern CFTR-driven transepithelial fluid secretion, its trafficking and its loss in cystic fibrosis, unlike the SLC26, bicarbonate and cation-chloride transporter confusables."
+  },
+  "n03393": {
+   "theme_id": "n03393",
+   "head": "Plasma membrane lipid asymmetry and integrity",
+   "parts": [
+    "flippases and scramblases",
+    "membrane repair",
+    "mechanical stress response"
+   ],
+   "name": "Plasma membrane lipid asymmetry and integrity (flippases and scramblases, membrane repair, mechanical stress response)",
+   "unifying": true,
+   "rationale": "Members control phospholipid flipping and scrambling and the plasma membrane's response to pressure, stretch, blebbing and damage, separating it from apoptotic-cell clearance and ER lipid-transfer confusables; one mitochondrial housekeeping module fits only loosely."
+  },
+  "n00283": {
+   "theme_id": "n00283",
+   "head": "DNA replication initiation and elongation",
+   "parts": [
+    "primer synthesis",
+    "polymerase switching",
+    "Okazaki flap removal"
+   ],
+   "name": "DNA replication initiation and elongation (primer synthesis, polymerase switching, Okazaki flap removal)",
+   "unifying": true,
+   "rationale": "Members are the core steps of replicative DNA synthesis from priming through lagging-strand maturation, unlike the translesion synthesis, repair and cell-cycle confusables."
+  },
+  "n02536": {
+   "theme_id": "n02536",
+   "head": "Lipoyl dehydrogenase complexes and CoA supply",
+   "parts": [
+    "pyruvate and 2-oxoglutarate dehydrogenases",
+    "protein lipoylation",
+    "pantothenate"
+   ],
+   "name": "Lipoyl dehydrogenase complexes and CoA supply (pyruvate and 2-oxoglutarate dehydrogenases, protein lipoylation, pantothenate)",
+   "unifying": true,
+   "rationale": "Members are the lipoylated PDH, OGDH, OADH and glycine cleavage complexes that make acyl-CoAs plus coenzyme A synthesis from pantothenate, while confusables centre on branched-chain catabolism, vitamin B6 or the TCA cycle."
+  },
+  "n04421": {
+   "theme_id": "n04421",
+   "head": "Ubiquitin chain assembly and editing",
+   "parts": [
+    "linkage-specific chains",
+    "deubiquitinases",
+    "E1-E2-E3 enzymes"
+   ],
+   "name": "Ubiquitin chain assembly and editing (linkage-specific chains, deubiquitinases, E1-E2-E3 enzymes)",
+   "unifying": true,
+   "rationale": "Members build and trim K6/K11/K27/K29/K48/K63 and branched ubiquitin chains via the E1-E2-E3 cascade and DUB families, unlike the proteasome, proteostasis, neddylation and NF-kappaB confusables."
+  },
+  "n01271": {
+   "theme_id": "n01271",
+   "head": "Cell-cycle DNA replication initiation and control",
+   "parts": [
+    "ATR replication-stress checkpoint",
+    "E2F targets"
+   ],
+   "name": "Cell-cycle DNA replication initiation and control (ATR replication-stress checkpoint, E2F targets)",
+   "unifying": true,
+   "rationale": "Members start and restrain S-phase DNA replication including the ATR replication checkpoint, which separates the theme from the pre-replicative complex, G1/S and unwinding confusables."
+  },
+  "n02131": {
+   "theme_id": "n02131",
+   "head": "Phosphate homeostasis and mineralization",
+   "parts": [
+    "bone and teeth",
+    "ectopic calcification",
+    "phosphate transporters"
+   ],
+   "name": "Phosphate homeostasis and mineralization (bone and teeth, ectopic calcification, phosphate transporters)",
+   "unifying": true,
+   "rationale": "Members link phosphate transport and parathyroid-hormone responses to bone, dentin and enamel mineralization and ectopic calcification disorders, unlike the FGF23-Klotho and type II Na/Pi cotransporter confusables."
+  },
+  "n00535": {
+   "theme_id": "n00535",
+   "head": "Classical cadherin protein-level regulation",
+   "parts": [
+    "E-cadherin trafficking and degradation",
+    "cadherin-11 interactions"
+   ],
+   "name": "Classical cadherin protein-level regulation (E-cadherin trafficking and degradation, cadherin-11 interactions)",
+   "unifying": true,
+   "rationale": "Members govern E-cadherin processing, trafficking and degradation and cadherin-11 binding at the protein level, unlike confusables on junction assembly, desmosomes or cadherin gene transcription."
+  },
+  "n04008": {
+   "theme_id": "n04008",
+   "head": "Ascorbate metabolism and thyroid hormonogenesis",
+   "parts": [
+    "vitamin C transport",
+    "hydrogen peroxide",
+    "iodide uptake"
+   ],
+   "name": "Ascorbate metabolism and thyroid hormonogenesis (vitamin C transport, hydrogen peroxide, iodide uptake)",
+   "unifying": false,
+   "rationale": "Ascorbate/vitamin E handling and peroxide-dependent thyroid hormone generation share only a loose redox link, and the pair separates the theme from iron/ROS detoxification and thyroid-receptor signaling confusables."
+  },
+  "n01719": {
+   "theme_id": "n01719",
+   "head": "SUMOylation of nuclear proteins",
+   "parts": [
+    "chromatin regulators",
+    "transcription cofactors",
+    "RNA-binding proteins"
+   ],
+   "name": "SUMOylation of nuclear proteins (chromatin regulators, transcription cofactors, RNA-binding proteins)",
+   "unifying": true,
+   "rationale": "All members are SUMO conjugation of nuclear substrate classes, and chromatin, cofactor and RNA-binding targets distinguish it from confusables on SUMO processing, replication and nuclear-envelope substrates."
+  },
+  "n01599": {
+   "theme_id": "n01599",
+   "head": "Hedgehog ligand maturation and release",
+   "parts": [
+    "autoprocessing",
+    "palmitoylation",
+    "ERAD of mutants"
+   ],
+   "name": "Hedgehog ligand maturation and release (autoprocessing, palmitoylation, ERAD of mutants)",
+   "unifying": true,
+   "rationale": "Members describe Hedgehog precursor self-cleavage, lipidation, quality control and secretion, unlike the general lipidation, Wnt biogenesis and Notch glycosylation confusables."
+  },
+  "n03866": {
+   "theme_id": "n03866",
+   "head": "Gonadotropin control of gonadal function",
+   "parts": [
+    "ovulation and luteinization",
+    "testis development",
+    "gonadotropin secretion"
+   ],
+   "name": "Gonadotropin control of gonadal function (ovulation and luteinization, testis development, gonadotropin secretion)",
+   "unifying": true,
+   "rationale": "Members tie LH/FSH secretion to ovarian cycling and Sertoli/Leydig testis development, separating it from oocyte-maturation, activin/AMH and antral-follicle confusables."
+  },
+  "n03918": {
+   "theme_id": "n03918",
+   "head": "Regulation of endocytic uptake",
+   "parts": [
+    "receptor internalization",
+    "caveolae and rafts",
+    "pinocytosis"
+   ],
+   "name": "Regulation of endocytic uptake (receptor internalization, caveolae and rafts, pinocytosis)",
+   "unifying": true,
+   "rationale": "Members control entry of receptors and fluid into the cell via clathrin, caveolar and pinocytic routes, while confusables concern recycling or lysosomal degradation of internalized receptors."
+  },
+  "n03068": {
+   "theme_id": "n03068",
+   "head": "tRNA maturation and aminoacylation",
+   "parts": [
+    "nuclear tRNA processing",
+    "selenocysteine",
+    "translational fidelity"
+   ],
+   "name": "tRNA maturation and aminoacylation (nuclear tRNA processing, selenocysteine, translational fidelity)",
+   "unifying": true,
+   "rationale": "Members process, modify and charge cytosolic and mitochondrial tRNAs to keep decoding accurate, with nuclear processing and selenocysteine/readthrough distinguishing it from the RNA modification and mitochondrial gene expression confusables."
+  },
+  "n02147": {
+   "theme_id": "n02147",
+   "head": "ER protein biogenesis and export",
+   "parts": [
+    "cotranslational targeting",
+    "quality control",
+    "COPII/COPI traffic"
+   ],
+   "name": "ER protein biogenesis and export (cotranslational targeting, quality control, COPII/COPI traffic)",
+   "unifying": true,
+   "rationale": "Members follow secretory proteins from SRP and tail-anchored insertion through ER folding and quality control to COPII export and COPI retrieval, unlike the Golgi/endosome traffic and membrane insertion confusables."
+  },
+  "n02893": {
+   "theme_id": "n02893",
+   "head": "Histone-modifying transcriptional coregulator complexes",
+   "parts": [
+    "lysine and arginine methyltransferases",
+    "CHD-NuRD remodellers",
+    "RUNX1 cofactors"
+   ],
+   "name": "Histone-modifying transcriptional coregulator complexes (lysine and arginine methyltransferases, CHD-NuRD remodellers, RUNX1 cofactors)",
+   "unifying": true,
+   "rationale": "Members are coregulator complexes that methylate histones or remodel chromatin for transcription factors, distinct from the DNA methylation, PRC2 and deacetylase confusables."
+  },
+  "n02413": {
+   "theme_id": "n02413",
+   "head": "Mitochondrial 2-oxoacid catabolism",
+   "parts": [
+    "branched-chain amino acids",
+    "2-oxoacid dehydrogenase complexes",
+    "lipoyl and biotin cofactors"
+   ],
+   "name": "Mitochondrial 2-oxoacid catabolism (branched-chain amino acids, 2-oxoacid dehydrogenase complexes, lipoyl and biotin cofactors)",
+   "unifying": true,
+   "rationale": "Members oxidize pyruvate, 2-oxoglutarate, 2-oxoadipate and branched-chain keto acids with their lipoate, biotin and CoA cofactors and the organic acidemias they cause, unlike the beta-oxidation, vitamin B6 and TCA/iron-sulfur confusables."
+  },
+  "n00758": {
+   "theme_id": "n00758",
+   "head": "Ubiquitin-dependent growth factor receptor downregulation",
+   "parts": [
+    "EGF receptor",
+    "endocytosis",
+    "multivesicular body sorting"
+   ],
+   "name": "Ubiquitin-dependent growth factor receptor downregulation (EGF receptor, endocytosis, multivesicular body sorting)",
+   "unifying": true,
+   "rationale": "Members internalize ubiquitinated receptors such as EGFR and MET and sort them to lysosomes, unlike the ESCRT viral budding and MET/PTK6 signaling confusables."
+  },
+  "n02360": {
+   "theme_id": "n02360",
+   "head": "Skeletal muscle development and contraction",
+   "parts": [
+    "sarcomere assembly",
+    "neuromuscular junction",
+    "dystrophin-glycoprotein complex"
+   ],
+   "name": "Skeletal muscle development and contraction (sarcomere assembly, neuromuscular junction, dystrophin-glycoprotein complex)",
+   "unifying": true,
+   "rationale": "Members build and run skeletal muscle fibres including sarcomeres, NMJ clustering and the dystrophin complex, unlike the calcineurin/atrophy and cardiac junction confusables."
+  },
+  "n03501": {
+   "theme_id": "n03501",
+   "head": "Axon pathfinding of major tracts",
+   "parts": [
+    "commissural midline crossing",
+    "corticospinal and optic tracts",
+    "monoaminergic axons"
+   ],
+   "name": "Axon pathfinding of major tracts (commissural midline crossing, corticospinal and optic tracts, monoaminergic axons)",
+   "unifying": true,
+   "rationale": "Members guide specific long axon tracts and midline crossing, whereas confusables are defined by the signaling pathways (netrin, SLIT-ROBO, ephrin, L1) rather than the tracts."
+  }
+ },
+ "h1_themes": [
+  "n02004",
+  "n01593",
+  "n03855",
+  "n00150",
+  "n00438",
+  "n03491",
+  "n00440",
+  "n00879",
+  "n00469",
+  "n02928",
+  "n00140",
+  "n03134",
+  "n03902",
+  "n02108",
+  "n03887",
+  "n01303",
+  "n03564",
+  "n03058",
+  "n01253",
+  "n02668",
+  "n01952",
+  "n01271",
+  "n03848",
+  "n00304",
+  "n03825",
+  "n00107",
+  "n03030",
+  "n00504",
+  "n03660",
+  "n01628"
+ ]
+}
