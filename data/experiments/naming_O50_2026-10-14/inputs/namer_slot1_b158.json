@@ -1,0 +1,3107 @@
+[
+ {
+  "theme_id": "n00859",
+  "size": 9,
+  "members": [
+   "self proteolysis",
+   "obsolete peptidyl-cysteine modification",
+   "Hh mutants are degraded by ERAD",
+   "regulation of protein lipidation",
+   "Release of Hh-Np from the secreting cell",
+   "protein autoprocessing",
+   "peptidyl-L-cysteine S-palmitoylation",
+   "N-terminal protein lipidation",
+   "HHAT G278V doesn't palmitoylate Hh-Np"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 0,
+    "only_in_theme": [
+     "HHAT G278V doesn't palmitoylate Hh-Np",
+     "Hh mutants are degraded by ERAD",
+     "N-terminal protein lipidation",
+     "Release of Hh-Np from the secreting cell",
+     "obsolete peptidyl-cysteine modification",
+     "peptidyl-L-cysteine S-palmitoylation",
+     "protein autoprocessing",
+     "regulation of protein lipidation",
+     "self proteolysis"
+    ],
+    "only_in_confusable": [
+     "Activation of SMO",
+     "Degradation of GLI1 by the proteasome",
+     "Degradation of GLI2 by the proteasome",
+     "GLI proteins bind promoters of Hh responsive genes to promote transcription",
+     "GLI3 is processed to GLI3R by the proteasome",
+     "HALLMARK_HEDGEHOG_SIGNALING",
+     "Ligand-receptor interactions",
+     "negative regulation of smoothened signaling pathway",
+     "positive regulation of protein localization to cilium",
+     "positive regulation of smoothened signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Hh mutants are degraded by ERAD",
+     "obsolete peptidyl-cysteine modification",
+     "peptidyl-L-cysteine S-palmitoylation",
+     "protein autoprocessing"
+    ],
+    "only_in_confusable": [
+     "C-terminal protein amino acid modification",
+     "RAS processing"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 4,
+    "only_in_theme": [
+     "HHAT G278V doesn't palmitoylate Hh-Np",
+     "Hh mutants are degraded by ERAD",
+     "Release of Hh-Np from the secreting cell",
+     "protein autoprocessing",
+     "self proteolysis"
+    ],
+    "only_in_confusable": [
+     "C-terminal protein amino acid modification",
+     "RAS processing",
+     "protein depalmitoylation"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 6,
+    "only_in_theme": [
+     "Hh mutants are degraded by ERAD",
+     "protein autoprocessing",
+     "self proteolysis"
+    ],
+    "only_in_confusable": [
+     "LGK974 inhibits PORCN",
+     "WNT ligand biogenesis and trafficking",
+     "golgi membrane (I)",
+     "regulation of Wnt protein secretion"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01587",
+  "size": 11,
+  "members": [
+   "PTEN Loss of Function in Cancer",
+   "negative regulation of insulin-like growth factor receptor signaling pathway",
+   "lncRNA-mediated post-transcriptional gene silencing",
+   "Downregulation of ERBB2:ERBB3 signaling",
+   "Competing endogenous RNAs (ceRNAs) regulate PTEN translation",
+   "positive regulation of TORC2 signaling",
+   "Regulation of PTEN stability and activity",
+   "AKT phosphorylates targets in the cytosol",
+   "Constitutive Signaling by AKT1 E17K in Cancer",
+   "Regulation of PTEN localization",
+   "negative regulation of phosphatidylinositol 3-kinase/protein kinase B signal transduction"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 5,
+    "only_in_theme": [
+     "AKT phosphorylates targets in the cytosol",
+     "Constitutive Signaling by AKT1 E17K in Cancer",
+     "Downregulation of ERBB2:ERBB3 signaling",
+     "Regulation of PTEN localization",
+     "Regulation of PTEN stability and activity",
+     "positive regulation of TORC2 signaling"
+    ],
+    "only_in_confusable": [
+     "PI5P Regulates TP53 Acetylation",
+     "Synthesis of IPs in the nucleus",
+     "Synthesis of PIPs in the nucleus",
+     "Synthesis of pyrophosphates in the cytosol",
+     "diphosphoinositol polyphosphate metabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 6,
+    "only_in_theme": [
+     "Competing endogenous RNAs (ceRNAs) regulate PTEN translation",
+     "PTEN Loss of Function in Cancer",
+     "lncRNA-mediated post-transcriptional gene silencing",
+     "negative regulation of insulin-like growth factor receptor signaling pathway",
+     "negative regulation of phosphatidylinositol 3-kinase/protein kinase B signal transduction"
+    ],
+    "only_in_confusable": [
+     "PI5P Regulates TP53 Acetylation",
+     "Synthesis of PIPs in the nucleus",
+     "peptidyl-serine autophosphorylation",
+     "peptidyl-threonine dephosphorylation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "AKT phosphorylates targets in the cytosol",
+     "Competing endogenous RNAs (ceRNAs) regulate PTEN translation",
+     "Downregulation of ERBB2:ERBB3 signaling",
+     "PTEN Loss of Function in Cancer",
+     "Regulation of PTEN localization",
+     "lncRNA-mediated post-transcriptional gene silencing",
+     "negative regulation of insulin-like growth factor receptor signaling pathway",
+     "negative regulation of phosphatidylinositol 3-kinase/protein kinase B signal transduction"
+    ],
+    "only_in_confusable": [
+     "PI5P Regulates TP53 Acetylation",
+     "Regulation of PAK-2p34 activity by PS-GAP/RHG10",
+     "Regulation of activated PAK-2p34 by proteasome mediated degradation",
+     "Stimulation of the cell death response by PAK-2p34",
+     "Synthesis of PIPs in the nucleus",
+     "negative regulation of peptidyl-serine phosphorylation",
+     "obsolete peptidyl-serine modification",
+     "peptidyl-serine autophosphorylation",
+     "phosphatidylinositol-mediated signaling"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 3,
+    "only_in_theme": [
+     "AKT phosphorylates targets in the cytosol",
+     "Competing endogenous RNAs (ceRNAs) regulate PTEN translation",
+     "Constitutive Signaling by AKT1 E17K in Cancer",
+     "PTEN Loss of Function in Cancer",
+     "lncRNA-mediated post-transcriptional gene silencing",
+     "negative regulation of insulin-like growth factor receptor signaling pathway",
+     "negative regulation of phosphatidylinositol 3-kinase/protein kinase B signal transduction",
+     "positive regulation of TORC2 signaling"
+    ],
+    "only_in_confusable": [
+     "PI5P Regulates TP53 Acetylation",
+     "Pyrophosphate hydrolysis",
+     "Synthesis of IPs in the nucleus",
+     "Synthesis of PIPs in the nucleus",
+     "Synthesis of pyrophosphates in the cytosol",
+     "diadenosine polyphosphate catabolic process",
+     "diphosphoinositol polyphosphate metabolic process",
+     "peptidyl-serine autophosphorylation",
+     "peptidyl-threonine dephosphorylation"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n03968",
+  "size": 36,
+  "members": [
+   "bradykinin catabolic process",
+   "obsolete amide transport",
+   "angiotensin-activated signaling pathway",
+   "negative regulation of receptor guanylyl cyclase signaling pathway",
+   "negative regulation of urine volume",
+   "Vasopressin-like receptors",
+   "renal response to blood flow involved in circulatory renin-angiotensin regulation of systemic arterial blood pressure",
+   "Metabolism of Angiotensinogen to Angiotensins",
+   "positive regulation of urine volume",
+   "regulation of renal sodium excretion",
+   "negative regulation of sodium ion transmembrane transport",
+   "obsolete renal control of peripheral vascular resistance involved in regulation of systemic arterial blood pressure",
+   "renal water absorption",
+   "obsolete regulation of cellular pH reduction",
+   "Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI)",
+   "Defective AVP does not bind AVPR1A,B and causes neurohypophyseal diabetes insipidus (NDI)",
+   "cellular response to water stimulus",
+   "regulation of glomerular filtration",
+   "renal albumin absorption",
+   "Physiological factors",
+   "cellular response to aldosterone",
+   "Passive transport by Aquaporins",
+   "neuropeptide catabolic process",
+   "regulation of systemic arterial blood pressure by vasopressin",
+   "[untitled BTM module] These genes converge on cyclic AMP as an intracellular messenger and on the cells that depend on it. Two calcium/calmodulin-stimulated adenylate cyclases, ADCY1 and ADCY8, generate cAMP in neurons in response to calcium entry, coupling synaptic activity to kinase signalling and long-term potentiation; the serotonin receptor HTR6 and a G protein gamma subunit sit upstream of the same second-messenger route, while CAMK2N1 restrains calcium/calmodulin-dependent kinase II and so tunes the calcium arm of the response.",
+   "intracellular water homeostasis",
+   "response to water deprivation",
+   "negative regulation of systemic arterial blood pressure",
+   "positive regulation of systemic arterial blood pressure",
+   "response to vasopressin",
+   "regulation of sodium ion import across plasma membrane",
+   "Vasopressin regulates renal water homeostasis via Aquaporins",
+   "cGMP biosynthetic process",
+   "regulation of blood volume by renin-angiotensin",
+   "obsolete renal system process involved in regulation of blood volume",
+   "regulation of angiotensin levels in blood"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 18,
+    "only_in_theme": [
+     "Defective AVP does not bind AVPR1A,B and causes neurohypophyseal diabetes insipidus (NDI)",
+     "Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI)",
+     "Passive transport by Aquaporins",
+     "Vasopressin regulates renal water homeostasis via Aquaporins",
+     "Vasopressin-like receptors",
+     "[untitled BTM module] These genes converge on cyclic AMP as an intracellular messenger and on the cells that depend on it. Two calcium/calmodulin-stimulated adenylate cyclases, ADCY1 and ADCY8, generate cAMP in neurons in response to calcium entry, coupling synaptic activity to kinase signalling and long-term potentiation; the serotonin receptor HTR6 and a G protein gamma subunit sit upstream of the same second-messenger route, while CAMK2N1 restrains calcium/calmodulin-dependent kinase II and so tunes the calcium arm of the response.",
+     "cellular response to aldosterone",
+     "cellular response to water stimulus",
+     "intracellular water homeostasis",
+     "negative regulation of sodium ion transmembrane transport",
+     "negative regulation of urine volume",
+     "obsolete amide transport",
+     "obsolete regulation of cellular pH reduction",
+     "regulation of sodium ion import across plasma membrane",
+     "renal albumin absorption",
+     "renal water absorption",
+     "response to vasopressin",
+     "response to water deprivation"
+    ],
+    "only_in_confusable": [
+     "negative regulation of vasoconstriction",
+     "nervous system process involved in regulation of systemic arterial blood pressure",
+     "regulation of lung blood pressure"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 18,
+    "only_in_theme": [
+     "Defective AVP does not bind AVPR1A,B and causes neurohypophyseal diabetes insipidus (NDI)",
+     "Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI)",
+     "Passive transport by Aquaporins",
+     "Vasopressin regulates renal water homeostasis via Aquaporins",
+     "Vasopressin-like receptors",
+     "[untitled BTM module] These genes converge on cyclic AMP as an intracellular messenger and on the cells that depend on it. Two calcium/calmodulin-stimulated adenylate cyclases, ADCY1 and ADCY8, generate cAMP in neurons in response to calcium entry, coupling synaptic activity to kinase signalling and long-term potentiation; the serotonin receptor HTR6 and a G protein gamma subunit sit upstream of the same second-messenger route, while CAMK2N1 restrains calcium/calmodulin-dependent kinase II and so tunes the calcium arm of the response.",
+     "cellular response to aldosterone",
+     "cellular response to water stimulus",
+     "intracellular water homeostasis",
+     "negative regulation of sodium ion transmembrane transport",
+     "negative regulation of urine volume",
+     "obsolete amide transport",
+     "obsolete regulation of cellular pH reduction",
+     "regulation of sodium ion import across plasma membrane",
+     "renal albumin absorption",
+     "renal water absorption",
+     "response to vasopressin",
+     "response to water deprivation"
+    ],
+    "only_in_confusable": [
+     "artery smooth muscle contraction",
+     "negative regulation of vasoconstriction",
+     "nervous system process involved in regulation of systemic arterial blood pressure",
+     "obsolete regulation of nitric oxide mediated signal transduction",
+     "positive regulation of vasoconstriction",
+     "regulation of lung blood pressure",
+     "regulation of systemic arterial blood pressure by endothelin"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 18,
+    "only_in_theme": [
+     "Metabolism of Angiotensinogen to Angiotensins",
+     "Physiological factors",
+     "[untitled BTM module] These genes converge on cyclic AMP as an intracellular messenger and on the cells that depend on it. Two calcium/calmodulin-stimulated adenylate cyclases, ADCY1 and ADCY8, generate cAMP in neurons in response to calcium entry, coupling synaptic activity to kinase signalling and long-term potentiation; the serotonin receptor HTR6 and a G protein gamma subunit sit upstream of the same second-messenger route, while CAMK2N1 restrains calcium/calmodulin-dependent kinase II and so tunes the calcium arm of the response.",
+     "angiotensin-activated signaling pathway",
+     "bradykinin catabolic process",
+     "cGMP biosynthetic process",
+     "negative regulation of receptor guanylyl cyclase signaling pathway",
+     "negative regulation of systemic arterial blood pressure",
+     "neuropeptide catabolic process",
+     "obsolete amide transport",
+     "obsolete renal control of peripheral vascular resistance involved in regulation of systemic arterial blood pressure",
+     "obsolete renal system process involved in regulation of blood volume",
+     "positive regulation of urine volume",
+     "regulation of angiotensin levels in blood",
+     "regulation of blood volume by renin-angiotensin",
+     "regulation of glomerular filtration",
+     "regulation of renal sodium excretion",
+     "renal albumin absorption"
+    ],
+    "only_in_confusable": [
+     "Cation-coupled Chloride cotransporters",
+     "Defective SLC12A1 causes Bartter syndrome 1 (BS1)",
+     "Defective SLC12A3 causes Gitelman syndrome (GS)",
+     "Defective SLC12A6 causes agenesis of the corpus callosum, with peripheral neuropathy (ACCPN)",
+     "Potassium transport channels",
+     "cellular hyperosmotic response",
+     "cellular hypotonic response",
+     "cellular response to potassium ion",
+     "cellular response to salt stress",
+     "hyperosmotic salinity response",
+     "intracellular monoatomic anion homeostasis",
+     "negative regulation of pancreatic juice secretion",
+     "negative regulation of potassium ion export across plasma membrane",
+     "osmosensory signaling pathway",
+     "positive regulation of potassium ion import across plasma membrane",
+     "positive regulation of sodium ion transmembrane transport",
+     "regulation of sodium ion export across plasma membrane",
+     "regulation of sodium ion transmembrane transporter activity",
+     "renal sodium ion transport",
+     "response to hydrostatic pressure",
+     "transepithelial chloride transport"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 18,
+    "only_in_theme": [
+     "Metabolism of Angiotensinogen to Angiotensins",
+     "Physiological factors",
+     "[untitled BTM module] These genes converge on cyclic AMP as an intracellular messenger and on the cells that depend on it. Two calcium/calmodulin-stimulated adenylate cyclases, ADCY1 and ADCY8, generate cAMP in neurons in response to calcium entry, coupling synaptic activity to kinase signalling and long-term potentiation; the serotonin receptor HTR6 and a G protein gamma subunit sit upstream of the same second-messenger route, while CAMK2N1 restrains calcium/calmodulin-dependent kinase II and so tunes the calcium arm of the response.",
+     "angiotensin-activated signaling pathway",
+     "bradykinin catabolic process",
+     "cGMP biosynthetic process",
+     "negative regulation of receptor guanylyl cyclase signaling pathway",
+     "negative regulation of systemic arterial blood pressure",
+     "neuropeptide catabolic process",
+     "obsolete amide transport",
+     "obsolete renal control of peripheral vascular resistance involved in regulation of systemic arterial blood pressure",
+     "obsolete renal system process involved in regulation of blood volume",
+     "positive regulation of urine volume",
+     "regulation of angiotensin levels in blood",
+     "regulation of blood volume by renin-angiotensin",
+     "regulation of glomerular filtration",
+     "regulation of renal sodium excretion",
+     "renal albumin absorption"
+    ],
+    "only_in_confusable": [
+     "cellular hyperosmotic response",
+     "cellular hypotonic response",
+     "cellular response to salt stress",
+     "hyperosmotic salinity response",
+     "intracellular monoatomic anion homeostasis",
+     "osmosensory signaling pathway",
+     "positive regulation of potassium ion import across plasma membrane",
+     "regulation of sodium ion transmembrane transporter activity",
+     "renal sodium ion transport",
+     "transepithelial chloride transport"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01843",
+  "size": 6,
+  "members": [
+   "Dissolution of Fibrin Clot",
+   "platelet activation and degranulation",
+   "regulation of circulating fibrinogen levels",
+   "positive regulation of plasminogen activation",
+   "negative regulation of plasminogen activation",
+   "negative regulation of fibrinolysis"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Dissolution of Fibrin Clot",
+     "positive regulation of plasminogen activation",
+     "regulation of circulating fibrinogen levels"
+    ],
+    "only_in_confusable": [
+     "Amplification and propagation of coagulation cascade",
+     "Fibrin formation",
+     "HALLMARK_COAGULATION",
+     "Initiation of coagulation cascade",
+     "blood coagulation, common pathway"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Dissolution of Fibrin Clot",
+     "negative regulation of fibrinolysis",
+     "negative regulation of plasminogen activation",
+     "platelet activation and degranulation",
+     "positive regulation of plasminogen activation",
+     "regulation of circulating fibrinogen levels"
+    ],
+    "only_in_confusable": [
+     "Activation of Matrix Metalloproteinases",
+     "Collagen degradation",
+     "collagen catabolic process",
+     "elastin catabolic process",
+     "negative regulation of extracellular matrix disassembly",
+     "negative regulation of matrix metallopeptidase secretion"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Dissolution of Fibrin Clot",
+     "negative regulation of fibrinolysis",
+     "negative regulation of plasminogen activation",
+     "platelet activation and degranulation",
+     "positive regulation of plasminogen activation",
+     "regulation of circulating fibrinogen levels"
+    ],
+    "only_in_confusable": [
+     "Defective VWF binding to collagen type I",
+     "Defective VWF cleavage by ADAMTS13 variant",
+     "Defective binding of VWF variant to GPIb:IX:V",
+     "Enhanced binding of GP1BA variant to VWF multimer:collagen",
+     "Enhanced cleavage of VWF variant by ADAMTS13"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Dissolution of Fibrin Clot",
+     "negative regulation of fibrinolysis",
+     "negative regulation of plasminogen activation",
+     "platelet activation and degranulation",
+     "positive regulation of plasminogen activation",
+     "regulation of circulating fibrinogen levels"
+    ],
+    "only_in_confusable": [
+     "Aggregated \u03b2-amyloid induces FXII autocatalysis",
+     "Aggregated \u03b2-amyloid interacts with fibrinogen",
+     "Defective SERPING1 causes hereditary angioedema",
+     "Defective factor XII causes hereditary angioedema",
+     "FXIIa, PKa-dependent activation of coagulation pathway",
+     "Regulation of FXIIa and plasma kallikrein activity",
+     "blood coagulation, intrinsic pathway"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n02080",
+  "size": 13,
+  "members": [
+   "regulation of nucleotide-binding oligomerization domain containing 2 signaling pathway",
+   "positive regulation of protein K63-linked ubiquitination",
+   "cellular response to peptidoglycan",
+   "positive regulation of nucleotide-binding domain, leucine rich repeat containing receptor signaling pathway",
+   "positive regulation of stress-activated protein kinase signaling cascade",
+   "inflammasome receptors and signaling",
+   "nucleotide-binding oligomerization domain containing 1 signaling pathway",
+   "Alpha-protein kinase 1 signaling pathway",
+   "JNK (c-Jun kinases) phosphorylation and  activation mediated by activated human TAK1",
+   "NOD1/2 Signaling Pathway",
+   "antibacterial innate immune response",
+   "cellular response to muramyl dipeptide",
+   "activated TAK1 mediates p38 MAPK activation"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 9,
+    "only_in_theme": [
+     "Alpha-protein kinase 1 signaling pathway",
+     "JNK (c-Jun kinases) phosphorylation and  activation mediated by activated human TAK1",
+     "activated TAK1 mediates p38 MAPK activation",
+     "positive regulation of stress-activated protein kinase signaling cascade"
+    ],
+    "only_in_confusable": [
+     "IRAK4 deficiency (TLR2/4)",
+     "IRAK4 deficiency (TLR5)",
+     "MyD88 deficiency (TLR2/4)",
+     "MyD88 deficiency (TLR5)",
+     "Transfer of LPS from LBP carrier to CD14",
+     "detection of bacterium",
+     "positive regulation of lipopolysaccharide-mediated signaling pathway",
+     "positive regulation of toll-like receptor 2 signaling pathway",
+     "response to diacyl bacterial lipopeptide",
+     "response to lipoteichoic acid"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 6,
+    "only_in_theme": [
+     "Alpha-protein kinase 1 signaling pathway",
+     "JNK (c-Jun kinases) phosphorylation and  activation mediated by activated human TAK1",
+     "NOD1/2 Signaling Pathway",
+     "activated TAK1 mediates p38 MAPK activation",
+     "inflammasome receptors and signaling",
+     "positive regulation of protein K63-linked ubiquitination",
+     "positive regulation of stress-activated protein kinase signaling cascade"
+    ],
+    "only_in_confusable": [
+     "The IPAF inflammasome",
+     "detection of bacterium",
+     "host-mediated modulation of intestinal microbiota composition",
+     "positive regulation of dendritic cell antigen processing and presentation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 7,
+    "only_in_theme": [
+     "NOD1/2 Signaling Pathway",
+     "antibacterial innate immune response",
+     "cellular response to muramyl dipeptide",
+     "cellular response to peptidoglycan",
+     "nucleotide-binding oligomerization domain containing 1 signaling pathway",
+     "regulation of nucleotide-binding oligomerization domain containing 2 signaling pathway"
+    ],
+    "only_in_confusable": [
+     "IKK complex recruitment mediated by RIP1",
+     "IRAK1 recruits IKK complex",
+     "IRAK1 recruits IKK complex upon TLR7/8 or 9 stimulation",
+     "IRAK2 mediated activation of TAK1 complex",
+     "IRAK2 mediated activation of TAK1 complex upon TLR7/8 or 9 stimulation",
+     "Regulation of NF-kappa B signaling",
+     "SUMOylation of immune response proteins",
+     "TICAM1, RIP1-mediated IKK complex recruitment",
+     "TICAM1,TRAF6-dependent induction of TAK1 complex",
+     "TRAF6 mediated IRF7 activation in TLR7/8 or 9 signaling",
+     "TRAF6-mediated induction of TAK1 complex within TLR4 complex",
+     "TRIF-dependent toll-like receptor signaling pathway",
+     "TRIF-mediated programmed cell death",
+     "obsolete positive regulation of DNA-binding transcription factor activity",
+     "obsolete positive regulation of NF-kappaB transcription factor activity",
+     "positive regulation of JNK cascade",
+     "positive regulation of JUN kinase activity",
+     "positive regulation of canonical NF-kappaB signal transduction",
+     "positive regulation of tumor necrosis factor-mediated signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Alpha-protein kinase 1 signaling pathway",
+     "NOD1/2 Signaling Pathway",
+     "antibacterial innate immune response",
+     "cellular response to muramyl dipeptide",
+     "cellular response to peptidoglycan",
+     "inflammasome receptors and signaling",
+     "nucleotide-binding oligomerization domain containing 1 signaling pathway",
+     "positive regulation of nucleotide-binding domain, leucine rich repeat containing receptor signaling pathway",
+     "positive regulation of protein K63-linked ubiquitination",
+     "regulation of nucleotide-binding oligomerization domain containing 2 signaling pathway"
+    ],
+    "only_in_confusable": [
+     "negative regulation of JUN kinase activity",
+     "negative regulation of p38MAPK cascade",
+     "positive regulation of JNK cascade",
+     "positive regulation of JUN kinase activity"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n03365",
+  "size": 12,
+  "members": [
+   "regulation of oocyte maturation",
+   "positive regulation of cell maturation",
+   "primordial germ cell migration",
+   "regulation of germ cell proliferation",
+   "meiotic cell cycle process involved in oocyte maturation",
+   "Leydig cell differentiation",
+   "regulation of G2/MI transition of meiotic cell cycle",
+   "negative regulation of cell maturation",
+   "seminiferous tubule development",
+   "Sertoli cell proliferation",
+   "activation of meiosis",
+   "ectopic germ cell programmed cell death"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 7,
+    "only_in_theme": [
+     "negative regulation of cell maturation",
+     "positive regulation of cell maturation",
+     "primordial germ cell migration",
+     "regulation of G2/MI transition of meiotic cell cycle",
+     "regulation of oocyte maturation"
+    ],
+    "only_in_confusable": [
+     "Glycoprotein hormones",
+     "Hormone ligand-binding receptors",
+     "antral ovarian follicle growth",
+     "cellular response to follicle-stimulating hormone stimulus",
+     "cellular response to gonadotropin-releasing hormone",
+     "cellular response to luteinizing hormone stimulus",
+     "estrous cycle",
+     "fused antrum stage",
+     "luteinization",
+     "luteolysis",
+     "negative regulation of gonadotropin secretion",
+     "ovulation from ovarian follicle",
+     "positive regulation of follicle-stimulating hormone secretion",
+     "positive regulation of luteinizing hormone secretion",
+     "regulation of female gonad development",
+     "regulation of ovarian follicle development"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Leydig cell differentiation",
+     "Sertoli cell proliferation",
+     "activation of meiosis",
+     "ectopic germ cell programmed cell death",
+     "positive regulation of cell maturation",
+     "primordial germ cell migration",
+     "regulation of G2/MI transition of meiotic cell cycle",
+     "regulation of germ cell proliferation",
+     "seminiferous tubule development"
+    ],
+    "only_in_confusable": [
+     "antral ovarian follicle growth",
+     "fused antrum stage",
+     "regulation of ovarian follicle development"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 8,
+    "only_in_theme": [
+     "meiotic cell cycle process involved in oocyte maturation",
+     "negative regulation of cell maturation",
+     "regulation of G2/MI transition of meiotic cell cycle",
+     "regulation of oocyte maturation"
+    ],
+    "only_in_confusable": [
+     "Transcriptional regulation of testis differentiation",
+     "anti-Mullerian hormone receptor signaling pathway",
+     "gonadal mesoderm development",
+     "male sex determination",
+     "positive regulation of gonad development",
+     "regulation of male gonad development"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 9,
+    "only_in_theme": [
+     "positive regulation of cell maturation",
+     "primordial germ cell migration",
+     "regulation of G2/MI transition of meiotic cell cycle"
+    ],
+    "only_in_confusable": [
+     "Antagonism of Activin by Follistatin",
+     "Glycoprotein hormones",
+     "Hormone ligand-binding receptors",
+     "TGFBR3 regulates activin signaling",
+     "anti-Mullerian hormone receptor signaling pathway",
+     "antral ovarian follicle growth",
+     "cellular response to follicle-stimulating hormone stimulus",
+     "cellular response to gonadotropin-releasing hormone",
+     "cellular response to luteinizing hormone stimulus",
+     "cellular response to progesterone stimulus",
+     "estrous cycle",
+     "fused antrum stage",
+     "luteinization",
+     "luteolysis",
+     "negative regulation of gonadotropin secretion",
+     "ovulation from ovarian follicle",
+     "positive regulation of activin receptor signaling pathway",
+     "positive regulation of follicle-stimulating hormone secretion",
+     "positive regulation of luteinizing hormone secretion",
+     "prolactin signaling pathway",
+     "regulation of female gonad development",
+     "regulation of ovarian follicle development"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n00313",
+  "size": 6,
+  "members": [
+   "iodide transport",
+   "sulfate transmembrane transport",
+   "Inorganic anion exchange by SLC26 transporters",
+   "oxalate transport",
+   "Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1)",
+   "Defective SLC26A4 causes Pendred syndrome (PDS)"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1)",
+     "Defective SLC26A4 causes Pendred syndrome (PDS)",
+     "Inorganic anion exchange by SLC26 transporters",
+     "iodide transport",
+     "oxalate transport",
+     "sulfate transmembrane transport"
+    ],
+    "only_in_confusable": [
+     "Cation-coupled Chloride cotransporters",
+     "Defective SLC12A1 causes Bartter syndrome 1 (BS1)",
+     "Defective SLC12A3 causes Gitelman syndrome (GS)",
+     "Defective SLC12A6 causes agenesis of the corpus callosum, with peripheral neuropathy (ACCPN)",
+     "Potassium transport channels",
+     "intracellular monoatomic anion homeostasis"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1)",
+     "Defective SLC26A4 causes Pendred syndrome (PDS)",
+     "Inorganic anion exchange by SLC26 transporters",
+     "iodide transport",
+     "oxalate transport",
+     "sulfate transmembrane transport"
+    ],
+    "only_in_confusable": [
+     "Bicarbonate transporters",
+     "Defective SLC4A4 causes renal tubular acidosis, proximal, with ocular abnormalities and mental retardation (pRTA-OA)",
+     "bicarbonate transport"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1)",
+     "Defective SLC26A4 causes Pendred syndrome (PDS)",
+     "Inorganic anion exchange by SLC26 transporters",
+     "iodide transport",
+     "oxalate transport",
+     "sulfate transmembrane transport"
+    ],
+    "only_in_confusable": [
+     "Defective SLC5A5 causes thyroid dyshormonogenesis 1 (TDH1)",
+     "Regulation of thyroid hormone activity",
+     "cellular response to thyroid hormone stimulus",
+     "regulation of thyroid hormone generation",
+     "response to Thyroglobulin triiodothyronine",
+     "thyroid hormone receptor signaling pathway",
+     "thyroid hormone transport"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1)",
+     "Defective SLC26A4 causes Pendred syndrome (PDS)",
+     "Inorganic anion exchange by SLC26 transporters",
+     "iodide transport",
+     "oxalate transport",
+     "sulfate transmembrane transport"
+    ],
+    "only_in_confusable": [
+     "Defective CFTR causes cystic fibrosis",
+     "RHO GTPases regulate CFTR trafficking",
+     "transepithelial water transport",
+     "transmembrane transport (II)"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01883",
+  "size": 8,
+  "members": [
+   "RUNX3 regulates RUNX1-mediated transcription",
+   "RUNX1 regulates transcription of genes involved in BCR signaling",
+   "RUNX1 regulates transcription of genes involved in differentiation of keratinocytes",
+   "RUNX1 regulates estrogen receptor mediated transcription",
+   "RUNX1 regulates transcription of genes involved in WNT signaling",
+   "RUNX1 regulates transcription of genes involved in interleukin signaling",
+   "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+   "RUNX2 regulates genes involved in differentiation of myeloid cells"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 6,
+    "only_in_theme": [
+     "RUNX1 regulates estrogen receptor mediated transcription",
+     "RUNX1 regulates transcription of genes involved in differentiation of keratinocytes"
+    ],
+    "only_in_confusable": [
+     "RA, WNT, CSF receptors network (monocyte)",
+     "Transcriptional regulation of granulopoiesis",
+     "[untitled BTM module] Granulocyte development and activation is the theme here: a transcriptional core that commits myeloid progenitors to the neutrophil lineage, a cytokine receptor that drives their expansion, and signalling and cytoskeletal components that let mature cells respond. PU.1 and the retinoic acid receptor set and maintain myeloid identity, which is why blockade of retinoid signalling in promyelocytic leukaemia arrests cells short of maturity and why pharmacological retinoid treatment restores it.",
+     "eosinophil differentiation",
+     "granulocyte colony-stimulating factor signaling pathway",
+     "myeloid progenitor cell differentiation",
+     "neutrophil differentiation",
+     "positive regulation of granulocyte differentiation"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "RUNX1 regulates estrogen receptor mediated transcription",
+     "RUNX1 regulates transcription of genes involved in BCR signaling",
+     "RUNX1 regulates transcription of genes involved in WNT signaling",
+     "RUNX1 regulates transcription of genes involved in differentiation of keratinocytes",
+     "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+     "RUNX1 regulates transcription of genes involved in interleukin signaling",
+     "RUNX2 regulates genes involved in differentiation of myeloid cells",
+     "RUNX3 regulates RUNX1-mediated transcription"
+    ],
+    "only_in_confusable": [
+     "Hox cluster I",
+     "Hox cluster II",
+     "Hox cluster III",
+     "Hox cluster IV",
+     "Hox cluster V",
+     "Hox cluster VI"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "RUNX1 regulates estrogen receptor mediated transcription",
+     "RUNX1 regulates transcription of genes involved in WNT signaling",
+     "RUNX1 regulates transcription of genes involved in differentiation of keratinocytes"
+    ],
+    "only_in_confusable": [
+     "RUNX1 interacts with co-factors whose precise effect on RUNX1 targets is not known",
+     "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function",
+     "Regulation of RUNX1 Expression and Activity"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "RUNX1 regulates estrogen receptor mediated transcription",
+     "RUNX1 regulates transcription of genes involved in BCR signaling",
+     "RUNX1 regulates transcription of genes involved in WNT signaling",
+     "RUNX1 regulates transcription of genes involved in differentiation of keratinocytes",
+     "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+     "RUNX1 regulates transcription of genes involved in interleukin signaling",
+     "RUNX2 regulates genes involved in differentiation of myeloid cells",
+     "RUNX3 regulates RUNX1-mediated transcription"
+    ],
+    "only_in_confusable": [
+     "FLT3 signaling by CBL mutants",
+     "FLT3 signaling through SRC family kinases",
+     "Negative regulation of FLT3",
+     "Regulation of signaling by CBL"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01187",
+  "size": 5,
+  "members": [
+   "midostaurin-resistant FLT3 mutants",
+   "quizartinib-resistant FLT3 mutants",
+   "gilteritinib-resistant FLT3 mutants",
+   "pexidartinib-resistant FLT3 mutants",
+   "sunitinib-resistant FLT3 mutants"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 2,
+    "only_in_theme": [
+     "midostaurin-resistant FLT3 mutants",
+     "pexidartinib-resistant FLT3 mutants",
+     "sunitinib-resistant FLT3 mutants"
+    ],
+    "only_in_confusable": [
+     "KW2449-resistant FLT3 mutants",
+     "crenolanib-resistant FLT3 mutants",
+     "lestaurtinib-resistant FLT3 mutants",
+     "ponatinib-resistant FLT3 mutants",
+     "semaxanib-resistant FLT3 mutants",
+     "sorafenib-resistant FLT3 mutants",
+     "tamatinib-resistant FLT3 mutants",
+     "tandutinib-resistant FLT3 mutants"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "gilteritinib-resistant FLT3 mutants",
+     "midostaurin-resistant FLT3 mutants",
+     "pexidartinib-resistant FLT3 mutants",
+     "quizartinib-resistant FLT3 mutants",
+     "sunitinib-resistant FLT3 mutants"
+    ],
+    "only_in_confusable": [
+     "lestaurtinib-resistant FLT3 mutants",
+     "ponatinib-resistant FLT3 mutants",
+     "tamatinib-resistant FLT3 mutants"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "gilteritinib-resistant FLT3 mutants",
+     "midostaurin-resistant FLT3 mutants",
+     "pexidartinib-resistant FLT3 mutants",
+     "quizartinib-resistant FLT3 mutants",
+     "sunitinib-resistant FLT3 mutants"
+    ],
+    "only_in_confusable": [
+     "crenolanib-resistant FLT3 mutants",
+     "lestaurtinib-resistant FLT3 mutants",
+     "ponatinib-resistant FLT3 mutants",
+     "sorafenib-resistant FLT3 mutants",
+     "tamatinib-resistant FLT3 mutants",
+     "tandutinib-resistant FLT3 mutants"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "gilteritinib-resistant FLT3 mutants",
+     "midostaurin-resistant FLT3 mutants",
+     "pexidartinib-resistant FLT3 mutants",
+     "quizartinib-resistant FLT3 mutants",
+     "sunitinib-resistant FLT3 mutants"
+    ],
+    "only_in_confusable": [
+     "Dasatinib-resistant KIT mutants",
+     "Imatinib-resistant KIT mutants",
+     "Imatinib-resistant PDGFR mutants",
+     "KIT mutants bind TKIs",
+     "Masitinib-resistant KIT mutants",
+     "Nilotinib-resistant KIT mutants",
+     "PDGFR mutants bind TKIs",
+     "Regorafenib-resistant KIT mutants",
+     "Regorafenib-resistant PDGFR mutants",
+     "Sorafenib-resistant KIT mutants",
+     "Sorafenib-resistant PDGFR mutants",
+     "Sunitinib-resistant KIT mutants",
+     "Sunitinib-resistant PDGFR mutants"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n00071",
+  "size": 6,
+  "members": [
+   "guanine metabolic process",
+   "purine nucleobase salvage",
+   "purine ribonucleoside salvage",
+   "Defective HPRT1 disrupts guanine and hypoxanthine salvage",
+   "IMP salvage",
+   "Purine salvage"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective HPRT1 disrupts guanine and hypoxanthine salvage",
+     "IMP salvage",
+     "Purine salvage",
+     "guanine metabolic process",
+     "purine nucleobase salvage",
+     "purine ribonucleoside salvage"
+    ],
+    "only_in_confusable": [
+     "AMP catabolic process",
+     "IMP catabolic process",
+     "inosine metabolic process",
+     "purine ribonucleoside catabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective HPRT1 disrupts guanine and hypoxanthine salvage",
+     "IMP salvage",
+     "Purine salvage",
+     "guanine metabolic process",
+     "purine nucleobase salvage",
+     "purine ribonucleoside salvage"
+    ],
+    "only_in_confusable": [
+     "AMP catabolic process",
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "IMP catabolic process",
+     "allantoin metabolic process",
+     "inosine metabolic process",
+     "purine ribonucleoside catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective HPRT1 disrupts guanine and hypoxanthine salvage",
+     "IMP salvage",
+     "Purine salvage",
+     "guanine metabolic process",
+     "purine nucleobase salvage",
+     "purine ribonucleoside salvage"
+    ],
+    "only_in_confusable": [
+     "AMP catabolic process",
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "IMP catabolic process",
+     "adenosine metabolic process",
+     "allantoin metabolic process",
+     "dAMP metabolic process",
+     "dGMP catabolic process",
+     "deoxyribonucleotide catabolic process",
+     "inosine metabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process",
+     "purine deoxyribonucleotide biosynthetic process",
+     "purine ribonucleoside catabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Defective HPRT1 disrupts guanine and hypoxanthine salvage",
+     "IMP salvage",
+     "Purine salvage",
+     "guanine metabolic process",
+     "purine nucleobase salvage",
+     "purine ribonucleoside salvage"
+    ],
+    "only_in_confusable": [
+     "AMP catabolic process",
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "IMP catabolic process",
+     "adenosine metabolic process",
+     "allantoin metabolic process",
+     "dAMP metabolic process",
+     "inosine metabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine ribonucleoside catabolic process"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01941",
+  "size": 6,
+  "members": [
+   "Degradation of CDH1",
+   "CDH11 homotypic and heterotypic interactions",
+   "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane",
+   "cell junction",
+   "cell cell adhesion",
+   "Apoptotic cleavage of cell adhesion  proteins"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "CDH11 homotypic and heterotypic interactions",
+     "Degradation of CDH1",
+     "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane"
+    ],
+    "only_in_confusable": [
+     "HALLMARK_APICAL_JUNCTION",
+     "adherens junction maintenance",
+     "cell junction (GO)",
+     "epithelial cell-cell adhesion"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [
+     "CDH11 homotypic and heterotypic interactions",
+     "Degradation of CDH1",
+     "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane"
+    ],
+    "only_in_confusable": [
+     "HALLMARK_APICAL_JUNCTION",
+     "adherens junction maintenance",
+     "apical constriction",
+     "cardiac muscle cell-cardiac muscle cell adhesion",
+     "cell junction (GO)",
+     "desmosome assembly",
+     "epithelial cell-cell adhesion",
+     "establishment of epithelial cell apical/basal polarity",
+     "establishment or maintenance of cytoskeleton polarity",
+     "intermediate filament bundle assembly",
+     "maintenance of apical/basal cell polarity",
+     "protein localization to adherens junction",
+     "regulation of protein localization to cell-cell junction",
+     "regulation of ventricular cardiac muscle cell action potential"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "CDH11 homotypic and heterotypic interactions",
+     "Degradation of CDH1",
+     "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane"
+    ],
+    "only_in_confusable": [
+     "Anchoring fibril formation",
+     "Collagen chain trimerization",
+     "Integrin cell surface interactions",
+     "Laminin interactions",
+     "Type I hemidesmosome assembly",
+     "cardiac muscle cell-cardiac muscle cell adhesion",
+     "desmosome assembly",
+     "epithelial cell-cell adhesion",
+     "hemidesmosome assembly",
+     "integrin cell surface interactions (II)",
+     "intermediate filament bundle assembly",
+     "regulation of basement membrane organization",
+     "regulation of protein localization to cell-cell junction",
+     "regulation of ventricular cardiac muscle cell action potential"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Apoptotic cleavage of cell adhesion  proteins",
+     "CDH11 homotypic and heterotypic interactions",
+     "Degradation of CDH1",
+     "Regulation of CDH1 posttranslational processing and trafficking to plasma membrane",
+     "cell cell adhesion",
+     "cell junction"
+    ],
+    "only_in_confusable": [
+     "adherens junction assembly",
+     "calcium-dependent cell-cell adhesion",
+     "protein localization to adherens junction"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n03843",
+  "size": 11,
+  "members": [
+   "glycoside catabolic process",
+   "N-acetylneuraminate catabolic process",
+   "N-acetylglucosamine metabolic process",
+   "fructose 6-phosphate metabolic process",
+   "Defective MAN1B1 causes MRT15",
+   "N-glycan processing",
+   "Defective MOGS causes CDG-2b",
+   "mannose metabolic process",
+   "Synthesis of dolichyl-phosphate-glucose",
+   "carbohydrate phosphorylation",
+   "Lysosomal oligosaccharide catabolism"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 5,
+    "only_in_theme": [
+     "N-acetylglucosamine metabolic process",
+     "N-acetylneuraminate catabolic process",
+     "carbohydrate phosphorylation",
+     "fructose 6-phosphate metabolic process",
+     "glycoside catabolic process",
+     "mannose metabolic process"
+    ],
+    "only_in_confusable": [
+     "UDP-alpha-D-glucose metabolic process",
+     "obsolete protein N-linked glycosylation via asparagine"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Defective MAN1B1 causes MRT15",
+     "Defective MOGS causes CDG-2b",
+     "Lysosomal oligosaccharide catabolism",
+     "N-glycan processing",
+     "Synthesis of dolichyl-phosphate-glucose",
+     "glycoside catabolic process"
+    ],
+    "only_in_confusable": [
+     "chitin metabolic process",
+     "glucosamine-containing compound catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 6,
+    "only_in_theme": [
+     "Defective MAN1B1 causes MRT15",
+     "Defective MOGS causes CDG-2b",
+     "Lysosomal oligosaccharide catabolism",
+     "N-glycan processing",
+     "glycoside catabolic process"
+    ],
+    "only_in_confusable": [
+     "CMP-N-acetylneuraminate metabolic process",
+     "Defective ALG14 causes ALG14-CMS",
+     "Defective GFPT1 causes CMSTA1",
+     "Defective GNE causes sialuria, NK and IBM2",
+     "Sialic acid metabolism",
+     "Synthesis of UDP-N-acetyl-glucosamine",
+     "UDP-N-acetylglucosamine biosynthetic process",
+     "UDP-alpha-D-glucose metabolic process",
+     "chitin metabolic process",
+     "glucosamine-containing compound catabolic process",
+     "obsolete protein N-linked glycosylation via asparagine"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Defective MAN1B1 causes MRT15",
+     "Defective MOGS causes CDG-2b",
+     "N-glycan processing",
+     "Synthesis of dolichyl-phosphate-glucose"
+    ],
+    "only_in_confusable": [
+     "CMP-N-acetylneuraminate metabolic process",
+     "Defective GNE causes sialuria, NK and IBM2",
+     "Defective NEU1 causes sialidosis",
+     "GDP-mannose biosynthetic process",
+     "Sialic acid metabolism",
+     "Synthesis of GDP-mannose"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n00351",
+  "size": 5,
+  "members": [
+   "spinal cord association neuron differentiation",
+   "dorsal/ventral neural tube patterning",
+   "ventral spinal cord interneuron differentiation",
+   "cell fate commitment involved in pattern specification",
+   "spinal cord patterning"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 0,
+    "only_in_theme": [
+     "cell fate commitment involved in pattern specification",
+     "dorsal/ventral neural tube patterning",
+     "spinal cord association neuron differentiation",
+     "spinal cord patterning",
+     "ventral spinal cord interneuron differentiation"
+    ],
+    "only_in_confusable": [
+     "Formation of axial mesoderm",
+     "axial mesoderm development",
+     "embryonic body morphogenesis",
+     "floor plate development",
+     "neural fold formation",
+     "neural plate regionalization",
+     "neuron fate determination",
+     "notochord morphogenesis",
+     "positive regulation of neuroepithelial cell differentiation",
+     "ventral midline development"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "cell fate commitment involved in pattern specification",
+     "dorsal/ventral neural tube patterning",
+     "spinal cord association neuron differentiation",
+     "spinal cord patterning",
+     "ventral spinal cord interneuron differentiation"
+    ],
+    "only_in_confusable": [
+     "floor plate development",
+     "neural fold formation",
+     "neural plate regionalization",
+     "neuron fate determination",
+     "positive regulation of neuroepithelial cell differentiation",
+     "ventral midline development"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "cell fate commitment involved in pattern specification",
+     "dorsal/ventral neural tube patterning",
+     "spinal cord association neuron differentiation",
+     "spinal cord patterning",
+     "ventral spinal cord interneuron differentiation"
+    ],
+    "only_in_confusable": [
+     "Bergmann glial cell differentiation",
+     "cell proliferation in midbrain",
+     "glial cell fate specification",
+     "midbrain dopaminergic neuron differentiation",
+     "negative regulation of neuroblast proliferation",
+     "negative regulation of neuron differentiation",
+     "negative regulation of oligodendrocyte differentiation",
+     "positive regulation of astrocyte differentiation",
+     "positive regulation of cerebellar granule cell precursor proliferation",
+     "positive regulation of neuron differentiation",
+     "positive regulation of oligodendrocyte differentiation",
+     "regulation of dopaminergic neuron differentiation",
+     "spinal cord oligodendrocyte cell differentiation",
+     "substantia nigra development"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "cell fate commitment involved in pattern specification",
+     "dorsal/ventral neural tube patterning",
+     "spinal cord association neuron differentiation",
+     "spinal cord patterning",
+     "ventral spinal cord interneuron differentiation"
+    ],
+    "only_in_confusable": [
+     "Bergmann glial cell differentiation",
+     "adenohypophysis development",
+     "amacrine cell differentiation",
+     "commitment of neuronal cell to specific neuron type in forebrain",
+     "forebrain dorsal/ventral pattern formation",
+     "forebrain morphogenesis",
+     "negative regulation of neuroblast proliferation",
+     "positive regulation of cerebellar granule cell precursor proliferation",
+     "positive regulation of neuron differentiation",
+     "regulation of photoreceptor cell differentiation",
+     "retina layer formation",
+     "substantia nigra development",
+     "thalamus development"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01277",
+  "size": 9,
+  "members": [
+   "deoxyribonucleoside monophosphate biosynthetic process",
+   "Pyrimidine salvage",
+   "pyrimidine deoxyribonucleoside metabolic process",
+   "dTMP catabolic process",
+   "purine deoxyribonucleotide biosynthetic process",
+   "deoxyribonucleotide biosynthetic process",
+   "dTTP biosynthetic process",
+   "pyrimidine nucleoside biosynthetic process",
+   "dAMP metabolic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Pyrimidine salvage",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "2'-deoxyribonucleoside catabolic process",
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "Pyrimidine catabolism",
+     "UMP catabolic process",
+     "dCMP metabolic process",
+     "dGMP catabolic process",
+     "dUMP catabolic process",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 1,
+    "only_in_theme": [
+     "Pyrimidine salvage",
+     "dAMP metabolic process",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "purine deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "2'-deoxyribonucleoside catabolic process",
+     "CMP metabolic process",
+     "Pyrimidine biosynthesis",
+     "Pyrimidine catabolism",
+     "UDP biosynthetic process",
+     "UMP catabolic process",
+     "UMP salvage",
+     "UTP biosynthetic process",
+     "dCMP metabolic process",
+     "dGMP catabolic process",
+     "dUMP catabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Pyrimidine salvage",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "2'-deoxyribonucleoside catabolic process",
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "dCMP metabolic process",
+     "dGMP catabolic process",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 7,
+    "only_in_theme": [
+     "dAMP metabolic process",
+     "dTMP catabolic process"
+    ],
+    "only_in_confusable": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "CMP metabolic process",
+     "Pyrimidine biosynthesis",
+     "UDP biosynthetic process",
+     "UMP salvage",
+     "UTP biosynthetic process"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n00816",
+  "size": 11,
+  "members": [
+   "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+   "regulation of translational termination",
+   "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+   "pre-mRNA catabolic process",
+   "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+   "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+   "rescue of stalled cytosolic ribosome",
+   "ribosome-associated ubiquitin-dependent protein catabolic process",
+   "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+   "nuclear-transcribed mRNA catabolic process, no-go decay",
+   "Eukaryotic Translation Termination"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome"
+    ],
+    "only_in_confusable": [
+     "ubiquitin-dependent protein catabolic process via the C-end degron rule pathway",
+     "ubiquitin-dependent protein catabolic process via the N-end rule pathway"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process"
+    ],
+    "only_in_confusable": [
+     "Formation of the Editosome",
+     "Processing of Intronless Pre-mRNAs",
+     "co-transcriptional mRNA 3'-end processing, cleavage and polyadenylation pathway",
+     "mRNA Polyadenylation",
+     "negative regulation of nuclear-transcribed mRNA catabolic process, nonsense-mediated decay"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process"
+    ],
+    "only_in_confusable": [
+     "CUT catabolic process",
+     "Nuclear RNA decay",
+     "U4 snRNA 3'-end processing",
+     "[untitled BTM module] The dominant theme here is nuclear RNA production and maturation: an RNA polymerase I subunit supports ribosomal RNA transcription, a small-subunit processome component participates in pre-rRNA processing toward ribosome assembly, a general transcription factor subunit assists RNA polymerase II promoter opening, a spliceosome-associated crooked-neck-like factor acts in pre-mRNA splicing, and a core exosome subunit provides 3' to 5' exoribonuclease-mediated RNA trimming and surveillance; loss of that exosome subunit causes cerebellar hypoplasia with spinal motor neuron degeneration. Together these activities set the cell's capacity for ribosome biogenesis and accurate mRNA output, and hence growth and protein synthesis.",
+     "exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "mRNA decay by 3' to 5' exoribonuclease",
+     "nuclear mRNA surveillance",
+     "poly(A)-dependent snoRNA 3'-end processing",
+     "rRNA catabolic process",
+     "snRNA catabolic process",
+     "tRNA surveillance"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process"
+    ],
+    "only_in_confusable": [
+     "Formation of a pool of free 40S subunits",
+     "Formation of the ternary complex, and subsequently, the 43S complex",
+     "GTP hydrolysis and joining of the 60S ribosomal subunit",
+     "IRES-dependent viral translational initiation",
+     "Peptide chain elongation",
+     "Recycling of eIF2:GDP",
+     "Ribosomal scanning and start codon recognition",
+     "Translation initiation complex formation",
+     "formation of cytoplasmic translation initiation complex",
+     "formation of translation preinitiation complex",
+     "translation initiation",
+     "translation initiation factor 3 complex"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n02254",
+  "size": 6,
+  "members": [
+   "negative regulation of interleukin-2 production",
+   "positive regulation of interleukin-10 production",
+   "positive regulation of activated T cell proliferation",
+   "negative regulation of regulatory T cell differentiation",
+   "negative regulation of interleukin-12 production",
+   "negative regulation of interleukin-10 production"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "negative regulation of interleukin-10 production",
+     "negative regulation of interleukin-12 production",
+     "positive regulation of interleukin-10 production"
+    ],
+    "only_in_confusable": [
+     "negative regulation of interleukin-21 production",
+     "negative regulation of interleukin-6 production",
+     "negative regulation of tumor necrosis factor superfamily cytokine production"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 4,
+    "only_in_theme": [
+     "negative regulation of interleukin-12 production",
+     "positive regulation of interleukin-10 production"
+    ],
+    "only_in_confusable": [
+     "negative regulation of CD4-positive, alpha-beta T cell proliferation",
+     "negative regulation of CD8-positive, alpha-beta T cell activation",
+     "negative regulation of T cell cytokine production",
+     "negative regulation of T cell mediated immune response to tumor cell",
+     "negative regulation of T-helper 1 type immune response",
+     "negative regulation of T-helper 17 cell lineage commitment",
+     "negative regulation of activated T cell proliferation",
+     "negative regulation of interferon-alpha production",
+     "negative regulation of interleukin-21 production",
+     "negative regulation of interleukin-6 production",
+     "negative regulation of tumor necrosis factor superfamily cytokine production",
+     "negative regulation of type II interferon production",
+     "positive regulation of regulatory T cell differentiation",
+     "regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "negative regulation of interleukin-2 production",
+     "negative regulation of regulatory T cell differentiation",
+     "positive regulation of activated T cell proliferation"
+    ],
+    "only_in_confusable": [
+     "Interleukin-27 signaling",
+     "Interleukin-35 Signalling",
+     "interleukin-10-mediated signaling pathway",
+     "interleukin-27-mediated signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 3,
+    "only_in_theme": [
+     "negative regulation of interleukin-2 production",
+     "negative regulation of regulatory T cell differentiation",
+     "positive regulation of activated T cell proliferation"
+    ],
+    "only_in_confusable": [
+     "negative regulation of cytokine production involved in inflammatory response",
+     "negative regulation of interleukin-1 beta production",
+     "negative regulation of interleukin-6 production",
+     "negative regulation of tumor necrosis factor superfamily cytokine production"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n03669",
+  "size": 13,
+  "members": [
+   "Signaling by membrane-tethered fusions of PDGFRA or PDGFRB",
+   "Signaling by PDGFRA transmembrane, juxtamembrane and kinase domain mutants",
+   "STAT5 Activation",
+   "Signaling by cytosolic FGFR1 fusion mutants",
+   "thrombopoietin-mediated signaling pathway",
+   "Signaling by PDGFRA extracellular domain mutants",
+   "Signaling by FLT3 fusion proteins",
+   "FLT3 signaling through SRC family kinases",
+   "Negative regulation of FLT3",
+   "Regulation of signaling by CBL",
+   "Signaling by cytosolic PDGFRA and PDGFRB fusion proteins",
+   "FLT3 signaling by CBL mutants",
+   "STAT5 activation downstream of FLT3 ITD mutants"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 10,
+    "only_in_theme": [
+     "Signaling by PDGFRA extracellular domain mutants",
+     "Signaling by PDGFRA transmembrane, juxtamembrane and kinase domain mutants",
+     "Signaling by cytosolic PDGFRA and PDGFRB fusion proteins"
+    ],
+    "only_in_confusable": [
+     "Erythropoietin activates Phosphoinositide-3-kinase (PI3K)",
+     "Erythropoietin activates Phospholipase C gamma (PLCG)",
+     "Erythropoietin activates RAS",
+     "Erythropoietin activates STAT5",
+     "HALLMARK_IL2_STAT5_SIGNALING",
+     "Inactivation of CSF3 (G-CSF) signaling",
+     "Interleukin receptor SHC signaling",
+     "Interleukin-2 signaling",
+     "Interleukin-7 signaling",
+     "Interleukin-9 signaling",
+     "RUNX1 regulates transcription of genes involved in BCR signaling",
+     "erythropoietin-mediated signaling pathway",
+     "interleukin-2-mediated signaling pathway",
+     "interleukin-3-mediated signaling pathway",
+     "interleukin-5-mediated signaling pathway",
+     "interleukin-7-mediated signaling pathway",
+     "response to interleukin-3",
+     "response to interleukin-9"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 9,
+    "only_in_theme": [
+     "Signaling by PDGFRA extracellular domain mutants",
+     "Signaling by PDGFRA transmembrane, juxtamembrane and kinase domain mutants",
+     "Signaling by cytosolic PDGFRA and PDGFRB fusion proteins",
+     "Signaling by membrane-tethered fusions of PDGFRA or PDGFRB"
+    ],
+    "only_in_confusable": [
+     "Erythropoietin activates Phosphoinositide-3-kinase (PI3K)",
+     "Erythropoietin activates Phospholipase C gamma (PLCG)",
+     "Erythropoietin activates RAS",
+     "Erythropoietin activates STAT5",
+     "Inactivation of CSF3 (G-CSF) signaling",
+     "erythropoietin-mediated signaling pathway",
+     "interleukin-3-mediated signaling pathway",
+     "interleukin-5-mediated signaling pathway",
+     "response to interleukin-3"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 9,
+    "only_in_theme": [
+     "Signaling by PDGFRA extracellular domain mutants",
+     "Signaling by PDGFRA transmembrane, juxtamembrane and kinase domain mutants",
+     "Signaling by cytosolic PDGFRA and PDGFRB fusion proteins",
+     "Signaling by membrane-tethered fusions of PDGFRA or PDGFRB"
+    ],
+    "only_in_confusable": [
+     "Erythropoietin activates Phosphoinositide-3-kinase (PI3K)",
+     "Erythropoietin activates Phospholipase C gamma (PLCG)",
+     "Erythropoietin activates RAS",
+     "Erythropoietin activates STAT5",
+     "Inactivation of CSF3 (G-CSF) signaling",
+     "erythropoietin-mediated signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 6,
+    "only_in_theme": [
+     "FLT3 signaling by CBL mutants",
+     "FLT3 signaling through SRC family kinases",
+     "Negative regulation of FLT3",
+     "Regulation of signaling by CBL",
+     "STAT5 Activation",
+     "STAT5 activation downstream of FLT3 ITD mutants",
+     "thrombopoietin-mediated signaling pathway"
+    ],
+    "only_in_confusable": [
+     "ALK mutants bind TKIs",
+     "ASP-3026-resistant ALK mutants",
+     "NVP-TAE684-resistant ALK mutants",
+     "Signaling by FGFR1 amplification mutants",
+     "Signaling by FGFR2 amplification mutants",
+     "Signaling by FGFR2 fusions",
+     "Signaling by FGFR3 fusions in cancer",
+     "Signaling by LTK in cancer",
+     "Signaling by plasma membrane FGFR1 fusions",
+     "alectinib-resistant ALK mutants",
+     "brigatinib-resistant ALK mutants",
+     "ceritinib-resistant ALK mutants",
+     "crizotinib-resistant ALK mutants",
+     "lorlatinib-resistant ALK mutants",
+     "t(4;14) translocations of FGFR3"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n00485",
+  "size": 36,
+  "members": [
+   "regulation of inhibitory synapse assembly",
+   "Long-term potentiation",
+   "positive regulation of synaptic transmission, glutamatergic",
+   "negative regulation of synapse assembly",
+   "regulation of postsynapse assembly",
+   "AMPA selective glutamate receptor signaling pathway",
+   "terminal button organization",
+   "positive regulation of synaptic vesicle exocytosis",
+   "Receptor-type tyrosine-protein phosphatases",
+   "postsynaptic membrane assembly",
+   "neuron-neuron synaptic transmission",
+   "AMPA glutamate receptor clustering",
+   "LGI-ADAM interactions",
+   "positive regulation of synapse assembly",
+   "synaptic membrane adhesion",
+   "positive regulation of protein localization to synapse",
+   "maintenance of postsynaptic density structure",
+   "biological process involved in intraspecies interaction between organisms",
+   "positive regulation of excitatory postsynaptic potential",
+   "regulation of synaptic vesicle clustering",
+   "regulation of presynapse organization",
+   "NMDA glutamate receptor clustering",
+   "positive regulation of synaptic transmission, GABAergic",
+   "negative regulation of excitatory postsynaptic potential",
+   "presynaptic membrane assembly",
+   "Synaptic adhesion-like molecules",
+   "regulation of postsynaptic density assembly",
+   "gephyrin clustering involved in postsynaptic density assembly",
+   "positive regulation of synapse maturation",
+   "gamma-aminobutyric acid receptor clustering",
+   "Neurexins and neuroligins",
+   "neuron cell-cell adhesion",
+   "positive regulation of inhibitory postsynaptic potential",
+   "postsynaptic density protein 95 clustering",
+   "Reelin signalling pathway",
+   "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "AMPA glutamate receptor clustering",
+     "AMPA selective glutamate receptor signaling pathway",
+     "LGI-ADAM interactions",
+     "Long-term potentiation",
+     "NMDA glutamate receptor clustering",
+     "Neurexins and neuroligins",
+     "Receptor-type tyrosine-protein phosphatases",
+     "Reelin signalling pathway",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "negative regulation of synapse assembly",
+     "neuron cell-cell adhesion",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of protein localization to synapse",
+     "positive regulation of synapse assembly",
+     "positive regulation of synaptic transmission, GABAergic",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "positive regulation of synaptic vesicle exocytosis",
+     "postsynaptic density protein 95 clustering",
+     "postsynaptic membrane assembly",
+     "presynaptic membrane assembly",
+     "regulation of inhibitory synapse assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "terminal button organization",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ],
+    "only_in_confusable": [
+     "Activation of RAC1 downstream of NMDARs",
+     "Regulation of cortical dendrite branching",
+     "dendrite arborization",
+     "negative regulation of dendritic spine morphogenesis",
+     "negative regulation of filopodium assembly",
+     "neurotransmitter receptor transport, endosome to postsynaptic membrane",
+     "positive regulation of dendritic spine morphogenesis",
+     "positive regulation of long-term neuronal synaptic plasticity",
+     "positive regulation of long-term synaptic depression",
+     "positive regulation of neuron projection arborization",
+     "positive regulation of synaptic plasticity",
+     "postsynaptic actin cytoskeleton organization",
+     "regulation of modification of postsynaptic actin cytoskeleton",
+     "regulation of synapse structural plasticity",
+     "regulation of translation at synapse"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 2,
+    "only_in_theme": [
+     "AMPA glutamate receptor clustering",
+     "AMPA selective glutamate receptor signaling pathway",
+     "LGI-ADAM interactions",
+     "Long-term potentiation",
+     "NMDA glutamate receptor clustering",
+     "Neurexins and neuroligins",
+     "Receptor-type tyrosine-protein phosphatases",
+     "Reelin signalling pathway",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "negative regulation of synapse assembly",
+     "neuron cell-cell adhesion",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of protein localization to synapse",
+     "positive regulation of synapse assembly",
+     "positive regulation of synapse maturation",
+     "positive regulation of synaptic transmission, GABAergic",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "positive regulation of synaptic vesicle exocytosis",
+     "postsynaptic density protein 95 clustering",
+     "postsynaptic membrane assembly",
+     "presynaptic membrane assembly",
+     "regulation of inhibitory synapse assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "terminal button organization",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ],
+    "only_in_confusable": [
+     "Activation of RAC1 downstream of NMDARs",
+     "Regulation of cortical dendrite branching",
+     "dendrite arborization",
+     "negative regulation of dendritic spine morphogenesis",
+     "neurotransmitter receptor transport, endosome to postsynaptic membrane",
+     "positive regulation of long-term neuronal synaptic plasticity",
+     "positive regulation of neuron projection arborization",
+     "postsynaptic actin cytoskeleton organization",
+     "regulation of modification of postsynaptic actin cytoskeleton",
+     "regulation of synapse structural plasticity",
+     "regulation of translation at synapse"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 4,
+    "only_in_theme": [
+     "AMPA glutamate receptor clustering",
+     "AMPA selective glutamate receptor signaling pathway",
+     "LGI-ADAM interactions",
+     "Long-term potentiation",
+     "NMDA glutamate receptor clustering",
+     "Neurexins and neuroligins",
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "negative regulation of synapse assembly",
+     "neuron cell-cell adhesion",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of protein localization to synapse",
+     "positive regulation of synapse assembly",
+     "positive regulation of synaptic transmission, GABAergic",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "positive regulation of synaptic vesicle exocytosis",
+     "postsynaptic density protein 95 clustering",
+     "postsynaptic membrane assembly",
+     "presynaptic membrane assembly",
+     "regulation of inhibitory synapse assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "terminal button organization",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ],
+    "only_in_confusable": [
+     "Activation of RAC1 downstream of NMDARs",
+     "Regulation of cortical dendrite branching",
+     "dendrite arborization",
+     "negative regulation of dendritic spine maintenance",
+     "negative regulation of dendritic spine morphogenesis",
+     "negative regulation of filopodium assembly",
+     "neuron projection maintenance",
+     "neurotransmitter receptor transport, endosome to postsynaptic membrane",
+     "positive regulation of dendrite development",
+     "positive regulation of dendritic spine maintenance",
+     "positive regulation of dendritic spine morphogenesis",
+     "positive regulation of long-term neuronal synaptic plasticity",
+     "positive regulation of long-term synaptic depression",
+     "positive regulation of neuron projection arborization",
+     "positive regulation of synaptic plasticity",
+     "postsynaptic actin cytoskeleton organization",
+     "reelin-mediated signaling pathway",
+     "regulation of modification of postsynaptic actin cytoskeleton",
+     "regulation of postsynaptic membrane organization",
+     "regulation of synapse structural plasticity",
+     "regulation of translation at synapse"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "AMPA glutamate receptor clustering",
+     "AMPA selective glutamate receptor signaling pathway",
+     "LGI-ADAM interactions",
+     "Long-term potentiation",
+     "NMDA glutamate receptor clustering",
+     "Neurexins and neuroligins",
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "negative regulation of synapse assembly",
+     "neuron cell-cell adhesion",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of protein localization to synapse",
+     "positive regulation of synapse assembly",
+     "positive regulation of synaptic transmission, GABAergic",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "positive regulation of synaptic vesicle exocytosis",
+     "postsynaptic density protein 95 clustering",
+     "postsynaptic membrane assembly",
+     "presynaptic membrane assembly",
+     "regulation of inhibitory synapse assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "terminal button organization",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ],
+    "only_in_confusable": [
+     "Activation of RAC1 downstream of NMDARs",
+     "Regulation of cortical dendrite branching",
+     "cellular response to amyloid-beta",
+     "dendrite arborization",
+     "negative regulation of dendrite development",
+     "negative regulation of dendritic spine maintenance",
+     "negative regulation of dendritic spine morphogenesis",
+     "negative regulation of filopodium assembly",
+     "negative regulation of long-term synaptic potentiation",
+     "neuron projection maintenance",
+     "neurotransmitter receptor transport, endosome to postsynaptic membrane",
+     "positive regulation of dendrite development",
+     "positive regulation of dendritic spine maintenance",
+     "positive regulation of dendritic spine morphogenesis",
+     "positive regulation of long-term neuronal synaptic plasticity",
+     "positive regulation of long-term synaptic depression",
+     "positive regulation of long-term synaptic potentiation",
+     "positive regulation of neuron projection arborization",
+     "positive regulation of synaptic plasticity",
+     "postsynaptic actin cytoskeleton organization",
+     "pyramidal neuron development",
+     "reelin-mediated signaling pathway",
+     "regulation of modification of postsynaptic actin cytoskeleton",
+     "regulation of postsynaptic cytosolic calcium ion concentration",
+     "regulation of postsynaptic membrane organization",
+     "regulation of synapse structural plasticity",
+     "regulation of translation at synapse",
+     "short-term memory"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n03148",
+  "size": 13,
+  "members": [
+   "regulation of Cdc42 protein signal transduction",
+   "regulation of T cell chemotaxis",
+   "sphingosine-1-phosphate receptor signaling pathway",
+   "lymphocyte migration into lymphoid organs",
+   "positive regulation of phospholipase C/protein kinase C signal transduction",
+   "myeloid dendritic cell chemotaxis",
+   "B cell chemotaxis",
+   "positive regulation of T cell migration",
+   "cell adhesion (lymphocyte homing)",
+   "[untitled BTM module] These genes converge on receptor-proximal signalling that converts extracellular cues into changes in cell adhesion, migration and tissue remodelling. One arm is vascular and mesenchymal: endoglin acts as a TGF-beta superfamily co-receptor in endothelium, CCN2/CTGF and CRIM1 shape growth-factor availability in the matrix, and focal adhesion kinase with GAB1, PLCB1 and the Ral activator RGL1 relay integrin and growth-factor input to the cytoskeleton and to Ras-family GTPase output.",
+   "lymph node development",
+   "marginal zone B cell differentiation",
+   "receptors, cell migration"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 8,
+    "only_in_theme": [
+     "myeloid dendritic cell chemotaxis",
+     "positive regulation of T cell migration",
+     "positive regulation of phospholipase C/protein kinase C signal transduction",
+     "regulation of Cdc42 protein signal transduction",
+     "regulation of T cell chemotaxis"
+    ],
+    "only_in_confusable": [
+     "immune response in gut-associated lymphoid tissue",
+     "integrin mediated leukocyte migration",
+     "integrins and cell adhesion",
+     "mucosa-associated lymphoid tissue development"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 7,
+    "only_in_theme": [
+     "cell adhesion (lymphocyte homing)",
+     "myeloid dendritic cell chemotaxis",
+     "positive regulation of T cell migration",
+     "positive regulation of phospholipase C/protein kinase C signal transduction",
+     "regulation of Cdc42 protein signal transduction",
+     "regulation of T cell chemotaxis"
+    ],
+    "only_in_confusable": [
+     "immune response in gut-associated lymphoid tissue",
+     "mucosa-associated lymphoid tissue development"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 7,
+    "only_in_theme": [
+     "[untitled BTM module] These genes converge on receptor-proximal signalling that converts extracellular cues into changes in cell adhesion, migration and tissue remodelling. One arm is vascular and mesenchymal: endoglin acts as a TGF-beta superfamily co-receptor in endothelium, CCN2/CTGF and CRIM1 shape growth-factor availability in the matrix, and focal adhesion kinase with GAB1, PLCB1 and the Ral activator RGL1 relay integrin and growth-factor input to the cytoskeleton and to Ras-family GTPase output.",
+     "lymph node development",
+     "lymphocyte migration into lymphoid organs",
+     "marginal zone B cell differentiation",
+     "receptors, cell migration",
+     "sphingosine-1-phosphate receptor signaling pathway"
+    ],
+    "only_in_confusable": [
+     "CCR1, 7 and cell signaling",
+     "CXCL12-activated CXCR4 signaling pathway",
+     "Chemokine receptors bind chemokines",
+     "adhesion and migration, chemotaxis",
+     "astrocyte cell migration",
+     "chemokine cluster (II)",
+     "chemokines and receptors",
+     "enriched in monocytes (III)",
+     "induction of positive chemotaxis",
+     "mature conventional dendritic cell differentiation",
+     "negative regulation of dendritic cell apoptotic process",
+     "positive regulation of dendritic cell chemotaxis",
+     "positive regulation of mast cell chemotaxis",
+     "positive regulation of natural killer cell chemotaxis",
+     "positive regulation of pseudopodium assembly"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 7,
+    "only_in_theme": [
+     "[untitled BTM module] These genes converge on receptor-proximal signalling that converts extracellular cues into changes in cell adhesion, migration and tissue remodelling. One arm is vascular and mesenchymal: endoglin acts as a TGF-beta superfamily co-receptor in endothelium, CCN2/CTGF and CRIM1 shape growth-factor availability in the matrix, and focal adhesion kinase with GAB1, PLCB1 and the Ral activator RGL1 relay integrin and growth-factor input to the cytoskeleton and to Ras-family GTPase output.",
+     "cell adhesion (lymphocyte homing)",
+     "lymphocyte migration into lymphoid organs",
+     "myeloid dendritic cell chemotaxis",
+     "positive regulation of phospholipase C/protein kinase C signal transduction",
+     "regulation of Cdc42 protein signal transduction"
+    ],
+    "only_in_confusable": [
+     "CXCL12-activated CXCR4 signaling pathway",
+     "astrocyte cell migration",
+     "induction of positive chemotaxis",
+     "positive regulation of Rac protein signal transduction",
+     "positive regulation of mast cell chemotaxis"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01914",
+  "size": 22,
+  "members": [
+   "rRNA catabolic process",
+   "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+   "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+   "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+   "[untitled BTM module] The dominant theme here is nuclear RNA production and maturation: an RNA polymerase I subunit supports ribosomal RNA transcription, a small-subunit processome component participates in pre-rRNA processing toward ribosome assembly, a general transcription factor subunit assists RNA polymerase II promoter opening, a spliceosome-associated crooked-neck-like factor acts in pre-mRNA splicing, and a core exosome subunit provides 3' to 5' exoribonuclease-mediated RNA trimming and surveillance; loss of that exosome subunit causes cerebellar hypoplasia with spinal motor neuron degeneration. Together these activities set the cell's capacity for ribosome biogenesis and accurate mRNA output, and hence growth and protein synthesis.",
+   "Nuclear RNA decay",
+   "nuclear mRNA surveillance",
+   "regulation of translational termination",
+   "poly(A)-dependent snoRNA 3'-end processing",
+   "nuclear-transcribed mRNA catabolic process, no-go decay",
+   "mRNA decay by 3' to 5' exoribonuclease",
+   "exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+   "rescue of stalled cytosolic ribosome",
+   "CUT catabolic process",
+   "ribosome-associated ubiquitin-dependent protein catabolic process",
+   "tRNA surveillance",
+   "U4 snRNA 3'-end processing",
+   "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+   "Eukaryotic Translation Termination",
+   "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+   "pre-mRNA catabolic process",
+   "snRNA catabolic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 11,
+    "only_in_theme": [
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process"
+    ],
+    "only_in_confusable": [
+     "tRNA 3'-end processing",
+     "tRNA processing in the nucleus",
+     "tRNA-derived small RNA (tsRNA or tRNA-related fragment, tRF) biogenesis",
+     "tRNA-type intron splice site recognition and cleavage"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 12,
+    "only_in_theme": [
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "pre-mRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process"
+    ],
+    "only_in_confusable": [
+     "7-methylguanosine cap hypermethylation",
+     "Processing of Intronless Pre-mRNAs",
+     "RNA Polymerase II Transcription Termination",
+     "RNA Polymerase III Transcription Initiation From Type 3 Promoter",
+     "RNA polymerase II transcribes snRNA genes",
+     "SLBP Dependent Processing of Replication-Dependent Histone Pre-mRNAs",
+     "SLBP independent Processing of Histone Pre-mRNAs",
+     "Transcriptional regulation by small RNAs",
+     "Transport of Mature mRNA Derived from an Intronless Transcript",
+     "Transport of Mature mRNA derived from an Intron-Containing Transcript",
+     "Transport of the SLBP Dependant Mature mRNA",
+     "Transport of the SLBP independent Mature mRNA",
+     "U2-type prespliceosome assembly",
+     "co-transcriptional mRNA 3'-end processing, cleavage and polyadenylation pathway",
+     "formation of quadruple SL/U4/U5/U6 snRNP",
+     "mRNA 3'-end processing by stem-loop binding and cleavage",
+     "mRNA 3'-splice site recognition",
+     "mRNA 5'-splice site recognition",
+     "mRNA Polyadenylation",
+     "mRNA Splicing - Major Pathway",
+     "mRNA Splicing - Minor Pathway",
+     "negative regulation of RNA splicing",
+     "negative regulation of mRNA processing",
+     "nuclear histone mRNA catabolic process",
+     "nuclear pore, transport; mRNA splicing, processing",
+     "poly(A)+ mRNA export from nucleus",
+     "positive regulation of RNA export from nucleus",
+     "positive regulation of chromatin binding",
+     "positive regulation of mRNA 3'-end processing",
+     "positive regulation of mRNA splicing, via spliceosome",
+     "regulation of alternative mRNA splicing, via spliceosome",
+     "regulation of mRNA export from nucleus",
+     "regulation of snRNA transcription by RNA polymerase II",
+     "snRNA transcription by RNA polymerase III",
+     "snRNA transport",
+     "snRNP Assembly",
+     "spliceosomal conformational changes to generate catalytic conformation",
+     "spliceosomal tri-snRNP complex assembly",
+     "spliceosome",
+     "tRNA 5'-leader removal"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "CUT catabolic process",
+     "Eukaryotic Translation Termination",
+     "Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC)",
+     "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+     "Nuclear RNA decay",
+     "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+     "Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide",
+     "U4 snRNA 3'-end processing",
+     "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+     "[untitled BTM module] The dominant theme here is nuclear RNA production and maturation: an RNA polymerase I subunit supports ribosomal RNA transcription, a small-subunit processome component participates in pre-rRNA processing toward ribosome assembly, a general transcription factor subunit assists RNA polymerase II promoter opening, a spliceosome-associated crooked-neck-like factor acts in pre-mRNA splicing, and a core exosome subunit provides 3' to 5' exoribonuclease-mediated RNA trimming and surveillance; loss of that exosome subunit causes cerebellar hypoplasia with spinal motor neuron degeneration. Together these activities set the cell's capacity for ribosome biogenesis and accurate mRNA output, and hence growth and protein synthesis.",
+     "exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "mRNA decay by 3' to 5' exoribonuclease",
+     "nuclear mRNA surveillance",
+     "nuclear-transcribed mRNA catabolic process, no-go decay",
+     "poly(A)-dependent snoRNA 3'-end processing",
+     "pre-mRNA catabolic process",
+     "rRNA catabolic process",
+     "regulation of translational termination",
+     "rescue of stalled cytosolic ribosome",
+     "ribosome-associated ubiquitin-dependent protein catabolic process",
+     "snRNA catabolic process",
+     "tRNA surveillance"
+    ],
+    "only_in_confusable": [
+     "Processing of Intronless Pre-mRNAs",
+     "RNA Polymerase II Transcription Termination",
+     "SLBP Dependent Processing of Replication-Dependent Histone Pre-mRNAs",
+     "SLBP independent Processing of Histone Pre-mRNAs",
+     "co-transcriptional mRNA 3'-end processing, cleavage and polyadenylation pathway",
+     "mRNA 3'-end processing by stem-loop binding and cleavage",
+     "mRNA Polyadenylation",
+     "mRNA decay by 5' to 3' exoribonuclease",
+     "mRNA methylguanosine-cap decapping",
+     "nuclear histone mRNA catabolic process",
+     "nuclear-transcribed mRNA catabolic process, deadenylation-independent decay",
+     "positive regulation of mRNA 3'-end processing",
+     "positive regulation of mRNA splicing, via spliceosome"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 11,
+    "only_in_theme": [
+     "CUT catabolic process",
+     "Nuclear RNA decay",
+     "U4 snRNA 3'-end processing",
+     "[untitled BTM module] The dominant theme here is nuclear RNA production and maturation: an RNA polymerase I subunit supports ribosomal RNA transcription, a small-subunit processome component participates in pre-rRNA processing toward ribosome assembly, a general transcription factor subunit assists RNA polymerase II promoter opening, a spliceosome-associated crooked-neck-like factor acts in pre-mRNA splicing, and a core exosome subunit provides 3' to 5' exoribonuclease-mediated RNA trimming and surveillance; loss of that exosome subunit causes cerebellar hypoplasia with spinal motor neuron degeneration. Together these activities set the cell's capacity for ribosome biogenesis and accurate mRNA output, and hence growth and protein synthesis.",
+     "exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "mRNA decay by 3' to 5' exoribonuclease",
+     "nuclear mRNA surveillance",
+     "poly(A)-dependent snoRNA 3'-end processing",
+     "rRNA catabolic process",
+     "snRNA catabolic process",
+     "tRNA surveillance"
+    ],
+    "only_in_confusable": [
+     "negative regulation of nuclear-transcribed mRNA catabolic process, nonsense-mediated decay",
+     "ubiquitin-dependent protein catabolic process via the C-end degron rule pathway",
+     "ubiquitin-dependent protein catabolic process via the N-end rule pathway"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01912",
+  "size": 30,
+  "members": [
+   "RHO GTPases activate CIT",
+   "microtubule anchoring at microtubule organizing center",
+   "regulation of mitotic spindle assembly",
+   "positive regulation of protein localization to centrosome",
+   "positive regulation of microtubule depolymerization",
+   "positive regulation of microtubule nucleation",
+   "negative regulation of microtubule depolymerization",
+   "Recruitment of NuMA to mitotic centrosomes",
+   "establishment of mitotic spindle localization",
+   "maintenance of centrosome location",
+   "positive regulation of spindle assembly",
+   "microtubule nucleation by microtubule organizing center",
+   "regulation of asymmetric cell division",
+   "positive regulation of non-motile cilium assembly",
+   "positive regulation of centriole elongation",
+   "Recruitment of mitotic centrosome proteins and complexes",
+   "cilium disassembly",
+   "negative regulation of protein localization to microtubule",
+   "positive regulation of centrosome duplication",
+   "Loss of Nlp from mitotic centrosomes",
+   "AURKA Activation by TPX2",
+   "centriole-centriole cohesion",
+   "protein localization to actin cytoskeleton",
+   "positive regulation of protein localization to cell cortex",
+   "astral microtubule organization",
+   "establishment of centrosome localization",
+   "negative regulation of cilium assembly",
+   "establishment of spindle orientation",
+   "Anchoring of the basal body to the plasma membrane",
+   "negative regulation of centriole replication"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 7,
+    "only_in_theme": [
+     "AURKA Activation by TPX2",
+     "Loss of Nlp from mitotic centrosomes",
+     "RHO GTPases activate CIT",
+     "Recruitment of NuMA to mitotic centrosomes",
+     "Recruitment of mitotic centrosome proteins and complexes",
+     "astral microtubule organization",
+     "establishment of centrosome localization",
+     "establishment of mitotic spindle localization",
+     "establishment of spindle orientation",
+     "maintenance of centrosome location",
+     "microtubule anchoring at microtubule organizing center",
+     "microtubule nucleation by microtubule organizing center",
+     "negative regulation of centriole replication",
+     "negative regulation of microtubule depolymerization",
+     "negative regulation of protein localization to microtubule",
+     "positive regulation of microtubule depolymerization",
+     "positive regulation of microtubule nucleation",
+     "positive regulation of protein localization to cell cortex",
+     "positive regulation of protein localization to centrosome",
+     "positive regulation of spindle assembly",
+     "protein localization to actin cytoskeleton",
+     "regulation of asymmetric cell division",
+     "regulation of mitotic spindle assembly"
+    ],
+    "only_in_confusable": [
+     "ARL13B-mediated ciliary trafficking of INPP5E",
+     "BBSome-mediated cargo-targeting to cilium",
+     "Intraflagellar transport",
+     "Sperm Motility And Taxes",
+     "Trafficking of myristoylated proteins to the cilium",
+     "Transcriptional regulation of multiciliogenesis",
+     "VxPx cargo-targeting to cilium",
+     "axonemal central apparatus assembly",
+     "cerebrospinal fluid circulation",
+     "chaperone-mediated protein complex assembly",
+     "ciliary basal body organization",
+     "cytosolic ciliogenesis",
+     "de novo centriole assembly involved in multi-ciliated epithelial cell differentiation",
+     "embryonic brain development",
+     "epithelial cilium movement involved in determination of left/right asymmetry",
+     "establishment of Sertoli cell barrier",
+     "inner dynein arm assembly",
+     "intraciliary anterograde transport",
+     "intraciliary retrograde transport",
+     "intraciliary transport involved in cilium assembly",
+     "lateral ventricle development",
+     "maintenance of animal organ identity",
+     "manchette assembly",
+     "mucociliary clearance",
+     "outer dynein arm assembly",
+     "photoreceptor cell maintenance",
+     "photoreceptor cell outer segment organization",
+     "positive regulation of cilium movement",
+     "protein localization to ciliary transition zone",
+     "protein localization to motile cilium",
+     "protein localization to photoreceptor outer segment",
+     "receptor localization to non-motile cilium",
+     "regulation of cilium beat frequency involved in ciliary motility",
+     "regulation of flagellated sperm motility",
+     "regulation of motile cilium assembly",
+     "sperm axoneme assembly",
+     "sperm mitochondrial sheath assembly",
+     "sperm mitochondrion organization",
+     "third ventricle development"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 6,
+    "only_in_theme": [
+     "Anchoring of the basal body to the plasma membrane",
+     "RHO GTPases activate CIT",
+     "astral microtubule organization",
+     "centriole-centriole cohesion",
+     "cilium disassembly",
+     "establishment of centrosome localization",
+     "establishment of mitotic spindle localization",
+     "establishment of spindle orientation",
+     "maintenance of centrosome location",
+     "microtubule anchoring at microtubule organizing center",
+     "microtubule nucleation by microtubule organizing center",
+     "negative regulation of cilium assembly",
+     "negative regulation of microtubule depolymerization",
+     "negative regulation of protein localization to microtubule",
+     "positive regulation of centriole elongation",
+     "positive regulation of centrosome duplication",
+     "positive regulation of microtubule depolymerization",
+     "positive regulation of microtubule nucleation",
+     "positive regulation of non-motile cilium assembly",
+     "positive regulation of protein localization to cell cortex",
+     "positive regulation of protein localization to centrosome",
+     "positive regulation of spindle assembly",
+     "protein localization to actin cytoskeleton",
+     "regulation of asymmetric cell division"
+    ],
+    "only_in_confusable": [
+     "Activation of NIMA Kinases NEK9, NEK6, NEK7",
+     "Amplification  of signal from unattached  kinetochores via a MAD2  inhibitory signal",
+     "EML4 and NUDC in mitotic spindle formation",
+     "FBXL7 down-regulates AURKA during mitotic entry and in early mitosis",
+     "HALLMARK_MITOTIC_SPINDLE",
+     "Interaction between PHLDA1 and AURKA",
+     "PLK1 signaling events",
+     "Ran mediated mitosis",
+     "Regulation of PLK1 Activity at G2/M Transition",
+     "Rho GTPase cycle",
+     "SUMOylation of DNA replication proteins",
+     "actomyosin contractile ring organization",
+     "cell cycle, ATP binding",
+     "cell cycle, mitotic phase",
+     "chromosome movement towards spindle pole",
+     "cleavage furrow formation",
+     "mitotic cell division",
+     "mitotic spindle elongation",
+     "negative regulation of mitotic spindle assembly checkpoint signaling",
+     "negative regulation of sister chromatid cohesion",
+     "positive regulation of attachment of mitotic spindle microtubules to kinetochore",
+     "positive regulation of mitotic cytokinesis",
+     "positive regulation of spindle checkpoint",
+     "protein localization to condensed chromosome",
+     "regulation of cytokinetic process",
+     "regulation of mitotic centrosome separation",
+     "septin ring organization",
+     "spindle midzone assembly"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 12,
+    "only_in_theme": [
+     "Anchoring of the basal body to the plasma membrane",
+     "RHO GTPases activate CIT",
+     "centriole-centriole cohesion",
+     "cilium disassembly",
+     "establishment of centrosome localization",
+     "maintenance of centrosome location",
+     "microtubule anchoring at microtubule organizing center",
+     "microtubule nucleation by microtubule organizing center",
+     "negative regulation of cilium assembly",
+     "negative regulation of microtubule depolymerization",
+     "negative regulation of protein localization to microtubule",
+     "positive regulation of microtubule depolymerization",
+     "positive regulation of microtubule nucleation",
+     "positive regulation of non-motile cilium assembly",
+     "positive regulation of protein localization to cell cortex",
+     "positive regulation of protein localization to centrosome",
+     "protein localization to actin cytoskeleton",
+     "regulation of asymmetric cell division"
+    ],
+    "only_in_confusable": [
+     "Regulation of PLK1 Activity at G2/M Transition"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 6,
+    "only_in_theme": [
+     "AURKA Activation by TPX2",
+     "Loss of Nlp from mitotic centrosomes",
+     "RHO GTPases activate CIT",
+     "Recruitment of NuMA to mitotic centrosomes",
+     "Recruitment of mitotic centrosome proteins and complexes",
+     "astral microtubule organization",
+     "centriole-centriole cohesion",
+     "establishment of centrosome localization",
+     "establishment of mitotic spindle localization",
+     "establishment of spindle orientation",
+     "maintenance of centrosome location",
+     "microtubule anchoring at microtubule organizing center",
+     "microtubule nucleation by microtubule organizing center",
+     "negative regulation of centriole replication",
+     "negative regulation of microtubule depolymerization",
+     "negative regulation of protein localization to microtubule",
+     "positive regulation of microtubule depolymerization",
+     "positive regulation of microtubule nucleation",
+     "positive regulation of protein localization to cell cortex",
+     "positive regulation of protein localization to centrosome",
+     "positive regulation of spindle assembly",
+     "protein localization to actin cytoskeleton",
+     "regulation of asymmetric cell division",
+     "regulation of mitotic spindle assembly"
+    ],
+    "only_in_confusable": [
+     "ARL13B-mediated ciliary trafficking of INPP5E",
+     "BBSome-mediated cargo-targeting to cilium",
+     "Intraflagellar transport",
+     "Trafficking of myristoylated proteins to the cilium",
+     "VxPx cargo-targeting to cilium",
+     "chaperone-mediated protein complex assembly",
+     "cytosolic ciliogenesis",
+     "embryonic brain development",
+     "intraciliary anterograde transport",
+     "intraciliary retrograde transport",
+     "intraciliary transport involved in cilium assembly",
+     "maintenance of animal organ identity",
+     "maintenance of apical/basal cell polarity",
+     "photoreceptor cell maintenance",
+     "photoreceptor cell morphogenesis",
+     "photoreceptor cell outer segment organization",
+     "protein localization to ciliary transition zone",
+     "protein localization to photoreceptor outer segment",
+     "receptor localization to non-motile cilium",
+     "regulation of cilium beat frequency involved in ciliary motility",
+     "retinal bipolar neuron differentiation",
+     "retinal cone cell development",
+     "retinal rod cell development"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01907",
+  "size": 9,
+  "members": [
+   "cell cycle (I)",
+   "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex",
+   "cell cycle (III)",
+   "E2F1 targets (Q4)",
+   "G2/M DNA replication checkpoint",
+   "HALLMARK_G2M_CHECKPOINT",
+   "positive regulation of cell cycle G2/M phase transition",
+   "G2 Phase",
+   "cell cycle (II)"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex",
+     "E2F1 targets (Q4)",
+     "G2 Phase",
+     "G2/M DNA replication checkpoint",
+     "HALLMARK_G2M_CHECKPOINT",
+     "cell cycle (I)",
+     "cell cycle (II)",
+     "cell cycle (III)",
+     "positive regulation of cell cycle G2/M phase transition"
+    ],
+    "only_in_confusable": [
+     "cell division (stimulated CD4+ T cells)",
+     "cell division in stimulated CD4 T cells",
+     "mitotic cell cycle in stimulated CD4 T cells",
+     "mitotic cell cycle in stimulated CD4 T cells",
+     "mitotic cell cycle in stimulated CD4 T cells"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "E2F1 targets (Q4)",
+     "cell cycle (I)",
+     "cell cycle (II)",
+     "positive regulation of cell cycle G2/M phase transition"
+    ],
+    "only_in_confusable": [
+     "Cyclin A/B1/B2 associated events during G2/M transition",
+     "MASTL Facilitates Mitotic Progression",
+     "Polo-like kinase mediated events",
+     "TP53 Regulates Transcription of Genes Involved in G2 Cell Cycle Arrest",
+     "TP53 regulates transcription of additional cell cycle genes whose exact role in the p53 pathway remain uncertain",
+     "Transcription of E2F targets under negative control by DREAM complex",
+     "Transcription of E2F targets under negative control by p107 (RBL1) and p130 (RBL2) in complex with HDAC1",
+     "mitotic cell cycle"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "E2F1 targets (Q4)",
+     "cell cycle (I)",
+     "cell cycle (II)",
+     "positive regulation of cell cycle G2/M phase transition"
+    ],
+    "only_in_confusable": [
+     "Cyclin A/B1/B2 associated events during G2/M transition",
+     "mitotic cell cycle"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "Chk1/Chk2(Cds1) mediated inactivation of Cyclin B:Cdk1 complex",
+     "G2 Phase",
+     "G2/M DNA replication checkpoint",
+     "HALLMARK_G2M_CHECKPOINT",
+     "cell cycle (III)"
+    ],
+    "only_in_confusable": [
+     "E2F transcription factor network",
+     "G1/S-Specific Transcription",
+     "HALLMARK_E2F_TARGETS",
+     "Transcriptional Regulation by E2F6",
+     "cell division - E2F transcription network",
+     "mitotic cell cycle - DNA replication",
+     "positive regulation of G1/S transition of mitotic cell cycle"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n01170",
+  "size": 23,
+  "members": [
+   "obsolete negative regulation of protein exit from endoplasmic reticulum",
+   "ER Quality Control Compartment (ERQC)",
+   "protein folding in endoplasmic reticulum",
+   "negative regulation of IRE1-mediated unfolded protein response",
+   "tail-anchored membrane protein insertion into ER membrane",
+   "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+   "SRP-dependent cotranslational protein targeting to membrane",
+   "'de novo' protein folding",
+   "obsolete regulation of protein exit from endoplasmic reticulum",
+   "regulation of protein localization to endoplasmic reticulum",
+   "protein demannosylation",
+   "protein insertion into ER membrane by stop-transfer membrane-anchor sequence",
+   "obsolete protein exit from endoplasmic reticulum",
+   "Hh mutants are degraded by ERAD",
+   "endoplasmic reticulum to cytosol transport",
+   "SRP-dependent cotranslational protein targeting to membrane, translocation",
+   "protein polyufmylation",
+   "protein retention in ER lumen",
+   "vesicle fusion with Golgi apparatus",
+   "Insertion of tail-anchored proteins into the endoplasmic reticulum membrane",
+   "post-translational protein targeting to membrane, translocation",
+   "regulation of retrograde protein transport, ER to cytosol",
+   "obsolete positive regulation of protein exit from endoplasmic reticulum"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 2,
+    "only_in_theme": [
+     "'de novo' protein folding",
+     "ER Quality Control Compartment (ERQC)",
+     "Hh mutants are degraded by ERAD",
+     "Insertion of tail-anchored proteins into the endoplasmic reticulum membrane",
+     "SRP-dependent cotranslational protein targeting to membrane",
+     "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+     "SRP-dependent cotranslational protein targeting to membrane, translocation",
+     "endoplasmic reticulum to cytosol transport",
+     "obsolete negative regulation of protein exit from endoplasmic reticulum",
+     "obsolete positive regulation of protein exit from endoplasmic reticulum",
+     "obsolete protein exit from endoplasmic reticulum",
+     "obsolete regulation of protein exit from endoplasmic reticulum",
+     "post-translational protein targeting to membrane, translocation",
+     "protein demannosylation",
+     "protein folding in endoplasmic reticulum",
+     "protein insertion into ER membrane by stop-transfer membrane-anchor sequence",
+     "protein retention in ER lumen",
+     "regulation of protein localization to endoplasmic reticulum",
+     "regulation of retrograde protein transport, ER to cytosol",
+     "tail-anchored membrane protein insertion into ER membrane",
+     "vesicle fusion with Golgi apparatus"
+    ],
+    "only_in_confusable": [
+     "ATF4 activates genes in response to endoplasmic reticulum  stress",
+     "ATF6 (ATF6-alpha) activates chaperone genes",
+     "ATF6-mediated unfolded protein response",
+     "ATF6B (ATF6-beta) activates chaperones",
+     "CREB3 factors activate genes",
+     "Cellular response to mitochondrial stress",
+     "ER overload response",
+     "HALLMARK_UNFOLDED_PROTEIN_RESPONSE",
+     "HRI-mediated signaling",
+     "Mitochondrial unfolded protein response (UPRmt)",
+     "Response of EIF2AK1 (HRI) to heme deficiency",
+     "Response of EIF2AK4 (GCN2) to amino acid deficiency",
+     "XBP1(S) activates chaperone genes",
+     "negative regulation of PERK-mediated unfolded protein response",
+     "negative regulation of endoplasmic reticulum stress-induced intrinsic apoptotic signaling pathway",
+     "negative regulation of translation in response to stress",
+     "negative regulation of translational initiation in response to stress",
+     "negative regulation of type B pancreatic cell apoptotic process",
+     "positive regulation of IRE1-mediated unfolded protein response",
+     "positive regulation of endoplasmic reticulum stress-induced intrinsic apoptotic signaling pathway",
+     "positive regulation of translation in response to endoplasmic reticulum stress",
+     "positive regulation of type B pancreatic cell apoptotic process",
+     "regulation of translational initiation in response to stress"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 12,
+    "only_in_theme": [
+     "'de novo' protein folding",
+     "Insertion of tail-anchored proteins into the endoplasmic reticulum membrane",
+     "SRP-dependent cotranslational protein targeting to membrane",
+     "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+     "SRP-dependent cotranslational protein targeting to membrane, translocation",
+     "negative regulation of IRE1-mediated unfolded protein response",
+     "post-translational protein targeting to membrane, translocation",
+     "protein folding in endoplasmic reticulum",
+     "regulation of protein localization to endoplasmic reticulum",
+     "tail-anchored membrane protein insertion into ER membrane",
+     "vesicle fusion with Golgi apparatus"
+    ],
+    "only_in_confusable": [
+     "COPII-coated vesicle cargo loading",
+     "COPII-mediated vesicle transport",
+     "Cargo concentration in the ER",
+     "Membrane, ER proteins",
+     "obsolete protein localization to endoplasmic reticulum exit site",
+     "obsolete regulation of COPII vesicle coating",
+     "obsolete vesicle targeting",
+     "obsolete vesicle targeting, rough ER to cis-Golgi",
+     "obsolete vesicle targeting, to, from or within Golgi",
+     "positive regulation of ER to Golgi vesicle-mediated transport"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "'de novo' protein folding",
+     "ER Quality Control Compartment (ERQC)",
+     "Hh mutants are degraded by ERAD",
+     "Insertion of tail-anchored proteins into the endoplasmic reticulum membrane",
+     "SRP-dependent cotranslational protein targeting to membrane",
+     "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+     "SRP-dependent cotranslational protein targeting to membrane, translocation",
+     "endoplasmic reticulum to cytosol transport",
+     "negative regulation of IRE1-mediated unfolded protein response",
+     "obsolete negative regulation of protein exit from endoplasmic reticulum",
+     "obsolete positive regulation of protein exit from endoplasmic reticulum",
+     "obsolete protein exit from endoplasmic reticulum",
+     "obsolete regulation of protein exit from endoplasmic reticulum",
+     "post-translational protein targeting to membrane, translocation",
+     "protein demannosylation",
+     "protein folding in endoplasmic reticulum",
+     "protein insertion into ER membrane by stop-transfer membrane-anchor sequence",
+     "protein polyufmylation",
+     "protein retention in ER lumen",
+     "regulation of protein localization to endoplasmic reticulum",
+     "regulation of retrograde protein transport, ER to cytosol",
+     "tail-anchored membrane protein insertion into ER membrane",
+     "vesicle fusion with Golgi apparatus"
+    ],
+    "only_in_confusable": [
+     "COPI-coated vesicle budding",
+     "COPI-dependent Golgi-to-ER retrograde traffic",
+     "COPII-coated vesicle cargo loading",
+     "COPII-mediated vesicle transport",
+     "Cargo concentration in the ER",
+     "Membrane, ER proteins",
+     "obsolete protein localization to endoplasmic reticulum exit site",
+     "obsolete regulation of COPII vesicle coating",
+     "positive regulation of ER to Golgi vesicle-mediated transport"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "'de novo' protein folding",
+     "ER Quality Control Compartment (ERQC)",
+     "Hh mutants are degraded by ERAD",
+     "Insertion of tail-anchored proteins into the endoplasmic reticulum membrane",
+     "SRP-dependent cotranslational protein targeting to membrane",
+     "SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition",
+     "SRP-dependent cotranslational protein targeting to membrane, translocation",
+     "endoplasmic reticulum to cytosol transport",
+     "negative regulation of IRE1-mediated unfolded protein response",
+     "obsolete negative regulation of protein exit from endoplasmic reticulum",
+     "obsolete positive regulation of protein exit from endoplasmic reticulum",
+     "obsolete protein exit from endoplasmic reticulum",
+     "obsolete regulation of protein exit from endoplasmic reticulum",
+     "post-translational protein targeting to membrane, translocation",
+     "protein demannosylation",
+     "protein folding in endoplasmic reticulum",
+     "protein insertion into ER membrane by stop-transfer membrane-anchor sequence",
+     "protein polyufmylation",
+     "protein retention in ER lumen",
+     "regulation of protein localization to endoplasmic reticulum",
+     "regulation of retrograde protein transport, ER to cytosol",
+     "tail-anchored membrane protein insertion into ER membrane",
+     "vesicle fusion with Golgi apparatus"
+    ],
+    "only_in_confusable": [
+     "COPI-coated vesicle budding",
+     "COPI-dependent Golgi-to-ER retrograde traffic",
+     "obsolete protein localization to endoplasmic reticulum exit site",
+     "obsolete vesicle targeting",
+     "obsolete vesicle targeting, rough ER to cis-Golgi",
+     "obsolete vesicle targeting, to, from or within Golgi"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n02120",
+  "size": 9,
+  "members": [
+   "Synthesis of 12-eicosatetraenoic acid derivatives",
+   "lipoxin A4 metabolic process",
+   "arachidonate metabolite production involved in inflammatory response",
+   "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+   "Biosynthesis of Lipoxins (LX)",
+   "Synthesis of 5-eicosatetraenoic acids",
+   "Synthesis of 15-eicosatetraenoic acid derivatives",
+   "hepoxilin biosynthetic process",
+   "lipoxygenase pathway"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 4,
+    "only_in_theme": [
+     "Biosynthesis of Lipoxins (LX)",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids",
+     "arachidonate metabolite production involved in inflammatory response",
+     "lipoxin A4 metabolic process"
+    ],
+    "only_in_confusable": [
+     "Defective CYP4F22 causes ARCI5",
+     "Defective SLC27A4 causes ichthyosis prematurity syndrome (IPS)",
+     "Eicosanoids",
+     "Fatty acids",
+     "Miscellaneous substrates",
+     "Synthesis of (16-20)-hydroxyeicosatetraenoic acids (HETE)",
+     "Synthesis of epoxy (EET) and dihydroxyeicosatrienoic acids (DHET)",
+     "epoxide metabolic process",
+     "epoxygenase P450 pathway",
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene catabolic process",
+     "linoleic acid metabolic process",
+     "lipid hydroxylation",
+     "omega-hydroxylase P450 pathway"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Synthesis of 12-eicosatetraenoic acid derivatives",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+     "arachidonate metabolite production involved in inflammatory response",
+     "hepoxilin biosynthetic process",
+     "lipoxygenase pathway"
+    ],
+    "only_in_confusable": [
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Synthesis of 12-eicosatetraenoic acid derivatives",
+     "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+     "hepoxilin biosynthetic process",
+     "lipoxygenase pathway"
+    ],
+    "only_in_confusable": [
+     "ether catabolic process",
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene catabolic process",
+     "platelet activating factor metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Synthesis of 12-eicosatetraenoic acid derivatives",
+     "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+     "hepoxilin biosynthetic process",
+     "lipoxygenase pathway"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Biosynthesis of protectins",
+     "LTC4-CYSLTR mediated IL4 production",
+     "Synthesis of Leukotrienes (LT) and Eoxins (EX)",
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene D4 biosynthetic process",
+     "leukotriene catabolic process",
+     "leukotriene transport",
+     "lipid metabolism, endoplasmic reticulum",
+     "peptide modification"
+    ]
+   }
+  ]
+ },
+ {
+  "theme_id": "n02909",
+  "size": 9,
+  "members": [
+   "TWIK-related alkaline pH activated K+ channel (TALK)",
+   "regulation of monoatomic anion transport",
+   "transepithelial water transport",
+   "transmembrane transport (II)",
+   "negative regulation of pancreatic juice secretion",
+   "Defective CFTR causes cystic fibrosis",
+   "TRP channels",
+   "RHO GTPases regulate CFTR trafficking",
+   "cellular response to acidic pH"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Defective CFTR causes cystic fibrosis",
+     "RHO GTPases regulate CFTR trafficking",
+     "negative regulation of pancreatic juice secretion",
+     "regulation of monoatomic anion transport",
+     "transepithelial water transport",
+     "transmembrane transport (II)"
+    ],
+    "only_in_confusable": [
+     "Sensory perception of sour taste",
+     "sensory perception of sour taste"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "TRP channels",
+     "TWIK-related alkaline pH activated K+ channel (TALK)",
+     "cellular response to acidic pH",
+     "negative regulation of pancreatic juice secretion"
+    ],
+    "only_in_confusable": [
+     "basolateral protein secretion",
+     "positive regulation of Golgi to plasma membrane protein transport"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 6,
+    "only_in_theme": [
+     "TRP channels",
+     "TWIK-related alkaline pH activated K+ channel (TALK)",
+     "cellular response to acidic pH"
+    ],
+    "only_in_confusable": [
+     "Developmental Lineage of Pancreatic Ductal Cells",
+     "HALLMARK_APICAL_SURFACE",
+     "apical protein localization",
+     "basolateral protein secretion",
+     "cell migration involved in kidney development",
+     "columnar/cuboidal epithelial cell maturation",
+     "negative regulation of Golgi to plasma membrane protein transport",
+     "positive regulation of Golgi to plasma membrane protein transport",
+     "positive regulation of microvillus assembly",
+     "protein localization to plasma membrane raft",
+     "protein transport into membrane raft"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 6,
+    "only_in_theme": [
+     "TRP channels",
+     "TWIK-related alkaline pH activated K+ channel (TALK)",
+     "cellular response to acidic pH"
+    ],
+    "only_in_confusable": [
+     "Intestinal infectious diseases",
+     "prolactin secretion",
+     "regulation of saliva secretion",
+     "sensory perception of itch"
+    ]
+   }
+  ]
+ }
+]
