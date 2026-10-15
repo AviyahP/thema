@@ -487,3 +487,161 @@ def test_the_chars_per_token_anchor_is_the_measured_one() -> None:
     # 6,946 characters of v4 system prompt billed as 2,511 cached input tokens.
     assert module.CHARS_PER_TOKEN == pytest.approx(6946 / 2511)
     assert module.CHARS_PER_TOKEN == pytest.approx(2.766, abs=0.001)
+
+
+# ---------------------------------------------------- offline mode, proved on the pilot
+
+
+OFFLINE_NEEDED = (
+    PILOT / "inputs/sample_and_confusables.json",
+    PILOT / "selection/final_names.json",
+    PILOT / "inputs/confusables_after_dedup.json",
+    BUILD / "members.tsv",
+    X2 / naming_c1.CENTRED_VECTORS,
+    DESCRIPTIONS,
+    PATHWAYS,
+)
+
+offline_data = pytest.mark.skipif(
+    not all(path.exists() for path in OFFLINE_NEEDED),
+    reason="the pilot material or the x2 embeddings are not in this checkout",
+)
+
+
+def _script() -> object:
+    """Import the runner as a module."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "name_themes_c1_offline", Path("scripts/name_themes_c1.py")
+    )
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@offline_data
+def test_offline_mode_reproduces_the_pilot_byte_for_byte(tmp_path: Path) -> None:
+    """The four stages, run on the pilot's own replies, must return the pilot's own files.
+
+    This is the only thing that makes offline mode trustworthy: the reviewer answers and this code
+    decides, so the deciding has to be provably the same deciding the pilot did. Nothing is written
+    into the pilot's folders -- every stage writes under ``tmp_path``.
+    """
+    module = _script()
+    common = [
+        "--offline-build", str(BUILD),
+        "--themes-file", str(PILOT / "inputs/sample_and_confusables.json"),
+        "--offline-out", str(tmp_path),
+        "--raw", str(PILOT / "raw"),
+        "--selection", str(PILOT / "selection"),
+        "--run", "main",
+    ]
+
+    assert module.main(["--offline", "n1", "--batch-width", "2", *common]) == 0
+    namer = sorted(
+        path for path in (PILOT / "inputs").glob("namer_slot*_b*.json")
+        if not path.name.endswith(".out.json")
+    )
+    assert len(namer) == 24, "3 candidate slots x 8 batches of 25"
+    for want in namer:
+        assert (tmp_path / want.name).read_bytes() == want.read_bytes(), want.name
+
+    assert module.main(["--offline", "s1", "--s1-batch", "50", *common]) == 0
+    selection = sorted(
+        path for path in (PILOT / "selection").glob("main_sel_*.json")
+        if not path.name.endswith(".out.json")
+    )
+    assert len(selection) == 12
+    for want in selection:
+        assert (tmp_path / want.name).read_bytes() == want.read_bytes(), want.name
+    # The stage writes its own key, and never reads the pilot's.
+    assert (tmp_path / "KEY_DO_NOT_SHARE_main.json").exists()
+
+    assert module.main(["--offline", "select", *common]) == 0
+    for name in ("dedup_slot0.json", "dedup_slot1.json", "dedup_slot2.json",
+                 "confusables_after_dedup.json"):
+        assert (tmp_path / name).read_bytes() == (PILOT / "inputs" / name).read_bytes(), name
+
+    assert module.main(["--offline", "final", *common]) == 0
+    assert (tmp_path / "dedup_sel_01.json").read_bytes() == (
+        PILOT / "selection/dedup_sel_01.json"
+    ).read_bytes()
+
+    got = json.loads((tmp_path / "final_names.json").read_text())
+    want_final = json.loads((PILOT / "selection/final_names.json").read_text())
+    assert got["main"] == want_final["main"], "the selected names differ from the pilot's"
+    assert got["duplicates"] == want_final["duplicates"]
+    assert got["duplicates_after_dedup"] == want_final["duplicates_after_dedup"] == {}
+
+    rows = (tmp_path / "final_names.tsv").read_text().splitlines()
+    assert rows[0] == "node\tname\tn_correct\tn_nameable\tlow_confidence\tunnameable"
+    assert len(rows) == 1 + len(want_final["main"])
+
+
+@offline_data
+def test_offline_mode_builds_no_client_and_reads_no_key(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _script()
+
+    def refuse(*_args: object, **_kwargs: object) -> object:
+        raise AssertionError("offline mode must not build a client or read an API key")
+
+    monkeypatch.setattr(module.llm, "LLMClient", refuse)
+    monkeypatch.setattr(module.llm, "load_api_key", refuse)
+    assert module.main([
+        "--offline", "n1", "--batch-width", "2",
+        "--offline-build", str(BUILD),
+        "--themes-file", str(PILOT / "inputs/sample_and_confusables.json"),
+        "--offline-out", str(tmp_path),
+    ]) == 0
+
+
+@offline_data
+def test_offline_mode_writes_only_under_its_own_out(tmp_path: Path) -> None:
+    # The reviewer's folders are read-only inputs. Checked by timestamp, because a stage that wrote
+    # one file into inputs/ would be very hard to notice afterwards.
+    module = _script()
+    watched = sorted((PILOT / "inputs").glob("*.json")) + sorted((PILOT / "raw").glob("*.json"))
+    before = {path: path.stat().st_mtime_ns for path in watched}
+    assert module.main([
+        "--offline", "n1", "--batch-width", "2",
+        "--offline-build", str(BUILD),
+        "--themes-file", str(PILOT / "inputs/sample_and_confusables.json"),
+        "--offline-out", str(tmp_path),
+    ]) == 0
+    after = {path: path.stat().st_mtime_ns for path in watched}
+    assert before == after, "offline mode touched the reviewer's files"
+    assert list(tmp_path.glob("namer_slot*.json")), "and it did write its own"
+
+
+def test_validation_reports_every_failure_kind() -> None:
+    module = _script()
+    expected = [("a", 0), ("b", 0)]
+    replies = {
+        ("a", 0): {"theme_id": "a", "nameable": True, "name": ""},
+        ("c", 0): {"theme_id": "c", "nameable": True, "name": "x"},
+    }
+    failures = module.validate_replies(expected, replies)
+    joined = " | ".join(failures)
+    assert "missing: theme b slot 0" in joined
+    assert "unexpected: theme c slot 0" in joined
+    assert "nameable but the name is empty" in joined
+
+
+def test_validation_passes_a_clean_set() -> None:
+    module = _script()
+    replies = {
+        ("a", 0): {"theme_id": "a", "nameable": True, "name": "Something"},
+        ("b", 0): {"theme_id": "b", "nameable": False, "rationale": "no shared process"},
+    }
+    assert module.validate_replies([("a", 0), ("b", 0)], replies) == []
+
+
+def test_validation_catches_a_non_boolean_nameable() -> None:
+    module = _script()
+    replies = {("a", 0): {"theme_id": "a", "nameable": "yes", "name": "Something"}}
+    failures = module.validate_replies([("a", 0)], replies)
+    assert any("not a boolean" in line for line in failures)

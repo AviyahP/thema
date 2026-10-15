@@ -18,21 +18,40 @@ so. Model, temperature, prompt digests and the price basis are all recorded.
 The pilot's answer keys are never read. This script opens the specification, the sample file and the
 build; ``KEY_DO_NOT_SHARE*`` is not among them and a guard refuses if it ever is.
 
+**Offline mode** (``--offline``) is the same algorithm with the model calls taken out: the reviewer
+runs the namers and judges as in-session subagents, and this script builds every input and makes
+every decision. No client is built and **no API key is read**. The stages hand off through files:
+
+``n1``
+    write the namer items for 3 candidate slots;
+``s1``
+    read the namer replies, validate them, write the back-match items and their answer keys;
+``select``
+    read the back-match judgements, apply :func:`~thema.naming_c1.select`, write the dedup items;
+``final``
+    read those judgements, apply :func:`~thema.naming_c1.apply_uniqueness`, write the names.
+
+Offline mode writes **only** under ``--out``; it never writes into the reviewer's own folders.
+``tests/test_naming_c1.py`` proves the four stages reproduce the 11 Oct pilot's files byte for byte.
+
 Usage::
 
     uv run scripts/name_themes_c1.py --themes 100            # price it and stop
     uv run scripts/name_themes_c1.py --themes 100 --submit    # run it
-    uv run scripts/name_themes_c1.py --themes 100 --submit --max-dollars 40
+    uv run scripts/name_themes_c1.py --offline n1             # no API, no key, no client
+    uv run scripts/name_themes_c1.py --offline s1 --raw .../raw
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import hashlib
 import json
+import random
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 
@@ -51,6 +70,28 @@ SPACE = Path("data/ontology/v0.4-leaves-x2")
 
 #: The model the pilot session was configured with.
 PILOT_MODEL = "claude-opus-5-5"
+
+#: Where offline mode writes. Never inside the reviewer's own directories.
+OFFLINE_OUT = Path("data/experiments/naming_O50_2026-10-14/code_run")
+
+#: The adopted working build, which offline mode names by default.
+O50_BUILD = Path("data/ontology/v0.4-leaves/thema_L_x2_O50")
+
+#: Themes per namer file per slot, and the three candidate slots.
+BATCH = 25
+SLOTS = (0, 1, 2)
+
+#: Items per back-match file. The pilot used 50 for its main arm and 45 for the re-run arm.
+S1_BATCH = 50
+
+#: Theme order is shuffled with this seed before batching, which is what the pilot does.
+ORDER_SEED = 7
+
+#: The back-match item order is shuffled with ``99 + candidate offset``, as the pilot does.
+S1_ORDER_SEED = 99
+
+#: The uniqueness round's own back-match shuffle seed.
+DEDUP_ORDER_SEED = 5
 
 #: Filename fragments this script must never open.
 BARRED = ("KEY_DO_NOT_SHARE",)
@@ -399,6 +440,537 @@ def run_s1(
     return out
 
 
+# ------------------------------------------------------------------ offline mode
+#
+# The reviewer answers; this code decides. Every stage is deterministic given the replies, and every
+# shuffle, seed and filename convention is the pilot's -- which is why the equivalence test can hold
+# the four stages to reproducing the 11 Oct pilot's files byte for byte.
+
+
+def write_json(path: Path, payload: object, indent: int = 1) -> None:
+    r"""Write JSON the way the pilot's scripts write it.
+
+    Two details are not cosmetic, because the equivalence check is on bytes. ``indent=1`` is what
+    the pilot's ``json.dump(..., indent=1)`` produced, and ``ensure_ascii`` is left at its default
+    **True**, so a Greek letter or an en-dash in a pathway title is escaped as ``\\uXXXX`` exactly
+    as the pilot escaped it. Writing the same text unescaped differs in half the files.
+
+    Args:
+        path: Destination.
+        payload: What to write.
+        indent: Indent level.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=indent), encoding="utf-8")
+
+
+def eligible_themes(universe: naming_c1.Universe) -> list[str]:
+    """The themes naming-c1 is in scope for: 3 to 200 members, sorted.
+
+    Args:
+        universe: The build.
+
+    Returns:
+        Theme ids, sorted.
+    """
+    return sorted(
+        node
+        for node, keys in universe.members.items()
+        if naming_c1.MIN_SIZE <= len(keys) <= naming_c1.MAX_SIZE
+    )
+
+
+def batched_order(themes: Sequence[str], seed: int = ORDER_SEED) -> list[str]:
+    """The themes in the order the namer files take them.
+
+    Args:
+        themes: Theme ids.
+        seed: The shuffle seed; the pilot uses 7.
+
+    Returns:
+        The shuffled order.
+    """
+    order = list(themes)
+    random.Random(seed).shuffle(order)
+    return order
+
+
+def stage_n1(
+    universe: naming_c1.Universe,
+    themes: Sequence[str],
+    confusables: Mapping[str, Sequence[str]],
+    out: Path,
+    *,
+    prefix: str = "namer",
+    batch: int = BATCH,
+    width: int = 3,
+    candidate_offset: int = 0,
+) -> dict[str, object]:
+    """Write the namer items for three candidate slots.
+
+    Args:
+        universe: The build.
+        themes: Themes to name, in the order the batches take them.
+        confusables: Theme to its confusables.
+        out: Output directory.
+        prefix: Filename prefix.
+        batch: Themes per file.
+        width: Zero-padding of the batch number. The pilot used 2, the O50 run 3.
+        candidate_offset: Added to the slot to make the candidate index; the pilot's re-run arm
+            uses 10, which changes the seeds but not the filenames.
+
+    Returns:
+        Counts, for the caller to print.
+    """
+    files = 0
+    items = 0
+    for slot in SLOTS:
+        for start in range(0, len(themes), batch):
+            block = themes[start : start + batch]
+            payload = [
+                naming_c1.namer_item(
+                    universe, theme, slot + candidate_offset, confusables[theme]
+                )
+                for theme in block
+            ]
+            name = f"{prefix}_slot{slot}_b{start // batch + 1:0{width}d}.json"
+            write_json(out / name, payload)
+            files += 1
+            items += len(payload)
+    return {"files": files, "items": items, "themes": len(themes), "slots": len(SLOTS)}
+
+
+def read_namer_replies(
+    raw: Path, prefix: str = "namer"
+) -> tuple[dict[tuple[str, int], dict[str, object]], list[Path]]:
+    """Every namer reply, keyed by ``(theme, slot)``.
+
+    Args:
+        raw: Directory of ``<prefix>_slot<N>_b<NNN>.out.json`` files.
+        prefix: Filename prefix.
+
+    Returns:
+        ``(replies, files)``.
+
+    Raises:
+        ValueError: If two files answer the same theme and slot.
+    """
+    out: dict[tuple[str, int], dict[str, object]] = {}
+    files = sorted(raw.glob(f"{prefix}_slot*_b*.out.json"))
+    for path in files:
+        slot = int(path.name.split("_slot")[1][0])
+        for reply in json.loads(path.read_text()):
+            key = (reply["theme_id"], slot)
+            if key in out:
+                raise ValueError(f"{path.name}: {key} is answered more than once")
+            out[key] = reply
+    return out, files
+
+
+def validate_replies(
+    expected: Sequence[tuple[str, int]],
+    replies: Mapping[tuple[str, int], Mapping[str, object]],
+) -> list[str]:
+    """Check every expected item is answered exactly once, with a usable schema.
+
+    Returns failures rather than raising, so a run can report all of them at once instead of
+    stopping at the first.
+
+    Args:
+        expected: Every ``(theme, slot)`` the inputs asked for.
+        replies: What came back.
+
+    Returns:
+        One line per failure, empty if there are none.
+    """
+    failures: list[str] = []
+    wanted = set(expected)
+    for key in sorted(wanted - set(replies)):
+        failures.append(f"missing: theme {key[0]} slot {key[1]}")
+    for key in sorted(set(replies) - wanted):
+        failures.append(f"unexpected: theme {key[0]} slot {key[1]} was not asked for")
+    for key in sorted(wanted & set(replies)):
+        reply = replies[key]
+        where = f"theme {key[0]} slot {key[1]}"
+        if reply.get("theme_id") != key[0]:
+            failures.append(f"{where}: theme_id is {reply.get('theme_id')!r}")
+        if not isinstance(reply.get("nameable"), bool):
+            failures.append(f"{where}: nameable is {reply.get('nameable')!r}, not a boolean")
+            continue
+        if reply["nameable"] and not str(reply.get("name", "")).strip():
+            failures.append(f"{where}: nameable but the name is empty")
+        if not reply["nameable"] and not str(reply.get("rationale", "")).strip():
+            failures.append(f"{where}: not nameable but no rationale")
+    return failures
+
+
+def stage_s1(
+    universe: naming_c1.Universe,
+    replies: Mapping[tuple[str, int], Mapping[str, object]],
+    confusables: Mapping[str, Sequence[str]],
+    out: Path,
+    *,
+    run: str = "main",
+    candidate_offset: int = 0,
+    batch: int = S1_BATCH,
+) -> dict[str, object]:
+    """Write the back-match items and their answer key.
+
+    The item order, the id format and the per-item seed are the pilot's: candidates sorted by
+    ``(theme, slot)``, shuffled with ``99 + offset``, ids ``<R><NNNN>`` numbered over **every**
+    candidate including the ones skipped for being unnameable, so the ids carry gaps exactly where
+    the pilot's do.
+
+    Args:
+        universe: The build.
+        replies: Namer replies by ``(theme, slot)``.
+        confusables: Theme to its confusables.
+        out: Output directory.
+        run: Run tag; the first letter prefixes the item ids and names the key file.
+        candidate_offset: Added to the slot for the seed, as the re-run arm does.
+        batch: Items per file.
+
+    Returns:
+        Counts, for the caller to print.
+    """
+    order = sorted(replies)
+    random.Random(S1_ORDER_SEED + candidate_offset).shuffle(order)
+    items: list[dict[str, object]] = []
+    key: dict[str, dict[str, object]] = {}
+    skipped = 0
+    for position, (theme, slot) in enumerate(order):
+        reply = replies[(theme, slot)]
+        if not reply.get("nameable", True):
+            skipped += 1
+            continue
+        item_id = f"{run[0].upper()}{position:04d}"
+        item, letter = naming_c1.backmatch_item(
+            universe, theme, str(reply["name"]), f"S{slot + candidate_offset}",
+            item_id, confusables[theme],
+        )
+        items.append(item)
+        key[item_id] = {"theme": theme, "cand": slot, "correct": letter}
+    write_json(out / f"KEY_DO_NOT_SHARE_{run}.json", key, indent=None)
+    files = 0
+    for start in range(0, len(items), batch):
+        write_json(out / f"{run}_sel_{start // batch + 1:02d}.json", items[start : start + batch])
+        files += 1
+    return {"items": len(items), "files": files, "unnameable_skipped": skipped,
+             "key": f"KEY_DO_NOT_SHARE_{run}.json"}
+
+
+def read_choices(directory: Path, pattern: str) -> dict[str, str]:
+    """Judges' letter choices, keyed by item id.
+
+    Args:
+        directory: Where the ``.out.json`` files are.
+        pattern: Glob for them.
+
+    Returns:
+        Item id to letter.
+    """
+    out: dict[str, str] = {}
+    for path in sorted(directory.glob(pattern)):
+        for reply in json.loads(path.read_text()):
+            out[reply["item_id"]] = reply["choice"]
+    return out
+
+
+def correctness(
+    key: Mapping[str, Mapping[str, object]], choices: Mapping[str, str]
+) -> dict[str, dict[int, bool]]:
+    """Whether each candidate's back-match picked its own theme.
+
+    Args:
+        key: The answer key written by :func:`stage_s1`.
+        choices: The judges' choices.
+
+    Returns:
+        Theme to candidate index to whether it was correct.
+    """
+    out: dict[str, dict[int, bool]] = defaultdict(dict)
+    for item_id, entry in key.items():
+        theme, cand = str(entry["theme"]), int(entry["cand"])
+        out[theme][cand] = choices.get(item_id) == entry["correct"]
+    return dict(out)
+
+
+def stage_select(
+    universe: naming_c1.Universe,
+    replies: Mapping[tuple[str, int], Mapping[str, object]],
+    correct: Mapping[str, Mapping[int, bool]],
+    confusables: Mapping[str, Sequence[str]],
+    out: Path,
+) -> tuple[dict[str, dict[str, object]], dict[str, list[str]], dict[str, object]]:
+    """Select one name per theme, then write the uniqueness round's namer items.
+
+    Args:
+        universe: The build.
+        replies: Namer replies by ``(theme, slot)``.
+        correct: Back-match correctness by theme and candidate.
+        confusables: Theme to its confusables.
+        out: Output directory.
+
+    Returns:
+        ``(selections, confusables_after, counts)``.
+    """
+    by_theme: dict[str, dict[int, Mapping[str, object]]] = defaultdict(dict)
+    for (theme, slot), reply in replies.items():
+        by_theme[theme][slot] = reply
+    selections = {
+        theme: naming_c1.select(
+            candidates, {slot: correct.get(theme, {}).get(slot, False) for slot in candidates}
+        )
+        for theme, candidates in by_theme.items()
+    }
+    duplicates = naming_c1.duplicate_names(selections)
+    items, after = naming_c1.dedup_items(universe, selections, confusables)
+    for slot in SLOTS:
+        block = [item for index, item in items if index == slot + naming_c1.DEDUP_OFFSET]
+        if block:
+            write_json(out / f"dedup_slot{slot}.json", block)
+    write_json(out / "confusables_after_dedup.json", after, indent=None)
+
+    counts = {
+        "themes": len(selections),
+        "unnameable": sum(1 for v in selections.values() if v["unnameable"]),
+        "low_confidence": sum(1 for v in selections.values() if v.get("low_confidence")),
+        "duplicates": duplicates,
+        "dedup_themes": len({str(item["theme_id"]) for _i, item in items}),
+        "dedup_items": len(items),
+    }
+    return selections, after, counts
+
+
+def stage_dedup_backmatch(
+    universe: naming_c1.Universe,
+    dedup_replies: Mapping[tuple[str, int], Mapping[str, object]],
+    after: Mapping[str, Sequence[str]],
+    out: Path,
+) -> dict[str, object]:
+    """Write the uniqueness round's back-match items and key.
+
+    Args:
+        universe: The build.
+        dedup_replies: The re-ask replies, keyed by ``(theme, slot)``.
+        after: Confusables as the uniqueness round left them.
+        out: Output directory.
+
+    Returns:
+        Counts.
+    """
+    items: list[dict[str, object]] = []
+    key: dict[str, dict[str, object]] = {}
+    for slot in SLOTS:
+        # Insertion order, NOT sorted: the pilot numbers these items in the order the replies
+        # appear in each slot's file, so sorting by theme id would hand the ids to the wrong themes
+        # and silently mismatch every judgement.
+        for (theme, other), reply in dedup_replies.items():
+            if other != slot:
+                continue
+            item_id = f"D{len(items):03d}"
+            item, letter = naming_c1.backmatch_item(
+                universe, theme, str(reply["name"]),
+                f"S{slot + naming_c1.DEDUP_OFFSET}", item_id, after[theme],
+            )
+            items.append(item)
+            key[item_id] = {"theme": theme, "cand": slot, "correct": letter}
+    random.Random(DEDUP_ORDER_SEED).shuffle(items)
+    write_json(out / "dedup_sel_01.json", items)
+    write_json(out / "KEY_DO_NOT_SHARE_dedup.json", key, indent=None)
+    return {"items": len(items)}
+
+
+def write_final(
+    selections: Mapping[str, Mapping[str, object]],
+    out: Path,
+    rerun: Mapping[str, Mapping[str, object]] | None = None,
+    first_round_duplicates: Mapping[str, int] | None = None,
+) -> dict[str, object]:
+    """Write ``final_names.tsv``, ``final_names.json`` and a summary.
+
+    Args:
+        selections: The final selection per theme.
+        out: Output directory.
+        rerun: The re-run arm's selections, for the pilot's ``final_names.json`` shape.
+        first_round_duplicates: The collisions found before the uniqueness round.
+
+    Returns:
+        The summary.
+    """
+    residual = naming_c1.duplicate_names(selections)
+    payload: dict[str, object] = {
+        "main": {theme: dict(entry) for theme, entry in selections.items()},
+        "rerun": {theme: dict(entry) for theme, entry in (rerun or {}).items()},
+        "duplicates": dict(first_round_duplicates or {}),
+        "duplicates_after_dedup": residual,
+    }
+    write_json(out / "final_names.json", payload)
+
+    rows = []
+    for theme in sorted(selections):
+        entry = selections[theme]
+        rows.append({
+            "node": theme,
+            "name": "" if entry["unnameable"] else str(entry["name"]),
+            "n_correct": "" if entry["unnameable"] else entry["n_correct"],
+            "n_nameable": "" if entry["unnameable"] else entry["n_nameable"],
+            "low_confidence": "" if entry["unnameable"] else int(bool(entry["low_confidence"])),
+            "unnameable": int(bool(entry["unnameable"])),
+        })
+    destination = out / "final_names.tsv"
+    with destination.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle, delimiter="\t", lineterminator="\n",
+            fieldnames=["node", "name", "n_correct", "n_nameable", "low_confidence", "unnameable"],
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+    summary = {
+        "themes": len(selections),
+        "named": sum(1 for v in selections.values() if not v["unnameable"]),
+        "unnameable": sum(1 for v in selections.values() if v["unnameable"]),
+        "low_confidence": sum(1 for v in selections.values() if v.get("low_confidence")),
+        "n_correct_distribution": dict(sorted(Counter(
+            v["n_correct"] for v in selections.values() if not v["unnameable"]
+        ).items())),
+        "duplicates_before_dedup": dict(first_round_duplicates or {}),
+        "duplicates_after_dedup": residual,
+    }
+    write_json(out / "final_summary.json", summary, indent=2)
+    return summary
+
+
+def offline_universe(args: argparse.Namespace) -> tuple[
+    naming_c1.Universe, list[str], dict[str, list[str]]
+]:
+    """Load the build and settle the theme list and confusables for an offline stage.
+
+    Args:
+        args: Parsed arguments.
+
+    Returns:
+        ``(universe, themes_in_batch_order, confusables)``.
+    """
+    keys, vectors = naming_c1.load_space(args.space, args.pathways)
+    universe = naming_c1.Universe.load(args.offline_build, args.descriptions, keys, vectors)
+    if args.themes_file is not None:
+        stored = json.loads(args.themes_file.read_text())
+        themes = list(stored.get("themes") or stored["sample"])
+        confusables = {theme: list(entries) for theme, entries in stored["confusables"].items()}
+    else:
+        themes = eligible_themes(universe)
+        confusables = {theme: universe.confusables(theme) for theme in themes}
+    return universe, batched_order(themes), confusables
+
+
+def run_offline(args: argparse.Namespace) -> int:
+    """Run one offline stage. No client, no API key, no network.
+
+    Args:
+        args: Parsed arguments.
+
+    Returns:
+        Process exit status.
+    """
+    out = args.offline_out
+    universe, order, confusables = offline_universe(args)
+    print(f"OFFLINE {args.offline}  build {args.offline_build}")
+    print(f"  {len(universe.members):,} themes in the build, {len(order):,} in naming-c1 scope "
+          f"(3-200 members)")
+    print(f"  writing to {out}  (never into the reviewer's own folders)")
+
+    if args.offline == "n1":
+        counts = stage_n1(
+            universe, order, confusables, out,
+            prefix=args.prefix, batch=args.batch, width=args.batch_width,
+            candidate_offset=args.candidate_offset,
+        )
+        if args.themes_file is None:
+            write_json(
+                out / "themes_and_confusables.json",
+                {"themes": sorted(confusables), "confusables": confusables}, indent=0,
+            )
+        print(f"  N1: {counts['items']:,} items over {counts['files']} files "
+              f"({counts['slots']} slots x {counts['themes']:,} themes)")
+        return 0
+
+    raw = args.raw or (out / "raw")
+    replies, files = read_namer_replies(raw, args.prefix)
+    expected = [(theme, slot) for theme in order for slot in SLOTS]
+    failures = validate_replies(expected, replies)
+    print(f"  read {len(replies):,} replies from {len(files)} files in {raw}")
+    print(f"  validation: {'PASS' if not failures else f'{len(failures)} FAILURE(S)'}")
+    for line in failures[:20]:
+        print(f"      {line}")
+    if len(failures) > 20:
+        print(f"      ... and {len(failures) - 20} more")
+    if failures:
+        return 1
+    refused = sum(1 for reply in replies.values() if not reply.get("nameable", True))
+    print(f"  not-nameable votes: {refused}")
+
+    if args.offline == "s1":
+        counts = stage_s1(
+            universe, replies, confusables, out,
+            run=args.run, candidate_offset=args.candidate_offset, batch=args.s1_batch,
+        )
+        print(f"  S1: {counts['items']:,} items over {counts['files']} files; "
+              f"{counts['unnameable_skipped']} candidates skipped as not nameable")
+        print(f"  answer key: {out / str(counts['key'])}")
+        return 0
+
+    selection = args.selection or out
+    key = json.loads((out / f"KEY_DO_NOT_SHARE_{args.run}.json").read_text())
+    choices = read_choices(selection, f"{args.run}_sel_*.out.json")
+    print(f"  back-match judgements: {len(choices):,} of {len(key):,} items")
+    correct = correctness(key, choices)
+
+    if args.offline == "select":
+        selections, after, counts = stage_select(universe, replies, correct, confusables, out)
+        write_json(out / "selections_before_dedup.json", selections)
+        print(f"  select: {counts['themes']:,} themes, {counts['unnameable']} unnameable, "
+              f"{counts['low_confidence']} low confidence")
+        print(f"  duplicates: {counts['duplicates'] or 'none'}")
+        print(f"  dedup items: {counts['dedup_items']} over {counts['dedup_themes']} themes")
+        del after
+        return 0
+
+    selections = {
+        theme: entry
+        for theme, entry in json.loads((out / "selections_before_dedup.json").read_text()).items()
+    }
+    first_round = naming_c1.duplicate_names(selections)
+    after = json.loads((out / "confusables_after_dedup.json").read_text())
+    dedup_replies, dedup_files = read_namer_replies(raw, "dedup") if (
+        list(raw.glob("dedup_slot*_b*.out.json"))
+    ) else ({}, [])
+    if not dedup_replies:
+        for path in sorted(raw.glob("dedup_slot*.out.json")):
+            slot = int(path.name.split("_slot")[1][0])
+            for reply in json.loads(path.read_text()):
+                dedup_replies[(reply["theme_id"], slot)] = reply
+            dedup_files.append(path)
+    print(f"  uniqueness replies: {len(dedup_replies)} from {len(dedup_files)} file(s)")
+    if dedup_replies:
+        stage_dedup_backmatch(universe, dedup_replies, after, out)
+        dedup_key = json.loads((out / "KEY_DO_NOT_SHARE_dedup.json").read_text())
+        dedup_choices = read_choices(selection, "dedup_sel_*.out.json")
+        dedup_correct = correctness(dedup_key, dedup_choices)
+        grouped: dict[str, dict[int, Mapping[str, object]]] = defaultdict(dict)
+        for (theme, slot), reply in dedup_replies.items():
+            grouped[theme][slot] = reply
+        selections = naming_c1.apply_uniqueness(selections, grouped, dedup_correct)
+    summary = write_final(selections, out, first_round_duplicates=first_round)
+    print(f"  final: {summary['named']:,} named, {summary['unnameable']} unnameable, "
+          f"{summary['low_confidence']} low confidence")
+    print(f"  duplicates after the uniqueness round: "
+          f"{summary['duplicates_after_dedup'] or 'none'}")
+    print(f"  -> {out / 'final_names.tsv'}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """Price the run, and with ``--submit`` run it."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -420,7 +992,32 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-dollars", type=float, default=None)
     parser.add_argument("--submit", action="store_true",
                         help="actually send the calls; without it nothing is sent")
+    parser.add_argument("--offline", choices=["n1", "s1", "select", "final"], default=None,
+                        help="run one offline stage: no client is built and no API key is read")
+    parser.add_argument("--offline-out", type=Path, default=OFFLINE_OUT,
+                        help="where offline mode writes; never the reviewer's own folders")
+    parser.add_argument("--offline-build", type=Path, default=O50_BUILD,
+                        help="the build to name; defaults to the adopted O50 working version")
+    parser.add_argument("--themes-file", type=Path, default=None,
+                        help="JSON holding the theme list and confusables, instead of computing "
+                             "them. Used to reproduce the pilot, whose themes were a sample")
+    parser.add_argument("--raw", type=Path, default=None,
+                        help="offline s1/select/final: where the replies are")
+    parser.add_argument("--selection", type=Path, default=None,
+                        help="offline select/final: where the back-match judgements are")
+    parser.add_argument("--prefix", default="namer", help="namer filename prefix")
+    parser.add_argument("--run", default="main", help="run tag for back-match ids and the key file")
+    parser.add_argument("--batch", type=int, default=BATCH, help="themes per namer file")
+    parser.add_argument("--batch-width", type=int, default=3,
+                        help="zero-padding of the batch number; the pilot used 2")
+    parser.add_argument("--s1-batch", type=int, default=S1_BATCH, help="items per back-match file")
+    parser.add_argument("--candidate-offset", type=int, default=0,
+                        help="added to the slot to form the candidate index; the pilot's re-run "
+                             "arm uses 10")
     args = parser.parse_args(argv)
+
+    if args.offline:
+        return run_offline(args)
 
     spec = args.pilot / "spec"
     sample_file = args.pilot / "inputs/sample_and_confusables.json"

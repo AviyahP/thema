@@ -222,3 +222,8 @@ KEY_DO_NOT_SHARE*
 # code path at its defaults, which must come back byte-identical to the tracked thema_L_x2_c85.
 # Committing it would add 13 MB of exact duplicates. Delete it freely.
 data/ontology/v*/thema_L*_harness/
+
+# naming_O50_2026-10-14/code_run/ is ccode's offline reproduction of the reviewer's naming inputs:
+# 552 namer files byte-identical to inputs/, plus the 275 back-match files derived from raw/. It is
+# a function of committed inputs and committed code, so it is regenerated rather than stored.
+data/experiments/naming_O50_2026-10-14/code_run/
