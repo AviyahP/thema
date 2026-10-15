@@ -1,0 +1,177 @@
+{
+  "method": "v0.4 recursive top",
+  "built_from": "data/ontology/frozen/working-O50-2026-10-14",
+  "declared": "DECISIONS, 2026-10-15, before any result; adopts nothing",
+  "giants_excluded": [
+    "n01420",
+    "n01845",
+    "n02670",
+    "n03867"
+  ],
+  "n_units": 661,
+  "units": {
+    "nongiant_roots": 184,
+    "giant_only": 476,
+    "loose_pathways": 1
+  },
+  "unit_representation": "normalised mean of the members' L2-normalised rows in vectors_leaves_centred (x2 universe)",
+  "runs": 200,
+  "subsample": 0.8,
+  "master_seed": 20261015,
+  "theta_match": 0.7,
+  "theta_same": 0.5,
+  "collapse_share": 0.85,
+  "survivor": "support",
+  "joint_fixed_point": true,
+  "containment": "strict",
+  "floor_target": 0.008,
+  "floor_minimum": "none",
+  "calibration_seeds": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout_seeds": [
+    4001,
+    4002
+  ],
+  "levels": [
+    {
+      "level": 2,
+      "n_units_in": 661,
+      "n_nodes": 470,
+      "n_roots": 30,
+      "floors": [
+        {
+          "stratum": "3-3",
+          "real": 77,
+          "floor": 0.915,
+          "effective": 0.915,
+          "calibration_fdr": 0.00769
+        },
+        {
+          "stratum": "4-4",
+          "real": 77,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "5-5",
+          "real": 64,
+          "floor": 0.825,
+          "effective": 0.825,
+          "calibration_fdr": 0.00526
+        },
+        {
+          "stratum": "6-6",
+          "real": 115,
+          "floor": 0.595,
+          "effective": 0.595,
+          "calibration_fdr": 0.0069
+        },
+        {
+          "stratum": "7-9",
+          "real": 358,
+          "floor": 0.42,
+          "effective": 0.42,
+          "calibration_fdr": 0.00729
+        },
+        {
+          "stratum": "10+",
+          "real": 4994,
+          "floor": 0.06,
+          "effective": 0.06,
+          "calibration_fdr": 0.00665
+        }
+      ],
+      "confirmed": {
+        "strata": [
+          {
+            "stratum": "3-3",
+            "real": 77,
+            "floor": 0.915,
+            "effective": 0.915,
+            "calibration_fdr": 0.00769,
+            "heldout_null": 0.5,
+            "heldout_real": 13,
+            "heldout_fdr": 0.03846
+          },
+          {
+            "stratum": "4-4",
+            "real": 77,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "5-5",
+            "real": 64,
+            "floor": 0.825,
+            "effective": 0.825,
+            "calibration_fdr": 0.00526,
+            "heldout_null": 0.0,
+            "heldout_real": 19,
+            "heldout_fdr": 0.0
+          },
+          {
+            "stratum": "6-6",
+            "real": 115,
+            "floor": 0.595,
+            "effective": 0.595,
+            "calibration_fdr": 0.0069,
+            "heldout_null": 0.5,
+            "heldout_real": 29,
+            "heldout_fdr": 0.01724
+          },
+          {
+            "stratum": "7-9",
+            "real": 358,
+            "floor": 0.42,
+            "effective": 0.42,
+            "calibration_fdr": 0.00729,
+            "heldout_null": 2.5,
+            "heldout_real": 96,
+            "heldout_fdr": 0.02604
+          },
+          {
+            "stratum": "10+",
+            "real": 4994,
+            "floor": 0.06,
+            "effective": 0.06,
+            "calibration_fdr": 0.00665,
+            "heldout_null": 8.5,
+            "heldout_real": 1203,
+            "heldout_fdr": 0.00707
+          }
+        ],
+        "overall_fdr": 0.00882,
+        "overall_real": 1360,
+        "overall_null": 12.0
+      },
+      "n_candidates": 5685,
+      "n_after_consensus": 556,
+      "seconds": 135.8,
+      "repair": {
+        "n_collapsed": 80,
+        "n_merged": 6,
+        "rounds": {
+          "joint": 2,
+          "collapse": 4,
+          "merge": 3
+        }
+      }
+    }
+  ],
+  "n_areas": 470,
+  "n_area_edges": 9215
+}

@@ -1,0 +1,501 @@
+RECURSIVE TOP LEVEL on O50. Declared 15 Oct 2026 before any result. ADOPTS NOTHING.
+
+==============================================================================
+PER LEVEL
+==============================================================================
+
+  LEVEL 2: 661 units in -> 470 nodes, 30 roots
+    candidates 5,685; after consensus 556; after the joint fixed point 470
+    repair: 80 collapsed, 6 merged, rounds {'joint': 2, 'collapse': 4, 'merge': 3}
+    size in UNITS:     min 3, median 12, max 251
+    size in PATHWAYS:  min 20, median 153, max 3053
+    multi-parent: 198 of 470 = 42.1%
+    children per node, areas only:  max 14, median 1
+    children per node, COMBINED:    max 21, median 4  (0 over 60)
+    stratum     floor  calib FDR  held-out FDR   real    cap
+    3-3         0.915    0.00769       0.03846     13   0.02  OVER THE CAP
+    4-4          None       None          None      0   0.02
+    5-5         0.825    0.00526           0.0     19   0.02
+    6-6         0.595     0.0069       0.01724     29   0.02
+    7-9          0.42    0.00729       0.02604     96   0.02  OVER THE CAP
+    10+          0.06    0.00665       0.00707   1203   0.02
+    held-out OVERALL: 0.00882  (cap 0.01)
+
+==============================================================================
+THE TOP LEVEL: 30 roots
+==============================================================================
+
+  a2_00128  251 units, 3053 pathways, support 0.825
+    units: n00225, n00748, n01027, n01036, n01437, n01871, n01951, n01957, n02017, n02055, n02187, n02328 ...
+      0.439  pericardium morphogenesis
+      0.430  collagen, TGFB family et al
+      0.416  positive regulation of gamma-delta T cell differentiation
+      0.411  Other semaphorin interactions
+      0.409  positive regulation of mesenchymal cell proliferation
+      0.406  lung-associated mesenchyme development
+      0.403  RUNX2 regulates genes involved in cell migration
+      0.401  mesodermal cell migration
+      0.397  regulation of mesodermal cell fate specification
+      0.396  dorsal aorta morphogenesis
+
+  a2_00319  166 units, 2675 pathways, support 0.555
+    units: n00748, n01027, n01279, n01322, n01531, n01573, n01686, n01959, n02017, n02329, n02339, n02392 ...
+      0.486  SUMOylation of immune response proteins
+      0.476  positive regulation of nuclear cell cycle DNA replication
+      0.465  Inhibition of replication initiation of damaged DNA by RB1/E2F1
+      0.464  Termination of translesion DNA synthesis
+      0.463  TICAM1, RIP1-mediated IKK complex recruitment
+      0.463  negative regulation of viral transcription
+      0.459  positive regulation of canonical NF-kappaB signal transduction
+      0.458  protein deubiquitination involved in ubiquitin-dependent protein catabolic process
+      0.456  positive regulation of type I interferon-mediated signaling pathway
+      0.455  Regulation of NF-kappa B signaling
+
+  a2_00404  187 units, 2651 pathways, support 0.105
+    units: n00748, n01000, n01027, n01279, n01322, n01531, n01573, n01686, n01917, n01959, n02039, n02328 ...
+      0.494  viral sensing & immunity; IRF2 targets network (I)
+      0.489  TICAM1, RIP1-mediated IKK complex recruitment
+      0.472  negative regulation of viral transcription
+      0.470  free ubiquitin chain polymerization
+      0.458  SUMOylation of immune response proteins
+      0.453  IRF3 mediated activation of type 1 IFN
+      0.452  positive regulation of type I interferon-mediated signaling pathway
+      0.452  regulation of AIM2 inflammasome complex assembly
+      0.451  viral sensing & immunity; IRF2 targets network (II)
+      0.447  IRF3-mediated induction of type I IFN
+
+  a2_00125  203 units, 1776 pathways, support 0.830
+    units: n00225, n00226, n01388, n01449, n01573, n01937, n01989, n01995, n02039, n02078, n02225, n02256 ...
+      0.603  medium-chain fatty acid catabolic process
+      0.563  alditol biosynthetic process
+      0.545  succinate transmembrane transport
+      0.543  Conjugation of benzoate with glycine
+      0.541  Carnitine synthesis
+      0.540  metabolism in mitochondria, peroxisome
+      0.537  Glycogen storage disease type Ia (G6PC)
+      0.533  fatty acid beta-oxidation using acyl-CoA dehydrogenase
+      0.533  Glycine degradation
+      0.532  Organic anion transport by SLC5/17/25 transporters
+
+  a2_00301  185 units, 1405 pathways, support 0.440
+    units: n01000, n01388, n01473, n01740, n01917, n01995, n02535, n02609, n02695, n02703, n02713, n02749 ...
+      0.514  obsolete dopamine transport
+      0.510  obsolete monoamine transport
+      0.508  endoplasmic reticulum localization
+      0.505  positive regulation of synaptic vesicle exocytosis
+      0.487  norepinephrine uptake
+      0.482  Dopamine Neurotransmitter Release Cycle
+      0.481  regulation of calcium ion-dependent exocytosis of neurotransmitter
+      0.473  Norepinephrine Neurotransmitter Release Cycle
+      0.469  obsolete endoplasmic reticulum-plasma membrane tethering
+      0.469  synaptic signaling via neuropeptide
+
+  a2_00425  108 units, 955 pathways, support 0.085
+    units: n01388, n01473, n01740, n01937, n01995, n02609, n02617, n02695, n02749, n02784, n02830, n02838 ...
+      0.584  cellular response to epinephrine stimulus
+      0.530  regulation of systemic arterial blood pressure by vasopressin
+      0.528  negative regulation of norepinephrine secretion
+      0.517  obsolete epinephrine transport
+      0.511  positive regulation of vasoconstriction
+      0.508  positive regulation of relaxation of muscle
+      0.505  regulation of relaxation of smooth muscle
+      0.499  Adrenaline signalling through Alpha-2 adrenergic receptor
+      0.496  positive regulation of action potential
+      0.495  Adrenaline,noradrenaline inhibits insulin secretion
+
+  a2_00451  86 units, 922 pathways, support 0.120
+    units: n00225, n01322, n01917, n02328, n02391, n02535, n02703, n02713, n02778, n02961, n03001, n03056 ...
+      0.603  protein retention in Golgi apparatus
+      0.602  constitutive secretory pathway
+      0.563  protein localization to Golgi membrane
+      0.562  regulation of endosome organization
+      0.561  retrograde transport, vesicle recycling within Golgi
+      0.531  Lysosome Vesicle Biogenesis
+      0.523  golgi membrane (II)
+      0.514  late endosome to Golgi transport
+      0.512  Golgi to lysosome transport
+      0.501  TBA
+
+  a2_00385  72 units, 847 pathways, support 0.125
+    units: n01036, n01951, n02017, n02187, n02329, n02495, n02739, n02776, n02856, n02873, n02951, n02960 ...
+      0.520  positive regulation of cell proliferation in bone marrow
+      0.485  STAT5 Activation
+      0.457  positive regulation of activin receptor signaling pathway
+      0.451  MAPK3 (ERK1) activation
+      0.446  sunitinib-resistant FLT3 mutants
+      0.436  RUNX1 regulates transcription of genes involved in WNT signaling
+      0.435  ponatinib-resistant FLT3 mutants
+      0.435  SHC-mediated cascade:FGFR1
+      0.433  positive regulation of mesenchymal stem cell proliferation
+      0.426  negative regulation of ERK1 and ERK2 cascade
+
+  a2_00452  78 units, 672 pathways, support 0.070
+    units: n01573, n01937, n01951, n02039, n02329, n02457, n02563, n02617, n02774, n02976, n03083, n03194 ...
+      0.577  response to caloric restriction
+      0.568  negative regulation of fatty acid transport
+      0.566  NR1H2 & NR1H3 regulate gene expression linked to triglyceride lipolysis in adipose
+      0.564  negative regulation of triglyceride biosynthetic process
+      0.556  positive regulation of adipose tissue development
+      0.541  NR1H2 & NR1H3 regulate gene expression linked to gluconeogenesis
+      0.539  AMPK inhibits chREBP transcriptional activation activity
+      0.536  adiponectin-activated signaling pathway
+      0.527  PDE3B signalling
+      0.520  fatty acid homeostasis
+
+  a2_00438  68 units, 659 pathways, support 0.080
+    units: n00748, n01871, n01957, n02055, n02328, n02391, n02772, n02899, n02924, n02944, n03049, n03056 ...
+      0.610  regulation of synapse structural plasticity
+      0.607  positive regulation of neuron projection arborization
+      0.603  regulation of modification of postsynaptic actin cytoskeleton
+      0.603  Regulation of cortical dendrite branching
+      0.601  dendrite arborization
+      0.600  negative regulation of dendritic spine morphogenesis
+      0.579  negative regulation of filopodium assembly
+      0.560  maintenance of postsynaptic density structure
+      0.557  positive regulation of neurotrophin TRK receptor signaling pathway
+      0.554  AMPA selective glutamate receptor signaling pathway
+
+  a2_00463  42 units, 486 pathways, support 0.060
+    units: n00748, n01871, n01957, n02055, n02328, n02360, n02391, n02544, n02634, n02924, n02944, n03056 ...
+      0.571  Activation of RAC1
+      0.570  establishment of centrosome localization
+      0.566  axonal fasciculation
+      0.557  negative regulation of filopodium assembly
+      0.551  negative regulation of microtubule depolymerization
+      0.548  Regulation of cortical dendrite branching
+      0.541  maintenance of centrosome location
+      0.539  axon guidance
+      0.539  establishment or maintenance of cell polarity regulating cell shape
+      0.536  NrCAM interactions
+
+  a2_00415  50 units, 453 pathways, support 0.095
+    units: n01937, n02493, n02617, n02695, n02749, n02830, n02881, n02940, n03026, n03208, n03217, n03290 ...
+      0.606  cellular response to epinephrine stimulus
+      0.597  regulation of systemic arterial blood pressure by vasopressin
+      0.564  Glucagon-type ligand receptors
+      0.554  regulation of relaxation of smooth muscle
+      0.550  Vasopressin-like receptors
+      0.548  Adrenaline signalling through Alpha-2 adrenergic receptor
+      0.548  positive regulation of cAMP/PKA signal transduction
+      0.546  negative regulation of norepinephrine secretion
+      0.543  adenylate cyclase-inhibiting adrenergic receptor signaling pathway
+      0.532  obsolete epinephrine transport
+
+  a2_00401  35 units, 449 pathways, support 0.110
+    units: n00225, n01917, n02778, n02832, n03060, n03079, n03085, n03155, n03165, n03333, n03359, n03454 ...
+      0.585  Synthesis of dolichyl-phosphate mannose
+      0.578  Defective B4GALT1 causes CDG-2d
+      0.573  Defective PMM2 causes PMM2-CDG
+      0.567  Defective DPM2 causes DPM2-CDG
+      0.563  Defective MPDU1 causes CDG-1f
+      0.562  Lysosomal oligosaccharide catabolism
+      0.559  Defective DPM1 causes DPM1-CDG
+      0.552  Defective ALG12 causes CDG-1g
+      0.550  Defective DOLK causes DOLK-CDG
+      0.543  Plasmalogen biosynthesis
+
+  a2_00343  30 units, 430 pathways, support 0.215
+    units: n00225, n02256, n02832, n03060, n03155, n03255, n03263, n03359, n03367, n03465, n03529, n03547 ...
+      0.579  Defective B4GALT1 causes CDG-2d
+      0.578  Defective PMM2 causes PMM2-CDG
+      0.560  Defective SRD5A3 causes SRD5A3-CDG, KHRZ
+      0.553  MPS IV - Morquio syndrome B (CS/DS degradation)
+      0.549  chondroitin sulfate proteoglycan catabolic process
+      0.539  Defective ALG12 causes CDG-1g
+      0.539  Defective DPM2 causes DPM2-CDG
+      0.534  Defective B4GALT1 causes B4GALT1-CDG (CDG-2d)
+      0.534  Lysosomal oligosaccharide catabolism
+      0.530  MPS I - Hurler syndrome (CS/DS degradation)
+
+  a2_00445  48 units, 416 pathways, support 0.075
+    units: n01437, n02436, n02493, n02533, n02579, n02830, n02881, n02991, n03038, n03195, n03237, n03243 ...
+      0.597  thrombin-activated receptor signaling pathway
+      0.585  cell movement, Adhesion & Platelet activation
+      0.573  platelet activation (I)
+      0.558  platelet activation - actin binding
+      0.557  Thrombin signalling through proteinase activated receptors (PARs)
+      0.555  positive regulation of lamellipodium morphogenesis
+      0.545  G alpha (12/13) signalling events
+      0.536  Rap1 signalling
+      0.520  positive regulation of substrate adhesion-dependent cell spreading
+      0.520  positive regulation of Rho protein signal transduction
+
+  a2_00457  37 units, 399 pathways, support 0.065
+    units: n01917, n02563, n02778, n03079, n03083, n03085, n03165, n03333, n03454, n03462, n03647, n03658 ...
+      0.645  very-low-density lipoprotein particle assembly
+      0.638  acylglycerol transport
+      0.630  diacylglycerol biosynthetic process
+      0.578  Triglyceride biosynthesis
+      0.576  lipid droplet disassembly
+      0.573  negative regulation of fatty acid transport
+      0.572  Acyl chain remodeling of DAG and TAG
+      0.567  monoacylglycerol biosynthetic process
+      0.565  VLDL clearance
+      0.563  NR1H2 & NR1H3 regulate gene expression linked to triglyceride lipolysis in adipose
+
+  a2_00387  10 units, 342 pathways, support 0.125
+    units: n03376, n03405, n03659, n03674, n03769, n03779, n03898, n04112, n04319, n04395
+      0.618  negative regulation of tRNA metabolic process
+      0.610  positive regulation of RNA export from nucleus
+      0.603  RNA Polymerase III Abortive And Retractive Initiation
+      0.602  Translation initiation complex formation
+      0.602  termination of RNA polymerase I transcription
+      0.599  RNA Polymerase III Transcription Termination
+      0.598  translation initiation
+      0.592  tRNA 5'-leader removal
+      0.585  cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-r
+      0.583  transcription initiation at RNA polymerase III promoter
+
+  a2_00417  24 units, 311 pathways, support 0.095
+    units: n02328, n02391, n03056, n03061, n03193, n03507, n03552, n03648, n03704, n03797, n03894, n03962 ...
+      0.653  positive regulation of protein localization to centrosome
+      0.606  maintenance of centrosome location
+      0.600  establishment of centrosome localization
+      0.597  convergent extension involved in gastrulation
+      0.586  microtubule nucleation by microtubule organizing center
+      0.565  floor plate development
+      0.560  astral microtubule organization
+      0.538  positive regulation of protein localization to cilium
+      0.534  Asymmetric localization of PCP proteins
+      0.533  Recruitment of mitotic centrosome proteins and complexes
+
+  a2_00421  23 units, 254 pathways, support 0.305
+    units: n01937, n03208, n03242, n03332, n03532, n03535, n03651, n03872, n03879, n04073, n04079, n04221 ...
+      0.585  Dopamine receptors
+      0.572  regulation of locomotion involved in locomotory behavior
+      0.562  synaptic signaling via neuropeptide
+      0.559  cellular response to cocaine
+      0.554  operant conditioning
+      0.554  cellular response to corticotropin-releasing hormone stimulus
+      0.550  drinking behavior
+      0.539  response to isoquinoline alkaloid
+      0.536  conditioned place preference
+      0.533  behavioral response to ethanol
+
+  a2_00464  20 units, 234 pathways, support 0.060
+    units: n01989, n03104, n03687, n03850, n03870, n04030, n04063, n04091, n04158, n04201, n04248, n04413 ...
+      0.712  obsolete organic cation transport
+      0.588  SLC-mediated transport of neurotransmitters
+      0.577  L-aspartate import across plasma membrane
+      0.576  sodium-independent organic anion transport
+      0.558  SLC-mediated transport of organic cations
+      0.556  glycine import across plasma membrane
+      0.553  gamma-aminobutyric acid import
+      0.549  alpha-ketoglutarate transport
+      0.544  obsolete organic anion transport
+      0.543  amine catabolic process
+
+  a2_00440  19 units, 230 pathways, support 0.080
+    units: n01322, n02225, n02768, n02847, n03065, n03088, n03135, n03477, n03513, n03548, n03705, n03723 ...
+      0.650  Mitochondrial ABC transporters
+      0.579  Complex IV assembly
+      0.569  Heme biosynthesis
+      0.559  mitochondrial electron transport, cytochrome c to oxygen
+      0.546  heme B biosynthetic process
+      0.538  heme transport
+      0.532  respiratory chain complex IV assembly
+      0.520  respiratory electron transport chain (mitochondrion)
+      0.516  intracellular copper ion homeostasis
+      0.513  regulation of tetrapyrrole metabolic process
+
+  a2_00405  17 units, 219 pathways, support 0.105
+    units: n02493, n02830, n02881, n03285, n03290, n03344, n03374, n03588, n03678, n03684, n03700, n03832 ...
+      0.638  thrombin-activated receptor signaling pathway
+      0.631  cyclooxygenase pathway
+      0.614  Prostanoid ligand receptors
+      0.605  Thromboxane signalling through TP receptor
+      0.590  arachidonate metabolite production involved in inflammatory response
+      0.589  positive regulation of arachidonate secretion
+      0.584  phospho-PLA2 pathway
+      0.577  ADP signalling through P2Y purinoceptor 1
+      0.570  Prostacyclin signalling through prostacyclin receptor
+      0.567  lipoxin A4 metabolic process
+
+  a2_00394  14 units, 215 pathways, support 0.120
+    units: n01473, n02360, n02544, n02634, n02945, n03203, n03506, n04031, n04066, n04283, n04393, n04398 ...
+      0.609  regulation of membrane repolarization during ventricular cardiac muscle cell action po
+      0.604  positive regulation of sarcomere organization
+      0.590  membrane depolarization during AV node cell action potential
+      0.569  left ventricular cardiac muscle tissue morphogenesis
+      0.568  negative regulation of cardiac muscle contraction
+      0.565  Ion homeostasis
+      0.563  regulation of cardiac muscle contraction by regulation of the release of sequestered c
+      0.562  regulation of cell communication by electrical coupling involved in cardiac conduction
+      0.561  regulation of atrial cardiac muscle cell membrane repolarization
+      0.557  positive regulation of cardiac muscle contraction
+
+  a2_00430  20 units, 208 pathways, support 0.085
+    units: n01000, n02826, n03083, n03658, n03713, n03719, n03819, n04028, n04152, n04192, n04260, n04291 ...
+      0.655  positive regulation of high-density lipoprotein particle clearance
+      0.654  low-density lipoprotein particle remodeling
+      0.649  regulation of reverse cholesterol transport
+      0.646  positive regulation of lipoprotein transport
+      0.645  negative regulation of cholesterol storage
+      0.636  triglyceride-rich lipoprotein particle clearance
+      0.634  acylglycerol transport
+      0.630  VLDL clearance
+      0.614  positive regulation of cholesterol efflux
+      0.609  high-density lipoprotein particle assembly
+
+  a2_00469  13 units, 179 pathways, support 0.060
+    units: n01036, n01951, n02960, n03448, n03818, n03882, n04097, n04200, n04221, n04254, n04295, n04410 ...
+      0.558  RUNX2 regulates chondrocyte maturation
+      0.546  negative regulation of chondrocyte differentiation
+      0.519  growth plate cartilage chondrocyte development
+      0.502  osteoblast development
+      0.493  positive regulation of chondrocyte differentiation
+      0.488  bone mineralization involved in bone maturation
+      0.479  positive regulation of bone mineralization
+      0.477  positive regulation of chondrocyte proliferation
+      0.472  chondrocyte hypertrophy
+      0.470  negative regulation of chondrocyte proliferation
+
+  a2_00431  14 units, 136 pathways, support 0.265
+    units: n01573, n02339, n03096, n03214, n03659, n03694, n03782, n03817, n03901, n04064, n04213, n04228 ...
+      0.554  AKT-mediated inactivation of FOXO1A
+      0.547  AKT phosphorylates targets in the nucleus
+      0.543  cellular response to glucose starvation
+      0.542  Regulation of FOXO transcriptional activity by acetylation
+      0.540  negative regulation of translational initiation in response to stress
+      0.528  regulation of glycolytic process
+      0.516  regulation of pentose-phosphate shunt
+      0.501  Synthesis of IPs in the nucleus
+      0.491  fructose 2,6-bisphosphate metabolic process
+      0.490  HALLMARK_PI3K_AKT_MTOR_SIGNALING
+
+  a2_00447  17 units, 130 pathways, support 0.075
+    units: n01000, n02493, n02826, n03140, n03476, n03738, n03819, n03829, n04192, n04260, n04286, n04368 ...
+      0.578  microglial cell activation involved in immune response
+      0.557  regulation of membrane invagination
+      0.556  microglial cell mediated cytotoxicity
+      0.549  positive regulation of amyloid-beta clearance
+      0.538  engulfment of apoptotic cell
+      0.529  positive regulation of microglial cell activation
+      0.524  microglial cell proliferation
+      0.513  positive regulation of apoptotic cell clearance
+      0.512  negative regulation of microglial cell activation
+      0.507  positive regulation of amyloid-beta formation
+
+  a2_00402  13 units, 96 pathways, support 0.110
+    units: n02329, n03658, n04028, n04152, n04281, n04329, n04338, n04354, n04375, n04514, n04527, n04535 ...
+      0.565  NR1H2 & NR1H3 regulate gene expression linked to lipogenesis
+      0.548  NR1H2 & NR1H3 regulate gene expression linked to gluconeogenesis
+      0.543  Nuclear Receptor transcription pathway
+      0.527  PPARA activates gene expression
+      0.513  Estrogen-dependent gene expression
+      0.507  Activation of gene expression by SREBF (SREBP)
+      0.496  negative regulation of androgen receptor signaling pathway
+      0.490  cellular response to estrogen stimulus
+      0.488  RORA,B,C and NR1D1 (REV-ERBA) regulate gene expression
+      0.485  carbon catabolite regulation of transcription from RNA polymerase II promoter
+
+  a2_00455  11 units, 89 pathways, support 0.065
+    units: n01437, n02867, n03438, n03550, n03609, n03624, n03800, n04039, n04048, n04419, n04449
+      0.573  protein localization to bicellular tight junction
+      0.536  maintenance of apical/basal cell polarity
+      0.525  establishment of epithelial cell apical/basal polarity
+      0.501  paracellular transport
+      0.494  positive regulation of bicellular tight junction assembly
+      0.493  apical protein localization
+      0.489  HALLMARK_APICAL_JUNCTION
+      0.487  Nephrin family interactions
+      0.487  glomerular epithelial cell development
+      0.482  podocyte cell migration
+
+  a2_00257  9 units, 73 pathways, support 0.455
+    units: n02749, n02804, n03430, n03439, n03937, n04004, n04037, n04424, n04530
+      0.628  phospholipase C-activating serotonin receptor signaling pathway
+      0.626  regulation of relaxation of smooth muscle
+      0.588  Serotonin receptors
+      0.578  Muscarinic acetylcholine receptors
+      0.576  intestine smooth muscle contraction
+      0.563  Tachykinin receptors bind tachykinins
+      0.555  phospholipase C-activating G protein-coupled acetylcholine receptor signaling pathway
+      0.548  gastric motility
+      0.543  phospholipase C-activating tachykinin receptor signaling pathway
+      0.541  regulation of serotonin secretion
+
+==============================================================================
+COVERAGE
+==============================================================================
+  giant-only themes with an area parent: 476 of 476 = 100.0%
+  all units with an area parent: 661 of 661
+  roots before: 188 (4 giants + 184 non-giant)
+  roots after, in the combined DAG: 30 areas (the giants are not joined)
+
+  per pathway, the largest non-giant theme above it
+    band         before    after   change
+    1-10              1        0       -1
+    11-50         1,096        0   -1,096
+    51-200        2,362        0   -2,362
+    201-1000      2,079        0   -2,079
+    1001+             0    5,539   +5,539
+
+==============================================================================
+GENE COHERENCE PER LEVEL, against size-matched random (report only)
+==============================================================================
+  level 2: n=182 nodes of 2-120 pathways; median coherence 0.0115 against 0.0011 size-matched random (10.2x)
+
+==============================================================================
+AGREEMENT WITH REACTOME TOP-LEVEL PATHWAYS (secondary)
+==============================================================================
+  Reactome top-level pathways: 29
+  reactome top                                    best area           J  leaves
+  Cellular responses to stimuli                   a2_00100        0.238      38
+  Signal Transduction                             a2_00011        0.217     282
+  Programmed Cell Death                           a2_00081        0.214      26
+  Developmental Biology                           a2_00102        0.173      86
+  Extracellular matrix organization               a2_00040        0.164      13
+  Metabolism                                      a2_00441        0.164     234
+  Immune System                                   a2_00091        0.160     149
+  Neuronal System                                 a2_00146        0.157      50
+  Disease                                         a2_00011        0.133     580
+  Cell-Cell communication                         a2_00194        0.121      18
+  Gene expression (Transcription)                 a2_00265        0.111     106
+  Metabolism of RNA                               a2_00387        0.105      36
+  Hemostasis                                      a2_00218        0.102      27
+  Drug ADME                                       a2_00090        0.100       9
+  Vesicle-mediated transport                      a2_00098        0.100      24
+  Metabolism of proteins                          a2_00341        0.095      95
+  Transport of small molecules                    a2_00248        0.089      50
+  Cell Cycle                                      a2_00105        0.084      70
+  Circadian clock                                 a2_00058        0.080       9
+  Autophagy                                       a2_00032        0.074       7
+  Sensory Perception                              a2_00052        0.064      11
+  Organelle biogenesis and maintenance            a2_00053        0.059      10
+  DNA Repair                                      a2_00105        0.049      39
+  Muscle contraction                              a2_00226        0.047       9
+  Chromatin organization                          a2_00081        0.042      14
+  Reproduction                                    a2_00054        0.035       6
+  Protein localization                            a2_00007        0.031       4
+  Digestion and absorption                        a2_00176        0.025       4
+  DNA Replication                                 a2_00105        0.012      10
+  median best Jaccard: 0.100
+
+==============================================================================
+SUMMARY PLACEMENT (display only, nothing attached)
+==============================================================================
+  curated summaries with 3+ leaf descendants in L: 2,370
+  summary size band        n  home in O50  on a giant  home combined  on an area
+  3-10                  1711         1525         459           1626         570
+  11-50                  560          439         233            495         294
+  51-200                  96           55          36             76          57
+  201+                     3            2           2              2           2
+  ALL                   2370         2021         730           2199         923
+  share with a home: O50 85.3% (of those, 36.1% a giant); combined 92.8% (of those, 42.0% an area)
+
+==============================================================================
+CRITERIA ccode OWNS
+==============================================================================
+  FAIL  held-out FDR within the caps at level 2
+        overall 0.00882 (cap 0.01), worst stratum 3-3 at 0.03846 (cap 0.02)
+  PASS  the top has 20-60 roots
+        30 roots
+  PASS  no node has more than 60 children
+        max 21
+  PASS  at least 95% of the 476 giant-only themes get an area
+        100.0%
+
+  C6 (blind intruder test) is the reviewer's and is NOT judged here.
+  Whether the top level is intuitive is Aviyah's.
+  ADOPTED: nothing.
