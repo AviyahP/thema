@@ -308,7 +308,7 @@ footer code{font-family:var(--mono);font-size:11.5px}
 
   <div class="mock">
     <span aria-hidden="true">▲</span>
-    <span><b>Preview of the working build, not the published page.</b> The explorer below is the <b>real</b> ontology: v0.4-leaves / v0.4, <b>4,602</b> themes over <b>5,539</b> atomic pathways drawn from 10,747 in the collection, across <b>4</b> databases — every theme, its members and their generated descriptions, nothing illustrative.<br><b>The two examples below no longer hold on this build, and say so.</b> All four NF-kB pathways are in it, but <b>no single theme contains all four</b>. None of the three insulin-secretion pathways is in it at all: this build clusters only the atomic pathways, and all three are curated summaries, which that universe removes. Their gene figures are unchanged and are still verified at export time.<br><b>Names are naming-c1-lite, after a uniqueness pass.</b> <b>4,576</b> of 4,602 themes carry a generated name and <b>no two share one</b>. On a random 200-theme sample judged blind, a selected name picked its own theme out of five overlapping clusters <b>96.5%</b> of the time, and mean member fit was <b>0.924</b> — measured before the uniqueness pass, which rewrote 155 names in all and 7 of those 200; re-asked names were not back-matched or fit-checked. Only 193 names were chosen with a back-match at all; the rest are the medoid of three independent candidates.<br><b>26 themes have no usable name</b> and keep a provisional keyword label with the amber chip: 15 the namer declined, and 11 are over 200 members, outside the naming method's scope.<br><b>Stability, stated:</b> matched against an independent rebuild, <b>70.2%</b> of this build's themes have a counterpart at Jaccard 0.7 or above, against 77.1% for the build it replaced. Merging near-duplicates lowers that measure by construction, so it is reported rather than treated as a verdict — and it is still below the 90% mark this project would call stable.</span>
+    <span><b>Preview of the working build, not the published page.</b> The explorer below is the <b>real</b> ontology: v0.4-leaves / v0.4, <b>4,602</b> themes over <b>5,539</b> atomic pathways drawn from 10,747 in the collection, across <b>4</b> databases — every theme, its members and their generated descriptions, nothing illustrative.<br><b>The two examples below no longer hold on this build, and say so.</b> All four NF-kB pathways are in it, but <b>no single theme contains all four</b>. None of the three insulin-secretion pathways is in it at all: this build clusters only the atomic pathways, and all three are curated summaries, which that universe removes. Their gene figures are unchanged and are still verified at export time.<br><b>Names are naming-c1-lite, after a uniqueness pass.</b> <b>4,576</b> of 4,602 themes carry a generated name and <b>no two share one</b>. On a random 200-theme sample judged blind, a selected name picked its own theme out of five overlapping clusters <b>96.5%</b> of the time, and mean member fit was <b>0.924</b> — measured before the uniqueness pass, which rewrote 155 names in all and 7 of those 200; re-asked names were not back-matched or fit-checked. Only 193 names were chosen with a back-match at all; the rest are the medoid of three independent candidates.<br><b>1 name is hand-edited by Aviyah</b> and carries an <i>edited</i> chip: n02960. A hand-edited name is a different claim from a generated one, so the page marks it rather than blending the two.<br><b>26 themes have no usable name</b> and keep a provisional keyword label with the amber chip: 15 the namer declined, and 11 are over 200 members, outside the naming method's scope.<br><b>Stability, stated:</b> matched against an independent rebuild, <b>70.2%</b> of this build's themes have a counterpart at Jaccard 0.7 or above, against 77.1% for the build it replaced. Merging near-duplicates lowers that measure by construction, so it is reported rather than treated as a verdict — and it is still below the 90% mark this project would call stable.</span>
   </div>
 
   <section class="intro">
@@ -429,7 +429,9 @@ footer code{font-family:var(--mono);font-size:11.5px}
 /* ---------------------------------------------------------------------------
    REAL DATA -- demo/ontology.js, written by scripts/export_landing.py from the
    versioned ontology export. Node shape is the mockup's own contract:
-     node    {id, label, provisional, n, g, children?|pathways?}
+     node    {id, label, provisional, edited, n, g, children?|pathways?}
+     pathways  id -> {id, name, source, sid, n, genes, curated, thema}  (deduped payload only;
+               a node's "pathways" is then a list of ids into this map)
      pathway {id, name, source, sid, n, genes[], curated, thema, also[]}
    Theme labels are PROVISIONAL: naming has not run, so a node is labelled by its
    most central members and carries the amber chip.
@@ -462,7 +464,12 @@ function drawChrome(){
     'ontology <b>v'+MANIFEST.version+'</b> &middot; '+MANIFEST.method.replace("_"," ")+'<br>'+
     '<b>'+fmt(MANIFEST.n_pathways)+'</b> of '+fmt(MANIFEST.collection_rows)+' pathways &middot; '+
     '<b>'+MANIFEST.n_sources+'</b> databases<br>'+
-    'names '+(MANIFEST.names_file||'').split('/').pop()+' &middot; '+String(MANIFEST.names_sha256||'').slice(0,12);
+    (MANIFEST.prompt_version
+      ? 'descriptions '+MANIFEST.prompt_version+' &middot; '+
+        String(MANIFEST.descriptions_sha256||'').slice(0,12)
+      : (MANIFEST.descriptions_sha256
+          ? 'descriptions '+String(MANIFEST.descriptions_sha256).slice(0,12)
+          : ''));
   /* The example cards' theme chips: the smallest node containing all the pathways each card
      lists, recomputed at export time. The label is provisional until naming runs. */
   document.querySelectorAll("[data-card]").forEach(el => {
@@ -476,7 +483,14 @@ function drawChrome(){
   });
 }
 
-const kidsOf = n => n.children || n.pathways || [];
+/* Pathway objects arrive one of two ways. The deduped export emits each object ONCE into
+   EXPORT.pathways and leaves an id in the node; the original shape repeats the whole object under
+   every theme that holds it, which on a DAG build means eleven copies of each. The page reads
+   both, so an older ontology.js keeps working unchanged. */
+const POOL = EXPORT && EXPORT.pathways ? EXPORT.pathways : null;
+const kidsOf = n => n.children
+  || (n.pathways ? (POOL ? n.pathways.map(id => POOL[id]) : n.pathways) : [])
+  || [];
 const isLeaf = n => !!n.name;
 
 const CHEV = '<svg class="chev" viewBox="0 0 16 16" aria-hidden="true" focusable="false">'+
@@ -534,6 +548,7 @@ function rowHTML(n, depth){
       (leaf && n.also.length ? '<span class="alsochip" title="this pathway is a member of '+(n.also.length+1)+' themes; see the card">in '+(n.also.length+1)+' themes</span>' : '')+
     '</span>'+
     (leaf ? '<span class="srcdot '+n.source+'">'+n.source+'</span>' : compBar(n))+
+    (n.edited ? '<span class="provisional">edited</span>' : '')+
     '<span class="ct">'+(leaf ? n.n+" genes" : n.n+" pathways<br>"+(n.g ? n.g.toLocaleString()+" genes" : "&mdash; genes"))+'</span>'+
     '</button>';
 }
