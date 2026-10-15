@@ -1,0 +1,36 @@
+[yes or partly] P1 real homes fit 94.0% (CI 90.8-96.8; pooled over homes 92.6%) | P2 decoy fit 95.0% (CI 90.0-99.0) | P1-P2 -1.0 (CI -5.8 to +3.7)
+[strict yes] P1 real homes fit 50.4% (CI 44.7-56.1; pooled over homes 46.6%) | P2 decoy fit 38.0% (CI 29.0-48.0) | P1-P2 +12.4 (CI +1.8 to +23.2)
+home verdicts {'partly': 142, 'yes': 144, 'no': 23} decoy verdicts {'no': 5, 'yes': 38, 'partly': 57}
+P3 pathways with 2+ fitting real homes: 97; relation {'different_aspects': 81, 'same_aspect': 16}; different aspects 83.5%
+relation over all 100 (judge view incl. decoy if fit): {'different_aspects': 82, 'same_aspect': 18}
+DECLARED: NOISE
+  home size 3-6: fit 98% (n=65)
+  home size 7-15: fit 92% (n=202)
+  home size 16-40: fit 94% (n=33)
+  home size 41-100: fit 56% (n=9)
+  low support: fit 89% (n=102)
+  mid: fit 91% (n=104)
+  high: fit 97% (n=103)
+judge-level home fit: {'HF_01': '97%', 'HF_02': '92%', 'HF_03': '95%', 'HF_04': '85%', 'HF_05': '94%'}
+
+examples, homes judged no:
+   H042 TYSND1 is part of peroxisomal matrix protein import/maturation (G5) and loosely relates to the beta-oxidation and ether-lipid pathways whose enzymes it processes.
+   H048 Fits NF-kB-pathway inborn immunodeficiencies (G1), canonical IKK activation mechanism (G2), and loosely TCR-to-NF-kB and noncanonical/EDA-ID contexts; B cell identity group does not fit.
+   H032 Oxidative-stress responses and cell death (G1) are the core; ROS generation (G4) and alveolar epithelium/surfactant biology (G5) are the lung-injury context; general organogenesis and mammary groups do not fit.
+   H069 Inorganic pyrophosphate hydrolysis fits only loosely with nucleotide phosphate-energy interconversion (G3, G4); inositol pyrophosphates, glycosylation and calcineurin are unrelated chemistry.
+   H071 RUNX2 migration targets sit loosely within RUNX2-driven skeletal differentiation and matrix remodelling (G1, G3, G4) and within transcriptional control of cadherins/EMT-like adhesion programmes (G5).
+   H032 Oxidative-stress responses and cell death (G1) are the core; ROS generation (G4) and alveolar epithelium/surfactant biology (G5) are the lung-injury context; general organogenesis and mammary groups do not fit.
+
+examples, different aspects:
+   H012 G5 is progenitor proliferation/survival and stem-pool regulation, G4 the MET consumption of the pool, G1-G3 broader kidney organogenesis and size control.
+   H009 G1/G3 capture endosomal TLR7/8 nucleic acid sensing, G2 the monocyte/MHC-TLR8 cell-identity module; none covers the BAFF/B cell support arm.
+   H002 G4 is direct restraint of fatty acid import/oxidation, G1/G2 are lipid-droplet triglyceride storage, G3 is hormonal/nutrient metabolic control.
+   H063 IL-12 drives NK/type-1 activation (G1), shares p40 with IL-23 in the Th17 axis (G2, G3) and belongs to the IL-12/IL-27/IL-35 family with IL-10 counter-regulation (G4).
+   H088 Mineralization control spans FGF23/Klotho/PTH phosphate homeostasis (G2, G3), hard-tissue mineralization (G5), osteoblast differentiation (G4) and remodeling (G1).
+   H046 SLC26 anion-exchanger family (G2), bicarbonate/SLC-defect transport (G1, G3) and epithelial salt/chloride transport physiology (G4) are different angles.
+
+examples, same/unrelated:
+   H013 same_aspect All fitting groups describe sarcoplasmic reticulum calcium handling in muscle, where phospholamban/sarcolipin braking of SERCA sits.
+   H022 same_aspect Facilitation is a presynaptic, calcium-dependent increase in release probability, which all fitting groups describe; inhibitory synapse assembly (G4) does not fit.
+   H038 same_aspect The fitting groups are sensorimotor coordination of posture, righting and locomotion, which is the same proprioceptive function; MECP2 gene regulation (G4) does not fit.
+   H067 same_aspect All groups are control of myoblast proliferation versus differentiation in myogenesis; the target is the brake side of that same process.
