@@ -20,3 +20,5 @@
 - 09:08 UTC S1 judged (P1 93.3%, P2 99.0%); selection done; E1/E2 items built (200 each).
 - 09:10 UTC sample check DONE: GOOD (E1 96.5%, E2 0.924). REPORT in sample/.
 - 09:20 UTC option 2 (lite): medoid without S1 for 4,376 themes + S1 picks for the 200 sample themes; 15 unnameable; 75 duplicate groups (154 themes). select_lite/.
+- 15 Oct UTC uniqueness pass done: 154 themes re-asked (round 1), 2 in round 2; 0 duplicates. dedup/final_names_O50_lite_unique.tsv
+- 15 Oct UTC style pilot done: PASSES on model judges (E1 98.0 vs 97.5, E2 0.952 vs 0.932, preference 68%). H1 (Aviyah, 30 pairs) pending. name_overrides.tsv (n02960).

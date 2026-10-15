@@ -1,0 +1,2478 @@
+[
+ {
+  "theme_id": "n01443",
+  "size": 9,
+  "members": [
+   "protein import into peroxisome matrix, substrate release",
+   "protein import into peroxisome membrane",
+   "protein import into peroxisome matrix, receptor recycling",
+   "peroxisome fission",
+   "Class I peroxisomal membrane protein import",
+   "protein targeting to peroxisome",
+   "Pexophagy",
+   "autophagy of peroxisome",
+   "HALLMARK_PEROXISOME"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 9,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "TYSND1 cleaves peroxisomal proteins",
+     "intracellular transport",
+     "protein to membrane docking",
+     "protein unfolding"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Pexophagy",
+     "autophagy of peroxisome"
+    ],
+    "only_in_confusable": [
+     "Beta-oxidation of very long chain fatty acids",
+     "Defective ABCD1 causes ALD",
+     "TYSND1 cleaves peroxisomal proteins",
+     "fatty acid beta-oxidation using acyl-CoA oxidase",
+     "fatty-acyl-CoA catabolic process",
+     "very long-chain fatty acid catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Pexophagy",
+     "autophagy of peroxisome"
+    ],
+    "only_in_confusable": [
+     "Linoleic acid (LA) metabolism",
+     "Plasmalogen biosynthesis",
+     "Synthesis of very long-chain fatty acyl-CoAs",
+     "Wax biosynthesis",
+     "alpha-linolenic acid (ALA) metabolism",
+     "alpha-linolenic acid metabolic process",
+     "ether biosynthetic process",
+     "fatty acid elongation, saturated fatty acid",
+     "long-chain fatty-acyl-CoA biosynthetic process",
+     "very long-chain fatty acid biosynthetic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Pexophagy",
+     "autophagy of peroxisome"
+    ],
+    "only_in_confusable": [
+     "Beta-oxidation of pristanoyl-CoA",
+     "Beta-oxidation of very long chain fatty acids",
+     "Defective ABCD1 causes ALD",
+     "TYSND1 cleaves peroxisomal proteins",
+     "fatty acid alpha-oxidation",
+     "fatty acid beta-oxidation using acyl-CoA oxidase",
+     "fatty-acyl-CoA catabolic process",
+     "long-chain fatty acid catabolic process",
+     "malonyl-CoA metabolic process",
+     "medium-chain fatty acid biosynthetic process",
+     "medium-chain fatty acid catabolic process",
+     "medium-chain fatty-acyl-CoA metabolic process",
+     "succinyl-CoA catabolic process",
+     "very long-chain fatty acid catabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Peroxisome biogenesis, protein import and pexophagy' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n03513",
+  "size": 13,
+  "members": [
+   "protein to membrane docking",
+   "protein import into peroxisome membrane",
+   "TYSND1 cleaves peroxisomal proteins",
+   "autophagy of peroxisome",
+   "protein import into peroxisome matrix, receptor recycling",
+   "protein targeting to peroxisome",
+   "intracellular transport",
+   "HALLMARK_PEROXISOME",
+   "Pexophagy",
+   "Class I peroxisomal membrane protein import",
+   "peroxisome fission",
+   "protein unfolding",
+   "protein import into peroxisome matrix, substrate release"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 9,
+    "only_in_theme": [
+     "TYSND1 cleaves peroxisomal proteins",
+     "intracellular transport",
+     "protein to membrane docking",
+     "protein unfolding"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 8,
+    "only_in_theme": [
+     "Pexophagy",
+     "autophagy of peroxisome",
+     "intracellular transport",
+     "protein to membrane docking",
+     "protein unfolding"
+    ],
+    "only_in_confusable": [
+     "Beta-oxidation of very long chain fatty acids",
+     "Defective ABCD1 causes ALD",
+     "fatty acid beta-oxidation using acyl-CoA oxidase",
+     "fatty-acyl-CoA catabolic process",
+     "very long-chain fatty acid catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 7,
+    "only_in_theme": [
+     "Pexophagy",
+     "TYSND1 cleaves peroxisomal proteins",
+     "autophagy of peroxisome",
+     "intracellular transport",
+     "protein to membrane docking",
+     "protein unfolding"
+    ],
+    "only_in_confusable": [
+     "Linoleic acid (LA) metabolism",
+     "Plasmalogen biosynthesis",
+     "Synthesis of very long-chain fatty acyl-CoAs",
+     "Wax biosynthesis",
+     "alpha-linolenic acid (ALA) metabolism",
+     "alpha-linolenic acid metabolic process",
+     "ether biosynthetic process",
+     "fatty acid elongation, saturated fatty acid",
+     "long-chain fatty-acyl-CoA biosynthetic process",
+     "very long-chain fatty acid biosynthetic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 8,
+    "only_in_theme": [
+     "Pexophagy",
+     "autophagy of peroxisome",
+     "intracellular transport",
+     "protein to membrane docking",
+     "protein unfolding"
+    ],
+    "only_in_confusable": [
+     "Beta-oxidation of pristanoyl-CoA",
+     "Beta-oxidation of very long chain fatty acids",
+     "Defective ABCD1 causes ALD",
+     "fatty acid alpha-oxidation",
+     "fatty acid beta-oxidation using acyl-CoA oxidase",
+     "fatty-acyl-CoA catabolic process",
+     "long-chain fatty acid catabolic process",
+     "malonyl-CoA metabolic process",
+     "medium-chain fatty acid biosynthetic process",
+     "medium-chain fatty acid catabolic process",
+     "medium-chain fatty-acyl-CoA metabolic process",
+     "succinyl-CoA catabolic process",
+     "very long-chain fatty acid catabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Peroxisome biogenesis, protein import and pexophagy' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00403",
+  "size": 6,
+  "members": [
+   "obsolete tyrosine metabolic process",
+   "Phenylalanine metabolism",
+   "obsolete L-phenylalanine metabolic process",
+   "L-tyrosine catabolic process",
+   "Tyrosine catabolism",
+   "Phenylketonuria"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 6,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": [
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 1,
+    "only_in_theme": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": [
+     "Histidine catabolism",
+     "L-threonine metabolic process",
+     "Threonine catabolism",
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete L-histidine metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Phenylalanine and tyrosine catabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00786",
+  "size": 3,
+  "members": [
+   "Tyrosine catabolism",
+   "obsolete L-phenylalanine metabolic process",
+   "L-tyrosine catabolic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "obsolete tyrosine metabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process",
+     "obsolete tyrosine metabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "L-tyrosine catabolic process",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process"
+    ],
+    "only_in_confusable": [
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "L-tyrosine catabolic process",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process"
+    ],
+    "only_in_confusable": [
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Phenylalanine and tyrosine catabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01249",
+  "size": 10,
+  "members": [
+   "obsolete amide catabolic process",
+   "obsolete L-amino acid catabolic process",
+   "Phenylketonuria",
+   "Phenylalanine metabolism",
+   "obsolete L-amino acid metabolic process",
+   "Tyrosine catabolism",
+   "obsolete L-phenylalanine metabolic process",
+   "obsolete alpha-amino acid metabolic process",
+   "obsolete tyrosine metabolic process",
+   "L-tyrosine catabolic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 6,
+    "only_in_theme": [
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete amide catabolic process",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": [
+     "Histidine catabolism",
+     "L-threonine metabolic process",
+     "Threonine catabolism",
+     "obsolete L-histidine metabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "L-tyrosine catabolic process",
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process",
+     "obsolete tyrosine metabolic process"
+    ],
+    "only_in_confusable": [
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Phenylalanine and tyrosine catabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00549",
+  "size": 3,
+  "members": [
+   "positive regulation of natural killer cell mediated cytotoxicity",
+   "positive regulation of natural killer cell mediated immune response to tumor cell",
+   "positive regulation of T cell mediated cytotoxicity"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "NK cell surface signature",
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (II)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)",
+     "positive regulation of natural killer cell cytokine production"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "positive regulation of T cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated immune response to tumor cell"
+    ],
+    "only_in_confusable": [
+     "Immunoregulatory interactions between a Lymphoid and a non-Lymphoid cell",
+     "antigen processing and presentation of exogenous peptide antigen via MHC class Ib",
+     "enriched in NK cells (receptor activation)",
+     "negative regulation of T cell mediated cytotoxicity",
+     "negative regulation of natural killer cell activation",
+     "positive regulation of natural killer cell cytokine production",
+     "regulation of natural killer cell degranulation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "positive regulation of T cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated immune response to tumor cell"
+    ],
+    "only_in_confusable": [
+     "NK cell surface signature",
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (II)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "positive regulation of T cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated immune response to tumor cell"
+    ],
+    "only_in_confusable": [
+     "antigen processing and presentation of exogenous peptide antigen via MHC class Ib",
+     "enriched in NK cells (II)",
+     "enriched in NK cells (KIR cluster)",
+     "granzyme-mediated programmed cell death signaling pathway",
+     "negative regulation of natural killer cell activation",
+     "peripheral tolerance induction",
+     "positive regulation of natural killer cell cytokine production",
+     "protection from natural killer cell mediated cytotoxicity",
+     "regulation of natural killer cell degranulation"
+    ]
+   }
+  ],
+  "note": "The name 'Positive regulation of NK and T cell cytotoxicity' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01267",
+  "size": 10,
+  "members": [
+   "NK cell surface signature",
+   "positive regulation of natural killer cell mediated immune response to tumor cell",
+   "enriched in NK cells (III)",
+   "enriched in NK cells (II)",
+   "positive regulation of T cell mediated cytotoxicity",
+   "T cell activation (II)",
+   "positive regulation of natural killer cell mediated cytotoxicity",
+   "enriched in T cells (I)",
+   "enriched in NK cells (I)",
+   "positive regulation of natural killer cell cytokine production"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 3,
+    "only_in_theme": [
+     "NK cell surface signature",
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (II)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)",
+     "positive regulation of natural killer cell cytokine production"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 6,
+    "only_in_theme": [
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)"
+    ],
+    "only_in_confusable": [
+     "antigen processing and presentation of exogenous peptide antigen via MHC class Ib",
+     "granzyme-mediated programmed cell death signaling pathway",
+     "protection from natural killer cell mediated cytotoxicity",
+     "regulation of natural killer cell degranulation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 6,
+    "only_in_theme": [
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)"
+    ],
+    "only_in_confusable": [
+     "Immunoregulatory interactions between a Lymphoid and a non-Lymphoid cell",
+     "antigen processing and presentation of endogenous peptide antigen",
+     "antigen processing and presentation of exogenous peptide antigen via MHC class Ib",
+     "cellular defense response",
+     "enriched in NK cells (KIR cluster)",
+     "enriched in NK cells (receptor activation)",
+     "granzyme-mediated programmed cell death signaling pathway",
+     "negative regulation of T cell mediated cytotoxicity",
+     "negative regulation of natural killer cell activation",
+     "peripheral tolerance induction",
+     "protection from natural killer cell mediated cytotoxicity",
+     "regulation of natural killer cell degranulation"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "T cell activation (II)",
+     "enriched in NK cells (I)",
+     "enriched in NK cells (III)",
+     "enriched in T cells (I)",
+     "positive regulation of T cell mediated cytotoxicity",
+     "positive regulation of natural killer cell mediated immune response to tumor cell"
+    ],
+    "only_in_confusable": [
+     "Immunoregulatory interactions between a Lymphoid and a non-Lymphoid cell",
+     "antigen processing and presentation of endogenous peptide antigen",
+     "antigen processing and presentation of exogenous peptide antigen via MHC class Ib",
+     "enriched in NK cells (KIR cluster)",
+     "enriched in NK cells (receptor activation)",
+     "granzyme-mediated programmed cell death signaling pathway",
+     "negative regulation of T cell mediated cytotoxicity",
+     "negative regulation of natural killer cell activation",
+     "peripheral tolerance induction",
+     "protection from natural killer cell mediated cytotoxicity",
+     "regulation of natural killer cell degranulation"
+    ]
+   }
+  ],
+  "note": "The name 'Positive regulation of NK and T cell cytotoxicity' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01660",
+  "size": 11,
+  "members": [
+   "postsynaptic density protein 95 clustering",
+   "Neurexins and neuroligins",
+   "postsynaptic membrane assembly",
+   "positive regulation of inhibitory postsynaptic potential",
+   "gephyrin clustering involved in postsynaptic density assembly",
+   "gamma-aminobutyric acid receptor clustering",
+   "negative regulation of excitatory postsynaptic potential",
+   "terminal button organization",
+   "NMDA glutamate receptor clustering",
+   "regulation of inhibitory synapse assembly",
+   "positive regulation of excitatory postsynaptic potential"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 11,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "neuron-neuron synaptic transmission",
+     "positive regulation of synaptic transmission, glutamatergic"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 8,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "positive regulation of inhibitory postsynaptic potential",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "positive regulation of synapse assembly",
+     "presynaptic membrane assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "presynaptic membrane assembly",
+     "regulation of postsynaptic density assembly",
+     "synaptic membrane adhesion",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 5,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "presynaptic membrane assembly",
+     "synaptic membrane adhesion"
+    ]
+   }
+  ],
+  "note": "The name 'Postsynaptic receptor clustering at excitatory and inhibitory synapses' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n03469",
+  "size": 13,
+  "members": [
+   "Neurexins and neuroligins",
+   "gamma-aminobutyric acid receptor clustering",
+   "regulation of inhibitory synapse assembly",
+   "neuron-neuron synaptic transmission",
+   "positive regulation of inhibitory postsynaptic potential",
+   "gephyrin clustering involved in postsynaptic density assembly",
+   "postsynaptic density protein 95 clustering",
+   "positive regulation of excitatory postsynaptic potential",
+   "negative regulation of excitatory postsynaptic potential",
+   "NMDA glutamate receptor clustering",
+   "terminal button organization",
+   "positive regulation of synaptic transmission, glutamatergic",
+   "postsynaptic membrane assembly"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 11,
+    "only_in_theme": [
+     "neuron-neuron synaptic transmission",
+     "positive regulation of synaptic transmission, glutamatergic"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 8,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "positive regulation of synapse assembly",
+     "presynaptic membrane assembly",
+     "regulation of postsynaptic density assembly",
+     "regulation of presynapse organization",
+     "regulation of synaptic vesicle clustering",
+     "synaptic membrane adhesion",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "biological process involved in intraspecies interaction between organisms",
+     "presynaptic membrane assembly",
+     "regulation of postsynaptic density assembly",
+     "synaptic membrane adhesion",
+     "trans-synaptic signaling by trans-synaptic complex, modulating synaptic transmission"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 5,
+    "only_in_theme": [
+     "gamma-aminobutyric acid receptor clustering",
+     "gephyrin clustering involved in postsynaptic density assembly",
+     "negative regulation of excitatory postsynaptic potential",
+     "neuron-neuron synaptic transmission",
+     "positive regulation of excitatory postsynaptic potential",
+     "positive regulation of inhibitory postsynaptic potential",
+     "positive regulation of synaptic transmission, glutamatergic",
+     "regulation of inhibitory synapse assembly"
+    ],
+    "only_in_confusable": [
+     "Receptor-type tyrosine-protein phosphatases",
+     "Synaptic adhesion-like molecules",
+     "presynaptic membrane assembly",
+     "synaptic membrane adhesion"
+    ]
+   }
+  ],
+  "note": "The name 'Postsynaptic receptor clustering at excitatory and inhibitory synapses' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01708",
+  "size": 11,
+  "members": [
+   "obsolete L-amino acid metabolic process",
+   "glyoxylate metabolic process",
+   "obsolete alpha-amino acid metabolic process",
+   "glycine biosynthetic process",
+   "obsolete L-amino acid catabolic process",
+   "Proline catabolism",
+   "obsolete glutamine family amino acid metabolic process",
+   "obsolete amide catabolic process",
+   "L-proline biosynthetic process",
+   "non-proteinogenic amino acid catabolic process",
+   "obsolete alpha-amino acid biosynthetic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 11,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 4,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete glutamine family amino acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 4,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete glutamine family amino acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "Histidine catabolism",
+     "L-threonine metabolic process",
+     "L-tyrosine catabolic process",
+     "Threonine catabolism",
+     "obsolete L-histidine metabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete glutamine family amino acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "L-tyrosine catabolic process",
+     "Phenylalanine metabolism",
+     "Phenylketonuria",
+     "Tyrosine catabolism",
+     "obsolete L-phenylalanine metabolic process",
+     "obsolete tyrosine metabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Proline, glycine and glyoxylate amino acid metabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n02379",
+  "size": 14,
+  "members": [
+   "L-proline biosynthetic process",
+   "glyoxylate metabolic process",
+   "Proline catabolism",
+   "obsolete amide catabolic process",
+   "obsolete organic acid metabolic process",
+   "obsolete alpha-amino acid biosynthetic process",
+   "obsolete glutamine family amino acid metabolic process",
+   "obsolete organic acid catabolic process",
+   "non-proteinogenic amino acid catabolic process",
+   "obsolete alpha-amino acid metabolic process",
+   "obsolete organic acid biosynthetic process",
+   "obsolete L-amino acid metabolic process",
+   "obsolete L-amino acid catabolic process",
+   "glycine biosynthetic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 11,
+    "only_in_theme": [
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 7,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete glutamine family amino acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "Conjugation of benzoate with glycine",
+     "Conjugation of phenylacetate with glutamine",
+     "Conjugation of salicylate with glycine",
+     "metabolism in mitochondria, peroxisome"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 4,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete glutamine family amino acid metabolic process",
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "L-threonine metabolic process",
+     "Threonine catabolism"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 1,
+    "only_in_theme": [
+     "L-proline biosynthetic process",
+     "Proline catabolism",
+     "glycine biosynthetic process",
+     "glyoxylate metabolic process",
+     "non-proteinogenic amino acid catabolic process",
+     "obsolete L-amino acid catabolic process",
+     "obsolete L-amino acid metabolic process",
+     "obsolete alpha-amino acid biosynthetic process",
+     "obsolete alpha-amino acid metabolic process",
+     "obsolete glutamine family amino acid metabolic process",
+     "obsolete organic acid biosynthetic process",
+     "obsolete organic acid catabolic process",
+     "obsolete organic acid metabolic process"
+    ],
+    "only_in_confusable": [
+     "Conjugation of benzoate with glycine",
+     "Conjugation of phenylacetate with glutamine",
+     "Conjugation of salicylate with glycine",
+     "Glycine degradation",
+     "L-threonine metabolic process",
+     "Threonine catabolism",
+     "dicarboxylic acid biosynthetic process",
+     "metabolism in mitochondria, peroxisome",
+     "regulation of amino acid metabolic process"
+    ]
+   }
+  ],
+  "note": "The name 'Proline, glycine and glyoxylate amino acid metabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00979",
+  "size": 22,
+  "members": [
+   "UMP salvage",
+   "UDP biosynthetic process",
+   "pyrimidine nucleobase catabolic process",
+   "UMP catabolic process",
+   "dCMP metabolic process",
+   "Pyrimidine catabolism",
+   "deoxyribonucleotide biosynthetic process",
+   "CMP metabolic process",
+   "dGMP catabolic process",
+   "dUMP catabolic process",
+   "Pyrimidine salvage",
+   "pyrimidine nucleoside biosynthetic process",
+   "'de novo' pyrimidine nucleobase biosynthetic process",
+   "Pyrimidine biosynthesis",
+   "dAMP metabolic process",
+   "2'-deoxyribonucleoside catabolic process",
+   "UTP biosynthetic process",
+   "purine deoxyribonucleotide biosynthetic process",
+   "dTTP biosynthetic process",
+   "pyrimidine deoxyribonucleoside metabolic process",
+   "dTMP catabolic process",
+   "deoxyribonucleoside monophosphate biosynthetic process"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 22,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Interconversion of nucleotide di- and triphosphates",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 14,
+    "only_in_theme": [
+     "Pyrimidine salvage",
+     "dAMP metabolic process",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "purine deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "'de novo' AMP biosynthetic process",
+     "'de novo' IMP biosynthetic process",
+     "GMP biosynthetic process",
+     "Purine ribonucleoside monophosphate biosynthesis",
+     "XMP metabolic process",
+     "nucleotide metabolism",
+     "purine nucleotide biosynthesis"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 9,
+    "only_in_theme": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "CMP metabolic process",
+     "Pyrimidine biosynthesis",
+     "Pyrimidine salvage",
+     "UDP biosynthetic process",
+     "UMP salvage",
+     "UTP biosynthetic process",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleobase catabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 9,
+    "only_in_theme": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "2'-deoxyribonucleoside catabolic process",
+     "CMP metabolic process",
+     "Pyrimidine biosynthesis",
+     "Pyrimidine catabolism",
+     "UDP biosynthetic process",
+     "UMP catabolic process",
+     "UMP salvage",
+     "UTP biosynthetic process",
+     "dCMP metabolic process",
+     "dGMP catabolic process",
+     "dUMP catabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ],
+    "only_in_confusable": [
+     "ADP biosynthetic process",
+     "GTP biosynthetic process",
+     "Interconversion of nucleotide di- and triphosphates",
+     "nucleobase-containing small molecule interconversion",
+     "nucleoside monophosphate phosphorylation"
+    ]
+   }
+  ],
+  "note": "The name 'Pyrimidine and deoxyribonucleotide synthesis, salvage and catabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01495",
+  "size": 26,
+  "members": [
+   "CMP metabolic process",
+   "Pyrimidine catabolism",
+   "Pyrimidine salvage",
+   "'de novo' pyrimidine nucleobase biosynthetic process",
+   "dTMP catabolic process",
+   "dTTP biosynthetic process",
+   "Pyrimidine biosynthesis",
+   "purine deoxyribonucleotide biosynthetic process",
+   "deoxyribonucleotide catabolic process",
+   "deoxyribonucleotide biosynthetic process",
+   "UDP biosynthetic process",
+   "2'-deoxyribonucleoside catabolic process",
+   "pyrimidine nucleobase catabolic process",
+   "deoxyribonucleoside monophosphate biosynthetic process",
+   "dUMP catabolic process",
+   "purine deoxyribonucleoside triphosphate metabolic process",
+   "purine deoxyribonucleoside metabolic process",
+   "dCMP metabolic process",
+   "dGMP catabolic process",
+   "UMP salvage",
+   "UMP catabolic process",
+   "pyrimidine nucleoside biosynthetic process",
+   "dAMP metabolic process",
+   "pyrimidine deoxyribonucleoside metabolic process",
+   "UTP biosynthetic process",
+   "Interconversion of nucleotide di- and triphosphates"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 22,
+    "only_in_theme": [
+     "Interconversion of nucleotide di- and triphosphates",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 12,
+    "only_in_theme": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "CMP metabolic process",
+     "Interconversion of nucleotide di- and triphosphates",
+     "Pyrimidine biosynthesis",
+     "Pyrimidine salvage",
+     "UDP biosynthetic process",
+     "UMP salvage",
+     "UTP biosynthetic process",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleobase catabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "Defective ADA disrupts (deoxy)adenosine deamination",
+     "Defective PNP disrupts phosphorolysis of (deoxy)guanosine and (deoxy)inosine"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 14,
+    "only_in_theme": [
+     "Interconversion of nucleotide di- and triphosphates",
+     "Pyrimidine salvage",
+     "dAMP metabolic process",
+     "dTTP biosynthetic process",
+     "deoxyribonucleoside monophosphate biosynthetic process",
+     "deoxyribonucleotide biosynthetic process",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process",
+     "purine deoxyribonucleotide biosynthetic process",
+     "pyrimidine deoxyribonucleoside metabolic process",
+     "pyrimidine nucleoside biosynthetic process"
+    ],
+    "only_in_confusable": [
+     "'de novo' AMP biosynthetic process",
+     "'de novo' IMP biosynthetic process",
+     "GMP biosynthetic process",
+     "Purine ribonucleoside monophosphate biosynthesis",
+     "XMP metabolic process",
+     "nucleotide metabolism",
+     "purine nucleotide biosynthesis"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 10,
+    "only_in_theme": [
+     "'de novo' pyrimidine nucleobase biosynthetic process",
+     "2'-deoxyribonucleoside catabolic process",
+     "CMP metabolic process",
+     "Pyrimidine biosynthesis",
+     "Pyrimidine catabolism",
+     "UDP biosynthetic process",
+     "UMP catabolic process",
+     "UMP salvage",
+     "UTP biosynthetic process",
+     "dCMP metabolic process",
+     "dGMP catabolic process",
+     "dUMP catabolic process",
+     "deoxyribonucleotide catabolic process",
+     "purine deoxyribonucleoside metabolic process",
+     "purine deoxyribonucleoside triphosphate metabolic process",
+     "pyrimidine nucleobase catabolic process"
+    ],
+    "only_in_confusable": [
+     "ADP biosynthetic process",
+     "GTP biosynthetic process",
+     "nucleobase-containing small molecule interconversion",
+     "nucleoside monophosphate phosphorylation"
+    ]
+   }
+  ],
+  "note": "The name 'Pyrimidine and deoxyribonucleotide synthesis, salvage and catabolism' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00317",
+  "size": 5,
+  "members": [
+   "Attachment and Entry",
+   "Induction of Cell-Cell Fusion",
+   "Attachment and Entry",
+   "receptor-mediated virion attachment to host cell",
+   "receptor-mediated endocytosis of virus by host cell"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 5,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Assembly and Release of Dengue Virus Virions",
+     "Dengue Virus Attachment and Entry",
+     "Respiratory syncytial virus (RSV) attachment and entry"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 2,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion"
+    ],
+    "only_in_confusable": [
+     "Entry of Influenza Virion into Host Cell via Endocytosis",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 2,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion"
+    ],
+    "only_in_confusable": [
+     "Assembly and Release of Dengue Virus Virions",
+     "Dengue Virus Attachment and Entry",
+     "Dengue virus activates/modulates innate and adaptive immune responses",
+     "Entry of Influenza Virion into Host Cell via Endocytosis",
+     "Respiratory syncytial virus (RSV) attachment and entry",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion",
+     "receptor-mediated endocytosis of virus by host cell",
+     "receptor-mediated virion attachment to host cell"
+    ],
+    "only_in_confusable": [
+     "Assembly and Release of Dengue Virus Virions",
+     "Dengue Virus Attachment and Entry",
+     "Dengue virus activates/modulates innate and adaptive immune responses",
+     "Respiratory syncytial virus (RSV) attachment and entry",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus"
+    ]
+   }
+  ],
+  "note": "The name 'Receptor-mediated viral attachment, entry and cell-cell fusion' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00554",
+  "size": 8,
+  "members": [
+   "receptor-mediated virion attachment to host cell",
+   "Assembly and Release of Dengue Virus Virions",
+   "Attachment and Entry",
+   "Attachment and Entry",
+   "Respiratory syncytial virus (RSV) attachment and entry",
+   "Induction of Cell-Cell Fusion",
+   "receptor-mediated endocytosis of virus by host cell",
+   "Dengue Virus Attachment and Entry"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Assembly and Release of Dengue Virus Virions",
+     "Dengue Virus Attachment and Entry",
+     "Respiratory syncytial virus (RSV) attachment and entry"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion"
+    ],
+    "only_in_confusable": [
+     "Dengue virus activates/modulates innate and adaptive immune responses",
+     "Entry of Influenza Virion into Host Cell via Endocytosis",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 5,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion",
+     "receptor-mediated endocytosis of virus by host cell"
+    ],
+    "only_in_confusable": [
+     "Assembly of Viral Components at the Budding Site",
+     "Dengue virus activates/modulates innate and adaptive immune responses",
+     "Maturation of DENV proteins",
+     "Maturation of protein 3a",
+     "Maturation of protein 3a",
+     "Maturation of protein E",
+     "Maturation of protein E",
+     "Maturation of spike protein",
+     "Maturation of spike protein",
+     "Synthesis and processing of ENV and VPU",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus",
+     "viral protein processing"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 3,
+    "only_in_theme": [
+     "Attachment and Entry",
+     "Attachment and Entry",
+     "Induction of Cell-Cell Fusion",
+     "receptor-mediated endocytosis of virus by host cell",
+     "receptor-mediated virion attachment to host cell"
+    ],
+    "only_in_confusable": [
+     "Dengue virus activates/modulates innate and adaptive immune responses",
+     "positive regulation by symbiont of entry into host",
+     "positive regulation of viral life cycle",
+     "regulation of viral entry into host cell",
+     "transport of virus"
+    ]
+   }
+  ],
+  "note": "The name 'Receptor-mediated viral attachment, entry and cell-cell fusion' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01395",
+  "size": 8,
+  "members": [
+   "interstrand cross-link repair",
+   "DNA strand invasion",
+   "DNA repair",
+   "DNA repair complex assembly",
+   "replication-born double-strand break repair via sister chromatid exchange",
+   "double-strand break repair via synthesis-dependent strand annealing",
+   "regulation of mitotic recombination",
+   "DNA synthesis involved in DNA repair"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 8,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Unwinding of DNA",
+     "double-strand break repair via break-induced replication",
+     "positive regulation of DNA-directed DNA polymerase activity"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "DNA repair complex assembly",
+     "DNA strand invasion",
+     "interstrand cross-link repair"
+    ],
+    "only_in_confusable": [
+     "Unwinding of DNA",
+     "double-strand break repair via break-induced replication",
+     "positive regulation of DNA-directed DNA polymerase activity"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "DNA repair",
+     "DNA repair complex assembly",
+     "DNA strand invasion",
+     "DNA synthesis involved in DNA repair",
+     "double-strand break repair via synthesis-dependent strand annealing",
+     "interstrand cross-link repair",
+     "regulation of mitotic recombination",
+     "replication-born double-strand break repair via sister chromatid exchange"
+    ],
+    "only_in_confusable": [
+     "Defective DNA double strand break response due to BARD1 loss of function",
+     "Defective DNA double strand break response due to BRCA1 loss of function",
+     "Impaired BRCA2 binding to SEM1 (DSS1)",
+     "Impaired BRCA2 translocation to the nucleus",
+     "Negative Regulation of DNA Double Strand Break Response",
+     "Nonhomologous End-Joining (NHEJ)",
+     "Recruitment and ATM-mediated phosphorylation of repair and signaling proteins at DNA double strand breaks",
+     "Sensing of DNA Double Strand Breaks",
+     "double-strand break repair via alternative nonhomologous end joining",
+     "double-strand break repair via classical nonhomologous end joining",
+     "negative regulation of double-strand break repair via homologous recombination",
+     "positive regulation of double-strand break repair via homologous recombination",
+     "positive regulation of double-strand break repair via nonhomologous end joining"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 2,
+    "only_in_theme": [
+     "DNA repair complex assembly",
+     "DNA strand invasion",
+     "DNA synthesis involved in DNA repair",
+     "double-strand break repair via synthesis-dependent strand annealing",
+     "regulation of mitotic recombination",
+     "replication-born double-strand break repair via sister chromatid exchange"
+    ],
+    "only_in_confusable": [
+     "Defective DNA double strand break response due to BARD1 loss of function",
+     "Defective DNA double strand break response due to BRCA1 loss of function",
+     "Fanconi Anemia Pathway",
+     "Impaired BRCA2 binding to SEM1 (DSS1)",
+     "Impaired BRCA2 translocation to the nucleus",
+     "Negative Regulation of DNA Double Strand Break Response",
+     "monoubiquitinated protein deubiquitination",
+     "positive regulation of protein monoubiquitination"
+    ]
+   }
+  ],
+  "note": "The name 'Recombinational DNA repair by strand invasion and repair synthesis' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01530",
+  "size": 11,
+  "members": [
+   "Unwinding of DNA",
+   "DNA synthesis involved in DNA repair",
+   "double-strand break repair via break-induced replication",
+   "DNA strand invasion",
+   "DNA repair",
+   "positive regulation of DNA-directed DNA polymerase activity",
+   "DNA repair complex assembly",
+   "interstrand cross-link repair",
+   "double-strand break repair via synthesis-dependent strand annealing",
+   "regulation of mitotic recombination",
+   "replication-born double-strand break repair via sister chromatid exchange"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 8,
+    "only_in_theme": [
+     "Unwinding of DNA",
+     "double-strand break repair via break-induced replication",
+     "positive regulation of DNA-directed DNA polymerase activity"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 3,
+    "only_in_theme": [
+     "DNA repair",
+     "DNA repair complex assembly",
+     "DNA strand invasion",
+     "DNA synthesis involved in DNA repair",
+     "double-strand break repair via synthesis-dependent strand annealing",
+     "interstrand cross-link repair",
+     "regulation of mitotic recombination",
+     "replication-born double-strand break repair via sister chromatid exchange"
+    ],
+    "only_in_confusable": [
+     "cell division",
+     "mitotic intra-S DNA damage checkpoint signaling",
+     "resolution of mitotic recombination intermediates",
+     "response to cell cycle checkpoint signaling"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 8,
+    "only_in_theme": [
+     "Unwinding of DNA",
+     "double-strand break repair via break-induced replication",
+     "positive regulation of DNA-directed DNA polymerase activity"
+    ],
+    "only_in_confusable": [
+     "Defective DNA double strand break response due to BARD1 loss of function",
+     "Defective DNA double strand break response due to BRCA1 loss of function",
+     "HDR through MMEJ (alt-NHEJ)",
+     "Impaired BRCA2 binding to SEM1 (DSS1)",
+     "Impaired BRCA2 translocation to the nucleus",
+     "Negative Regulation of DNA Double Strand Break Response",
+     "Nonhomologous End-Joining (NHEJ)",
+     "Recruitment and ATM-mediated phosphorylation of repair and signaling proteins at DNA double strand breaks",
+     "Sensing of DNA Double Strand Breaks",
+     "double-strand break repair via alternative nonhomologous end joining",
+     "double-strand break repair via classical nonhomologous end joining",
+     "negative regulation of double-strand break repair via homologous recombination",
+     "positive regulation of double-strand break repair via homologous recombination",
+     "positive regulation of double-strand break repair via nonhomologous end joining"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 3,
+    "only_in_theme": [
+     "DNA repair",
+     "DNA repair complex assembly",
+     "DNA strand invasion",
+     "DNA synthesis involved in DNA repair",
+     "double-strand break repair via synthesis-dependent strand annealing",
+     "interstrand cross-link repair",
+     "regulation of mitotic recombination",
+     "replication-born double-strand break repair via sister chromatid exchange"
+    ],
+    "only_in_confusable": [
+     "TP53 Regulates Transcription of DNA Repair Genes",
+     "cell division",
+     "mitosis (TF motif CCAATNNSNNNGCG)",
+     "mitotic intra-S DNA damage checkpoint signaling",
+     "regulation of DNA stability",
+     "resolution of mitotic recombination intermediates",
+     "response to cell cycle checkpoint signaling"
+    ]
+   }
+  ],
+  "note": "The name 'Recombinational DNA repair by strand invasion and repair synthesis' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00673",
+  "size": 4,
+  "members": [
+   "negative regulation of leukocyte adhesion to vascular endothelial cell",
+   "negative regulation of cellular extravasation",
+   "negative regulation of cell adhesion molecule production",
+   "positive regulation of leukocyte adhesion to arterial endothelial cell"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 4,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "diapedesis",
+     "positive regulation of neutrophil migration",
+     "regulation of T cell extravasation",
+     "regulation of neutrophil extravasation"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "negative regulation of cell adhesion molecule production",
+     "negative regulation of cellular extravasation",
+     "negative regulation of leukocyte adhesion to vascular endothelial cell",
+     "positive regulation of leukocyte adhesion to arterial endothelial cell"
+    ],
+    "only_in_confusable": [
+     "Advanced glycosylation endproduct receptor signaling",
+     "HALLMARK_INFLAMMATORY_RESPONSE",
+     "monocyte activation",
+     "monocyte aggregation",
+     "negative regulation of monocyte chemotactic protein-1 production",
+     "negative regulation of monocyte chemotaxis",
+     "positive regulation of monocyte chemotaxis",
+     "positive regulation of monocyte extravasation",
+     "proinflammatory cytokines and chemokines",
+     "regulation of hyaluronan biosynthetic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "negative regulation of cell adhesion molecule production",
+     "negative regulation of cellular extravasation",
+     "negative regulation of leukocyte adhesion to vascular endothelial cell",
+     "positive regulation of leukocyte adhesion to arterial endothelial cell"
+    ],
+    "only_in_confusable": [
+     "endothelial cell activation",
+     "negative regulation of vascular wound healing",
+     "positive regulation of blood vessel endothelial cell proliferation involved in sprouting angiogenesis",
+     "positive regulation of blood vessel remodeling",
+     "positive regulation of endothelial cell apoptotic process",
+     "positive regulation of vascular wound healing",
+     "regulation of endothelial tube morphogenesis",
+     "smooth muscle adaptation"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "negative regulation of cell adhesion molecule production",
+     "negative regulation of cellular extravasation",
+     "negative regulation of leukocyte adhesion to vascular endothelial cell",
+     "positive regulation of leukocyte adhesion to arterial endothelial cell"
+    ],
+    "only_in_confusable": [
+     "HALLMARK_INFLAMMATORY_RESPONSE",
+     "chemokines and inflammatory molecules in myeloid cells",
+     "negative regulation of chemokine (C-X-C motif) ligand 2 production",
+     "negative regulation of inflammatory response to wounding",
+     "negative regulation of interleukin-8 production",
+     "negative regulation of macrophage cytokine production",
+     "negative regulation of monocyte chemotactic protein-1 production",
+     "proinflammatory cytokines and chemokines",
+     "proinflammatory dendritic cell, myeloid cell response",
+     "regulation of chronic inflammatory response"
+    ]
+   }
+  ],
+  "note": "The name 'Regulation of leukocyte\u2013endothelial adhesion and extravasation' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01631",
+  "size": 8,
+  "members": [
+   "negative regulation of leukocyte adhesion to vascular endothelial cell",
+   "regulation of T cell extravasation",
+   "diapedesis",
+   "positive regulation of neutrophil migration",
+   "negative regulation of cellular extravasation",
+   "negative regulation of cell adhesion molecule production",
+   "regulation of neutrophil extravasation",
+   "positive regulation of leukocyte adhesion to arterial endothelial cell"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 4,
+    "only_in_theme": [
+     "diapedesis",
+     "positive regulation of neutrophil migration",
+     "regulation of T cell extravasation",
+     "regulation of neutrophil extravasation"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 4,
+    "only_in_theme": [
+     "negative regulation of cell adhesion molecule production",
+     "negative regulation of cellular extravasation",
+     "negative regulation of leukocyte adhesion to vascular endothelial cell",
+     "positive regulation of leukocyte adhesion to arterial endothelial cell"
+    ],
+    "only_in_confusable": [
+     "integrin mediated leukocyte migration",
+     "integrins and cell adhesion"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 4,
+    "only_in_theme": [
+     "diapedesis",
+     "positive regulation of neutrophil migration",
+     "regulation of T cell extravasation",
+     "regulation of neutrophil extravasation"
+    ],
+    "only_in_confusable": [
+     "monocyte activation",
+     "monocyte aggregation",
+     "negative regulation of chemokine (C-X-C motif) ligand 2 production",
+     "negative regulation of matrix metallopeptidase secretion",
+     "regulation of hyaluronan biosynthetic process",
+     "synoviocyte proliferation"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 4,
+    "only_in_theme": [
+     "diapedesis",
+     "positive regulation of neutrophil migration",
+     "regulation of T cell extravasation",
+     "regulation of neutrophil extravasation"
+    ],
+    "only_in_confusable": [
+     "Advanced glycosylation endproduct receptor signaling",
+     "HALLMARK_INFLAMMATORY_RESPONSE",
+     "monocyte activation",
+     "monocyte aggregation",
+     "negative regulation of chemokine (C-X-C motif) ligand 2 production",
+     "negative regulation of macrophage apoptotic process",
+     "negative regulation of macrophage cytokine production",
+     "negative regulation of monocyte chemotactic protein-1 production",
+     "negative regulation of monocyte chemotaxis",
+     "positive regulation of monocyte chemotaxis",
+     "positive regulation of monocyte extravasation",
+     "proinflammatory cytokines and chemokines",
+     "regulation of hyaluronan biosynthetic process"
+    ]
+   }
+  ],
+  "note": "The name 'Regulation of leukocyte endothelial adhesion and extravasation' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n00041",
+  "size": 8,
+  "members": [
+   "Biosynthesis of DPAn-3-derived maresins",
+   "Biosynthesis of E-series 18(S)-resolvins",
+   "Biosynthesis of aspirin-triggered D-series resolvins",
+   "Biosynthesis of protectins",
+   "Biosynthesis of D-series resolvins",
+   "Biosynthesis of E-series 18(R)-resolvins",
+   "Biosynthesis of DPAn-3-derived protectins and resolvins",
+   "Biosynthesis of DPAn-6 SPMs"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 8,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids",
+     "arachidonate metabolite production involved in inflammatory response",
+     "lipoxin A4 metabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids",
+     "arachidonate metabolite production involved in inflammatory response",
+     "ether catabolic process",
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene catabolic process",
+     "lipoxin A4 metabolic process",
+     "platelet activating factor metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 0,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "Synthesis of 12-eicosatetraenoic acid derivatives",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids",
+     "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+     "arachidonate metabolite production involved in inflammatory response",
+     "hepoxilin biosynthetic process",
+     "lipoxin A4 metabolic process",
+     "lipoxygenase pathway"
+    ]
+   }
+  ],
+  "note": "The name 'Resolvin, protectin and maresin pro-resolving mediator biosynthesis' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01151",
+  "size": 15,
+  "members": [
+   "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+   "Biosynthesis of DPAn-3-derived protectins and resolvins",
+   "Biosynthesis of E-series 18(R)-resolvins",
+   "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+   "Biosynthesis of D-series resolvins",
+   "Biosynthesis of aspirin-triggered D-series resolvins",
+   "Biosynthesis of DPAn-3-derived 13-series resolvins",
+   "Biosynthesis of E-series 18(S)-resolvins",
+   "Synthesis of 15-eicosatetraenoic acid derivatives",
+   "Biosynthesis of DPAn-3-derived maresins",
+   "Synthesis of 5-eicosatetraenoic acids",
+   "Biosynthesis of DPAn-6 SPMs",
+   "Biosynthesis of maresin-like SPMs",
+   "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+   "Biosynthesis of protectins"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 8,
+    "only_in_theme": [
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Synthesis of 15-eicosatetraenoic acid derivatives",
+     "Synthesis of 5-eicosatetraenoic acids"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 2,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "arachidonate metabolite production involved in inflammatory response",
+     "lipoxin A4 metabolic process"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 2,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "arachidonate metabolite production involved in inflammatory response",
+     "ether catabolic process",
+     "fatty acid omega-oxidation",
+     "icosanoid catabolic process",
+     "leukotriene B4 metabolic process",
+     "leukotriene catabolic process",
+     "lipoxin A4 metabolic process",
+     "platelet activating factor metabolic process"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 2,
+    "only_in_theme": [
+     "Biosynthesis of D-series resolvins",
+     "Biosynthesis of DPAn-3-derived 13-series resolvins",
+     "Biosynthesis of DPAn-3-derived maresins",
+     "Biosynthesis of DPAn-3-derived protectins and resolvins",
+     "Biosynthesis of DPAn-6 SPMs",
+     "Biosynthesis of E-series 18(R)-resolvins",
+     "Biosynthesis of E-series 18(S)-resolvins",
+     "Biosynthesis of aspirin-triggered D-series resolvins",
+     "Biosynthesis of electrophilic \u03c9-3 PUFA oxo-derivatives",
+     "Biosynthesis of maresin conjugates in tissue regeneration (MCTR)",
+     "Biosynthesis of maresin-like SPMs",
+     "Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR)",
+     "Biosynthesis of protectins"
+    ],
+    "only_in_confusable": [
+     "Biosynthesis of Lipoxins (LX)",
+     "Synthesis of 12-eicosatetraenoic acid derivatives",
+     "Synthesis of Hepoxilins (HX) and Trioxilins (TrX)",
+     "arachidonate metabolite production involved in inflammatory response",
+     "hepoxilin biosynthetic process",
+     "lipoxin A4 metabolic process",
+     "lipoxygenase pathway"
+    ]
+   }
+  ],
+  "note": "The name 'Resolvin, protectin and maresin pro-resolving mediator biosynthesis' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n01421",
+  "size": 20,
+  "members": [
+   "regulation of ribosome biogenesis",
+   "cellular response to methionine",
+   "negative regulation of transcription by RNA polymerase I",
+   "5S class rRNA transcription by RNA polymerase III",
+   "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+   "RNA polymerase I preinitiation complex assembly",
+   "transcription elongation, RNA polymerase II",
+   "positive regulation of transcription by RNA polymerase III",
+   "RNA Polymerase I Promoter Opening",
+   "positive regulation of transcription of nucleolar large rRNA by RNA polymerase I",
+   "SIRT1 negatively regulates rRNA expression",
+   "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+   "RNA Polymerase I Transcription Termination",
+   "RNA Polymerase I Transcription Initiation",
+   "B-WICH complex positively regulates rRNA expression",
+   "nucleolar chromatin organization",
+   "NoRC negatively regulates rRNA expression",
+   "termination of RNA polymerase I transcription",
+   "RNA Polymerase I Promoter Escape",
+   "transcription elongation by RNA polymerase I"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 20,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "HALLMARK_MYC_TARGETS_V1",
+     "HALLMARK_MYC_TARGETS_V2",
+     "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+     "endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "facultative heterochromatin formation",
+     "positive regulation of protein localization to nucleolus",
+     "rRNA 5'-end processing"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 8,
+    "only_in_theme": [
+     "5S class rRNA transcription by RNA polymerase III",
+     "B-WICH complex positively regulates rRNA expression",
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "NoRC negatively regulates rRNA expression",
+     "RNA Polymerase I Promoter Escape",
+     "RNA Polymerase I Promoter Opening",
+     "RNA Polymerase I Transcription Initiation",
+     "RNA Polymerase I Transcription Termination",
+     "RNA polymerase I preinitiation complex assembly",
+     "positive regulation of transcription by RNA polymerase III",
+     "termination of RNA polymerase I transcription",
+     "transcription elongation, RNA polymerase II"
+    ],
+    "only_in_confusable": [
+     "HALLMARK_MYC_TARGETS_V1",
+     "HALLMARK_MYC_TARGETS_V2"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 10,
+    "only_in_theme": [
+     "B-WICH complex positively regulates rRNA expression",
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "NoRC negatively regulates rRNA expression",
+     "SIRT1 negatively regulates rRNA expression",
+     "cellular response to methionine",
+     "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "negative regulation of transcription by RNA polymerase I",
+     "nucleolar chromatin organization",
+     "positive regulation of transcription of nucleolar large rRNA by RNA polymerase I",
+     "regulation of ribosome biogenesis"
+    ],
+    "only_in_confusable": [
+     "RNA Polymerase III Abortive And Retractive Initiation",
+     "RNA Polymerase III Chain Elongation",
+     "RNA Polymerase III Transcription Initiation From Type 1 Promoter",
+     "RNA Polymerase III Transcription Initiation From Type 2 Promoter",
+     "RNA Polymerase III Transcription Initiation From Type 3 Promoter",
+     "RNA Polymerase III Transcription Termination",
+     "RNA polymerase II transcribes snRNA genes",
+     "formation of quadruple SL/U4/U5/U6 snRNP",
+     "regulation of snRNA transcription by RNA polymerase II",
+     "snRNA transcription by RNA polymerase III",
+     "tRNA 5'-leader removal",
+     "tRNA transcription",
+     "termination of RNA polymerase III transcription",
+     "transcription initiation at RNA polymerase III promoter"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 7,
+    "only_in_theme": [
+     "B-WICH complex positively regulates rRNA expression",
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "NoRC negatively regulates rRNA expression",
+     "RNA Polymerase I Promoter Escape",
+     "RNA Polymerase I Promoter Opening",
+     "RNA Polymerase I Transcription Initiation",
+     "RNA polymerase I preinitiation complex assembly",
+     "SIRT1 negatively regulates rRNA expression",
+     "cellular response to methionine",
+     "negative regulation of transcription by RNA polymerase I",
+     "nucleolar chromatin organization",
+     "positive regulation of transcription by RNA polymerase III",
+     "regulation of ribosome biogenesis"
+    ],
+    "only_in_confusable": [
+     "RNA Polymerase III Abortive And Retractive Initiation",
+     "RNA Polymerase III Chain Elongation",
+     "RNA Polymerase III Transcription Initiation From Type 1 Promoter",
+     "RNA Polymerase III Transcription Initiation From Type 2 Promoter",
+     "RNA Polymerase III Transcription Termination",
+     "endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "rRNA 5'-end processing",
+     "tRNA transcription",
+     "termination of RNA polymerase III transcription",
+     "transcription initiation at RNA polymerase III promoter"
+    ]
+   }
+  ],
+  "note": "The name 'RNA polymerase I rRNA transcription and nucleolar chromatin control' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n03971",
+  "size": 28,
+  "members": [
+   "endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+   "RNA Polymerase I Transcription Termination",
+   "NoRC negatively regulates rRNA expression",
+   "RNA polymerase I preinitiation complex assembly",
+   "5S class rRNA transcription by RNA polymerase III",
+   "regulation of ribosome biogenesis",
+   "RNA Polymerase I Promoter Escape",
+   "RNA Polymerase I Transcription Initiation",
+   "rRNA 5'-end processing",
+   "positive regulation of protein localization to nucleolus",
+   "facultative heterochromatin formation",
+   "negative regulation of transcription by RNA polymerase I",
+   "cellular response to methionine",
+   "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+   "termination of RNA polymerase I transcription",
+   "RNA Polymerase I Promoter Opening",
+   "SIRT1 negatively regulates rRNA expression",
+   "positive regulation of transcription of nucleolar large rRNA by RNA polymerase I",
+   "cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+   "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+   "HALLMARK_MYC_TARGETS_V2",
+   "nucleolar chromatin organization",
+   "transcription elongation, RNA polymerase II",
+   "positive regulation of transcription by RNA polymerase III",
+   "B-WICH complex positively regulates rRNA expression",
+   "transcription elongation by RNA polymerase I",
+   "HALLMARK_MYC_TARGETS_V1",
+   "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 20,
+    "only_in_theme": [
+     "HALLMARK_MYC_TARGETS_V1",
+     "HALLMARK_MYC_TARGETS_V2",
+     "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+     "endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "facultative heterochromatin formation",
+     "positive regulation of protein localization to nucleolus",
+     "rRNA 5'-end processing"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 8,
+    "only_in_theme": [
+     "5S class rRNA transcription by RNA polymerase III",
+     "B-WICH complex positively regulates rRNA expression",
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "NoRC negatively regulates rRNA expression",
+     "RNA Polymerase I Promoter Escape",
+     "RNA Polymerase I Promoter Opening",
+     "RNA Polymerase I Transcription Initiation",
+     "RNA Polymerase I Transcription Termination",
+     "RNA polymerase I preinitiation complex assembly",
+     "SIRT1 negatively regulates rRNA expression",
+     "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+     "cellular response to methionine",
+     "facultative heterochromatin formation",
+     "negative regulation of transcription by RNA polymerase I",
+     "nucleolar chromatin organization",
+     "positive regulation of protein localization to nucleolus",
+     "positive regulation of transcription by RNA polymerase III",
+     "regulation of ribosome biogenesis",
+     "termination of RNA polymerase I transcription",
+     "transcription elongation, RNA polymerase II"
+    ],
+    "only_in_confusable": [
+     "Major pathway of rRNA processing in the nucleolus and cytosol",
+     "cytosolic ribosome assembly",
+     "inner cell mass cell proliferation",
+     "positive regulation of rRNA processing"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 10,
+    "only_in_theme": [
+     "5S class rRNA transcription by RNA polymerase III",
+     "B-WICH complex positively regulates rRNA expression",
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "NoRC negatively regulates rRNA expression",
+     "RNA Polymerase I Promoter Escape",
+     "RNA Polymerase I Promoter Opening",
+     "RNA Polymerase I Transcription Initiation",
+     "RNA Polymerase I Transcription Termination",
+     "RNA polymerase I preinitiation complex assembly",
+     "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+     "endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",
+     "facultative heterochromatin formation",
+     "positive regulation of protein localization to nucleolus",
+     "positive regulation of transcription by RNA polymerase III",
+     "rRNA 5'-end processing",
+     "termination of RNA polymerase I transcription",
+     "transcription elongation, RNA polymerase II"
+    ],
+    "only_in_confusable": [
+     "C-MYC transcriptional network",
+     "cytosolic ribosome assembly",
+     "inner cell mass cell proliferation",
+     "mitosis (TF motif CCAATNNSNNNGCG)"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 18,
+    "only_in_theme": [
+     "ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression",
+     "HALLMARK_MYC_TARGETS_V1",
+     "HALLMARK_MYC_TARGETS_V2",
+     "SIRT1 negatively regulates rRNA expression",
+     "TFAP2A acts as a transcriptional repressor during retinoic acid induced cell differentiation",
+     "cellular response to methionine",
+     "facultative heterochromatin formation",
+     "nucleolar chromatin organization",
+     "positive regulation of protein localization to nucleolus",
+     "regulation of ribosome biogenesis"
+    ],
+    "only_in_confusable": [
+     "Formation of a pool of free 40S subunits",
+     "Formation of the ternary complex, and subsequently, the 43S complex",
+     "GTP hydrolysis and joining of the 60S ribosomal subunit",
+     "IRES-dependent viral translational initiation",
+     "Peptide chain elongation",
+     "RNA Polymerase III Abortive And Retractive Initiation",
+     "RNA Polymerase III Chain Elongation",
+     "RNA Polymerase III Transcription Initiation From Type 1 Promoter",
+     "RNA Polymerase III Transcription Initiation From Type 2 Promoter",
+     "RNA Polymerase III Transcription Termination",
+     "Recycling of eIF2:GDP",
+     "Ribosomal scanning and start codon recognition",
+     "Translation initiation complex formation",
+     "formation of cytoplasmic translation initiation complex",
+     "formation of translation preinitiation complex",
+     "tRNA transcription",
+     "termination of RNA polymerase III transcription",
+     "transcription initiation at RNA polymerase III promoter",
+     "translation initiation",
+     "translation initiation factor 3 complex"
+    ]
+   }
+  ],
+  "note": "The name 'RNA polymerase I rRNA transcription and nucleolar chromatin control' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n03070",
+  "size": 16,
+  "members": [
+   "[untitled BTM module] These genes mark the megakaryocyte-platelet arm of haematopoiesis and the signalling that supports it. Platelet factor 4 is the archetypal alpha-granule chemokine released on platelet activation, junction plakoglobin anchors the cytoskeletal junctions and desmosomal-type adhesion used by these cells, and the G protein alpha-z subunit couples platelet ADP and adrenergic receptors to inhibition of adenylate cyclase, lowering cyclic AMP to permit aggregation.",
+   "common myeloid progenitor cell proliferation",
+   "positive regulation of megakaryocyte differentiation",
+   "negative regulation of erythrocyte differentiation",
+   "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function",
+   "platelet morphogenesis",
+   "Regulation of RUNX1 Expression and Activity",
+   "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+   "cell cycle and transcription",
+   "leukocyte differentiation",
+   "myeloid progenitor cell differentiation",
+   "transcription regulation in cell development",
+   "[untitled BTM module] This grouping describes the transcriptional programme of immature myeloid progenitors in the bone marrow, the stage at which granulocyte, mast cell and erythroid potential is still being resolved and primary granule proteins are first made. Its hallmark products are the azurophilic granule enzymes myeloperoxidase and neutrophil elastase, together with the mast cell protease carboxypeptidase A3 and the promyelocyte membrane marker MS4A3, so the signature marks promyelocytes and their close relatives rather than mature blood cells.",
+   "negative regulation of megakaryocyte differentiation",
+   "megakaryocyte development",
+   "negative regulation of granulocyte differentiation"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 16,
+    "only_in_theme": [],
+    "only_in_confusable": [
+     "Transcriptional regulation of granulopoiesis",
+     "negative regulation of macrophage differentiation",
+     "negative regulation of monocyte differentiation"
+    ]
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 5,
+    "only_in_theme": [
+     "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function",
+     "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+     "Regulation of RUNX1 Expression and Activity",
+     "[untitled BTM module] These genes mark the megakaryocyte-platelet arm of haematopoiesis and the signalling that supports it. Platelet factor 4 is the archetypal alpha-granule chemokine released on platelet activation, junction plakoglobin anchors the cytoskeletal junctions and desmosomal-type adhesion used by these cells, and the G protein alpha-z subunit couples platelet ADP and adrenergic receptors to inhibition of adenylate cyclase, lowering cyclic AMP to permit aggregation.",
+     "megakaryocyte development",
+     "myeloid progenitor cell differentiation",
+     "negative regulation of erythrocyte differentiation",
+     "negative regulation of megakaryocyte differentiation",
+     "platelet morphogenesis",
+     "positive regulation of megakaryocyte differentiation",
+     "transcription regulation in cell development"
+    ],
+    "only_in_confusable": [
+     "negative regulation of macrophage differentiation",
+     "negative regulation of monocyte differentiation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 14,
+    "only_in_theme": [
+     "leukocyte differentiation",
+     "negative regulation of granulocyte differentiation"
+    ],
+    "only_in_confusable": [
+     "RHOBTB1 GTPase cycle",
+     "RUNX1 interacts with co-factors whose precise effect on RUNX1 targets is not known",
+     "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+     "Transcriptional regulation of granulopoiesis",
+     "[untitled BTM module] Granulocyte maturation in the bone marrow, and the antimicrobial cargo that neutrophils acquire as they mature, is the theme here. Promyelocytes and myelocytes load their granules with proteins that will later be deployed against bacteria: a lipopolysaccharide-binding bactericidal protein of the BPI family, the adipokine-like secreted factor resistin, prokineticin 2, the soluble pattern-recognition molecule pentraxin 3, and a haematopoietic growth factor of the CLEC11A type that supports progenitor expansion.",
+     "[untitled BTM module] The genes here sketch late erythroid differentiation and the assembly of the red cell surface. Erythropoiesis matters because it supplies the circulating oxygen carriers, and its transcriptional and membrane components determine both red cell mechanical resilience and the antigens that decide transfusion compatibility.",
+     "[untitled BTM module] These genes converge on myeloid and platelet function, where surface signalling is translated into changes in the actin cytoskeleton and in gene expression. The Src-family kinase LYN sits at the top of immunoreceptor and integrin signalling in leukocytes and platelets, setting both activating and inhibitory tone, while LST1 is an immune-cell transmembrane protein that shapes membrane protrusions and cell-cell contact.",
+     "[untitled BTM module] These genes mark the erythroid-megakaryocytic branch of hematopoiesis, the programme by which bone marrow progenitors commit to making red cells and platelets rather than lymphoid or granulocytic fates. Its transcriptional core is a TAL1-GFI1B axis that drives erythroid gene expression while restraining progenitor proliferation; loss of either blocks red cell production, and GFI1B mutation causes a bleeding disorder with malformed platelets.",
+     "[untitled BTM module] These genes outline the terminal stages of erythroid differentiation, in which a committed progenitor remodels its membrane and cytoskeleton, condenses and expels its nucleus, and emerges as a deformable red cell able to survive repeated passage through capillaries and the spleen. Structural components dominate: beta-spectrin builds the membrane skeleton beneath the lipid bilayer, pleckstrin-2 and cortactin drive the actin rearrangements required for enucleation and cell shaping, and XK forms a disulphide-linked complex with the Kell glycoprotein at the erythrocyte surface.",
+     "[untitled BTM module] This grouping centres on stress-activated transcriptional signalling and its supporting membrane and metabolic machinery. Its recognisable core is the kinase TAK1 (MAP3K7) acting upstream of the CREB/ATF family factors ATF1 and ATF2, a route by which cytokine, TGF-beta and stress inputs are converted into changes in gene expression governing inflammation, survival and differentiation; loss of TAK1 signalling causes inflammatory and developmental failure.",
+     "definitive erythrocyte differentiation",
+     "enucleate erythrocyte maturation",
+     "erythrocyte differentiation",
+     "hematopoietic stem cell homeostasis",
+     "negative regulation of hematopoietic stem cell differentiation",
+     "oxygen transport",
+     "positive regulation of erythrocyte differentiation",
+     "positive regulation of hematopoietic progenitor cell differentiation",
+     "positive regulation of stem cell population maintenance",
+     "post-embryonic hemopoiesis",
+     "primitive erythrocyte differentiation",
+     "regulation of apoptotic process in bone marrow cell",
+     "regulation of hematopoietic stem cell proliferation",
+     "regulation of stem cell division",
+     "response to leukemia inhibitory factor",
+     "spleen development",
+     "thrombopoietin-mediated signaling pathway"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 9,
+    "only_in_theme": [
+     "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+     "[untitled BTM module] This grouping describes the transcriptional programme of immature myeloid progenitors in the bone marrow, the stage at which granulocyte, mast cell and erythroid potential is still being resolved and primary granule proteins are first made. Its hallmark products are the azurophilic granule enzymes myeloperoxidase and neutrophil elastase, together with the mast cell protease carboxypeptidase A3 and the promyelocyte membrane marker MS4A3, so the signature marks promyelocytes and their close relatives rather than mature blood cells.",
+     "cell cycle and transcription",
+     "common myeloid progenitor cell proliferation",
+     "leukocyte differentiation",
+     "myeloid progenitor cell differentiation",
+     "negative regulation of granulocyte differentiation"
+    ],
+    "only_in_confusable": [
+     "[untitled BTM module] These genes mark the erythroid-megakaryocytic branch of hematopoiesis, the programme by which bone marrow progenitors commit to making red cells and platelets rather than lymphoid or granulocytic fates. Its transcriptional core is a TAL1-GFI1B axis that drives erythroid gene expression while restraining progenitor proliferation; loss of either blocks red cell production, and GFI1B mutation causes a bleeding disorder with malformed platelets.",
+     "[untitled BTM module] These genes outline the terminal stages of erythroid differentiation, in which a committed progenitor remodels its membrane and cytoskeleton, condenses and expels its nucleus, and emerges as a deformable red cell able to survive repeated passage through capillaries and the spleen. Structural components dominate: beta-spectrin builds the membrane skeleton beneath the lipid bilayer, pleckstrin-2 and cortactin drive the actin rearrangements required for enucleation and cell shaping, and XK forms a disulphide-linked complex with the Kell glycoprotein at the erythrocyte surface.",
+     "erythrocyte differentiation"
+    ]
+   }
+  ],
+  "note": "The name 'RUNX1-regulated myeloid progenitor and megakaryocyte differentiation' is already used by another theme; give a name that distinguishes this theme."
+ },
+ {
+  "theme_id": "n03230",
+  "size": 19,
+  "members": [
+   "cell cycle and transcription",
+   "leukocyte differentiation",
+   "negative regulation of monocyte differentiation",
+   "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function",
+   "negative regulation of megakaryocyte differentiation",
+   "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+   "negative regulation of erythrocyte differentiation",
+   "negative regulation of granulocyte differentiation",
+   "platelet morphogenesis",
+   "megakaryocyte development",
+   "Regulation of RUNX1 Expression and Activity",
+   "myeloid progenitor cell differentiation",
+   "[untitled BTM module] These genes mark the megakaryocyte-platelet arm of haematopoiesis and the signalling that supports it. Platelet factor 4 is the archetypal alpha-granule chemokine released on platelet activation, junction plakoglobin anchors the cytoskeletal junctions and desmosomal-type adhesion used by these cells, and the G protein alpha-z subunit couples platelet ADP and adrenergic receptors to inhibition of adenylate cyclase, lowering cyclic AMP to permit aggregation.",
+   "transcription regulation in cell development",
+   "common myeloid progenitor cell proliferation",
+   "positive regulation of megakaryocyte differentiation",
+   "negative regulation of macrophage differentiation",
+   "[untitled BTM module] This grouping describes the transcriptional programme of immature myeloid progenitors in the bone marrow, the stage at which granulocyte, mast cell and erythroid potential is still being resolved and primary granule proteins are first made. Its hallmark products are the azurophilic granule enzymes myeloperoxidase and neutrophil elastase, together with the mast cell protease carboxypeptidase A3 and the promyelocyte membrane marker MS4A3, so the signature marks promyelocytes and their close relatives rather than mature blood cells.",
+   "Transcriptional regulation of granulopoiesis"
+  ],
+  "confusables": [
+   {
+    "confusable": "C1",
+    "n_shared": 16,
+    "only_in_theme": [
+     "Transcriptional regulation of granulopoiesis",
+     "negative regulation of macrophage differentiation",
+     "negative regulation of monocyte differentiation"
+    ],
+    "only_in_confusable": []
+   },
+   {
+    "confusable": "C2",
+    "n_shared": 9,
+    "only_in_theme": [
+     "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+     "Transcriptional regulation of granulopoiesis",
+     "[untitled BTM module] This grouping describes the transcriptional programme of immature myeloid progenitors in the bone marrow, the stage at which granulocyte, mast cell and erythroid potential is still being resolved and primary granule proteins are first made. Its hallmark products are the azurophilic granule enzymes myeloperoxidase and neutrophil elastase, together with the mast cell protease carboxypeptidase A3 and the promyelocyte membrane marker MS4A3, so the signature marks promyelocytes and their close relatives rather than mature blood cells.",
+     "cell cycle and transcription",
+     "common myeloid progenitor cell proliferation",
+     "leukocyte differentiation",
+     "myeloid progenitor cell differentiation",
+     "negative regulation of granulocyte differentiation",
+     "negative regulation of macrophage differentiation",
+     "negative regulation of monocyte differentiation"
+    ],
+    "only_in_confusable": [
+     "[untitled BTM module] These genes mark the erythroid-megakaryocytic branch of hematopoiesis, the programme by which bone marrow progenitors commit to making red cells and platelets rather than lymphoid or granulocytic fates. Its transcriptional core is a TAL1-GFI1B axis that drives erythroid gene expression while restraining progenitor proliferation; loss of either blocks red cell production, and GFI1B mutation causes a bleeding disorder with malformed platelets.",
+     "[untitled BTM module] These genes outline the terminal stages of erythroid differentiation, in which a committed progenitor remodels its membrane and cytoskeleton, condenses and expels its nucleus, and emerges as a deformable red cell able to survive repeated passage through capillaries and the spleen. Structural components dominate: beta-spectrin builds the membrane skeleton beneath the lipid bilayer, pleckstrin-2 and cortactin drive the actin rearrangements required for enucleation and cell shaping, and XK forms a disulphide-linked complex with the Kell glycoprotein at the erythrocyte surface.",
+     "erythrocyte differentiation"
+    ]
+   },
+   {
+    "confusable": "C3",
+    "n_shared": 8,
+    "only_in_theme": [
+     "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function",
+     "RUNX1 regulates transcription of genes involved in differentiation of HSCs",
+     "Regulation of RUNX1 Expression and Activity",
+     "[untitled BTM module] These genes mark the megakaryocyte-platelet arm of haematopoiesis and the signalling that supports it. Platelet factor 4 is the archetypal alpha-granule chemokine released on platelet activation, junction plakoglobin anchors the cytoskeletal junctions and desmosomal-type adhesion used by these cells, and the G protein alpha-z subunit couples platelet ADP and adrenergic receptors to inhibition of adenylate cyclase, lowering cyclic AMP to permit aggregation.",
+     "megakaryocyte development",
+     "myeloid progenitor cell differentiation",
+     "negative regulation of erythrocyte differentiation",
+     "negative regulation of megakaryocyte differentiation",
+     "platelet morphogenesis",
+     "positive regulation of megakaryocyte differentiation",
+     "transcription regulation in cell development"
+    ],
+    "only_in_confusable": [
+     "RA, WNT, CSF receptors network (monocyte)",
+     "Transcriptional Regulation by VENTX"
+    ]
+   },
+   {
+    "confusable": "C4",
+    "n_shared": 15,
+    "only_in_theme": [
+     "leukocyte differentiation",
+     "negative regulation of granulocyte differentiation",
+     "negative regulation of macrophage differentiation",
+     "negative regulation of monocyte differentiation"
+    ],
+    "only_in_confusable": [
+     "RHOBTB1 GTPase cycle",
+     "RUNX1 interacts with co-factors whose precise effect on RUNX1 targets is not known",
+     "RUNX1 regulates transcription of genes involved in differentiation of myeloid cells",
+     "[untitled BTM module] Granulocyte maturation in the bone marrow, and the antimicrobial cargo that neutrophils acquire as they mature, is the theme here. Promyelocytes and myelocytes load their granules with proteins that will later be deployed against bacteria: a lipopolysaccharide-binding bactericidal protein of the BPI family, the adipokine-like secreted factor resistin, prokineticin 2, the soluble pattern-recognition molecule pentraxin 3, and a haematopoietic growth factor of the CLEC11A type that supports progenitor expansion.",
+     "[untitled BTM module] The genes here sketch late erythroid differentiation and the assembly of the red cell surface. Erythropoiesis matters because it supplies the circulating oxygen carriers, and its transcriptional and membrane components determine both red cell mechanical resilience and the antigens that decide transfusion compatibility.",
+     "[untitled BTM module] These genes converge on myeloid and platelet function, where surface signalling is translated into changes in the actin cytoskeleton and in gene expression. The Src-family kinase LYN sits at the top of immunoreceptor and integrin signalling in leukocytes and platelets, setting both activating and inhibitory tone, while LST1 is an immune-cell transmembrane protein that shapes membrane protrusions and cell-cell contact.",
+     "[untitled BTM module] These genes mark the erythroid-megakaryocytic branch of hematopoiesis, the programme by which bone marrow progenitors commit to making red cells and platelets rather than lymphoid or granulocytic fates. Its transcriptional core is a TAL1-GFI1B axis that drives erythroid gene expression while restraining progenitor proliferation; loss of either blocks red cell production, and GFI1B mutation causes a bleeding disorder with malformed platelets.",
+     "[untitled BTM module] These genes outline the terminal stages of erythroid differentiation, in which a committed progenitor remodels its membrane and cytoskeleton, condenses and expels its nucleus, and emerges as a deformable red cell able to survive repeated passage through capillaries and the spleen. Structural components dominate: beta-spectrin builds the membrane skeleton beneath the lipid bilayer, pleckstrin-2 and cortactin drive the actin rearrangements required for enucleation and cell shaping, and XK forms a disulphide-linked complex with the Kell glycoprotein at the erythrocyte surface.",
+     "[untitled BTM module] This grouping centres on stress-activated transcriptional signalling and its supporting membrane and metabolic machinery. Its recognisable core is the kinase TAK1 (MAP3K7) acting upstream of the CREB/ATF family factors ATF1 and ATF2, a route by which cytokine, TGF-beta and stress inputs are converted into changes in gene expression governing inflammation, survival and differentiation; loss of TAK1 signalling causes inflammatory and developmental failure.",
+     "definitive erythrocyte differentiation",
+     "enucleate erythrocyte maturation",
+     "erythrocyte differentiation",
+     "hematopoietic stem cell homeostasis",
+     "negative regulation of hematopoietic stem cell differentiation",
+     "oxygen transport",
+     "positive regulation of erythrocyte differentiation",
+     "positive regulation of hematopoietic progenitor cell differentiation",
+     "positive regulation of stem cell population maintenance",
+     "post-embryonic hemopoiesis",
+     "primitive erythrocyte differentiation",
+     "regulation of apoptotic process in bone marrow cell",
+     "regulation of hematopoietic stem cell proliferation",
+     "regulation of stem cell division",
+     "response to leukemia inhibitory factor",
+     "spleen development",
+     "thrombopoietin-mediated signaling pathway"
+    ]
+   }
+  ],
+  "note": "The name 'RUNX1-regulated myeloid progenitor and megakaryocyte differentiation' is already used by another theme; give a name that distinguishes this theme."
+ }
+]

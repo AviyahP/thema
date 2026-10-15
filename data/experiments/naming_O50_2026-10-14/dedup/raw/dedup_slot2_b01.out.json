@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n02404",
+  "nameable": true,
+  "core": "cAMP-PKA activation of CREB",
+  "qualifier": "stimulated cAMP production (forskolin, dopamine receptor, adenylate cyclase activation), without PDE1/DARPP-32 turnover",
+  "name": "Stimulated cAMP production activating PKA and CREB",
+  "rationale": "All members describe adenylate cyclase stimulation raising cAMP to activate PKA and CREB; unlike its superset confusable it lacks cAMP degradation, PDE1 and DARPP-32 feedback, and unlike the CaMK confusables it routes through adenylate cyclase."
+ },
+ {
+  "theme_id": "n03053",
+  "nameable": true,
+  "core": "cAMP-PKA-CREB signaling",
+  "qualifier": "cAMP synthesis and PDE1 degradation with DARPP-32 feedback",
+  "name": "cAMP turnover and PKA-CREB signaling with PDE1/DARPP-32 feedback",
+  "rationale": "Members span cAMP synthesis, PKA activation and CREB phosphorylation, and uniquely add cAMP catabolism, Cam-PDE1 activation, DARPP-32 events and negative regulation of cAMP/PKA, which the core activation theme and the inhibitory/CaMK confusables lack."
+ },
+ {
+  "theme_id": "n00540",
+  "nameable": true,
+  "core": "Adenylate cyclase inhibition",
+  "qualifier": "adrenaline alpha-2 receptor via G-alpha-z only",
+  "name": "Adrenaline alpha-2 receptor and G-alpha-z cAMP-lowering signaling",
+  "rationale": "All four members are the adrenaline alpha-2 receptor / Gz arm that inhibits adenylate cyclase, without the PLC-calcium, IP3 and secretion-restraint members of the broader inhibitory confusable or the adrenoceptor/insulin members of the other."
+ },
+ {
+  "theme_id": "n04490",
+  "nameable": true,
+  "core": "Inhibitory G protein control of cAMP",
+  "qualifier": "with PLC-IP3 calcium signaling and restraint of exocytosis/secretion",
+  "name": "Inhibitory G protein cAMP and PLC-calcium signaling restraining secretion",
+  "rationale": "Members combine Gi/Gz alpha-2 adenylate cyclase inhibition with G protein calcium signaling, PLC/IP3 regulation and negative regulation of exocytosis, epinephrine secretion and amino acid transport, which the minimal alpha-2 theme and the cAMP-PKA confusables lack."
+ },
+ {
+  "theme_id": "n00046",
+  "nameable": true,
+  "core": "Nutrient sensing control of mTORC1",
+  "qualifier": "leucine and glucose starvation, no AKT-TSC input",
+  "name": "Leucine and glucose starvation control of mTORC1",
+  "rationale": "All members concern leucine/amino acid and glucose/energy (LKB1-AMPK) signals regulating TORC1; unlike its superset confusable it lacks AKT inhibition of TSC, methionine response and the TSC2/LKB1 growth module."
+ },
+ {
+  "theme_id": "n01588",
+  "nameable": true,
+  "core": "mTORC1 input integration",
+  "qualifier": "adds AKT-TSC2 growth-factor input and methionine sensing",
+  "name": "Nutrient, energy and AKT-TSC2 growth-factor inputs to mTORC1",
+  "rationale": "Members cover amino acid, glucose and LKB1-AMPK energy sensing of mTORC1 plus AKT inhibition of TSC and the TSC2/LKB1 growth-restraint module, which distinguishes it from the leucine/glucose-only theme and the metabolic/methylation confusables."
+ },
+ {
+  "theme_id": "n01677",
+  "nameable": true,
+  "core": "Amyloid and APP regulation",
+  "qualifier": "with tau tangle assembly and microglial activation",
+  "name": "Amyloid and tau aggregation with microglial activation",
+  "rationale": "Members regulate amyloid fibril formation and APP synthesis/catabolism and additionally include neurofibrillary tangle assembly, microglial activation and glucosylceramide catabolism, which the APP/fibril-only theme lacks; it lacks the amyloid-beta clearance members of other confusables."
+ },
+ {
+  "theme_id": "n02573",
+  "nameable": true,
+  "core": "Amyloid fibril and APP level regulation",
+  "qualifier": "bidirectional control, without tau, microglia or amyloid-beta clearance",
+  "name": "Bidirectional regulation of amyloid fibrils and APP abundance",
+  "rationale": "All members are positive/negative regulation of amyloid fibril formation and of APP biosynthesis/catabolism (with obsolete amide-metabolism terms), lacking the tau, microglial and amyloid-beta clearance members of its confusables."
+ },
+ {
+  "theme_id": "n00024",
+  "nameable": true,
+  "core": "Beta-catenin destruction complex failure",
+  "qualifier": "including APC truncation and AMER1 scaffold loss",
+  "name": "Beta-catenin escape from destruction via APC, AMER1, AXIN, CTNNB1 mutants",
+  "rationale": "Members are the beta-catenin phosphorylation cascade and its cancer mutants, including APC truncations and AMER1 deletions/truncations that the phosphosite-only theme lacks, and none of the TCF, DVL or Notch members of other confusables."
+ },
+ {
+  "theme_id": "n01749",
+  "nameable": true,
+  "core": "Blocked beta-catenin phosphorylation",
+  "qualifier": "CTNNB1 phosphosite, GSK3 and AXIN mutants, without APC/AMER1",
+  "name": "CTNNB1 phosphosite and GSK3/AXIN mutants blocking beta-catenin phosphorylation",
+  "rationale": "Members are the beta-catenin phosphorylation cascade with CTNNB1 S33/S37/T41/S45, GSK3beta and AXIN missense mutants; it lacks the APC truncation and AMER1 members of its superset and the downstream TCF/DVL members of other confusables."
+ },
+ {
+  "theme_id": "n00167",
+  "nameable": true,
+  "core": "CCT/TRiC chaperonin folding",
+  "qualifier": "prefoldin handoff of nascent chains, no post-chaperonin tubulin cofactors",
+  "name": "Prefoldin handoff and CCT/TRiC folding of nascent cytoskeletal proteins",
+  "rationale": "All members describe prefoldin transfer and CCT/TRiC-mediated folding of actin and tubulin during biosynthesis; unlike its superset it lacks the post-chaperonin tubulin cofactor and de novo folding members."
+ },
+ {
+  "theme_id": "n00626",
+  "nameable": true,
+  "core": "CCT/TRiC chaperonin folding",
+  "qualifier": "extended through post-chaperonin tubulin cofactor maturation",
+  "name": "CCT/TRiC folding through post-chaperonin tubulin cofactor maturation",
+  "rationale": "Members cover prefoldin/CCT-TRiC folding of actin and tubulin plus the post-chaperonin tubulin folding pathway and de novo folding, which distinguish it from the CCT-only theme and from tubulin modification or telomerase confusables."
+ },
+ {
+  "theme_id": "n00321",
+  "nameable": true,
+  "core": "Centromeric cohesion resolution",
+  "qualifier": "mitotic release at sister separation, without establishment or meiosis",
+  "name": "Mitotic centromeric cohesion release at sister chromatid separation",
+  "rationale": "The four members are mitotic centromeric cohesion, its regulation, resolution and sister separation; it lacks the establishment, maintenance and meiotic cohesion members of its superset and the spindle/APC-C members of others."
+ },
+ {
+  "theme_id": "n00731",
+  "nameable": true,
+  "core": "Centromeric sister chromatid cohesion cycle",
+  "qualifier": "from establishment through release, mitotic and meiotic",
+  "name": "Centromeric cohesion establishment through release in mitosis and meiosis",
+  "rationale": "Members span establishment, maintenance, mitotic and meiotic centromeric cohesion, resolution and separation, the establishment/meiotic members distinguishing it from the mitotic-release-only theme."
+ },
+ {
+  "theme_id": "n02459",
+  "nameable": true,
+  "core": "Cerebellar cortex development and motor behavior",
+  "qualifier": "layer formation and locomotor behavior, without proprioception or motor neuron survival",
+  "name": "Cerebellar cortical lamination and locomotor behavior",
+  "rationale": "Members are cerebellar Purkinje/granular layer formation, Bergmann glia and granule precursor proliferation with walking, righting and motor learning; it lacks the proprioception, motor neuron and neural RNA-binding members of its superset."
+ },
+ {
+  "theme_id": "n03821",
+  "nameable": true,
+  "core": "Cerebellar development and motor control",
+  "qualifier": "adds motor neuron survival, proprioception and voluntary movement",
+  "name": "Cerebellar and motor neuron development with proprioceptive motor control",
+  "rationale": "Members cover cerebellar layer formation and locomotor behavior plus proprioception, voluntary movement, motor neuron apoptosis control, collateral sprouting and hindbrain differentiation, which the lamination-only theme and brainstem confusables lack."
+ },
+ {
+  "theme_id": "n00775",
+  "nameable": true,
+  "core": "Chromosome condensation and CENP-A loading",
+  "qualifier": "prophase-prometaphase, without general nucleosome assembly",
+  "name": "Prophase-prometaphase condensation and CENP-A centromere loading",
+  "rationale": "All members are mitotic/meiotic chromosome condensation or CENP-A deposition at centromeres; it lacks the replication-dependent chromatin assembly and nucleosome organization members of its superset."
+ },
+ {
+  "theme_id": "n02540",
+  "nameable": true,
+  "core": "Chromatin assembly and condensation",
+  "qualifier": "replication-coupled nucleosome assembly with CENP-A deposition",
+  "name": "Replication-coupled nucleosome assembly, CENP-A deposition and chromosome condensation",
+  "rationale": "Members add replication-dependent chromatin assembly, nucleosome organization and protein localization to chromatin to CENP-A deposition and condensation, distinguishing it from the condensation/CENP-A-only theme and the cohesion confusables."
+ },
+ {
+  "theme_id": "n01651",
+  "nameable": true,
+  "core": "Cohesin cycle",
+  "qualifier": "cohesin loading and chromatin looping through cohesion release",
+  "name": "Cohesin loading, chromatin looping and sister cohesion cycle",
+  "rationale": "Members span cohesin loading, chromatin looping, establishment, maintenance and resolution of sister chromatid cohesion; it lacks the negative cohesion regulation and mitotic-phase members of its superset and the condensation/CENP-A members of others."
+ },
+ {
+  "theme_id": "n03036",
+  "nameable": true,
+  "core": "Cohesin cycle",
+  "qualifier": "with negative regulation of cohesion and mitotic-phase modules",
+  "name": "Mitotic-phase cohesin cycle including negative regulation of cohesion",
+  "rationale": "Members cover cohesin loading, looping, establishment and resolution of cohesion plus negative regulation of sister chromatid cohesion and mitotic-phase cell cycle modules, which the plain cohesin-cycle theme lacks."
+ },
+ {
+  "theme_id": "n01438",
+  "nameable": true,
+  "core": "ER-Golgi vesicle traffic",
+  "qualifier": "COPII cargo export and COPI retrieval, without intra-Golgi traffic",
+  "name": "COPII cargo export and COPI retrieval at the ER-Golgi interface",
+  "rationale": "Members are COPII cargo loading/export, vesicle targeting and tethering to cis-Golgi and COPI budding/retrograde return; it lacks the intra-Golgi and COPI anterograde members of its superset and the ER translocation members of others."
+ },
+ {
+  "theme_id": "n02968",
+  "nameable": true,
+  "core": "ER-Golgi vesicle traffic",
+  "qualifier": "extended to intra-Golgi and COPI anterograde transport",
+  "name": "ER-Golgi and intra-Golgi COPII/COPI vesicle traffic",
+  "rationale": "Members cover COPII export, tethering and COPI retrograde traffic plus intra-Golgi traffic and COPI anterograde transport, which the ER-Golgi interface theme lacks; it lacks Golgi organization members of other confusables."
+ },
+ {
+  "theme_id": "n01414",
+  "nameable": true,
+  "core": "AID/APOBEC cytidine deamination",
+  "qualifier": "in early B cell development and hypermutation, without class switching",
+  "name": "APOBEC/AID deaminases in B cell development, hypermutation and viral restriction",
+  "rationale": "Members are DNA cytosine deamination and C-to-U editing, somatic hypermutation, V(D)J recombination, B cell lineage commitment and APOBEC3G antiviral restriction; it lacks the IgA/IgG class-switching and anti-HIV members of its superset."
+ },
+ {
+  "theme_id": "n02330",
+  "nameable": true,
+  "core": "AID/APOBEC cytidine deamination",
+  "qualifier": "including IgA/IgG class switching and APOBEC3G anti-HIV restriction",
+  "name": "AID/APOBEC deamination including class switching and anti-HIV restriction",
+  "rationale": "Members add isotype switching to IgA/IgG, APOBEC3G resistance to HIV-1 and viral frameshifting to deaminase-driven hypermutation and B cell development, distinguishing it from the theme without class switching and from HIV life-cycle and ADAR confusables."
+ },
+ {
+  "theme_id": "n01794",
+  "nameable": true,
+  "core": "Lipoprotein lifecycle",
+  "qualifier": "chylomicron, VLDL, LDL, HDL from intestinal absorption, without sterol-transporter or vitamin E members",
+  "name": "Chylomicron, VLDL, LDL and HDL lifecycle from intestinal absorption",
+  "rationale": "All members concern dietary lipid digestion/absorption and assembly, remodeling and clearance of chylomicrons, VLDL, LDL and HDL; it lacks the ABCG5/8 sitosterolemia and vitamin E members of its superset and the HDL assembly/ABCA1 members of another confusable."
+ }
+]

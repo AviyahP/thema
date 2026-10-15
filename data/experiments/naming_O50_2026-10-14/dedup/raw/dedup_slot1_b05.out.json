@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n01443",
+  "nameable": true,
+  "core": "Peroxisomal protein import and peroxisome fission",
+  "qualifier": "with pexophagy, without TYSND1 processing",
+  "name": "Peroxisomal matrix/membrane protein import, fission and pexophagy",
+  "rationale": "All members concern peroxisome protein targeting/import, fission, pexophagy or the peroxisome gene set; unlike the larger twin it lacks TYSND1 cleavage, docking and unfolding, and unlike the fatty-acid confusables it has pexophagy."
+ },
+ {
+  "theme_id": "n03513",
+  "nameable": true,
+  "core": "Peroxisomal protein import and pexophagy",
+  "qualifier": "with TYSND1 matrix protein processing and membrane docking",
+  "name": "Peroxisomal import with TYSND1 processing, docking and pexophagy",
+  "rationale": "Members cover peroxisome protein import, fission and pexophagy; what sets it apart from its subset twin is TYSND1 cleavage of imported proteins, protein-to-membrane docking and unfolding."
+ },
+ {
+  "theme_id": "n00403",
+  "nameable": true,
+  "core": "Phenylalanine and tyrosine metabolism",
+  "qualifier": "including phenylketonuria",
+  "name": "Phenylalanine and tyrosine metabolism including phenylketonuria",
+  "rationale": "All members are phenylalanine/tyrosine metabolic or catabolic terms; phenylketonuria and phenylalanine metabolism distinguish it from the tyrosine-catabolism-only theme, and it lacks the general amino acid catabolism terms of the larger theme."
+ },
+ {
+  "theme_id": "n00786",
+  "nameable": true,
+  "core": "Tyrosine catabolism",
+  "qualifier": "as the phenylalanine degradation route",
+  "name": "Tyrosine catabolic route of phenylalanine degradation",
+  "rationale": "The three members are tyrosine catabolism and phenylalanine metabolism, a narrow core lacking the phenylketonuria and general amino acid terms of its confusables."
+ },
+ {
+  "theme_id": "n01249",
+  "nameable": true,
+  "core": "Phenylalanine and tyrosine catabolism",
+  "qualifier": "within general L-amino acid and amide catabolism",
+  "name": "Phenylalanine/tyrosine breakdown within general amino acid catabolism",
+  "rationale": "Members combine phenylalanine/tyrosine metabolism and phenylketonuria with broad L-amino acid and amide catabolic terms, which the smaller phenylalanine-tyrosine themes lack."
+ },
+ {
+  "theme_id": "n00549",
+  "nameable": true,
+  "core": "Positive regulation of NK and T cell cytotoxicity",
+  "qualifier": "including anti-tumor NK response",
+  "name": "Positive regulation of NK/T cell tumor cytotoxicity",
+  "rationale": "All three members are positive regulation of NK or T cell-mediated killing, including the NK response to tumor cells, without the NK/T transcriptional signatures or cytokine production of the larger theme."
+ },
+ {
+  "theme_id": "n01267",
+  "nameable": true,
+  "core": "NK and T cell cytotoxic activation",
+  "qualifier": "with NK/T cell blood transcriptional signatures",
+  "name": "NK/T cell cytotoxicity with blood NK and T signatures",
+  "rationale": "Members combine positive regulation of NK/T cytotoxicity and NK cytokine production with NK- and T-cell-enriched blood gene signatures, which the GO-only subset and the inhibitory-receptor confusables lack."
+ },
+ {
+  "theme_id": "n01660",
+  "nameable": true,
+  "core": "Postsynaptic scaffold and receptor clustering",
+  "qualifier": "with excitatory and inhibitory potential regulation, no glutamatergic transmission",
+  "name": "Excitatory and inhibitory postsynaptic scaffold clustering and potential regulation",
+  "rationale": "Members cover neurexin-neuroligin-driven postsynaptic assembly, PSD-95, gephyrin, GABA and NMDA receptor clustering and regulation of excitatory/inhibitory potentials; it lacks the glutamatergic transmission terms of its superset and has inhibitory-synapse terms the adhesion confusables lack."
+ },
+ {
+  "theme_id": "n03469",
+  "nameable": true,
+  "core": "Postsynaptic receptor clustering",
+  "qualifier": "with enhanced glutamatergic neuron-neuron transmission",
+  "name": "Postsynaptic clustering with enhanced glutamatergic synaptic transmission",
+  "rationale": "Members cover PSD-95, gephyrin, GABA and NMDA receptor clustering and postsynaptic potential regulation; the added neuron-neuron and glutamatergic transmission terms distinguish it from its subset twin and from the synaptic-adhesion confusables."
+ },
+ {
+  "theme_id": "n01708",
+  "nameable": true,
+  "core": "Proline synthesis and catabolism",
+  "qualifier": "with glycine synthesis and glyoxylate metabolism",
+  "name": "Proline turnover with glycine and glyoxylate metabolism",
+  "rationale": "Members are proline biosynthesis/catabolism, glycine biosynthesis, glyoxylate and general amino acid terms; it lacks the organic acid metabolism terms of its superset and the threonine/tyrosine terms of other confusables."
+ },
+ {
+  "theme_id": "n02379",
+  "nameable": true,
+  "core": "Proline, glycine and glyoxylate metabolism",
+  "qualifier": "within broader organic acid synthesis and catabolism",
+  "name": "Proline and glycine–glyoxylate metabolism within organic acid turnover",
+  "rationale": "Members combine proline, glycine and glyoxylate metabolism with general organic acid biosynthetic/catabolic terms, which distinguish it from its subset twin; it lacks the glycine-conjugation and threonine terms of other confusables."
+ },
+ {
+  "theme_id": "n00979",
+  "nameable": true,
+  "core": "Pyrimidine nucleotide synthesis, salvage and catabolism",
+  "qualifier": "with deoxynucleoside monophosphate turnover",
+  "name": "Pyrimidine de novo, salvage and dNMP turnover",
+  "rationale": "Members cover de novo and salvage pyrimidine synthesis, pyrimidine catabolism and dNMP synthesis/catabolism; it lacks the purine deoxyribonucleoside and NDP-NTP interconversion terms of its superset and the purine de novo terms of another confusable."
+ },
+ {
+  "theme_id": "n01495",
+  "nameable": true,
+  "core": "Pyrimidine and deoxyribonucleotide metabolism",
+  "qualifier": "with purine deoxynucleoside turnover and NDP–NTP interconversion",
+  "name": "Pyrimidine and purine deoxynucleotide metabolism with NDP–NTP interconversion",
+  "rationale": "Members span pyrimidine synthesis, salvage and catabolism plus deoxyribonucleotide turnover; purine deoxyribonucleoside metabolism, deoxyribonucleotide catabolism and nucleotide di-/triphosphate interconversion distinguish it from its subset twin."
+ },
+ {
+  "theme_id": "n00317",
+  "nameable": true,
+  "core": "Receptor-mediated virion attachment and endocytic entry",
+  "qualifier": "with induced cell-cell fusion",
+  "name": "Receptor-mediated virion attachment, endocytic entry and syncytium induction",
+  "rationale": "All members describe receptor-mediated virus binding, entry and induction of cell-cell fusion; it lacks the Dengue and RSV entry terms of its superset and the influenza/viral regulation terms of other confusables."
+ },
+ {
+  "theme_id": "n00554",
+  "nameable": true,
+  "core": "Receptor-mediated viral attachment and entry",
+  "qualifier": "including Dengue and RSV entry and Dengue virion release",
+  "name": "Receptor-mediated viral entry including Dengue and RSV",
+  "rationale": "Members cover receptor-mediated virion attachment, endocytosis and cell-cell fusion plus Dengue and RSV attachment/entry and Dengue virion assembly/release, which its subset twin lacks; it lacks the viral entry regulation and protein maturation terms of other confusables."
+ },
+ {
+  "theme_id": "n01395",
+  "nameable": true,
+  "core": "Recombinational DNA repair by strand invasion",
+  "qualifier": "via synthesis-dependent strand annealing and crosslink repair",
+  "name": "Strand-invasion repair via strand annealing, sister exchange, crosslink repair",
+  "rationale": "Members cover strand invasion, SDSA, sister chromatid exchange, interstrand crosslink repair and repair synthesis; it lacks the break-induced replication, unwinding and polymerase regulation of its superset and the NHEJ/BRCA terms of other confusables."
+ },
+ {
+  "theme_id": "n01530",
+  "nameable": true,
+  "core": "Recombinational DNA repair by strand invasion",
+  "qualifier": "with break-induced replication and repair polymerase activation",
+  "name": "Recombinational repair with break-induced replication and polymerase activation",
+  "rationale": "Members cover strand invasion, SDSA and crosslink repair; break-induced replication, DNA unwinding and positive regulation of DNA polymerase activity distinguish it from its subset twin, and it lacks NHEJ and checkpoint terms of other confusables."
+ },
+ {
+  "theme_id": "n00673",
+  "nameable": true,
+  "core": "Regulation of leukocyte adhesion to endothelium",
+  "qualifier": "via adhesion molecule production, without diapedesis",
+  "name": "Leukocyte–endothelial adhesion control via adhesion molecule production",
+  "rationale": "All four members regulate leukocyte binding to (arterial) vascular endothelium, extravasation or adhesion molecule production; it lacks the diapedesis and neutrophil/T cell extravasation terms of its superset and the monocyte/inflammatory terms of other confusables."
+ },
+ {
+  "theme_id": "n01631",
+  "nameable": true,
+  "core": "Leukocyte endothelial adhesion and extravasation",
+  "qualifier": "with diapedesis and neutrophil/T cell transmigration",
+  "name": "Leukocyte adhesion, diapedesis and neutrophil/T cell extravasation",
+  "rationale": "Members regulate leukocyte-endothelial adhesion and extravasation; diapedesis, neutrophil migration and neutrophil/T cell extravasation distinguish it from its subset twin and from the monocyte- and integrin-focused confusables."
+ },
+ {
+  "theme_id": "n00041",
+  "nameable": true,
+  "core": "Resolvin and protectin biosynthesis",
+  "qualifier": "D- and E-series, without conjugates or HETEs",
+  "name": "D- and E-series resolvin and protectin biosynthesis",
+  "rationale": "All members are biosyntheses of D/E-series resolvins, protectins and DPA-derived SPMs; it lacks the tissue-regeneration conjugates, oxo-derivatives and HETE synthesis of its superset and the lipoxin/arachidonate terms of other confusables."
+ },
+ {
+  "theme_id": "n01151",
+  "nameable": true,
+  "core": "Specialized pro-resolving mediator biosynthesis",
+  "qualifier": "including tissue-regeneration conjugates and HETE precursors",
+  "name": "Pro-resolving mediators with regenerative conjugates and HETE synthesis",
+  "rationale": "Members span resolvin, protectin and maresin biosynthesis; MCTR/PCTR/RCTR conjugates, 13-series resolvins, oxo-derivatives and 5-/15-HETE synthesis distinguish it from its subset twin, and it lacks the lipoxin/leukotriene terms of other confusables."
+ },
+ {
+  "theme_id": "n01421",
+  "nameable": true,
+  "core": "RNA polymerase I rRNA transcription",
+  "qualifier": "with Pol III 5S rRNA and nucleolar epigenetic regulation",
+  "name": "Pol I/III rRNA transcription with nucleolar epigenetic control",
+  "rationale": "Members cover the Pol I transcription cycle, 5S rRNA transcription by Pol III and NoRC/B-WICH/SIRT1/CSB chromatin regulation; it lacks the MYC targets and early pre-rRNA cleavage of its superset and the tRNA/snRNA Pol III terms of other confusables."
+ },
+ {
+  "theme_id": "n03971",
+  "nameable": true,
+  "core": "RNA polymerase I rRNA transcription",
+  "qualifier": "with MYC targets and early pre-rRNA cleavage",
+  "name": "MYC-driven rRNA transcription and early pre-rRNA cleavage",
+  "rationale": "Members cover Pol I transcription and nucleolar chromatin control; MYC target sets, 5'-ETS/ITS1 cleavage, rRNA 5'-end processing and nucleolar localization distinguish it from its subset twin, and it lacks the translation initiation terms of another confusable."
+ },
+ {
+  "theme_id": "n03070",
+  "nameable": true,
+  "core": "RUNX1-regulated megakaryocyte differentiation",
+  "qualifier": "with restraint of erythroid and granulocyte fates in myeloid progenitors",
+  "name": "RUNX1 megakaryocyte–platelet commitment restraining erythroid and granulocyte fates",
+  "rationale": "Members cover RUNX1-driven megakaryocyte/platelet development, myeloid progenitor proliferation and negative regulation of erythroid and granulocyte differentiation; it lacks the granulopoiesis and monocyte/macrophage restraint terms of its superset and the erythropoiesis terms of other confusables."
+ },
+ {
+  "theme_id": "n03230",
+  "nameable": true,
+  "core": "RUNX1-regulated myeloid progenitor differentiation",
+  "qualifier": "with granulopoiesis control and monocyte–macrophage restraint",
+  "name": "RUNX1 megakaryopoiesis and granulopoiesis with monocyte–macrophage restraint",
+  "rationale": "Members cover RUNX1-driven megakaryocyte development and myeloid progenitor differentiation; transcriptional regulation of granulopoiesis and negative regulation of monocyte and macrophage differentiation distinguish it from its subset twin, and it lacks the erythroid and HSC terms of other confusables."
+ }
+]

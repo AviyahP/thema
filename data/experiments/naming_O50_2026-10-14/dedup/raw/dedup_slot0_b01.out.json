@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n02404",
+  "nameable": true,
+  "core": "cAMP-PKA-CREB activation",
+  "qualifier": "stimulatory arm only",
+  "name": "Stimulatory adenylate cyclase-PKA-CREB arm without cAMP turnover",
+  "rationale": "All members are adenylate cyclase activation (dopamine receptor, forskolin) to cAMP, PKA and CREB; unlike its superset neighbour it lacks PDE1 cAMP degradation, DARPP-32 and negative feedback."
+ },
+ {
+  "theme_id": "n03053",
+  "nameable": true,
+  "core": "cAMP-PKA-CREB signaling",
+  "qualifier": "PDE1 degradation and DARPP-32 feedback",
+  "name": "cAMP synthesis-to-degradation cycle with PDE1 and DARPP-32 feedback",
+  "rationale": "Members span cAMP synthesis, PKA and CREB activation plus cAMP catabolism (Cam-PDE1), DARPP-32 and negative regulation of cAMP/PKA, which the core activating-arm neighbour lacks."
+ },
+ {
+  "theme_id": "n00540",
+  "nameable": true,
+  "core": "Adenylate cyclase inhibition by alpha-2 adrenoceptors",
+  "qualifier": "Gz core",
+  "name": "Adrenaline alpha-2 receptor Gz/Gi core of adenylate cyclase inhibition",
+  "rationale": "All four members describe adrenaline acting through alpha-2 receptors and Gz/Gi to inhibit adenylate cyclase; it is the minimal core, lacking the PLC-calcium and secretion terms of its superset neighbour."
+ },
+ {
+  "theme_id": "n04490",
+  "nameable": true,
+  "core": "Gi/Gz adenylate cyclase inhibition",
+  "qualifier": "PLC-calcium and secretion control",
+  "name": "Gi/Gz cyclase inhibition with PLC-IP3-calcium and secretion control",
+  "rationale": "Members combine alpha-2/Gz inhibition of adenylate cyclase with G protein calcium signalling, PLC/IP3 regulation and restraint of epinephrine secretion and exocytosis, which the 4-member core neighbour lacks."
+ },
+ {
+  "theme_id": "n00046",
+  "nameable": true,
+  "core": "Nutrient sensing upstream of mTORC1",
+  "qualifier": "leucine and glucose starvation",
+  "name": "Leucine and glucose starvation sensing by mTORC1",
+  "rationale": "All members concern amino acid (leucine) and energy (glucose, LKB1-AMPK) control of TORC1; unlike its superset neighbour it has no AKT-TSC growth-factor input or methionine sensing."
+ },
+ {
+  "theme_id": "n01588",
+  "nameable": true,
+  "core": "mTORC1 regulation",
+  "qualifier": "AKT-TSC growth factor plus nutrient inputs",
+  "name": "AKT-TSC, amino acid and energy inputs converging on mTORC1",
+  "rationale": "Members cover leucine, methionine and glucose/LKB1-AMPK sensing plus AKT inhibition of the TSC complex (and an LKB1/TSC2 module), the growth-factor arm absent from the nutrient-only neighbour."
+ },
+ {
+  "theme_id": "n01677",
+  "nameable": true,
+  "core": "Amyloid fibril and APP regulation",
+  "qualifier": "tau tangle and microglial activation",
+  "name": "Amyloid fibril, tau tangle and microglial activation regulation",
+  "rationale": "Members regulate amyloid fibril formation and APP synthesis/catabolism and additionally neurofibrillary tangle assembly, microglial activation and glucosylceramide catabolism, which the core amyloid neighbour lacks."
+ },
+ {
+  "theme_id": "n02573",
+  "nameable": true,
+  "core": "Amyloid fibril assembly and APP turnover",
+  "qualifier": "bidirectional core, no glial or tau terms",
+  "name": "Bidirectional amyloid fibril assembly and APP turnover control",
+  "rationale": "All members are positive/negative control of amyloid fibril formation and APP synthesis and catabolism (with obsolete amide-metabolism terms); it lacks the tau, microglial and amyloid-beta clearance terms of neighbours."
+ },
+ {
+  "theme_id": "n00024",
+  "nameable": true,
+  "core": "Beta-catenin destruction complex oncogenic mutants",
+  "qualifier": "APC and AMER1 scaffold lesions",
+  "name": "APC, AMER1 and AXIN scaffold mutants plus CTNNB1 phosphosite mutants",
+  "rationale": "Members are the beta-catenin phosphorylation cascade and its cancer mutants, including APC truncations and AMER1 deletions/truncations that the phosphosite-only neighbour lacks."
+ },
+ {
+  "theme_id": "n01749",
+  "nameable": true,
+  "core": "Beta-catenin phosphorylation and its escape mutants",
+  "qualifier": "CTNNB1 phosphosite and GSK3B mutants",
+  "name": "CTNNB1 phosphosite and GSK3beta mutants escaping destruction-complex phosphorylation",
+  "rationale": "Members are the beta-catenin phosphorylation cascade with CTNNB1 S33/S37/T41/S45, GSK3B and AXIN missense mutants; unlike its superset neighbour it has no APC or AMER1 scaffold lesions."
+ },
+ {
+  "theme_id": "n00167",
+  "nameable": true,
+  "core": "CCT/TRiC chaperonin folding",
+  "qualifier": "prefoldin handoff, chaperonin stage only",
+  "name": "Prefoldin-to-CCT/TRiC chaperonin folding of nascent actin and tubulin",
+  "rationale": "All members are the prefoldin handoff and CCT/TRiC folding of actin and tubulin; unlike its superset neighbour it stops at the chaperonin stage without post-chaperonin tubulin cofactor folding."
+ },
+ {
+  "theme_id": "n00626",
+  "nameable": true,
+  "core": "Cytoskeletal protein folding",
+  "qualifier": "post-chaperonin tubulin cofactors",
+  "name": "CCT/TRiC plus post-chaperonin cofactor folding of tubulin and actin",
+  "rationale": "Members cover de novo folding, prefoldin and CCT/TRiC folding of actin and tubulin plus the post-chaperonin tubulin folding pathway that the chaperonin-only neighbour lacks."
+ },
+ {
+  "theme_id": "n00321",
+  "nameable": true,
+  "core": "Mitotic centromeric cohesion",
+  "qualifier": "protection and release",
+  "name": "Mitotic centromeric cohesion protection and its anaphase release",
+  "rationale": "All four members concern mitotic centromeric cohesion, its regulation and its resolution and separation; it lacks the cohesion establishment, maintenance and meiotic terms of its superset neighbour."
+ },
+ {
+  "theme_id": "n00731",
+  "nameable": true,
+  "core": "Sister chromatid cohesion",
+  "qualifier": "establishment through separation, mitotic and meiotic",
+  "name": "Mitotic and meiotic cohesion establishment, maintenance and release",
+  "rationale": "Members span establishment, maintenance, centromeric (mitotic and meiotic) cohesion and its resolution, adding establishment, maintenance and meiosis to the mitotic-release core neighbour."
+ },
+ {
+  "theme_id": "n02459",
+  "nameable": true,
+  "core": "Cerebellar development and locomotion",
+  "qualifier": "granule and Purkinje layer formation",
+  "name": "Cerebellar granule and Purkinje layer formation with locomotor behavior",
+  "rationale": "Members are cerebellar layer formation, granule precursor proliferation, Bergmann glia, nigral development and walking/motor learning; unlike its superset neighbour it lacks proprioception, motor neuron survival and neural RNA-binding terms."
+ },
+ {
+  "theme_id": "n03821",
+  "nameable": true,
+  "core": "Motor system development and control",
+  "qualifier": "proprioception and motor neuron maintenance",
+  "name": "Cerebellar, proprioceptive and motor neuron basis of movement",
+  "rationale": "Members combine cerebellar layer formation and locomotor behavior with proprioception, voluntary movement, motor neuron survival, hindbrain differentiation and collateral sprouting absent from the cerebellar-only neighbour."
+ },
+ {
+  "theme_id": "n00775",
+  "nameable": true,
+  "core": "Chromosome condensation and CENP-A deposition",
+  "qualifier": "condensation-centromere core",
+  "name": "Centromeric CENP-A deposition and prophase-prometaphase chromosome condensation",
+  "rationale": "All members are mitotic/meiotic chromosome condensation or CENP-A nucleosome deposition at centromeres; it lacks the replication-coupled nucleosome assembly of its superset neighbour."
+ },
+ {
+  "theme_id": "n02540",
+  "nameable": true,
+  "core": "Chromatin assembly and condensation",
+  "qualifier": "replication-coupled nucleosome assembly",
+  "name": "Chromosome condensation with CENP-A and replication-coupled nucleosome assembly",
+  "rationale": "Members include condensation and CENP-A deposition plus DNA replication-dependent chromatin assembly, nucleosome organization and chromatin-binding terms that the condensation-centromere neighbour lacks."
+ },
+ {
+  "theme_id": "n01651",
+  "nameable": true,
+  "core": "Cohesin-mediated sister chromatid cohesion",
+  "qualifier": "cohesin loading and chromatin looping",
+  "name": "Cohesin loading, chromatin looping and the sister chromatid cohesion cycle",
+  "rationale": "Members span cohesin loading, chromatin looping, cohesion establishment and maintenance through resolution; unlike its superset neighbour it has no negative regulation of cohesion."
+ },
+ {
+  "theme_id": "n03036",
+  "nameable": true,
+  "core": "Cohesin-mediated sister chromatid cohesion",
+  "qualifier": "negative cohesion regulation",
+  "name": "Cohesin cohesion cycle including negative regulation of cohesion",
+  "rationale": "Members are the cohesin loading-to-resolution cycle plus negative regulation of sister chromatid cohesion and mitotic-phase terms, which the positive-only neighbour lacks."
+ },
+ {
+  "theme_id": "n01438",
+  "nameable": true,
+  "core": "ER-to-Golgi vesicle traffic",
+  "qualifier": "COPII cargo export focus",
+  "name": "ER exit-site COPII cargo export with Golgi vesicle tethering",
+  "rationale": "Members are COPII cargo loading and ER exit-site export with vesicle targeting/tethering (and COPI retrograde budding); unlike its superset neighbour it lacks COPI anterograde and intra-Golgi traffic."
+ },
+ {
+  "theme_id": "n02968",
+  "nameable": true,
+  "core": "ER-Golgi vesicle traffic",
+  "qualifier": "adds COPI anterograde and intra-Golgi",
+  "name": "Bidirectional ER-Golgi traffic including COPI anterograde and intra-Golgi transport",
+  "rationale": "Members cover COPII export, COPI retrograde return and additionally COPI anterograde and intra-Golgi traffic, which the COPII-focused neighbour lacks."
+ },
+ {
+  "theme_id": "n01414",
+  "nameable": true,
+  "core": "Cytidine deamination",
+  "qualifier": "hypermutation and early B cell development, no class switching",
+  "name": "Cytidine deaminase editing in hypermutation and early B cell development",
+  "rationale": "Members are DNA/RNA cytidine deamination in somatic hypermutation, V(D)J, pre-B and B lineage commitment plus antiviral restriction; unlike its superset neighbour it lacks isotype switching and APOBEC3G-HIV terms."
+ },
+ {
+  "theme_id": "n02330",
+  "nameable": true,
+  "core": "Cytidine deamination",
+  "qualifier": "class switching and APOBEC3G HIV restriction",
+  "name": "Cytidine deamination in hypermutation, class switching and APOBEC3G HIV restriction",
+  "rationale": "Members span AID/APOBEC deamination in hypermutation and B cell development plus IgA/IgG isotype switching and APOBEC3G resistance to HIV-1, which the hypermutation-only neighbour lacks."
+ },
+ {
+  "theme_id": "n01794",
+  "nameable": true,
+  "core": "Lipoprotein lifecycle",
+  "qualifier": "all four classes from intestinal absorption",
+  "name": "Intestinal fat absorption and chylomicron, VLDL, LDL, HDL lifecycle",
+  "rationale": "Members cover dietary lipid digestion and absorption with assembly, remodeling and clearance of chylomicrons, VLDL, LDL and HDL; unlike its superset neighbour it lacks sterol/vitamin E transport and sitosterolemia terms."
+ }
+]

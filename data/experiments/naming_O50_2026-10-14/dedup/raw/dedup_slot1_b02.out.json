@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n03713",
+  "nameable": true,
+  "core": "Lipoprotein metabolism",
+  "qualifier": "vitamin E and phytosterol absorption",
+  "name": "Lipoprotein metabolism with vitamin E and phytosterol absorption",
+  "rationale": "All members concern dietary lipid absorption and lipoprotein assembly, remodeling and clearance; unlike the confusables, the theme adds vitamin E transport/metabolism and ABCG5/ABCG8 sitosterolemia (intestinal sterol efflux) and lacks HDL assembly/cholesterol efflux."
+ },
+ {
+  "theme_id": "n01880",
+  "nameable": true,
+  "core": "E2F G1/S transcription and pre-replicative complex activation",
+  "qualifier": "core subset, no proliferation modules",
+  "name": "Core E2F G1/S transcription and pre-replicative complex activation",
+  "rationale": "Members share E2F-driven G1/S transcription with pre-RC/ORC-CDC6 activation and replication-initiation checkpoints; it is the compact core lacking the superset's ORC assembly, DNA unwinding, E2F6 and generic cell-cycle/proliferation modules."
+ },
+ {
+  "theme_id": "n02186",
+  "nameable": true,
+  "core": "E2F-driven cell cycle program",
+  "qualifier": "origin assembly through DNA unwinding, proliferation modules",
+  "name": "Proliferative E2F cell cycle program from origin assembly to unwinding",
+  "rationale": "Members span E2F target transcription and DNA replication initiation; beyond its core subset it adds ORC assembly, DNA unwinding, E2F6 regulation, G1/S and G2/M promotion and generic proliferation modules, and lacks the DREAM/p107/p130 repression of a confusable."
+ },
+ {
+  "theme_id": "n03276",
+  "nameable": true,
+  "core": "Endothelial inflammatory activation and vascular wound healing",
+  "qualifier": "leukocyte-endothelial adhesion",
+  "name": "Endothelial inflammatory activation and vascular wound healing",
+  "rationale": "All members concern endothelial activation, leukocyte adhesion to vascular endothelium, endothelial proliferation/apoptosis and vessel repair/remodeling; this is the compact core lacking the superset's macrophage, synoviocyte and MMP terms and the confusables' smooth-muscle and VEGF/FGF angiogenesis focus."
+ },
+ {
+  "theme_id": "n03824",
+  "nameable": true,
+  "core": "Endothelial activation and vascular repair",
+  "qualifier": "synoviocyte proliferation and macrophage survival",
+  "name": "Endothelial activation plus synoviocyte proliferation and macrophage survival",
+  "rationale": "Members share endothelial activation, leukocyte adhesion and vascular wound healing, and what distinguishes the theme from its core subset is synoviocyte proliferation, macrophage anti-apoptosis and MMP secretion control, absent from the smooth-muscle and angiogenesis confusables."
+ },
+ {
+  "theme_id": "n02497",
+  "nameable": true,
+  "core": "Ectodermal organogenesis",
+  "qualifier": "keratinocyte, hair, tooth and gland",
+  "name": "Keratinocyte, hair, tooth and gland ectodermal organogenesis",
+  "rationale": "Members cover epidermal keratinocyte differentiation/cornification and ectodermal organs (hair follicle, tooth/odontoblast, nail, mammary, sebaceous, taste papilla); compact core lacking the superset's NF-kappaB ectodermal dysplasia and dentinogenesis terms and the confusables' melanocyte/MITF pigmentation."
+ },
+ {
+  "theme_id": "n03649",
+  "nameable": true,
+  "core": "Ectodermal organogenesis",
+  "qualifier": "NF-kappaB ectodermal dysplasia and dentinogenesis",
+  "name": "Ectodermal organogenesis with NF-kappaB ectodermal dysplasia and dentinogenesis",
+  "rationale": "Members share epidermal keratinization and ectodermal appendage development; beyond its core subset the theme adds IKBKG/IkBA anhidrotic ectodermal dysplasia, dentinogenesis and tooth eruption, and lacks the confusables' melanocyte/MITF and intestinal epithelium programs."
+ },
+ {
+  "theme_id": "n02189",
+  "nameable": true,
+  "core": "Mesenchymal and epithelial proliferation",
+  "qualifier": "lung and salivary budding",
+  "name": "Mesenchymal and epithelial proliferation in lung and salivary budding",
+  "rationale": "Members share epithelial-mesenchymal signaling controlling epithelial and mesenchymal proliferation in lung and salivary bud branching; the compact core lacks the superset's trachea and lung vasculature terms and the confusables' pneumocyte and prostate terms."
+ },
+ {
+  "theme_id": "n03110",
+  "nameable": true,
+  "core": "Lung and salivary branching morphogenesis",
+  "qualifier": "trachea and lung vasculature formation",
+  "name": "Lung and salivary branching with trachea and lung vasculature formation",
+  "rationale": "Members share epithelial-mesenchymal signaling in lung and salivary branching; beyond its core subset the theme adds trachea formation and cartilage, lung vasculature and dichotomous terminal subdivision, without the confusables' pneumocyte or prostate terms."
+ },
+ {
+  "theme_id": "n00078",
+  "nameable": true,
+  "core": "ERBB2 kinase-domain mutant drug resistance",
+  "qualifier": "neratinib, afatinib, tesevatinib",
+  "name": "ERBB2 kinase-domain mutant resistance to neratinib, afatinib, tesevatinib",
+  "rationale": "All three members are ERBB2 kinase-domain mutant resistance to a specific TKI; the subset is limited to neratinib, afatinib and tesevatinib, lacking the osimertinib, sapitinib and AEE788 members of the larger set."
+ },
+ {
+  "theme_id": "n00116",
+  "nameable": true,
+  "core": "ERBB2 kinase-domain mutant drug resistance",
+  "qualifier": "including osimertinib, sapitinib, AEE788",
+  "name": "ERBB2 kinase-domain mutant resistance including osimertinib, sapitinib, AEE788",
+  "rationale": "All six members are ERBB2 kinase-domain mutant resistance to TKIs; it extends the three-drug subset with osimertinib, sapitinib and AEE788 and lacks the confusables' oncogenic ERBB/FGFR signaling."
+ },
+ {
+  "theme_id": "n00250",
+  "nameable": true,
+  "core": "Estrogen-dependent gene expression",
+  "qualifier": "progesterone receptor signaling",
+  "name": "Estrogen-dependent gene expression and progesterone receptor signaling",
+  "rationale": "Members share estrogen/estradiol response and ER/PR signaling; beyond the three-member core it adds estrogen-dependent gene expression (with AP-2 growth factor transcription), and it lacks the confusables' androgen and mammary terms."
+ },
+ {
+  "theme_id": "n00506",
+  "nameable": true,
+  "core": "Estrogen and progesterone receptor signaling",
+  "qualifier": "cellular estrogen response core, no transcription",
+  "name": "Positive estrogen receptor regulation and progesterone receptor signaling",
+  "rationale": "All three members concern estrogen response, positive regulation of ER signaling and PR signaling; it lacks the superset's estrogen-dependent gene expression and the confusables' androgen and mammary development terms."
+ },
+ {
+  "theme_id": "n01035",
+  "nameable": true,
+  "core": "Neutrophil lineage commitment",
+  "qualifier": "G-CSF and retinoid signaling",
+  "name": "G-CSF and retinoid signaling in neutrophil lineage commitment",
+  "rationale": "Members share myeloid progenitor-to-neutrophil differentiation driven by G-CSF and RA/PU.1 networks; compact core lacking the superset's RUNX1/granulopoiesis transcription terms and the confusables' eosinophil, mast cell and M-CSF terms."
+ },
+ {
+  "theme_id": "n02770",
+  "nameable": true,
+  "core": "Granulopoiesis",
+  "qualifier": "transcriptional control from HSCs",
+  "name": "Transcriptional control of granulopoiesis from HSCs to neutrophils",
+  "rationale": "Members share G-CSF-driven neutrophil differentiation; beyond its core subset it adds RUNX1 HSC differentiation and transcriptional regulation of granulopoiesis, and lacks the confusables' monocyte/macrophage and GM-CSF terms."
+ },
+ {
+  "theme_id": "n02417",
+  "nameable": true,
+  "core": "Glycerol metabolism and acylglycerol synthesis",
+  "qualifier": "fructose metabolism and aquaporin transport",
+  "name": "Glycerol and fructose metabolism, aquaporin transport, acylglycerol synthesis",
+  "rationale": "Members share glycerol/glycerol-3-phosphate and alditol metabolism feeding PA/DAG/TAG synthesis, with fructose metabolism and aquaporin glycerol/urea transport; compact core lacking the superset's lysophospholipid hydrolysis and the confusables' lipid droplet/lipolysis terms."
+ },
+ {
+  "theme_id": "n04109",
+  "nameable": true,
+  "core": "Glycerol metabolism and acylglycerol synthesis",
+  "qualifier": "lysophospholipid hydrolysis",
+  "name": "Glycerol metabolism linking acylglycerol synthesis and lysophospholipid hydrolysis",
+  "rationale": "Members share glycerol metabolism, aquaporin glycerol transport and acylglycerol synthesis; beyond its core subset it adds glycerophospholipid catabolism (LPC and LPE hydrolysis), lacking the confusables' endocannabinoid, lipolysis and PC synthesis terms."
+ },
+ {
+  "theme_id": "n02949",
+  "nameable": true,
+  "core": "Hormonal control of body growth",
+  "qualifier": "GH, prolactin, leptin and thyroid hormones",
+  "name": "Body growth control by somatotropic, lactogenic, leptin and thyroid hormones",
+  "rationale": "Members share GH, prolactin and leptin receptor signaling and thyroid hormone action regulating organismal growth; compact core lacking the superset's amino acid transport and lifespan terms and the confusables' steroid and IL-6-family terms."
+ },
+ {
+  "theme_id": "n04221",
+  "nameable": true,
+  "core": "Endocrine growth axis",
+  "qualifier": "lifespan and large neutral amino acid transport",
+  "name": "Endocrine growth axis, lifespan and large neutral amino acid transport",
+  "rationale": "Members share GH/prolactin/leptin and thyroid hormone signaling for growth; beyond its core subset the theme adds leucine/isoleucine/phenylalanine transport, GH secretion, growth rate and lifespan determination."
+ },
+ {
+  "theme_id": "n02782",
+  "nameable": true,
+  "core": "Spinal and hindbrain neuron specification",
+  "qualifier": "ventral spinal motor neuron and interneuron",
+  "name": "Spinal motor neuron and interneuron specification with hindbrain maturation",
+  "rationale": "Members share dorsoventral neural tube patterning, spinal motor/interneuron fate and hindbrain/pons development; compact core lacking the superset's cranial nerve, DRG and peripheral neuron terms and the confusables' midbrain dopaminergic and floor plate terms."
+ },
+ {
+  "theme_id": "n03029",
+  "nameable": true,
+  "core": "Brainstem and spinal cord neuron development",
+  "qualifier": "cranial and peripheral nerve",
+  "name": "Brainstem, spinal cord and cranial/peripheral nerve neuron development",
+  "rationale": "Members share hindbrain and spinal cord neuron specification; beyond its core subset the theme adds trigeminal and facial nerve, branchiomotor axon guidance, DRG and peripheral neuron differentiation, without the confusables' enteric or midbrain terms."
+ },
+ {
+  "theme_id": "n01815",
+  "nameable": true,
+  "core": "HSF1 heat shock response",
+  "qualifier": "arsenite stress, stress granules, PKR",
+  "name": "HSF1 heat and arsenite stress responses with stress granules",
+  "rationale": "Members share HSF1 heat shock activation/attenuation and stress granule/PML body dynamics with arsenite and PKR stress; compact core lacking the superset's chaperone refolding and mitochondrial UPR and the confusables' ARE-mRNA decay."
+ },
+ {
+  "theme_id": "n03620",
+  "nameable": true,
+  "core": "Heat shock proteostasis",
+  "qualifier": "chaperone refolding and mitochondrial UPR",
+  "name": "HSF1-chaperone refolding, mitochondrial UPR and stress granule dynamics",
+  "rationale": "Members share HSF1 heat shock response and stress granules; beyond its core subset the theme adds protein refolding, ER folding, mitochondrial UPR and inclusion body control, lacking the confusables' ER UPR/ISR and chaperonin terms."
+ },
+ {
+  "theme_id": "n01105",
+  "nameable": true,
+  "core": "IL-6-family cytokine signaling",
+  "qualifier": "IL-6, LIF and CNTF via gp130",
+  "name": "IL-6, LIF and CNTF gp130 signaling to STAT3 and ERK",
+  "rationale": "Members share IL-6-type cytokine (IL-6, LIF, CNTF) receptor signaling to STAT3 and ERK1/2; compact core lacking the superset's IL-11, autocrine/paracrine and STAT inhibition terms and the confusables' IL-27/35 and M-CSF terms."
+ },
+ {
+  "theme_id": "n02584",
+  "nameable": true,
+  "core": "IL-6-family cytokine signaling",
+  "qualifier": "inflammatory autocrine/paracrine, IL-11, STAT inhibition",
+  "name": "Inflammatory IL-6-family autocrine/paracrine signaling with IL-11 and STAT inhibition",
+  "rationale": "Members share IL-6/LIF/CNTF signaling to STAT3 and ERK; beyond its core subset the theme adds IL-11 signaling, autocrine/paracrine and lymphocyte inflammatory cytokine output, and negative regulation of STAT phosphorylation."
+ }
+]

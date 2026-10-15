@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n02404",
+  "nameable": true,
+  "core": "Adenylate cyclase-cAMP-PKA activation of CREB",
+  "qualifier": "stimulatory arm only, without phosphodiesterase or DARPP-32 feedback",
+  "name": "Stimulatory cAMP-PKA-CREB arm without phosphodiesterase feedback",
+  "rationale": "All members describe cAMP generation by adenylate cyclase (forskolin, dopamine receptor, calcium-stimulated ADCY1/8) leading to PKA activation and CREB; unlike the larger cAMP theme it contains none of the PDE1 degradation, DARPP-32 or negative-regulation members."
+ },
+ {
+  "theme_id": "n03053",
+  "nameable": true,
+  "core": "cAMP synthesis and PKA-CREB signaling",
+  "qualifier": "with PDE1 degradation and DARPP-32 feedback",
+  "name": "cAMP synthesis, PKA-CREB signaling and PDE1/DARPP-32 turnover",
+  "rationale": "Members span adenylate cyclase activation, cAMP production, PKA and CREB activation, and add cAMP catabolism by calmodulin-PDE1, DARPP-32 events and negative regulation of cAMP/PKA that the smaller stimulatory theme lacks."
+ },
+ {
+  "theme_id": "n00540",
+  "nameable": true,
+  "core": "Alpha-2 adrenoceptor Gi/Gz adenylate cyclase inhibition",
+  "qualifier": "minimal core without calcium, PLC or secretion effects",
+  "name": "Minimal alpha-2 adrenoceptor-Gz adenylate cyclase inhibition",
+  "rationale": "All four members describe alpha-2 adrenergic, Gz-mediated inhibition of adenylate cyclase; unlike the broader alpha-2 theme it lacks G-protein calcium signaling, PLC/IP3 and secretion-restraint members."
+ },
+ {
+  "theme_id": "n04490",
+  "nameable": true,
+  "core": "Alpha-2 adrenergic G-protein signaling",
+  "qualifier": "control of cAMP, PLC-calcium signaling and exocytosis",
+  "name": "Alpha-2 adrenergic G-protein control of cAMP, calcium and exocytosis",
+  "rationale": "Members combine alpha-2/Gz inhibition of adenylate cyclase with G-protein calcium signaling, PLC/IP3 regulation and restraint of calcium-dependent exocytosis and epinephrine secretion, which the minimal alpha-2 theme lacks."
+ },
+ {
+  "theme_id": "n00046",
+  "nameable": true,
+  "core": "Nutrient sensing upstream of mTORC1",
+  "qualifier": "leucine and glucose-starvation inputs",
+  "name": "Leucine and glucose-starvation sensing regulating TORC1",
+  "rationale": "All members concern TORC1 regulation by leucine availability/starvation and glucose-starvation energy sensing via LKB1-AMPK; unlike the larger mTORC1 theme it lacks AKT inhibition of TSC and methionine sensing."
+ },
+ {
+  "theme_id": "n01588",
+  "nameable": true,
+  "core": "Nutrient and energy control of mTORC1",
+  "qualifier": "plus AKT-TSC2 growth-factor input",
+  "name": "Nutrient, energy and AKT-TSC2 inputs controlling mTORC1",
+  "rationale": "Members cover amino acid, glucose and LKB1-AMPK regulation of mTORC1 and add AKT inhibition of the TSC complex, an LKB1/TSC2 growth-restraint module and methionine response, absent from the leucine/glucose theme."
+ },
+ {
+  "theme_id": "n01677",
+  "nameable": true,
+  "core": "Amyloid fibril and APP regulation",
+  "qualifier": "with tau tangle assembly and microglial activation",
+  "name": "Amyloid fibril, tau tangle and microglial activation regulation",
+  "rationale": "Members regulate amyloid fibril formation and APP synthesis/catabolism and add neurofibrillary tangle assembly, microglial activation and glucosylceramide catabolism that the amyloid-only theme lacks."
+ },
+ {
+  "theme_id": "n02573",
+  "nameable": true,
+  "core": "Amyloid fibril assembly and APP regulation",
+  "qualifier": "restraint of APP synthesis and catabolism, no tau or glial terms",
+  "name": "Amyloid fibril assembly and APP synthesis/catabolism restraint",
+  "rationale": "All members concern amyloid fiber formation and its regulation together with negative regulation of APP biosynthesis and catabolism (amide metabolism); unlike the larger theme it has no tau tangle, microglial or glucosylceramide members."
+ },
+ {
+  "theme_id": "n00024",
+  "nameable": true,
+  "core": "Beta-catenin destruction complex cancer mutants",
+  "qualifier": "including APC and AMER1 scaffold mutants",
+  "name": "Beta-catenin phosphodegron and APC/AMER1/AXIN scaffold cancer mutants",
+  "rationale": "Members describe beta-catenin phosphorylation and its loss through CTNNB1 phosphosite, GSK3B and AXIN mutants, and add APC truncation and AMER1 deletion/truncation mutants that the smaller phosphosite theme lacks."
+ },
+ {
+  "theme_id": "n01749",
+  "nameable": true,
+  "core": "Beta-catenin phosphorylation and its escape mutants",
+  "qualifier": "CTNNB1 phosphosite and GSK3beta mutants, no APC/AMER1",
+  "name": "CTNNB1 phosphosite and GSK3beta mutants escaping beta-catenin phosphorylation",
+  "rationale": "All members concern the GSK3/CK1 beta-catenin phosphorylation cascade and mutants (CTNNB1 S33/S37/T41/S45, GSK3B, AXIN missense) that block it; unlike the broader theme it lacks APC truncation and AMER1 mutants."
+ },
+ {
+  "theme_id": "n00167",
+  "nameable": true,
+  "core": "CCT/TRiC chaperonin folding of actin and tubulin",
+  "qualifier": "chaperonin step only, without post-chaperonin tubulin cofactors",
+  "name": "CCT/TRiC chaperonin step of actin and tubulin folding",
+  "rationale": "All members describe prefoldin delivery to and folding by CCT/TRiC of actin and tubulin; unlike the larger theme it stops at the chaperonin stage, lacking post-chaperonin tubulin folding and de novo folding terms."
+ },
+ {
+  "theme_id": "n00626",
+  "nameable": true,
+  "core": "Actin and tubulin folding by CCT/TRiC",
+  "qualifier": "extended through post-chaperonin tubulin cofactors",
+  "name": "Actin and tubulin folding through CCT/TRiC and post-chaperonin cofactors",
+  "rationale": "Members cover prefoldin transfer and CCT/TRiC folding of actin and tubulin plus the post-chaperonin tubulin folding pathway and de novo folding that the chaperonin-only theme lacks."
+ },
+ {
+  "theme_id": "n00321",
+  "nameable": true,
+  "core": "Centromeric sister chromatid cohesion",
+  "qualifier": "mitotic, at anaphase separation",
+  "name": "Mitotic centromeric cohesion and anaphase sister chromatid separation",
+  "rationale": "All four members concern mitotic centromeric cohesion and its release at sister separation; unlike the larger cohesion theme it lacks cohesion establishment, maintenance and meiotic terms."
+ },
+ {
+  "theme_id": "n00731",
+  "nameable": true,
+  "core": "Sister chromatid cohesion cycle",
+  "qualifier": "establishment and maintenance, mitotic and meiotic",
+  "name": "Sister cohesion establishment, maintenance and resolution in mitosis and meiosis",
+  "rationale": "Members span cohesion establishment, positive regulation of maintenance, centromeric cohesion in mitosis and meiosis, and resolution/separation, whereas the smaller theme covers only mitotic centromeric cohesion and its release."
+ },
+ {
+  "theme_id": "n02459",
+  "nameable": true,
+  "core": "Cerebellar cortex development and motor behavior",
+  "qualifier": "layer formation with locomotor and righting behaviors, no proprioceptive or motor-neuron terms",
+  "name": "Cerebellar cortical layering with locomotor and righting behaviors",
+  "rationale": "Members cover cerebellar granular and Purkinje layer formation, Bergmann glia, granule precursor proliferation and substantia nigra development with walking, locomotion, righting reflex and motor learning; it lacks the proprioception, voluntary movement and motor neuron survival members of the larger theme."
+ },
+ {
+  "theme_id": "n03821",
+  "nameable": true,
+  "core": "Cerebellar development and motor coordination",
+  "qualifier": "with proprioception and motor neuron maintenance",
+  "name": "Cerebellar development with proprioception and motor neuron maintenance",
+  "rationale": "Members include cerebellar layer formation and locomotor behaviors and add proprioception, voluntary movement, negative regulation of motor neuron apoptosis, collateral sprouting and hindbrain differentiation that the smaller cerebellar theme lacks."
+ },
+ {
+  "theme_id": "n00775",
+  "nameable": true,
+  "core": "Chromosome condensation and CENP-A deposition",
+  "qualifier": "condensin-driven condensation, no general nucleosome assembly",
+  "name": "Condensin-driven chromosome condensation and CENP-A loading at centromeres",
+  "rationale": "All members concern prophase/prometaphase, mitotic and meiotic chromosome condensation and CENP-A nucleosome deposition at centromeres; unlike the larger theme it lacks replication-dependent chromatin assembly and nucleosome organization."
+ },
+ {
+  "theme_id": "n02540",
+  "nameable": true,
+  "core": "Chromosome condensation and CENP-A chromatin assembly",
+  "qualifier": "plus replication-coupled nucleosome assembly",
+  "name": "Chromosome condensation, CENP-A and replication-coupled nucleosome assembly",
+  "rationale": "Members cover chromosome condensation and CENP-A deposition and add DNA replication-dependent chromatin assembly, nucleosome organization and protein localization to chromatin that the smaller theme lacks."
+ },
+ {
+  "theme_id": "n01651",
+  "nameable": true,
+  "core": "Cohesin-mediated sister chromatid cohesion cycle",
+  "qualifier": "cohesin loading and chromatin looping",
+  "name": "Cohesin loading, chromatin looping and sister cohesion cycle",
+  "rationale": "All members concern cohesin loading, chromatin looping, cohesion establishment and maintenance, centromeric cohesion and resolution; unlike the larger theme it lacks negative regulation of cohesion and mitotic-phase cell-cycle terms."
+ },
+ {
+  "theme_id": "n03036",
+  "nameable": true,
+  "core": "Cohesin sister chromatid cohesion cycle",
+  "qualifier": "plus cohesion-antagonizing mitotic factors",
+  "name": "Cohesin loading through release, plus cohesion-antagonizing mitotic factors",
+  "rationale": "Members cover cohesin loading, looping, establishment, maintenance and resolution and add negative regulation of sister chromatid cohesion and mitotic-phase cell-cycle gene sets that the smaller cohesin theme lacks."
+ },
+ {
+  "theme_id": "n01438",
+  "nameable": true,
+  "core": "COPII and COPI vesicle traffic",
+  "qualifier": "ER export and Golgi-to-ER retrieval, no intra-Golgi traffic",
+  "name": "COPII export and COPI retrieval between ER and cis-Golgi",
+  "rationale": "Members describe COPII cargo concentration, coating and ER-to-Golgi vesicle targeting/tethering plus COPI budding and Golgi-to-ER retrograde traffic; unlike the larger theme it lacks COPI anterograde and intra-Golgi traffic."
+ },
+ {
+  "theme_id": "n02968",
+  "nameable": true,
+  "core": "COPII and COPI vesicle traffic",
+  "qualifier": "including COPI anterograde and intra-Golgi transport",
+  "name": "COPII ER export with COPI anterograde, intra-Golgi and retrograde traffic",
+  "rationale": "Members cover COPII ER export and COPI Golgi-to-ER retrieval and add COPI-mediated anterograde transport and intra-Golgi traffic that the smaller ER-Golgi theme lacks."
+ },
+ {
+  "theme_id": "n01414",
+  "nameable": true,
+  "core": "Cytidine deamination in B cell diversification and viral restriction",
+  "qualifier": "B cell development and hypermutation, no class switching",
+  "name": "Cytidine deaminases in B cell development, hypermutation and viral restriction",
+  "rationale": "Members combine AID/APOBEC cytosine deamination and editing with V(D)J recombination, pre-B differentiation, somatic hypermutation and host suppression of viral replication; unlike the larger theme it lacks isotype switching and APOBEC3G HIV-1 resistance."
+ },
+ {
+  "theme_id": "n02330",
+  "nameable": true,
+  "core": "Cytidine deamination in antibody diversification and antiviral restriction",
+  "qualifier": "class switching to IgA/IgG and HIV-1 restriction",
+  "name": "Cytidine deamination in hypermutation, IgA/IgG class switching and HIV restriction",
+  "rationale": "Members cover AID/APOBEC deamination in V(D)J, B cell development and somatic hypermutation plus isotype switching to IgA/IgG and APOBEC3G resistance to HIV-1, which the smaller theme lacks."
+ },
+ {
+  "theme_id": "n01794",
+  "nameable": true,
+  "core": "Dietary lipid absorption and lipoprotein turnover",
+  "qualifier": "core lipoprotein classes, no sterol transporter or vitamin E terms",
+  "name": "Intestinal lipid absorption and chylomicron-VLDL-LDL-HDL particle turnover",
+  "rationale": "All members concern intestinal lipid digestion and absorption and the assembly, lipase remodeling and clearance of chylomicrons, VLDL, LDL and HDL; unlike the larger theme it lacks ABCG5/8 sitosterolemia, vitamin E transport and phospholipid homeostasis."
+ }
+]
