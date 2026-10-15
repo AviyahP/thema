@@ -69,9 +69,31 @@ pathways above their children: among curated pairs whose levels differ, the pare
 See `docs/status/2026-10-08-monotonicity.md`. Theme-level gene containment does hold — 100% of
 v0.4's 8,422 edges — but that follows from the definitions and is not evidence about placement.
 
-### c85 is the WORKING VERSION — frozen 10 Oct, tag thema-c85-2026-10-10
+### O50 is the WORKING VERSION — frozen 14 Oct, tag thema-O50-2026-10-14
 
-**`data/ontology/v0.4-leaves/thema_L_x2_c85` is the version every analysis uses.** It is chain
+**`data/ontology/v0.4-leaves/thema_L_x2_O50` is the version every analysis uses.** One same-theme
+cutoff of **0.50** in consensus *and* the stale pass, iterated with chain collapse at 0.85 to a joint
+fixed point; `theta_match` stays 0.70. **4,602 themes, 97.57% plausible, 112 not ok** (against c85's
+195), and **the giants fall from 10 to 4**. Frozen at
+`data/ontology/frozen/working-O50-2026-10-14/`; **c85 and the 2026-10-09 baseline stay frozen as
+FALLBACKS**, and `tests/ontology/test_frozen_baseline.py` guards all three.
+
+Adopted on criteria declared before the build: C1 pass, C3 pass, C4 pass (112 <= 195), C5 won
+(87 to 33, p = 9e-7). **C2 failed on one pathway, `btm:M205`, accepted as a known exception** —
+it now sits inside giants only. The cleanup **costs some real facets**: c85 won 28% of the C5 items,
+and pathways with distinct homes fall from 79% to 66%. That is why both fallbacks are kept.
+
+```sh
+uv run scripts/leaves_build.py --arm L --version 0.4-leaves-x2 --space leaves_centred_x2 \
+    --out-version 0.4-leaves --floors-file data/ontology/v0.4-leaves/regate/floors_L_cal8.json \
+    --repair --collapse-share 0.85 --survivor support \
+    --theta-same 0.50 --joint-fixed-point --directory thema_L_x2_O50
+shasum -a 256 -c data/ontology/frozen/working-O50-2026-10-14/CHECKSUMS.sha256
+```
+
+### c85 — the previous working version, now a FALLBACK (frozen 10 Oct, tag thema-c85-2026-10-10)
+
+**`thema_L_x2_c85` was the working version from 10 to 14 Oct; O50 superseded it.** It is chain
 collapse at 0.85 keeping the higher-support node (POST-HOC), 8,251 themes, 97.64% plausible, 195 bad
 themes against the baseline's 197. Frozen at `data/ontology/frozen/working-c85-2026-10-10/` with its
 own `CHECKSUMS.sha256`; **the 2026-10-09 baseline stays frozen as the FALLBACK**, and

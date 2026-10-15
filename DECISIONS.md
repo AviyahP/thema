@@ -6321,3 +6321,84 @@ the harness proof meaningful. `scripts/leaves_build.py` gains `--theta-same` and
 
 **Cost:** O70 326 s, O60 181 s, O50 94 s, repair-O50 92 s, harness 315 s; 1.2-1.5 GB peak. Lower
 cutoffs are faster, because consensus supersedes more candidates earlier.
+
+## 2026-10-15 11:09:56 UTC+1 — O50 C4 PASSES and C5 is WON (reviewer, 13 Oct)
+
+`data/experiments/o50_eval_2026-10-13/REPORT.md`, with the presentation details fixed before judging
+in `PREREG_note.md`. In-session subagents, **no API spend**, keys never shown.
+
+**C4 plausibility: PASS.**
+
+| | themes | not ok | ok |
+|---|---:|---:|---:|
+| c85 | 8,251 | **195** | 97.64% |
+| **O50** | **4,602** | **112** | **97.57%** |
+
+The 112 are **99 carried** from identical c85 themes plus **13 of the 858 new ones**, so the new
+themes are **845 of 858 ok = 98.5%**. The bar was "not more than c85's 195"; O50 comes in at 112.
+The share dips 0.07 points only because the denominator fell faster than the numerator. The not-ok
+are mostly the four new giants, grab-bags as before, plus a few core-plus-misfits.
+
+ccode rebuilt `all_verdicts_O50.json` independently -- 3,744 carried from the c85 freeze by identical
+member set plus the reviewer's 858 judgements, read from the 22 `judged/C4_*.out.json` files -- and
+reproduced **every figure exactly**: 4,602 themes, 112 not ok, 99 + 13, 845/858 = 98.5%, 97.57%.
+
+**C5 usefulness: O50 WINS.** 120 pathways, blind, both theme sets shown in full with no names and
+sides randomised. **O50 preferred 87, c85 33, none equal** -- 72.5% of decided items against a 60%
+bar, two-sided binomial **p = 9e-7**.
+
+- **Why O50 wins:** the same contexts without the near-duplicate repeats.
+- **Why c85 still won 28%:** it kept a context O50 lost -- a broader CDK4/6-RB theme, ER-phagy,
+  Gq/PLC calcium. **The cleanup costs some real facets**, and the share of pathways with distinct
+  homes falls from **79% to 66%**. That is the price, recorded rather than smoothed over.
+
+## 2026-10-15 11:09:56 UTC+1 — C2's failure accepted as a known exception (Aviyah, 13 Oct)
+
+The overlap arm failed C2 on exactly one pathway, `btm:M205`, and it is accepted rather than waived
+quietly. It is an untitled BTM module with two arms: NF-kB (CHUK, BAG4, ZFAND6) and BMP/TGF-beta
+(BMPR2, RNF111). Its only small homes in c85 were three weak TGF-beta/BMP regulation themes (support
+**0.055-0.105**, 10-14 members) that also held two other BTM modules; at 0.50 those were superseded
+by tighter TGF-beta/SMAD themes that do not hold it. **A mixed module with half its biology outside
+TGF-beta is a plausible loose fit.** It now sits inside three giants only (`n01845` 2,332, `n03867`
+2,018, `n02670` 2,015), so a hit on it can be interpreted only through a bag. Accepted as a known
+exception on 13 Oct, and carried in `FROZEN.md` section 5 so it is not rediscovered as a surprise.
+
+## 2026-10-15 11:09:56 UTC+1 — DECISION (Aviyah, 14 Oct): thema_L_x2_O50 is the WORKING VERSION
+
+All five criteria of `SPEC_overlap_arm_2026-10-12.md`, declared before any build, are now settled:
+
+| | criterion | owner | result |
+|---|---|---|---|
+| C1 | no non-nested pair under 1,000 at J >= 0.50, no containment pair at >= 0.85 | ccode | **PASS**, 0 and 0, against **9,138** such pairs in c85 |
+| C2 | no pathway loses all its themes under 1,000 | ccode | **FAIL**, 1 pathway, **accepted as an exception** |
+| C3 | >= 99% of absent c85 themes have an O50 counterpart at J >= 0.50 | ccode | **PASS**, 99.64% |
+| C4 | plausibility, not-ok <= 195 | reviewer | **PASS**, 112 |
+| C5 | usefulness, blind | reviewer | **WON**, 87 to 33, p = 9e-7 |
+
+**`thema_L_x2_O50` is the WORKING VERSION. `thema_L_x2_c85` and the 2026-10-09 baseline stay frozen
+as FALLBACKS.** Three freezes now exist, each with its own `CHECKSUMS.sha256`, all guarded by the
+same parametrised test.
+
+**What the adoption buys:** every one of c85's 9,138 non-nested pairs at J >= 0.50 is gone; the
+**giants fall from 10 to 4**, the first change in this project that moves them at all; not-ok themes
+fall from 195 to 112; and the architectural complaint the arm was built on -- three cutoffs on one
+measure, applied in an order-dependent sequence -- is answered by one cutoff in two places, iterated
+to a fixed point.
+
+**What it costs, stated plainly:** the ontology is **44% smaller**; a pathway sits in a median of
+**12 fewer** themes under 1,000 members; pathways with distinct homes fall from **79% to 66%**; c85
+won 28% of the C5 items by keeping a context O50 lost; and independent-build reproducibility falls
+from 77.1% to 70.2% at J >= 0.7 -- report-only, because removing duplicates lowers a share-matched
+measure by construction. Both fallbacks stay frozen for exactly these reasons.
+
+**Known limits carried forward:** the collapse survivor is still partly a coin flip, though less so
+(margins under 0.05 fall from 28.3% to 19.4%); the four remaining giants are unchanged in kind;
+the floors recalibration on this universe is still an open to-do; `go:GO:0010800` is still excluded
+against the declared rule and marked for reinstatement; **placement monotonicity is untouched and
+still at chance (46.1%)**.
+
+**Frozen at** `data/ontology/frozen/working-O50-2026-10-14/` -- **10.0 MB, 17 files** -- with the
+build, the manifest, the inputs, `match_to_c85.tsv`, `O50_new_themes.json`, `all_verdicts_O50.json`,
+the reviewer's report verbatim, `FROZEN.md` and `CHECKSUMS.sha256`. Tag **`thema-O50-2026-10-14`**,
+created by `docs/status/commit-2026-10-14-adopt-O50.sh`, which also merges `overlap-2026-10` into
+`leaves-2026-10` with `--no-ff`. Both existing freezes were left untouched and still verify.
