@@ -333,6 +333,123 @@ def assert_no_stale_pair(members: Sequence[np.ndarray],
             f"first is themes {left[0][0]} and {left[0][1]} at Jaccard {left[0][3]:.3f}")
 
 
+def assert_no_chain_pair(members: Sequence[np.ndarray],
+                         share: float = COLLAPSE_SHARE) -> None:
+    """Refuse a build that still holds a containment pair at or above the collapse share.
+
+    The companion of :func:`assert_no_stale_pair` for the nested case. Checks **every** strict
+    containment pair, not only the DAG's direct edges, because that is what :func:`collapse_chains`
+    itself considers.
+
+    Args:
+        members: Member bitsets.
+        share: The collapse share.
+
+    Raises:
+        ValueError: If any strictly contained child is at or above ``share`` of a parent.
+    """
+    sets = _sets(members)
+    holders = _index(sets, range(len(sets)))
+    for child in range(len(sets)):
+        for parent in {o for m in sets[child] for o in holders.get(m, ())}:
+            if parent == child or not sets[child] < sets[parent]:
+                continue
+            if len(sets[child]) >= share * len(sets[parent]):
+                raise ValueError(
+                    f"a containment pair survives the repair: themes {child} "
+                    f"({len(sets[child])}) in {parent} ({len(sets[parent])}), ratio "
+                    f"{len(sets[child]) / len(sets[parent]):.3f} >= {share}")
+
+
+def repair_joint(
+    members: Sequence[np.ndarray], supports: Sequence[float],
+    inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE,
+    jaccard: float = MERGE_JACCARD, survivor: str = "parent"
+) -> Repaired:
+    """Both fixes, iterated TOGETHER to a joint fixed point.
+
+    :func:`repair` runs collapse once and then merge once. That is order-dependent: a merge can
+    create a fresh near-chain for collapse to absorb, and a collapse can leave a fresh non-nested
+    pair above the merge cutoff. The reviewer measured exactly this -- merging siblings at 0.50
+    after the build would create 839 new parent-child near-chains -- and the overlap arm of 12 Oct
+    2026 therefore repeats ``[collapse, merge]`` until neither changes anything, then asserts both
+    invariants.
+
+    Provenance is kept against the ORIGINAL indices: ``collapsed`` and ``merged`` map an input
+    position to the input position that superseded it, whichever round it happened in. Both
+    sub-passes only ever drop rows, so the survivors of a round are its input positions minus the
+    keys of its map, which is what lets the two be composed.
+
+    Args:
+        members: Member bitsets from consensus.
+        supports: Support per theme.
+        inclusions: Inclusion vote per theme.
+        share: Chain-collapse share.
+        jaccard: Same-theme cutoff for the non-nested merge.
+        survivor: Chain-collapse survivor rule.
+
+    Returns:
+        The repaired build, with ``rounds["joint"]`` counting the outer iterations.
+
+    Raises:
+        RuntimeError: If the loop does not settle within :data:`MAX_ROUNDS`.
+    """
+    live_members = list(members)
+    live_supports = [float(value) for value in supports]
+    live_inclusions = [dict(vote) for vote in inclusions]
+    origin = list(range(len(live_members)))
+    collapsed: dict[int, int] = {}
+    second: dict[int, float] = {}
+    merged: dict[int, int] = {}
+    kind: dict[int, str] = {}
+    rounds = {"joint": 0, "collapse": 0, "merge": 0}
+
+    def absorb(step: Repaired, dropped: dict[int, int]) -> None:
+        """Fold one sub-pass's result into the running state, translating to original indices."""
+        nonlocal live_members, live_supports, live_inclusions, origin
+        for victim, keeper in dropped.items():
+            second[origin[keeper]] = max(
+                second.get(origin[keeper], 0.0), live_supports[victim]
+            )
+        live_members, live_supports, live_inclusions = (
+            list(step.members), list(step.supports), list(step.inclusions)
+        )
+        origin = [origin[i] for i in range(len(dropped) + len(step.members))
+                  if i not in dropped]
+
+    while rounds["joint"] < MAX_ROUNDS:
+        rounds["joint"] += 1
+        before = len(live_members)
+
+        step = collapse_chains(live_members, live_supports, live_inclusions, share, survivor)
+        for victim, keeper in step.collapsed.items():
+            collapsed[origin[victim]] = origin[keeper]
+        rounds["collapse"] += step.rounds.get("collapse", 0)
+        absorb(step, step.collapsed)
+
+        step = merge_stale(live_members, live_supports, live_inclusions, jaccard)
+        for victim, keeper in step.merged.items():
+            merged[origin[victim]] = origin[keeper]
+            kind[origin[victim]] = step.merged_kind[victim]
+        rounds["merge"] += step.rounds.get("merge", 0)
+        absorb(step, step.merged)
+
+        if len(live_members) == before:
+            break
+    else:
+        raise RuntimeError(
+            f"the joint collapse/merge loop did not settle in {MAX_ROUNDS} rounds")
+
+    assert_no_stale_pair(live_members, jaccard)
+    assert_no_chain_pair(live_members, share)
+    return Repaired(
+        members=live_members, supports=live_supports, inclusions=live_inclusions,
+        collapsed=collapsed,
+        collapsed_supports={origin[i]: second[origin[i]]
+                            for i in range(len(live_members)) if origin[i] in second},
+        merged=merged, merged_kind=kind, rounds=rounds)
+
+
 def repair(
     members: Sequence[np.ndarray], supports: Sequence[float],
     inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE,

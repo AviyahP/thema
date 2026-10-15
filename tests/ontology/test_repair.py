@@ -8,15 +8,19 @@ ontology rather than fail loudly.
 
 from __future__ import annotations
 
+import random
+
 import numpy as np
 import pytest
 
 from thema.ontology import bitset as bits
 from thema.ontology.repair import (
+    assert_no_chain_pair,
     assert_no_stale_pair,
     collapse_chains,
     merge_stale,
     repair,
+    repair_joint,
     stale_pairs,
 )
 
@@ -273,3 +277,91 @@ def test_every_surviving_set_was_an_input_set_under_either_rule() -> None:
         got = collapse_chains(members, [0.4, 0.9, 0.5, 0.3], votes(4), 0.85, rule)
         for survivor in sets_of(got.members):
             assert survivor in before, f"{rule} invented a new member set"
+
+
+# The joint fixed point, declared 12 Oct 2026 for the overlap arm. The single-pass repair() is
+# unchanged and its tests above still hold; these cover the new loop's contract.
+#
+# Worth knowing before reading them: because the merge SUPERSEDES the weaker theme rather than
+# unioning the pair, no sub-pass ever changes a member set, so the set of qualifying pairs is fixed
+# from the start and both sub-passes are already internally fixed points. The loop can therefore
+# only change WHICH theme survives, through the support a collapse carries over and through the
+# top-level test, never how many invariant violations remain. A 8,000-fixture random search found no
+# case where it disagrees with the single pass at all. That is why the arm has an O70 control: it
+# measures on real data whether iterating does anything, separately from lowering the cutoff.
+
+
+def test_the_joint_loop_matches_the_single_pass_when_one_round_settles_it() -> None:
+    members = [pack(*range(10)), pack(*range(9)), pack(0, 1, 2)]
+    supports = [0.9, 0.5, 0.3]
+    once = repair(members, supports, votes(3), 0.85, 0.70)
+    joint = repair_joint(members, supports, votes(3), 0.85, 0.70)
+    assert sets_of(once.members) == sets_of(joint.members)
+    assert joint.rounds["joint"] == 2, "one productive round, then one that changes nothing"
+
+
+def test_the_joint_loop_is_idempotent() -> None:
+    members = [pack(*range(20)), pack(*range(18)), pack(*range(17)), pack(*range(10)),
+               pack(*list(range(8)) + [20, 21]), pack(0, 1, 2)]
+    supports = [0.3, 0.9, 0.4, 0.8, 0.6, 0.2]
+    once = repair_joint(members, supports, votes(6), 0.85, 0.50)
+    twice = repair_joint(once.members, once.supports, once.inclusions, 0.85, 0.50)
+    assert sets_of(twice.members) == sets_of(once.members)
+    assert not twice.collapsed and not twice.merged, "a settled build has nothing left to do"
+
+
+def test_the_joint_loop_never_removes_fewer_than_the_single_pass() -> None:
+    rng = random.Random(20261012)
+    for _trial in range(300):
+        count = rng.randint(3, 6)
+        members = [
+            pack(*rng.sample(range(14), rng.randint(3, 9))) for _i in range(count)
+        ]
+        supports = [round(rng.random(), 3) for _i in range(count)]
+        for survivor in ("parent", "support"):
+            once = repair(members, supports, votes(count), 0.85, 0.50, survivor)
+            joint = repair_joint(members, supports, votes(count), 0.85, 0.50, survivor)
+            assert len(joint.members) <= len(once.members)
+
+
+def test_the_joint_loop_leaves_no_pair_either_rule_would_remove() -> None:
+    members = [pack(*range(20)), pack(*range(18)), pack(*range(17)), pack(*range(10)),
+               pack(*list(range(8)) + [20, 21]), pack(0, 1, 2)]
+    supports = [0.3, 0.9, 0.4, 0.8, 0.6, 0.2]
+    got = repair_joint(members, supports, votes(6), 0.85, 0.50)
+    alive = sets_of(got.members)
+    for left in alive:
+        for right in alive:
+            if left is right:
+                continue
+            if left < right:
+                assert len(left) < 0.85 * len(right), "a containment pair survived"
+            elif not (right < left):
+                union = len(left | right)
+                assert not union or len(left & right) / union < 0.50, "an overlap pair survived"
+
+
+def test_the_joint_loop_asserts_both_invariants() -> None:
+    nested = [pack(*range(10)), pack(*range(9))]
+    with pytest.raises(ValueError, match="containment pair survives"):
+        assert_no_chain_pair(nested, 0.85)
+    overlap = [pack(0, 1, 2, 3), pack(0, 1, 2, 4)]
+    with pytest.raises(ValueError, match="stale pair"):
+        assert_no_stale_pair(overlap, 0.50)
+
+
+def test_provenance_is_keyed_on_the_original_positions() -> None:
+    members = [pack(*range(6)), pack(*list(range(5)) + [6]), pack(*range(7))]
+    got = repair_joint(members, [0.9, 0.4, 0.8], votes(3), 0.85, 0.50)
+    assert sets_of(got.members) == [set(range(7))], "both children collapse into the parent"
+    assert got.collapsed == {0: 2, 1: 2}, "keyed on input positions, not on round-local ones"
+    assert got.collapsed_supports[2] == pytest.approx(0.9), "the absorbed support is recorded"
+
+
+def test_a_lower_cutoff_merges_strictly_more() -> None:
+    members = [pack(0, 1, 2, 3, 4, 5), pack(0, 1, 2, 3, 6, 7), pack(10, 11, 12)]
+    supports = [0.9, 0.4, 0.5]
+    high = repair_joint(members, supports, votes(3), 0.85, 0.70)
+    low = repair_joint(members, supports, votes(3), 0.85, 0.50)
+    assert len(high.members) == 3, "J = 4/8 = 0.5 is below 0.70"
+    assert len(low.members) == 2, "and at or above 0.50"

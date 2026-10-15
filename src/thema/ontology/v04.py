@@ -379,7 +379,8 @@ class Built(NamedTuple):
     gated: int
 
 
-def build(got: Material, solved: Sequence[dict], *, legacy: bool = False) -> Built:
+def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
+          theta_same: float = THETA_MERGE) -> Built:
     """Gate, merge by consensus, then stack by containment.
 
     Args:
@@ -388,6 +389,11 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False) -> Bui
         legacy: Restore v0.3's STRAY. Partial containment is not restorable and does not need to
             be: the ablation produced a build identical to strict containment on all four
             statistics, so strict is both the simpler and the faithful choice.
+        theta_same: The same-theme cutoff for non-nested pairs, handed to consensus. **A separate
+            quantity from** :data:`THETA_MATCH`, which is recurrence. Defaults to
+            :data:`THETA_MERGE`, so every existing caller is unchanged; the overlap arm of 12 Oct
+            2026 lowers it and passes the SAME value to the stale-merge pass, so one cutoff governs
+            non-nested overlap everywhere instead of two that were set at different times.
 
     Returns:
         The built ontology.
@@ -407,10 +413,10 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False) -> Bui
     supports = [float(got.supports[i]) for i in keep]
     inclusions = [got.selections[i] for i in keep]
 
-    # Consensus merges near-duplicate themes at the same THETA used for recurrence. STRAY is 0:
-    # nothing is inherited, and the ablation found nothing lost by that.
+    # Consensus merges near-duplicate themes at the same-theme cutoff. STRAY is 0: nothing is
+    # inherited, and the ablation found nothing lost by that.
     verdict = consensus(blocks, supports, inclusions, words,
-                        stray=LEGACY_STRAY if legacy else 0.0, jaccard=THETA_MERGE)
+                        stray=LEGACY_STRAY if legacy else 0.0, jaccard=float(theta_same))
     members = [verdict.members[i] for i in range(len(verdict.accepted))]
     kept_support = [supports[c] for c in verdict.accepted]
     # The node's inclusion column is the ACCEPTED CANDIDATE's own vote, as v0.3 writes it -- not a
@@ -436,6 +442,7 @@ def parameters(n: int, *, legacy: bool = False) -> dict[str, object]:
     """
     return {"method": "v0.4" if not legacy else "v0.4-legacy-all-stages",
             "theta": THETA, "theta_match": THETA_MATCH, "theta_merge": THETA_MERGE,
+            "theta_same_default": THETA_MERGE,
             "min_size": MIN_SIZE, "inclusion_cut": INCLUSION_CUT,
             "subsample": SUBSAMPLE, "strata": [list(s) for s in STRATA],
             "max_fdr_overall": MAX_FDR_OVERALL, "max_fdr_stratum": MAX_FDR_STRATUM,
