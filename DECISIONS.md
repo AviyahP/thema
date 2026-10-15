@@ -6547,3 +6547,152 @@ settles the question for now.
 `scripts/recursive_top_report.py` (every figure), 13 tests in `tests/test_recursive_top.py`. Output:
 `data/ontology/v0.4-leaves/thema_L_x2_O50_rec/`. **The frozen folders were not touched and the
 giants are never units and never joined.** Cost 131 s and 0.7 GB for the build, 4 s for the report.
+
+## 2026-10-15 14:40:02 UTC+1 — AREAS, SECOND AND LAST TRY (rec2): declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/PROMPT_36.md`, Aviyah's prompt of 15 Oct
+2026, and reproduced here **before any build ran**. The three changes it makes to prompt 34 are
+**post hoc** -- they come from the reviewer's reading of prompt 34's failure -- and the prompt says
+so itself. Everything below this line is the prompt text unchanged.
+
+Confirmed before building, as the prompt requires: **6 anchors** -- n01027 (813 pathways), n01279
+(781), n03315 (349), n03959 (290), n03376 (280), n02017 (206) -- **655 level-2 units**, and an
+estimate of **about 7 minutes** from one real side timed at 7.6 s across 25 sides. Under the 3 h
+ceiling.
+
+---
+
+Prompt 36: areas, second and last try, declared 15 Oct 2026 before any result. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not touch frozen folders or thema_L_x2_O50_rec; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+WHY (the reviewer's reading of prompt 34; the three changes below are post hoc and must be labelled so)
+Prompt 34 failed its declared criteria:
+- **Held-out FDR:** strata 3-3 (0.038) and 7-9 (0.026) were over the 0.02 cap.
+- **Bags at the top:** 3 roots hold 2,651-3,053 pathways.
+- **Overlapping top:** the reviewer measured this on area_members.tsv. A pathway sits in a median of 3 of the 30 roots, and 5 root pairs share at least half their pathways (pathway Jaccard 0.71, 0.52, 0.51, 0.51, 0.47).
+
+Two causes:
+- **(a) Overlap was measured on the wrong sets.** The 0.50 same-theme cutoff was measured on unit sets, while units themselves share pathways. Two areas with different units can therefore hold mostly the same pathways.
+- **(b) Area-sized units were clustered as ordinary units.** These are the themes over 200 pathways (immune 813, gene expression 781, cell cycle 349, and others). Their centroids are generic, so they join several areas at once; for example, n01027 sits in all three bag roots.
+
+CHANGES (everything else exactly as in prompt 34; reuse its code)
+1. **Anchors.** Every unit with more than 200 pathways is an anchor: a finished area, not clustered at level 2.
+   - Anchors are roots of the combined DAG.
+   - The level-2 build runs on the remaining units only.
+   - Report the anchors with their sizes.
+2. **Overlap measured on pathways.** Inside level 2, the same-theme cutoff (0.50, consensus and stale pass) and chain collapse (0.85) use pathway sets: the union of each candidate area's units' members. Unit sets are no longer used for these. Recurrence matching (0.70) stays on unit membership.
+3. **Floors.**
+   - Calibrate on 20 unit scrambles (seeds 3001-3020), held out 4002-4005 (4 seeds), target 0.008.
+   - Caps unchanged: 0.02 per stratum, 0.01 overall.
+   - Report each stratum's count of real candidates beside its FDR.
+4. **Output:** data/ontology/v0.4-leaves/thema_L_x2_O50_rec2/, with the same files as rec plus anchors.tsv.
+
+REPORT (docs/status/2026-10-15-recursive-top-2.md)
+- Everything prompt 34 reported, side by side with rec.
+- The distribution of how many roots each pathway sits in.
+- Every root pair with pathway Jaccard of 0.30 or more.
+- The 30 largest areas by pathways.
+
+DECISION (declared now)
+Accepted for further work only if all of these hold:
+- held-out FDR is within the caps in every stratum and overall;
+- 20-60 roots, anchors included;
+- no node has more than 60 children;
+- at least 95% of the 476 giant-only themes get a parent area or anchor;
+- no two roots have pathway Jaccard of 0.50 or more (O50's own rule, applied at the top);
+- no area holds more than 1,000 pathways (O50's own giant definition);
+- C6 (reviewer, after the build) passes: the blind intruder test as declared in prompt 34;
+- Aviyah judges the top intuitive.
+If it fails, there is no third try. The working view becomes O50 with the giants dropped and about 660 flat roots.
+
+FINAL
+- Copy this prompt verbatim into DECISIONS.md as "declared before running", before building.
+- Write docs/status/commit-2026-10-15-recursive-top-2.sh (code, tests, build folder and status note on leaves-2026-10; no branch operations; no push of main). It also commits reviewer files still uncommitted: data/experiments/reviewer_notes/PROMPT_36.md, and in data/experiments/naming_O50_2026-10-14/style/: PREREG_style.md, REPORT_style.md, H1_pairs_for_Aviyah.md, new_names.json, scores_style.json, inputs/, raw/, evalout/. Never any KEY_DO_NOT_SHARE* file.
+
+END OF PROMPT. Before building, confirm in one line:
+- the anchors with their sizes;
+- the number of level-2 units;
+- the time estimate.
+After the build, give:
+- per-criterion pass or fail;
+- roots and sizes;
+- held-out FDR per stratum with counts;
+- root overlap;
+- summary placement against rec;
+- the commit script path.
+
+## 2026-10-15 16:00:00 UTC+1 — AREAS, SECOND AND LAST TRY: two of six criteria FAIL. Adopted nothing. No third try.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-15-recursive-top-2.md`.
+
+| criterion | result |
+|---|---|
+| held-out FDR within the caps, every stratum and overall | **PASS** — overall **0.00429**, worst stratum **0.00459**, every stratum inside 0.02 |
+| 20-60 roots, anchors included | **PASS** — **42** (6 anchors + 36 area roots) |
+| no node over 60 children | **FAIL** — max **181** (4 areas over 60) |
+| at least 95% of the 476 giant-only themes get a parent area or anchor | **PASS** — **100%**, 476 of 476 |
+| no two roots at pathway Jaccard 0.50 or above | **PASS** — highest **0.492**, none at 0.50 |
+| no area over 1,000 pathways | **FAIL** — largest **2,618**, 8 areas over |
+| C6 blind intruder test | the reviewer's, not judged |
+| the top level is intuitive | Aviyah's, not judged |
+
+**By the declaration there is no third try. The working view becomes O50 with the giants dropped and
+about 660 flat roots**, which is what `data/experiments/naming_O50_2026-10-14/roots_without_giants_O50.tsv`
+already lists with reviewer labels.
+
+**Anchors: 6, as declared.** `n01027` 813 pathways, `n01279` 781, `n03315` 349, `n03959` 290,
+`n03376` 280, `n02017` 206 — 2,079 pathways between them, three of them giant-only in O50 and so
+promoted out of the giant-only coverage set. **655 units went to level 2.** Confirmed before building
+with an estimate of ~7 minutes against **252 s** actual.
+
+**Level 2:** 5,691 candidates, 1,398 through the gate, 418 after consensus on pathway sets at 0.50,
+**343 areas and 36 area roots** after the joint fixed point. Multi-parent 45.5%; sizes 4-405 units
+and 27-**2,618** pathways; 75 collapsed, 0 merged.
+
+**All three changes did what they were meant to.** Change 3 (20 calibration seeds against 10, 4
+held-out against 2) **fixed the FDR outright**: rec's two breaches sat on 13 and 96 real candidates
+and the estimate is now precise enough not to trip — every stratum inside the cap with room, overall
+halved from 0.00882 to **0.00429**. Change (a) (the cutoff measured on pathway sets, not unit sets)
+**fixed the near-duplicate roots**: highest root pair **0.492** against rec's 0.71, and none of the
+861 pairs reaches 0.50 where rec had four. Change (b) (anchoring the 6 area-sized units) **stopped
+the generic units joining everything**: `n01027` is a root in its own right rather than a member of
+three bag roots. And a mid-sized layer appeared for the first time — **999 pathways** now sit under
+something in the 201-1,000 band, against 0 in rec.
+
+**And it still fails, for a reason none of the three changes addressed: nothing bounds an area's
+size.** Eight areas exceed 1,000 pathways and the largest holds **2,618 — 47% of the universe**; five
+of the eight are roots. 655 small units agglomerate into bags whether or not the big units are held
+out. rec had 16 such areas and a 3,053 maximum, so this is better and still failing. The overlap
+criterion passes while the underlying multiplicity gets slightly worse: a pathway sits in a **median
+of 4** roots, up from 3, and in up to 15. Removing the near-duplicate root *pairs* did not make the
+top a partition; it spread the same multiplicity over more roots.
+
+**Summary placement went backwards.** 2,370 curated summaries, 80% of leaves in one node: O50 85.3%,
+rec 92.8%, **rec2 87.4%** — and in the 51-200 band rec2 scores **52 of 96 against O50's own 55**.
+rec's strongest result does not survive anchoring: with 343 areas instead of 470 and six large units
+held out of the clustering, there are fewer mid-sized nodes to be a summary's home. Display-only
+throughout; **nothing was attached**.
+
+**Gene coherence** at level 2: median 0.0118 against 0.0011 size-matched random (**10.7x**) over the
+159 areas of 2-120 pathways, against rec's 10.2x over 182 — essentially unchanged.
+
+**One methodological point, because it changes a criterion.** Change (a) compares pathway sets while a
+candidate is still a set of units, so a surviving area's unit list has to be recovered. **Recovering
+it by index is wrong**, and a test caught it: `STRAY_FLOOR` is 1, so `consensus` *inherits* a
+candidate whose extras beyond an accepted one number at most one, whatever `stray` is set to, and the
+accepted set grows. All 343 areas failed the units-union check under index recovery. Units are
+therefore recovered from provenance — an area's own units plus those of every candidate superseded
+into it, followed transitively, and of every candidate whose members it inherited. Under that
+recovery the compared pathway set is a subset of the units' union for all 343 areas, equal for 155.
+**The children figure is the number affected: 181 under provenance, 48 under index recovery.**
+Provenance is the faithful reading and is what the table above uses. **The area-size criterion fails
+under either**, so the verdict does not turn on the choice. Prompt 34 never met this because it
+compared unit sets, where the union held by construction.
+
+**Code:** `scripts/recursive_top_O50_rec2.py` (anchors, the pathway-space cutoff, the extra seeds),
+`scripts/recursive_top_report2.py` (every figure beside rec), 12 tests in
+`tests/test_recursive_top2.py`. Output: `data/ontology/v0.4-leaves/thema_L_x2_O50_rec2/`. **The three
+frozen folders and `thema_L_x2_O50_rec` were not touched, and the giants are never units and never
+joined.** Cost 252 s and 0.8 GB for the build, 5 s for the report. No API calls.
