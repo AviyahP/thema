@@ -172,6 +172,16 @@ def main(argv: list[str] | None = None) -> int:
                              "re-apply the 0.70 merge on final memberships to a fixed point")
     parser.add_argument("--collapse-share", type=float, default=None,
                         help="chain-collapse share; the declared rule is 0.90")
+    parser.add_argument("--theta-same", type=float, default=None,
+                        help="the ONE same-theme cutoff for non-nested pairs, used by consensus "
+                             "AND by the stale-merge pass. Separate from theta_match, which is "
+                             "recurrence and stays 0.70. Defaults to v04.THETA_MERGE (0.70), so "
+                             "omitting it changes nothing")
+    parser.add_argument("--joint-fixed-point", action="store_true",
+                        help="repeat [chain collapse, stale merge] until neither changes anything, "
+                             "then assert no non-nested pair at or above --theta-same and no "
+                             "containment pair at or above --collapse-share survive. Off by "
+                             "default: the single pass is what every build before 12 Oct 2026 ran")
     parser.add_argument("--survivor", choices=["parent", "support"], default="parent",
                         help="which node of a collapsed chain pair survives. parent is the frozen "
                              "baseline rule; support keeps the higher-support node, keeping the "
@@ -338,17 +348,29 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  -> {floors_file}", flush=True)
 
     clock = time.perf_counter()
-    built = v04.build(real, solved)
+    theta_same = v04.THETA_MERGE if args.theta_same is None else float(args.theta_same)
+    if theta_same != v04.THETA_MERGE:
+        print(f"  same-theme cutoff {theta_same} (default {v04.THETA_MERGE}); "
+              f"theta_match stays {theta_match}", flush=True)
+    built = v04.build(real, solved, theta_same=theta_same)
     repaired = None
     if args.repair:
-        from thema.ontology.repair import COLLAPSE_SHARE, MERGE_JACCARD, repair, stale_pairs
+        from thema.ontology.repair import (
+            COLLAPSE_SHARE,
+            repair,
+            repair_joint,
+            stale_pairs,
+        )
 
         share = COLLAPSE_SHARE if args.collapse_share is None else args.collapse_share
-        before = len(stale_pairs(built.members, MERGE_JACCARD))
-        repaired = repair(built.members, built.supports, built.inclusions, share, MERGE_JACCARD,
-                          args.survivor)
-        print(f"  REPAIR, collapse share {share}, survivor {args.survivor}: "
-              f"{len(built.members):,} themes -> {len(repaired.members):,}", flush=True)
+        before = len(stale_pairs(built.members, theta_same))
+        run_repair = repair_joint if args.joint_fixed_point else repair
+        repaired = run_repair(built.members, built.supports, built.inclusions, share, theta_same,
+                              args.survivor)
+        print(f"  REPAIR, collapse share {share}, same-theme {theta_same}, "
+              f"survivor {args.survivor}"
+              + (", JOINT fixed point" if args.joint_fixed_point else "")
+              + f": {len(built.members):,} themes -> {len(repaired.members):,}", flush=True)
         print(f"    fix 2, chain collapse: {len(repaired.collapsed):,} absorbed "
               f"in {repaired.rounds.get('collapse', 0)} round(s); "
               f"{len(repaired.collapsed_supports):,} kept a second support", flush=True)
@@ -420,6 +442,8 @@ def main(argv: list[str] | None = None) -> int:
     info = {p.key: (p.source, p.name, len(p.genes)) for p in collection.pathways}
     manifest = {**v04.parameters(n), "universe": "L (every curated summary removed)", "n": n,
                 "arm": args.arm, "theta_match": theta_match,
+                "theta_merge": theta_same, "theta_same": theta_same,
+                "joint_fixed_point": bool(args.joint_fixed_point),
                 "match_split": list(match_split) if match_split else None,
                 "rows": f"{first}-{last}", "runs": last - first + 1, "floors": solved,
                 "floors_source": record["source"], "leaves_digest": meta["leaves_digest"],
@@ -431,7 +455,8 @@ def main(argv: list[str] | None = None) -> int:
                     "collapse_share": (args.collapse_share
                                        if args.collapse_share is not None else 0.90),
                     "survivor": args.survivor,
-                    "merge_jaccard": 0.70,
+                    "merge_jaccard": theta_same,
+                    "joint_fixed_point": bool(args.joint_fixed_point),
                     "n_collapsed": len(repaired.collapsed),
                     "n_merged": len(repaired.merged),
                     "n_merged_identical": sum(1 for k in repaired.merged_kind.values()

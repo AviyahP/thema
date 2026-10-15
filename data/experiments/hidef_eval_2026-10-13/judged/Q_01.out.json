@@ -1,0 +1,282 @@
+[
+ {
+  "id": "Q000",
+  "verdict": "coherent",
+  "name": "Skeletal myogenesis and myoblast fusion",
+  "nameability": "easy",
+  "reason": "All members concern skeletal muscle myoblast migration, fusion and fibre development."
+ },
+ {
+  "id": "Q001",
+  "verdict": "umbrella",
+  "name": "Chemosensory perception and cranial sensory system development",
+  "nameability": "broad",
+  "reason": "Taste and smell perception (receptors, Gbg-PLCb transduction) plus cranial nerve/ganglion, olfactory/GnRH placode and some retinal development; linked as special-sense organ development and innervation."
+ },
+ {
+  "id": "Q002",
+  "verdict": "coherent",
+  "name": "Cation-chloride cotransport and osmotic cell-volume regulation",
+  "nameability": "easy",
+  "reason": "SLC12 cotransporters, NHEs, K/Na channels and their channelopathies with hypo/hyperosmotic responses and renal salt transport; pancreatic juice term is a minor outlier."
+ },
+ {
+  "id": "Q003",
+  "verdict": "coherent",
+  "name": "Viral infection: replication and host immune modulation",
+  "nameability": "broad",
+  "reason": "HIV ENV/VPU processing, Dengue assembly and Dengue/SARS-CoV-2 immune modulation share only viral infection biology."
+ },
+ {
+  "id": "Q004",
+  "verdict": "coherent",
+  "name": "Common gamma-chain cytokine (IL-2/7/9) STAT5 signalling",
+  "nameability": "easy",
+  "reason": "IL-2, IL-7 and IL-9 signalling via the common gamma chain and STAT5."
+ },
+ {
+  "id": "Q005",
+  "verdict": "core_plus_misfits",
+  "name": "Dystroglycan matriglycan glycosylation (dystroglycanopathy)",
+  "nameability": "hard",
+  "reason": "Two members are DAG1 matriglycan/LARGE dystroglycanopathy; 'localization of cell' and 'post-embryonic morphogenesis' are generic terms without that theme."
+ },
+ {
+  "id": "Q006",
+  "verdict": "coherent",
+  "name": "T cell tolerance and regulatory T cell control",
+  "nameability": "easy",
+  "reason": "Peripheral tolerance, anergy, Treg differentiation and suppression of T cell activation/cytokines."
+ },
+ {
+  "id": "Q007",
+  "verdict": "coherent",
+  "name": "Vitamin C (ascorbate) metabolism and antioxidant vitamin response",
+  "nameability": "easy",
+  "reason": "Ascorbate/dehydroascorbate metabolism and transport; vitamin E response and stellate activation are small related outliers."
+ },
+ {
+  "id": "Q008",
+  "verdict": "umbrella",
+  "name": "Eye development, phototransduction and retinoid (vitamin A) metabolism",
+  "nameability": "broad",
+  "reason": "Large vision cluster (retina, lens, photoreceptors, opsins, visual cycle) joined to retinoid/retinoic acid metabolism via the vitamin A visual cycle; ~10 misfits (luteolysis, oviduct, vagina, bile duct, BBB)."
+ },
+ {
+  "id": "Q009",
+  "verdict": "coherent",
+  "name": "Myeloid, erythroid and megakaryocyte haematopoietic differentiation",
+  "nameability": "easy",
+  "reason": "RUNX1 programmes, myeloid progenitors, erythroid and megakaryocyte/platelet differentiation BTMs; 'cell cycle and transcription' is minor."
+ },
+ {
+  "id": "Q010",
+  "verdict": "coherent",
+  "name": "Epidermal cell junctions and cornified skin barrier",
+  "nameability": "easy",
+  "reason": "Desmosomes, hemidesmosomes, laminin/anchoring fibrils, keratinocyte cornification; cardiac terms tie in via desmosomal intercalated discs."
+ },
+ {
+  "id": "Q011",
+  "verdict": "coherent",
+  "name": "Xenobiotic and drug metabolism (phase I/II)",
+  "nameability": "easy",
+  "reason": "CYP oxidation, acetylation, sulfonation and detoxification; steroid metabolism shares these enzymes."
+ },
+ {
+  "id": "Q012",
+  "verdict": "coherent",
+  "name": "Eicosanoid and PUFA-derived lipid mediator metabolism and signalling",
+  "nameability": "easy",
+  "reason": "Prostaglandins, leukotrienes, lipoxins, resolvins, P450 HETE/EET and their receptors; vitamin K/E catabolism via CYP4F; few misfits (Th1 signature, GPCR/extracellular clusters, selenium)."
+ },
+ {
+  "id": "Q013",
+  "verdict": "coherent",
+  "name": "Cholesterol efflux and reverse cholesterol transport (LXR)",
+  "nameability": "easy",
+  "reason": "LXR-driven cholesterol efflux, HDL clearance, sterol homeostasis, foam-cell suppression."
+ },
+ {
+  "id": "Q014",
+  "verdict": "coherent",
+  "name": "Non-essential amino acid metabolism (glycine, proline, glyoxylate)",
+  "nameability": "broad",
+  "reason": "Biosynthesis and catabolism of glycine, proline, glutamine- and aspartate-family amino acids."
+ },
+ {
+  "id": "Q015",
+  "verdict": "coherent",
+  "name": "Visual retinoid cycle in rods and cones",
+  "nameability": "easy",
+  "reason": "All three are the visual cycle regenerating 11-cis-retinal, incl. RDH5 defect."
+ },
+ {
+  "id": "Q016",
+  "verdict": "coherent",
+  "name": "Vitamin K catabolism by CYP4F omega-hydroxylation",
+  "nameability": "easy",
+  "reason": "Vitamin K/menaquinone catabolism; Reactome 'Fatty acids' is the CYP4 omega-hydroxylation set that also oxidises vitamin K side chains."
+ },
+ {
+  "id": "Q017",
+  "verdict": "coherent",
+  "name": "Interleukin-18 signalling",
+  "nameability": "easy",
+  "reason": "IL-18 production and signalling; TNF signalling regulation is a minor related inflammatory term."
+ },
+ {
+  "id": "Q018",
+  "verdict": "coherent",
+  "name": "Monoamine/acetylcholine/purinergic GPCR control of cAMP and PLC",
+  "nameability": "easy",
+  "reason": "Serotonin, muscarinic, adenosine/purinergic receptors coupling to adenylate cyclase inhibition/activation, PLC and cAMP breakdown."
+ },
+ {
+  "id": "Q019",
+  "verdict": "umbrella",
+  "name": "Epithelial apical junctions and epithelial-mesenchymal transition",
+  "nameability": "easy",
+  "reason": "Tight/adherens junction terms (incl. SARS PDZ targeting, claudin paracellular Mg transport) with EMT, which is defined by apical junction disassembly."
+ },
+ {
+  "id": "Q020",
+  "verdict": "coherent",
+  "name": "Heart morphogenesis: septation and second heart field",
+  "nameability": "easy",
+  "reason": "Cardiac septum, ventricle, outflow/aorta and second heart field development."
+ },
+ {
+  "id": "Q021",
+  "verdict": "coherent",
+  "name": "Medium-chain fatty acid and peroxisomal metabolism",
+  "nameability": "easy",
+  "reason": "Medium-chain fatty acid synthesis/catabolism; TYSND1 processes peroxisomal beta-oxidation enzymes."
+ },
+ {
+  "id": "Q022",
+  "verdict": "coherent",
+  "name": "Receptor endocytosis and lysosomal degradation",
+  "nameability": "easy",
+  "reason": "Promotion of receptor internalisation, reduced recycling, lysosomal catabolism, clathrin cargo recognition."
+ },
+ {
+  "id": "Q023",
+  "verdict": "coherent",
+  "name": "Coronary and arterial vascular development",
+  "nameability": "easy",
+  "reason": "Coronary vasculogenesis, cardiac VSMC differentiation, artery morphogenesis; endothelin blood pressure is a related vascular term."
+ },
+ {
+  "id": "Q024",
+  "verdict": "coherent",
+  "name": "Heparan sulfate biosynthesis (EXT1/EXT2 exostoses)",
+  "nameability": "easy",
+  "reason": "HS-GAG chain synthesis by EXT1/2 and their exostosis defects."
+ },
+ {
+  "id": "Q025",
+  "verdict": "coherent",
+  "name": "G2/M transition and mitotic entry",
+  "nameability": "easy",
+  "reason": "Cyclin A/B, PLK1, NEK activation and G2/M checkpoint."
+ },
+ {
+  "id": "Q026",
+  "verdict": "coherent",
+  "name": "Dolichol-linked N-glycosylation and congenital disorders of glycosylation",
+  "nameability": "easy",
+  "reason": "Dolichol/GDP-mannose synthesis, ALG/DPM/MGAT steps and their CDG defects, N-glycan processing."
+ },
+ {
+  "id": "Q027",
+  "verdict": "mixture",
+  "name": "Host-pathogen interactions (bacterial toxins, Leishmania, SARS)",
+  "nameability": "broad",
+  "reason": "Diphtheria/anthrax toxin uptake, CD163 and WNT5 Leishmania terms, SARS therapeutics and RHO-NADPH oxidase share only infection context."
+ },
+ {
+  "id": "Q028",
+  "verdict": "umbrella",
+  "name": "Chromatin remodelling and histone deubiquitination",
+  "nameability": "broad",
+  "reason": "Nucleosome organisation/CHD remodellers and repair-coupled chromatin remodelling plus UCH and JAMM metalloprotease DUBs (BAP1, BRCC36) acting on chromatin."
+ },
+ {
+  "id": "Q029",
+  "verdict": "coherent",
+  "name": "Chondrocyte differentiation and proliferation",
+  "nameability": "easy",
+  "reason": "Cartilage condensation and chondrocyte differentiation/proliferation regulation."
+ },
+ {
+  "id": "Q030",
+  "verdict": "coherent",
+  "name": "Golgi organisation and COPI vesicle trafficking",
+  "nameability": "easy",
+  "reason": "Golgi ribbon assembly/disassembly, COPI anterograde/retrograde traffic, Golgi retention."
+ },
+ {
+  "id": "Q031",
+  "verdict": "umbrella",
+  "name": "Nucleotide, NAD(P) and phosphocreatine energy-carrier metabolism",
+  "nameability": "broad",
+  "reason": "NAD salvage/nicotinate metabolism and nucleotide interconversion plus creatine/phosphocreatine and mitochondrial ATP/ADP transport; linked as cellular energy/redox cofactor homeostasis."
+ },
+ {
+  "id": "Q032",
+  "verdict": "coherent",
+  "name": "Cardiac muscle hypertrophic adaptation",
+  "nameability": "easy",
+  "reason": "Cardiomyocyte growth, sarcomere organisation and cardiac muscle adaptation."
+ },
+ {
+  "id": "Q033",
+  "verdict": "coherent",
+  "name": "NADPH oxidase respiratory burst regulation",
+  "nameability": "easy",
+  "reason": "Superoxide generation, respiratory burst and PMA (NOX activator) response in host defence."
+ },
+ {
+  "id": "Q034",
+  "verdict": "coherent",
+  "name": "LXR-IDOL lipoprotein receptor endocytosis and degradation",
+  "nameability": "easy",
+  "reason": "LDLR/VLDLR internalisation and lysosomal degradation limiting cholesterol uptake, with general receptor internalisation terms."
+ },
+ {
+  "id": "Q035",
+  "verdict": "coherent",
+  "name": "Endosome-Golgi-lysosome vesicle trafficking and Rab regulation",
+  "nameability": "easy",
+  "reason": "Clathrin coats, Rab GEFs/GAPs/prenylation, endosome-Golgi retrograde and Golgi-lysosome transport; few generic terms."
+ },
+ {
+  "id": "Q036",
+  "verdict": "umbrella",
+  "name": "Adipogenesis and transcriptional control of lipid-glucose metabolism",
+  "nameability": "broad",
+  "reason": "White/brown/beige adipocyte differentiation and lipolysis plus PPARG/SREBP/ChREBP/LXR, PKA/AMPK and glucagon nutrient-sensing control of metabolism."
+ },
+ {
+  "id": "Q037",
+  "verdict": "coherent",
+  "name": "Claudin-mediated paracellular magnesium transport",
+  "nameability": "easy",
+  "reason": "Tight junction paracellular transport and magnesium homeostasis/transport (claudin-16/19 axis)."
+ },
+ {
+  "id": "Q038",
+  "verdict": "coherent",
+  "name": "Intrinsic coagulation: factor VIII/IX defects (haemophilia)",
+  "nameability": "easy",
+  "reason": "Intrinsic pathway and F8/F9 activation defects."
+ },
+ {
+  "id": "Q039",
+  "verdict": "coherent",
+  "name": "L1-family CAM-ankyrin sodium channel clustering",
+  "nameability": "easy",
+  "reason": "L1, CHL1, NrCAM, neurofascin-ankyrin interactions clustering Nav channels."
+ }
+]

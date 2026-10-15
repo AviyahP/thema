@@ -6,8 +6,12 @@ Two folders under `data/ontology/frozen/` are frozen, and both are guarded the s
     The reference build (`thema_L_x2`, 8,740 themes), frozen 9 Oct 2026, kept as the **fallback**.
 
 `working-c85-2026-10-10/`
-    `thema_L_x2_c85` (8,251 themes), the **working version** every analysis from 10 Oct uses. It
+    `thema_L_x2_c85` (8,251 themes), the working version from 10 to 14 Oct, now a **fallback**. It
     differs from the baseline in the chain-collapse rule and nothing else.
+
+`working-O50-2026-10-14/`
+    `thema_L_x2_O50` (4,602 themes), the **working version** every analysis from 14 Oct uses. It
+    differs from c85 in the same-theme cutoff (0.50 in both places) and the joint fixed point.
 
 Each is only a reference if its bytes are the ones that were measured, so these tests re-hash every
 file against that folder's own `CHECKSUMS.sha256` and fail on any drift -- a changed file, a deleted
@@ -36,6 +40,12 @@ FROZEN: dict[str, frozenset[str]] = {
         "match_to_baseline.tsv", "repair_map.json", "report.txt",
         "excluded_inputs.tsv", "floors_L_cal8.json", "universe.json", "trees_build_log.json",
         "all_verdicts_c85.json", "REPORT_c85_reassessment.md", "FROZEN.md",
+    }),
+    "working-O50-2026-10-14": frozenset({
+        "nodes.tsv", "members.tsv", "edges.tsv", "unplaced.tsv", "manifest.json",
+        "match_to_c85.tsv", "O50_new_themes.json", "repair_map.json", "report.txt",
+        "excluded_inputs.tsv", "floors_L_cal8.json", "universe.json", "trees_build_log.json",
+        "all_verdicts_O50.json", "REPORT_o50_eval.md", "FROZEN.md",
     }),
 }
 
@@ -150,12 +160,18 @@ def test_every_file_matches_its_checksum(name: str) -> None:
     )
 
 
-def test_the_two_freezes_are_different_builds() -> None:
-    # The working version is not a copy of the fallback: that is the point of having both.
-    if not (present("baseline-2026-10-09") and present("working-c85-2026-10-10")):
-        pytest.skip("both freezes are needed for this comparison")
-    baseline = ROOT / "baseline-2026-10-09" / "nodes.tsv"
-    working = ROOT / "working-c85-2026-10-10" / "nodes.tsv"
-    assert sha256(baseline) != sha256(working)
-    rows = lambda path: len(path.read_text().splitlines()) - 1  # noqa: E731
-    assert rows(baseline) == 8740 and rows(working) == 8251
+def test_the_freezes_are_different_builds() -> None:
+    # None is a copy of another: that is the point of keeping all three.
+    expected = {
+        "baseline-2026-10-09": 8740,
+        "working-c85-2026-10-10": 8251,
+        "working-O50-2026-10-14": 4602,
+    }
+    if not all(present(name) for name in expected):
+        pytest.skip("all three freezes are needed for this comparison")
+    digests = {}
+    for name, themes in expected.items():
+        nodes = ROOT / name / "nodes.tsv"
+        assert len(nodes.read_text().splitlines()) - 1 == themes, f"{name} theme count moved"
+        digests[name] = sha256(nodes)
+    assert len(set(digests.values())) == len(digests), "two freezes hold the same build"

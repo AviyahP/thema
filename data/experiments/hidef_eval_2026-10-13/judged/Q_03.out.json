@@ -1,0 +1,282 @@
+[
+ {
+  "id": "Q080",
+  "verdict": "coherent",
+  "name": "Gastrointestinal motility and gastric secretion regulation",
+  "nameability": "easy",
+  "reason": "GI smooth muscle contraction, gastric motility and acid secretion; nutrient-response member fits gut physiology loosely."
+ },
+ {
+  "id": "Q081",
+  "verdict": "mixture",
+  "name": "Biotin-carboxylase metabolism and respiratory-chain prenylated cofactor biosynthesis",
+  "nameability": "hard",
+  "reason": "Biotin/HLCS/BTD and MUT (propionate catabolism) vs ubiquinone and heme A biosynthesis; only a generic cofactor link."
+ },
+ {
+  "id": "Q082",
+  "verdict": "coherent",
+  "name": "TLR-MyD88-NF-kB inflammatory cytokine signalling and its deficiencies",
+  "nameability": "easy",
+  "reason": "TLR/MyD88/IRAK4/IKK deficiencies plus TNF/IL-6/IL-8 production and inflammatory response all form one innate pathway."
+ },
+ {
+  "id": "Q083",
+  "verdict": "coherent",
+  "name": "Glucagon-PKA regulation of hepatic glucose metabolism",
+  "nameability": "easy",
+  "reason": "Glucagon secretion/response, PKA activation, gluconeogenesis regulation and AMPK-ChREBP are one hepatic fuel axis."
+ },
+ {
+  "id": "Q084",
+  "verdict": "umbrella",
+  "name": "Rab/ARF GTPase-regulated endosomal trafficking at synapses",
+  "nameability": "easy",
+  "reason": "Rab/ARF signalling and TBC RabGAPs linked to synaptic vesicle endosomal recycling and postsynaptic receptor internalization."
+ },
+ {
+  "id": "Q085",
+  "verdict": "mixture",
+  "name": "Left-right patterning/Nodal antagonism, liver development, PD-L1 regulation",
+  "nameability": "hard",
+  "reason": "Large LR asymmetry/Nodal-BMP sequestration block, separate liver development/regeneration block, PD-L1/tumour T-cell block and ER insertion; no specific link."
+ },
+ {
+  "id": "Q086",
+  "verdict": "core_plus_misfits",
+  "name": "RHOBTB atypical Rho GTPase cycles",
+  "nameability": "hard",
+  "reason": "Three RHOBTB GTPase cycles form the core; KLF12 targets and a loose unrelated BTM module do not belong (40%)."
+ },
+ {
+  "id": "Q087",
+  "verdict": "coherent",
+  "name": "DNA glycosylase-initiated base excision repair and defects",
+  "nameability": "easy",
+  "reason": "All members are BER glycosylase steps (OGG1, MUTYH, NTHL1, NEILs, APEX1) or single-strand break repair."
+ },
+ {
+  "id": "Q088",
+  "verdict": "coherent",
+  "name": "3'UTR-mediated post-transcriptional mRNA regulation",
+  "nameability": "easy",
+  "reason": "mRNA destabilization via AUF1/3'UTR, translational repression and mRNA localization are RNA-binding-protein control of mRNA fate."
+ },
+ {
+  "id": "Q089",
+  "verdict": "coherent",
+  "name": "Nucleoside monophosphate salvage and deoxynucleotide catabolism",
+  "nameability": "easy",
+  "reason": "dNMP/dN catabolism, UMP salvage and CMP/dCMP metabolism are nucleotide salvage/turnover."
+ },
+ {
+  "id": "Q090",
+  "verdict": "coherent",
+  "name": "LPS sensing via LBP-CD14 and inflammatory leukocyte recruitment",
+  "nameability": "easy",
+  "reason": "LPS detection, LBP-CD14 transfer and LPS signalling with inflammatory chemotaxis form one response."
+ },
+ {
+  "id": "Q091",
+  "verdict": "coherent",
+  "name": "Centrosome organisation and microtubule nucleation",
+  "nameability": "easy",
+  "reason": "Centrosome positioning, cohesion, maturation, MT nucleation/anchoring, AURKA-TPX2; CIT and actin localization are minor odd members."
+ },
+ {
+  "id": "Q092",
+  "verdict": "coherent",
+  "name": "VEGF-driven sprouting angiogenesis regulation",
+  "nameability": "easy",
+  "reason": "All members regulate endothelial proliferation, sprouting angiogenesis and VEGF signalling/production."
+ },
+ {
+  "id": "Q093",
+  "verdict": "mixture",
+  "name": "Vitamin C/E metabolism and globin oxygen transport",
+  "nameability": "hard",
+  "reason": "Ascorbate transport/metabolism and vitamin E response vs oxygen transport (globins/cytoglobin, stellate activation) and integrin biosynthesis; no specific link."
+ },
+ {
+  "id": "Q094",
+  "verdict": "coherent",
+  "name": "Chemokine and chemokine receptor signalling",
+  "nameability": "easy",
+  "reason": "Chemokine clusters, receptor binding, CXCR4, NK chemotaxis and mature DC (CCR7) differentiation share chemokine biology."
+ },
+ {
+  "id": "Q095",
+  "verdict": "coherent",
+  "name": "Extracellular matrix and stromal TGF-beta signalling genes",
+  "nameability": "broad",
+  "reason": "ECM/collagen-TGFB modules and UV-down (ECM/receptor-rich) genes; vague membrane signal transduction module fits loosely."
+ },
+ {
+  "id": "Q096",
+  "verdict": "coherent",
+  "name": "APC-T cell costimulation and CD4 T cell activation",
+  "nameability": "easy",
+  "reason": "TCR-MHC contact, costimulation, DC activation and CD4 proliferation describe the immunological synapse."
+ },
+ {
+  "id": "Q097",
+  "verdict": "coherent",
+  "name": "Interferon-gamma signalling and its regulation",
+  "nameability": "easy",
+  "reason": "All members are IFN-gamma (type II IFN) signalling and its regulation."
+ },
+ {
+  "id": "Q098",
+  "verdict": "coherent",
+  "name": "Maternal mRNA clearance at maternal-to-zygotic transition",
+  "nameability": "easy",
+  "reason": "MZT, M-decay, Z-decay and deadenylation are one process."
+ },
+ {
+  "id": "Q099",
+  "verdict": "coherent",
+  "name": "Nutrient and energy regulation of mTORC1 signalling",
+  "nameability": "easy",
+  "reason": "Amino acid/leucine and LKB1-AMPK regulation of mTORC1."
+ },
+ {
+  "id": "Q100",
+  "verdict": "coherent",
+  "name": "Skeletal, cartilage and joint development",
+  "nameability": "easy",
+  "reason": "Chondrogenesis, osteoblast/ossification, joint, tendon, suture and limb bud development."
+ },
+ {
+  "id": "Q101",
+  "verdict": "coherent",
+  "name": "Chemokine signalling and monocyte recruitment",
+  "nameability": "easy",
+  "reason": "Chemokines/receptors and chemotaxis with monocyte differentiation."
+ },
+ {
+  "id": "Q102",
+  "verdict": "coherent",
+  "name": "Endocardial, trabecular and coronary vessel heart development",
+  "nameability": "easy",
+  "reason": "Endocardium, trabeculation and coronary vasculogenesis are linked cardiac morphogenesis."
+ },
+ {
+  "id": "Q103",
+  "verdict": "coherent",
+  "name": "Thymic T cell development and selection",
+  "nameability": "easy",
+  "reason": "All members concern thymocyte differentiation, proliferation, selection and survival."
+ },
+ {
+  "id": "Q104",
+  "verdict": "core_plus_misfits",
+  "name": "Cellular response to UV radiation",
+  "nameability": "broad",
+  "reason": "Four UV response members; growth rate and adult lifespan are a third that only loosely ties via DNA damage-aging."
+ },
+ {
+  "id": "Q105",
+  "verdict": "coherent",
+  "name": "Host-virus interaction and regulation of viral life cycle",
+  "nameability": "easy",
+  "reason": "All members regulate viral entry, replication, release or host restriction."
+ },
+ {
+  "id": "Q106",
+  "verdict": "coherent",
+  "name": "SLC24 sodium/calcium-potassium exchangers and their disorders",
+  "nameability": "easy",
+  "reason": "SLC24A1/4/5 defects and Na/Ca exchangers."
+ },
+ {
+  "id": "Q107",
+  "verdict": "umbrella",
+  "name": "Translational stress: stress granules and ribosome quality control",
+  "nameability": "broad",
+  "reason": "Stress granule assembly/disassembly and RQC/ZNF598 stalled-ribosome rescue, linked as responses to stalled translation."
+ },
+ {
+  "id": "Q108",
+  "verdict": "coherent",
+  "name": "RIPK1/RIPK3 necroptosis and microbial modulation",
+  "nameability": "easy",
+  "reason": "Necroptosis signalling, microbial RIPK1 modulation and SARS-CoV-1 cell-death effects."
+ },
+ {
+  "id": "Q109",
+  "verdict": "coherent",
+  "name": "Nitric oxide-cGMP signalling",
+  "nameability": "easy",
+  "reason": "All members are NO-mediated/cGMP signalling."
+ },
+ {
+  "id": "Q110",
+  "verdict": "coherent",
+  "name": "Neuronal axodendritic cargo and vesicle transport",
+  "nameability": "easy",
+  "reason": "Dense core vesicle, synaptic vesicle and receptor transport in neurons; MT depolymerization a minor odd member."
+ },
+ {
+  "id": "Q111",
+  "verdict": "coherent",
+  "name": "Cholesterol and lipoprotein homeostasis incl. receptor endocytosis",
+  "nameability": "easy",
+  "reason": "LXR, HDL/LDL, cholesterol efflux/synthesis, foam cells, with LDLR-family receptor internalization/recycling; fibrinogen minor odd."
+ },
+ {
+  "id": "Q112",
+  "verdict": "coherent",
+  "name": "LXR-regulated triglyceride and VLDL metabolism",
+  "nameability": "easy",
+  "reason": "LXR control of lipogenesis and lipolysis plus VLDL remodelling."
+ },
+ {
+  "id": "Q113",
+  "verdict": "coherent",
+  "name": "Pentose phosphate and glucuronate-xylulose pathway",
+  "nameability": "easy",
+  "reason": "Non-oxidative PPP enzymes/deficiencies, xylulose-5-P and glucuronate/pentosuria."
+ },
+ {
+  "id": "Q114",
+  "verdict": "coherent",
+  "name": "Xenobiotic and drug metabolism (ADME)",
+  "nameability": "easy",
+  "reason": "Drug ADME, sulfonation, xenobiotic/toxin catabolism and steroid metabolism by shared enzymes."
+ },
+ {
+  "id": "Q115",
+  "verdict": "coherent",
+  "name": "Keratan sulfate biosynthesis",
+  "nameability": "easy",
+  "reason": "All members are keratan sulfate metabolism including CHST6 defect."
+ },
+ {
+  "id": "Q116",
+  "verdict": "coherent",
+  "name": "Axial mesoderm/notochord and dorsoventral axis formation",
+  "nameability": "easy",
+  "reason": "Notochord/axial mesoderm formation and D/V axis specification are organiser-derived patterning."
+ },
+ {
+  "id": "Q117",
+  "verdict": "coherent",
+  "name": "Negative regulation of integrin adhesion and Rho/Rac signalling",
+  "nameability": "easy",
+  "reason": "All members inhibit integrin/cell-matrix adhesion and Rho/Rac-driven lamellipodia."
+ },
+ {
+  "id": "Q118",
+  "verdict": "coherent",
+  "name": "Retinoid (vitamin A) metabolism",
+  "nameability": "easy",
+  "reason": "Retinol/retinal metabolism and transport; hydrocarbon metabolism is a generic parent."
+ },
+ {
+  "id": "Q119",
+  "verdict": "coherent",
+  "name": "TLR-mediated bacterial sensing in myeloid cells",
+  "nameability": "easy",
+  "reason": "TLR2/3/4/5 regulation, LPS/lipopeptide/LTA responses, MyD88/IRAK4, IL-1/IL-37, myeloid modules; Dengue apoptosis is a minor odd member."
+ }
+]

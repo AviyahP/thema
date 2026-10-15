@@ -1,0 +1,37 @@
+HiDeF verdicts {'coherent': 83, 'umbrella': 8, 'core_plus_misfits': 6, 'mixture': 3} | nameability {'easy': 81, 'broad': 14, 'hard': 5}
+THEMA verdicts {'coherent': 84, 'umbrella': 14, 'mixture': 1, 'core_plus_misfits': 1} | nameability {'easy': 87, 'broad': 13}
+ok (coherent or umbrella)    HiDeF 91%  THEMA 98%  diff -7 (CI -14 to -1) -> equivalent
+coherent only                HiDeF 83%  THEMA 84%  diff -1 (CI -11 to +10) -> equivalent
+nameable easy                HiDeF 81%  THEMA 87%  diff -6 (CI -16 to +4) -> equivalent
+easy or broad                HiDeF 95%  THEMA 100%  diff -5 (CI -10 to -1) -> equivalent
+by size band, ok / easy:
+  3-6: HiDeF n=51 ok 90% easy 84% | THEMA n=51 ok 98% easy 92%
+  7-15: HiDeF n=32 ok 91% easy 81% | THEMA n=32 ok 97% easy 88%
+  16-40: HiDeF n=12 ok 92% easy 75% | THEMA n=12 ok 100% easy 75%
+  41-100: HiDeF n=5 ok 100% easy 60% | THEMA n=5 ok 100% easy 60%
+
+HiDeF not ok (9):
+   4 core_plus_misfits | Dystroglycan matriglycan glycosylation (dystroglycanopathy) | Two members are DAG1 matriglycan/LARGE dystroglycanopathy; 'localization of cell' and 'post-embryonic morphoge
+   7 mixture | Biotin-carboxylase metabolism and respiratory-chain prenylated cofactor biosynthesis | Biotin/HLCS/BTD and MUT (propionate catabolism) vs ubiquinone and heme A biosynthesis; only a generic cofactor
+   24 mixture | Left-right patterning/Nodal antagonism, liver development, PD-L1 regulation | Large LR asymmetry/Nodal-BMP sequestration block, separate liver development/regeneration block, PD-L1/tumour 
+   5 core_plus_misfits | RHOBTB atypical Rho GTPase cycles | Three RHOBTB GTPase cycles form the core; KLF12 targets and a loose unrelated BTM module do not belong (40%).
+   9 mixture | Vitamin C/E metabolism and globin oxygen transport | Ascorbate transport/metabolism and vitamin E response vs oxygen transport (globins/cytoglobin, stellate activa
+   6 core_plus_misfits | Cellular response to UV radiation | Four UV response members; growth rate and adult lifespan are a third that only loosely ties via DNA damage-agi
+HiDeF sample names:
+   4 easy | Vitamin K catabolism by CYP4F omega-hydroxylation
+   5 easy | Coronary and arterial vascular development
+   4 easy | Medium-chain fatty acid and peroxisomal metabolism
+   4 broad | Extracellular matrix and stromal TGF-beta signalling genes
+   4 easy | NAD+ / nicotinate metabolism and salvage
+   4 easy | Floor plate Hedgehog and netrin signaling in axon guidance
+
+THEMA not ok (2):
+   6 mixture | Host-pathogen interactions (bacterial toxins, Leishmania, SARS) | Diphtheria/anthrax toxin uptake, CD163 and WNT5 Leishmania terms, SARS therapeutics and RHO-NADPH oxidase shar
+   10 core_plus_misfits | IL-6 family cytokine signalling via STAT | Core is IL-6-type cytokines (IL-11, CNTF, LIF/OSM) and STAT activation; chemokine cluster, IFN-alpha response,
+THEMA sample names:
+   30 easy | Axon guidance (semaphorin, ephrin, netrin, Slit-Robo, L1)
+   15 easy | Lysosomal glycoconjugate catabolism and storage disorders
+   6 easy | Glucuronate-xylulose pathway and pentosuria
+   6 easy | Stress granule dynamics in cellular stress response
+   6 easy | Sphingomyelin-ceramide metabolism and regulation
+   22 easy | Myeloid, erythroid and megakaryocyte haematopoietic differentiation

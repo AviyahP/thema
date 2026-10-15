@@ -1,0 +1,30 @@
+C4: c85 not-ok 195 of 8251 (97.64% ok)
+    O50: carried 3744 themes, not-ok 99; new 858 judged, not-ok 13 -> total not-ok 112 of 4602 (97.57% ok)  -> PASS (bar <= 195)
+    new-theme verdicts {'coherent': 710, 'umbrella': 135, 'mixture': 3, 'core_plus_misfits': 6, 'incoherent': 4}
+    new themes 3-20: n=352 ok 99%
+    new themes 21-50: n=407 ok 100%
+    new themes 51-200: n=88 ok 99%
+    new themes 201-999: n=7 ok 86%
+    new themes 1000-9999: n=4 ok 0%
+
+C5: O50 preferred 87, c85 preferred 33, equal 0 | O50 share of decided 72.5% (n=120), binomial p=8.7e-07 -> O50 WINS
+  reasons when O50 preferred:
+    - Both sets cover the same facets (SUMOylation, nucleocytoplasmic transport/nuclear pore, nuclear envelope remodelling, mitotic spindle/AURKA-TPX2, cell cycle), but B repeats the mitotic spindle/centros
+    - A already covers the real GH facets (JAK-STAT cytokine-receptor family, IGF/body growth and lifespan, thyroid, somatostatin/GH secretion, feeding/leptin, HPA/steroid axis) in 17 themes, while B repeat
+    - A gives a clean nested ladder from COX/prostaglandin synthesis through prostanoid receptors and fever regulation, the CYP450 and lipoxygenase/leukotriene eicosanoid branches, resolvins, up to platelet
+    - B keeps the same HSF1 contexts (acetylation, stress granules/PKR, p53/anoikis, FOXO, UPRmt/aggrephagy, chaperonin plus UPR/ISR) in 12 themes, while A adds mostly near-duplicate chaperone/UPR variants 
+    - Both sets cover the same myoblast-differentiation, satellite-cell regeneration and striated-muscle adaptation contexts, but A repeats the core myogenesis context across about 16 near-duplicate small t
+  reasons when c85 preferred:
+    - A adds the contexts that matter most for p16-CDK4/6 failure, namely the joint p53/RB G1-arrest theme and the broad CDK4/6-RB-E2F cell-cycle theme, whereas B's ladder grows only into p53 apoptosis and 
+    - B adds Gq/PLC-IP3 calcium signalling and bladder/visceral smooth muscle contraction themes that capture the target's core mechanism and tissues, which A lacks, at the cost of more serotonin-receptor n
+    - A keeps motor-learning/cerebellar and brainstem development themes and a glutamatergic/GABAergic synaptic transmission theme, covering the cortico-cerebellar circuitry and plasticity central to vocal 
+    - B adds a broader ER-to-mitochondria calcium transfer theme (MCU/SMDT1, release of sequestered Ca2+) and a mitochondrial dynamics/mitophagy theme (fission, fragmentation in apoptosis, PINK1-PRKN), cove
+    - B adds focused reticulophagy/selective-autophagy and ERAD-quality-control themes, which capture core UFMylation biology (UFL1/DDRGK1-driven ER-phagy and translocon quality control) and are entirely ab
+
+  new themes not ok, examples:
+     19 core_plus_misfits | Cholesterol and isoprenoid biosynthesis | Mevalonate/Bloch/Kandutsch-Russell core plus assorted unrelated CYP and transporter disease terms (TBXAS1, CYP1B1, ABCB6
+     15 core_plus_misfits | Nucleic acid deamination editing and antiviral restriction | APOBEC/ADAR editing and antiviral restriction form a core; about four translational-silencing/frameshifting terms (L13a,
+     781 mixture | Cell cycle, DNA repair, RNA processing grab-bag | Sample spans mitosis/meiosis, DNA repair, SUMO and histone methylation, RNA editing/decay, rRNA processing and mitochond
+     2332 incoherent | Heterogeneous signalling and development grab-bag | Sample spans oncogenic receptor mutants, neural, cardiac, erythroid, circadian and ciliary terms with no common theme.
+     74 core_plus_misfits | Skin epidermis and melanocyte pigmentation | Keratinocyte/cornification and MITF melanocyte pigmentation form a skin core; ~quarter are intestinal/hepatic HNF4-CDX e
+     29 mixture | Reproductive organ and pancreatic endocrine development | Gonad/sex determination and reproductive tract/prostate development sit with pancreatic progenitor and endocrine lineage
