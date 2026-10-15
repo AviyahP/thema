@@ -1,0 +1,202 @@
+[
+ {
+  "theme_id": "n04388",
+  "nameable": true,
+  "core": "Amino acid and cofactor metabolism",
+  "qualifier": "aromatic, sulfur and serine/threonine amino acids with pterin, B6 and molybdenum cofactors",
+  "name": "Aromatic, sulfur and serine-family amino acid and cofactor metabolism",
+  "rationale": "Members cover catabolism/synthesis of aromatic (Phe, Tyr, His), sulfur (Cys, transsulfuration, sulfide) and serine/glycine/threonine/proline amino acids plus BH4, vitamin B6 and molybdenum cofactors, unlike confusables centred on glutamate/aspartate, alanine, glycine conjugation or generic organic acid metabolism."
+ },
+ {
+  "theme_id": "n01943",
+  "nameable": true,
+  "core": "Amino sugar and nucleotide-sugar metabolism",
+  "qualifier": "hexosamine, sialic acid and N-glycan precursor/processing",
+  "name": "Hexosamine, sialic acid and N-glycan metabolism",
+  "rationale": "Members share UDP-GlcNAc/hexosamine, mannose, sialic acid and dolichol-glucose metabolism feeding N-glycan processing (with GNE, GFPT1, ALG14, MOGS defects), distinct from confusables on fucose/O-glycans, GPI anchors, nucleotide-sugar transporters or GDP-mannose."
+ },
+ {
+  "theme_id": "n02894",
+  "nameable": true,
+  "core": "Mucopolysaccharidoses",
+  "qualifier": "Sanfilippo (MPS III) and Morquio (MPS IV) types",
+  "name": "Sanfilippo and Morquio mucopolysaccharidoses (MPS III and IV)",
+  "rationale": "All members are MPS III A-D or MPS IV A/B disease pathways, whereas confusables are dominated by Hurler, Hunter, Maroteaux-Lamy and Sly types or generic GAG degradation."
+ },
+ {
+  "theme_id": "n00201",
+  "nameable": true,
+  "core": "Oncogenic receptor tyrosine kinase signaling",
+  "qualifier": "FGFR1-3 fusions and amplifications",
+  "name": "Oncogenic FGFR fusion and amplification signaling",
+  "rationale": "Every member is signaling by FGFR1, FGFR2 or FGFR3 fusions or amplification mutants, while confusables concern ALK, KIT/PDGFR, EGFR/ERBB2 or LTK cancer variants."
+ },
+ {
+  "theme_id": "n00359",
+  "nameable": true,
+  "core": "Meiotic cell cycle progression",
+  "qualifier": "metaphase-anaphase transition and its inhibition",
+  "name": "Control of meiotic metaphase-anaphase transition and chromosome separation",
+  "rationale": "All three members concern the meiotic metaphase-to-anaphase transition and its negative regulation, unlike confusables on meiotic spindle, cohesion, chromosome alignment or mitotic checkpoint."
+ },
+ {
+  "theme_id": "n01774",
+  "nameable": true,
+  "core": "Base excision repair initiation",
+  "qualifier": "DNA glycosylase lesion recognition and base cleavage, including glycosylase defects",
+  "name": "DNA glycosylase damaged-base recognition and removal, including defects",
+  "rationale": "Members are the glycosylase steps of base excision repair (recognition, purine/pyrimidine cleavage, APEX1 displacement) and defective OGG1, MUTYH, NTHL1, NEIL1/3 variants, whereas confusables cover downstream AP-site resolution, gap filling and strand-break repair."
+ },
+ {
+  "theme_id": "n03298",
+  "nameable": true,
+  "core": "Endothelial VEGF and Tie2 receptor signaling",
+  "qualifier": "negative control of sprouting angiogenesis and endothelial cadherin junctions",
+  "name": "VEGFR/Tie2 signaling, sprouting inhibition and endothelial junction regulation",
+  "rationale": "Members combine VEGF/VEGFR2/neuropilin and Tie2 signaling with negative regulation of sprouting angiogenesis and endothelial adherens junctions, unlike confusables on pro-angiogenic regulation, VEGF production or endothelial fate and differentiation."
+ },
+ {
+  "theme_id": "n03373",
+  "nameable": true,
+  "core": "Rho GTPase signaling",
+  "qualifier": "G12/13 and Sema4D inputs to Rho-ROCK/PAK, RND GTPases",
+  "name": "Rho-ROCK signaling from G12/13 and Sema4D, with RND GTPases",
+  "rationale": "Members share Rho activation via G12/13-coupled GPCRs and Sema4D-plexin-B, its ROCK/PAK effectors and the RND1-3 cycles, distinct from confusables on Sema3A, RAC/CDC42 GTPase cycles or ephrin-driven cytoskeletal signaling."
+ },
+ {
+  "theme_id": "n01265",
+  "nameable": true,
+  "core": "Monovalent cation-coupled ion transport",
+  "qualifier": "SLC12 cation-chloride cotransporters and SLC9 sodium/proton exchangers",
+  "name": "SLC12 cation-chloride cotransporters and SLC9 sodium/proton exchangers",
+  "rationale": "Members cover cation-chloride cotransporters (Bartter, Gitelman, ACCPN defects), Na+/H+ exchangers (SLC9A6/A9 defects) and potassium transport, unlike confusables on SLC26/bicarbonate anion exchange or osmotic and renal sodium transport regulation."
+ },
+ {
+  "theme_id": "n03372",
+  "nameable": true,
+  "core": "Regulation of viral life cycle",
+  "qualifier": "host and viral control of entry, genome replication and release",
+  "name": "Host and virus control of viral entry, replication and release",
+  "rationale": "Members are host- or virus-driven positive and negative regulation of viral entry, transport, replication, protein levels and release, lacking the interferon/ISG15 programmes and endocytic entry routes of the confusables."
+ },
+ {
+  "theme_id": "n04238",
+  "nameable": true,
+  "core": "Axon guidance",
+  "qualifier": "semaphorin-plexin and netrin repulsive signaling",
+  "name": "Axon guidance by semaphorin-plexin and netrin repulsive signaling",
+  "rationale": "Members share axon guidance and extension through Sema3A-plexin (CRMP, PAK, integrin) and netrin repulsion, distinct from confusables on ephrin, L1, DCC attraction, Sema4D or collateral sprouting."
+ },
+ {
+  "theme_id": "n01463",
+  "nameable": true,
+  "core": "Golgi-centred vesicle trafficking",
+  "qualifier": "COPI retrograde, endosome-Golgi and Golgi-lysosome routes",
+  "name": "COPI, endosome-Golgi and Golgi-lysosome vesicle trafficking",
+  "rationale": "Members share Golgi vesicle budding and COPI traffic, endosome-to-Golgi retrograde transport and Golgi-to-lysosome/endosome sorting, unlike confusables on COPII ER export, Golgi structural organization or plasma-membrane recycling."
+ },
+ {
+  "theme_id": "n01560",
+  "nameable": true,
+  "core": "Core circadian clock",
+  "qualifier": "BMAL1:CLOCK/NPAS2 and CRY:PER transcriptional feedback loop",
+  "name": "Core circadian clock BMAL1:CLOCK and CRY:PER feedback loop",
+  "rationale": "Members describe expression, phosphorylation and repression of BMAL1:CLOCK/NPAS2 by CRY:PER and clock outputs and entrainment, whereas confusables cover PPAR/ROR metabolic coupling or MECP2/NPAS4 neuronal transcription."
+ },
+ {
+  "theme_id": "n00849",
+  "nameable": true,
+  "core": "Peptide transmembrane transport",
+  "qualifier": "proton-coupled di- and oligopeptides",
+  "name": "Proton-coupled di- and oligopeptide transport",
+  "rationale": "All members concern proton/oligopeptide cotransport of di- and oligopeptides, unlike confusables on amino acid transporters or NOD-mediated muramyl dipeptide sensing."
+ },
+ {
+  "theme_id": "n03114",
+  "nameable": true,
+  "core": "Spliceosomal snRNA biogenesis and pre-mRNA splicing",
+  "qualifier": "snRNA gene transcription with spliceosome assembly",
+  "name": "snRNA transcription and spliceosome-mediated pre-mRNA splicing",
+  "rationale": "Members combine Pol II/Pol III snRNA gene transcription and cap hypermethylation with spliceosome assembly and major/minor splicing, unlike confusables on histone mRNA processing, generic Pol III transcription or nuclear RNA decay."
+ },
+ {
+  "theme_id": "n02303",
+  "nameable": true,
+  "core": "Axon guidance",
+  "qualifier": "netrin-mediated attraction and repulsion",
+  "name": "Netrin-mediated axon guidance and chemorepulsion",
+  "rationale": "Members share netrin signaling in axon extension and chemorepulsion, including dopaminergic, serotonergic and DRG axon guidance, whereas confusables carry Sema3A-plexin signaling or collateral sprouting."
+ },
+ {
+  "theme_id": "n04578",
+  "nameable": true,
+  "core": "Regulation of cellular glucose uptake",
+  "qualifier": "GLUT4 translocation driven by insulin, adiponectin and muscle activity",
+  "name": "GLUT4 glucose uptake regulation by insulin, adiponectin and exercise",
+  "rationale": "Members share regulation of glucose import via GLUT4 translocation (RHOQ, insulin sensitization, adiponectin, muscle activity/PGC-1alpha), distinct from confusables on glucagon/gluconeogenesis, insulin secretion, fatty acid handling or adipogenesis."
+ },
+ {
+  "theme_id": "n01724",
+  "nameable": true,
+  "core": "Peroxisome function",
+  "qualifier": "biogenesis/protein import with peroxisomal fatty acid and ether-lipid metabolism",
+  "name": "Peroxisome biogenesis and peroxisomal fatty acid and ether-lipid metabolism",
+  "rationale": "Members share peroxisomal protein import and fission plus very-long/branched-chain fatty acid alpha/beta-oxidation, elongation and plasmalogen synthesis, unlike confusables on cholesterol synthesis or bile acid synthesis."
+ },
+ {
+  "theme_id": "n01442",
+  "nameable": true,
+  "core": "Intermediate-filament-anchored cell junctions",
+  "qualifier": "desmosomes and hemidesmosomes, including cardiomyocyte adhesion",
+  "name": "Desmosome and hemidesmosome junctions in epithelium and cardiomyocytes",
+  "rationale": "Members share desmosome/hemidesmosome assembly and intermediate filament-linked cell-cell adhesion including cardiomyocyte coupling, distinct from confusables on cornification/skin barrier or adherens junctions and apical polarity."
+ },
+ {
+  "theme_id": "n03825",
+  "nameable": true,
+  "core": "Myeloid cell transcriptional signatures",
+  "qualifier": "monocyte and resting dendritic cell surface modules",
+  "name": "Monocyte and resting dendritic cell transcriptional signatures",
+  "rationale": "Members are blood module signatures enriched in monocytes, dendritic cells and neutrophils (surface, differentiation, myeloid receptors), unlike confusables focused on MHC antigen presentation, activated DCs or PU.1-driven monocyte activation."
+ },
+ {
+  "theme_id": "n01147",
+  "nameable": true,
+  "core": "Interferon-stimulated antiviral effectors",
+  "qualifier": "ISG15 conjugation and host blockade of viral invasion and release",
+  "name": "ISG15 and interferon-stimulated restriction of viral entry and release",
+  "rationale": "Members share ISG15-mediated and IFN-alpha-induced antiviral effector activity, and uniquely include host suppression of viral invasion and release, whereas confusables carry OAS/PKR, IFN signaling regulation or generic ubiquitination."
+ },
+ {
+  "theme_id": "n00320",
+  "nameable": true,
+  "core": "Amyloid homeostasis",
+  "qualifier": "amyloid-beta clearance and fibril formation",
+  "name": "Amyloid-beta clearance and regulation of amyloid fibril formation",
+  "rationale": "All members concern clearing amyloid-beta or regulating amyloid fibril formation, while confusables centre on microglial activation and pro-amyloid regulation."
+ },
+ {
+  "theme_id": "n00011",
+  "nameable": true,
+  "core": "Intrinsic coagulation pathway",
+  "qualifier": "factor VIII and IX variant defects (hemophilia A/B)",
+  "name": "Factor VIII and IX defects of intrinsic coagulation",
+  "rationale": "Members are defective F8 and F9 processing, secretion and activity variants within the intrinsic pathway, whereas confusables cover the broader coagulation cascade, fibrinolysis, FXII/kallikrein or VWF defects."
+ },
+ {
+  "theme_id": "n03579",
+  "nameable": true,
+  "core": "Glial and amyloid regulation in neurodegeneration",
+  "qualifier": "glial activation, proliferation and survival with pro-amyloid and tangle regulation",
+  "name": "Glial activation, survival and pro-amyloid, tau-tangle regulation",
+  "rationale": "Members share regulation of astrocyte/microglial activation, glial proliferation and apoptosis together with promotion of amyloid-beta formation, reduced clearance and tangle assembly, unlike confusables centred on amyloid clearance, microglial immune function or APP biosynthesis."
+ },
+ {
+  "theme_id": "n00693",
+  "nameable": true,
+  "core": "Nephron development",
+  "qualifier": "segment patterning and comma/S-shaped body morphogenesis",
+  "name": "Nephron patterning and comma/S-shaped body morphogenesis",
+  "rationale": "Members share nephron proximal-distal patterning and comma- and S-shaped body to tubule morphogenesis, distinct from confusables on nephric duct, metanephric mesenchyme/MET, renal vesicle or ureter development."
+ }
+]
