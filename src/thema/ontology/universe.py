@@ -23,6 +23,10 @@ EMBEDDINGS = "embeddings.npy"
 KEYS = "embedding_keys.txt"
 UNIVERSE = "universe.json"
 
+#: The centred sidecar a leaves build actually clusters. ``embeddings.npy`` holds the RAW
+#: vectors beside it, so a consumer that wants what the build saw must ask for this one.
+CENTRED = "vectors_leaves_centred.npy"
+
 
 @dataclass(frozen=True, slots=True)
 class Embedded:
@@ -137,3 +141,32 @@ def _verify_vectors(directory: Path, recorded: Path) -> dict | None:
                 f"{claimed}. The vectors on disk are not the ones this artifact describes."
             )
     return embedder
+
+
+def load_centred(directory: Path, pathways: Path) -> tuple[tuple[str, ...], np.ndarray]:
+    """Verified row keys, and the CENTRED matrix those keys index.
+
+    :func:`load_embedded` returns the raw vectors, which is right for the artifact it verifies and
+    wrong for any consumer that wants what the build clustered: a leaves build centres and
+    renormalises first and stores that as a sidecar. This routes the keys through the verifying
+    loader -- so the universe check still runs -- and then hands back the sidecar instead of the raw
+    matrix. Analysis code should prefer it over reading either file by hand.
+
+    Args:
+        directory: A versioned universe directory.
+        pathways: Path to ``pathways.tsv``.
+
+    Returns:
+        ``(keys, centred_vectors)``.
+
+    Raises:
+        ValueError: If the sidecar has a different number of rows from the verified key list.
+    """
+    embedded = load_embedded(directory, pathways)
+    centred = np.load(directory / CENTRED)
+    if centred.shape[0] != len(embedded.keys):
+        raise ValueError(
+            f"{directory / CENTRED} has {centred.shape[0]:,} rows but the verified key list has "
+            f"{len(embedded.keys):,}; the sidecar does not belong to this artifact"
+        )
+    return embedded.keys, centred

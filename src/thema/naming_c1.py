@@ -197,16 +197,9 @@ def load_space(directory: Path, pathways: Path) -> tuple[tuple[str, ...], np.nda
     Raises:
         ValueError: If the sidecar has a different number of rows from the verified key list.
     """
-    from thema.ontology.universe import load_embedded
+    from thema.ontology.universe import load_centred
 
-    embedded = load_embedded(directory, pathways)
-    centred = np.load(directory / CENTRED_VECTORS)
-    if centred.shape[0] != len(embedded.keys):
-        raise ValueError(
-            f"{directory / CENTRED_VECTORS} has {centred.shape[0]:,} rows but the verified key "
-            f"list has {len(embedded.keys):,}; the sidecar does not belong to this artifact"
-        )
-    return embedded.keys, centred
+    return load_centred(directory, pathways)
 
 
 @dataclass
