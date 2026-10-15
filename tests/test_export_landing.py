@@ -102,6 +102,7 @@ FROZEN = Path("data/ontology/frozen/working-O50-2026-10-14")
 LITE = Path(
     "data/experiments/naming_O50_2026-10-14/dedup/final_names_O50_lite_unique.tsv"
 )
+OVERRIDES = Path("data/experiments/naming_O50_2026-10-14/name_overrides.tsv")
 DATA = Path("data")
 
 real_build = pytest.mark.skipif(
@@ -225,3 +226,191 @@ def test_the_build_flag_reads_a_directory_outside_the_versioned_layout(
     manifest = json.loads((FROZEN / "manifest.json").read_text())
     assert meta["method"] == manifest["method"]
     assert meta["version"] == manifest["version"]
+
+
+# ------------------------------------------------- the three defects, and the deduplicated payload
+
+
+def test_the_sort_key_breaks_case_ties_by_key() -> None:
+    # The defect: sorting on the lowercased name alone left case-tied names to set-iteration order,
+    # which Python randomises per process, so two runs of the exporter differed. 30 of 4,451
+    # pathway slots moved when the tie-break was added.
+    names = {"reactome:R-1": "Gap junction assembly", "go:GO-1": "gap junction assembly"}
+    keys = sorted(names, key=lambda k: (names[k].lower(), k))
+    assert keys == ["go:GO-1", "reactome:R-1"]
+    assert sorted(reversed(keys), key=lambda k: (names[k].lower(), k)) == keys, (
+        "the order must not depend on the input order"
+    )
+
+
+@real_build
+def test_the_export_is_identical_across_two_builds() -> None:
+    one = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN, names_file=LITE)
+    two = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN, names_file=LITE)
+    assert json.dumps(one, sort_keys=False) == json.dumps(two, sort_keys=False)
+
+
+def test_prompt_version_has_no_hardcoded_default() -> None:
+    # The published build's manifest records no prompt version, and the old default asserted
+    # "v4-repaired" on the page regardless. Showing nothing is the honest answer.
+    source = Path("scripts/export_landing.py").read_text()
+    # The comment explaining the fix mentions the old value, so look for it as a DEFAULT.
+    assert '"prompt_version", "v4-repaired"' not in source, "the hardcoded default is back"
+    assert 'manifest.get("prompt_version", "")' in source
+
+
+@real_build
+def test_the_manifest_states_no_prompt_version_for_this_build(payload: dict[str, object]) -> None:
+    meta = payload["manifest"]
+    assert isinstance(meta, dict)
+    assert meta["prompt_version"] == "", "this build's manifest records none, so neither should we"
+
+
+def test_a_build_without_a_parents_column_is_read_as_levelled() -> None:
+    # ward_tree's nodes.tsv has no parents column. Reading it as though it did raised KeyError and
+    # made the documented default invocation fail; defaulting the column to "" instead would make
+    # the DAG test below see a DAG with no edges.
+    source = Path("scripts/export_landing.py").read_text()
+    assert 'if "parents" not in row:' in source
+    assert 'row["parents"].replace' in source, "the column is still read when it is there"
+
+
+def test_the_documented_default_method_is_the_one_that_generates_the_page() -> None:
+    source = Path("scripts/export_landing.py").read_text()
+    assert 'default="recurrent_dag_consensus"' in source
+    assert 'default="ward_tree"' not in source
+
+
+@real_build
+def test_deduped_and_inline_render_the_same_pathways_in_the_same_order() -> None:
+    inline = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN,
+                      names_file=LITE, payload="inline")
+    deduped = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN,
+                       names_file=LITE, payload="deduped")
+    assert "pathways" not in inline, "inline keeps the objects in the nodes"
+    pool = deduped["pathways"]
+    assert isinstance(pool, dict)
+
+    def resolved(node: dict, where: dict | None) -> list[dict]:
+        out = [
+            item if isinstance(item, dict) else where[item]  # type: ignore[index]
+            for item in node.get("pathways", [])
+        ]
+        for child in node.get("children", []):
+            out += resolved(child, where)
+        return out
+
+    a = resolved(inline["data"], None)  # type: ignore[arg-type]
+    b = resolved(deduped["data"], pool)  # type: ignore[arg-type]
+    assert a == b, "the deduped payload must render identically, object for object and in order"
+    assert len(pool) < len(a), "and it must actually deduplicate"
+
+
+@real_build
+def test_every_referenced_pathway_id_resolves(payload: dict[str, object]) -> None:
+    pool = payload["pathways"]
+    assert isinstance(pool, dict)
+
+    def ids(node: dict) -> list[str]:
+        out = [i for i in node.get("pathways", [])]
+        for child in node.get("children", []):
+            out += ids(child)
+        return out
+
+    referenced = ids(payload["data"])  # type: ignore[arg-type]
+    missing = sorted({i for i in referenced if i not in pool})
+    assert not missing, f"dangling pathway ids: {missing[:5]}"
+    assert set(pool) == set(referenced), "the pool must hold exactly what the tree references"
+
+
+@real_build
+def test_the_deduped_payload_is_much_smaller() -> None:
+    inline = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN,
+                      names_file=LITE, payload="inline")
+    deduped = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN,
+                       names_file=LITE, payload="deduped")
+    big = len(json.dumps(inline, separators=(",", ":")))
+    small = len(json.dumps(deduped, separators=(",", ":")))
+    assert small * 4 < big, f"expected a large reduction; got {big / small:.1f}x"
+
+
+# ------------------------------------------------------------------ hand-edited names
+
+
+@pytest.fixture
+def overrides(tmp_path: Path) -> Path:
+    path = tmp_path / "overrides.tsv"
+    write_tsv(path, ["theme_id", "name", "edited_by", "date", "previous_name"], [
+        {"theme_id": "n1", "name": "A human-written name", "edited_by": "Aviyah",
+         "date": "2026-10-15", "previous_name": "the generated one"},
+    ])
+    return path
+
+
+@real_build
+def test_an_override_replaces_the_name_and_is_marked() -> None:
+    got = el.build(DATA, "0.4-leaves", "thema_L_x2_O50", build_dir=FROZEN,
+                   names_file=LITE, overrides_file=OVERRIDES)
+    meta = got["manifest"]
+    assert isinstance(meta, dict)
+    assert meta["n_edited"] == 1
+    assert meta["overrides_file"] == str(OVERRIDES).replace("\\", "/")
+    assert meta["overrides_sha256"] == hashlib.sha256(OVERRIDES.read_bytes()).hexdigest()
+    node_id, name = next(iter(meta["edited_names"].items()))
+
+    def find(node: dict) -> dict | None:
+        if node.get("id") == node_id:
+            return node
+        for child in node.get("children", []):
+            hit = find(child)
+            if hit:
+                return hit
+        return None
+
+    node = find(got["data"])  # type: ignore[arg-type]
+    assert node is not None, f"{node_id} is not in the tree"
+    assert node["label"] == name, "the page must show the hand-edited name"
+    assert node["edited"] is True and node["provisional"] is False
+
+
+@real_build
+def test_without_overrides_nothing_is_marked_edited(payload: dict[str, object]) -> None:
+    meta = payload["manifest"]
+    assert isinstance(meta, dict)
+    assert meta["n_edited"] == 0 and meta["overrides_file"] is None
+
+    def any_edited(node: dict) -> bool:
+        return bool(node.get("edited")) or any(any_edited(c) for c in node.get("children", []))
+
+    assert not any_edited(payload["data"])  # type: ignore[arg-type]
+
+
+# ------------------------------------------------------------------ the page itself
+
+
+@pytest.mark.parametrize("page", [
+    Path("demo/landing.html"),
+    Path("demo/preview-O50/landing.html"),
+])
+def test_the_page_declares_a_charset_and_a_viewport(page: Path) -> None:
+    if not page.exists():
+        pytest.skip(f"{page} is not in this checkout")
+    text = page.read_text(encoding="utf-8")
+    assert '<meta charset="utf-8">' in text
+    assert 'name="viewport"' in text and "width=device-width" in text, (
+        "without it a phone uses a 980px virtual viewport and the max-width rules never fire"
+    )
+
+
+@pytest.mark.parametrize("page", [
+    Path("demo/landing.html"),
+    Path("demo/preview-O50/landing.html"),
+])
+def test_the_page_reads_both_payload_shapes_and_never_fetches(page: Path) -> None:
+    if not page.exists():
+        pytest.skip(f"{page} is not in this checkout")
+    text = page.read_text(encoding="utf-8")
+    assert "EXPORT.pathways" in text, "the deduped pool must be read"
+    assert "n.pathways.map(id => POOL[id])" in text, "ids must be resolved through the pool"
+    assert "POOL ? n.pathways.map" in text, "and the old inline shape must still work"
+    assert "fetch(" not in text, "decision A1: the page must open from file://"
