@@ -1,0 +1,187 @@
+ANCHORED RECURSIVE TOP (rec2). Declared 15 Oct 2026 before any result. ADOPTS NOTHING.
+The three changes to rec are POST HOC, from the reviewer's reading of rec's failure.
+
+==============================================================================
+ANCHORS: every unit over 200 pathways, a finished area and a root
+==============================================================================
+  n01027         813 pathways   support  0.8050   O50 children  105
+  n01279         781 pathways   support  0.6950   O50 children   59
+  n03315         349 pathways   support  0.1050   O50 children   14
+  n03959         290 pathways   support  0.0450   O50 children   33   (giant-only in O50)
+  n03376         280 pathways   support  0.0950   O50 children   12   (giant-only in O50)
+  n02017         206 pathways   support  0.4100   O50 children    7   (giant-only in O50)
+  6 anchors, 2,079 pathways between them
+
+==============================================================================
+LEVEL 2, BESIDE rec
+==============================================================================
+                                        rec2             rec
+  units clustered                        655             661
+  anchors                                  6               0
+  candidates                           5,691           5,685
+  through the gate                     1,398               -
+  after consensus                        418             556
+  areas                                  343             470
+  area roots                              36              30
+  ROOTS IN ALL                            42              30
+  collapsed                               75              80
+  merged                                   0               6
+  size in units                     4/18/405        3/12/251
+  size in pathways               27/131/2618     20/153/3053
+  multi-parent                   156 = 45.5%     198 = 42.1%
+  children per node, max                 181              21
+  children per node, median                7               4
+  areas over 1,000 pathways                8              16
+  seconds                              251.3           135.8
+
+  held-out FDR per stratum, with the real-candidate count beside it
+    stratum       floor  calib FDR  held-out   real    cap   rec held-out
+    3-3            None       None      None      0   0.02   0.03846
+    4-4            0.94    0.00588       0.0     17   0.02   -
+    5-5           0.815    0.00588       0.0     17   0.02   0.0
+    6-6            0.77    0.00556       0.0     18   0.02   0.01724
+    7-9           0.485    0.00652   0.00272     92   0.02   0.02604
+    10+        0.055276    0.00682   0.00459   1254   0.02   0.00707
+    OVERALL                          0.00429                 0.01   rec 0.00882
+
+==============================================================================
+ROOT OVERLAP, measured on pathways
+==============================================================================
+  roots: 42  (6 anchors + 36 areas)
+  pathways in no root: 0
+  roots per pathway: median 4, mean 3.80, max 15
+    roots     pathways
+    1              975
+    2              973
+    3              769
+    4              963
+    5              672
+    6              435
+    7              365
+    8              215
+    9               96
+    10              32
+    11              27
+    12              10
+    13               3
+    14               2
+    15               2
+  rec, for comparison: 30 roots, roots per pathway median 3, max 14
+
+  every root pair at pathway Jaccard 0.3 or more
+    J 0.492  b2_00161 (2009) / b2_00251 (1288), sharing 1087
+    J 0.486  b2_00261 (354) / b2_00296 (346), sharing 229
+    J 0.437  b2_00252 (958) / b2_00338 (1903), sharing 870
+    J 0.431  b2_00252 (958) / b2_00307 (1177), sharing 643
+    J 0.430  n01279 (781) / n03315 (349), sharing 340
+    J 0.415  b2_00147 (2618) / b2_00307 (1177), sharing 1113
+    J 0.409  b2_00307 (1177) / b2_00318 (680), sharing 539
+    J 0.403  b2_00090 (84) / b2_00303 (191), sharing 79
+    J 0.399  b2_00241 (228) / b2_00263 (445), sharing 192
+    J 0.385  b2_00283 (745) / b2_00338 (1903), sharing 736
+    J 0.378  b2_00301 (145) / b2_00323 (125), sharing 74
+    J 0.376  b2_00090 (84) / b2_00314 (176), sharing 71
+    J 0.367  b2_00308 (210) / b2_00329 (505), sharing 192
+    J 0.366  b2_00251 (1288) / b2_00283 (745), sharing 545
+    J 0.362  b2_00272 (175) / b2_00305 (220), sharing 105
+    J 0.357  n01279 (781) / n03376 (280), sharing 279
+    J 0.342  b2_00251 (1288) / b2_00338 (1903), sharing 814
+    J 0.332  b2_00241 (228) / b2_00315 (141), sharing 92
+    J 0.313  b2_00270 (409) / b2_00284 (379), sharing 188
+    rec, for comparison: top pairs 0.71, 0.52, 0.51, 0.51, 0.47; 4 at or above 0.5
+
+==============================================================================
+THE 30 LARGEST AREAS BY PATHWAYS
+==============================================================================
+  area          pathways  units  support  root?
+  b2_00147          2618    281    0.690  yes
+  b2_00076          2197    405    0.930  
+  b2_00161          2009    342    0.665  yes
+  b2_00338          1903    224    0.060  yes
+  b2_00112          1340    351    0.830  
+  b2_00251          1288    233    0.195  yes
+  b2_00307          1177    105    0.080  yes
+  b2_00211          1083    131    0.410  
+  b2_00242           977    102    0.250  
+  b2_00252           958    198    0.610  yes
+  b2_00156           919    138    0.675  
+  b2_00198           851    128    0.475  
+  b2_00281           818    120    0.130  
+  b2_00283           745     73    0.120  yes
+  b2_00153           689    194    0.680  
+  b2_00118           687    101    0.810  
+  b2_00318           680     69    0.070  yes
+  b2_00326           659     80    0.065  
+  b2_00327           643     51    0.065  
+  b2_00260           637     69    0.180  
+  b2_00213           620     87    0.405  
+  b2_00319           609     52    0.070  
+  b2_00226           517     35    0.320  
+  b2_00238           511     57    0.270  
+  b2_00328           506     35    0.065  yes
+  b2_00329           505     48    0.065  yes
+  b2_00214           478    137    0.395  
+  b2_00245           466     45    0.225  
+  b2_00127           462    127    0.785  
+  b2_00243           451     69    0.235  
+
+==============================================================================
+COVERAGE
+==============================================================================
+  giant-only themes: 476
+    with a parent area: 473
+    promoted to an anchor (a root in their own right): 3
+    with a parent area OR an anchor: 476 = 100.0%
+  all units with a parent area or anchor: 661 of 661
+  roots before: 188; after: 42
+
+  per pathway, the largest non-giant theme or area above it
+    band         before     rec2      rec
+    1-10              1        0        0
+    11-50         1,096        0        0
+    51-200        2,362        0        0
+    201-1000      2,079      999        0
+    1001+             0    4,540    5,539
+
+==============================================================================
+GENE COHERENCE (report only)
+==============================================================================
+  rec2: n=159 areas of 2-120 pathways; median 0.0118 against 0.0011 size-matched random (10.7x)
+  rec, for comparison: 0.0115 against 0.0011 (10.2x) over 182 areas
+
+==============================================================================
+SUMMARY PLACEMENT (display only, nothing attached)
+==============================================================================
+  curated summaries with 3+ leaf descendants in L: 2,370
+    with a node holding 80% of their leaves:
+      O50 alone        2021 = 85.3%
+      rec  combined    2199 = 92.8%
+      rec2 combined    2071 = 87.4%
+    summary band         n     O50     rec    rec2
+    3-10              1711    1525    1626    1578
+    11-50              560     439     495     441
+    51-200              96      55      76      52
+    201+                 3       2       2       0
+
+==============================================================================
+CRITERIA, DECLARED BEFORE THE BUILD
+==============================================================================
+  PASS  held-out FDR within the caps in every stratum and overall
+        overall 0.00429 (cap 0.01); worst stratum 10+ at 0.00459 (cap 0.02)
+  PASS  20-60 roots, anchors included
+        42 roots
+  FAIL  no node has more than 60 children
+        max 181
+  PASS  at least 95% of the 476 giant-only themes get a parent area or anchor
+        100.0%
+  PASS  no two roots at pathway Jaccard 0.5 or more
+        highest pair 0.492
+  FAIL  no area holds more than 1,000 pathways
+        largest 2,618
+
+  ALL SIX ccode OWNS: FAIL
+        children, provenance attribution: max 181, 4 areas over 60
+        attributing only the units not folded in gives max 48 and 0 over 60; the area-size criterion fails under either reading
+  C6 (blind intruder test) is the reviewer's and is NOT judged here.
+  Whether the top is intuitive is Aviyah's.
+  ADOPTED: nothing.
