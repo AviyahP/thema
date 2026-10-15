@@ -69,6 +69,32 @@ pathways above their children: among curated pairs whose levels differ, the pare
 See `docs/status/2026-10-08-monotonicity.md`. Theme-level gene containment does hold — 100% of
 v0.4's 8,422 edges — but that follows from the definitions and is not evidence about placement.
 
+### c85 is the WORKING VERSION — frozen 10 Oct, tag thema-c85-2026-10-10
+
+**`data/ontology/v0.4-leaves/thema_L_x2_c85` is the version every analysis uses.** It is chain
+collapse at 0.85 keeping the higher-support node (POST-HOC), 8,251 themes, 97.64% plausible, 195 bad
+themes against the baseline's 197. Frozen at `data/ontology/frozen/working-c85-2026-10-10/` with its
+own `CHECKSUMS.sha256`; **the 2026-10-09 baseline stays frozen as the FALLBACK**, and
+`tests/ontology/test_frozen_baseline.py` guards both. Known limit: 28% of collapse pairs are decided
+by a support margin under 0.05, so which twin survives can differ between builds.
+
+**The sibling merge rule is SUPERSEDED — DO NOT RUN IT.** `J >= 0.6 & md <= 2`, complete linkage,
+accepted 10 Oct and withdrawn 12 Oct: its precision fell 84% -> 70% -> **63%** as the labels got
+better (name-blind, then complete unique lists), judge calibration varies 23-62% per judge, and no
+label-free feature reaches AUC 0.70. The overlap arm replaces it by moving the rule inside the build.
+
+**The paid naming run is HELD** until the overlap arm is decided — names belong on the final build.
+`scripts/name_themes_c1.py` is ready and priced at $9.83 for 100 themes; do not pass `--submit`.
+
+**Read `data/experiments/reviewer_notes/HANDOFF_2026-10-12.md`** for what happened 10-12 Oct: the
+twin/facet search, the names test, the core-reading tests, the J>=0.5 simulation, and Aviyah's
+conclusion that overlap belongs inside the algorithm. The arm's specification is
+`SPEC_overlap_arm_2026-10-12.md` beside it.
+
+```sh
+shasum -a 256 -c data/ontology/frozen/working-c85-2026-10-10/CHECKSUMS.sha256
+```
+
 ### The frozen baseline — THEMA baseline 2026-10-09
 
 `data/ontology/frozen/baseline-2026-10-09/` is the reference build: `thema_L_x2`, frozen exactly as

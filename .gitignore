@@ -217,3 +217,8 @@ data/ontology/v*/thema_L*_verify/
 # did not cover names_test/KEY_DO_NOT_SHARE.json, which appeared on 10 Oct; this one is extension
 # free so the next one is covered before it is written.
 KEY_DO_NOT_SHARE*
+
+# thema_L_x2_harness is the overlap arm's harness proof: the new --theta-same / --joint-fixed-point
+# code path at its defaults, which must come back byte-identical to the tracked thema_L_x2_c85.
+# Committing it would add 13 MB of exact duplicates. Delete it freely.
+data/ontology/v*/thema_L*_harness/

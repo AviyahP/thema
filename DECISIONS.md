@@ -6033,3 +6033,291 @@ used because calling it is an API call.
 
 The accepted sibling merge rule was not run and is not touched here. `naming.py` and name-v5 are
 unchanged: a second naming method sits beside the first.
+
+## 2026-10-13 16:46:14 UTC+1 — REVIEWER HANDOFF 10-12 Oct: recorded (handoff sections 0-8)
+
+`data/experiments/reviewer_notes/HANDOFF_2026-10-12.md`, read in full. All of the LLM work below was
+the reviewer's, on in-session subagents: **no API spend**, evaluation only, nothing fed into
+construction, and `KEY_DO_NOT_SHARE*` never shown to a reader or judge.
+
+**0. Repo state.** Three commit scripts were unrun when the handoff was written; Aviyah has since run
+all three (verified in `git log`). **Prompt 28 was never executed** -- its Parts A and B are carried
+out now, its Part C is obsolete. `PROMPT_28_original.md` keeps the text.
+
+**1. c85 is the working version** (Aviyah, 10 Oct). Recorded in the entry below.
+
+**2. The accepted sibling merge rule is SUPERSEDED and must not be run.** `J >= 0.6 & md <= 2`,
+complete linkage, accepted 10 Oct. Its precision did not survive better labels:
+
+| labels | precision of the rule |
+|---|---|
+| original (names + member samples) | 84% |
+| name-blind, samples (decision record section 10) | 70% |
+| complete unique lists, no names (section 13) | **63%** (60% after complete linkage) |
+
+Judge calibration dominates: twin share per judge ranged **23-62%** on randomly assigned pairs
+(p = 7e-12), and agreement between independent rounds is 80-85%, which caps any feature. **No
+label-free feature reaches AUC 0.70** against the full-list labels: md 0.67, name cosine 0.66,
+member-centroid 0.65, J 0.58, name direction 0.50. Section 14 of the decision record marks the rule
+superseded by the overlap arm.
+
+**3. The names test fails its own bar.** Name embeddings reach AUC 0.65 / 0.69 in the two halves
+against a declared 0.70, tie the cutoff rule at matched volume (-0.7 points, CI -10.5 to +9.0), and
+name direction carries no signal (0.51). So the vectors ccode produced on 10 Oct answered the
+question and the answer is no.
+
+**4. Naming.** Keep naming-c1 with 3 candidates; c2 and c1b are rejected. Reproducibility stays
+about 60-65% strictly equivalent and about 98% same theme under every variant. About 23% of names
+read as lists; a style fix needs its own test. **The reviewer advises holding the paid naming run
+until the overlap arm is decided**, because names should be written on the final build.
+
+**5. Core-reading tests** (Aviyah's definition: a real facet re-reads the shared pathways).
+
+| test | design | result |
+|---|---|---|
+| high overlap (J 0.4-0.7), 300 pairs | one-sided readers (shared + one side's extras), comparator | 23% partly, 0% different; AUC vs labels 0.62 (md 0.66) |
+| low overlap (J 0.1-0.4), 240 pairs | same, plus a noise control A vs A2 | 62% / 49% / 39% by band; noise about 0% |
+| whole-theme reading, 420 comparisons | each theme read whole; judge sees both full lists with [shared] marks | high overlap 9.0%, synthetic-variant floor 3.3%, low overlap 40% |
+
+The whole-theme test met its pre-registered CONFIRMED rule: **high-overlap siblings mostly tell the
+same story about what they share, so they are variants**, and re-reading tracks the overlap level
+rather than the twin/facet label (AUC 0.54).
+
+**6. Post-hoc simulation of merging siblings at J >= 0.5** (no build changed). Complete linkage
+removes 1,767 themes (21%), groups of at most 5; single linkage removes 2,865 and chains a 31-theme
+NF-kB group, so it is rejected. Union themes are a median 1.27x the kept theme, and **839 unions fall
+within 0.85 of a shared parent, so chain collapse would then absorb them** -- about 32% removed in
+total. Multi-parent structure survives: 2+ non-nested parents 51% -> 38%, 2+ roots 56% -> 47%.
+Removal is even across the ten giants (20-23% each).
+
+**7. Aviyah's conclusions, 12 Oct.** Post-hoc merge passes stacked on the build are **not coherent**:
+three cutoffs on one measure (0.70, 0.85, then 0.5/0.6) chosen at different times, with an
+order-dependent result. The overlap rule belongs **inside** the algorithm -- one cutoff for
+non-nested overlap, one for nesting, iterated together. Test it on a branch and merge only if it
+wins on criteria declared before the build. If adopted it is a real supersede, not a variant flag:
+the reviewer withdrew the flag recommendation because frozen versions already guarantee
+reversibility.
+
+**8. The branch arm** is `SPEC_overlap_arm_2026-10-12.md`, copied verbatim into the entry below.
+
+**Still open, unchanged:** the ten giants, reinstating `go:GO:0010800`, placement monotonicity at
+46%, a blinded human-biologist check, the statistics layer, list-style names, the optional
+LLM-ontology baseline pilot.
+
+## 2026-10-13 16:46:14 UTC+1 — c85 ADOPTED as the WORKING VERSION (Aviyah, 10 Oct); prompt 28 Part A carried out
+
+The five records prompt 28 asked for, in one entry because they share a date and a subject.
+
+**1. Two criteria were mis-specified by the reviewer, and are corrected post hoc as DEFINITIONS
+only.** The rule is unchanged, and **ccode's original pass / fail table stands as declared** --
+`docs/status/2026-10-09-chain-c85.md` keeps it unedited, with the corrected assessment appended
+below it, verbatim.
+- Criterion **(d) is withdrawn** as irrelevant to this rule: removing near-duplicates lowers a
+  share-matched reproducibility measure *by construction*.
+- **A facet is a theme containing the pathway that is not merely a step up the same chain**, measured
+  as the number of mutually non-nested themes under 1,000 members that contain it.
+
+**2. Corrected result: no real facet is lost.** Of the 805 baseline themes absent from c85, **802
+have a surviving counterpart at J >= 0.7** (750 at >= 0.85, 52 at 0.70-0.85) and **3 are borderline
+at J 0.68-0.69**: `n05820` mitochondrial FA and BCAA catabolism (40), `n05176` type I interferon
+antiviral response (65), `n05887` Rho GTPase cycles (23).
+
+**3. Plausibility: the dip is composition, not damage.** The reviewer judged the 316 themes ccode had
+left unjudged (`judged_c85_316.json`): 283 coherent, 31 umbrella, 2 core-plus-misfits, so **314 of
+316 ok**. Over all 8,251 themes: **8,056 ok = 97.64%** against the baseline's 8,543 / 8,740 =
+**97.75%**. The rule removed 805 themes of which 801 were ok, and kept 316 good ones; **bad themes
+went 197 -> 195**. No re-evaluation is needed -- 7,935 themes are identical to judged baseline themes
+and the other 316 are now judged. ccode recomputed this independently from
+`match_to_baseline.tsv` and reached 8,056 / 8,251 = 97.64% with 195 not ok, matching exactly.
+
+**4. DECISION: `thema_L_x2_c85` is the WORKING VERSION.** Chain collapse at 0.85 keeping the
+higher-support node unless tied or the parent is top level -- **POST-HOC**, and labelled so wherever
+it is reported. **The 2026-10-09 baseline remains frozen as the fallback.**
+
+**5. Known limit, carried forward.** **28% of collapse pairs are decided by a support margin under
+0.05**, so which twin survives can differ between builds. That is why the baseline is kept rather
+than retired.
+
+## 2026-10-13 16:46:14 UTC+1 — WORKING VERSION FROZEN at working-c85-2026-10-10, tag thema-c85-2026-10-10
+
+`data/ontology/frozen/working-c85-2026-10-10/` -- **14.7 MB, 16 files**. The build's four tables and
+manifest, its provenance (`match_to_baseline.tsv`, `repair_map.json`, `report.txt`), the inputs it
+depends on (`excluded_inputs.tsv`, `floors_L_cal8.json`, `universe.json`, `trees_build_log.json`),
+**`all_verdicts_c85.json`** -- a verdict for all 8,251 themes, 7,935 carried by identical member set
+plus the reviewer's 316 -- `REPORT_c85_reassessment.md` verbatim, `FROZEN.md`, and
+`CHECKSUMS.sha256`.
+
+`FROZEN.md` states the one difference from the baseline and nothing else differs: **collapse at 0.85
+keeping the higher-support node, against 0.90 always keeping the parent.** Same universe, trees,
+floors, thresholds and seeds.
+
+**Both freezes are now checksum-guarded by the same test.**
+`tests/ontology/test_frozen_baseline.py` is parametrised over `data/ontology/frozen/`, so a third
+freeze needs one entry added. Confirmed by tampering: a modified file fails
+`test_every_file_matches_its_checksum[working-c85-2026-10-10]`, an added file fails
+`test_no_unrecorded_file_was_added[working-c85-2026-10-10]`, and the baseline's own cases keep
+passing. `baseline-2026-10-09/` was not touched.
+
+The annotated tag **`thema-c85-2026-10-10`** is created by
+`docs/status/commit-2026-10-12-handoff.sh`, which is left unrun.
+
+## 2026-10-13 16:46:14 UTC+1 — Home-fit test (reviewer, 12-13 Oct): NOISE as declared, then confounded
+
+`data/experiments/homefit_2026-10-12/`. 100 c85 pathways with 2+ distinct homes, 5 blind subagent
+judges, no API spend. **Declared reading NOISE**: real homes fit 94.0% against a nearest-theme decoy
+at 95.0%, difference -1.0 points (CI -5.8 to +3.7), so the test cannot show that resampling's homes
+beat "the closest themes in text space"; on strict yes the real homes do win by 12.4 points (CI
++1.8 to +23.2), post-hoc. 83.5% of multi-home pathways were judged "different aspects". **Aviyah's
+objection, checked and upheld:** 85% of decoys lie entirely inside a larger theme that *does* contain
+the pathway and 60% reach J >= 0.5 with one, so the decoy was usually a variant of the pathway's own
+neighbourhood and **the NOISE verdict does not count against the algorithm**. It stands as recorded
+with that caveat; the redo needs decoys outside the pathway's region and a forced choice.
+
+## 2026-10-13 16:48:09 UTC+1 — OVERLAP ARM: declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/SPEC_overlap_arm_2026-10-12.md`, written by
+the reviewer on 12 Oct 2026 before any build or result, and reproduced here **before the arm was
+built**. Everything below the rule is the reviewer's text unchanged; nothing in it was adjusted after
+seeing a number.
+
+Work happens on branch `overlap-2026-10`. **Nothing is adopted by this entry.**
+
+---
+
+# Overlap arm: one same-theme cutoff inside the build (declared 12 Oct 2026, before any build or result)
+
+Written by the reviewer for Aviyah. It runs on a BRANCH and replaces nothing until the criteria below are met and Aviyah
+decides.
+
+## Why
+
+Today the build carries three cutoffs on the same measure, chosen at different times:
+- consensus SUPERSEDED rule, non-nested overlap: J >= 0.70 (`v04.THETA_MERGE` -> `consensus.classify`);
+- stale-merge pass after consensus: J >= 0.70 (`repair.MERGE_JACCARD`);
+- chain collapse, nested: share >= 0.85 (c85; post-pass);
+- and a proposed post-hoc sibling merge at J >= 0.6 & md <= 2, which is the consensus rule again at a lower cutoff
+  (the highest sibling J in c85 is 0.697 because consensus already removes everything at 0.70).
+The post-passes are order-dependent: merging siblings at J >= 0.5 after the build would create 839 new parent-child
+near-chains that chain collapse would then absorb (REPORT_merge_J05.md). Aviyah's conclusion: put the overlap rule
+inside the algorithm, with one cutoff for non-nested overlap and one for nesting, iterated to a fixed point.
+
+## The arm (O50)
+
+Start from the c85 configuration exactly (thema_L_x2_c85: arm L, x2 universe, cal8 floors, repair, collapse share 0.85,
+survivor "support"). Change only:
+1. **One same-theme cutoff T_same = 0.50** for non-nested pairs, used in BOTH places: consensus (`THETA_MERGE` as passed
+   to `consensus`) and the stale-merge pass (`repair` jaccard). The survivor is what consensus already does: the lower
+   support theme is superseded (dropped), not unioned. Nothing else in consensus changes (stray rule, inheritance,
+   ordering).
+2. **`theta_match` (recurrence for support and lifetime) stays 0.70.** It is a different quantity and must be a separate
+   parameter; confirm in the status file which constants were split.
+3. **Joint fixed point:** after consensus, repeat [chain collapse at 0.85, then stale merge at T_same] until neither
+   changes anything; assert no non-nested pair >= T_same and no containment pair >= 0.85 remains.
+
+Label-free basis of 0.50: J >= 0.5 is exactly "the shared part is at least as large as the two unique parts together".
+Disclosure: the idea of lowering the cutoff was motivated after seeing LLM-judged evaluation results (whole-reading test);
+the value is declared on the label-free basis and is not tuned. No LLM judgement enters construction.
+
+## Controls and sensitivity
+
+- **Harness proof:** T_same 0.70 without the joint loop must reproduce thema_L_x2_c85 byte-identically (all tables).
+  The frozen baseline test must still pass. All defaults stay at today's values.
+- **O70 (control):** c85 + joint fixed point at T_same 0.70. Isolates the effect of iterating from the effect of the
+  cutoff (the c85 arm changed two things at once; do not repeat that).
+- **O60 (report only):** T_same 0.60.
+- **Reproducibility (report only):** O50 on the repair universe too, matched to O50-x2 at J >= 0.7, next to the same
+  measure for c85. Removing duplicates lowers this by construction; it is reported, not a criterion.
+
+## Criteria (O50 vs c85), declared now
+
+| | criterion | who |
+|---|---|---|
+| C1 | no non-nested pair (both < 1,000 members) at J >= 0.50, and no containment pair at share >= 0.85 | ccode |
+| C2 | no pathway loses all its themes under 1,000 members | ccode |
+| C3 | >= 99% of c85 themes absent from O50 have an O50 theme at J >= 0.50 (counterpart) | ccode |
+| C4 | plausibility: not-ok themes in O50 <= c85's 195 (verdicts carried for themes identical to judged ones; the rest judged with rubric4) | reviewer |
+| C5 | usefulness, blind: see below; O50 must win | reviewer |
+
+**C5 design.** 120 pathways drawn at random (seed 20261012) from those whose set of containing themes (under 200
+members) differs between c85 and O50. For each, a judge sees the two sets of themes containing the pathway, each theme
+as its full member list, no names, sides randomised, and answers: which set better helps a biologist interpret a hit on
+this pathway, A, B or equal. O50 wins if it is preferred in >= 60% of decided items and a two-sided binomial test against
+50% gives p < 0.05. Judges are in-session subagents (no API spend); the key is never shown to them.
+
+**Decision rule.** O50 becomes the candidate working version only if C1-C4 pass and C5 is won. A tie on C5 keeps c85
+(no change without evidence). Aviyah makes the final call; only then is the branch merged.
+
+## Report only (ccode)
+
+Theme counts by size band; roots; giants (> 1,000); depth distribution; share of themes with 2+ parents not nested in
+each other and share reaching 2+ roots (the post-hoc simulation predicted about 38% and 47%, against 51% and 56% in c85);
+survivor support margins (share under 0.05); what O70 changed relative to c85; O60 summary; run time and memory.
+
+## 2026-10-13 17:01:37 UTC+1 — OVERLAP ARM RESULT: C1 and C3 pass, C2 FAILS on one pathway. Nothing adopted.
+
+Branch `overlap-2026-10`. The criteria are the reviewer's, declared 12 Oct before any build and
+copied verbatim in the entry above. Full numbers: `docs/status/2026-10-12-overlap-arm.md`.
+
+| | criterion | owner | result |
+|---|---|---|---|
+| C1 | no non-nested pair under 1,000 at J >= 0.50, no containment pair at >= 0.85 | ccode | **PASS**, 0 and 0 |
+| C2 | no pathway loses all its themes under 1,000 | ccode | **FAIL**, 1 pathway |
+| C3 | >= 99% of absent c85 themes have an O50 counterpart at J >= 0.50 | ccode | **PASS**, 99.64% |
+| C4 | plausibility | reviewer | not judged; input written |
+| C5 | usefulness, blind | reviewer | not judged |
+
+**By the spec's own decision rule the arm cannot become the candidate working version while a C1-C4
+criterion fails.** c85 stays the working version, the 2026-10-09 baseline stays the fallback, and
+**nothing is adopted by this entry.** Whether one stranded pathway should sink an otherwise strong
+arm is Aviyah's call, not a number ccode can settle.
+
+**Harness proof PASSED** before anything was measured: same-theme 0.70 without the joint loop
+reproduces `thema_L_x2_c85` byte-identically in all four tables, and both frozen folders still pass
+their checksum test.
+
+**Theme counts.** c85 8,251 -> O70 8,251 -> O60 6,350 -> **O50 4,602**. Removal concentrates in the
+11-20 band (-2,350 of -3,649).
+
+**The control is decisive and the result is the cutoff alone: O70 is BYTE-IDENTICAL to c85.** At
+0.70 the joint fixed point changes nothing. That was predicted before the builds and the reason is
+structural: the merge *supersedes* the weaker theme rather than unioning the pair, so no sub-pass
+changes a member set, the qualifying pairs are fixed from the start, and both sub-passes are already
+internally fixed points. An 8,000-fixture random search found no case where iterating differs from a
+single pass. **So the joint loop is correct but inert** -- it buys the assertion, not a different
+build. The spec's architectural complaint is still answered, by one cutoff in two places.
+
+**What the arm achieves.** All **9,138** non-nested pairs at J >= 0.50 in c85 are gone, and no pair
+of either kind survives. **The giants fall from 10 to 4** (2,332 / 2,018 / 2,015 / 1,412) -- the
+first change in this project that moves them at all. The near-tie fragility inherited from c85
+improves: collapse decisions with a support margin under 0.05 fall from **28.3% to 19.4%**.
+
+**What it costs.** C2's single failure is `btm:M205`: its three small homes in c85 (`n04672` 10
+members support 0.105, `n05438` 14 / 0.070, `n06033` 14 / 0.055) all merge away, leaving it inside
+three giants only. The ontology is 44% smaller and a pathway sits in a median of **12** fewer themes
+under 1,000 members. Multi-parent structure, on the spec's own giants-excluded definition: 2+
+non-nested parents **51.2% -> 36.8%**, reaching 2+ roots **55.7% -> 41.9%**, against the simulation's
+prediction of about 38% and 47% -- close on parents, **optimistic on roots**.
+
+**A correction to how the multi-parent measure is quoted.** The spec's "51% and 56% in c85" are the
+**giants-excluded** numbers. Measured literally c85 is 64.8% and 93.2%, because almost every theme
+reaches two giants. Both definitions are in the status file so the prediction can be checked rather
+than taken on trust.
+
+**Reproducibility, report only as the spec requires:** c85 vs `thema_L_repair` 77.1%, O50 vs
+`thema_L_repair_O50` 70.2%. Removing duplicates lowers a share-matched measure by construction --
+the same reason criterion (d) was withdrawn from the c85 assessment -- so the 7-point drop is not
+evidence either way.
+
+**C4's input is written:** `data/ontology/v0.4-leaves/thema_L_x2_O50/O50_new_themes.json`, the **858**
+O50 themes not identical to any c85 theme, each with its full member list. 3,744 are identical to a
+c85 theme. Nothing about them is judged here.
+
+**Code, all defaulted off.** `v04.build(..., theta_same=...)` hands the cutoff to consensus and the
+SAME value reaches the stale-merge pass; `theta_match` stays a separate 0.70. `repair.repair_joint()`
+and `repair.assert_no_chain_pair()` are new and `repair.repair()` is untouched, which is what keeps
+the harness proof meaningful. `scripts/leaves_build.py` gains `--theta-same` and
+`--joint-fixed-point`, both in the manifest. Omitting both runs exactly what every build before
+12 Oct ran. Seven new tests in `tests/ontology/test_repair.py`.
+
+**Cost:** O70 326 s, O60 181 s, O50 94 s, repair-O50 92 s, harness 315 s; 1.2-1.5 GB peak. Lower
+cutoffs are faster, because consensus supersedes more candidates earlier.
