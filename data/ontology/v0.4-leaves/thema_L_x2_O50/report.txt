@@ -1,0 +1,140 @@
+OVERLAP ARM, declared 12 Oct 2026. Same-theme cutoff in consensus AND the stale pass,
+iterated jointly with chain collapse at 0.85. theta_match unchanged at 0.70.
+NOTHING IS ADOPTED BY THIS REPORT.
+
+==============================================================================
+THEME COUNTS
+==============================================================================
+  build   T_same   themes    edges  roots  giants
+  c85       0.70    8,251   18,707    121      10
+  O70       0.70    8,251   18,707    121      10
+  O60       0.60    6,350   12,646    194       7
+  O50       0.50    4,602    7,525    188       4
+
+  giants (over 1,000 members), sizes
+    c85   [2673, 2522, 2366, 2304, 2047, 2044, 2042, 1433, 1245, 1187]
+    O70   [2673, 2522, 2366, 2304, 2047, 2044, 2042, 1433, 1245, 1187]
+    O60   [2647, 2498, 2354, 2035, 2029, 1423, 1316]
+    O50   [2332, 2018, 2015, 1412]
+
+  themes per size band
+    band           c85     O70     O60     O50   O50-c85
+    3-5            524     524     524     524        +0
+    6-10         2,101   2,101   2,028   1,636      -465
+    11-20        4,061   4,061   2,775   1,711    -2,350
+    21-50        1,324   1,324     869     615      -709
+    51-100         193     193     120      95       -98
+    101-300         32      32      23      14       -18
+    301-1000         6       6       4       3        -3
+    1001+           10      10       7       4        -6
+
+==============================================================================
+C1  no non-nested pair under 1,000 at J >= 0.50, and no containment pair at >= 0.85
+==============================================================================
+  c85    non-nested at or above 0.50:  9,138   containment at or above 0.85:    0
+  O70    non-nested at or above 0.50:  9,138   containment at or above 0.85:    0
+  O60    non-nested at or above 0.50:  2,982   containment at or above 0.85:    0
+  O50    non-nested at or above 0.50:      0   containment at or above 0.85:    0
+
+  C1: PASS  (O50 leaves 0 overlap and 0 containment pairs)
+
+==============================================================================
+C2  no pathway loses all its themes under 1,000 members
+==============================================================================
+  pathways with at least one theme under 1,000: c85 5,539, O50 5,538
+  pathways that lost at least one: 5,522  (median 12, max 47)
+  pathways left with NONE: 1  ['btm:M205']
+
+  C2: FAIL
+
+==============================================================================
+C3  >= 99% of c85 themes absent from O50 have an O50 theme at J >= 0.5
+==============================================================================
+  c85 themes absent from O50: 4,507 of 8,251
+  of those, with an O50 counterpart at J >= 0.5: 4,491 = 99.64%
+  without one: 16
+      n06119 (58 members) best J 0.444
+      n05029 (18 members) best J 0.458
+      n06800 (18 members) best J 0.458
+      n07699 (22 members) best J 0.458
+      n02228 (11 members) best J 0.462
+      n05830 (13 members) best J 0.462
+      n03054 (8 members) best J 0.467
+      n06092 (11 members) best J 0.467
+      n06059 (12 members) best J 0.471
+      n06372 (34 members) best J 0.471
+
+  C3: PASS  (99.64% against 99%)
+
+==============================================================================
+REPORT ONLY
+==============================================================================
+
+  multi-parent structure: parents NOT nested in each other, two definitions
+    build   2+ parents   2+ roots     2+ parents   2+ roots   (right: giants excluded)
+    c85          64.8%      93.2%          51.2%      55.7%
+    O70          64.8%      93.2%          51.2%      55.7%
+    O60          55.7%      78.2%          43.1%      42.6%
+    O50          43.7%      53.1%          36.8%      41.9%
+    The spec quotes c85 as about 51% and 56% and predicts about 38% and 47% for a 0.50
+    merge. Those are the GIANTS-EXCLUDED numbers: c85 gives 51.2% / 55.7% that way and
+    64.8% / 93.2% literally, because almost every theme reaches two giants. Compared on
+    the spec's own definition the prediction was close on parents and optimistic on
+    roots.
+
+    themes whose every parent is a root: c85 1084, O70 1084, O60 1036, O50 749
+
+  depth distribution (longest path to a root)
+    depth       c85     O70     O60     O50
+    0           121     121     194     188
+    1         1,084   1,084   1,036     749
+    2         1,141   1,141     934     698
+    3         1,144   1,144     941     701
+    4         1,164   1,164     959     681
+    5         1,107   1,107     852     602
+    6           958     958     662     446
+    7           679     679     402     301
+    8           422     422     231     156
+    9           253     253     100      60
+    10          120     120      29      18
+    11           43      43       8       2
+    12           11      11       2       0
+    13            4       4       0       0
+
+  survivor support margins, from each build's repair_map.json
+    build   collapses  child kept  parent kept  median margin  under 0.05
+    c85         1,147         742          405          0.120      28.3%
+    O70         1,147         742          405          0.120      28.3%
+    O60           776         522          254          0.140      25.3%
+    O50           587         408          179          0.185      19.4%
+
+  what O70 changed relative to c85 (the control: iterating, at the same cutoff)
+    all four tables byte-identical to c85: True
+    so at a 0.70 cutoff the joint fixed point changes NOTHING, and every difference
+    between O50 and c85 is the cutoff rather than the iteration
+
+  reproducibility between two independent builds, projected (report only)
+    c85  thema_L_x2_c85 vs thema_L_repair: 6,358 of 8,251 matched at J >= 0.7 = 77.1%
+    O50  thema_L_x2_O50 vs thema_L_repair_O50: 3,229 of 4,602 matched at J >= 0.7 = 70.2%
+    removing duplicates lowers this by construction; it is reported, not a criterion
+
+  O60 summary
+    6,350 themes, 194 roots, 7 giants, 2+ non-nested parents 55.7%, 2+ roots 78.2%
+    offending pairs left: 2982 non-nested at 0.50 (its own cutoff is 0.60), 0 containment
+
+==============================================================================
+C4 INPUT (the reviewer judges it; nothing here is judged)
+==============================================================================
+  O50 themes not identical to any c85 theme: 858 of 4,602
+  identical to a c85 theme: 3,744
+  -> data/ontology/v0.4-leaves/thema_L_x2_O50/O50_new_themes.json
+
+==============================================================================
+CRITERIA ccode OWNS
+==============================================================================
+  C1: PASS  no pair either rule would remove survives
+  C2: FAIL  no pathway loses all its themes under 1,000
+  C3: PASS  99.64% of absent themes have a counterpart, bar 99%
+
+  C4 and C5 are the reviewer's and are NOT judged here.
+  ADOPTED: nothing.
