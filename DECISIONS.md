@@ -6696,3 +6696,241 @@ compared unit sets, where the union held by construction.
 `tests/test_recursive_top2.py`. Output: `data/ontology/v0.4-leaves/thema_L_x2_O50_rec2/`. **The three
 frozen folders and `thema_L_x2_O50_rec` were not touched, and the giants are never units and never
 joined.** Cost 252 s and 0.8 GB for the build, 5 s for the report. No API calls.
+
+## 2026-10-15 19:22:52 UTC+1 — AREAS LAYER, CORRECTED RE-RUN (rec2fix): declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/PROMPT_37.md`, Aviyah's prompt of 15 Oct
+2026, and reproduced here **before any build ran**. This is a **corrected re-run of prompt 36, not a
+new method**: the reviewer audited rec2 and found two implementation gaps, both of them mine, and the
+prompt says so itself. Everything below the line is the prompt text unchanged.
+
+**AVIYAH'S GIANT RULE, recorded here as the prompt asks**: *areas over 1,000 pathways are giants and
+are kept out of the working view, exactly as O50's giants are.* She intended this before the rec2
+result but did not write it down, so rec2 reported its eight 1,000-plus areas as a criterion failure
+rather than as giants. That wording is now on the record and is what rec2fix applies.
+
+Confirmed before building, as the prompt requires: **661 units, of which 6 are anchors** over 200
+pathways (n01027 813, n01279 781, n03315 349, n03959 290, n03376 280, n02017 206) and **655 are
+clustered at level 2** -- identical to rec2, because the unit rule, the floors and the seeds are
+reused unchanged. Estimate **about 12 minutes** from one real side timed at 7.6 s across 25 sides,
+plus the new combined-structure stage. Under the 3 h ceiling.
+
+**Answer to the first question.** O50's containment is **exact subset over every members.tsv row** --
+no inclusion threshold, no core-only variant, and all 7,525 O50 edges satisfy it with zero
+violations. n03376 is **279 of 280 = 99.64%** inside n01279, not 100%: one pathway,
+`reactome:R-HSA-9824594`, is in n03376 and not in n01279. So O50 is right to leave the pair unlinked
+and the audit's "100% inside" is off by one pathway. Under the core-only reading the pair is further
+apart still (119 of 210 = 56.7%). **rec2fix therefore uses strict subset on all members everywhere**,
+which is also what the spec's own clause 2 asks for; what rec2fix adds is that n03376 and n01279 now
+*get compared*, and at J = 0.357 they neither merge nor collapse.
+
+**Answer to the second question: yes, unchanged.** `consensus`, `collapse_chains` and `merge_stale`
+are union-closed, so they can run on union sets with no modification. Every growth inside consensus
+is a **full absorption** of one candidate's set into another -- an inherit sets the grower to
+`own | other`, never a partial addition -- and collapse and merge only ever drop a node, keeping the
+survivor's membership. Since `paths(U1 or U2) = paths(U1) or paths(U2)`, a node that enters as the
+union of its units' pathways stays one. **The fix is entirely in the bookkeeping**: units must follow
+the same arithmetic, absorbed **in event order** (the grower takes the source's unit set as it stands
+at that moment), and a **superseded** candidate's units are **not** credited to its winner. rec2 did
+the opposite on both counts -- it credited superseded units and took final rather than
+point-in-time sets -- which is what made its stored pathway set disagree with the union. Checked on
+4,000 randomised cases through consensus and the joint fixed point: **zero disagreements**.
+
+---
+
+Prompt 37: areas layer, corrected re-run (rec2fix), declared 15 Oct 2026 before any result. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not touch frozen folders, thema_L_x2_O50_rec or thema_L_x2_O50_rec2; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+WHY: rec2 did not implement what was declared
+This is a corrected re-run of prompt 36, not a new method. The reviewer audited rec2 (scripts in data/experiments/areas_rec2_giantdrop_2026-10-15/code/) and found two implementation gaps:
+
+1. **Area pathway sets were trimmed.** Prompt 34 step 3 declared that an area's pathways are the union of its units' pathways. rec2 instead stored the consensus pathway set, which is smaller than the union for 188 areas (your report, section 7). Same-theme, collapse and containment all ran on the trimmed sets.
+   - Example: R43 = b2_00313. All 16 of its units are also under R04 = b2_00198, so by units R43 lies entirely inside R04. It was left a root because 4 of its pathways are missing from R04's trimmed set, although they are in R04's own units.
+   - With union sets, 9 roots are strictly inside another root.
+2. **The tree's rules were not applied at the seams.**
+   - Anchors were never checked against each other or against areas. n03376 (280) is 100% inside n01279 (781) and is unlinked.
+   - Chain collapse was not applied between an area and its own units: 3 areas are 85-95% one unit.
+   - 27 units are strictly inside an area but not linked to it.
+   - area_edges.tsv lists transitive area->unit edges, which inflated your children count (181).
+
+Aviyah's giant rule, written down now: areas over 1,000 pathways are giants and are kept out of the working view, exactly as O50's giants are. She intended this before the rec2 result but did not write it down; record that wording.
+
+BEFORE BUILDING, answer in a few lines
+- Why is n03376 not a child of n01279 in the frozen O50, when its members.tsv rows are 100% inside? If O50's containment uses a different membership definition (for example core members only), use that same definition everywhere below, and say which.
+- Can consensus, collapse and the stale pass run on union sets as specified below? If not, say what you propose instead and stop.
+
+SPEC: everything as in prompt 36 except the following; reuse its code, floors and seeds
+1. **Union everywhere.** An area is a set of units. Its pathway set is always the union of its units' pathways, recomputed after every inheritance, merge or collapse. Same-theme 0.50, chain collapse 0.85, containment and sizes all use these union sets. Recurrence matching 0.70 stays on unit sets.
+2. **One structure for the whole top.** After level 2, build the final structure over a single combined node set: areas, the 6 anchors and all units.
+   - **Edges** are strict containment on pathway sets.
+   - **Transitive reduction:** area_edges.tsv holds direct edges only; write the closure separately.
+   - **Rules on every pair in this set,** with the same survivor rule as O50:
+     - two nodes with J of 0.50 or more that are not nested are merged;
+     - a parent whose child covers 85% or more of it collapses.
+   - Report every merge and collapse that involves an anchor or a unit.
+3. **Giants.** Areas over 1,000 pathways are flagged giant and kept out of the view. Their children are re-parented to their remaining parents or become roots.
+4. **Output:** data/ontology/v0.4-leaves/thema_L_x2_O50_rec2fix/, with the same files as rec2 plus giants.tsv and closure.tsv.
+
+TESTS (all must pass before reporting)
+- Every area's pathway set equals the union of its units.
+- Every edge is strict containment.
+- Every strict containment within the combined set is reachable through edges.
+- No two non-nested nodes have J of 0.50 or more.
+- No parent-child pair has a share of 0.85 or more.
+- Children counts come from direct edges only.
+
+REPORT (docs/status/2026-10-15-areas-rec2fix.md), side by side with rec2
+- Levels, held-out FDR per stratum with counts.
+- Anchors, giants (with sizes and the share of pathways they hold), merges and collapses at the seams.
+- Roots of the view with sizes, and children per node (maximum and median).
+- Root pairs with pathway J of 0.30 or more.
+- How many roots each pathway sits in.
+- How many roots are 80% or more inside another root (report only).
+- Coverage of the 476 giant-only themes, and the pathway bands.
+- Summary placement against O50 and rec2.
+
+DECISION (declared now; this is the last build of the areas layer)
+Accepted for further work if all of these hold, measured on the view (giants out):
+- held-out FDR within the caps in every stratum and overall;
+- 20-60 roots, anchors included;
+- no node with more than 60 direct children;
+- at least 95% of the 476 giant-only themes and of all units have a non-giant parent area or anchor, or are roots of the view;
+- no two roots with pathway J of 0.50 or more;
+- C6 blind intruder test, rerun by the reviewer under the 15 Oct pre-registration, passes;
+- Aviyah judges the top intuitive.
+If it fails: the working view is O50 without giants (about 660 flat roots).
+
+FINAL
+- Copy this prompt verbatim into DECISIONS.md as "declared before running", before building.
+- Write docs/status/commit-2026-10-15-areas-rec2fix.sh. It commits:
+  - the code, tests, build folder and status note;
+  - data/experiments/reviewer_notes/PROMPT_37.md;
+  - data/experiments/areas_rec2_giantdrop_2026-10-15/ (PREREG_C6.md, code/, roots.tsv, root_labels.json, ROOTS_for_Aviyah.md, C6_judgements.json, C6_misses.tsv, inputs/, batches/, c6_batches/), never any KEY_DO_NOT_SHARE* file.
+  No branch operations; no push of main.
+
+END OF PROMPT. Before building, give:
+- the two answers above;
+- the number of units and anchors;
+- the time estimate.
+
+After the build, give:
+- per-criterion pass or fail;
+- roots and sizes;
+- giants;
+- held-out FDR per stratum with counts;
+- seam merges and collapses;
+- summary placement;
+- the commit script path.
+
+## 2026-10-15 19:42:25 UTC+1 — AREAS LAYER RESULT (rec2fix): one of five criteria FAILS, on 63 roots against 60. Adopted nothing.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-15-areas-rec2fix.md`.
+
+| criterion, measured on the view | result |
+|---|---|
+| held-out FDR within the caps, every stratum and overall | **PASS** — overall **0.00429**, worst stratum **0.00459** |
+| 20-60 roots, anchors included | **FAIL** — **63** |
+| no node with more than 60 direct children | **PASS** — max **18** |
+| at least 95% of the 476 giant-only themes and of all 661 units parented, or roots of the view | **PASS** — **99.4%** and **98.6%** parented on the strict reading |
+| no two roots with pathway Jaccard 0.50 or more | **PASS** — highest of 1,953 pairs **0.488** |
+| C6 blind intruder test | the reviewer's, not judged here |
+| the top is intuitive | Aviyah's, not judged |
+
+**By the declaration this was the last build of the areas layer, so the working view is O50 without
+giants, about 660 flat roots** -- the list already in
+`data/experiments/naming_O50_2026-10-14/roots_without_giants_O50.tsv`.
+
+**AVIYAH'S GIANT RULE is recorded in the entry above, as the prompt asked**, and rec2fix applies it:
+areas over 1,000 pathways are giants and are kept out of the working view, exactly as O50's are.
+Eight areas qualify, holding **4,540 of 5,539 pathways = 82.0%** between them. They are the same
+eight rec2 built; the only change is that the rule now names them instead of counting them as a
+criterion failure.
+
+**The one failure has a single measured cause: it fails BECAUSE the giant rule was applied.** With
+the giants left in, the combined structure has **exactly 42 roots** -- rec2's count -- of which 5 are
+giants. Dropping the 8 promotes **26 areas to roots, every one of which had no non-giant parent at
+all**; 42 - 5 + 26 = 63. That is the same mechanism that made 476 O50 themes units in the first place
+and created the demand for an areas layer: a node whose only parents are grab-bags is a root of the
+real hierarchy. The layer re-parents 470 of those 476 and then makes 26 more of the same kind one
+level up.
+
+**GAP 1 WAS A REPORTING ERROR, NOT A BUILD ERROR, and the correction runs the other way.** The audit
+read rec2's stored sets as a *trimmed* pathway set for 188 of 343 areas. The 188 is exactly right and
+the disagreement is real, but rec2's **pathway sets were already correct unions**: they are identical
+to rec2fix's, set for set, for all 343 areas, and summary placement with the giants in reproduces
+rec2's 87.4% band for band. What rec2 got wrong was the **unit lists**, which it recovered from
+provenance afterwards and over-credited -- a strict superset for exactly those 188 areas, 3,247 extra
+units, median 10 and max 172 -- so the "union" it reported was computed from inflated lists and
+exceeded the true pathway set by a median of 89 pathways. **The same-theme cutoff, chain collapse and
+containment at level 2 all ran on the correct union sets in rec2.** Correction 1 therefore changes no
+area and no pathway; it makes the invariant asserted rather than reported, and it costs two audit
+figures that came from the inflated lists:
+
+- "with union sets, 9 roots are strictly inside another root" -- on the real sets, **0 of rec2's 42
+  roots is strictly inside another**, and 0 of rec2fix's 63. On rec2's inflated sets 6 are, five of
+  them inside `b2_00161`, which those sets credit with 2,401 pathways against its true 2,009.
+- R43 / R04 = `b2_00313` / `b2_00198`: `b2_00313` is **98.02%** inside `b2_00198` and **4 of its 202
+  pathways are not**, so it is correctly not nested, in rec2 and rec2fix alike. The inflated reading
+  gave `b2_00198` 1,081 pathways instead of 851, which swallowed those 4.
+
+**GAP 2 WAS ENTIRELY REAL and fixing it is what changed the structure.** All four items reproduced
+and all four are closed, each with a test: anchors are now compared with each other and with every
+area (the flagged `n03376`/`n01279` pair **was** compared, and at J = 0.357 with 99.64% containment it
+neither merges nor nests, which is O50's own arithmetic); **3 areas collapsed with one of their own
+units**, exactly the three predicted; the 27 unlinked containments are **0**, every containment being
+reachable through the edges; and `area_edges.tsv` now holds the **transitive reduction, 1,871 direct
+edges**, with the closure's 7,301 pairs in `closure.tsv`. **Children per node falls from 181 to 18
+direct** (164 through the closure), well inside the limit of 60.
+
+**Level 2 is unchanged by construction** -- same units, seeds, runs and floors -- and reproduces
+rec2's figures exactly: 5,691 candidates, 1,398 gated, 418 after consensus, **343 areas**, and every
+held-out FDR identical, overall 0.00429 with the worst stratum at 0.00459.
+
+**Three collapses, zero merges, over 1,004 nodes.** `n02940` (43) into `b2_00029` (49) at 0.878,
+`n03083` (94) into `b2_00064` (99) at 0.949, `n04061` (65) into `b2_00023` (75) at 0.867. All three
+victims are giant-only O50 themes and the area survives each time, being top level among the pair.
+Nothing in the combined set is a non-nested near-duplicate at 0.50 or more, which is inherited from
+O50's own 0.50 merge.
+
+**THE CLEAREST WIN: every pathway now has a mid-sized home.** All **5,539 of 5,539** pathways have
+something in the **201-1,000** band above them and nothing over 1,000, against rec2's 4,540 under a
+1,000-plus area and O50's 3,459 under something of 200 or fewer. No root exceeds **977** pathways,
+against rec2's 3,053. This is the layer the whole exercise was after, and it exists *because* the
+giants are out -- the same rule that costs the root count.
+
+**THE CLEAREST COST, and it is worse than the root count: summary placement falls to 75.4%, ten
+points BELOW O50 alone.** 2,370 curated summaries, a node holding 80% of their leaves: O50 85.3%,
+rec2 87.4%, rec2fix with giants in 87.4%, **rec2fix view 75.4%**. The giants were doing the placement
+work, and dropping them removes 284 homes. In the 51-200 band -- the one an areas layer was meant to
+serve -- the view scores **32 of 96 against O50's own 55**. That is the strongest argument against
+the layer in this report.
+
+**ONE LIMIT THE DECLARED RULES CANNOT REACH. 33 of the 63 roots are at least 80% inside another
+root** (report only), up from 29 of 42, the worst at **99.6%** (`n03376` inside `n01279`), then 98.0%,
+97.7% and 97.4%. Merge fires only on *non-nested* pairs at J >= 0.50; collapse only on *strictly
+nested* pairs at 85% or more. A pair that is 99% nested with unequal sizes satisfies neither -- 280
+against 781 gives J = 0.357 even at 99.6% containment. Closing that gap needs a containment rule at a
+*share* rather than at 100%, which was not declared and is not applied.
+
+**Root overlap otherwise improves slightly**: highest root pair **0.488** against rec2's 0.492, none
+at 0.50 of 1,953 pairs, roots per pathway median **3** against 4, 0 pathways in no root; 43 pairs at
+0.30 or more against 19, mostly because there are half again as many roots to pair.
+
+**Code:** `scripts/areas_rec2fix.py` (the corrected fold, the combined structure, the giant rule),
+`scripts/areas_rec2fix_report.py`, 14 tests in `tests/test_areas_rec2fix.py` including all six the
+prompt mandates and three randomised proofs of the fold. Output:
+`data/ontology/v0.4-leaves/thema_L_x2_O50_rec2fix/`, with `giants.tsv` and `closure.tsv` beside
+rec2's file set. **The three frozen folders, `thema_L_x2_O50_rec` and `thema_L_x2_O50_rec2` were not
+touched, and O50's own giants are never units and never joined.** Cost 252 s and 845 MB for the
+build, 9 s for the report. No API calls.
+
+**A note on the fold, because it is the reusable part.** `consensus`, `collapse_chains` and
+`merge_stale` are **union-closed** and need no modification to run on union sets: every growth in
+consensus is a *full* absorption of one candidate's set into another, and collapse and merge only
+ever drop. The whole fix is bookkeeping, and two details decide it -- a grower takes the source's
+unit set **as it stands at that moment** (taking the final set leaks a later absorption backwards),
+and a **superseded** candidate's units are credited to nobody. rec2 got both wrong. Verified on 4,000
+randomised cases through consensus and the joint fixed point with zero disagreements, and both of
+rec2's rules are kept as failing tests so the distinction cannot be lost again.
