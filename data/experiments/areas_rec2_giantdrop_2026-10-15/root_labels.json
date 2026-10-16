@@ -1,0 +1,506 @@
+[
+ {
+  "root": "R01",
+  "label": "ECM, cell adhesion, cytoskeleton, coagulation and cardiovascular-mesenchymal development",
+  "contents": "~25% heart, vessel, bone, cartilage and muscle development (cardiac morphogenesis, angiogenesis/VEGF, chondro/osteogenesis, myogenesis), ~20% cell adhesion, junctions, actin cytoskeleton and Rho GTPase cycles, ~15% ECM, collagen, proteoglycan/GAG synthesis and MPS/GAG-degradation disorders, ~10% coagulation and platelet activation, ~10% eicosanoids, resolvins and lipid mediators, ~5% keratinocyte/skin and MITF/pigmentation, ~15% TGF-beta/BMP, RAF/MAPK and other signalling plus BTM 'TBA' modules.",
+  "verdict": "mixture",
+  "misfits": "coagulation/platelets (~10%), eicosanoid and SPM lipid-mediator biosynthesis (~10%), MITF-M/melanocyte pigmentation and lysosomal GAG disorders (~7%), RAF mutant signalling (~2%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R02",
+  "label": "Cell stress, death, DNA repair, infection and growth signaling",
+  "contents": "~20% apoptosis, inflammasome/pyroptosis, p53 and senescence; ~20% proteostasis (ubiquitin/DUBs, SUMOylation, proteasome, chaperonins, UPR/ERAD, autophagy); ~18% viral/bacterial infection plus antigen presentation and immune-cell BTM signatures; ~15% RTK (ERBB, MET, PTK6, EPO, LTK), PI3K-AKT-mTOR, FOXO, Hippo and TGF-beta mutant signaling; ~12% DNA repair (BER, MMR, NER, TLS, Fanconi), replication and telomeres; ~8% translation initiation, stress translation control and mRNA decay; ~7% generic GO regulation terms.",
+  "verdict": "mixture",
+  "misfits": "Viral life-cycle and immune BTM blocks (~18%) and DNA repair (~12%) are unrelated to the stress/death core; the listed themes (gametogenesis, secretory trafficking, lipid metabolism, RUNX1 hematopoiesis) barely show in the member list",
+  "intuitive": "no"
+ },
+ {
+  "root": "R03",
+  "label": "Embryonic development: organogenesis, neural development and developmental signalling",
+  "contents": "~30% organogenesis and body patterning (heart, kidney, lung, gut, glands, limbs, gastrulation, somites, left/right), ~25% neural development (axon guidance, semaphorin/netrin/SLIT-ROBO, neurotrophin/TRK and p75NTR, glia/myelin, brain regionalization), ~12% Wnt/Notch/Hedgehog/BMP/Hippo transduction incl. cancer mutants, ~10% cilia, centrosome and mitotic spindle/microtubules, ~10% sensory systems (phototransduction and retinoid cycle, olfaction, hearing/vestibular), ~13% scattered (insulin/GLP-1 secretion, sperm motility, gap junctions/connexins, Hox and TBA BTMs).",
+  "verdict": "umbrella",
+  "misfits": "phototransduction/retinoid metabolism, olfactory receptors and hearing (~10%); mitotic spindle/centrosome/kinesin cell-cycle terms (~6%); insulin/GLP-1/GIP secretion (~1%); the listed direct themes (RUNX1 hematopoiesis, bone/osteoclast, skeletal muscle, CSF1/MET) are barely reflected in the member list",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R04",
+  "label": "Small-molecule metabolism and SLC membrane transport",
+  "contents": "~25% SLC/ABC solute transport and inherited transporter/enzyme defects, ~20% mitochondrial energy metabolism (OXPHOS, TCA, mito import/translation), ~15% nucleotide and amino acid metabolism, ~15% lipid, steroid, bile acid and vitamin/cofactor metabolism, ~10% carbohydrate metabolism (glycolysis, glycogen, fructose/galactose, PPP), ~10% xenobiotic/drug ADME, heme, metal and redox handling, ~5% miscellaneous.",
+  "verdict": "umbrella",
+  "misfits": "~5%: cornification/skin barrier and basement membrane/collagen crosslinking, growth hormone/prolactin/leptin signalling, histone/DNA demethylation, lung surfactant",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R05",
+  "label": "Neurotransmission, ion transport and excitable-cell physiology",
+  "contents": "~35% synaptic transmission (glutamate/GABA/monoamine/ACh release, receptors, synapse assembly, plasticity, MECP2), ~20% ion channels and SLC transporters incl. channelopathy/transporter disease variants, ~15% GPCR cAMP/Ca2+/cGMP second messengers, ~10% cardiac conduction and smooth-muscle contraction, ~10% behaviour and sensory perception (taste, smell, pain), ~10% renal water/blood pressure, eicosanoids, circadian clock and other odds.",
+  "verdict": "umbrella",
+  "misfits": "~10%: eicosanoid/leukotriene synthesis, circadian clock core, melanin/pigmentation, tooth/dentinogenesis, VEGFR2 and BCR signalling, lysosome/phagosome acidification",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R06",
+  "label": "Immune system: innate sensing, cytokines and lymphocyte immunity",
+  "contents": "~30% innate pathogen sensing (TLR/NOD/RIG-I/cGAS, inflammasomes, type I/III interferon antiviral responses), ~25% cytokine and interleukin signaling plus regulation of cytokine production, ~25% T/B/NK lymphocyte development, activation, antigen presentation and tolerance, ~15% myeloid/granulocyte effector functions (chemotaxis, degranulation, respiratory burst, Fc receptors, complement), ~5% pathogen subversion of host defense (bacteria, viruses, toxins).",
+  "verdict": "one area",
+  "misfits": "~3% scattered non-immune items (EPO/thrombopoietin STAT5, heme assimilation, hyperoxia, astrocyte migration/differentiation, vitamin D biosynthesis, chitin metabolism, synoviocyte proliferation, scavenger receptors).",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R07",
+  "label": "Genome maintenance, cell cycle and nuclear gene expression",
+  "contents": "~25% mitotic/meiotic cell cycle, chromosome cohesion/segregation, E2F/APC/C and replication licensing; ~20% DNA repair (BER, NER, MMR, TLS, HR/NHEJ, Fanconi) and telomere maintenance; ~30% RNA Pol I/II/III transcription, mRNA processing/splicing/export/decay, rRNA/tRNA/snoRNA processing and small RNAs; ~10% cytoplasmic and mitochondrial translation and mitochondrial gene expression; ~10% chromatin remodeling, histone/protein modification and SUMOylation; ~5% HIV/HCMV replication and host restriction.",
+  "verdict": "umbrella",
+  "misfits": "HIV/HCMV viral life-cycle steps (~4%); scattered off-topic items such as Rho GTPase/formins, arylsulfatase activation, diphtheria toxin, TGFBR3 expression, pre-B cell differentiation (~2%); spans what Reactome treats as 4-5 separate top-level areas",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R08",
+  "label": "Membrane trafficking, organelle lipids and virus-host interactions",
+  "contents": "~35% ER/Golgi/endosome/lysosome vesicle trafficking and autophagy (COPI/COPII, ESCRT, mitophagy, lipophagy), ~15% membrane lipid metabolism (glycerophospholipid remodelling, sphingolipids, triglycerides, lipid droplets, PIPs), ~15% viral life cycles exploiting host membranes (HIV, SARS-CoV, influenza, RSV, dengue, HCMV), ~10% antigen processing/MHC presentation and myeloid/DC BTM signatures, ~8% mitochondrial/peroxisomal protein import and dynamics, ~5% neuronal/synaptic vesicle and receptor trafficking, ~12% scattered other.",
+  "verdict": "umbrella",
+  "misfits": "~10%: Ig V(D)J recombination and somatic hypermutation, RNA editing (ADAR/APOBEC), retroelement silencing (KRAB-ZFP/HUSH), intestinal epithelial homeostasis, defensins, surfactant disease, hyaluronan degradation, translation repression terms",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R09",
+  "label": "Growth factor, cytokine and TGF-beta signalling in tissue development",
+  "contents": "~30% receptor tyrosine kinase signalling (ERBB/EGFR, MET, FLT3, KIT, PDGFR, ALK, FGFR) incl. oncogenic mutants and TKI resistance, ~15% TGF-beta/BMP/SMAD and RUNX transcription, ~15% angiogenesis and vascular endothelial/smooth muscle regulation, ~15% haematopoiesis and cytokine JAK-STAT (EPO, IL-2/3/6/7, G-CSF, M-CSF), ~10% bone, cartilage and tooth development, ~5% steroid/nuclear hormone receptors (estrogen, androgen), ~10% scattered (vitamin D/K, phosphate transport, miRNA processing, TBA modules).",
+  "verdict": "umbrella",
+  "misfits": "vitamin K gamma-carboxylation, vitamin D metabolism and Na/Pi transport ~5%; miRNA processing/degradation ~2%; Listeria entry, sphingomyelin catabolism scattered ~1%",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R10",
+  "label": "Synaptic transmission, behaviour and intracellular membrane trafficking",
+  "contents": "~45% neuronal: synaptic transmission and plasticity, glutamate/GABA/dopamine/serotonin/catecholamine receptors and neurotransmitter cycles, synapse assembly, behaviour; ~35% membrane trafficking (ER-Golgi COPI/COPII, endosome/lysosome, ESCRT, autophagy, Rab/Rho GTPase cycles); ~10% mitochondrial and peroxisomal protein import, dynamics and mitophagy; ~5% phosphoinositide synthesis; ~5% circadian clock and misc.",
+  "verdict": "umbrella",
+  "misfits": "mitochondrial/peroxisomal protein import and mitophagy ~10%; circadian clock (BMAL1/CLOCK, CRY/PER) ~3%; viral budding/HIV, diphtheria toxin ~1%",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R11",
+  "label": "Organ development, reproduction and hematopoietic differentiation",
+  "contents": "~22% heart and vascular development (valves, septa, conduction system, smooth muscle), ~20% reproduction (meiosis, spermatogenesis, oogenesis, fertilization, ovary/testis, mammary gland, pregnancy, maternal-to-zygotic transition), ~12% hematopoietic/myeloid lineage differentiation (RUNX1, CSF1, FLT3, erythro/megakaryopoiesis), ~10% TGF-beta/BMP/SMAD/activin signalling and cancer mutants, ~8% bone, cartilage and tooth development (RUNX2, osteoblast/chondrocyte), ~8% steroid hormone (estrogen/androgen/progesterone) responses, ~8% transcriptional regulators (RUNX3, TP53, TFAP2, Hox BTMs), ~12% other/TBA.",
+  "verdict": "umbrella",
+  "misfits": "~8%: piRNA/miRNA processing and retroelement silencing, PD-L1 transcription/translation, TP53 cell-cycle targets, microglial activation, ceramide/sphingomyelin catabolism, TYSND1 peroxisomal cleavage",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R12",
+  "label": "Embryonic organogenesis and reproduction (meiosis, gametes, fertilization)",
+  "contents": "~60% embryonic organogenesis and patterning (heart and vascular, kidney/nephron, lung, gut, mammary/prostate/pancreas, gastrulation, somites, craniofacial, neural tube), ~25% germline and reproduction (meiosis, spermatogenesis, oogenesis, fertilization, ovarian follicle/luteal hormones, maternal-to-zygotic transition, piRNA/retroelement silencing), ~8% placenta/trophoblast and early embryo, ~7% scattered (insulin/GLP-1 processing, TGF-beta/activin, TBA BTMs).",
+  "verdict": "umbrella",
+  "misfits": "insulin/GLP-1/GIP processing (~1%); TYSND1 peroxisomal cleavage, lncRNA transcription, mRNA export (~1%); TBA BTM modules (~2%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R13",
+  "label": "Extracellular matrix, cell junctions, glycosylation and muscle development",
+  "contents": "~25% protein glycosylation (N/O-glycan, CDG defects, GPI, nucleotide sugars), ~20% ECM, collagen and GAG/proteoglycan synthesis and degradation (incl. MPS), ~15% cell adhesion, junctions and epithelial polarity, ~15% skeletal/cardiac muscle development and contraction, ~10% skin, keratinocyte, hair and tooth development, ~5% melanocyte/MITF pigmentation, ~10% kidney glomerulus, nuclear envelope and other.",
+  "verdict": "mixture",
+  "misfits": "~15% muscle development/contraction, ~5% MITF/pigmentation, ~3% nuclear envelope disassembly/reassembly, ~2% glomerular development",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R14",
+  "label": "Systemic energy metabolism: lipids, carbohydrates and metabolic hormones",
+  "contents": "~30% lipid metabolism (lipoproteins, cholesterol/bile acids, triglycerides, phospholipid synthesis/remodeling, fatty-acid transport), ~25% carbohydrate metabolism (glycolysis, glycogen, fructose/galactose/pentose, hexose transport and inborn errors), ~20% insulin/glucagon/incretin secretion and signalling plus adipocyte differentiation and thermogenesis, ~10% nuclear receptor and circadian transcription (LXR, PPAR, SREBP, BMAL/CLOCK), ~15% feeding/stress behaviour, growth hormone/prolactin and other hormone signalling.",
+  "verdict": "umbrella",
+  "misfits": "~10%: mating/aggressive/locomotor behaviours, hypoxia/HIF and oxygen transport, IL-6/IL-11/thrombopoietin cytokine signalling, generic BTM TBA modules",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R15",
+  "label": "Central carbon and nucleotide metabolism with oxidative stress response",
+  "contents": "~25% purine/pyrimidine nucleotide synthesis, salvage and catabolism; ~25% carbohydrate metabolism (glycolysis, gluconeogenesis, glycogen and its storage diseases, fructose/galactose, pentose phosphate, PDH/TCA); ~25% redox and hypoxia responses (ROS detoxification, NRF2, HIF, FOXO, mitochondrial apoptosis/ferroptosis); ~15% amino acid and cofactor metabolism (tryptophan/kynurenine, NAD, folate, CoA, polyamines, selenium, BH4); ~10% responses to xenobiotics, metals and drugs.",
+  "verdict": "umbrella",
+  "misfits": "DNA demethylation/alkylation repair and protein/histone methylation items (~3%); collagen crosslinking/basement membrane, erythrocyte differentiation, wybutosine/diphthamide, skeletal muscle atrophy (~3%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R16",
+  "label": "Glycosylation, sterol/steroid and vitamin metabolism and inborn errors",
+  "contents": "~35% glycosylation and glycan metabolism (N/O-glycans, dolichol, CDG defects, GAG/proteoglycans, mucopolysaccharidoses, glycosphingolipids, sialic acid), ~25% sterol, steroid hormone and bile acid metabolism (cholesterol synthesis, CYP enzyme defects), ~15% fatty acid and peroxisomal lipid metabolism, ~12% vitamin/cofactor metabolism (A, D, K, E, B1, B2, C, selenium), ~8% SLC transporter defects and phosphate/anion transport, ~5% endocrine signaling (growth hormone, prolactin, leptin, thyroid hormone).",
+  "verdict": "umbrella",
+  "misfits": "~8% endocrine receptor signaling (GH, prolactin, leptin, thyroid), bone/tooth mineralization, basement membrane assembly and Notch precursor processing; the respiratory-chain themes named under the root are barely represented among the members.",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R17",
+  "label": "Axon guidance and neurotrophins, cilia/microtubules, and striated muscle",
+  "contents": "~35% neuronal development (axon guidance via semaphorin, ROBO/SLIT, ephrin, netrin, L1/NCAM; NGF/BDNF/NTRK and p75NTR signalling; myelination, retina/photoreceptors), ~25% microtubule, centrosome, mitotic spindle and cilium/intraflagellar transport (incl. left-right asymmetry, sperm axoneme), ~20% skeletal/striated muscle sarcomere, contraction and adaptation, ~10% Rho GTPase/actin cytoskeleton, ~10% connexins, ER network, nuclear envelope and misc.",
+  "verdict": "mixture",
+  "misfits": "striated muscle sarcomere/contraction block (~20%) is unrelated to the neuronal and ciliary blocks; mitotic spindle/AURKA/PLK1 (~8%) and gap junction/connexin trafficking (~3%)",
+  "intuitive": "no"
+ },
+ {
+  "root": "R18",
+  "label": "SLC solute transport and monoamine/GABA neurotransmitter metabolism",
+  "contents": "~50% SLC and ion/solute transport (amino acids, sugars, anions, organic ions, water, pH) including transporter disease variants; ~20% catecholamine, serotonin, GABA and acetylcholine synthesis, vesicular loading, release and reuptake (incl. botulinum/tetanus toxins); ~10% renal and epithelial salt/water homeostasis (vasopressin, aquaporins); ~8% lung development and surfactant; ~12% bile acid, xenobiotic ADME, pigmentation and misc.",
+  "verdict": "umbrella",
+  "misfits": "lung development/surfactant (~8%), tooth/enamel, pigmentation and lens (~4%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R19",
+  "label": "Synaptic transmission, neuromodulation and behaviour",
+  "contents": "~40% synaptic transmission and plasticity (glutamate/GABA receptors, synaptic vesicle cycle, synapse assembly), ~20% monoamine and neuropeptide neurotransmitter synthesis, release and signalling, ~20% behaviour, learning and memory, ~5% MECP2/NPAS4/CREB activity-dependent transcription, ~5% circadian clock, ~10% amyloid, microglia and apoptotic cell clearance.",
+  "verdict": "umbrella",
+  "misfits": "~5% circadian clock genes, ~4% apoptotic cell clearance/microglial activation, ~2% PPARA/gluconeogenesis nuclear receptor pathways",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R20",
+  "label": "Glycosylation, glycosaminoglycans and membrane lipid metabolism",
+  "contents": "~35% protein glycosylation (N-glycan/dolichol, O-glycan, dystroglycan O-mannosylation, CDG disorders, nucleotide sugars), ~20% glycosaminoglycan/proteoglycan synthesis and lysosomal degradation (MPS disorders), ~30% glycerophospholipid, sphingolipid, triglyceride/lipid-droplet and inositol-phosphate metabolism, ~8% Hedgehog/WNT ligand lipidation and processing, ~7% ER morphology, cartilage/muscle development and misc.",
+  "verdict": "umbrella",
+  "misfits": "Hedgehog/GLI and WNT ligand processing (~8%), skeletal muscle/diaphragm development and ER tubular network terms (~4%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R21",
+  "label": "Wnt, Notch and Hedgehog signalling in embryonic patterning and heart development",
+  "contents": "~30% Wnt/beta-catenin, Notch, Hedgehog, BMP/TGF-beta, Nodal and Hippo-YAP transduction incl. cancer mutants, ~30% heart and vascular development (septa, valves, outflow tract, cardiomyocyte proliferation, vascular smooth muscle phenotypic switching), ~25% gastrulation, axis/left-right patterning, somites and neural plate/tube, ~15% craniofacial, limb, ear and organ primordia.",
+  "verdict": "umbrella",
+  "misfits": "Th2 differentiation, p75NTR/NF-kB, ERBB4 nuclear signalling (~2%); TBA BTMs (~1%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R22",
+  "label": "GPCR signalling, eicosanoids, vascular tone and hemostasis",
+  "contents": "~30% GPCR and second-messenger signalling (adrenergic, serotonin, muscarinic, purinergic, histamine receptors; cAMP/PKA, Ca2+, NO-cGMP), ~20% coagulation, platelet activation and coagulation-factor defects, ~20% eicosanoids and specialised pro-resolving lipid mediators (prostaglandins, leukotrienes, HETEs, resolvins), ~20% vascular/smooth-muscle tone, blood pressure, renin-angiotensin and renal water handling, ~10% miscellaneous.",
+  "verdict": "umbrella",
+  "misfits": "~10%: nicotinic receptor/neuromuscular and neuron-glial items, mating/visual behaviour, insemination, intestinal infectious disease; note the listed themes (neuropeptide control of feeding, sleep, HPA axis, circadian) are barely reflected in the member list",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R23",
+  "label": "Protein quality control and microtubule, cilium and spindle organisation",
+  "contents": "~45% proteostasis: chaperonin/CCT folding, UPR and ER stress, heat shock, ubiquitination/DUBs, proteasome, autophagy/mitophagy; ~30% microtubule-based structures: cilia and intraflagellar transport, centrosome, mitotic spindle and cytokinesis, sperm axoneme, left-right asymmetry; ~10% mitochondrial and peroxisomal protein import; ~8% NFE2L2/FOXO oxidative stress transcription; ~7% misc (telomerase/Cajal body, retinal photoreceptor development).",
+  "verdict": "mixture",
+  "misfits": "cilia/centrosome/mitotic spindle block (~30%) is unrelated to proteostasis apart from tubulin folding; telomere/Cajal body ~3%; NFE2L2/FOXO transcription ~8%",
+  "intuitive": "no"
+ },
+ {
+  "root": "R24",
+  "label": "Cell cycle, DNA replication and DNA repair",
+  "contents": "~40% mitotic and meiotic cell cycle progression, spindle/centrosome, cohesion, condensation and cytokinesis; ~35% DNA repair (BER, NER, MMR, translesion synthesis, HR, NHEJ, Fanconi/ICL) and DNA damage checkpoints; ~12% replication initiation, E2F/RB and G1/S control; ~10% telomere protection and recombination-based telomere maintenance.",
+  "verdict": "umbrella",
+  "misfits": "Rho GTPase/formin and citron items, editosome formation, TCF7L2 mutant signaling (~2%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R25",
+  "label": "Neuroendocrine GPCR signalling and systemic physiological homeostasis",
+  "contents": "~30% GPCR and second-messenger signalling (adenylate cyclase/cAMP-PKA, PLC/Ca2+, NO-cGMP, adrenergic/muscarinic/serotonin/purinergic receptors), ~25% endocrine hormone control (insulin/glucagon/incretins, growth hormone, HPA glucocorticoids, thyroid, prolactin, leptin, renin-angiotensin-aldosterone), ~18% organ physiology (blood pressure, smooth muscle contraction, renal water/aquaporins, GI motility, heart rate), ~12% behaviour, feeding, sleep and circadian regulation, ~10% eicosanoid and lipid mediator signalling (prostaglandins, leukotrienes, endocannabinoids).",
+  "verdict": "umbrella",
+  "misfits": "~4%: BCR signalling and RAS activation in B cells, RAC1/RAC2/RHOH GTPase cycles, lymphocyte homing BTM, VEGFR2 signalling, leishmania WNT5 damping",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R26",
+  "label": "Cilia, microtubules and Wnt/Notch/Hedgehog developmental signalling",
+  "contents": "~35% developmental signalling (Wnt/beta-catenin incl. destruction-complex cancer mutants, Notch1-4, Hedgehog/GLI, Hippo/YAP, PCP, NODAL), ~30% cilia, centrosome, microtubule and mitotic spindle organisation, ~10% CCT/TRiC chaperonin and tubulin folding, ~10% embryonic patterning (left/right asymmetry, neural plate, axial mesoderm, retina), ~15% protein lipidation/modification, telomerase/Cajal body and sperm axoneme.",
+  "verdict": "umbrella",
+  "misfits": "~10%: telomerase/Cajal body trafficking, RAB geranylgeranylation/RAS processing, p75NTR/NF-kB and ERBB4 nuclear signalling, Th2 differentiation",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R27",
+  "label": "Cardiovascular and skeletal development with TGF-beta/BMP signaling",
+  "contents": "~45% heart and vascular development (cardiac morphogenesis, valves, septa, angiogenesis, vascular smooth muscle, endothelial shear stress), ~20% TGF-beta/BMP/activin/NODAL SMAD signaling including cancer mutants and TGFBR3, ~20% bone, cartilage and tooth development and mineralization (RUNX2, chondrocytes, osteoblasts/osteoclasts), ~8% miRNA processing and microRNA control of cadherin translation, ~7% ECM/fibroblast regulation.",
+  "verdict": "umbrella",
+  "misfits": "~8% miRNA biogenesis/turnover and translation control (CDH1/CDH11/NPAS4/PD-L1), RUNX3 targets, glycoprotein hormones.",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R28",
+  "label": "Xenobiotic, bile acid and sugar metabolism with SLC transport",
+  "contents": "~30% SLC solute transport (amino acids, organic anions/cations, monocarboxylates, nucleosides) and its inherited defects; ~25% carbohydrate metabolism and digestion (glycogen storage diseases, fructose/galactose, glycolysis/gluconeogenesis, intestinal hexose absorption); ~20% xenobiotic and drug metabolism (CYPs, UGTs, FMO, conjugation, ADME); ~15% bile acids, dietary lipid absorption, lipoproteins and fatty acid transport; ~10% amine/neurotransmitter catabolism, thyroid hormone and misc.",
+  "verdict": "umbrella",
+  "misfits": "metanephric tubule development, protein homotetramerization, oxygen transport, Basigin interactions (~2%); carbohydrate block duplicates R15",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R29",
+  "label": "Mitochondrial amino acid, fatty acid and cofactor metabolism",
+  "contents": "~35% amino acid catabolism and urea cycle (BCAA, sulfur amino acids, glutamate/aspartate, glycine/serine, tyrosine/phenylalanine, glutathione) including many inborn-error variants, ~22% fatty acid oxidation (mitochondrial beta-oxidation, carnitine shuttle, peroxisomal alpha/beta-oxidation, ketone bodies), ~20% vitamin and cofactor metabolism (cobalamin, folate one-carbon, CoA, B1/B2/B6, biotin, selenium, BH4), ~12% TCA cycle, pyruvate dehydrogenase and 2-oxoacid dehydrogenases, ~8% carboxylate/amino acid solute carrier transport.",
+  "verdict": "one area",
+  "misfits": "~3%: MGMT DNA damage reversal, tube closure, metanephric proximal tubule development, retinoid/visual phototransduction disease, GLUT1/zinc transporter defects",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R30",
+  "label": "Epithelial ion and water transport and renal fluid homeostasis",
+  "contents": "~45% solute and ion transport (SLC/ABC transporter disorders, bicarbonate, phosphate, K+ channels, aquaporins, organelle acidification, pH), ~20% renal and systemic fluid/blood-pressure control (vasopressin, renin-angiotensin, aldosterone, sodium excretion), ~10% lung development and surfactant, ~8% vitamin D/K and mineralization, ~17% scattered (gas exchange/oxygen transport, pigmentation, apoptotic cell clearance, TBA modules).",
+  "verdict": "umbrella",
+  "misfits": "lung development and surfactant metabolism ~10%; vitamin K gamma-carboxylation and bone/enamel mineralization ~6%; melanin/pigmentation ~2%; apoptotic cell recognition ~2%",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R31",
+  "label": "Transcription, RNA processing and translation",
+  "contents": "~25% transcription by RNA Pol I/II/III including HIV Tat elongation; ~30% mRNA capping, splicing, polyadenylation, export, decay and miRNA/siRNA silencing; ~20% rRNA/tRNA processing and modification; ~20% cytoplasmic and mitochondrial translation, mitochondrial gene expression and ribosome quality control; ~5% other.",
+  "verdict": "umbrella",
+  "misfits": "protein methylation/hydroxylation, PTEN/MITF/TGFBR3 items (~3%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R32",
+  "label": "Developmental signalling: Wnt, Notch, Hedgehog, TGF-beta and ERBB/MET RTKs",
+  "contents": "~30% Wnt/beta-catenin incl. cancer mutants and Hippo-YAP, ~15% Notch, ~10% Hedgehog/GLI, ~15% TGF-beta/BMP/activin, ~20% EGFR/ERBB, MET, PTK6 and ALK receptor tyrosine kinase signalling, ~10% steroid/nuclear hormone receptor and RUNX/TP53/PTEN transcriptional regulation.",
+  "verdict": "umbrella",
+  "misfits": "~6% estrogen/androgen/progesterone hormone responses, ~5% TP53 and PTEN regulation",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R33",
+  "label": "Endocrine hormones, steroidogenesis and calcium-phosphate mineral homeostasis",
+  "contents": "~22% steroid hormone biosynthesis and CYP defects, ~22% vitamin A/D/K metabolism, phosphate transport and bone/tooth mineralization, ~22% JAK-STAT5 signaling by haematopoietic cytokines, growth hormone, prolactin and leptin, ~15% neuroendocrine control of appetite, growth and stress (GH axis, ghrelin, glucocorticoids, thyroid), ~10% circadian clock and nuclear-receptor metabolic regulation, ~9% other (FLT3/PDGFR fusions, gluconeogenesis).",
+  "verdict": "umbrella",
+  "misfits": "~15% haematopoietic cytokine JAK-STAT signaling (IL-2/3/5/7/9, EPO, thrombopoietin, FLT3 and PDGFR fusion mutants); ~8% circadian clock machinery.",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R34",
+  "label": "Reproduction: gametogenesis, fertilization, gonads and sex-hormone signalling",
+  "contents": "~35% meiosis, spermatogenesis, oogenesis and fertilization (acrosome, zona pellucida, sperm motility), ~20% gonad, reproductive tract, mammary and prostate development, ~15% sex-steroid and gonadotropin signalling (estrogen, androgen, progesterone, FSH/LH, prolactin, thyroid hormone), ~15% early embryo and placenta (maternal-to-zygotic transition, imprinting, X inactivation, trophoblast, decidualization), ~8% germline piRNA/retroelement silencing, ~7% scattered (lens/retina, pancreatic lineage, liver regeneration, RUNX2 osteoblast).",
+  "verdict": "one area",
+  "misfits": "eye development (lens, retina, iris; ~5%); pancreatic progenitor lineages (~3%); liver morphogenesis/regeneration and RUNX2 bone (~3%); the listed direct themes (Wnt/Notch/Hedgehog, fibrotic repair) are not reflected in the member list",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R35",
+  "label": "Mitochondrial energy metabolism and oxidative stress response",
+  "contents": "~35% mitochondrial respiration, TCA cycle, pyruvate dehydrogenase and mito protein import/translation, ~20% redox and oxidative stress (NRF2, glutathione, ROS detoxification, selenium), ~15% amino acid and polyamine catabolism (tryptophan/kynurenine, GABA, lysine, glycine), ~10% heme, Fe-S cluster and cofactor (CoA, NAD, ubiquinone, BH4) synthesis, ~10% glycolysis/HIF hypoxia, ~10% FOXO/AKT/p53 transcription and other.",
+  "verdict": "umbrella",
+  "misfits": "~5% FOXO/AKT/p53 transcription, ~2% DNA alkylation repair",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R36",
+  "label": "Oxidative, hypoxic and ER stress responses and redox metabolism",
+  "contents": "~30% oxidative stress, ROS detoxification, NRF2, glutathione and NADPH redox metabolism; ~20% GO responses to xenobiotics, metals and drugs; ~15% UPR/integrated stress response and heat shock; ~12% hypoxia/HIF and glycolysis regulation; ~10% stress-induced apoptosis and ferroptosis regulation; ~8% AKT-FOXO signaling.",
+  "verdict": "umbrella",
+  "misfits": "DNA alkylation repair, selenium metabolism, muscle fiber-type transition and erythrocyte BTM (~5%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R37",
+  "label": "Cardiac and skeletal muscle development, regeneration and contraction",
+  "contents": "~40% heart development (chamber, valve, septum, outflow tract and conduction-system morphogenesis), ~30% skeletal muscle myogenesis, regeneration, fiber-type adaptation and contraction, ~15% vascular smooth muscle and TGF-beta/BMP/NODAL signaling, ~8% cell junctions, dystrophin complex and focal adhesions, ~7% nuclear envelope/lamina remodeling.",
+  "verdict": "umbrella",
+  "misfits": "~7% nuclear lamina depolymerization and nuclear envelope reassembly, erythrocyte maturation, fermentation, netrin second messengers.",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R38",
+  "label": "Lipid, cholesterol and bile acid metabolism and transport",
+  "contents": "~40% lipoproteins, cholesterol synthesis/efflux and bile acids (chylomicron, VLDL, LDL, HDL, LXR/SREBP), ~20% fatty acid oxidation/elongation, eicosanoids and peroxisomal lipid metabolism, ~15% ABC/SLCO transporter disorders, bilirubin and drug ADME, ~10% fat-soluble and B vitamins (K, E, B1, B2, ubiquinol), ~5% skin cornification/barrier, ~10% misc (dolichol, peroxisome import, endocytosis regulation).",
+  "verdict": "umbrella",
+  "misfits": "cornified envelope/skin barrier ~4%; dolichol/glycosylation precursor synthesis ~2%",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R39",
+  "label": "Endocrine control of energy homeostasis, circadian rhythm and behaviour",
+  "contents": "~40% insulin, glucagon and incretin secretion plus insulin/IGF-AKT-FOXO signalling and glucose handling, ~15% other hormone axes (growth hormone, prolactin, thyroid, glucocorticoid, leptin/adiponectin), ~10% circadian clock (BMAL1/CLOCK, CRY/PER, RORs), ~15% neuropeptide-driven feeding and behaviour, ~10% fatty-acid/triglyceride and PPAR/nuclear-receptor metabolic control, ~10% GPCR/cAMP-PKA second messengers.",
+  "verdict": "umbrella",
+  "misfits": "reproductive and social behaviours (mating, parental, aggressive, penile erection, insemination, ethanol response, ~6%); note that the lipoprotein/cholesterol themes listed for this root are barely represented in the member list",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R40",
+  "label": "DNA repair and post-transcriptional mRNA turnover and translation",
+  "contents": "~45% DNA repair (base excision, nucleotide excision, mismatch repair and MMR defects, translesion synthesis, alkylation reversal, DNA demethylation), ~25% mRNA decay/ARE-binding proteins, stress granules, miRNA processing and translation initiation/eIF2 control, ~8% immunoglobulin diversification and stimulated CD4 T-cell division, ~7% RNA editing (ADAR/APOBEC) and PKR, ~7% polyamine and methionine salvage, ~5% TGFBR/SMAD cancer mutants, ~3% protein methylation/hydroxylation.",
+  "verdict": "mixture",
+  "misfits": "TGFBR/SMAD mutant cancer pathways (~5%), polyamine/methionine salvage (~7%), CD4 T-cell division BTMs (~3%), collagen crosslinking/basement membrane (~1%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R41",
+  "label": "Receptor tyrosine kinase signalling to RAS-MAPK and PI3K-AKT",
+  "contents": "~45% ERBB/FGFR/MET/KIT/PDGFR/FLT3/ALK receptor activation and downstream SHC/GRB2/PLCG/PI3K cascades, ~35% oncogenic RTK and RAS/RAF mutants, fusions and kinase-inhibitor resistance, ~15% RAS-RAF-MAPK cascade and negative feedback, ~5% PTK6 and generic phosphorylation terms.",
+  "verdict": "one area",
+  "misfits": "~3%: generic GO peptidyl phosphorylation/dephosphorylation terms, positive regulation of glycogen biosynthesis",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R42",
+  "label": "Ubiquitin-proteasome system, SUMOylation and mTOR-AKT signalling",
+  "contents": "~45% ubiquitin, deubiquitinase, neddylation and proteasome assembly/degradation incl. protein quality control and aggrephagy, ~12% SUMOylation, ~15% mTORC1/AKT/PTEN nutrient and energy sensing, ~10% NF-kB/TNFR1, ISG15 and PKR innate signalling, ~5% PD-L1 turnover, ~13% scattered (Golgi disassembly, nuclear import/export, inositol pyrophosphates, RHOBTB/Ral GTPases, ribosome QC, viral host-targeting).",
+  "verdict": "umbrella",
+  "misfits": "Golgi ribbon disassembly/reassembly (~3%); inositol pyrophosphate metabolism (~3%); RHOBTB/Ral/RHO GTPase cycles (~3%); viral maturation (hRSV, nucleoprotein) (~2%); listed themes on MHC antigen presentation and death-receptor apoptosis are barely reflected in the members",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R43",
+  "label": "Central carbon metabolism and mitochondrial respiration",
+  "contents": "~40% carbohydrate metabolism (glycolysis, gluconeogenesis, glycogen and glycogen storage diseases, fructose/galactose/pentose phosphate, hexose transport and digestion), ~35% mitochondrial TCA cycle, PDH, electron transport chain/ATP synthase assembly, protein import and mitochondrial translation, ~12% heme, iron-sulfur cluster, oxygen transport and HIF hypoxia response, ~13% amino acid and cofactor metabolism (GABA, glycine, lysine, NAD, CoA, ubiquinol).",
+  "verdict": "umbrella",
+  "misfits": "erythrocyte differentiation BTM, G6PC3 neutropenia and pregnenolone biosynthesis (~3%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R44",
+  "label": "Receptor tyrosine kinase, PI3K-AKT-mTOR and Hippo signaling",
+  "contents": "~45% RTK signaling (ERBB/EGFR, MET, PTK6, EPO, LTK/ALK, IGF1R, CSF1) to RAS/ERK and STAT; ~20% PI3K-AKT-mTOR, PTEN and nutrient sensing; ~10% Hippo-YAP/TAZ and AP-2; ~8% TGF-beta/activin receptor and cancer mutants; ~10% SUMOylation and nucleocytoplasmic transport; ~7% misc.",
+  "verdict": "umbrella",
+  "misfits": "SUMOylation cascade (~8%), viral protein maturation and inositol pyrophosphate synthesis (~4%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R45",
+  "label": "Mitochondrial biogenesis and peroxisomal lipid metabolism",
+  "contents": "~35% mitochondrial respiratory chain/OXPHOS assembly, protein import, translation, dynamics and mitophagy, ~20% peroxisomal and fatty acid oxidation/elongation (very long chain, branched, eicosanoids), ~12% cholesterol/isoprenoid and bile acid synthesis, ~10% heme and iron-sulfur cluster biosynthesis, ~10% vitamin and cofactor metabolism (K, E, B1, B2, ubiquinol), ~8% CYP/transporter inherited defects, ~5% skin barrier and cornification.",
+  "verdict": "umbrella",
+  "misfits": "~5% cornified envelope/keratinocyte skin barrier; ~3% glycosphingolipid and dolichol synthesis.",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R46",
+  "label": "Microtubule cytoskeleton: cilia, centrosome/spindle and motor transport",
+  "contents": "~30% cilia (motile cilia, intraflagellar transport, ciliary trafficking, left-right asymmetry, sperm axoneme, photoreceptor outer segment); ~25% centrosome, mitotic spindle and cytokinesis; ~15% microtubule motor transport (kinesins, axonal and dense-core vesicle transport, organelle positioning); ~10% chaperonin CCT/TRiC, prefoldin and tubulin folding/modification; ~5% ER tubular network shaping; ~15% scattered neural development and other items.",
+  "verdict": "umbrella",
+  "misfits": "telomerase/Cajal body localization, histone/protein acetylation, SUMOylation of replication proteins, RNA folding (~7%); named themes (muscle sarcomere, UPR, heat shock) are not reflected in the member list",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R47",
+  "label": "Mitochondrial biogenesis and protein folding stress responses",
+  "contents": "~40% mitochondria: respiratory chain complex assembly, OXPHOS, mitochondrial translation, protein import, dynamics and mitophagy; ~40% protein folding and stress: CCT/TriC chaperonins, UPR/ER stress (ATF4/ATF6/XBP1), heat shock (HSF1), integrated stress response (HRI/GCN2/PKR); ~10% ER membrane protein targeting; ~10% misc (telomerase/Cajal body, tubulin modification, apoptosis regulation).",
+  "verdict": "umbrella",
+  "misfits": "telomerase/Cajal body localization ~3%; tubulin glutamylation/severing ~3%; histone acetylation ~1%",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R48",
+  "label": "Cardiac and skeletal muscle excitation-contraction and myogenesis",
+  "contents": "~45% cardiac electrophysiology and calcium handling (action potential phases, SA/AV node, K+/Na+/Ca2+ channels, SR calcium release, heart rate and contractility), ~30% skeletal muscle differentiation and regeneration (myoblast proliferation/fusion, satellite cells, sarcomere and fibre types), ~15% cardiac development and hypertrophic adaptation (calcineurin-NFAT, cardiomyocyte proliferation), ~10% cell junction/cytoskeleton and other.",
+  "verdict": "one area",
+  "misfits": "~5%: ECM proteoglycans, netrin second messengers, dendrite morphogenesis, SCF proteasomal regulation, replacement ossification, caveolin endocytosis",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R49",
+  "label": "Lipoprotein, cholesterol and bile acid metabolism",
+  "contents": "~45% lipoprotein assembly/remodeling/clearance and cholesterol transport/efflux, ~20% bile acid synthesis, transport and cholestatic ABC transporter defects, ~15% nuclear-receptor lipid transcription (LXR, PPARA, SREBP, ChREBP), ~10% scavenger receptors, efferocytosis and foam cells, ~10% ER/UPR, BTM modules and odds.",
+  "verdict": "one area",
+  "misfits": "~10%: ATF6 unfolded protein response, hyaluronan degradation, endothelial adhesion, BMAL/CLOCK expression, unnamed BTM TBA modules",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R50",
+  "label": "Monoaminergic and cholinergic neurotransmission with autonomic smooth-muscle control",
+  "contents": "~40% catecholamine, serotonin, histamine and acetylcholine neurotransmission (biosynthesis, uptake, degradation by MAO/COMT, receptors, transporter diseases), ~20% GPCR cAMP/PLC second-messenger signalling (DARPP-32, PKA, adenylate cyclase), ~20% autonomic control of smooth and cardiac muscle (GI motility, vasoconstriction, micturition, heart rate), ~12% behaviour and drug reward (cocaine, nicotine, ethanol, amphetamine, mating, locomotion), ~8% autonomic/enteric nervous system development (RET/GDNF, sympathetic ganglia).",
+  "verdict": "one area",
+  "misfits": "~3%: intestinal infectious diseases, insemination, insulin-secretion inhibition by adrenaline",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R51",
+  "label": "Protein quality control, autophagy and organelle protein import",
+  "contents": "~35% autophagy, mitophagy, pexophagy and lysosome fusion, ~20% chaperone-mediated folding (CCT/TRiC, prefoldin) and misfolded protein/ubiquitin degradation, ~20% ESCRT/multivesicular body, endosome trafficking and viral budding, ~20% mitochondrial and peroxisomal protein import and mitochondrial dynamics, ~5% other.",
+  "verdict": "umbrella",
+  "misfits": "~3% synaptic vesicle cycle regulation and RHO GTPase cycles",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R52",
+  "label": "Nuclear receptor, circadian clock and metabolic stress transcription",
+  "contents": "~30% steroid/thyroid/retinoid nuclear receptor signaling (ER, AR, PR, TR, GR, PPARA, ROR/REV-ERB); ~20% circadian clock (BMAL1/CLOCK, CRY/PER, sleep/wake); ~25% stress-responsive transcription (NRF2, FOXO, HIF, HSF1); ~15% hormonal control of glucose metabolism, gluconeogenesis, liver and beta-cell growth; ~10% misc.",
+  "verdict": "umbrella",
+  "misfits": "skeletal muscle atrophy/fiber-type switching, CDK5 in Alzheimer's, p75NTR cell-cycle control, oxygen transport (~6%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R53",
+  "label": "mRNA turnover and translation control, mTOR signalling and SUMOylation",
+  "contents": "~28% mRNA decay and stability (AU-rich element binders, deadenylation, decapping, miRNA processing/targeting, stress granules, ADAR editing), ~15% translation initiation and eIF2/GCN2/PKR stress control, ~15% mTORC1/AKT/PTEN nutrient signalling, ~18% SUMOylation and nucleocytoplasmic transport, ~10% inositol pyrophosphate and nucleotide di/triphosphate metabolism, ~14% scattered (Golgi/GTPase regulation, PAK-2p34, viral host-targeting, TBA BTMs).",
+  "verdict": "mixture",
+  "misfits": "SUMOylation and nuclear import/export (~18%); inositol pyrophosphate/nucleotide interconversion (~10%); PAK-2p34 cell death and GTPase activity terms (~5%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R54",
+  "label": "mTOR-AKT-FOXO nutrient sensing and ER/hypoxic stress responses",
+  "contents": "~30% PI3K-AKT-mTOR, PTEN and FOXO nutrient/growth signaling; ~25% UPR, integrated stress response and heat shock; ~15% hypoxia/HIF and glycolysis regulation; ~10% NRF2 antioxidant regulation; ~8% inositol phosphate/pyrophosphate synthesis; ~12% misc.",
+  "verdict": "umbrella",
+  "misfits": "muscle atrophy/fiber-type transition, PAK-2p34, erythrocyte BTM and type B pancreatic cell apoptosis (~8%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R55",
+  "label": "Heme, iron and trace-metal homeostasis, gas transport and lung surfactant",
+  "contents": "~30% trace-metal transport and detoxification (zinc, copper, iron, manganese, cadmium; metallothioneins, SLC30/39/40), ~25% heme biosynthesis/scavenging and erythrocyte O2/CO2/ammonium transport, ~20% lung alveolar development and surfactant metabolism/defects, ~10% SLC monocarboxylate and oligopeptide transport, ~15% scavenger receptors, oxidative stress and other.",
+  "verdict": "umbrella",
+  "misfits": "~20% lung branching/alveolar development and surfactant, ~5% scavenger receptors",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R56",
+  "label": "PI3K-AKT-mTOR and Hippo growth signaling plus SUMOylation",
+  "contents": "~35% PI3K-AKT-mTOR/PTEN and nutrient/energy sensing (amino acids, LKB1-AMPK); ~15% PTK6 signaling; ~10% Hippo-YAP/TAZ; ~15% SUMOylation machinery and substrates; ~15% mitotic nuclear envelope and Golgi disassembly/reassembly and nuclear import/export; ~10% Rho/PAK GTPase and inositol phosphate items.",
+  "verdict": "mixture",
+  "misfits": "SUMOylation block (~15%) and nuclear envelope/Golgi remodeling and nuclear transport (~15%) unrelated to growth signaling; RSV/SARS-CoV host-targeting items (~4%)",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R57",
+  "label": "Leukocyte and platelet adhesion signalling and endothelial barrier",
+  "contents": "~35% leukocyte/platelet GPCR, integrin and Rho/Rac/Rap signalling for adhesion and migration (G beta-gamma, G12/13, CXCR4, S1P/LPA), ~25% endothelial barrier, tight junctions, shear stress/PIEZO1 and eNOS, ~15% Fc-gamma receptor/DAP12 phagocytosis and BCR second messengers, ~10% PKC and lipid second messengers, ~10% RAS/RAF/BRAF oncogenic mutant MAPK signalling, ~5% vascular smooth muscle.",
+  "verdict": "umbrella",
+  "misfits": "BRAF/RAF1/RAS mutant signalling (~7%); aorta/vascular smooth muscle development (~3%); intestinal infectious disease and leishmania terms (~2%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R58",
+  "label": "Phagocytic clearance, antibacterial defense and lung surfactant",
+  "contents": "~28% intracellular pathogen invasion and phagosome manipulation (Listeria, Mtb, SARS-CoV, xenophagy, phagosome acidification), ~25% scavenger-receptor and apoptotic-cell clearance (efferocytosis, PS exposure/scrambling, oxLDL foam cells, amyloid-beta clearance), ~22% lung alveolar development and surfactant metabolism/diseases, ~13% intestinal epithelial homeostasis and defensins/antimicrobial peptides, ~12% other.",
+  "verdict": "mixture",
+  "misfits": "~22% lung branching morphogenesis and pneumocyte differentiation (only surfactant clearance by macrophages links it); ~5% hyaluronan degradation, PIEZO1 mechanical signalling in osteocytes, ductus arteriosus closure, chitin metabolism",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R59",
+  "label": "Microglia and macrophage activation with amyloid-beta and apoptotic-cell clearance",
+  "contents": "~35% microglia/macrophage activation, proliferation and CSF1 signalling (DAP12/TREM2-like), ~25% amyloid-beta formation, clearance and neurodegeneration, ~15% scavenger receptors, efferocytosis and lipoprotein/foam-cell uptake, ~10% osteoclast/macrophage fusion and bone resorption, ~15% synaptic transmission, synapse pruning and dendritic spine maintenance.",
+  "verdict": "umbrella",
+  "misfits": "Reelin signalling and generic synaptic transmission terms (~8%), hyaluronan turnover (~3%)",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R60",
+  "label": "Nuclear hormone receptors: sex steroids, thyroid and lipid sensors",
+  "contents": "~30% sex-steroid receptor signalling (estrogen, androgen, progesterone, GPER1), ~15% thyroid hormone and retinoic acid receptor signalling, ~25% lipid/glucose-sensing transcription (LXR, PPARA, SREBP, ChREBP, ROR/REV-ERB), ~10% liver development and hepatocyte proliferation, ~20% shared ER/UPR and unnamed BTM modules plus RUNX2 osteoblast items.",
+  "verdict": "umbrella",
+  "misfits": "~15%: ATF6 unfolded protein response, endothelial cell adhesion, unnamed BTM TBA/ER modules, G0/G1 quiescence terms",
+  "intuitive": "partly"
+ },
+ {
+  "root": "R61",
+  "label": "Rho GTPase control of actin cytoskeleton and cell migration",
+  "contents": "~45% Rho-family GTPase cycles and effectors (RHOA-V, RAC, CDC42, RND), ~35% actin protrusion and adhesion turnover (Arp2/3, lamellipodia, filopodia, ruffles, focal adhesions), ~12% ephrin and semaphorin-plexin repulsive guidance, ~8% actomyosin contractile ring, cleavage furrow and septins.",
+  "verdict": "one area",
+  "misfits": "~4% erythrocyte maturation, endosome transport and microtubule stabilisation.",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R62",
+  "label": "Mitochondrial respiration, biogenesis and peroxisome protein import",
+  "contents": "~80% mitochondria: respiratory chain assembly and electron transport, ATP synthesis, mitochondrial translation, protein import/processing, fission/fusion and mitophagy, Fe-S clusters; ~15% peroxisomal protein import, fission and pexophagy; ~5% misc.",
+  "verdict": "umbrella",
+  "misfits": "peroxisome block ~15% (related organelle biogenesis, not mitochondrial); tRNA transport, synapse protein catabolism ~3%",
+  "intuitive": "yes"
+ },
+ {
+  "root": "R63",
+  "label": "Vitamin K, C and E metabolism and xenobiotic responses",
+  "contents": "~35% GO responses to xenobiotics, metals and drugs; ~30% vitamin K gamma-carboxylation, ascorbate, vitamin E, ubiquinol and BH4 cofactor metabolism; ~15% protein hydroxylation, methylation and collagen crosslinking; ~13% ROS/NO and oxidoreductase regulation.",
+  "verdict": "mixture",
+  "misfits": "GO chemical-response grab-bag (~35%), hyaluronan degradation and basement membrane (~6%); listed thyroid hormone, selenium and PAPS themes do not appear in the member list",
+  "intuitive": "partly"
+ }
+]
