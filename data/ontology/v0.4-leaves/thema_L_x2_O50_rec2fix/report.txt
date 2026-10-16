@@ -1,0 +1,296 @@
+THE AREAS LAYER, CORRECTED (rec2fix). Declared 15 Oct 2026 before any result.
+A corrected re-run of prompt 36, not a new method. ADOPTS NOTHING by itself.
+
+==============================================================================
+WHAT THE TWO CORRECTIONS CHANGED
+==============================================================================
+  level 2 is unchanged up to the gate, by construction: same units, same seeds, same floors
+    candidates         5,691   rec2    5,691
+    through gate       1,398   rec2    1,398
+    after consensus      418   rec2      418
+    areas                343   rec2      343   (identical count)
+  CORRECTION 1, the union: of the 343 areas with the same id, 0 hold MORE pathways than rec2 stored
+  CORRECTION 2, the seams: 3 collapses and 0 merges over the combined set, 3 of them involving an anchor or a unit
+    direct edges 1,871, containment pairs 7,301  (rec2 wrote every area-to-unit pair as an edge)
+
+==============================================================================
+ANCHORS
+==============================================================================
+  n01027         813 pathways   support  0.8050   O50 children  105   ROOT
+  n01279         781 pathways   support  0.6950   O50 children   59   ROOT
+  n03315         349 pathways   support  0.1050   O50 children   14   ROOT
+  n03959         290 pathways   support  0.0450   O50 children   33   ROOT   (giant-only in O50)
+  n03376         280 pathways   support  0.0950   O50 children   12   ROOT   (giant-only in O50)
+  n02017         206 pathways   support  0.4100   O50 children    7   ROOT   (giant-only in O50)
+  6 anchors, 2,079 pathways between them
+
+==============================================================================
+GIANT AREAS, over 1,000 pathways: flagged and kept out of the view
+==============================================================================
+  area          pathways  units  support  share of universe
+  b2_00147          2618    281    0.690             47.3%
+  b2_00076          2197    237    0.930             39.7%
+  b2_00161          2009    305    0.665             36.3%
+  b2_00338          1903    224    0.060             34.4%
+  b2_00112          1340    179    0.830             24.2%
+  b2_00251          1288    184    0.195             23.3%
+  b2_00307          1177    101    0.080             21.2%
+  b2_00211          1083     95    0.410             19.6%
+  8 giants; their union holds 4,540 of 5,539 pathways = 82.0%
+  rec2 had the same 8 areas over 1,000 and reported them as a criterion failure, before the rule was written down
+
+==============================================================================
+MERGES AND COLLAPSES AT THE SEAMS
+==============================================================================
+  rule      victim        kind      size   keeper        kind      size  seam?
+  collapse  n02940        unit        43   b2_00029      area        49  YES
+  collapse  n03083        unit        94   b2_00064      area        99  YES
+  collapse  n04061        unit        65   b2_00023      area        75  YES
+  rec2 applied neither rule at a seam: 0 of its 343 areas was compared with an anchor or with one of its own units
+
+==============================================================================
+HELD-OUT FDR PER STRATUM (rec2's floors and seeds, reused unchanged)
+==============================================================================
+    stratum       floor  calib FDR  held-out   real    cap   rec2 held-out
+    3-3            None       None      None      0   0.02   None
+    4-4            0.94    0.00588       0.0     17   0.02   0.0
+    5-5           0.815    0.00588       0.0     17   0.02   0.0
+    6-6            0.77    0.00556       0.0     18   0.02   0.0
+    7-9           0.485    0.00652   0.00272     92   0.02   0.00272
+    10+        0.055276    0.00682   0.00459   1254   0.02   0.00459
+    OVERALL                          0.00429                 0.01   rec2 0.00429
+
+==============================================================================
+THE VIEW: ROOTS, SIZES AND CHILDREN
+==============================================================================
+  nodes in the view: 993  (335 areas, 6 anchors, 652 units)
+  ROOTS: 63  (57 areas, 6 anchors, 0 units)
+  direct children per node: max 18, median 0, 0 over 60
+  multi-parent nodes: 555 = 55.9%
+  size in pathways, all view nodes: 1/25/977
+  size in pathways, roots only:     68/267/977
+
+  every root, largest first
+  root          kind      pathways  units  support  children
+  b2_00242      area           977    102    0.250         9
+  b2_00252      area           958    103    0.610        18
+  b2_00156      area           919     84    0.675         7
+  b2_00198      area           851     91    0.475        14
+  b2_00281      area           818    120    0.130         8
+  n01027        anchor         813      1    0.805         0
+  n01279        anchor         781      1    0.695         0
+  b2_00283      area           745     73    0.120         5
+  b2_00318      area           680     61    0.070        12
+  b2_00326      area           659     80    0.065        10
+  b2_00319      area           609     52    0.070         5
+  b2_00226      area           517     30    0.320         4
+  b2_00328      area           506     35    0.065         8
+  b2_00329      area           505     48    0.065         7
+  b2_00263      area           445     57    0.170         5
+  b2_00270      area           409     26    0.145         3
+  b2_00298      area           408     37    0.100        16
+  b2_00299      area           394     52    0.100         7
+  b2_00291      area           390     45    0.110         7
+  b2_00284      area           379     28    0.225         7
+  b2_00264      area           363     31    0.170         3
+  b2_00261      area           354     34    0.180         2
+  b2_00306      area           354     29    0.085         8
+  n03315        anchor         349      1    0.105         0
+  b2_00296      area           346     42    0.105        14
+  b2_00340      area           311     23    0.170        11
+  b2_00341      area           309     23    0.060         5
+  b2_00289      area           300     31    0.115         4
+  n03959        anchor         290      1    0.045         0
+  b2_00290      area           280     36    0.115         4
+  n03376        anchor         280      1    0.095         0
+  b2_00302      area           267     26    0.095         7
+  b2_00322      area           230     14    0.070        16
+  b2_00253      area           229     12    0.195         7
+  b2_00331      area           229     25    0.065         2
+  b2_00241      area           228     36    0.260         2
+  b2_00305      area           220     18    0.090         4
+  b2_00280      area           218     18    0.135         7
+  b2_00308      area           210     20    0.495         7
+  b2_00292      area           209     13    0.110        10
+  n02017        anchor         206      1    0.410         0
+  b2_00249      area           202     22    0.200         7
+  b2_00313      area           202     16    0.075         3
+  b2_00293      area           193     20    0.110         8
+  b2_00303      area           191     18    0.140        10
+  b2_00150      area           183     12    0.685         6
+  b2_00314      area           176     14    0.075         8
+  b2_00272      area           175     11    0.145         5
+  b2_00265      area           164     14    0.165         5
+  b2_00310      area           157     14    0.080         5
+  b2_00217      area           153     14    0.385         2
+  b2_00334      area           146     16    0.065        13
+  b2_00301      area           145     14    0.230        11
+  b2_00315      area           141     16    0.075         3
+  b2_00093      area           130      9    0.905         4
+  b2_00323      area           125     15    0.070         5
+  b2_00316      area           119     14    0.075         7
+  b2_00317      area           114     10    0.075        10
+  b2_00229      area           100     13    0.315         4
+  b2_00342      area            96     13    0.060         8
+  b2_00080      area            87      7    0.925         7
+  b2_00090      area            84      5    0.910         5
+  b2_00256      area            68     10    0.190         4
+
+==============================================================================
+WHY 63 ROOTS AND NOT 42: the giant rule, measured
+==============================================================================
+  with the giants IN, the combined structure has 42 roots (36 areas, 6 anchors, 0 units)
+    which is rec2's count exactly: 42
+    of those, 5 are giants
+  dropping the 8 giants promotes 26 areas to roots, 26 of which had no non-giant parent at all
+  42 - 5 giant roots + 26 promoted = 63 roots in the view
+  So the root criterion fails BECAUSE Aviyah's giant rule was applied. It is the same
+  mechanism that made 476 O50 themes units in the first place: a node whose only
+  parents are giants is a root of the real hierarchy.
+
+==============================================================================
+ROOT OVERLAP, measured on pathways
+==============================================================================
+  pathways in no root: 0
+  roots per pathway: median 3, mean 3.92, max 16
+    roots     pathways
+    1              774
+    2            1,116
+    3              924
+    4              790
+    5              663
+    6              429
+    7              405
+    8              174
+    9              114
+    10              85
+    11              34
+    12              19
+    13               7
+    14               3
+    15               1
+    16               1
+  rec2, for comparison: 42 roots, roots per pathway median 4, max 15
+
+  every root pair at pathway Jaccard 0.3 or more
+    J 0.488  b2_00291 (390) / b2_00326 (659), sharing 344
+    J 0.486  b2_00261 (354) / b2_00296 (346), sharing 229
+    J 0.466  b2_00150 (183) / b2_00340 (311), sharing 157
+    J 0.456  b2_00313 (202) / b2_00331 (229), sharing 135
+    J 0.439  b2_00293 (193) / b2_00323 (125), sharing 97
+    J 0.430  n01279 (781) / n03315 (349), sharing 340
+    J 0.422  b2_00290 (280) / b2_00299 (394), sharing 200
+    J 0.416  b2_00318 (680) / b2_00319 (609), sharing 379
+    J 0.409  b2_00150 (183) / b2_00306 (354), sharing 156
+    J 0.403  b2_00090 (84) / b2_00303 (191), sharing 79
+    J 0.399  b2_00241 (228) / b2_00263 (445), sharing 192
+    J 0.397  b2_00283 (745) / b2_00326 (659), sharing 399
+    J 0.396  b2_00156 (919) / b2_00226 (517), sharing 407
+    J 0.391  b2_00319 (609) / b2_00341 (309), sharing 258
+    J 0.391  b2_00198 (851) / b2_00263 (445), sharing 364
+    J 0.386  b2_00249 (202) / b2_00323 (125), sharing 91
+    J 0.378  b2_00301 (145) / b2_00323 (125), sharing 74
+    J 0.377  b2_00306 (354) / b2_00314 (176), sharing 145
+    J 0.376  b2_00090 (84) / b2_00314 (176), sharing 71
+    J 0.373  b2_00242 (977) / b2_00328 (506), sharing 403
+    J 0.371  b2_00226 (517) / b2_00264 (363), sharing 238
+    J 0.367  b2_00308 (210) / b2_00329 (505), sharing 192
+    J 0.365  b2_00281 (818) / b2_00291 (390), sharing 323
+    J 0.365  b2_00226 (517) / b2_00319 (609), sharing 301
+    J 0.362  b2_00156 (919) / b2_00264 (363), sharing 341
+    J 0.362  b2_00272 (175) / b2_00305 (220), sharing 105
+    J 0.357  n01279 (781) / n03376 (280), sharing 279
+    J 0.354  b2_00280 (218) / b2_00303 (191), sharing 107
+    J 0.350  b2_00265 (164) / b2_00280 (218), sharing 99
+    J 0.348  b2_00263 (445) / b2_00331 (229), sharing 174
+    J 0.342  b2_00226 (517) / b2_00253 (229), sharing 190
+    J 0.340  b2_00150 (183) / b2_00298 (408), sharing 150
+    J 0.340  b2_00198 (851) / b2_00289 (300), sharing 292
+    J 0.339  b2_00253 (229) / b2_00319 (609), sharing 212
+    J 0.333  b2_00293 (193) / b2_00302 (267), sharing 115
+    J 0.332  b2_00305 (220) / b2_00341 (309), sharing 132
+    J 0.332  b2_00241 (228) / b2_00315 (141), sharing 92
+    J 0.324  b2_00281 (818) / b2_00296 (346), sharing 285
+    J 0.319  b2_00318 (680) / b2_00341 (309), sharing 239
+    J 0.313  b2_00270 (409) / b2_00284 (379), sharing 188
+    J 0.306  b2_00241 (228) / b2_00331 (229), sharing 107
+    J 0.304  b2_00306 (354) / b2_00340 (311), sharing 155
+    J 0.301  b2_00264 (363) / b2_00340 (311), sharing 156
+    rec2, for comparison: top pairs 0.49, 0.49, 0.44, 0.43, 0.43; 19 at or above 0.3
+
+  roots 80% or more inside another root (REPORT ONLY)
+    33 of 63 roots are at least 80% inside another; 39 ordered pairs
+    0.996  n03376 (280) inside n01279 (781)
+    0.980  b2_00313 (202) inside b2_00198 (851)
+    0.977  b2_00305 (220) inside b2_00242 (977)
+    0.974  n03315 (349) inside n01279 (781)
+    0.973  b2_00289 (300) inside b2_00198 (851)
+    0.964  b2_00293 (193) inside b2_00252 (958)
+    0.962  b2_00310 (157) inside b2_00281 (818)
+    0.950  b2_00249 (202) inside b2_00252 (958)
+    0.940  b2_00090 (84) inside b2_00303 (191)
+    0.939  b2_00264 (363) inside b2_00156 (919)
+    0.926  b2_00253 (229) inside b2_00319 (609)
+    0.924  b2_00316 (119) inside b2_00242 (977)
+    0.920  b2_00080 (87) inside b2_00242 (977)
+    0.914  b2_00308 (210) inside b2_00329 (505)
+    0.913  b2_00341 (309) inside b2_00242 (977)
+    rec2, for comparison: 29 of 42
+
+==============================================================================
+COVERAGE
+==============================================================================
+  giant-only themes: 476
+    with a non-giant parent area or anchor: 470
+    promoted to an anchor (a root in their own right): 3
+    merged or collapsed away by the seam rules: 3  ['n02940', 'n03083', 'n04061']
+    accounted for: 476 = 100.0%
+    roots of the view with no parent: 0  []
+  all 661 units:
+    with a non-giant parent area or anchor: 652 = 98.6%
+    merged or collapsed away: 3
+    roots of the view: 6
+    parented, dropped or a root: 661 of 661
+  O50 roots before: 188; rec2fix view roots after: 63; rec2 roots: 42
+
+  per pathway, the largest non-giant theme or area above it
+    band         before  rec2fix     rec2
+    1-10              1        0        0
+    11-50         1,096        0        0
+    51-200        2,362        0        0
+    201-1000      2,079    5,539      999
+    1001+             0        0    4,540
+
+==============================================================================
+SUMMARY PLACEMENT (display only, nothing attached)
+==============================================================================
+  curated summaries with 3+ leaf descendants in L: 2,370
+    with a node holding 80% of their leaves:
+      O50 alone               2021 = 85.3%
+      rec2 combined           2071 = 87.4%
+      rec2fix, giants in      2071 = 87.4%
+      rec2fix VIEW            1787 = 75.4%
+    summary band         n     O50    rec2   fix+g  fix view
+    3-10              1711    1525    1578    1578      1425
+    11-50              560     439     441     441       330
+    51-200              96      55      52      52        32
+    201+                 3       2       0       0         0
+
+==============================================================================
+CRITERIA, DECLARED BEFORE THE BUILD, MEASURED ON THE VIEW
+==============================================================================
+  PASS  held-out FDR within the caps in every stratum and overall
+        overall 0.00429 (cap 0.01); worst stratum 10+ at 0.00459 (cap 0.02)
+  FAIL  20-60 roots, anchors included
+        63 roots
+  PASS  no node with more than 60 direct children
+        max 18
+  PASS  at least 95% of the 476 giant-only themes and of all 661 units have a non-giant parent area or anchor, or are roots of the view
+        giant-only 100.0%, units 100.0%  (parented alone: 99.4% and 98.6%)
+  PASS  no two roots with pathway Jaccard 0.5 or more
+        highest of 1,953 pairs 0.488
+
+  THE FIVE ccode OWNS: FAIL
+  C6 (blind intruder test) is the reviewer's, rerun under the 15 Oct pre-registration; NOT judged here.
+  Whether the top is intuitive is Aviyah's.
+  ADOPTED: nothing by this script.

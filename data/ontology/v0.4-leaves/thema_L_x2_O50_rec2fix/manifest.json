@@ -1,0 +1,228 @@
+{
+  "method": "v0.4 areas layer, corrected (rec2fix)",
+  "built_from": "data/ontology/frozen/working-O50-2026-10-14",
+  "declared": "DECISIONS, 2026-10-15, before any result; a corrected re-run of prompt 36",
+  "corrections_to_rec2": [
+    "an area's pathway set IS the union of its units' pathways, asserted after consensus and after the joint fixed point",
+    "the units are carried through consensus in event order, and a superseded candidate's units are not credited to its winner",
+    "one combined node set -- areas, anchors and units -- with the merge and collapse rules applied to every pair",
+    "edges are the transitive reduction; the closure is written separately",
+    "areas over 1000 pathways are giants and are kept out of the view"
+  ],
+  "reused_from_rec2": [
+    "the unit rule and the 661 units",
+    "the 6 anchors over 200 pathways",
+    "200 Ward runs at subsample 0.8, master seed 20261015",
+    "20 calibration and 4 held-out scrambles to the 0.008 target with no minimum"
+  ],
+  "o50_giants_excluded": [
+    "n01420",
+    "n01845",
+    "n02670",
+    "n03867"
+  ],
+  "containment": "strict subset over all members, which is O50's own definition",
+  "n_units": 661,
+  "n_anchors": 6,
+  "n_level2_units": 655,
+  "anchors": {
+    "n01027": 813,
+    "n01279": 781,
+    "n02017": 206,
+    "n03315": 349,
+    "n03376": 280,
+    "n03959": 290
+  },
+  "runs": 200,
+  "subsample": 0.8,
+  "master_seed": 20261015,
+  "theta_match": 0.7,
+  "theta_match_space": "unit membership",
+  "theta_same": 0.5,
+  "theta_same_space": "union pathway sets",
+  "collapse_share": 0.85,
+  "collapse_space": "union pathway sets",
+  "survivor": "support",
+  "joint_fixed_point": true,
+  "giant_area": 1000,
+  "floor_target": 0.008,
+  "floor_minimum": "none",
+  "calibration_seeds": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010,
+    3011,
+    3012,
+    3013,
+    3014,
+    3015,
+    3016,
+    3017,
+    3018,
+    3019,
+    3020
+  ],
+  "heldout_seeds": [
+    4002,
+    4003,
+    4004,
+    4005
+  ],
+  "caps": {
+    "per_stratum": 0.02,
+    "overall": 0.01
+  },
+  "level2": {
+    "n_units_in": 655,
+    "n_areas": 343,
+    "floors": [
+      {
+        "stratum": "3-3",
+        "real": 83,
+        "floor": null,
+        "effective": null,
+        "calibration_fdr": null
+      },
+      {
+        "stratum": "4-4",
+        "real": 84,
+        "floor": 0.94,
+        "effective": 0.94,
+        "calibration_fdr": 0.00588
+      },
+      {
+        "stratum": "5-5",
+        "real": 56,
+        "floor": 0.815,
+        "effective": 0.815,
+        "calibration_fdr": 0.00588
+      },
+      {
+        "stratum": "6-6",
+        "real": 110,
+        "floor": 0.77,
+        "effective": 0.77,
+        "calibration_fdr": 0.00556
+      },
+      {
+        "stratum": "7-9",
+        "real": 369,
+        "floor": 0.485,
+        "effective": 0.485,
+        "calibration_fdr": 0.00652
+      },
+      {
+        "stratum": "10+",
+        "real": 4989,
+        "floor": 0.055276,
+        "effective": 0.055276,
+        "calibration_fdr": 0.00682
+      }
+    ],
+    "confirmed": {
+      "strata": [
+        {
+          "stratum": "3-3",
+          "real": 83,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null,
+          "heldout_fdr": null,
+          "heldout_real": 0
+        },
+        {
+          "stratum": "4-4",
+          "real": 84,
+          "floor": 0.94,
+          "effective": 0.94,
+          "calibration_fdr": 0.00588,
+          "heldout_null": 0.0,
+          "heldout_real": 17,
+          "heldout_fdr": 0.0
+        },
+        {
+          "stratum": "5-5",
+          "real": 56,
+          "floor": 0.815,
+          "effective": 0.815,
+          "calibration_fdr": 0.00588,
+          "heldout_null": 0.0,
+          "heldout_real": 17,
+          "heldout_fdr": 0.0
+        },
+        {
+          "stratum": "6-6",
+          "real": 110,
+          "floor": 0.77,
+          "effective": 0.77,
+          "calibration_fdr": 0.00556,
+          "heldout_null": 0.0,
+          "heldout_real": 18,
+          "heldout_fdr": 0.0
+        },
+        {
+          "stratum": "7-9",
+          "real": 369,
+          "floor": 0.485,
+          "effective": 0.485,
+          "calibration_fdr": 0.00652,
+          "heldout_null": 0.25,
+          "heldout_real": 92,
+          "heldout_fdr": 0.00272
+        },
+        {
+          "stratum": "10+",
+          "real": 4989,
+          "floor": 0.055276,
+          "effective": 0.055276,
+          "calibration_fdr": 0.00682,
+          "heldout_null": 5.75,
+          "heldout_real": 1254,
+          "heldout_fdr": 0.00459
+        }
+      ],
+      "overall_fdr": 0.00429,
+      "overall_real": 1398,
+      "overall_null": 6.0
+    },
+    "n_candidates": 5691,
+    "n_gated": 1398,
+    "n_after_consensus": 418,
+    "seconds": 250.3,
+    "repair": {
+      "n_collapsed": 75,
+      "n_merged": 0,
+      "rounds": {
+        "joint": 2,
+        "collapse": 4,
+        "merge": 2
+      }
+    }
+  },
+  "combined": {
+    "n_nodes": 1004,
+    "n_alive": 1001,
+    "n_giants": 8,
+    "n_view": 993,
+    "n_roots": 63,
+    "n_collapsed": 3,
+    "n_merged": 0,
+    "n_seam_events": 3,
+    "n_direct_edges": 1871,
+    "n_closure_pairs": 7301,
+    "children_max": 18,
+    "rounds": {
+      "joint": 2,
+      "collapse": 3,
+      "merge": 2
+    }
+  },
+  "seconds": 251.8
+}
