@@ -6934,3 +6934,448 @@ unit set **as it stands at that moment** (taking the final set leaks a later abs
 and a **superseded** candidate's units are credited to nobody. rec2 got both wrong. Verified on 4,000
 randomised cases through consensus and the joint fixed point with zero disagreements, and both of
 rec2's rules are kept as failing tests so the distinction cannot be lost again.
+
+## 2026-10-16 12:50:25 UTC+1 — AREAS AS ONE OPERATOR, APPLIED RECURSIVELY (rec3): declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/PROMPT_38.md`, Aviyah's prompt of 16 Oct
+2026, and reproduced here **before any build ran**. Everything below the line is the prompt text
+unchanged.
+
+Confirmed before building, as the prompt requires:
+
+**Level 1 has 661 items** -- 660 O50 themes plus one loose pathway (`btm:M205`), which is exactly
+`units_of`'s answer and is derived here from the level-0 structure by the general rule (maximal nodes
+holding at most 1,000 pathways, giants excluded as items), with the two computed independently and
+asserted equal. **0 pathways are in no item**, so the "plus any pathway in none of them" clause adds
+nothing at level 1. Item sizes 1 / 15 / 813 (min / median / max); the six over 200 pathways are
+n01027, n01279, n03315, n03959, n03376, n02017 -- rec2's anchors, here clustered like everything
+else. **Double counting: the item sizes sum to 17,367 against 5,539 pathways = 3.14x**, and a pathway
+sits in a median of 3 items and in up to 12.
+
+**Size-weighted Ward is exact, not approximate.** An item of `w` pathways enters as a cluster of
+weight `w` at its members' centroid. Lance-Williams is initialised with those weights: the stored
+distance is `d(i,j) = sqrt(2 w_i w_j / (w_i + w_j)) * ||c_i - c_j||`, which reduces to the plain
+Euclidean distance when both weights are 1, and the update is scipy's own ward recurrence with the
+cardinalities replaced by the weights. Two checks pin it down and both are tests: with every weight 1
+the merge sequence, the merge counts and the heights are **scipy's `ward` to 2e-15**; with integer
+weights the heights are **scipy's `ward` on the replicated point set** -- `w` coincident copies of
+each centroid -- which is the definition of Ward continued from fixed clusters and is what makes the
+must-link reading exact. scipy cannot take weights, so the agglomeration is written here (80 ms a run
+against scipy's 1.2 ms); the recurrence bookkeeping is **not** reimplemented, it goes through
+`linkage.run_from_merges`, which exists for this and is already proved field-for-field identical to
+`recurrent.tree_from_subset` on Ward's own merges.
+
+**Arm E runs through the same code with every weight set to 1**, so the two arms differ in exactly
+one number.
+
+**Estimate: about 31 minutes for both arms** -- 7.1 min of weighted Ward per arm at level 1 across
+25 sides, plus the structure over 4,602 nodes, the later levels and the report. Under the 3 h ceiling.
+
+**One property worth recording before any result**: the frozen O50 **already satisfies both rules the
+structure applies** -- 0 twin pairs at J >= 0.50 among its 4,602 nodes, and no parent-child pair at or
+above the 0.85 chain share. So running the rules over the whole set can only act on pairs involving
+an area, which is checked by reporting every event rather than assumed.
+
+---
+
+Prompt 38: areas as one operator, applied recursively (constrained, size-weighted Ward), declared 16 Oct 2026 before any result. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not touch frozen folders or the rec, rec2 and rec2fix builds; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+WHY
+Reviewer findings from 15-16 Oct (project docs; data/experiments/giants_reading_2026-10-15/ and top_compare_2026-10-16/):
+- O50's giants are mostly wide themes, not grab bags. Keep them.
+- The pathway-level pass cannot make stable 200-1,000 groups: c85 had only 10, O50 has 7. The 8 Oct diagnostic agrees: mid-size clusters recur at J 0.5 but not at 0.70.
+- The areas pass fills that layer and browses better. But it carries ad hoc parts (anchors, giant drop, seam rules), and its equal weighting was never argued.
+
+This prompt restates the areas pass as one formal operator, so a paper can describe it. The precedents are Louvain-style aggregation, constrained Ward, HiDeF and NeXO.
+
+THE OPERATOR T (reuse the existing code)
+200 runs on 80% subsamples; Ward; recurrence 0.70 on item sets; floors solved on 20 item scrambles (seeds 3001-3020), held out on 4002-4005, target 0.008, caps 0.02 per stratum and 0.01 overall; consensus; joint fixed point with twin 0.50 and chain 0.85 on pathway union sets; strict containment.
+
+RECURSION
+- **Level 0** is the frozen O50, as is.
+- **Level k+1** is T applied to the items of level k: the maximal level-k nodes with at most 1,000 pathways (giants are not items), plus any pathway in none of them.
+- **Each item** is its pathway set. Its position is the size-weighted centroid of its members (vectors_leaves_centred). Its Ward weight is its pathway count: initialise Lance-Williams with these sizes, so this is Ward continued from fixed clusters (must-link). Items overlap; report how much double counting that causes.
+- **No anchors, no giant drop, no seam special cases.** After each level, build one structure over all nodes (O50 nodes including giants, plus all area levels):
+  - edges by strict containment, transitively reduced;
+  - twin and chain rules applied over the whole set;
+  - an area's pathways are always the union of its items.
+- **Stop** when a level admits no candidate under the floors, or when the structure has 60 roots or fewer.
+
+ARMS
+- **W:** size-weighted, as above. This is the primary arm.
+- **E:** equal weight per item, otherwise identical. This is an ablation only.
+Output: data/ontology/v0.4-leaves/thema_L_x2_O50_rec3/{W,E}/
+
+REPORT (docs/status/2026-10-16-areas-rec3.md), each arm against O50 and rec2fix with giants in
+- Per level: items, held-out FDR per stratum with counts, and areas by size band.
+- Roots: count and the list with sizes. Maximum and median direct children.
+- Areas over 1,000 pathways, and how many areas each item over 200 pathways joins.
+- Summary placement, overall and by band.
+- Agreement with Reactome's top-level pathways (best Jaccard).
+- Root pairs with J of 0.30 or more.
+
+DECISION (declared now)
+Arm W is accepted for further work if all of these hold:
+- held-out FDR within the caps at every level;
+- 20-60 roots, giants included;
+- no node with more than 60 direct children;
+- summary placement at least O50's 85.3%;
+- reviewer checks pass: C6 intruder test at least 70%, and any new node over 1,000 pathways gets the 15 Oct giant reading and intruder test;
+- Aviyah judges the top intuitive.
+Arm E only shows what the weighting does. If W fails, nothing is adopted and O50 stays as it is.
+
+FINAL
+- Copy this prompt verbatim into DECISIONS.md as "declared before running", before building.
+- Write docs/status/commit-2026-10-16-areas-rec3.sh. It commits:
+  - the code, tests, build folders and status note;
+  - data/experiments/reviewer_notes/PROMPT_38.md;
+  - the reviewer folders data/experiments/giants_reading_2026-10-15/, top_compare_2026-10-16/, and the files added to areas_rec2_giantdrop_2026-10-15/ since prompt 37, never any KEY_DO_NOT_SHARE* file.
+  No branch operations; no push of main.
+
+END OF PROMPT. Before building, give in a few lines:
+- how many items level 1 has;
+- how you implement size-weighted Ward;
+- the time estimate.
+After the build, give:
+- per-criterion pass or fail for W;
+- roots and sizes;
+- the W vs E table;
+- the commit script path.
+
+## 2026-10-16 13:43:29 UTC+1 — AREAS AS ONE OPERATOR RESULT (rec3): arm W admits NOTHING. Adopted nothing; O50 stays as it is.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-16-areas-rec3.md`; the evidence for W's failure is
+`data/ontology/v0.4-leaves/thema_L_x2_O50_rec3/null_diagnostic.txt`.
+
+| criterion for arm W | result |
+|---|---|
+| held-out FDR within the caps at every level | **FAIL** -- **no floor exists at any cut in any of the six strata**, so nothing was admitted and there is no FDR to be inside the caps |
+| 20-60 roots, giants included | **FAIL** -- **188**, O50's own count, since nothing was built |
+| no node with more than 60 direct children | **FAIL** -- **283**, which is O50's own maximum |
+| summary placement at least O50's own 85.3% | **PASS** -- 85.3%, tied, because the pool *is* O50 |
+| C6 at 70%+, and the giant reading on any new 1,000-plus node | the reviewer's; W has **no** new 1,000-plus nodes |
+| the top is intuitive | Aviyah's |
+
+**Arm W is accepted only if all of these hold, so it is not accepted. Nothing is adopted and O50
+stays as it is**, which is what the declaration says happens when W fails.
+
+**THE RESULT IS THAT THE OPERATOR ADMITS NOTHING, which is more informative than a bad build.** With
+items weighted by their pathway counts the floor solver finds **no support cut in any stratum** that
+reaches the 0.008 calibration target; the best it can do is 0.0100 (6-6) to 0.0549 (10+). Level 1
+therefore produces **zero areas** and the recursion stops immediately.
+
+**The ablation localises the cause to the weighting alone.** Arm E is the identical code with every
+item weight set to 1, so the arms differ in exactly one number, and E solves floors in all six strata
+(best FDR 0.00018 to 0.00455), builds **317 areas** and reaches **47 roots**.
+
+| | arm W (size-weighted) | arm E (equal) |
+|---|---|---|
+| real candidates | 6,169 | 5,685 |
+| candidates per **scramble** | ~**14,400** | ~23,500 |
+| **highest support in the scrambles** | **1.000** | **0.960** |
+| best calibration FDR, any stratum | 0.0100 to 0.0549 -- **no floor** | 0.00018 to 0.00455 -- a floor everywhere |
+| areas | **0** | 317 |
+
+**The mechanism.** Ward's merge cost is `w_i w_j / (w_i + w_j) * ||c_i - c_j||^2`. The weights run
+from 1 to 813, nearly three orders of magnitude; the squared distance between unit centroids spans
+less than one. So the merge order is largely a function of the weights -- and **the declared item
+scramble does not touch the weights**: it permutes each embedding dimension across items and leaves
+every weight where it was. The scrambled sides therefore reproduce the real merge order closely
+enough to recur at **support 1.000**, a grouping present in all 200 scrambled runs. The recurrence
+test correctly refuses to call any of them real. Note the direction of the counts: E's scrambles
+produce *more* candidates (23,500 against 14,400) and still admit a floor, because E's null is
+*low-support*. What kills W is the shape of the null's tail, not its size.
+
+**This is a property of the declared null and that is the honest reading.** A null that also permuted
+the weight-to-item assignment would destroy the weight structure and would likely admit candidates.
+That null was not declared, it is a different experiment, and it tests a weaker hypothesis, so no
+such variant was run. What the declared test says is specific: **under this weighting, recurrence
+across subsamples is not evidence of position structure.**
+
+**TWO OF THE FOUR CRITERIA ARE UNMEETABLE AS WRITTEN, and this needs a decision rather than another
+build.** Five frozen O50 nodes have more than 60 direct children -- `n03867` **283**, `n01845` 277,
+`n02670` 246, `n01420` 140, `n01027` 105 -- and the first four are its giants. The prompt requires one
+structure over all nodes with the giants in, on the reviewer's 15 Oct finding that the giants are
+wide themes and should be kept. So **no structure that keeps O50's nodes and its giants can pass
+"no node with more than 60 direct children", whatever an areas layer does.** rec2fix passed the same
+criterion at 18 only because it dropped the giants out of its view. The criterion and the
+keep-the-giants decision are in direct conflict. "20-60 roots" is likewise mostly inherited: O50 has
+188 roots and an areas layer reduces them by parenting, which is what E's 47 is.
+
+**Level 1 as declared: 661 items**, 660 O50 themes plus `btm:M205`, derived from the level-0 structure
+by the general rule and asserted equal to `units_of`'s answer; **0 pathways in no item**; sizes
+1/15/813; the six over 200 pathways are rec2's anchors, **here clustered like everything else** -- no
+anchors, no giant drop, no seam rules. **Double counting 3.14x**: the item sizes sum to 17,367 against
+5,539 pathways, and a pathway sits in a median of 3 items and in up to 12. **Level 2 never happened**
+in either arm, so nothing here says what a second application of T would do.
+
+**Arm E's failures are prompt 34's, with the giants kept.** Held-out FDR breaches two strata (3-3 at
+0.03846, 6-6 at 0.02586) on an overall 0.00766; its largest area holds **3,748 pathways = 67.7% of
+the universe** and contains 312 of the 661 items; seven areas exceed 1,000; children max **242**; and
+**the rules over the whole node set delete 10 O50 nodes, three of them giants** -- `n01845` (2,332)
+merged into an area of 2,212, `n02670` (2,015) into one of 1,338, `n01420` (1,412) into one of 1,517,
+with `n01027`, `n01279` and `n03959` collapsed into areas barely larger than themselves. That is "no
+special cases" taken literally, and it is the cost: **the operator applied over the whole structure
+will eat O50 nodes.** Its worst root pair is its largest area against the surviving giant `n03867` at
+J = 0.496.
+
+**Summary placement** (2,370 summaries, a node holding 80% of their leaves): O50 **85.3%**, W
+**85.3%** (identical in every cell, the arithmetic consequence of building nothing), E **91.4%**,
+rec2fix with giants in **94.1%**. The last figure needs reconciling with prompt 37's 87.4%: the
+builds are the same and the **pools differ** -- prompt 38 asks for all O50 nodes including giants, and
+O50's four giants alone are the home for **158** more summaries. A related number worth recording:
+**non-giant O50 alone houses only 1,291 of 2,370 = 54.5%**, so the four giants are the home for a
+third of every curated summary, which supports the reviewer's keep-the-giants finding directly and
+explains rec2fix's 75.4% view.
+
+**The areas layer still does not move the external measure.** Median best Jaccard against Reactome's
+29 top-level pathways is **0.273 in every pool** -- O50, rec2fix with giants, W and E alike, to three
+decimals. The areas improve on O50's own best match for only four of the 29 branches and marginally
+(Signal Transduction 0.221 -> 0.223, Metabolism 0.149 -> 0.161, Immune System 0.159 -> 0.160,
+Developmental Biology 0.171 -> 0.178), and one gets worse (Disease 0.146 -> 0.133 in E).
+
+**WHAT WAS PROVED ABOUT THE METHOD, regardless of the result.** The prompt's purpose was to state the
+pass as one operator a paper can describe, and three claims are now checkable rather than asserted,
+each a test in `tests/test_areas_rec3.py`:
+
+1. **Size-weighted Ward is Ward continued from fixed clusters, exactly.** With every weight 1 the
+   merge sequence, the merge counts and the heights are scipy's `ward` to **2e-15**. With integer
+   weights the heights are scipy's `ward` on the **replicated point set** -- `w` coincident copies of
+   each centroid -- to 1e-9, with the expected `sum(w) - m` zero-height merges first. The must-link
+   reading is literal, not a metaphor.
+2. **The structure reproduces O50's own DAG**: strict containment plus the transitive reduction over
+   all 4,602 frozen nodes returns O50's `edges.tsv`, all **7,525** edges, none missing, none spurious.
+3. **The item rule is the unit rule**: `items_of` on the level-0 structure agrees with `units_of`,
+   660 nodes plus 1 loose, derived a completely different way.
+
+And one property recorded before the build held: **the frozen O50 already satisfies both rules the
+structure applies** (0 twin pairs at J >= 0.50, no parent-child pair at or above 0.85), so the rules
+over the whole set can only act on pairs involving an area -- and in arm W, which has none, the
+structure stage changed nothing at all.
+
+Nothing in the recurrence machinery was reimplemented or modified. The agglomeration is written here
+because scipy's `ward` cannot take weights (80 ms a run against its 1.2 ms); the bookkeeping goes
+through `linkage.run_from_merges`, which exists for exactly this and is already proved
+field-for-field identical to `recurrent.tree_from_subset` on Ward's own merges.
+
+**Code:** `scripts/areas_rec3.py` (the operator, weighted Ward, the structure, the recursion, the
+null diagnostic), `scripts/areas_rec3_report.py`, 26 tests in `tests/test_areas_rec3.py`. Output:
+`data/ontology/v0.4-leaves/thema_L_x2_O50_rec3/{W,E}/`. **The frozen folders and the rec, rec2 and
+rec2fix builds were not touched.** Cost 1,308 s and 1.0 GB for both arms, 17 min for the 20-scramble
+null diagnostic, 12 s for the report. No API calls.
+
+## 2026-10-17 02:33:15 UTC+1 — O50 WITH SIZE STRATA ABOVE 10 (O50s): declared before running
+
+Copied **verbatim** from `data/experiments/reviewer_notes/PROMPT_43.md`, Aviyah's prompt of 17 Oct
+2026, and reproduced here **before any build ran**. The message as delivered in chat was truncated at
+report item 6 and carried no END OF PROMPT line, so ccode stopped; Aviyah then directed that the file
+be read as authoritative. Before using it: the file **does** end with END OF PROMPT, and its first 36
+lines are **byte-identical** to the delivered portion (checked by diff, 0 differences). Everything
+below the line is the file's text unchanged.
+
+**Prompt 42 is on hold and was not run.** Prompt 39 was withdrawn earlier and was never run either.
+
+Confirmed before building:
+
+**The held-out seeds are cheaper than the prompt assumes.** It says "4001-4002 (cached) plus
+4003-4006, which must be computed". In fact **4001 to 4005 are all cached** on universe L, side
+material and trees alike, from 8-9 Oct. **Only 4006 has to be built** -- 200 scramble trees plus its
+side material -- because `build_trees_10770.HELDOUT_SEEDS` is `range(4001, 4006)` and 4006 falls
+outside the declared set. So the held-out check runs on **six** seeds, 4001-4006, as the prompt
+intends.
+
+**One universe fact that has to be stated rather than smoothed over.** O50's floors and O50's
+candidates do not come from the same universe, and that is already true of the frozen build: the cal8
+floors were solved from the pre-exclusion universe L (5,559 pathways, space `leaves_centred`) and
+applied to the x2 universe (5,539 pathways, space `leaves_centred_x2`). The cached scrambles are
+universe L, and there are no x2 scramble trees. So the new strata are solved exactly as cal8 was --
+L scrambles -- while the real side is the build's own x2 side, which is what the gate is applied to.
+Prompt 41 measured the gap between the two readings and found them to agree on every bin to within a
+few candidates, and on T exactly. The alternative, building x2 scramble trees for sixteen seeds,
+is not what the prompt asks for and is not what cal8 did.
+
+**Estimate: about 20 minutes.** Seed 4006's 200 trees ~35 s and its side material ~4 min; loading the
+real side and sixteen cached scramble sides ~10 s; solving eight strata, seconds; the build itself
+(gate, consensus, the joint fixed point, Hasse, export) ~5 min and longer than O50's 64 s because the
+gate will admit more candidates; the report's O50-to-O50s matching ~1 min. Under the 3 h ceiling.
+
+**How the strata become a parameter, and the proof that nothing else moved.** `v04.STRATA` is a
+module constant that `v04.stratum_of` and `v04.gate` read, and changing it would break the frozen
+byte-identity proof and every existing caller. Instead `strata` becomes an **optional parameter** on
+`stratum_of`, `gate` and `build`, defaulting to `STRATA`, so every existing call is unchanged. The
+guard is `scripts/o50s_build.py --verify`: run with the frozen six strata and the frozen cal8 floors
+it must reproduce the frozen O50 exactly, and the strata-aware held-out check must reproduce
+`build_10770.confirm` exactly.
+
+---
+
+Prompt 43: O50 with size strata above 10 (O50s). Declared 17 Oct 2026, before any result. This build adopts nothing by itself. Prompt 42 is on hold: do not run it. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+WHY
+Prompt 41 found that the 10+ stratum pools every size from 10 to 2,809 under one floor (0.025). The noisy small end (10-39) sets that floor. Above 40 pathways, scrambled groupings never recur twice, yet 6,453 real candidates do, with a rule-of-three FDR bound under 0.0032. Large clusters are being judged by small-cluster noise.
+
+The fix extends the existing per-size stratification. Nothing else changes.
+
+SPEC
+Start from the frozen O50 configuration exactly: x2 universe, arm L, cached trees, 0.70 match, absorption, consensus with twin 0.50, the joint fixed point with chain 0.85, and repair.
+
+Change only the floors:
+
+1. **Strata.** Strata 3, 4, 5, 6 and 7-9 keep their frozen cal8 floors unchanged. Replace 10+ with doubling strata: 10-19, 20-39, 40-79, 80-159, 160-319, 320-639, 640-1,279 and 1,280+.
+2. **Solver for the new strata.**
+   - Use the cached calibration scrambles (3001-3010).
+   - The candidate cuts are every distinct support value seen in real OR scrambled candidates of the stratum.
+   - FDR(cut) = (mean scrambled count ≥ cut) / (real count ≥ cut).
+   - Where the scrambled count is 0, replace it with the rule-of-three bound 3/10 per seed.
+   - The floor is the lowest cut with FDR ≤ 0.008. If no cut reaches it, the stratum admits nothing.
+3. **Held-out check.**
+   - Seeds 4001-4002 (cached) plus 4003-4006, which must be computed.
+   - Report per-stratum and overall held-out FDR.
+   - Caps: 0.02 per stratum, 0.01 overall.
+
+REPORT (docs/status/2026-10-17-O50s-strata.md), O50s vs O50
+1. **Floors:** per stratum, the floor, the real count passing it, the calibration FDR and the held-out FDR. Mark which strata used the rule-of-three bound.
+2. **Themes by size band:** 3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+. Give the counts after the full build.
+3. **Shape:**
+   - giants (over 1,000) with their sizes;
+   - roots, and how many are small roots of 50 members or fewer;
+   - children per node, maximum and median;
+   - multi-parent share.
+4. **Small themes kept:** the count of themes of 3-50 against O50's. Also the share of O50 themes that have an O50s counterpart at J ≥ 0.9.
+5. **Summary placement**, overall and by band, against O50's 85.3%.
+6. **Agreement with Reactome's top level:** median best Jaccard.
+7. **New large themes:** the themes of 101-1,000 that have no O50 counterpart at J ≥ 0.7, plus their best J to any rec2fix area.
+8. **For the reviewer:** write data/experiments/O50s_review_2026-10-17/large_themes.tsv. It lists every O50s theme of 101-1,000 members, with id, size, support, status (new or kept) and the full member keys. Do not judge them.
+
+DECISION (declared now; to be used only after the reviewer checks)
+O50s becomes a candidate to replace O50 only if all of these hold:
+- held-out FDR within the caps in every stratum and overall;
+- the 3-50 theme count is at least 95% of O50's;
+- the 101-1,000 band gains at least 2× O50's count;
+- the reviewer's blind reading finds at least 90% of the new 101-1,000 themes coherent or a linked umbrella;
+- the blind intruder test on them scores at least 70%;
+- Aviyah decides.
+
+FINAL
+- Copy this prompt verbatim into DECISIONS.md as "declared before running", before building.
+- Output: data/ontology/v0.4-leaves/thema_L_x2_O50s/.
+- Write docs/status/commit-2026-10-17-O50s.sh, to run after commit-2026-10-16-resolution-limit.sh. It commits:
+  - the code, tests, build, status note and the review folder;
+  - data/experiments/reviewer_notes/PROMPT_42.md, marked on hold;
+  - data/experiments/reviewer_notes/PROMPT_43.md.
+  No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate. After the build, give:
+- the floors table;
+- the band table;
+- the small-theme check;
+- placement and Reactome agreement;
+- the count of new large themes;
+- the commit script path.
+
+## 2026-10-17 02:57:24 UTC+1 — O50s RESULT: all three criteria ccode owns PASS. Still adopts nothing; the reviewer and Aviyah decide.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-17-O50s-strata.md`. Output:
+`data/ontology/v0.4-leaves/thema_L_x2_O50s/`.
+
+| criterion | result |
+|---|---|
+| held-out FDR within the caps in every stratum and overall | **PASS** -- overall **0.00233** (cap 0.01), worst stratum 7-9 at **0.01088** (cap 0.02) |
+| the 3-50 theme count is at least 95% of O50's | **PASS** -- 5,305 against 4,486 = **118.3%** |
+| the 101-1,000 band gains at least 2x O50's count | **PASS** -- 87 against 17 = **5.12x** |
+| the reviewer's blind reading finds >=90% of the new 101-1,000 themes coherent or a linked umbrella | the reviewer's; **59 new themes** listed in `data/experiments/O50s_review_2026-10-17/large_themes.tsv` |
+| the blind intruder test on them scores at least 70% | the reviewer's |
+| Aviyah decides | Aviyah's |
+
+**THREE PROOFS RAN BEFORE ANY NUMBER WAS REPORTED.** `v04.STRATA` is a module constant the gate
+reads, so the stratification became an **optional parameter** on `v04.stratum_of`, `v04.gate` and
+`v04.build` rather than an edit to the constant. (1) `v04_run.py --all-stages-on --verify`, the
+declared guard for changed v0.4 code, **PASSES** -- all four tables identical to the frozen v0.3
+build. (2) `o50s_build.py --verify`, with the frozen six strata and the frozen cal8 floors,
+reproduces the frozen O50's **nodes.tsv, members.tsv, edges.tsv and unplaced.tsv byte for byte**
+(4,602 themes, 188 roots, 2,009 multi-parent). (3) The strata-aware held-out check is **identical**
+to `build_10770.confirm` on the frozen six strata. So the only difference between O50 and O50s is
+the floors.
+
+**The prompt's one factual slip, in Aviyah's favour.** It says held-out seeds "4001-4002 (cached)
+plus 4003-4006, which must be computed". **4001 through 4005 were all already cached**, side material
+and trees alike. Only **4006** needed building, because `build_trees_10770.HELDOUT_SEEDS` stops at
+4005; a `--seed-list` argument was added for it, additive and defaulting to the declared sets.
+Running the builder on the cached 4005 first reported **0 built, 200 cached**, which proves the
+vectors, space, universe digest and subsample rows match whatever produced the existing fifteen
+sides. Then 4006: 28.5 s for 200 trees, 176 s for its side, **219,073 candidates** against the
+ten-seed mean of 219,096.
+
+**FLOORS.** Strata 3-3, 4-4, 5-5, 6-6 and 7-9 keep their frozen cal8 floors untouched. The eight new
+ones: **10-19 at 0.030151**, and **20-39, 40-79, 80-159, 160-319, 320-639, 640-1279 and 1280+ all at
+0.01** -- support 2/200, "found in at least two subsamples", the first rung above the noise. Six of
+the eight (40-79 upward) rest on the **rule-of-three substitution**, so their calibration FDR is an
+upper bound and not an observation. **Two things are worth noting.** First, **the 10-19 floor went
+UP**, 0.025126 to 0.030151: splitting the pool tightened the noisy small end rather than loosening
+it, because 10-19 no longer has 86,000 larger candidates diluting its rate. Second, **a latent limit
+of the declared rule**: a bounded cut's FDR is `0.3 / kept`, so it reaches 0.008 only once **38 or
+more** real candidates clear it. Every new stratum here has at least 96, but a finer stratification
+would start hitting that wall, and more scramble seeds -- not a better cut -- is the only way past
+it. `tests/test_o50s.py` asserts the 37/38 boundary.
+
+**THE MISSING LAYER ARRIVES.** The gate admitted **26,120** candidates against O50's 13,537;
+consensus gave 6,589 against 5,261; the joint fixed point **5,658 themes against 4,602**. By band:
+25-49 **394 -> 1,059** (2.69x), 50-99 **99 -> 267** (2.70x), **100-199 11 -> 67 (6.09x)**, 200-399
+**5 -> 19** (3.80x). The only band that shrinks is 6-11, by 64 themes (3%), as more mid-size
+candidates give consensus more chances to supersede a small near-duplicate.
+
+**SUMMARY PLACEMENT 85.3% -> 92.6%**, +173 summaries, every band improving. **That is the best
+placement figure this project has produced from a single build**, and it comes with no extra layer:
+the areas pass reached 92.8% only by adding 470 constructed areas on top of O50, and its successor's
+view fell to 75.4% once the giants were dropped.
+
+**SMALL THEMES ARE NOT SWALLOWED -- they grow.** 3-50 members: 4,486 -> **5,305 = 118.3%**. But
+**O50s is not a superset of O50**: 235 O50 themes (5.1%) have no O50s counterpart at J >= 0.9, sizes
+10 to 1,412, median 14. The distribution of each O50 theme's best O50s Jaccard is **4,133 at exactly
+1.00**, then 234 at 0.9, 65 at 0.8, 31 at 0.7, 31 at 0.6, 50 at 0.5, 40 at 0.4, 14 at 0.3, 4 at 0.2.
+So 90% survive untouched and the tail that does not is mostly small themes merged into something
+larger.
+
+**FOUR COSTS, NONE OF THEM IN THE DECLARED CRITERIA.**
+
+1. **The structure got busier.** Multi-parent **43.7% -> 63.3%**; the busiest node's direct children
+   **283 -> 382**; roots **188 -> 261**. The small-root count barely moves (168 -> 164), so its share
+   falls only because the root total grew. If the ontology is to be browsed, this is a cost the
+   placement figure does not capture.
+2. **A NEW GIANT OF 2,096 PATHWAYS APPEARED and no declared check covers it.** Node ids are
+   positional and not comparable across builds, so the giants were matched by membership: four of
+   O50s's five are O50's four, grown 9-14% (J 0.881 to 0.939), but **`n04994` at 2,096 pathways has a
+   best match of 0.315 to any O50 theme**. It holds 38% of the universe. The reviewer's reading and
+   intruder test are scoped to 101-1,000, so this node is unexamined; the 15 Oct giant reading is the
+   right instrument and prompt 43 does not ask for it.
+3. **The new mid-size themes are weakly supported in absolute terms**: 0.010 to 0.020, two to four
+   subsamples of 200. Above the calibrated floor, with a held-out FDR of 0.0 for their strata, but a
+   long way from the 0.8-0.9 supports O50's small themes carry.
+4. **O50s and the areas pass disagree about what the missing layer is.** Of the 59 new 101-1,000
+   themes, best Jaccard to any rec2fix area is **>=0.7 for only 2**, 0.5-0.7 for 14 and **below 0.5
+   for 43**; median 0.408. So adopting O50s is not a cheaper route to the areas pass -- it is a
+   different answer, and unlike the areas these groups carry a calibrated support floor.
+
+**REACTOME AGREEMENT IS UNCHANGED: median best Jaccard 0.273 in both builds**, to three decimals.
+Per branch there are small gains (Immune System 0.159 -> 0.181, Developmental Biology 0.171 ->
+0.182, Metabolism of proteins 0.121 -> 0.136, ECM 0.333 -> 0.360, Programmed Cell Death 0.438 ->
+0.452) and two small losses (DNA Repair 0.333 -> 0.322, Signal Transduction 0.221 -> 0.218);
+fourteen of the 29 do not move at all. **A thousand extra themes do not bring the ontology closer to
+curated top-level biology.** That is now true of the areas pass, the recursive operator and a floor
+change alike, which is evidence about the measure as much as about the builds.
+
+**Code:** `scripts/o50s_build.py` (the declared solver, the strata-aware held-out check, the build
+and its `--verify` proof), `scripts/o50s_report.py`, 21 tests in `tests/test_o50s.py`; the additive
+`strata` parameter in `src/thema/ontology/v04.py`; `--seed-list` in `scripts/build_trees_10770.py`.
+Output `data/ontology/v0.4-leaves/thema_L_x2_O50s/` and the reviewer's table
+`data/experiments/O50s_review_2026-10-17/large_themes.tsv` (87 rows, full member lists, **not
+judged**). **The frozen folders and every existing build were left alone**; the only writes outside
+the new directories are additive cache entries (seed 4006's trees and side) and the tree build log,
+none of which is tracked. Cost 28.5 s + 176 s for seed 4006, 96 s for the verify, 229 s and 1.45 GB
+for the build, 8 s for the report. No API calls.
