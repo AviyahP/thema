@@ -1,0 +1,986 @@
+[
+{
+"id": "R001",
+"verdict": "P",
+"confidence": "medium",
+"reason": "ROS detoxification and metal/xenobiotic stress responses fit P's oxidative/redox stress responses (H2O2, nitrosative stress, redox state, toxicant responses); Q and R are generic."
+},
+{
+"id": "R002",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Peroxisome biogenesis, protein import and pexophagy is a coherent organelle topic; P is ER protein targeting/quality control, Q and R are lipid metabolism."
+},
+{
+"id": "R003",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent estrogen/androgen/progesterone signaling and mammary gland development theme; all larger themes are huge generic grab-bags."
+},
+{
+"id": "R004",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent FOXO/NFE2L2/HIF metabolic stress-transcription theme; all three larger themes are huge and unrelated in sample."
+},
+{
+"id": "R005",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Autophagy and protein quality control/deubiquitination is its own topic; R is ESCRT/mitochondrial protein import, only partly related; P and Q are generic."
+},
+{
+"id": "R006",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Ammonium/CO2/proton transport, organelle acidification and erythrocyte gas exchange is distinct from P's metal (iron/zinc/copper) ion homeostasis; Q and R generic."
+},
+{
+"id": "R007",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Sphingolipid/DAG/lipid-signaling metabolism best fits Q's lipid metabolism and lipid mediator theme; P and R are generic."
+},
+{
+"id": "R008",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Histamine/histidine and oligopeptide proton-coupled transport fits Q's small transmembrane transport/pH homeostasis theme; P and R are generic."
+},
+{
+"id": "R009",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Phagosome/endosome-lysosome fusion and autophagy maturation fits R's endomembrane/vesicle trafficking theme; P and Q are generic."
+},
+{
+"id": "R012",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Nuclear pore/nuclear envelope dynamics plus ESCRT membrane fission is a coherent topic distinct from P's mitotic spindle/centrosome/SUMOylation; Q and R generic."
+},
+{
+"id": "R013",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Early embryo (maternal-to-zygotic transition, pluripotency) and trophoblast/placenta development is distinct from Q/R gametogenesis, meiosis and gonadal hormone themes."
+},
+{
+"id": "R018",
+"verdict": "P",
+"confidence": "high",
+"reason": "Leukotriene/histamine/prostanoid GPCR signaling belongs in P's eicosanoid and lipid mediator theme (COX, prostaglandins, leukotriene catabolism); Q and R generic."
+},
+{
+"id": "R023",
+"verdict": "P",
+"confidence": "high",
+"reason": "Melanin/pigment granule and organelle acidification match P's melanosome, pigmentation and acidification members; Q generic, R is metal ion transport."
+},
+{
+"id": "R024",
+"verdict": "P",
+"confidence": "low",
+"reason": "Prostaglandin/purinergic/phospholipid catabolism signaling overlaps P's GPCR lipid signaling and phospholipase themes; Q (leukotriene/histamine) is also close, R generic."
+},
+{
+"id": "R025",
+"verdict": "P",
+"confidence": "high",
+"reason": "ROS detoxification and redox homeostasis fit P's oxidative stress/redox regulation theme; Q and R are generic."
+},
+{
+"id": "R026",
+"verdict": "P",
+"confidence": "high",
+"reason": "Inositol phosphate and PIP synthesis is a sub-theme of P's PI3K/PTEN/AKT and PIP synthesis theme; Q (phospholipid transfer) less specific, R generic."
+},
+{
+"id": "R027",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent phosphoinositide/PTEN/AKT signaling theme; all three larger themes are huge and unrelated in sample."
+},
+{
+"id": "R028",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent steroid/nuclear-receptor (estrogen, androgen, progesterone) plus SREBP/cholesterol and liver theme; all three larger themes are unrelated grab-bags."
+},
+{
+"id": "R030",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Amyloid-beta clearance, scavenger receptors, oxLDL and foam-cell/microglial activation fit Q's lipoprotein clearance plus microglia theme (APOE/LRP-type biology)."
+},
+{
+"id": "R031",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Striated muscle contraction, dystroglycan glycosylation (muscular dystrophy) and connexins form a muscle-specific topic; P is general basement membrane/integrin/collagen ECM."
+},
+{
+"id": "R032",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Tryptophan-kynurenine-NAD and polyamine metabolism are amino acid-derived pathways that fit R's amino acid/one-carbon/SAM-methionine salvage metabolism."
+},
+{
+"id": "R033",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Hyaluronan degradation, PAPS sulfation, UDP-glucuronate and chondrodysplasias belong with Q's glycosaminoglycan/glycosylation/MPS theme."
+},
+{
+"id": "R034",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Organelle/phagosome acidification plus PS exposure and apoptotic-cell clearance; P is apical epithelial ion transport and CFTR trafficking, not a natural parent."
+},
+{
+"id": "R035",
+"verdict": "P",
+"confidence": "low",
+"reason": "Glucose sensing/ChREBP/gluconeogenesis with FOXO/AKT/mTORC1/p53 regulation overlaps P's FOXO, PI3K-AKT-mTOR and metabolic-stress signaling, though the hepatic glucose focus is fairly distinct."
+},
+{
+"id": "R036",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Mtb host manipulation, phagosome acidification and phagolysosome fusion match R's intracellular-bacteria entry/xenophagy/phagosome pH theme; surfactant items are a minor outlier."
+},
+{
+"id": "R037",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Mixed theme of phospholipid scrambling/apoptotic clearance, O2/CO2/ammonium gas transport and surfactant; P is phospholipid synthesis/remodeling and does not cover the gas transport core."
+},
+{
+"id": "R040",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Apical/cell-surface protein localization and membrane-raft targeting fit P's membrane trafficking, raft assembly and endocytosis theme."
+},
+{
+"id": "R042",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Circadian clock (BMAL1/CLOCK, CRY/PER) and nuclear hormone receptor signaling fit Q's nuclear receptor/metabolic transcription theme, which includes BMAL1:CLOCK, REV-ERB/ROR and locomotor rhythm."
+},
+{
+"id": "R044",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Mismatch repair (plus MSI-associated TGFBR/SMAD mutants) is a DNA repair subtopic fitting Q's DNA replication/repair/translesion theme; P and R are B-cell somatic hypermutation."
+},
+{
+"id": "R046",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent mechanosensing/PIEZO1, shear stress, ATP release and purinergic signaling theme; the larger themes are unrelated grab-bags."
+},
+{
+"id": "R047",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Prostanoid/leukotriene synthesis and receptor signaling and thrombin/P2Y12 platelet signaling fit P's eicosanoid/lipid mediator and platelet coagulation theme."
+},
+{
+"id": "R048",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Cornified envelope/skin barrier with epidermal 12-LOX/hepoxilin and ichthyosis genes is a specific epidermis topic; the larger themes cover general lipid metabolism, sphingolipids or epithelial adhesion."
+},
+{
+"id": "R050",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "ER membrane-bound transcription factors (SREBP, ATF6, CREB3) and cholesterol homeostasis are a coherent topic; R is ChREBP glucose sensing and P/Q are grab-bags."
+},
+{
+"id": "R052",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Zinc/copper/iron/manganese transport and homeostasis fit Q's metal ion transport/heme/metallothionein theme; acidification items are secondary."
+},
+{
+"id": "R056",
+"verdict": "P",
+"confidence": "medium",
+"reason": "ROS/H2O2/superoxide regulation, respiratory burst and antioxidant vitamins C/E fit P's ROS detoxification/redox homeostasis theme rather than Q's metal/heme transport."
+},
+{
+"id": "R058",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Organelle acidification (V-ATPase, endo/lysosome/phagosome pH) plus apical/CFTR trafficking; R is plasma-membrane SLC anion/bicarbonate transport, related but different; P and Q are grab bags."
+},
+{
+"id": "R060",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Microtubule/centrosome organization fits R's centrosome, spindle, cilia and cell-division content; P and Q are unrelated grab bags."
+},
+{
+"id": "R061",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent xenobiotic/drug-response theme (AhR, dioxin, cisplatin, xenobiotic transport); all three larger themes are broad unfocused grab bags."
+},
+{
+"id": "R062",
+"verdict": "P",
+"confidence": "high",
+"reason": "Iron/heme/erythroid theme sits naturally in P (heme biosynthesis, erythrocyte gas exchange, Rh, SLC40A1/CP iron defects); Q is the same plus hypoxia, R is a metabolic grab bag."
+},
+{
+"id": "R064",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent OXPHOS/respiratory chain assembly + heme + hypoxia theme; R is metal-ion/erythrocyte transport, P and Q are broad metabolic grab bags."
+},
+{
+"id": "R066",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Receptor endocytosis/downregulation (EGFR, LDLR/VLDLR, receptor internalization); R is lipid/cholesterol metabolism, only partially overlapping; P and Q are grab bags."
+},
+{
+"id": "R067",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Golgi organization, vesicle budding and tethering is a sub-topic of P's Golgi/ER/endosome membrane trafficking; Q (Rab prenylation/tethering) is narrower, R is a grab bag."
+},
+{
+"id": "R068",
+"verdict": "P",
+"confidence": "high",
+"reason": "Tight junction assembly and pathogen targeting of junctions fits under P's cell junction/adhesion/epithelial polarity theme."
+},
+{
+"id": "R069",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Protein lipidation (palmitoylation, Wnt/Hh lipid modification, RAS processing) and membrane targeting align with Q's prenylation/membrane-targeting/exocyst set; P and R are grab bags."
+},
+{
+"id": "R070",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Antibacterial innate immunity (NOD1/2, IPAF inflammasome, phagosome-pathogen interplay) fits R's immune/inflammatory signaling theme; P and Q are unfocused."
+},
+{
+"id": "R072",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Tight PI3K/AKT/PTEN/FOXO/mTOR signaling with glycolytic regulation; all larger themes are unrelated grab bags."
+},
+{
+"id": "R074",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Microglial differentiation/activation and neuronal injury fit P's glial/microglia/neurodegeneration theme; Q is neurotrophin-centered, R a grab bag."
+},
+{
+"id": "R077",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Polyamine metabolism/transport (ODC, spermidine, putrescine, hypusine) is its own topic; P/R are protein methylation/hydroxylation, Q is tryptophan/NAD."
+},
+{
+"id": "R078",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Lipid-mediated PKC/S1P/LPA/phosphoinositide signaling fits P's PLC/Ca2+/IP3 second-messenger theme; Q and R are BCR-focused."
+},
+{
+"id": "R079",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Chaperonin/TRiC protein folding and stabilization is a sub-topic of Q's proteostasis (UPR, heat shock, ubiquitin/ERAD) theme."
+},
+{
+"id": "R080",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Polyamine metabolism plus protein methylation/hydroxylation modifications; P is tRNA aminoacylation, Q nucleotide/mito RNA, R a broad metabolic grab bag."
+},
+{
+"id": "R082",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent lung/surfactant and apical epithelial (CFTR, pancreatic/intestinal epithelium) theme; all three larger themes are unrelated grab bags."
+},
+{
+"id": "R083",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Mostly phagosome/lysosome acidification and intracellular bacterial pathogen manipulation; Q's immune signaling is related but centered on cytokines/lymphocytes, P and R are grab bags."
+},
+{
+"id": "R084",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent insulin secretion/insulin-glucagon glucose homeostasis topic; Q is adipose/lipid metabolic regulation, P and R are generic catch-alls."
+},
+{
+"id": "R085",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "GABA/glutamate/glycine neurotransmitter synthesis and reuptake is a focused topic; P is cholinergic synapse, Q is general SLC solute transport."
+},
+{
+"id": "R086",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Sphingolipid/ceramide and fatty-acid metabolism for skin barrier fits within R's broad lipid metabolism (phospholipid, eicosanoid, fatty acid)."
+},
+{
+"id": "R087",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Growth hormone/leptin/thyroid/mTORC1 nutrient-growth endocrine control; Q is steroidogenesis, P and R are generic."
+},
+{
+"id": "R090",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Bile acid synthesis/recycling is part of R's intestinal lipid absorption and cholesterol catabolism theme."
+},
+{
+"id": "R091",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "AKT-FOXO/IGF signaling in muscle atrophy is coherent; all larger themes are generic catch-alls."
+},
+{
+"id": "R092",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "SREBP cholesterol homeostasis plus Hh/Wnt ligand lipidation in ER; no larger theme is specific to it."
+},
+{
+"id": "R095",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Phospholipid scrambling/apoptotic cell clearance and surfactant; R is gas/ammonium transport, P and Q generic."
+},
+{
+"id": "R096",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Phosphoinositide/inositol phosphate synthesis is a branch of Q's phospholipid synthesis and remodeling theme."
+},
+{
+"id": "R097",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Dolichol, N-glycan precursor and GPI anchor synthesis matches R's ALG/DPAGT1/DPM CDG glycosylation content."
+},
+{
+"id": "R099",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Apical polarity, microvilli and stereocilia; P is tight junction/basement membrane, related but a different focus."
+},
+{
+"id": "R100",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Mitochondrial protein import, dynamics and mitophagy; P is general autophagy/ESCRT, R is organelle transport."
+},
+{
+"id": "R101",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Protein lipidation (palmitoylation/prenylation) with sphingolipid metabolism; P and Q are glycerophospholipid themes."
+},
+{
+"id": "R107",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Scavenger receptor and apoptotic cell clearance overlaps Q's microglial/oxLDL/amyloid clearance theme."
+},
+{
+"id": "R108",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Insulin/PI3K-AKT-mTORC1 nutrient sensing; all larger themes are generic catch-alls."
+},
+{
+"id": "R110",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Skin, hair, tooth ectodermal development; Q is pigmentation/MITF and R is eye/vision."
+},
+{
+"id": "R111",
+"verdict": "Q",
+"confidence": "high",
+"reason": "ROS detoxification and metal stress fit Q's oxidative stress and redox response theme."
+},
+{
+"id": "R112",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Purinergic (P2Y/adenosine/ATP) plus histamine signaling; P is serotonin-specific and Q/R are huge unrelated mixtures."
+},
+{
+"id": "R113",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Heavy-metal/metallothionein/pesticide/AhR responses fit Q's xenobiotic metabolism and metal-ion (zinc, copper, iron) handling theme."
+},
+{
+"id": "R114",
+"verdict": "R",
+"confidence": "low",
+"reason": "Lung surfactant, CFTR and apical epithelial polarity best match R's epithelial and pneumocyte development; P/Q are huge unrelated mixtures."
+},
+{
+"id": "R116",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Bone marrow, thymic T cell, pro-B and stem cell proliferation terms are a sub-topic of Q's hematopoiesis and stem cell division theme."
+},
+{
+"id": "R117",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Metal-ion (zinc/copper/iron) homeostasis and xenobiotic/toxicant responses overlap R's xenobiotic and metal handling theme; the thyroid part is a minor add-on."
+},
+{
+"id": "R119",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Neddylation, proteasome assembly and UCH deubiquitinases fit R's deubiquitination/proteasome ubiquitin-system theme."
+},
+{
+"id": "R121",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Aggrephagy, chaperone-mediated autophagy and protein quality control sit naturally under P's selective autophagy, mitophagy and ubiquitination theme."
+},
+{
+"id": "R124",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Vitamin K gamma-carboxylation, vitamin C and collagen crosslinking form a coherent topic absent from P (huge mix) and Q/R (metal/xenobiotic responses)."
+},
+{
+"id": "R126",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Histone modification, DNA methylation and MECP2/NuRD chromatin regulation fit R's chromatin remodeling and histone methylation/acetylation theme."
+},
+{
+"id": "R128",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent FOXO/AKT/p53 control of glycolysis and redox metabolism; all three larger themes are huge unrelated mixtures."
+},
+{
+"id": "R131",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Iron transport, heme scavenging and transferrin cycling belong with R's heme, erythrocyte and oxygen transport theme."
+},
+{
+"id": "R132",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent NRF2 antioxidant response, heat shock and alkylation-damage repair; P, Q and R are huge unrelated mixtures."
+},
+{
+"id": "R134",
+"verdict": "P",
+"confidence": "low",
+"reason": "Hyaluronan/proteoglycan and nucleotide-sugar transport fit P's GAG biosynthesis and degradation theme, though the ascorbate half does not."
+},
+{
+"id": "R135",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Aromatic amino acid, catecholamine and tryptophan/NAD catabolism are a sub-theme of Q's amino acid and small-molecule metabolism."
+},
+{
+"id": "R137",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Motile cilia, axoneme and sperm flagellum assembly with tubulin folding fit Q's cilium/IFT and microtubule transport theme."
+},
+{
+"id": "R141",
+"verdict": "R",
+"confidence": "medium",
+"reason": "TCA cycle, hypoxia/HIF and glycolysis regulation fit R's cellular respiration, glycolysis and oxidative stress theme."
+},
+{
+"id": "R143",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Small mixed set of RHOBTB/PAK-2p34 and nuclear-transport regulation; none of the huge larger themes is a clear home."
+},
+{
+"id": "R145",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Endocytosis, pinocytosis and vesicle docking/exocytosis are a sub-theme of P's vesicle trafficking and membrane transport."
+},
+{
+"id": "R147",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Golgi organization, Rab GTPase cycle and vesicle tethering fit inside R's Golgi/endosome vesicle-trafficking theme (Intra-Golgi traffic, golgi membrane); P is a near-equal alternative"
+},
+{
+"id": "R148",
+"verdict": "R",
+"confidence": "high",
+"reason": "Sphingolipid/sphingomyelin biosynthesis sits squarely inside R's sphingolipid and ceramide metabolism theme"
+},
+{
+"id": "R149",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "GPCR/G-beta-gamma, PLC, Ca2+ and lysophospholipid-receptor signalling fit Q's lipid-mediator GPCR signalling theme; P and R are unrelated grab-bags"
+},
+{
+"id": "R150",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "AKT/PAK-2p34 signalling and protein phosphorylation/ADP-ribosylation regulation have no coherent home in the three huge mixed themes"
+},
+{
+"id": "R151",
+"verdict": "Q",
+"confidence": "high",
+"reason": "Iron/heme transport, transferrin and metal-ion responses belong under Q's metal-ion homeostasis and heme theme"
+},
+{
+"id": "R152",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Tight-junction regulation, endothelial barrier and shear-stress signalling fit P's cell-junction/epithelial theme; Q and R are grab-bags"
+},
+{
+"id": "R153",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Cell-cell adhesion and immune-synapse/neuronal adhesion (DSCAM, nectin, SDK) is coherent, and all larger themes are unfocused grab-bags"
+},
+{
+"id": "R155",
+"verdict": "P",
+"confidence": "high",
+"reason": "PDGF/VEGF/RET/Tie/ALK receptor tyrosine kinase and PI3K/ERK signalling belong under P's RTK-to-RAS/MAPK/PI3K signalling theme"
+},
+{
+"id": "R156",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Polyamine metabolism, tRNA aminoacylation/modification and protein modification are closest to Q's small-molecule (nucleotide, methionine, methylation) metabolism; the mix is loose"
+},
+{
+"id": "R158",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Apoptotic execution (DNA fragmentation, lamina breakdown, PAK-2p34) is coherent and none of the giant mixed themes is about it"
+},
+{
+"id": "R159",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Autophagy/ESCRT/multivesicular body is its own coherent topic; Q is mitochondrial protein import/dynamics and R is Golgi/ER vesicle trafficking"
+},
+{
+"id": "R160",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Golgi ribbon assembly/disassembly with small GTPases matches Q, a small Golgi/exocyst/membrane-tubulation theme that already shares about half its members"
+},
+{
+"id": "R161",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Hippo signalling plus nucleocytoplasmic transport regulation has no fit in the three unfocused grab-bag themes"
+},
+{
+"id": "R163",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "PI3K/AKT/PTEN and inositol phosphate signalling is coherent; the larger themes are huge, unrelated mixtures"
+},
+{
+"id": "R164",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Insulin secretion, incretins and pancreatic beta-cell biology is a clear topic; P/Q are grab-bags and R is lipid metabolism"
+},
+{
+"id": "R165",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Nucleotide interconversion, NAD/PRPP and polyamine small-molecule metabolism fit Q's nucleotide/one-carbon metabolism theme"
+},
+{
+"id": "R166",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Prostaglandin/leukotriene synthesis and endocannabinoid metabolism fit Q's lipid-mediator/phospholipid metabolism; the GPCR (histamine, P2Y) part fits less well, and R (coagulation-eicosanoids) is an alternative"
+},
+{
+"id": "R167",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Erythropoiesis, heme synthesis and oxygen/hypoxia fit Q's erythrocyte, heme, iron and oxygen-transport theme better than P's respiratory chain."
+},
+{
+"id": "R168",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Proteasome, UCH deubiquitinases, COP9/deneddylation and degradation regulation match R's DUB/proteasome-assembly/deneddylation theme; P leans toward ubiquitin/SUMO conjugation."
+},
+{
+"id": "R171",
+"verdict": "P",
+"confidence": "low",
+"reason": "Spindle orientation and centrosome positioning in asymmetric neuroblast division is a narrow sub-area of P's centrosome/MTOC microtubule organization; Q is cilia-focused."
+},
+{
+"id": "R173",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent steroid/thyroid nuclear hormone receptor signaling theme; P is general transcription regulation (MITF, CDH1, PAX3) and Q/R are unfocused grab-bags."
+},
+{
+"id": "R174",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent nitric oxide/eNOS/cGMP plus ascorbate/oxygen-transport theme; all three larger themes are huge heterogeneous grab-bags."
+},
+{
+"id": "R177",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Nucleocytoplasmic transport and GTPase activity regulation; P is a small, incoherent mix and Q/R are huge grab-bags."
+},
+{
+"id": "R179",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "ROS detoxification, redox homeostasis and oxidative stress responses fit Q's oxidative stress/redox regulation theme, though the metal/xenobiotic-response part is broader."
+},
+{
+"id": "R183",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent FOXO/PI3K-AKT-mTOR/p53 metabolic and circadian signaling theme; all larger themes are huge unfocused grab-bags."
+},
+{
+"id": "R185",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Lung development and surfactant fit as an organ-specific branch of P's branching-organ development (kidney, mammary, prostate, trachea, diaphragm)."
+},
+{
+"id": "R186",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Keratinocyte, hair follicle, epidermis and tooth development match P's skin/cornification/tooth/epidermal theme."
+},
+{
+"id": "R187",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Mixed organellar acidification, gas/ammonium transport and surfactant theme; P (small transport/histamine) overlaps only partly and Q/R are grab-bags."
+},
+{
+"id": "R188",
+"verdict": "R",
+"confidence": "low",
+"reason": "Transcriptional co-repression and chromatin modification (HDAC, histone methylation, SUMOylation of chromatin factors) fits loosely in R's nuclear chromatin/DNA/RNA theme; P/Q are grab-bags."
+},
+{
+"id": "R189",
+"verdict": "P",
+"confidence": "high",
+"reason": "Wnt signaling regulation (DVL, AXIN, FZD, WNT secretion) is a clear sub-theme of P's Wnt/beta-catenin destruction-complex theme."
+},
+{
+"id": "R190",
+"verdict": "R",
+"confidence": "high",
+"reason": "Platelet GPCR activation (P2Y, thrombin PARs, thromboxane, GPVI) belongs with R's platelet/coagulation/eicosanoid theme."
+},
+{
+"id": "R191",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Erythropoiesis, EPO and hypoxia signaling pair naturally with R's heme biosynthesis, glycolysis and oxygen-transport members."
+},
+{
+"id": "R193",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Chaperonin/TRiC protein folding and refolding fits under Q's protein quality control/proteostasis theme, though the tubulin-modification part is somewhat separate."
+},
+{
+"id": "R195",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Protein hydroxylation/methylation and collagen crosslinking does not match P's mitochondrial, Q's RNA processing or R's nuclear/cell-cycle themes."
+},
+{
+"id": "R196",
+"verdict": "R",
+"confidence": "medium",
+"reason": "Lipid and purinergic GPCR signaling (prostanoid, LPA/S1P, leukotriene, PLC beta) fits R's lipid-mediator/PLC/prostaglandin signaling theme."
+},
+{
+"id": "R198",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Heterogeneous mix of polyamine metabolism, xenobiotic/AhR responses and DNA dealkylation repair; no larger theme specifically covers this, P/Q/R are broad metabolic or mixed buckets."
+},
+{
+"id": "R199",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Microglial activation, apoptotic-cell clearance and scavenger receptors fit P's innate immune/phagocytic defense theme (phagocytosis, complement, neutrophil, microglia-related terms)."
+},
+{
+"id": "R200",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Bone/tooth mineralization with phosphate, Klotho and calcification disorders sits naturally under P's phosphate/vitamin D/vitamin K mineral homeostasis theme."
+},
+{
+"id": "R201",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Prostaglandin/arachidonate and lipid-mediator GPCR signaling overlaps Q's eicosanoid biosynthesis and platelet/coagulation lipid mediator theme."
+},
+{
+"id": "R202",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent growth hormone/IGF/thyroid hormone endocrine growth-signaling topic; the larger themes are huge generic grab-bags."
+},
+{
+"id": "R206",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Notch O-glycosylation and somitogenesis is a specific segmentation topic; P (limb/skeletal morphogenesis) and Q (Nodal/left-right) are related development but different."
+},
+{
+"id": "R209",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Coherent glycolysis/hypoxia/HIF and NRF2 metabolic stress-response theme; all larger themes are very large and unrelated mixes."
+},
+{
+"id": "R210",
+"verdict": "R",
+"confidence": "high",
+"reason": "Microtubule organization, spindle orientation, centrosome and cytokinesis match R's mitotic spindle/centrosome theme."
+},
+{
+"id": "R211",
+"verdict": "P",
+"confidence": "medium",
+"reason": "PI3K/AKT insulin-receptor signaling and glycogen/glucose uptake regulation fit P's insulin/glucose/lipid metabolic signaling theme (R is a close alternative)."
+},
+{
+"id": "R215",
+"verdict": "Q",
+"confidence": "high",
+"reason": "NO/cGMP signaling, eNOS and smooth muscle contraction/relaxation match Q's vascular tone/blood pressure theme (eNOS trafficking, cGMP, BH4)."
+},
+{
+"id": "R216",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Complement cascade and apoptotic-cell recognition/clearance fit P's innate immune defense theme, which includes complement and phagocytosis."
+},
+{
+"id": "R218",
+"verdict": "R",
+"confidence": "low",
+"reason": "PLC-gamma cascades downstream of FGFR/ERBB/EGFR fit R's receptor tyrosine kinase signaling theme, though the GPCR/PLC-beta and lipid second-messenger parts are less covered."
+},
+{
+"id": "R221",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "NRF2 antioxidant/ROS detoxification and NADPH regeneration is a coherent topic; Q is a small mixed stress/repair group only loosely related, P and R are generic."
+},
+{
+"id": "R222",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Glycolysis, hypoxia and nucleotide energy metabolism relate to Q's oxygen/oxidative stress and mitochondrial respiration theme, though the small theme is coherent enough to stand alone."
+},
+{
+"id": "R223",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Macropinocytosis, ruffles, podosomes and Rac signaling fit Q's actin cytoskeleton/Rac GTPase theme."
+},
+{
+"id": "R224",
+"verdict": "Q",
+"confidence": "high",
+"reason": "cAMP/PKA and adenylate-cyclase coupled GPCR signaling matches Q's adenylate cyclase GPCR signaling theme."
+},
+{
+"id": "R226",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "GPI anchoring, glycosphingolipid synthesis and protein lipidation (Hh/Wnt palmitoylation) form a specific lipid-modification topic; larger themes are huge generic mixes."
+},
+{
+"id": "R227",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Chaperonin/CCT folding and HSF1 heat-shock response fit Q's proteostasis/unfolded protein response theme; telomerase/Cajal body terms are a minor outlier."
+},
+{
+"id": "R228",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent ECM/collagen/elastin/matrix-protease theme; Q is vascular cell behaviour with only peripheral ECM overlap, P and R are grab-bags."
+},
+{
+"id": "R229",
+"verdict": "P",
+"confidence": "low",
+"reason": "SREBP/cholesterol homeostasis, VLCFA elongation and ether-lipid synthesis fit P's lipid biosynthesis theme, though the peroxisome-import and palmitoylation parts are less of a fit."
+},
+{
+"id": "R231",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Thyroid hormone plus responses to xenobiotics/pesticides; P is metal-ion homeostasis, and Q and R are unrelated grab-bags."
+},
+{
+"id": "R232",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Striated muscle contraction and sarcomere assembly sit naturally under P's musculoskeletal/myogenesis development theme."
+},
+{
+"id": "R235",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "OXPHOS, respiratory-chain assembly and mitochondrial protein import form a core theme; Q (mt gene expression) is a sibling, not a parent, and R is heme/hypoxia."
+},
+{
+"id": "R237",
+"verdict": "R",
+"confidence": "low",
+"reason": "Epithelial polarity, tight junctions and basement membrane fit R's epithelial adhesion/junction theme, though R leans toward skin cornification."
+},
+{
+"id": "R238",
+"verdict": "Q",
+"confidence": "low",
+"reason": "A loose set of rules on phosphorylation and nuclear transport; it shares PAK-2p34 and protein-phosphorylation regulation with Q, and P and R are grab-bags."
+},
+{
+"id": "R239",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Protein lipidation (palmitoylation, prenylation), apical trafficking and Hh/Wnt secretion; none of the large themes, which are all grab-bags, matches it."
+},
+{
+"id": "R240",
+"verdict": "Q",
+"confidence": "low",
+"reason": "SLC transport of carnitine, choline, monocarboxylates and carboxylates overlaps Q's organic-ion, carnitine and vitamin transport theme."
+},
+{
+"id": "R242",
+"verdict": "P",
+"confidence": "medium",
+"reason": "ER-Golgi COPI/COPII transport and ER protein targeting fit under P's broader secretory/Golgi/endosomal vesicle-trafficking theme."
+},
+{
+"id": "R243",
+"verdict": "Q",
+"confidence": "low",
+"reason": "Biogenic amine catabolism, carnitine/choline metabolism and ascorbate fit Q's amino-acid and small-molecule metabolism theme better than the grab-bags P and R."
+},
+{
+"id": "R244",
+"verdict": "P",
+"confidence": "medium",
+"reason": "Receptor endocytosis and EGFR downregulation fit P's endosome/lysosome trafficking theme; Q is narrower and specific to LDL receptors."
+},
+{
+"id": "R246",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "GPCR, PLC and Ca2+ lipid-mediator signalling (prostanoids, endocannabinoids); Q is coagulation/platelets and P and R are grab-bags."
+},
+{
+"id": "R248",
+"verdict": "R",
+"confidence": "high",
+"reason": "Proteasome assembly, ERAD, DUBs and protein quality control are clearly part of R's ubiquitin-proteasome theme."
+},
+{
+"id": "R249",
+"verdict": "P",
+"confidence": "low",
+"reason": "ESCRT/MVB, endosome-lysosome fusion and exosomes fit P's endomembrane trafficking theme; R (autophagy/mitophagy) is the alternative."
+},
+{
+"id": "R252",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Cytokinesis, centrosome and mitotic spindle fit Q's mitosis theme (mitotic spindle hallmark, centrosome duplication, nuclear envelope)."
+},
+{
+"id": "R254",
+"verdict": "distinct",
+"confidence": "low",
+"reason": "Direct-reversal alkylation repair, TET DNA demethylation and methionine salvage; it is close to R's BER theme but similar in size and not a clean subset."
+},
+{
+"id": "R255",
+"verdict": "distinct",
+"confidence": "medium",
+"reason": "Coherent basement membrane / dystroglycan / laminin-integrin muscle ECM topic; P is a diffuse signaling grab-bag, Q is metabolism, and R is general glycan/GAG metabolism that only touches the DAG1 O-mannosylation part."
+},
+{
+"id": "R256",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "TCA cycle, Fe-S cluster, heme synthesis and succinate-ubiquinone electron transport fit as a sub-theme of Q's mitochondrial energy metabolism (PDH, respiratory chain, lipoylation)."
+},
+{
+"id": "R257",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Serotonin/tryptophan/kynurenine/MAO-COMT amine catabolism is a sub-theme of Q's aromatic amino acid, catecholamine and BH4 metabolism (P is nearly the same set; Q is the tighter parent)."
+},
+{
+"id": "R258",
+"verdict": "Q",
+"confidence": "medium",
+"reason": "Mtb host-pathogen interactions, NOD1/2 sensing, xenophagy and IPAF inflammasome sit naturally under Q's antibacterial defense / inflammasome / complement theme."
+},
+{
+"id": "R259",
+"verdict": "P",
+"confidence": "high",
+"reason": "Exocyst, Golgi-to-plasma-membrane transport and GLUT4 translocation are a sub-theme of P's vesicle trafficking / Golgi / endosome transport theme."
+},
+{
+"id": "R261",
+"verdict": "distinct",
+"confidence": "high",
+"reason": "Tight PI3K-AKT-mTOR / PTEN / FOXO / nutrient-sensing signaling topic; P, Q and R are all very broad mixed themes with no specific match."
+}
+]
