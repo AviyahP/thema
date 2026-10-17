@@ -1,0 +1,50 @@
+{
+  "n_pool": 270570,
+  "n_completed": 264897,
+  "n_absorbed": 164946,
+  "n_nan_support": 0,
+  "n_candidates": 99951,
+  "n_gated": 13537,
+  "n_after_consensus": 5261,
+  "n_final": 4602,
+  "n_collapsed": 587,
+  "n_merged": 72,
+  "tracked_from": 51,
+  "n_tracked": 31027,
+  "step4": {
+    "band": [
+      201,
+      1000
+    ],
+    "n_removed_in_band": 37,
+    "n_groups": 36,
+    "same_group_jaccard": 0.9,
+    "removed_to_rec2fix_area": {
+      "ge_0.7": 0,
+      "0.5_0.7": 7,
+      "lt_0.5": 29
+    },
+    "removed_to_o50_node": {
+      "ge_0.7": 29,
+      "0.5_0.7": 7,
+      "lt_0.5": 0
+    },
+    "n_band_areas": 105,
+    "area_to_gated": {
+      "ge_0.7": 0,
+      "0.5_0.7": 5,
+      "lt_0.5": 100
+    },
+    "area_to_removed": {
+      "ge_0.7": 0,
+      "0.5_0.7": 1,
+      "lt_0.5": 104
+    },
+    "area_to_final_o50": {
+      "ge_0.7": 0,
+      "0.5_0.7": 7,
+      "lt_0.5": 98
+    }
+  },
+  "seconds": 167.0
+}
