@@ -1,0 +1,431 @@
+AREAS AS ONE OPERATOR (rec3). Declared 16 Oct 2026 before any result.
+Arm W is size-weighted and primary; arm E is equal weight and an ablation only.
+
+==============================================================================
+LEVEL 0: THE FROZEN O50, AS IS
+==============================================================================
+  4,602 nodes, 4 giants [('n01420', 1412), ('n01845', 2332), ('n02670', 2015), ('n03867', 2018)]
+  5,539 pathways; the structure reproduces O50's own 7,525 edges exactly (tests/test_areas_rec3.py)
+
+==============================================================================
+ARM W: PER LEVEL
+==============================================================================
+  LEVEL 1: 661 items, sizes 1/15/813, double counting 3.14x
+    candidates 6,169 -> gate 0 -> consensus 0 -> 0 areas (631s)
+    held-out FDR per stratum, with the real-candidate count
+      stratum       floor     calib  held-out   real    cap
+      3-3            None      None      None      0   0.02
+      4-4            None      None      None      0   0.02
+      5-5            None      None      None      0   0.02
+      6-6            None      None      None      0   0.02
+      7-9            None      None      None      0   0.02
+      10+            None      None      None      0   0.02
+      OVERALL                            None                 0.01
+  stopped because level 1 admitted no candidate under the floors
+
+==============================================================================
+ARM E: PER LEVEL
+==============================================================================
+  LEVEL 1: 661 items, sizes 1/15/813, double counting 3.14x
+    candidates 5,685 -> gate 1,371 -> consensus 399 -> 317 areas (669s)
+    areas by size band: 1-10=0, 11-50=38, 51-200=186, 201-1000=83, 1001+=10
+    area sizes 20/122/3748 pathways; 82 collapsed, 0 merged inside T
+    structure after this level: 4,905 nodes, 47 roots, 8,676 direct edges, children max 242
+    held-out FDR per stratum, with the real-candidate count
+      stratum       floor     calib  held-out   real    cap
+      3-3            0.92   0.00385   0.03846     13   0.02  OVER
+      4-4            0.96   0.00455       0.0     11   0.02
+      5-5           0.785    0.0075       0.0     20   0.02
+      6-6           0.615    0.0069   0.02586     29   0.02  OVER
+      7-9           0.435   0.00798   0.01064     94   0.02
+      10+        0.055276   0.00768   0.00685   1204   0.02
+      OVERALL                         0.00766                 0.01
+  stopped because level 1 brought the structure to 47 roots
+
+==============================================================================
+ARM W: THE STRUCTURE
+==============================================================================
+  4,602 nodes (4602 O50, 0 areas); 7,525 direct edges, 26,972 containment pairs
+  ROOTS: 188  (0 areas, 188 O50 nodes)
+  direct children per node: max 283, median 1, 5 over 60
+  root sizes 6/15/2332 pathways
+  the rules over the whole set: 0 collapsed, 0 merged
+
+  every root, largest first
+  root          kind    level  pathways  items  children
+  n01845        o50         0      2332      1       277
+  n03867        o50         0      2018      1       283
+  n02670        o50         0      2015      1       246
+  n01420        o50         0      1412      1       140
+  n01027        o50         0       813      1       105
+  n01279        o50         0       781      1        59
+  n03315        o50         0       349      1        14
+  n03285        o50         0       156      1         5
+  n03771        o50         0       123      1        13
+  n02495        o50         0       119      1         5
+  n03001        o50         0       100      1         4
+  n04378        o50         0        88      1         4
+  n03704        o50         0        85      1         7
+  n03961        o50         0        85      1         7
+  n02533        o50         0        79      1         3
+  n03870        o50         0        74      1         7
+  n03451        o50         0        73      1         4
+  n03705        o50         0        72      1         5
+  n02391        o50         0        60      1         3
+  n04381        o50         0        53      1         3
+  n04199        o50         0        49      1         3
+  n04383        o50         0        49      1         5
+  n04384        o50         0        49      1         4
+  n03649        o50         0        47      1         2
+  n03059        o50         0        46      1         2
+  n03085        o50         0        45      1         5
+  n03289        o50         0        44      1         3
+  n04201        o50         0        44      1         4
+  n04202        o50         0        43      1         4
+  n02960        o50         0        39      1         4
+  n03256        o50         0        39      1         3
+  n03290        o50         0        39      1         4
+  n01322        o50         0        36      1         2
+  n03968        o50         0        36      1         3
+  n01000        o50         0        34      1         4
+  n03782        o50         0        32      1         2
+  n04073        o50         0        31      1         2
+  n02961        o50         0        29      1         2
+  n03423        o50         0        28      1         3
+  n03454        o50         0        28      1         3
+  n04075        o50         0        28      1         2
+  n04399        o50         0        28      1         2
+  n03104        o50         0        27      1         3
+  n03779        o50         0        27      1         2
+  n04406        o50         0        27      1         2
+  n04416        o50         0        27      1         3
+  n04212        o50         0        26      1         3
+  n03323        o50         0        25      1         1
+  n03882        o50         0        25      1         2
+  n04076        o50         0        25      1         2
+  n04419        o50         0        25      1         2
+  n04221        o50         0        24      1         1
+  n04420        o50         0        24      1         2
+  n02535        o50         0        23      1         2
+  n03325        o50         0        23      1         3
+  n04411        o50         0        23      1         2
+  n03088        o50         0        22      1         1
+  n03797        o50         0        22      1         3
+  n03883        o50         0        22      1         4
+  n04080        o50         0        22      1         3
+  n04228        o50         0        22      1         3
+  n04440        o50         0        21      1         2
+  n02617        o50         0        20      1         2
+  n03984        o50         0        20      1         2
+  n04431        o50         0        20      1         2
+  n04439        o50         0        20      1         3
+  n03462        o50         0        19      1         3
+  n03655        o50         0        19      1         2
+  n03819        o50         0        19      1         2
+  n03991        o50         0        19      1         2
+  n04102        o50         0        19      1         2
+  n04234        o50         0        19      1         1
+  n04448        o50         0        19      1         2
+  n03810        o50         0        18      1         2
+  n03812        o50         0        18      1         2
+  n03993        o50         0        18      1         2
+  n04240        o50         0        18      1         2
+  n04449        o50         0        18      1         2
+  n02039        o50         0        17      1         2
+  n03263        o50         0        17      1         2
+  ... and 108 more roots, all in nodes.tsv
+
+  nodes over 1,000 pathways: 4 (0 of them NEW areas)
+  node          kind    level  pathways   share  items
+  n01845        o50         0      2332  42.1%      1
+  n03867        o50         0      2018  36.4%      1
+  n02670        o50         0      2015  36.4%      1
+  n01420        o50         0      1412  25.5%      1
+
+  how many areas each item over 200 pathways joins
+    no item joined any area: this arm built none
+
+==============================================================================
+ARM E: THE STRUCTURE
+==============================================================================
+  4,905 nodes (4592 O50, 313 areas); 8,676 direct edges, 61,480 containment pairs
+  ROOTS: 47  (46 areas, 1 O50 nodes)
+  direct children per node: max 242, median 1, 2 over 60
+  root sizes 53/261/3748 pathways
+  the rules over the whole set: 8 collapsed, 6 merged
+    collapse  a1_00087     (  190) into n00225       (  180)
+    collapse  n01027       (  813) into a1_00097     (  836)
+    collapse  n01279       (  781) into a1_00109     (  804)
+    collapse  n02513       (   91) into a1_00037     (  105)
+    collapse  n03651       (   39) into a1_00065     (   42)
+    collapse  n03959       (  290) into a1_00066     (  302)
+    collapse  n04060       (   64) into a1_00053     (   71)
+    collapse  n04061       (   65) into a1_00017     (   75)
+    merge     a1_00197     ( 1060) into n01420       ( 1412)
+    merge     a1_00242     ( 1253) into n02670       ( 2015)
+    merge     a1_00254     ( 1135) into n02670       ( 2015)
+    merge     n01420       ( 1412) into a1_00126     ( 1517)
+    merge     n01845       ( 2332) into a1_00128     ( 2212)
+    merge     n02670       ( 2015) into a1_00204     ( 1338)
+
+  every root, largest first
+  root          kind    level  pathways  items  children
+  a1_00177      area        1      3748    312        23
+  n03867        o50         0      2018      1       242
+  a1_00126      area        1      1517    188        27
+  a1_00293      area        1      1396    179        20
+  a1_00204      area        1      1338     86        21
+  a1_00159      area        1       802     80         9
+  a1_00272      area        1       796     65        13
+  a1_00276      area        1       789     72        20
+  a1_00294      area        1       781     96         9
+  a1_00258      area        1       780     69        11
+  a1_00229      area        1       535     31        11
+  a1_00287      area        1       450     58         6
+  a1_00169      area        1       421     38         4
+  a1_00226      area        1       354     23         8
+  a1_00244      area        1       336     28        10
+  a1_00246      area        1       332     27         4
+  a1_00301      area        1       320     43         7
+  a1_00247      area        1       317     39         9
+  a1_00266      area        1       315     25        13
+  a1_00273      area        1       307     37         8
+  a1_00288      area        1       304     23         5
+  a1_00289      area        1       301     18        10
+  a1_00208      area        1       295     13         6
+  a1_00257      area        1       261     29         5
+  a1_00267      area        1       254     30         2
+  a1_00295      area        1       254     23         5
+  a1_00309      area        1       233     23         8
+  a1_00310      area        1       231     37         7
+  a1_00206      area        1       230     19         3
+  a1_00303      area        1       230     19         5
+  a1_00256      area        1       225     10         5
+  a1_00297      area        1       208     20         5
+  a1_00245      area        1       195     13         4
+  a1_00304      area        1       161     15         7
+  a1_00311      area        1       158     10        10
+  a1_00314      area        1       155     12         8
+  a1_00263      area        1       149     16         7
+  a1_00275      area        1       138     16         5
+  a1_00179      area        1       133     11         4
+  a1_00285      area        1       118     15         5
+  a1_00223      area        1       100     13         4
+  a1_00279      area        1        96     13         4
+  a1_00307      area        1        89     11        10
+  a1_00224      area        1        82     10         4
+  a1_00280      area        1        79     11         5
+  a1_00189      area        1        60      7         4
+  a1_00145      area        1        53      6         5
+
+  nodes over 1,000 pathways: 8 (7 of them NEW areas)
+  node          kind    level  pathways   share  items
+  a1_00177      area        1      3748  67.7%    312
+  a1_00128      area        1      2212  39.9%    231
+  n03867        o50         0      2018  36.4%      1
+  a1_00168      area        1      1605  29.0%    178
+  a1_00126      area        1      1517  27.4%    188
+  a1_00293      area        1      1396  25.2%    179
+  a1_00204      area        1      1338  24.2%     86
+  a1_00203      area        1      1138  20.5%    152
+
+  how many areas each item over 200 pathways joins
+    n01027          813 pathways joins 2 area(s): a1_00097 a1_00177
+    n01279          781 pathways joins 3 area(s): a1_00109 a1_00177 a1_00204
+    n03315          349 pathways joins 3 area(s): a1_00109 a1_00177 a1_00204
+    n03959          290 pathways joins 3 area(s): a1_00066 a1_00126 a1_00243
+    n03376          280 pathways joins 4 area(s): a1_00144 a1_00177 a1_00204 a1_00225
+    n02017          206 pathways joins 5 area(s): a1_00010 a1_00128 a1_00177 a1_00236 a1_00272
+    over all 661 items that joined anything: median 9, max 15
+
+==============================================================================
+SUMMARY PLACEMENT (display only, nothing attached)
+==============================================================================
+  curated summaries with 3+ leaf descendants in L: 2,370
+    with a node holding 80% of their leaves:
+      O50           2021 = 85.3%
+      rec2fix+g     2229 = 94.1%
+      W             2021 = 85.3%
+      E             2166 = 91.4%
+    summary band         n        O50  rec2fix+g          W          E
+    3-10              1711       1525       1663       1525       1613
+    11-50              560        439        499        439        481
+    51-200              96         55         65         55         71
+    201+                 3          2          2          2          1
+
+==============================================================================
+AGREEMENT WITH REACTOME TOP-LEVEL PATHWAYS (best Jaccard)
+==============================================================================
+  29 Reactome top-level pathways, 29 with 3+ leaves in L
+  reactome top                                 leaves  O50                  J  rec2fix+g            J  W                    J  E                    J
+  Disease                                         580  n01420           0.146  n01420           0.146  n01420           0.146  a1_00010         0.133
+  Signal Transduction                             282  n04376           0.221  b2_00302         0.223  n04376           0.221  n04376           0.221
+  Metabolism                                      234  n03959           0.149  n03959           0.149  n03959           0.149  a1_00243         0.161
+  Immune System                                   149  n01027           0.159  n01027           0.159  n01027           0.159  a1_00097         0.160
+  Gene expression (Transcription)                 106  n03773           0.146  n03773           0.146  n03773           0.146  n03773           0.146
+  Metabolism of proteins                           95  n02639           0.121  n02639           0.121  n02639           0.121  n02639           0.121
+  Developmental Biology                            86  n04061           0.171  b2_00117         0.178  n04061           0.171  a1_00190         0.178
+  Cell Cycle                                       70  n04065           0.317  n04065           0.317  n04065           0.317  n04065           0.317
+  Neuronal System                                  50  n01422           0.182  n01422           0.182  n01422           0.182  n01422           0.182
+  Transport of small molecules                     50  n01794           0.159  n01794           0.159  n01794           0.159  n01794           0.159
+  DNA Repair                                       39  n01321           0.333  n01321           0.333  n01321           0.333  n01321           0.333
+  Cellular responses to stimuli                    38  n03730           0.279  n03730           0.279  n03730           0.279  n03730           0.279
+  Metabolism of RNA                                36  n03486           0.189  n03486           0.189  n03486           0.189  n03486           0.189
+  Hemostasis                                       27  n00871           0.316  n00871           0.316  n00871           0.316  n00871           0.316
+  Programmed Cell Death                            26  n00005           0.438  n00005           0.438  n00005           0.438  n00005           0.438
+  Vesicle-mediated transport                       24  n01697           0.208  n01697           0.208  n01697           0.208  n01697           0.208
+  Cell-Cell communication                          18  n03307           0.318  n03307           0.318  n03307           0.318  n03307           0.318
+  Chromatin organization                           14  n03565           0.526  n03565           0.526  n03565           0.526  n03565           0.526
+  Extracellular matrix organization                13  n03300           0.333  n03300           0.333  n03300           0.333  n03300           0.333
+  Sensory Perception                               11  n00365           0.182  n00365           0.182  n00365           0.182  n00365           0.182
+  Organelle biogenesis and maintenance             10  n00368           0.333  n00368           0.333  n00368           0.333  n00368           0.333
+  DNA Replication                                  10  n00134           0.273  n00134           0.273  n00134           0.273  n00134           0.273
+  Muscle contraction                                9  n01491           0.308  n01491           0.308  n01491           0.308  n01491           0.308
+  Drug ADME                                         9  n00477           0.444  n00477           0.444  n00477           0.444  n00477           0.444
+  Circadian clock                                   9  n01789           0.600  n01789           0.600  n01789           0.600  n01789           0.600
+  Autophagy                                         7  n02541           0.357  n02541           0.357  n02541           0.357  n02541           0.357
+  Reproduction                                      6  n00543           0.286  n00543           0.286  n00543           0.286  n00543           0.286
+  Digestion and absorption                          4  n01142           0.154  n01142           0.154  n01142           0.154  n01142           0.154
+  Protein localization                              4  n00470           0.143  n00470           0.143  n00470           0.143  n00470           0.143
+  MEDIAN best Jaccard                                                   0.273                   0.273                   0.273                   0.273
+
+==============================================================================
+ARM W: ROOT PAIRS AT PATHWAY JACCARD 0.3 OR MORE
+==============================================================================
+  85 of 17,578 pairs; the highest is 0.487
+    J 0.487  n01322 (36) / n03088 (22), sharing 19
+    J 0.484  n03454 (28) / n04240 (18), sharing 15
+    J 0.479  n03104 (27) / n04201 (44), sharing 23
+    J 0.478  n02961 (29) / n03256 (39), sharing 22
+    J 0.475  n03870 (74) / n04201 (44), sharing 38
+    J 0.472  n02961 (29) / n04383 (49), sharing 25
+    J 0.471  n02457 (11) / n03465 (14), sharing 8
+    J 0.467  n04329 (11) / n04375 (11), sharing 7
+    J 0.467  n03991 (19) / n04076 (25), sharing 14
+    J 0.458  n03609 (17) / n04449 (18), sharing 11
+    J 0.455  n02961 (29) / n04234 (19), sharing 15
+    J 0.451  n02533 (79) / n03285 (156), sharing 73
+    J 0.444  n03678 (16) / n04173 (10), sharing 8
+    J 0.442  n04212 (26) / n04384 (49), sharing 23
+    J 0.438  n04375 (11) / n04535 (12), sharing 7
+    J 0.438  n04329 (11) / n04535 (12), sharing 7
+    J 0.430  n01279 (781) / n03315 (349), sharing 340
+    J 0.429  n02768 (8) / n03477 (12), sharing 6
+    J 0.423  n03462 (19) / n04240 (18), sharing 11
+    J 0.419  n03991 (19) / n04419 (25), sharing 13
+    J 0.419  n02670 (2015) / n03867 (2018), sharing 1191
+    J 0.419  n01000 (34) / n04416 (27), sharing 18
+    J 0.412  n04152 (13) / n04375 (11), sharing 7
+    J 0.412  n04152 (13) / n04329 (11), sharing 7
+    J 0.412  n03528 (10) / n04120 (14), sharing 7
+    J 0.409  n03609 (17) / n03624 (14), sharing 9
+    J 0.409  n03079 (12) / n03462 (19), sharing 9
+    J 0.400  n03609 (17) / n04419 (25), sharing 12
+    J 0.400  n03158 (10) / n04561 (11), sharing 6
+    J 0.400  n02039 (17) / n02457 (11), sharing 8
+    J 0.398  n01027 (813) / n03867 (2018), sharing 806
+    J 0.395  n01027 (813) / n02670 (2015), sharing 801
+    J 0.394  n03797 (22) / n04420 (24), sharing 13
+    J 0.389  n04152 (13) / n04535 (12), sharing 7
+    J 0.389  n03518 (12) / n03918 (13), sharing 7
+    J 0.389  n03079 (12) / n04481 (13), sharing 7
+    J 0.389  n01000 (34) / n04260 (16), sharing 14
+    J 0.387  n04419 (25) / n04449 (18), sharing 12
+    J 0.387  n03779 (27) / n04112 (16), sharing 12
+    J 0.387  n01917 (15) / n03454 (28), sharing 12
+    J 0.381  n02703 (10) / n04234 (19), sharing 8
+    J 0.379  n04406 (27) / n04481 (13), sharing 11
+    J 0.377  n01279 (781) / n02670 (2015), sharing 766
+    J 0.375  n04021 (12) / n04583 (10), sharing 6
+    J 0.371  n03001 (100) / n03289 (44), sharing 39
+    J 0.368  n04471 (16) / n04566 (10), sharing 7
+    J 0.358  n03085 (45) / n04406 (27), sharing 19
+    J 0.358  n02535 (23) / n04383 (49), sharing 19
+    J 0.354  n03771 (123) / n04384 (49), sharing 45
+    J 0.353  n03919 (13) / n04356 (10), sharing 6
+    J 0.352  n04199 (49) / n04420 (24), sharing 19
+    J 0.350  n04167 (11) / n04471 (16), sharing 7
+    J 0.350  n03782 (32) / n04228 (22), sharing 14
+    J 0.350  n03333 (15) / n04153 (12), sharing 7
+    J 0.350  n03079 (12) / n03333 (15), sharing 7
+    J 0.349  n03968 (36) / n04080 (22), sharing 15
+    J 0.348  n02039 (17) / n03465 (14), sharing 8
+    J 0.345  n03984 (20) / n04448 (19), sharing 10
+    J 0.345  n03655 (19) / n03984 (20), sharing 10
+    J 0.343  n03059 (46) / n03289 (44), sharing 23
+  pathways in no root: 0; roots per pathway median 2, max 11
+
+==============================================================================
+ARM E: ROOT PAIRS AT PATHWAY JACCARD 0.3 OR MORE
+==============================================================================
+  28 of 1,081 pairs; the highest is 0.496
+    J 0.496  a1_00177 (3748) / n03867 (2018), sharing 1913
+    J 0.486  a1_00266 (315) / a1_00267 (254), sharing 186
+    J 0.478  a1_00301 (320) / a1_00303 (230), sharing 178
+    J 0.472  a1_00246 (332) / a1_00289 (301), sharing 203
+    J 0.468  a1_00208 (295) / a1_00289 (301), sharing 190
+    J 0.465  a1_00223 (100) / a1_00263 (149), sharing 79
+    J 0.458  a1_00301 (320) / a1_00310 (231), sharing 173
+    J 0.440  a1_00226 (354) / a1_00289 (301), sharing 200
+    J 0.437  a1_00245 (195) / a1_00266 (315), sharing 155
+    J 0.434  a1_00226 (354) / a1_00276 (789), sharing 346
+    J 0.423  a1_00208 (295) / a1_00226 (354), sharing 193
+    J 0.422  a1_00245 (195) / a1_00288 (304), sharing 148
+    J 0.410  a1_00159 (802) / a1_00229 (535), sharing 389
+    J 0.397  a1_00280 (79) / a1_00285 (118), sharing 56
+    J 0.394  a1_00244 (336) / a1_00245 (195), sharing 150
+    J 0.368  a1_00145 (53) / a1_00285 (118), sharing 46
+    J 0.356  a1_00208 (295) / a1_00258 (780), sharing 282
+    J 0.352  a1_00287 (450) / a1_00304 (161), sharing 159
+    J 0.345  a1_00293 (1396) / a1_00294 (781), sharing 558
+    J 0.342  a1_00177 (3748) / a1_00204 (1338), sharing 1296
+    J 0.342  a1_00179 (133) / a1_00208 (295), sharing 109
+    J 0.334  a1_00206 (230) / a1_00256 (225), sharing 114
+    J 0.325  a1_00244 (336) / a1_00287 (450), sharing 193
+    J 0.322  a1_00289 (301) / a1_00309 (233), sharing 130
+    J 0.320  a1_00266 (315) / a1_00288 (304), sharing 150
+    J 0.318  a1_00206 (230) / a1_00314 (155), sharing 93
+    J 0.313  a1_00273 (307) / a1_00275 (138), sharing 106
+    J 0.307  a1_00226 (354) / a1_00309 (233), sharing 138
+  pathways in no root: 0; roots per pathway median 4, max 17
+
+==============================================================================
+W AGAINST E
+==============================================================================
+                                         W (size-weighted)                 E (equal)
+  levels run                                             1                         1
+  level 1 candidates                                 6,169                     5,685
+  level 1 through the gate                               0                     1,371
+  level 1 areas                                          0                       317
+  level 1 area sizes                                     -               20/122/3748
+  nodes in the structure                             4,602                     4,905
+  ROOTS                                                188                        47
+  root sizes                                     6/15/2332               53/261/3748
+  children max                                         283                       242
+  children median                                        1                         1
+  new areas over 1,000                                   0                         7
+  summary placement                                  85.3%                     91.4%
+  Reactome median best J                             0.273                     0.273
+  rules over the set, collapsed                          0                         8
+  rules over the set, merged                             0                         6
+  seconds                                            632.5                     674.1
+  stopped because                 nothing under the floors          47 roots reached
+
+  areas identical between the arms: 0 of 0 W areas and 313 E areas
+
+==============================================================================
+CRITERIA FOR ARM W, DECLARED BEFORE THE BUILD
+==============================================================================
+  FAIL  held-out FDR within the caps at every level
+        no floor exists at any cut in any stratum, so nothing was admitted and there is no FDR to be inside the caps: see null_diagnostic.txt
+  FAIL  20-60 roots, giants included
+        188 roots
+  FAIL  no node with more than 60 direct children
+        max 283
+  PASS  summary placement at least O50's own 85.3%
+        85.3%  (tied, because arm W built nothing: the pool IS O50)
+
+  THE FOUR ccode OWNS: FAIL
+  Reviewer checks: C6 intruder test at 70% or more, and the 15 Oct giant reading plus intruder test on each of the 0 new node(s) over 1,000 pathways []. NOT judged here.
+  Whether the top is intuitive is Aviyah's.
+  ADOPTED: nothing by this script.

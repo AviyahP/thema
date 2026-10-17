@@ -1,0 +1,215 @@
+{
+  "method": "v0.4 areas as one operator, applied recursively (rec3)",
+  "arm": "W",
+  "arm_meaning": "size-weighted: an item enters Ward as a cluster of weight equal to its pathway count",
+  "built_from": "data/ontology/frozen/working-O50-2026-10-14",
+  "declared": "DECISIONS, 2026-10-16, before any result",
+  "operator": {
+    "runs": 200,
+    "subsample": 0.8,
+    "master_seed": 20261015,
+    "linkage": "ward, continued from fixed clusters by Lance-Williams with the item weights as the initial cluster sizes",
+    "theta_match": 0.7,
+    "theta_match_space": "item sets",
+    "theta_same": 0.5,
+    "theta_same_space": "pathway union sets",
+    "collapse_share": 0.85,
+    "collapse_space": "pathway union sets",
+    "survivor": "support",
+    "joint_fixed_point": true,
+    "containment": "strict subset over all members, which is O50's own definition",
+    "floor_target": 0.008,
+    "floor_minimum": "none",
+    "calibration_seeds": [
+      3001,
+      3002,
+      3003,
+      3004,
+      3005,
+      3006,
+      3007,
+      3008,
+      3009,
+      3010,
+      3011,
+      3012,
+      3013,
+      3014,
+      3015,
+      3016,
+      3017,
+      3018,
+      3019,
+      3020
+    ],
+    "heldout_seeds": [
+      4002,
+      4003,
+      4004,
+      4005
+    ],
+    "caps": {
+      "per_stratum": 0.02,
+      "overall": 0.01
+    }
+  },
+  "recursion": {
+    "level_0": "the frozen O50, as is",
+    "item_rule": "the maximal nodes holding at most 1000 pathways, giants excluded as items, plus any pathway in none of them",
+    "giant": 1000,
+    "stop": "a level admits no candidate under the floors, or the structure reaches 60 roots or fewer",
+    "max_levels": 6,
+    "stopped_because": "level 1 admitted no candidate under the floors",
+    "levels_run": 1
+  },
+  "no_special_cases": [
+    "no anchors",
+    "no giant drop",
+    "no seam rules",
+    "one structure over every node, O50 giants included"
+  ],
+  "o50_giants": [
+    "n01420",
+    "n01845",
+    "n02670",
+    "n03867"
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "n_items": 661,
+      "double_counting": 3.1354,
+      "n_candidates": 6169,
+      "n_gated": 0,
+      "n_after_consensus": 0,
+      "n_areas": 0,
+      "floors": [
+        {
+          "stratum": "3-3",
+          "real": 83,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "4-4",
+          "real": 84,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "5-5",
+          "real": 59,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "6-6",
+          "real": 100,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "7-9",
+          "real": 370,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        },
+        {
+          "stratum": "10+",
+          "real": 5473,
+          "floor": null,
+          "effective": null,
+          "calibration_fdr": null
+        }
+      ],
+      "confirmed": {
+        "strata": [
+          {
+            "stratum": "3-3",
+            "real": 83,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "4-4",
+            "real": 84,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "5-5",
+            "real": 59,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "6-6",
+            "real": 100,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "7-9",
+            "real": 370,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          },
+          {
+            "stratum": "10+",
+            "real": 5473,
+            "floor": null,
+            "effective": null,
+            "calibration_fdr": null,
+            "heldout_fdr": null,
+            "heldout_real": 0
+          }
+        ],
+        "overall_fdr": null,
+        "overall_real": 0,
+        "overall_null": 0.0
+      },
+      "seconds": 630.7,
+      "repair": {
+        "n_collapsed": 0,
+        "n_merged": 0,
+        "rounds": {}
+      },
+      "n_nodes": null,
+      "n_roots": null,
+      "n_direct_edges": null,
+      "children_max": null
+    }
+  ],
+  "final": {
+    "n_nodes": 4602,
+    "n_roots": 188,
+    "n_areas": 0,
+    "n_direct_edges": 7525,
+    "n_closure_pairs": 26972,
+    "n_collapsed": 0,
+    "n_merged": 0,
+    "children_max": 283,
+    "areas_over_giant": []
+  },
+  "seconds": 632.5
+}

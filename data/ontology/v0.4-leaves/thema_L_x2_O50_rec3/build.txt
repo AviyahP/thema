@@ -1,0 +1,43 @@
+AREAS AS ONE OPERATOR (rec3) from data/ontology/frozen/working-O50-2026-10-14
+
+==============================================================================
+ARM W: size-weighted, the primary arm
+==============================================================================
+  LEVEL 0 is the frozen O50 as is: 4,602 nodes, 4 giants, 5,539 pathways
+    rules over 4,602 nodes: 0 collapsed, 0 merged -> 4,602 (0s)
+    7,525 direct edges, 26,972 containment pairs, 188 roots, children max 283
+    level-0 items agree with the unit rule: 660 nodes + 1 loose
+
+  LEVEL 1: T on 661 items (arm W, weights = pathway count)
+    item sizes min 1 median 15 max 813; sum 17,367 against 5,539 pathways -> 3.14x double counting
+    real side: 6,169 candidates (24s)
+    calibration: 20 side(s) (528s cumulative)
+    held out: 4 side(s) (630s cumulative)
+    floors 3-3:None, 4-4:None, 5-5:None, 6-6:None, 7-9:None, 10+:None
+    NOTHING through the gate; the recursion stops here
+    STOP: level 1 admitted no candidate under the floors
+
+  -> data/ontology/v0.4-leaves/thema_L_x2_O50_rec3/W  (632s), stopped because level 1 admitted no candidate under the floors
+
+==============================================================================
+ARM E: equal weight, ablation only
+==============================================================================
+  LEVEL 0 is the frozen O50 as is: 4,602 nodes, 4 giants, 5,539 pathways
+    rules over 4,602 nodes: 0 collapsed, 0 merged -> 4,602 (0s)
+    7,525 direct edges, 26,972 containment pairs, 188 roots, children max 283
+    level-0 items agree with the unit rule: 660 nodes + 1 loose
+
+  LEVEL 1: T on 661 items (arm E, weights all 1)
+    item sizes min 1 median 15 max 813; sum 17,367 against 5,539 pathways -> 3.14x double counting
+    real side: 5,685 candidates (24s)
+    calibration: 20 side(s) (559s cumulative)
+    held out: 4 side(s) (666s cumulative)
+    floors 3-3:0.92, 4-4:0.96, 5-5:0.785, 6-6:0.615, 7-9:0.435, 10+:0.055276
+    1,371 through the gate; comparing on 5,539 pathways instead of 661 items
+    consensus 1,371 -> 399; joint fixed point at 0.85/0.5 -> 317 areas
+    317 areas, sizes 20/122/3748 pathways
+    rules over 4,919 nodes: 8 collapsed, 6 merged -> 4,905 (2s)
+    8,676 direct edges, 61,480 containment pairs, 47 roots, children max 242
+    STOP: level 1 brought the structure to 47 roots
+
+  -> data/ontology/v0.4-leaves/thema_L_x2_O50_rec3/E  (674s), stopped because level 1 brought the structure to 47 roots
