@@ -1,0 +1,110 @@
+[
+ {
+  "giant": "G01",
+  "label": "Development core fused with cancer signaling, apoptosis, repair, ECM, coagulation",
+  "contents": "About 40% is the developmental core seen in G12 (organogenesis, neurodevelopment and axon guidance, Wnt/Notch/Hh/TGF-beta signaling, germline, cilia); about 18% is growth-factor and cytokine signaling, including many Reactome cancer-mutant and TKI-resistance sets (ALK, FLT3, KIT, PDGFR, ERBB2, BRAF, FGFR) plus interleukins, MAPK/PI3K and Rho GTPase cycles; the rest is smaller, unrelated blocks: apoptosis, senescence, p53 and inflammasomes (~8%), ECM/GAG/collagen with mucopolysaccharidoses and adhesion (~7%), DNA repair and replication (BER, MMR, NER, TLS; ~5%), ubiquitin/SUMO/proteasome (~4%), coagulation and platelets (~4%), eicosanoid/SPM lipid mediators (~3%) and mRNA decay (~2%).",
+  "verdict": "mixture",
+  "unifying_idea": "",
+  "off_topic_share": "15%",
+  "reason": "Beyond the developmental core, it takes in several blocks a biologist would never group under one name (DNA repair, blood coagulation, eicosanoid biosynthesis, GAG catabolism, mRNA decay, cancer drug-resistance mutants), so no single wide theme covers it."
+ },
+ {
+  "giant": "G02",
+  "label": "Multicellular development, intercellular signaling and neural/cardiovascular physiology",
+  "contents": "Organ and tissue development and morphogenesis (heart, kidney, lung, brain, limb, axis patterning) ~35%; neuronal and synaptic transmission, neurotransmitters, behavior and sensory perception ~20%; growth-factor/RTK, GPCR, Wnt/Notch/Hh/TGF-beta signaling including oncogenic and drug-resistant kinase mutants ~20%; adhesion, ECM, cytoskeleton/Rho GTPases ~10%; cardiac/smooth-muscle contraction, vasculature, coagulation/platelets ~10%.",
+  "verdict": "one wide theme",
+  "unifying_idea": "How cells of a multicellular organism communicate and organize into tissues: cell-cell/ligand-receptor signaling driving development, and the excitable/contractile tissue physiology that results (akin to GO 'multicellular organismal process').",
+  "off_topic_share": "6%",
+  "reason": "Despite its size, nearly every block concerns extracellular signal reception, adhesion and tissue formation or function, with only stray viral/bacterial, obsolete and ~37 unnamed 'TBA' BTM modules left over."
+ },
+ {
+  "giant": "G03",
+  "label": "Tissue development: morphogen/RTK signaling, adhesion, ECM, organogenesis",
+  "contents": "Developmental morphogenesis, patterning and cell differentiation across organs (heart, kidney, neural, limb, gonad, lung; ~40%), growth-factor/morphogen signaling incl. Notch/Wnt/TGFb/Hh/ERBB/MET and cancer/TKI-resistant RTK mutants (~20%), and cell adhesion, Rho-GTPase cytoskeleton, ECM/GAG/collagen with coagulation/platelets (~20%). Smaller blocks: eicosanoid/retinoid lipid mediators, phototransduction, meiosis/gametes, cilia (~10%).",
+  "verdict": "one wide theme",
+  "unifying_idea": "Multicellular development: the cell-cell signaling, adhesion, matrix and differentiation programs that build and pattern tissues (GO 'developmental process'-like).",
+  "off_topic_share": "15-20% (eicosanoid synthesis, coagulation-factor defects, phototransduction, piRNA/mRNA decay, ~40 BTM 'TBA' modules)",
+  "reason": "Most members are organ morphogenesis, cell-fate and the signaling/adhesion/ECM machinery that drives it, so a biologist would name it as one broad developmental theme despite a sizable peripheral fringe."
+ },
+ {
+  "giant": "G04",
+  "label": "Immune-inflammatory defense plus receptor, oncogenic and death signaling",
+  "contents": "Immune and inflammatory response (innate/TLR/IFN/inflammasome, B/T/NK/myeloid cell regulation, cytokines and interleukins, complement, coagulation/platelets, eicosanoids/resolvins, pathogen interactions) ~50%; receptor and intracellular signaling (RTK/FGFR/ERBB/MET/KIT/FLT3/ALK incl. cancer and drug-resistant mutants, RAS/MAPK, PI3K/AKT, Wnt, Notch, TGF-beta, Rho GTPases, TP53/RUNX) ~25%; apoptosis/stress/senescence ~10%; adhesion/ECM/cytoskeleton ~8%.",
+  "verdict": "two themes",
+  "unifying_idea": "",
+  "off_topic_share": "8%",
+  "reason": "The immune-inflammation block and the growth-factor/oncogenic signal-transduction block are each coherent and are joined mainly through shared kinase cascades (NF-kB, MAPK, JAK-STAT), not by one idea a biologist would name, with ~45 unannotated BTM 'TBA' modules and scattered metabolic/viral terms as residue."
+ },
+ {
+  "giant": "G05",
+  "label": "Immune/host defense plus nuclear genome and gene-expression machinery",
+  "contents": "Immune and host-defense biology (lymphocyte/myeloid cell programs, cytokine/interleukin and interferon signaling, TLR/inflammasome/NF-kB, complement, antigen presentation, viral infection incl. HIV/SARS/influenza) ~45%; nuclear information machinery (cell cycle/mitosis/meiosis, DNA replication and repair, chromatin, Pol I/II/III transcription, RNA processing/decay, translation, mitochondrial gene expression) ~38%; apoptosis/stress/p53/ubiquitin-SUMO protein quality control ~12%.",
+  "verdict": "two themes",
+  "unifying_idea": "",
+  "off_topic_share": 5,
+  "reason": "Two large coherent blocks (immune/infection response and proliferative genome/RNA housekeeping, as co-induced in activated lymphocytes) are joined via apoptosis and stress signaling, but no single biological idea names both."
+ },
+ {
+  "giant": "G06",
+  "label": "Small-molecule metabolism, membrane transport, and neuronal/physiological signaling",
+  "contents": "About 45% small-molecule metabolism (lipid/sterol/lipoprotein, nucleotide, amino acid, carbohydrate, heme, vitamins, xenobiotic/drug ADME, mitochondrial respiration/TCA) plus about 12% SLC/ABC transport and transporter-defect diseases; about 30% excitable-cell and endocrine signaling (neurotransmitter release/receptors, GPCR/cAMP, synaptic plasticity, behavior, cardiac conduction, blood pressure/renal, hormone secretion).",
+  "verdict": "two themes",
+  "unifying_idea": "",
+  "off_topic_share": 12,
+  "reason": "A coherent metabolism-plus-transport block and a separate neuronal/physiological-signaling block (synapse, GPCR, cardiac excitability, behavior) together make up most members, joined loosely by 'tissue physiology', with scattered extras (circadian, lung development, MECP2, cornification, TBA modules)."
+ },
+ {
+  "giant": "G07",
+  "label": "Neuronal signaling, proteostasis/trafficking, cell death, DNA repair, viral infection",
+  "contents": "About 25% neuronal (synapse, axon guidance, neurotrophin/TRK, behavior), 20% protein homeostasis and membrane trafficking (ER/Golgi/vesicles, autophagy, ubiquitin/proteasome/SUMO, chaperonins), 12% apoptosis/senescence/p53/inflammasome, 10% DNA repair/replication/mitosis, 12% virus-host and antigen presentation, about 8% lipid metabolism (phospholipid/PIP/sphingolipid), and about 5% mRNA decay/translation.",
+  "verdict": "mixture",
+  "unifying_idea": "",
+  "off_topic_share": 10,
+  "reason": "Several large blocks unrelated to one another (neurobiology, proteostasis/trafficking, cell death, DNA repair, viral infection/immunity, lipid metabolism) sit side by side, and no single idea short of 'cell biology' covers them."
+ },
+ {
+  "giant": "G08",
+  "label": "Small-molecule metabolism and solute transport, including inborn errors",
+  "contents": "Lipid, lipoprotein, steroid, bile acid and eicosanoid metabolism ~30%; carbohydrate, glycosylation and glycosaminoglycan metabolism ~15%; amino acid, nitrogen, nucleotide, cofactor and vitamin metabolism ~22%; SLC/ABC transporter and ion/solute homeostasis ~13%; inherited metabolic and transporter defects (Defective X causes Y) ~12% (overlapping the above); mitochondrial energy, ROS and xenobiotic metabolism ~8%.",
+  "verdict": "one wide theme",
+  "unifying_idea": "Metabolism and membrane transport of small molecules (GO 'metabolic process' / Reactome 'Metabolism' + 'Transport of small molecules'), including their inherited disorders.",
+  "off_topic_share": 5,
+  "reason": "Nearly every member is a biosynthetic, catabolic, regulatory or transport process for a small metabolite or its monogenic defect, with only scattered strays (circadian clock, tooth eruption, Notch processing, inflammasome, TBA modules)."
+ },
+ {
+  "giant": "G09",
+  "label": "Small-molecule metabolism, solute transport and metabolic homeostasis",
+  "contents": "Core small-molecule metabolism (lipid/cholesterol/lipoprotein, carbohydrate/glycogen, nucleotide, amino acid, TCA/OXPHOS/mitochondria, heme, vitamins, xenobiotic/drug ADME) ~55%; SLC/ABC and ion transport incl. inherited transporter and enzyme defects ~20%; endocrine-metabolic regulation (insulin/glucagon secretion, steroid hormones, adipogenesis, thermogenesis, NR1H/PPAR/NFE2L2, circadian) ~15%.",
+  "verdict": "one wide theme",
+  "unifying_idea": "Metabolism: making, breaking, moving and regulating small molecules and nutrients (GO 'metabolic process' plus its transport and homeostasis arms).",
+  "off_topic_share": "8%",
+  "reason": "Nearly all members are metabolic pathways, metabolite/ion transporters, or hormonal and transcriptional controls of metabolism, with only small residue (lung development, behavior, cornification, 14 'TBA' BTM modules)."
+ },
+ {
+  "giant": "G10",
+  "label": "Neurotransmission and excitable physiology plus membrane trafficking and lipids",
+  "contents": "Synaptic transmission, neurotransmitter cycles, ion channels/transporters, GPCR second messengers, cardiac electrophysiology, blood pressure/renal and behavior (~50%); intracellular membrane trafficking and organelles (ER/Golgi/endosome/lysosome, autophagy, mitochondrial/peroxisomal import; ~25%) and membrane lipid metabolism (phospholipid remodeling, sphingolipids, TAG, eicosanoids; ~12%).",
+  "verdict": "two themes",
+  "unifying_idea": "",
+  "off_topic_share": "~10% (obsolete GO terms not tied to either block, BTM 'TBA' modules, circadian clock, scattered development/immune items)",
+  "reason": "An excitable-cell signaling/physiology block (neurons, heart, kidney, behavior) is joined to a distinct membrane-trafficking/organelle and membrane-lipid block, connected only loosely through the shared idea of membranes and vesicles."
+ },
+ {
+  "giant": "G11",
+  "label": "Growth-factor kinase signaling plus genome maintenance, cell death, RNA regulation",
+  "contents": "RTK/growth-factor and cytokine-JAK/STAT signaling incl. oncogenic/TKI-resistant kinase mutants and hematopoietic differentiation ~30%; apoptosis, p53, senescence, inflammasome/pyroptosis ~15%; DNA repair, replication, meiosis/germline and reproduction ~20%; mRNA decay, translation initiation, miRNA/piRNA, ubiquitin/SUMO ~12%; viral infection (HIV, SARS-CoV, RSV, influenza) ~6%; bone/cartilage development and generic positive/negative regulation terms fill the rest.",
+  "verdict": "mixture",
+  "unifying_idea": "",
+  "off_topic_share": "15%",
+  "reason": "Signaling-to-proliferation, nuclear genome maintenance, RNA/translation control, virology and germline biology sit side by side with no single idea joining them, plus ~25 'TBA' BTMs and many obsolete or generic regulation terms."
+ },
+ {
+  "giant": "G12",
+  "label": "Multicellular development: organogenesis, neurodevelopment, developmental signaling, reproduction",
+  "contents": "About 40% is organ and tissue morphogenesis (heart, kidney/nephron, lung, skeleton/cartilage, eye, limb, gut, gland); about 20% is neural development (axon guidance, neuron fate and migration, myelination); about 15% is developmental signaling (Wnt/beta-catenin, Notch, Hedgehog, TGF-beta/BMP/Nodal, neurotrophin/TRK, ephrin, semaphorin, Hox); about 8% is gametogenesis, meiosis and fertilization; about 6% is cilia and centrosome/spindle organization; and about 5% is sensory specialization (phototransduction/retinoid cycle, olfaction, hearing).",
+  "verdict": "one wide theme",
+  "unifying_idea": "Development of a multicellular organism: building tissues, organs, the nervous system and the germline from embryo onward, together with the signaling pathways and cellular machinery (cilia, polarity, spindle orientation) that pattern them.",
+  "off_topic_share": "5%",
+  "reason": "Almost every member is a developmental process or a canonical developmental pathway, much like GO's 'developmental process'; the leftovers are mostly unannotated BTM 'TBA' modules, obsolete GO terms and a few stray items like TYSND1 peroxisomal cleavage."
+ }
+]

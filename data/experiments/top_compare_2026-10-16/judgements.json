@@ -1,0 +1,798 @@
+{
+ "A_j1": {
+  "better": "A",
+  "A": {
+   "coherence": 2,
+   "redundancy": 2,
+   "usefulness": 3
+  },
+  "B": {
+   "coherence": 2,
+   "redundancy": 1,
+   "usefulness": 2
+  },
+  "reason": "Menu A's largest entries are incoherent grab-bags (e.g. development fused with cancer, apoptosis, ECM and coagulation) and themes recur across many entries (DNA repair, mitochondrial biogenesis, glycosylation, muscle, mTOR), but its ~43 mid-sized entries still give a biologist a browsable, roughly balanced first view. Menu B is badly unbalanced, with four mega-buckets (immune split across three of them) holding most pathways above a long tail of ~180 tiny, highly specific entries that belong at a lower level, many near-duplicates (CCT/TRiC, receptor internalization, SREBP, erythroid/heme, defensins), and two blank labels, so it does not work as a top level."
+ },
+ "A_j2": {
+  "better": "A",
+  "A": {
+   "coherence": 2,
+   "redundancy": 2,
+   "usefulness": 3
+  },
+  "B": {
+   "coherence": 3,
+   "redundancy": 2,
+   "usefulness": 2
+  },
+  "reason": "Menu A has a browsable number of entries at roughly the right granularity, though its largest entries are grab-bags and themes like DNA repair, glycosylation, mitochondrial biogenesis, muscle and neuronal signaling recur across several entries. Menu B has three or four giant catch-all bins (two of them mixing immune defense with unrelated machinery), then about 180 tiny, highly specific entries with near-duplicates (CCT/TRiC, Notch O-glycosylation, erythroid/heme, defensins, apoptotic-cell clearance, receptor internalization) and two blank labels, so it works as a leaf list rather than a top level."
+ },
+ "A_j3": {
+  "better": "A",
+  "A": {
+   "coherence": 2,
+   "redundancy": 2,
+   "usefulness": 3
+  },
+  "B": {
+   "coherence": 3,
+   "redundancy": 1,
+   "usefulness": 2
+  },
+  "reason": "Menu A has a browsable number of roughly balanced entries that map onto recognizable domains (immune, genome maintenance, metabolism, neuro, muscle, endocrine), although its largest bins are chimeric (e.g. development fused with cancer, coagulation and repair) and several themes repeat (glycosylation, mitochondria, muscle, DNA repair, mTOR/SUMO). Menu B packs most pathways into three or four incoherent giants (immune mixed with genome machinery or oncogenic signaling) and then fragments the rest into about 180 tiny, often near-duplicate leaf-level topics (multiple CCT/TRiC, selective autophagy, erythroid, receptor-internalization and Notch/Hedgehog lipidation entries, plus two unlabeled entries), so it works as a grab-bag of subtopics rather than a top level."
+ },
+ "A_j4": {
+  "better": "A",
+  "A": {
+   "coherence": 2,
+   "redundancy": 2,
+   "usefulness": 3
+  },
+  "B": {
+   "coherence": 2,
+   "redundancy": 1,
+   "usefulness": 2
+  },
+  "reason": "Menu A has ~42 entries of fairly even size, so a biologist can actually browse it, though several giant grab-bag labels (e.g. development fused with cancer, apoptosis, ECM, coagulation) are incoherent and themes like DNA repair, mitochondrial biogenesis, muscle and glycosylation repeat across many entries. Menu B is not usable as a top level: three or four huge incoherent catch-alls (immune appears in three of them) sit above a long tail of ~180 tiny, very specific clusters with many near-duplicates (CCT/TRiC, erythroid/heme, defensins, ESCRT, receptor internalization) and two blank labels, so the level of detail jumps wildly from one entry to the next."
+ },
+ "A_j5": {
+  "better": "A",
+  "A": {
+   "coherence": 2,
+   "redundancy": 2,
+   "usefulness": 3
+  },
+  "B": {
+   "coherence": 2,
+   "redundancy": 1,
+   "usefulness": 2
+  },
+  "reason": "Menu A has a browsable size (~42 entries) and most mid-sized entries map to recognizable domains (immune, cell cycle, lipoprotein metabolism, RTK signaling), though its six largest entries are incoherent grab-bags and themes like DNA repair, mitochondrial biogenesis, muscle and glycosylation recur across several entries. Menu B dumps most pathways into four even larger mixed blobs and then lists ~180 tiny, often near-duplicate leaf-level entries (two CCT/TRiC, two Notch O-glycosylation, three receptor-internalization, two erythroid, two defensin, several lipid-transfer entries) plus two unlabeled entries, so it does not work as a top level."
+ },
+ "B_j1": {
+  "P01": {
+   "pick": "B",
+   "reason": "B has specific melanosome pigmentation entry; A scatters into unrelated broad areas"
+  },
+  "P02": {
+   "pick": "A",
+   "reason": "A includes eye/phototransduction entry; B only a cancer-fused development blob"
+  },
+  "P03": {
+   "pick": "B",
+   "reason": "MSUD is mitochondrial BCAA catabolism; B more specific"
+  },
+  "P04": {
+   "pick": "B",
+   "reason": "B has xenobiotic drug transport entry; A adds misleading central carbon metabolism"
+  },
+  "P05": {
+   "pick": "B",
+   "reason": "B pinpoints glutamate transport/neurotransmitter reuptake"
+  },
+  "P06": {
+   "pick": "A",
+   "reason": "A is the clean immune entry; B adds redundant mixed immune blobs"
+  },
+  "P07": {
+   "pick": "A",
+   "reason": "A clean cell-cycle placement; B adds misleading immune/host defense"
+  },
+  "P08": {
+   "pick": "B",
+   "reason": "B is precise ER-Golgi-endosome trafficking; A adds neuronal/neurotransmission noise"
+  },
+  "P09": {
+   "pick": "A",
+   "reason": "A has specific xenobiotic/pesticide response entries"
+  },
+  "P10": {
+   "pick": "A",
+   "reason": "Mitochondrial fatty acid metabolism is the precise home"
+  },
+  "P11": {
+   "pick": "A",
+   "reason": "A includes Wnt signalling entry where AXIN belongs"
+  },
+  "P12": {
+   "pick": "A",
+   "reason": "A has specific sphingolipid metabolism entries"
+  },
+  "P13": {
+   "pick": "A",
+   "reason": "Tn syndrome is an O-glycosylation defect; A glycosylation entries correct"
+  },
+  "P14": {
+   "pick": "A",
+   "reason": "Plain multicellular development; B fused with cancer/coagulation"
+  },
+  "P15": {
+   "pick": "B",
+   "reason": "B has cell junctions and cardiac muscle (desmosomes); A adds immune noise"
+  },
+  "P16": {
+   "pick": "A",
+   "reason": "Floor plate is Shh/cilia-dependent; A has Hedgehog entry"
+  },
+  "P17": {
+   "pick": "B",
+   "reason": "Same immune entry, B without redundant mixed blobs"
+  },
+  "P18": {
+   "pick": "A",
+   "reason": "A includes RTK signalling entry"
+  },
+  "P19": {
+   "pick": "B",
+   "reason": "B includes RTK signalling entry"
+  },
+  "P20": {
+   "pick": "B",
+   "reason": "B has specific kinesin cargo transport entries"
+  },
+  "P21": {
+   "pick": "B",
+   "reason": "B includes GPCR and cardiac excitation-contraction entries"
+  },
+  "P22": {
+   "pick": "A",
+   "reason": "A has specific glycerophospholipid entry; B sprawls into neuronal areas"
+  },
+  "P23": {
+   "pick": "A",
+   "reason": "Amino acid metabolism entry more specific than generic small-molecule"
+  },
+  "P24": {
+   "pick": "B",
+   "reason": "B has ascorbate-specific entries"
+  },
+  "P25": {
+   "pick": "B",
+   "reason": "K63 deubiquitinases mainly regulate innate immune/NF-kB signaling"
+  },
+  "P26": {
+   "pick": "A",
+   "reason": "A has lipoprotein/cholesterol entry"
+  },
+  "P27": {
+   "pick": "B",
+   "reason": "Same immune entry without redundant blobs"
+  },
+  "P28": {
+   "pick": "B",
+   "reason": "3-MGA is mitochondrial leucine catabolism; B specific"
+  },
+  "P29": {
+   "pick": "A",
+   "reason": "A has RNA processing entry; B adds immune noise"
+  },
+  "P30": {
+   "pick": "A",
+   "reason": "A includes RTK signalling entry"
+  },
+  "P31": {
+   "pick": "A",
+   "reason": "A has gametogenesis/meiosis entry"
+  },
+  "P32": {
+   "pick": "A",
+   "reason": "A has mitotic centrosome/spindle entry; B sprawling"
+  },
+  "P33": {
+   "pick": "B",
+   "reason": "B has mTOR signalling entries; A immune-dominated"
+  },
+  "P34": {
+   "pick": "A",
+   "reason": "A has carbohydrate/energy metabolism entries"
+  },
+  "P35": {
+   "pick": "A",
+   "reason": "A clean metabolism entry; B adds neuronal signaling"
+  },
+  "P36": {
+   "pick": "B",
+   "reason": "B has specific islet/insulin secretion entries"
+  },
+  "P37": {
+   "pick": "A",
+   "reason": "A includes virus-host membrane trafficking where spike maturation belongs"
+  },
+  "P38": {
+   "pick": "A",
+   "reason": "A has islet entries plus ER stress/immune context of beta-cell death"
+  },
+  "P39": {
+   "pick": "A",
+   "reason": "A has cilium motility entry"
+  },
+  "P40": {
+   "pick": "B",
+   "reason": "Same immune entry without redundant blobs"
+  },
+  "P41": {
+   "pick": "A",
+   "reason": "A has PAPS sulfate activation entry"
+  },
+  "P42": {
+   "pick": "A",
+   "reason": "A has heme homeostasis entry; B generic energy metabolism"
+  },
+  "P43": {
+   "pick": "A",
+   "reason": "A combines immune and virus-host/infection entries"
+  },
+  "P44": {
+   "pick": "A",
+   "reason": "A has cancer signaling and ECM/invasion context"
+  },
+  "P45": {
+   "pick": "A",
+   "reason": "A combines immune and cell cycle entries"
+  },
+  "P46": {
+   "pick": "A",
+   "reason": "A has lysosomal GAG degradation entry"
+  },
+  "P47": {
+   "pick": "A",
+   "reason": "A more specific (muscle hypertrophy context) than single broad blob"
+  },
+  "P48": {
+   "pick": "B",
+   "reason": "B precise RTK signalling entry"
+  },
+  "P49": {
+   "pick": "A",
+   "reason": "A has specific prostanoid receptor entries"
+  },
+  "P50": {
+   "pick": "B",
+   "reason": "B has GPCR signalling entries"
+  },
+  "P51": {
+   "pick": "A",
+   "reason": "A includes proteostasis; B immune/nuclear misleading"
+  },
+  "P52": {
+   "pick": "B",
+   "reason": "B focused mitochondrial protein import entries; A sprawling"
+  },
+  "P53": {
+   "pick": "A",
+   "reason": "A has muscle excitation-contraction calcium context"
+  },
+  "P54": {
+   "pick": "A",
+   "reason": "A has synaptic transmission entry"
+  },
+  "P55": {
+   "pick": "A",
+   "reason": "A has epidermal cornification/skin barrier lipid entry"
+  },
+  "P56": {
+   "pick": "A",
+   "reason": "A has stress and translation control entries; B immune-dominated"
+  },
+  "P57": {
+   "pick": "B",
+   "reason": "B has specific lifespan hormonal control entry; A sprawling"
+  },
+  "P58": {
+   "pick": "A",
+   "reason": "A cardiovascular plus death signaling; B's muscle entry is cardiac/skeletal, not smooth"
+  },
+  "P59": {
+   "pick": "B",
+   "reason": "B has specific glycerophospholipid synthesis entries"
+  },
+  "P60": {
+   "pick": "A",
+   "reason": "A has specific GAG synthesis entry"
+  }
+ },
+ "B_j2": {
+  "P01": {
+   "pick": "B",
+   "reason": "B has a melanosome pigmentation entry; A is only huge mixed areas"
+  },
+  "P02": {
+   "pick": "A",
+   "reason": "A includes eye development/phototransduction"
+  },
+  "P03": {
+   "pick": "B",
+   "reason": "BCAA catabolism is mitochondrial amino acid metabolism; more specific"
+  },
+  "P04": {
+   "pick": "B",
+   "reason": "B has a xenobiotic drug transmembrane transport entry"
+  },
+  "P05": {
+   "pick": "B",
+   "reason": "B places it under glutamate transport/neurotransmitter reuptake"
+  },
+  "P06": {
+   "pick": "A",
+   "reason": "Single clean immune placement; B adds mixed catch-alls"
+  },
+  "P07": {
+   "pick": "A",
+   "reason": "Same cell-cycle entries without the misleading immune catch-all"
+  },
+  "P08": {
+   "pick": "B",
+   "reason": "B is a focused ER/Golgi/endosome trafficking area"
+  },
+  "P09": {
+   "pick": "A",
+   "reason": "A has specific pesticide/xenobiotic response entries"
+  },
+  "P10": {
+   "pick": "A",
+   "reason": "Mitochondrial fatty acid metabolism is the precise home"
+  },
+  "P11": {
+   "pick": "A",
+   "reason": "A includes Wnt developmental signalling"
+  },
+  "P12": {
+   "pick": "A",
+   "reason": "A has specific sphingolipid metabolism entries"
+  },
+  "P13": {
+   "pick": "A",
+   "reason": "TNPS is an O-glycosylation defect; A has glycosylation areas"
+  },
+  "P14": {
+   "pick": "A",
+   "reason": "Multicellular development label fits better than cancer-fused core"
+  },
+  "P15": {
+   "pick": "B",
+   "reason": "B has cell junctions and cardiac muscle; A adds misleading immune"
+  },
+  "P16": {
+   "pick": "A",
+   "reason": "A includes Hedgehog developmental signalling (floor plate = Shh)"
+  },
+  "P17": {
+   "pick": "B",
+   "reason": "Clean single immune placement without catch-alls"
+  },
+  "P18": {
+   "pick": "A",
+   "reason": "A includes receptor tyrosine kinase signalling"
+  },
+  "P19": {
+   "pick": "B",
+   "reason": "B includes receptor tyrosine kinase signalling"
+  },
+  "P20": {
+   "pick": "B",
+   "reason": "B has kinesin-specific transport entries"
+  },
+  "P21": {
+   "pick": "B",
+   "reason": "B has cardiac excitation-contraction and GPCR entries"
+  },
+  "P22": {
+   "pick": "A",
+   "reason": "A has a specific glycerophospholipid entry; B scattered"
+  },
+  "P23": {
+   "pick": "A",
+   "reason": "Amino acid metabolism entry more specific than generic small-molecule"
+  },
+  "P24": {
+   "pick": "B",
+   "reason": "B has ascorbate-specific entries"
+  },
+  "P25": {
+   "pick": "B",
+   "reason": "K63 ubiquitin negative regulators mainly act in NF-kB/innate signaling"
+  },
+  "P26": {
+   "pick": "A",
+   "reason": "A has lipoprotein/cholesterol metabolism entry"
+  },
+  "P27": {
+   "pick": "B",
+   "reason": "Clean immune placement without catch-alls"
+  },
+  "P28": {
+   "pick": "B",
+   "reason": "3-MGA is a mitochondrial disorder; more specific"
+  },
+  "P29": {
+   "pick": "A",
+   "reason": "A includes RNA processing entry"
+  },
+  "P30": {
+   "pick": "A",
+   "reason": "A includes receptor tyrosine kinase signalling"
+  },
+  "P31": {
+   "pick": "A",
+   "reason": "A has gametogenesis/meiosis entry"
+  },
+  "P32": {
+   "pick": "A",
+   "reason": "A has mitotic centrosome/spindle; B scatters to axon guidance etc"
+  },
+  "P33": {
+   "pick": "B",
+   "reason": "B has mTOR/AKT-specific entries"
+  },
+  "P34": {
+   "pick": "A",
+   "reason": "A includes systemic carbohydrate metabolism"
+  },
+  "P35": {
+   "pick": "A",
+   "reason": "Both broad; A label lacks irrelevant neuronal signaling"
+  },
+  "P36": {
+   "pick": "B",
+   "reason": "B has islet hormone secretion/pancreatic endocrine entries"
+  },
+  "P37": {
+   "pick": "A",
+   "reason": "Viral protein processing fits virus-host/trafficking areas"
+  },
+  "P38": {
+   "pick": "A",
+   "reason": "A has islet and UPR entries; B diffuse"
+  },
+  "P39": {
+   "pick": "A",
+   "reason": "A has cilium motility entry with fewer irrelevant areas"
+  },
+  "P40": {
+   "pick": "B",
+   "reason": "Clean immune placement without catch-alls"
+  },
+  "P41": {
+   "pick": "A",
+   "reason": "A has PAPS sulfate activation entry"
+  },
+  "P42": {
+   "pick": "A",
+   "reason": "A has heme homeostasis entry"
+  },
+  "P43": {
+   "pick": "B",
+   "reason": "Host defense is immune; A drags in neuronal/trafficking"
+  },
+  "P44": {
+   "pick": "A",
+   "reason": "A includes cancer signaling and ECM relevant to melanoma invasion"
+  },
+  "P45": {
+   "pick": "A",
+   "reason": "A captures both immune and cell cycle"
+  },
+  "P46": {
+   "pick": "A",
+   "reason": "A has lysosomal GAG degradation entry"
+  },
+  "P47": {
+   "pick": "A",
+   "reason": "A gives muscle hypertrophy context; B uninformative"
+  },
+  "P48": {
+   "pick": "B",
+   "reason": "B is RTK signalling, precise"
+  },
+  "P49": {
+   "pick": "A",
+   "reason": "A has prostanoid receptor-specific entries"
+  },
+  "P50": {
+   "pick": "B",
+   "reason": "B has GPCR signalling entries"
+  },
+  "P51": {
+   "pick": "A",
+   "reason": "Proteostasis/stress areas fit better than immune/nuclear"
+  },
+  "P52": {
+   "pick": "B",
+   "reason": "B has focused mitochondrial protein import entries"
+  },
+  "P53": {
+   "pick": "A",
+   "reason": "A has excitation-contraction calcium handling"
+  },
+  "P54": {
+   "pick": "A",
+   "reason": "A has synaptic transmission entry"
+  },
+  "P55": {
+   "pick": "A",
+   "reason": "A has epidermal cornification/skin barrier lipids"
+  },
+  "P56": {
+   "pick": "A",
+   "reason": "A has translation control and stress response entries"
+  },
+  "P57": {
+   "pick": "B",
+   "reason": "B has a specific lifespan hormonal control entry"
+  },
+  "P58": {
+   "pick": "A",
+   "reason": "Cardiovascular physiology and death signaling fit; B points to striated muscle"
+  },
+  "P59": {
+   "pick": "B",
+   "reason": "B has glycerophospholipid de novo synthesis entry"
+  },
+  "P60": {
+   "pick": "A",
+   "reason": "A has specific GAG synthesis entry"
+  }
+ },
+ "B_j3": {
+  "P01": {
+   "pick": "B",
+   "reason": "B names melanosome pigmentation directly; A is diffuse broad areas"
+  },
+  "P02": {
+   "pick": "A",
+   "reason": "A includes eye development/phototransduction"
+  },
+  "P03": {
+   "pick": "B",
+   "reason": "MSUD is mitochondrial BCAA catabolism; B more specific"
+  },
+  "P04": {
+   "pick": "B",
+   "reason": "B has xenobiotic drug transmembrane transport"
+  },
+  "P05": {
+   "pick": "B",
+   "reason": "B places it under glutamate transport/neurotransmitter reuptake"
+  },
+  "P06": {
+   "pick": "A",
+   "reason": "A is cleanly immune; B adds noisy oncogenic/genome entries"
+  },
+  "P07": {
+   "pick": "A",
+   "reason": "A is cleanly cell cycle; B adds irrelevant immune/host entry"
+  },
+  "P08": {
+   "pick": "B",
+   "reason": "B is the specific ER/Golgi/endosome trafficking entry"
+  },
+  "P09": {
+   "pick": "A",
+   "reason": "A includes pesticide/xenobiotic response entries"
+  },
+  "P10": {
+   "pick": "A",
+   "reason": "A specifies mitochondrial fatty acid metabolism"
+  },
+  "P11": {
+   "pick": "A",
+   "reason": "A includes Wnt signalling entry"
+  },
+  "P12": {
+   "pick": "A",
+   "reason": "A has specific sphingolipid metabolism entries"
+  },
+  "P13": {
+   "pick": "A",
+   "reason": "Tn syndrome is O-glycosylation; A has glycosylation entries"
+  },
+  "P14": {
+   "pick": "A",
+   "reason": "A is plain development; B mixes cancer/coagulation"
+  },
+  "P15": {
+   "pick": "B",
+   "reason": "B includes cell junctions; A misleadingly immune"
+  },
+  "P16": {
+   "pick": "A",
+   "reason": "A includes Hedgehog developmental signalling, key for floor plate"
+  },
+  "P17": {
+   "pick": "B",
+   "reason": "B is focused immune entry without oncogenic/genome noise"
+  },
+  "P18": {
+   "pick": "A",
+   "reason": "A includes RTK signalling to RAS-MAPK/PI3K"
+  },
+  "P19": {
+   "pick": "B",
+   "reason": "B includes RTK signalling and cancer signaling"
+  },
+  "P20": {
+   "pick": "B",
+   "reason": "B has kinesin organelle/microtubule cargo transport entries"
+  },
+  "P21": {
+   "pick": "B",
+   "reason": "B has cardiac excitation-contraction and GPCR entries"
+  },
+  "P22": {
+   "pick": "A",
+   "reason": "A has specific glycerophospholipid metabolism entry"
+  },
+  "P23": {
+   "pick": "A",
+   "reason": "A is the more specific amino acid metabolism area"
+  },
+  "P24": {
+   "pick": "B",
+   "reason": "B has explicit ascorbate metabolism entries"
+  },
+  "P25": {
+   "pick": "tie",
+   "reason": "Both plausible: A proteostasis/DNA repair, B immune/death signaling"
+  },
+  "P26": {
+   "pick": "A",
+   "reason": "A includes lipoprotein/cholesterol metabolism"
+  },
+  "P27": {
+   "pick": "B",
+   "reason": "B is focused immune entry without noise"
+  },
+  "P28": {
+   "pick": "B",
+   "reason": "Leucine catabolism defect is mitochondrial; B more specific"
+  },
+  "P29": {
+   "pick": "A",
+   "reason": "A includes RNA processing entry"
+  },
+  "P30": {
+   "pick": "A",
+   "reason": "A includes RTK signalling and cancer signaling"
+  },
+  "P31": {
+   "pick": "A",
+   "reason": "A includes gametogenesis/meiosis entry"
+  },
+  "P32": {
+   "pick": "A",
+   "reason": "A includes mitotic centrosome/spindle; B diffuse"
+  },
+  "P33": {
+   "pick": "B",
+   "reason": "B has mTOR-specific signalling entries"
+  },
+  "P34": {
+   "pick": "A",
+   "reason": "A includes carbohydrate/energy metabolism entries"
+  },
+  "P35": {
+   "pick": "A",
+   "reason": "Both broad; A label is purer metabolism without neuronal signaling"
+  },
+  "P36": {
+   "pick": "B",
+   "reason": "B has islet hormone secretion and pancreatic endocrine entries"
+  },
+  "P37": {
+   "pick": "A",
+   "reason": "A includes membrane trafficking and virus-host interactions"
+  },
+  "P38": {
+   "pick": "A",
+   "reason": "A has islet and UPR entries; B generic stress"
+  },
+  "P39": {
+   "pick": "A",
+   "reason": "A has cilium motility entry"
+  },
+  "P40": {
+   "pick": "B",
+   "reason": "B is focused immune entry without noise"
+  },
+  "P41": {
+   "pick": "A",
+   "reason": "A has PAPS sulfate activation and GAG synthesis entries"
+  },
+  "P42": {
+   "pick": "A",
+   "reason": "A includes heme homeostasis entry"
+  },
+  "P43": {
+   "pick": "B",
+   "reason": "B coherently immune; A adds neuronal/trafficking noise"
+  },
+  "P44": {
+   "pick": "A",
+   "reason": "A includes cancer signaling and ECM, fitting melanoma invasion"
+  },
+  "P45": {
+   "pick": "A",
+   "reason": "A combines immune and cell cycle entries"
+  },
+  "P46": {
+   "pick": "A",
+   "reason": "A has lysosomal glycan degradation entry"
+  },
+  "P47": {
+   "pick": "A",
+   "reason": "A has muscle growth entries; B generic"
+  },
+  "P48": {
+   "pick": "B",
+   "reason": "B is the specific RTK signalling entry"
+  },
+  "P49": {
+   "pick": "A",
+   "reason": "A has prostanoid receptor-specific entries"
+  },
+  "P50": {
+   "pick": "B",
+   "reason": "B includes GPCR signalling entries"
+  },
+  "P51": {
+   "pick": "A",
+   "reason": "A includes proteostasis; B unrelated immune/gene expression"
+  },
+  "P52": {
+   "pick": "B",
+   "reason": "B has specific mitochondrial protein import entries"
+  },
+  "P53": {
+   "pick": "A",
+   "reason": "A has muscle excitation-contraction entry"
+  },
+  "P54": {
+   "pick": "A",
+   "reason": "A includes synaptic transmission entry"
+  },
+  "P55": {
+   "pick": "A",
+   "reason": "A has epidermal cornification/skin barrier lipid entry"
+  },
+  "P56": {
+   "pick": "A",
+   "reason": "A has translation control and stress response entries"
+  },
+  "P57": {
+   "pick": "B",
+   "reason": "B has specific lifespan hormonal control entry; A very diffuse"
+  },
+  "P58": {
+   "pick": "A",
+   "reason": "A cardiovascular plus death signaling; B misleadingly cardiac/skeletal muscle"
+  },
+  "P59": {
+   "pick": "B",
+   "reason": "B has glycerophospholipid de novo synthesis entry"
+  },
+  "P60": {
+   "pick": "A",
+   "reason": "A has glycosaminoglycan synthesis entry"
+  }
+ }
+}

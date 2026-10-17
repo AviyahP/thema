@@ -1,0 +1,362 @@
+{
+ "I04": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "cell fate/survival programs: placental, eye and mammary development, apoptosis/pyroptosis, innate antiviral IFN and ubiquitin/neddylation control",
+  "reason": "E is oncogenic RTK fusion/mutant signaling (FGFR/PDGFR/ALK/FLT3 to PI3K/ERK) with no overlap with the others, which interlink via shared terms (involution, antiviral defense, ubiquitin/proteolysis, trophoblast)."
+ },
+ "I09": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "epithelial cell signaling and organization (Wnt/Hippo, PTK6, keratinocyte wound healing, motile cilia, Golgi/endosome trafficking)",
+  "reason": "D is a large neuronal synaptic transmission/plasticity unit (AMPA/NMDA, GABA, MECP2, LTP) that stands apart from the epithelial proliferation/organelle theme."
+ },
+ "I14": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "tissue/organ morphogenesis and physiology (sensory organ development, vasculature/ECM, adhesion/junctions, skin/epithelia, renal fluid balance)",
+  "reason": "D is leukocyte chemotaxis via G-beta-gamma/RAC/Cdc42 GTPase signaling, an immune-cell motility unit with no tissue-structure or organ content."
+ },
+ "I16": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "immune and host-defense signaling (TLR/TRIF, Th1/IFN-gamma, cGAS-STING, bacterial phagosome, MAPK/RAS cascades)",
+  "reason": "D is ER/Golgi intermembrane lipid transfer (glycolipid, PI/PC, ceramide-1-P transport), unrelated to immune/stress signaling."
+ },
+ "I22": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "host defense and host-pathogen interaction (T cell tolerance, TLR/LPS, complement/antimicrobials, viral life cycle, nuclear transport incl. HIV Rev)",
+  "reason": "E is glycosaminoglycan/proteoglycan biosynthesis and mucopolysaccharidoses, a glycan-metabolism unit with no immune or pathogen link."
+ },
+ "I27": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "cellular metabolism and organelle/membrane homeostasis (glycolysis/HIF/NRF2, mitochondrial TCA/OXPHOS, lipid transfer, clathrin vesicles, AMPK/microglial stress)",
+  "reason": "D is a developmental axon guidance unit (semaphorin, ephrin, netrin, SLIT/ROBO) with no metabolic or homeostatic content and no shared terms."
+ },
+ "I28": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "small-molecule metabolism and signaling (GPCR/cAMP amine signaling, xenobiotic/bile acid metabolism, glycolysis/redox, receptor recycling, methyl/demethylation chemistry)",
+  "reason": "F is keratinocyte proliferation/differentiation and epidermal wound healing, a tissue/epithelial program unlike the metabolic/signaling units."
+ },
+ "I33": {
+  "pick": "F",
+  "confidence": "medium",
+  "shared_theme": "cell-intrinsic regulation (mRNA decay/immediate-early genes, dependence-receptor apoptosis, Ca2+ homeostasis, ephrin/Rho cytoskeleton, mitosis/cilia microtubules)",
+  "reason": "F is antigen processing/presentation, dendritic/monocyte signatures and bacterial/viral host-pathogen interactions, i.e. an immune unit."
+ },
+ "I34": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "cell signaling to cytoskeleton/survival (platelet GPCR/Rho, p75NTR death signaling, ephrin/Rac, PI3K-AKT-mTOR, neuronal/glial adhesion and myelination)",
+  "reason": "D is DNA mismatch repair and immunoglobulin somatic hypermutation/class switching, a genome maintenance unit unrelated to signal transduction."
+ },
+ "I41": {
+  "pick": "F",
+  "confidence": "high",
+  "shared_theme": "cellular and systemic metabolism (glycolysis/HIF/NRF2, vitamin B/carnitine, oxidative stress, mitochondrial TCA/amino acids, lipid/insulin/adipose)",
+  "reason": "F is monocyte chemotaxis/activation/extravasation, an immune cell migration unit."
+ },
+ "I45": {
+  "pick": "B",
+  "confidence": "medium",
+  "shared_theme": "nutrient, vitamin, mineral and solute metabolism/transport (glycerolipids, vitamin D/K/phosphate, CoA/B vitamins, aquaporin water, metal/heme/O2 transport)",
+  "reason": "B is ER protein folding, SRP targeting and COPI/COPII secretory trafficking, a protein-processing unit rather than small-molecule metabolism/transport."
+ },
+ "I46": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "neuro-physiological and membrane/excitable-tissue physiology (renal ion/blood pressure, catecholamine/behavior, ER lipid/membrane, cardiac adaptation, synaptic vesicle release)",
+  "reason": "D is T cell activation/tolerance and Treg regulation, an adaptive immune unit."
+ },
+ "I47": {
+  "pick": "A",
+  "confidence": "medium",
+  "shared_theme": "neural/membrane biology (microglia/amyloid clearance, glycosphingolipid/GPI, ER-Golgi-endosome trafficking, GPCR/cAMP signaling, synaptic transmission)",
+  "reason": "A is MHC class II antigen processing/presentation, an adaptive immune unit with no overlap with the trafficking/neuronal units."
+ },
+ "I51": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "molecular signaling and nucleic-acid/gene-expression processes (TGF-beta/BMP, MMR/cancer mutants, translation initiation, EPO/RTK-PI3K, RNA editing/DNA demethylation)",
+  "reason": "E is nephric duct/ureteric bud kidney organogenesis, a tissue-level developmental unit unlike the cell-molecular units."
+ },
+ "I57": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "neural development and cytoskeleton (neural crest/PNS development, axon guidance, Rac/Cdc42 actin, neurotrophin signaling, centrosome/spindle microtubules)",
+  "reason": "F is generic TGF-beta/BMP-SMAD signaling with miRNA regulation, lacking the neural/cytoskeletal content shared by the others."
+ },
+ "I02": {
+  "pick": "C",
+  "confidence": "low",
+  "shared_theme": "development, differentiation and cell proliferation (neural/glial development, mitotic exit, placental/germline stem cells, endoderm/pancreas lineage, growth hormone/JAK-STAT growth signaling)",
+  "reason": "C is generic protein quality control (ubiquitin/DUBs/proteasome/aggrephagy) with no developmental or proliferative content; B (APC/C mitotic exit) ties to proliferation though it shares the ubiquitin angle."
+ },
+ "I13": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "developmental and growth-factor/cytokine signaling (JAK-STAT cytokines, Wnt/Hh/Nodal embryonic patterning, neuroblast asymmetric division, angiogenesis/vascular development, neurotrophins)",
+  "reason": "D is feeding behavior and gut/appetite hormones (ghrelin, glucagon-type, somatostatin) - organismal energy-balance physiology rather than developmental signaling."
+ },
+ "I15": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "developmental morphogen signaling and tissue differentiation (TGF-beta/BMP/Hippo, Wnt/Notch/Hh, pancreatic endocrine development, epidermal cornification, chromatin regulators of development like CHD7/KMT2D/TFAP2)",
+  "reason": "D is hemostasis - coagulation cascade, platelet activation, vitamin K gamma-carboxylation and integrin adhesion - not developmental patterning."
+ },
+ "I18": {
+  "pick": "E",
+  "confidence": "medium",
+  "shared_theme": "cell-surface signaling, adhesion and immune/receptor signaling (antiviral innate sensing, cell junctions/ECM, oncogenic RTKs, T-cell immunological synapse, integrin/Rho cytoskeletal signaling)",
+  "reason": "E is COPI vesicle trafficking and Golgi-ER retrograde transport, an intracellular membrane-trafficking housekeeping module rather than receptor/adhesion signaling."
+ },
+ "I20": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "receptor-driven signaling controlling cell differentiation and immune responses (hematopoiesis, HGF/MET liver, type I IFN antiviral, nuclear hormone receptors, Th2/mast cell/eosinophil allergy)",
+  "reason": "D is cation-chloride cotransporters, Na+/H+ exchangers and K+ channels (SLC12/SLC9 channelopathies) - ion transport physiology rather than signaling/differentiation."
+ },
+ "I23": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "core cellular information/defense machinery tied to immunity (ribosome biogenesis/MYC, type III IFN antiviral, ubiquitin-proteasome incl. ISG15/PD-L1, T-cell regulation, DNA repair/somatic hypermutation/V(D)J)",
+  "reason": "D is steroidogenesis (CYP11/17/19/21, androgen/estrogen/glucocorticoid synthesis), an endocrine small-molecule metabolic pathway unrelated to the others."
+ },
+ "I29": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "lipid and nutrient metabolism/transport (ER lipid transfer, glycerophospholipid/sphingolipid/TAG metabolism, phospholipid transport, SLC amino-acid/sugar transport, IGF-AKT-FOXO metabolic regulation)",
+  "reason": "F is ESCRT machinery - membrane fission, abscission, MVB, viral budding, nuclear envelope sealing - a membrane-remodeling/cell-division module rather than metabolism."
+ },
+ "I36": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "nutrient/fluid homeostasis and small-molecule transport (appetite/food intake, vasopressin-aquaporin water balance, oligopeptide/iron transport, vitamin K/C metabolism, SLC amino-acid transport)",
+  "reason": "E is glycan biosynthesis (GAGs, O/N-glycosylation, CDG and dystroglycanopathies), a Golgi protein-modification module rather than systemic nutrient/fluid homeostasis."
+ },
+ "I38": {
+  "pick": "D",
+  "confidence": "high",
+  "shared_theme": "metabolism (glycerophospholipid/TAG, glycosaminoglycan/glycan, sulfonation/thyroid hormone, insulin-secretion metabolic control, glycerol/DAG metabolism)",
+  "reason": "D is DNA replication and repair (BER, NER, translesion synthesis), a genome-maintenance module with no metabolic content."
+ },
+ "I42": {
+  "pick": "B",
+  "confidence": "high",
+  "shared_theme": "metabolism and metabolic/endocrine regulation (GH/thyroid hormone, carbohydrate/glycogen metabolism, redox/glutathione detox, TCA/NAD/amino acid metabolism, carnitine/choline/fatty acid transport)",
+  "reason": "B is chromatin remodeling and DNA damage response (nucleosome assembly, NHEJ, replication fork reversal, ADP-ribosylation) - genome maintenance, not metabolism."
+ },
+ "I43": {
+  "pick": "E",
+  "confidence": "high",
+  "shared_theme": "metabolism and physiological chemistry (mitochondrial OXPHOS/TCA/heme, epithelial ion/pH transport, xenobiotic metabolism, steroid/vitamin/mineral hormone metabolism, oxidative stress/vitamin responses)",
+  "reason": "E is inner ear morphogenesis (cochlea, otic vesicle, semicircular canals, vestibular reflex), a developmental/sensory organ module with no metabolic content."
+ },
+ "I50": {
+  "pick": "F",
+  "confidence": "medium",
+  "shared_theme": "neural, neuroendocrine and systemic physiological regulation (synaptic transmission/plasticity, neuropeptide behavior/HPA axis, histamine, sympathetic/catecholamine neurons, renal/vascular blood-pressure and electrolyte control)",
+  "reason": "F is extracellular matrix degradation (MMPs, collagen/elastin/hyaluronan catabolism, scavenger receptors) - tissue remodeling, not neural/physiological control."
+ },
+ "I52": {
+  "pick": "C",
+  "confidence": "low",
+  "shared_theme": "intracellular regulatory control of gene expression and genome integrity (cullin/neddylation protein turnover, germline/stem cell programs, mRNA stability/editing, RTK signaling, retroelement/retroviral DNA control and immune-receptor DNA editing)",
+  "reason": "C is a canonical interferon-stimulated-gene antiviral response signature (ISG15, IRF2 targets, MHC-I), an immune effector program distinct from the regulatory machinery modules."
+ },
+ "I53": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "signal transduction and cytoplasmic stress/infection responses (neurotrophin/TRK, dependence-receptor apoptosis, ERBB/MET/TGF-beta RTK signaling, ARE-mediated mRNA decay/stress granules, viral replication in host)",
+  "reason": "E is nuclear double-strand break repair (NHEJ/HR, ATM recruitment), a genome-maintenance module unlike the signaling/cytoplasmic-response units."
+ },
+ "I55": {
+  "pick": "F",
+  "confidence": "high",
+  "shared_theme": "cell signaling, proliferation and cell-fate programs (neddylation/protein turnover, MAPK stress/senescence, oncogenic RTKs, germline/meiosis/fertilization, hematopoietic differentiation)",
+  "reason": "F is vasopressin-aquaporin renal water homeostasis, an organismal fluid-balance physiology module unrelated to cell proliferation/fate."
+ },
+ "I01": {
+  "pick": "E",
+  "confidence": "medium",
+  "shared_theme": "receptor tyrosine kinase signaling and actin cytoskeleton/cell motility (EPO/PI3K, FGFR, integrin/migration, RAC/WAVE, FcgR phagocytosis)",
+  "reason": "E is anoikis/dependence-receptor apoptosis and cell death, while the other five are growth-factor signaling and actin/adhesion-driven motility or phagocytosis."
+ },
+ "I07": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "tissue/organ development and differentiated-cell function (neurodevelopment, synapse, cilia/photoreceptor, ECM, androgen/RUNX2 bone)",
+  "reason": "D is small-molecule metabolism (glutathione, transsulfuration, selenium, sulfide oxidation) rather than tissue development or cell-structure biology."
+ },
+ "I11": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "growth-factor/RTK signaling, ECM/TGFB/Hippo remodeling and cell-state transcription programs (MET, EPO, MITF, ECM)",
+  "reason": "F is SREBP-driven cholesterol homeostasis (lipid metabolism), unlike the signaling and tissue-remodeling programs of the others."
+ },
+ "I12": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "cell and tissue biology: signaling, cytoskeleton/cilia, muscle, cell death and germ/stem-cell fate",
+  "reason": "D is pentose phosphate/xylulose carbohydrate metabolism and inborn errors, a pure metabolic unit among cell-biology and developmental units."
+ },
+ "I17": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "cell-fate signaling and stress responses (oxidative-stress apoptosis, VEGF/Tie angiogenesis, Hippo/TGFB, anoikis, myeloid activation)",
+  "reason": "E is organellar pH and ion homeostasis (V-ATPase, Na/H exchangers, P-type ATPases), a transport-physiology unit unrelated to signaling/cell fate."
+ },
+ "I19": {
+  "pick": "A",
+  "confidence": "high",
+  "shared_theme": "innate/myeloid immunity and inflammation (IL-1/17/18 cytokines, chemokines, DC antigen presentation, efferocytosis/scavenging, leukocyte RAC signaling)",
+  "reason": "A is mitochondrial quality control/mitophagy, an organelle homeostasis theme, not immune/inflammatory."
+ },
+ "I31": {
+  "pick": "B",
+  "confidence": "low",
+  "shared_theme": "cellular stress, proteostasis and neuronal/metabolic homeostasis (UPR, chaperonins, FOXO/AKT, membrane lipids, dopaminergic signaling with neuron-death terms)",
+  "reason": "B is NK-cell cytotoxicity and lymphoid immune regulation, the only adaptive/innate immune effector unit."
+ },
+ "I35": {
+  "pick": "B",
+  "confidence": "low",
+  "shared_theme": "regulation of gene expression and transcriptional programs (miRNA, RNA Pol I/II/III transcription, p53 targets, MECP2/CREB/clock transcription, PGC-1a)",
+  "reason": "B is xenobiotic/environmental chemical response (AhR, dioxin, pesticides, heavy metals) rather than a gene-regulatory program."
+ },
+ "I37": {
+  "pick": "A",
+  "confidence": "high",
+  "shared_theme": "lipid and energy metabolism (sphingolipids, fatty acid/carnitine transport, adipogenesis/thermogenesis, PGC-1a/PPAR, steroid hormone synthesis)",
+  "reason": "A is RNA modification and mitochondrial tRNA/rRNA processing, an RNA biology unit outside lipid/energy metabolism."
+ },
+ "I39": {
+  "pick": "D",
+  "confidence": "medium",
+  "shared_theme": "metabolic and mineral/ion homeostasis (iron/heme, zinc/copper, phosphate/vitamin D, lipid/triglyceride storage)",
+  "reason": "D is kidney/ureteric bud organogenesis, a developmental unit among metabolism and nutrient/ion homeostasis units."
+ },
+ "I40": {
+  "pick": "D",
+  "confidence": "high",
+  "shared_theme": "small-molecule metabolism (eicosanoids, folate/methionine, polyamines, sulfur/aromatic amino acids, iron/metal handling)",
+  "reason": "D is transcriptional regulation of cadherins/RUNX2 and mesenchymal differentiation, not metabolism."
+ },
+ "I44": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "metabolism and solute transport physiology (carbohydrate, redox/TCA, heme/erythrocyte, ion/water and neurotransmitter transporters)",
+  "reason": "F is endocrine hormone receptor signaling (growth hormone, prolactin, leptin, thyroid hormone) rather than metabolic or transport machinery."
+ },
+ "I49": {
+  "pick": "C",
+  "confidence": "medium",
+  "shared_theme": "membrane trafficking and neuro-glial cell biology (endocytosis, ER/Golgi transport, synaptic vesicle cycle, microglial clearance, solute transport)",
+  "reason": "C is RNA Pol II transcription initiation/elongation, a nuclear gene-expression unit unrelated to vesicle/membrane traffic."
+ },
+ "I58": {
+  "pick": "A",
+  "confidence": "high",
+  "shared_theme": "organogenesis and tissue development (gland/gonad, sensory organs, kidney, lung/epithelial branching, motile cilia/left-right asymmetry)",
+  "reason": "A is cell-cycle checkpoint/G2-M progression machinery, not developmental morphogenesis."
+ },
+ "I60": {
+  "pick": "E",
+  "confidence": "high",
+  "shared_theme": "embryonic development and organogenesis (patterning/gastrulation, heart, bone/cartilage, pancreas/gut endoderm, motile cilia/left-right asymmetry)",
+  "reason": "E is adrenergic/Gi GPCR cAMP signaling, a neuroendocrine second-messenger unit rather than a developmental program."
+ },
+ "I03": {
+  "pick": "A",
+  "confidence": "medium",
+  "shared_theme": "intracellular growth/cancer-related cell regulation (PI3K/PTEN, mismatch repair and TGFBR cancer mutants, senescence/nuclear transport, centrosome/microtubules, neddylation/PD-L1 turnover)",
+  "reason": "A is neurotransmitter synthesis, transport and degradation (monoamines, GABA, glutamate, botulinum toxins), a neuronal-synaptic area unlike the cell-intrinsic proliferation/cancer regulation of the other five."
+ },
+ "I05": {
+  "pick": "E",
+  "confidence": "high",
+  "shared_theme": "growth factor/cytokine signaling and cell fate (IL-6/JAK-STAT, EPO/PI3K, senescence/stress, anoikis/apoptosis, migration/adhesion)",
+  "reason": "E is purely synaptic plasticity and memory, a neuronal function absent from the cytokine/kinase signaling and cell-fate theme of the others."
+ },
+ "I06": {
+  "pick": "A",
+  "confidence": "medium",
+  "shared_theme": "tissue/organ development and intercellular signaling (eye and ear development, FGFR signaling, neuroendocrine growth hormones, fibrosis/TGF-beta)",
+  "reason": "A is mRNA 3'-end processing, translation termination and nonsense-mediated decay - core RNA metabolism, not organismal development or signaling."
+ },
+ "I08": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "signal transduction and cell-cell communication (cAMP/GPCR, Notch/regulated proteolysis, synaptic signaling, keratinocyte/wound signaling, sperm-egg interaction)",
+  "reason": "F is purine salvage and nucleoside catabolism, a core metabolic pathway rather than a signaling/communication process."
+ },
+ "I10": {
+  "pick": "E",
+  "confidence": "low",
+  "shared_theme": "nervous system, sensory organ and developmental signaling (eye/ear development, synapses, neuroendocrine behavior, Hedgehog/head development, RTK growth factor signaling)",
+  "reason": "E is glycosaminoglycan/proteoglycan biosynthesis and its enzyme-defect disorders, a biosynthetic metabolic module unlike the signaling/developmental units."
+ },
+ "I21": {
+  "pick": "F",
+  "confidence": "high",
+  "shared_theme": "nuclear/chromatin and cell cycle processes (cohesion and replication, G2/M checkpoint, histone acetylation/methylation, senescence/nuclear transport, rRNA/snoRNA modification)",
+  "reason": "F is cholesterol/isoprenoid, ubiquinone and vitamin K biosynthesis - lipid metabolism, not nuclear or cell-cycle biology."
+ },
+ "I24": {
+  "pick": "C",
+  "confidence": "high",
+  "shared_theme": "immune cytokine signaling and inflammation (IL-10 family, IL-2/STAT5, Th1/IFN-gamma, inflammatory responses)",
+  "reason": "C is prostate/salivary gland branching and epithelial-mesenchymal morphogenesis, a developmental process with no immune content."
+ },
+ "I25": {
+  "pick": "A",
+  "confidence": "low",
+  "shared_theme": "immune and gene-expression processes in leukocytes (chemokines, myeloid immunity, B cell/Ig diversification, translation and post-transcriptional RNA control)",
+  "reason": "A is neural tube and spinal cord patterning/motor neuron specification, an embryonic nervous system development theme unrelated to the others."
+ },
+ "I26": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "physiology of signaling, transport and metabolism (synaptic and GPCR neurotransmission, SLC nutrient transport, lipoprotein scavenging, glycolysis/hypoxia/redox metabolism)",
+  "reason": "D is innate antibacterial sensing (NOD1/2, TLR2/4/5, MyD88/IRAK4, LPS), a pathogen-recognition immune module unlike the physiological/metabolic units."
+ },
+ "I30": {
+  "pick": "E",
+  "confidence": "high",
+  "shared_theme": "metabolism and its endocrine control (glycosylation, redox/TCA, fatty acid oxidation, lipid/glucose/insulin metabolism, feeding/circadian neuroendocrine regulation)",
+  "reason": "E is clathrin coat dynamics, synaptic vesicle endocytosis and membrane tethering - membrane trafficking, not metabolism."
+ },
+ "I32": {
+  "pick": "D",
+  "confidence": "low",
+  "shared_theme": "cell signaling and regulatory machinery (Hippo/TGF-beta, dependence-receptor/neuronal death signaling, ubiquitin/SUMO modification, vesicle trafficking, stress/drug responses)",
+  "reason": "D is peroxisomal and very-long-chain fatty acid metabolism, a lipid metabolic pathway distinct from the signaling/regulatory units."
+ },
+ "I48": {
+  "pick": "F",
+  "confidence": "low",
+  "shared_theme": "neuronal/excitable-cell membrane communication (neurotransmitter metabolism, GPCR/eicosanoid signaling, gap junctions, vesicle trafficking, glycosphingolipids linked to spastic paraplegia)",
+  "reason": "F is hexosamine/sialic acid nucleotide-sugar metabolism, a carbohydrate metabolic pathway rather than membrane signaling or neurotransmission."
+ },
+ "I54": {
+  "pick": "F",
+  "confidence": "medium",
+  "shared_theme": "signal transduction and gene expression control (MET/RTK-PI3K, JAK-STAT growth hormone/cytokines, TGF-beta/nuclear receptor transcription, senescence/nuclear transport, translation initiation)",
+  "reason": "F is craniofacial and inner/outer ear morphogenesis, an anatomical organ development theme rather than molecular signaling/gene regulation."
+ },
+ "I56": {
+  "pick": "B",
+  "confidence": "high",
+  "shared_theme": "embryonic development and organogenesis (axon guidance, heart development, neuroblast division, endoderm and pancreatic lineage)",
+  "reason": "B is drug ADME, xenobiotic transport and bilirubin glucuronidation - pharmacology/detoxification, not development."
+ },
+ "I59": {
+  "pick": "F",
+  "confidence": "medium",
+  "shared_theme": "embryonic development and morphogenesis (bone, neural development, axial patterning, kidney development, neural crest/PNS development)",
+  "reason": "F is mature synaptic transmission and neurotransmitter release/plasticity, a physiological neuronal function rather than tissue development."
+ }
+}
