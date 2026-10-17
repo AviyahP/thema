@@ -7379,3 +7379,219 @@ judged**). **The frozen folders and every existing build were left alone**; the 
 the new directories are additive cache entries (seed 4006's trees and side) and the tree build log,
 none of which is tracked. Cost 28.5 s + 176 s for seed 4006, 96 s for the verify, 229 s and 1.45 GB
 for the build, 8 s for the report. No API calls.
+
+## 2026-10-18 00:12:17 UTC+1 — THE TOP OF O50s, TWO ARMS: declared before running
+
+Transcribed from Aviyah's prompt of 17 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_44.md`, as the prompt itself instructs; reproduced here
+**before any build ran**. **Exploratory: adopts nothing.** Prompt 42 stays on hold and is replaced
+by this. Everything below the line is the prompt text.
+
+Confirmed before building:
+
+**ARM A has 867 units** -- 867 O50s themes and **0 loose pathways**, because O50s leaves nothing
+effectively unplaced. **19 are anchors** over 200 pathways, so **848 are clustered**. Unit sizes
+7 / 31 / 923 (min / median / max). **Double counting is 7.54x**: the unit sizes sum to 41,751
+against 5,539 pathways, against 3.14x when the same rule ran on O50. That is the price of O50s's
+extra mid-size themes and it is worth watching -- rec2fix's areas are unions of items, so heavily
+overlapping items make heavily overlapping areas.
+
+**The populations the stability measure has to cover**, and what that costs:
+
+* **363** O50s final themes of 50+ pathways (50-99: 267, 100-199: 67, 200-399: 19, 400-799: 2,
+  800-1,599: 3, 1,600+: 5) -- all of them, no sampling.
+* **4,225** real gated candidates of 50+ under O50s's floors -- all of them, no sampling.
+* **264,346** scrambled candidates of 50+ across the ten calibration seeds, 26,435 a seed. **These
+  are sampled**, at most 500 per band per seed with a fixed seed, because the full set would need
+  2.4 h of matrix work on its own. The sample sizes are reported beside every figure.
+
+**One measurement choice that has to be stated, because it changes the large bands.** A cached run
+records only its dendrogram nodes of 3 or more members **and at most half the draw** -- nodes above
+half a draw are excluded by the recurrence machinery on purpose. Scoring a 2,000-pathway theme
+against that set would cap its achievable Jaccard and understate exactly the bands the cut depends
+on. So the stability pass **rebuilds each run's full dendrogram** from the cached distance matrix and
+scores against every internal node of 3 or more members, with no upper cap. The trees are rebuilt,
+not re-chosen: same subsample rows, same Ward linkage, same vectors.
+
+**Estimate: about 45 minutes, under 1 h with slack.** One real side's 200 dendrograms 23 s and its
+Jaccard scan ~15 s; the ten scramble sides ~4 min of trees and ~2 min of scanning; arm A's 25 sides
+on 848 units ~6 min; arm B's areas pass ~5 min; the two combined structures over 5,658 O50s nodes
+plus areas ~4 min; the reports and the reviewer tables ~5 min. Under the 3 h ceiling.
+
+---
+
+Prompt 44: the top of O50s, two arms. Declared 17 Oct 2026, before any result. Exploratory: this adopts nothing. Prompt 42 stays on hold; this replaces it. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+WHY
+O50s (prompt 43) fixed the 100-1,000 layer, but it has 261 roots, 164 of them ≤50 pathways. Aviyah wants fewer than 49 thematically coherent roots. Two ways to build the top are tested on the same base, O50s.
+
+ARM A: areas on top of O50s
+Run rec2fix's code and rules exactly (equal weight, anchors over 200 pathways, union sets, seam rules, joint fixed point with twin 0.50 and chain 0.85, strict containment, one structure with the giants kept in), with O50s as level 0 instead of O50. Report the unit count.
+
+ARM B: a measured cut, then areas above it
+1. **Stability per theme (Hennig 2007 clusterwise Jaccard).** For every final O50s theme of 50 or more pathways, in each of the 200 cached runs:
+   - restrict the theme to the pathways present in that run's 80% subsample;
+   - take the best Jaccard to any cluster of that run's Ward tree;
+   - the theme's stability is the mean of these 200 values.
+2. **Bands:** 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+. Per band, report the count and the median, 25th and 75th percentile stability.
+   **Noise check for this measure:** compute the same stability for scrambled candidates of 50 or more pathways from the cached calibration scrambles (3001-3010), each against its own scramble's 200 runs. Also compute it for all real gated candidates of 50 or more. Per band, report:
+   - the scrambled median and 95th percentile;
+   - whether 0.6 is above the scrambled 95th percentile;
+   - how well each measure separates real from scrambled candidates (AUC), for support and for this stability.
+   Report only; this does not change the rule in step 3.
+3. **The cut T** is the lower edge of the first band whose median stability is below 0.6. Also report where the cut would fall at 0.75. If no band is below 0.6, there is no cut: report this and skip steps 4-5 of arm B.
+4. **Items:** the O50s themes of size below T that are not strictly inside another such theme, plus any pathway in none of them. Every O50s theme of T or more is dropped and kept for comparison only.
+5. **Areas pass** on these items, with rec2fix's code and rules except: **no anchors**. Areas over 1,000 pathways are kept and flagged.
+
+BOTH ARMS: noise
+Calibrate the floors on 20 item scrambles (3001-3020), then check them on held-out seeds 4002-4005. Target 0.008; caps 0.02 per stratum and 0.01 overall.
+
+REPORT (docs/status/2026-10-17-top-two-arms.md), per arm
+1. Held-out FDR per stratum and overall.
+2. **Roots:** the count, and each root's id, size and number of children.
+3. **Small roots (≤50 pathways):** for each, the 3 larger nodes that contain the largest share of it, with that share and the number of pathways missing.
+4. **Duplication, report only:** root pairs with J ≥ 0.5, and roots that are ≥80% inside another node.
+5. Children per node, maximum and median; areas over 1,000.
+6. Summary placement, against O50s's 92.6%; agreement with Reactome's top level (median best J).
+7. Arm B only: the stability table and T; for each dropped theme of T or more, its best-matching area by J.
+
+FOR THE REVIEWER (do not judge them yourself)
+Write data/experiments/top_two_arms_2026-10-17/{A,B}/ containing:
+- roots.tsv (id, size, full member keys);
+- small_roots.tsv (the item 3 table, with the full member keys of the root and of its 3 containing nodes);
+- areas.tsv (every area, with its full member keys and the unit ids).
+
+DECISION RULE (declared now; applied after the reviewer checks)
+An arm passes only if all hold:
+- held-out FDR within the caps;
+- fewer than 49 roots;
+- blind reading of every root: at least 80% coherent or linked umbrella;
+- every small root (≤50) is judged, blind, a distinct topic rather than belonging under one of its 3 containing nodes;
+- C6 intruder test on the areas: at least 70%.
+Duplication (item 4) is reported, not a gate. If both arms pass, a blind A vs B comparison of the two top levels decides, then Aviyah. If neither passes, nothing is adopted.
+
+FINAL
+- Save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_44.md, and copy it into DECISIONS.md as "declared before running", before building.
+- Outputs: data/ontology/v0.4-leaves/thema_L_x2_O50s_top/{A,B}/.
+- Write docs/status/commit-2026-10-17-top-two-arms.sh, to run after commit-2026-10-17-O50s.sh. It commits the code, tests, builds, status note, reviewer folder and data/experiments/reviewer_notes/PROMPT_44.md. No branch operations; no push of main.
+
+ORDER: arm B steps 1-3 first (stability table and T), and report them. Then arm A, then the rest of arm B.
+
+END OF PROMPT. Before building, give the unit count for arm A and the time estimate. After the build, give:
+- the stability table, the noise check and T;
+- the FDR summary per arm;
+- roots, small roots, placement and Reactome agreement per arm;
+- the commit script path.
+
+## 2026-10-18 00:58:38 UTC+1 — THE TOP OF O50s RESULT: arm A passes both criteria ccode owns, arm B fails both. Adopted nothing.
+
+The criteria are in the entry above, declared before the build. Full numbers:
+`docs/status/2026-10-17-top-two-arms.md`. Outputs:
+`data/ontology/v0.4-leaves/thema_L_x2_O50s_top/{A,B}/`; reviewer tables
+`data/experiments/top_two_arms_2026-10-17/{A,B}/`.
+
+| | arm A | arm B |
+|---|---|---|
+| held-out FDR within the caps | **PASS** -- overall 0.00987, worst stratum 0.01052 | **FAIL** -- stratum 3-3 at **0.02564**, over the 0.02 cap |
+| fewer than 49 roots | **PASS** -- **47** | **FAIL** -- **49**, which is not fewer than 49 |
+| blind reading of every root, >=80% coherent | the reviewer's; 47 roots listed | -- |
+| every small root (<=50) judged a distinct topic | **VACUOUS: neither arm has a single root of 50 pathways or fewer** | vacuous |
+| C6 intruder test on the areas, >=70% | the reviewer's; 352 areas | -- |
+
+**ARM B'S OWN MEASUREMENT CONTRADICTS ITS DESIGN, and that is the most useful thing in this
+prompt.** Arm B exists to cut the unstable large themes off and rebuild above them. Hennig
+clusterwise Jaccard over 200 rebuilt dendrograms says stability does **not** fall as themes grow:
+the band medians, smallest band first, are **0.463, 0.457, 0.545, 0.535, 0.663, 0.556** -- the
+**800-1,599 band is the most stable in the build** and the two least stable are the two smallest.
+Every band is under 0.6, so the declared rule puts **T = 50**, the lower edge of the very first
+band, and arm B therefore drops **all 363** themes of 50 or more pathways. At the alternative 0.75
+the cut is also 50. If stability were the criterion for what to cut, it would argue for cutting the
+**small** themes.
+
+**THE NOISE CHECK IS UNAMBIGUOUS AND SEPARATE FROM THAT.** Scrambled candidates sit at a median
+stability of 0.059 to 0.338 against the real candidates' 0.54 to 0.62; **0.6 clears the scrambled
+95th percentile in every band**; and the **AUC separating real gated candidates from scrambled ones
+is 1.000 in every band, for stability and for support alike** -- no overlap at all. So 0.6 is not a
+noise threshold, it is an absolute coherence bar, and a theme can be perfectly distinguishable from
+noise and still score 0.46. What the bar actually asks is whether a theme reappears as a **single
+Ward cluster** under resampling, and for O50s most themes recover about half of themselves on a
+typical run. This repeats prompt 41's conclusion from the other direction.
+
+**One measurement choice had to be made and it changes the large bands.** A cached run records only
+its dendrogram nodes of 3 or more members **and at most half the draw**; the recurrence machinery
+excludes the top of each tree on purpose. Scoring a 2,000-pathway theme against that set would cap
+its achievable Jaccard and understate exactly the bands the cut depends on, so the pass **rebuilds
+each run's full dendrogram** and scores against every internal node of 3 or more members with no
+upper cap -- same subsample rows, same Ward linkage, same vectors. The scrambled population is
+264,346 candidates and is **sampled** at most 500 per band per seed (seed 20261017, 27,429 scored);
+the 363 O50s themes and all 4,225 real gated candidates are scored in full.
+
+**ARM A: 867 items** -- 867 O50s themes and **0 loose pathways**, 19 anchors over 200, 848 clustered.
+**Double counting 7.54x** (41,751 against 5,539 pathways) against 3.14x when the same rule ran on
+O50: O50s's extra mid-size themes overlap heavily and areas are unions of items. 4,865 candidates ->
+1,647 gated -> 459 after consensus -> **352 areas**; 1,219 combined nodes lose 7 at the seams ->
+**1,212 in the view**, with **14 nodes over 1,000 pathways kept and flagged** as both arms were
+asked. **47 roots, 31 areas and 16 anchors**, largest `b2_00311` at 2,912 pathways with 51 children,
+smallest 160. **Children max 51, median 0, none over 60. Zero small roots** -- O50s's 164 roots of
+50 or fewer are all absorbed, so the small-root criterion has nothing to judge.
+
+**ARM A'S PLACEMENT IS THE BEST THIS PROJECT HAS RECORDED: 97.5%** (2,310 of 2,370), +116 against
+O50s's 92.6%, with the view alone at 95.0%. **And the Reactome column is the counterweight**: the
+areas as a top level score a median best Jaccard of **0.162**, materially **worse** than O50s's own
+0.273. The areas place curated summaries better and resemble curated top-level branches less.
+
+**THREE THINGS AGAINST ARM A, none of them a declared gate.**
+
+1. **The FDR margin is 1.3%.** Overall 0.00987 against a cap of 0.01 -- the thinnest margin any build
+   in this project has reported. A different held-out seed could plausibly tip it.
+2. **37 of the 47 roots are at least 80% inside another node**, 85 ordered pairs, the worst at 0.995
+   (`n04528`, 208 pathways, inside `b2_00345`, 2,353). No root pair reaches J >= 0.5, so the pair
+   test is clean, but the top is **a cover and not a partition**: three quarters of the roots are
+   near-subsets of a sibling. The declaration makes this report-only, which was right for a gate,
+   but the blind reader asked whether each root is a distinct topic will be reading a lot of
+   near-duplicates.
+3. **The areas move the Reactome measure the wrong way.** Every attempt at a top level in this
+   project has failed to improve it; this is the first to make it worse.
+
+**ARM B: 1,330 items** (all themes, 0 loose, 0 anchors by declaration), sizes 6/27/49, double
+counting 6.72x. 7,441 candidates -> 2,760 gated -> 732 -> **609 areas**; **1,936 nodes in the view**,
+14 giants kept, children max 42 and median 0, **zero small roots**. Its overall held-out FDR
+(0.00679) is **better** than arm A's and it still fails: stratum 3-3 is at 0.02564 on 39 real
+candidates, where one false positive in the averaged null is worth 0.0256 -- the thin-stratum
+coarseness that sank earlier builds. **49 roots, all areas, is a failure by one.**
+
+**ARM B BUYS NOTHING IN PLACEMENT: 92.5%, one summary WORSE than O50s alone**, against arm A's +116.
+And of the 363 themes it dismantles, the best Jaccard to any arm B area has **median 0.490**: only
+**44 come back at 0.7 or better**, 127 at 0.5 to 0.7, and **192 below 0.5**. So it reconstitutes
+about an eighth of them recognisably and more than half become different objects -- a poor trade for
+discarding what its own measure rated the more stable half of the build.
+
+**Code:** `scripts/top_two_arms.py` (the stability measure, the item rules, both arms),
+`scripts/top_two_arms_report.py`, 19 tests in `tests/test_top_two_arms.py`; two additive parameters
+in `scripts/areas_rec2fix.py` -- `combine(..., drop_giants=...)` and the `--anchor-pathways` and
+`--keep-giants` flags -- whose defaults reproduce rec2fix exactly and whose own 14 tests still pass.
+Both arms use rec2fix's noise configuration unchanged: 20 item scrambles 3001-3020, checked once on
+4002-4005, target 0.008, caps 0.02 and 0.01. **The frozen folders, O50s and every earlier build were
+left alone.** Cost 399 s for the stability pass, 359 s for arm A, 666 s for arm B, 10 s for the
+report, peak about 2.5 GB. No API calls.
+
+**Adopted: nothing.** Arm A's remaining gates are the blind reading of its 47 roots, the C6 intruder
+test on its 352 areas, and Aviyah. Arm B is out on two counts, so the declared blind A-vs-B
+comparison does not arise.
+
+**ADDENDUM, written at the end of the same session.** While prompt 44 was building, `9b74a7c` landed
+the reviewer's blind reading of **O50s**, the base both arms sit on. Scoring its own committed code
+against prompt 43's criteria: **R1, the blind reading of the 59 new 101-1,000 themes, is 48 of 59 =
+81.4% coherent or linked umbrella against a 90% bar -- a FAIL**; **R2, the intruder test, is 58 of 59
+= 98.3% against a 70% bar -- a PASS**. The eleven R1 failures are eight "core with misfits" and three
+"unlinked mixture", none outright incoherent; the worst is `n04526` (820 pathways), read as a
+"pan-metabolism catch-all". **Note that the commit subject reads "blind reading R1 48/59 fail" while
+the scorer in that same commit reports 48 of 59 PASSING** -- the figure above is the scorer's.
+
+Two consequences. **O50s does not currently clear its own reading gate**, so arm A, whatever its
+numbers, would be a top on an unadopted base. And **the 90% bar is not met by O50's own retained
+themes either**: the 28 "kept" themes score **89.3%**, so the gap between the new themes and the
+incumbents is 8 points and both sit under 90%. That is evidence about the bar as much as about O50s,
+and it is worth settling before arm A's 47 roots are read against a similar standard.
