@@ -1,0 +1,13 @@
+O50s: the frozen O50 with size strata above 10. n=5,539, VERIFY
+  real side: 99,951 candidates (0s, cached)
+  PROOF 1, confirm_with against build_10770.confirm on the frozen six strata: identical True
+  13,537 of 99,951 through the gate; 5,261 after consensus (8276 superseded) (67s)
+  joint fixed point at 0.85/0.5, survivor support: 5,261 -> 4,602 (587 collapsed, 72 merged)
+  themes 4,602  roots 188  multi-parent 43.6%  effectively unplaced 4
+  -> data/ontology/v0.4-leaves/thema_L_x2_O50s_verify  (peak 1326 MB)
+  identical  nodes.tsv
+  identical  members.tsv
+  identical  edges.tsv
+  identical  unplaced.tsv
+  PROOF 2 PASSED. With the frozen strata and floors this harness reproduces the frozen O50 byte for byte.
+  the verify build stays at data/ontology/v0.4-leaves/thema_L_x2_O50s_verify for inspection; it is not O50s

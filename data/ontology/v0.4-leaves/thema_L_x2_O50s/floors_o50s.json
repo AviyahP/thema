@@ -1,0 +1,416 @@
+{
+  "strata": [
+    [
+      3,
+      3
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      6,
+      6
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      10,
+      19
+    ],
+    [
+      20,
+      39
+    ],
+    [
+      40,
+      79
+    ],
+    [
+      80,
+      159
+    ],
+    [
+      160,
+      319
+    ],
+    [
+      320,
+      639
+    ],
+    [
+      640,
+      1279
+    ],
+    [
+      1280,
+      1000000000
+    ]
+  ],
+  "frozen_small": 5,
+  "calibration_target": 0.008,
+  "rule_of_three_numerator": 3.0,
+  "calibration": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout": [
+    4001,
+    4002,
+    4003,
+    4004,
+    4005,
+    4006
+  ],
+  "caps": {
+    "per_stratum": 0.02,
+    "overall": 0.01
+  },
+  "solved": [
+    {
+      "calibration_fdr": 0.00729,
+      "effective": 0.84,
+      "floor": 0.84,
+      "real": 804,
+      "stratum": "3-3",
+      "bounded": false,
+      "source": "frozen cal8, unchanged"
+    },
+    {
+      "calibration_fdr": 0.00696,
+      "effective": 0.915,
+      "floor": 0.915,
+      "real": 1090,
+      "stratum": "4-4",
+      "bounded": false,
+      "source": "frozen cal8, unchanged"
+    },
+    {
+      "calibration_fdr": 0.00778,
+      "effective": 0.515,
+      "floor": 0.515,
+      "real": 1455,
+      "stratum": "5-5",
+      "bounded": false,
+      "source": "frozen cal8, unchanged"
+    },
+    {
+      "calibration_fdr": 0.00652,
+      "effective": 0.33,
+      "floor": 0.33,
+      "real": 2193,
+      "stratum": "6-6",
+      "bounded": false,
+      "source": "frozen cal8, unchanged"
+    },
+    {
+      "calibration_fdr": 0.00774,
+      "effective": 0.195,
+      "floor": 0.195,
+      "real": 8026,
+      "stratum": "7-9",
+      "bounded": false,
+      "source": "frozen cal8, unchanged"
+    },
+    {
+      "floor": 0.030151,
+      "effective": 0.030151,
+      "real": 5793,
+      "calibration_fdr": 0.0059382,
+      "bounded": false,
+      "n_cuts": 380,
+      "null_per_seed": 62499.6,
+      "null_max": 0.17,
+      "stratum": "10-19",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 11818,
+      "calibration_fdr": 0.00076155,
+      "bounded": false,
+      "n_cuts": 176,
+      "null_per_seed": 32063.4,
+      "null_max": 0.015,
+      "stratum": "20-39",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 4830,
+      "calibration_fdr": 6.211e-05,
+      "bounded": true,
+      "n_cuts": 113,
+      "null_per_seed": 16323.4,
+      "null_max": 0.005,
+      "stratum": "40-79",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 1030,
+      "calibration_fdr": 0.00029126,
+      "bounded": true,
+      "n_cuts": 34,
+      "null_per_seed": 8275.1,
+      "null_max": 0.005,
+      "stratum": "80-159",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 234,
+      "calibration_fdr": 0.00128205,
+      "bounded": true,
+      "n_cuts": 17,
+      "null_per_seed": 4150.9,
+      "null_max": 0.005,
+      "stratum": "160-319",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 96,
+      "calibration_fdr": 0.003125,
+      "bounded": true,
+      "n_cuts": 8,
+      "null_per_seed": 2082.6,
+      "null_max": 0.005,
+      "stratum": "320-639",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 160,
+      "calibration_fdr": 0.001875,
+      "bounded": true,
+      "n_cuts": 28,
+      "null_per_seed": 1052.1,
+      "null_max": 0.005,
+      "stratum": "640-1279",
+      "source": "solved 17 Oct 2026"
+    },
+    {
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 103,
+      "calibration_fdr": 0.00291262,
+      "bounded": true,
+      "n_cuts": 30,
+      "null_per_seed": 451.1,
+      "null_max": 0.005,
+      "stratum": "1280+",
+      "source": "solved 17 Oct 2026"
+    }
+  ],
+  "confirmed": {
+    "strata": [
+      {
+        "calibration_fdr": 0.00729,
+        "effective": 0.84,
+        "floor": 0.84,
+        "real": 804,
+        "stratum": "3-3",
+        "bounded": false,
+        "source": "frozen cal8, unchanged",
+        "heldout_null": 0.5,
+        "heldout_real": 207,
+        "heldout_fdr": 0.00242
+      },
+      {
+        "calibration_fdr": 0.00696,
+        "effective": 0.915,
+        "floor": 0.915,
+        "real": 1090,
+        "stratum": "4-4",
+        "bounded": false,
+        "source": "frozen cal8, unchanged",
+        "heldout_null": 0.33,
+        "heldout_real": 126,
+        "heldout_fdr": 0.00265
+      },
+      {
+        "calibration_fdr": 0.00778,
+        "effective": 0.515,
+        "floor": 0.515,
+        "real": 1455,
+        "stratum": "5-5",
+        "bounded": false,
+        "source": "frozen cal8, unchanged",
+        "heldout_null": 2.0,
+        "heldout_real": 192,
+        "heldout_fdr": 0.01042
+      },
+      {
+        "calibration_fdr": 0.00652,
+        "effective": 0.33,
+        "floor": 0.33,
+        "real": 2193,
+        "stratum": "6-6",
+        "bounded": false,
+        "source": "frozen cal8, unchanged",
+        "heldout_null": 1.33,
+        "heldout_real": 352,
+        "heldout_fdr": 0.00379
+      },
+      {
+        "calibration_fdr": 0.00774,
+        "effective": 0.195,
+        "floor": 0.195,
+        "real": 8026,
+        "stratum": "7-9",
+        "bounded": false,
+        "source": "frozen cal8, unchanged",
+        "heldout_null": 12.83,
+        "heldout_real": 1179,
+        "heldout_fdr": 0.01088
+      },
+      {
+        "floor": 0.030151,
+        "effective": 0.030151,
+        "real": 5793,
+        "calibration_fdr": 0.0059382,
+        "bounded": false,
+        "n_cuts": 380,
+        "null_per_seed": 62499.6,
+        "null_max": 0.17,
+        "stratum": "10-19",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 35.5,
+        "heldout_real": 5793,
+        "heldout_fdr": 0.00613
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 11818,
+        "calibration_fdr": 0.00076155,
+        "bounded": false,
+        "n_cuts": 176,
+        "null_per_seed": 32063.4,
+        "null_max": 0.015,
+        "stratum": "20-39",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 8.33,
+        "heldout_real": 11818,
+        "heldout_fdr": 0.00071
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 4830,
+        "calibration_fdr": 6.211e-05,
+        "bounded": true,
+        "n_cuts": 113,
+        "null_per_seed": 16323.4,
+        "null_max": 0.005,
+        "stratum": "40-79",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 4830,
+        "heldout_fdr": 0.0
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 1030,
+        "calibration_fdr": 0.00029126,
+        "bounded": true,
+        "n_cuts": 34,
+        "null_per_seed": 8275.1,
+        "null_max": 0.005,
+        "stratum": "80-159",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 1030,
+        "heldout_fdr": 0.0
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 234,
+        "calibration_fdr": 0.00128205,
+        "bounded": true,
+        "n_cuts": 17,
+        "null_per_seed": 4150.9,
+        "null_max": 0.005,
+        "stratum": "160-319",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 234,
+        "heldout_fdr": 0.0
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 96,
+        "calibration_fdr": 0.003125,
+        "bounded": true,
+        "n_cuts": 8,
+        "null_per_seed": 2082.6,
+        "null_max": 0.005,
+        "stratum": "320-639",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 96,
+        "heldout_fdr": 0.0
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 160,
+        "calibration_fdr": 0.001875,
+        "bounded": true,
+        "n_cuts": 28,
+        "null_per_seed": 1052.1,
+        "null_max": 0.005,
+        "stratum": "640-1279",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 160,
+        "heldout_fdr": 0.0
+      },
+      {
+        "floor": 0.01,
+        "effective": 0.01,
+        "real": 103,
+        "calibration_fdr": 0.00291262,
+        "bounded": true,
+        "n_cuts": 30,
+        "null_per_seed": 451.1,
+        "null_max": 0.005,
+        "stratum": "1280+",
+        "source": "solved 17 Oct 2026",
+        "heldout_null": 0.0,
+        "heldout_real": 103,
+        "heldout_fdr": 0.0
+      }
+    ],
+    "overall_fdr": 0.00233,
+    "overall_real": 26120,
+    "overall_null": 60.83
+  },
+  "over_cap": {},
+  "overall_over_cap": false,
+  "seconds": 228.3
+}
