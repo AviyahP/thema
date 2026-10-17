@@ -145,16 +145,22 @@ def cap_for(n: int) -> int:
     return round(LEGACY_CAP_SHARE * n)
 
 
-def stratum_of(size: int) -> int:
+def stratum_of(size: int, strata: Sequence[tuple[int, int]] = STRATA) -> int:
     """Index of the stratum a theme of this size falls in.
+
+    ``strata`` is a parameter so a build can extend the stratification without touching
+    :data:`STRATA`, which the frozen byte-identity proof and every existing caller depend on. It
+    defaults to :data:`STRATA`, so omitting it is exactly the behaviour before 17 Oct 2026. O50s
+    passes the doubling strata declared that day.
 
     Args:
         size: Theme size in pathways.
+        strata: The stratum edges, ascending and non-overlapping.
 
     Returns:
-        Index into :data:`STRATA`, or -1 below the smallest stratum.
+        Index into ``strata``, or -1 below the smallest stratum.
     """
-    for index, (low, high) in enumerate(STRATA):
+    for index, (low, high) in enumerate(strata):
         if low <= size <= high:
             return index
     return -1
@@ -335,7 +341,8 @@ def calibrate(
     return {"solved": solved, "confirmed": checker(rows, [h.rows() for h in heldout], solved)}
 
 
-def gate(rows: Rows, solved: Sequence[dict]) -> np.ndarray:
+def gate(rows: Rows, solved: Sequence[dict],
+         strata: Sequence[tuple[int, int]] = STRATA) -> np.ndarray:
     """Which candidates clear their stratum's effective floor.
 
     The effective threshold is the stratum's own, as solved; a stratum with no floor admits
@@ -343,14 +350,15 @@ def gate(rows: Rows, solved: Sequence[dict]) -> np.ndarray:
 
     Args:
         rows: ``(size, support)`` per candidate.
-        solved: Per-stratum entries carrying an ``effective`` threshold.
+        solved: Per-stratum entries carrying an ``effective`` threshold, aligned with ``strata``.
+        strata: The stratum edges, defaulting to :data:`STRATA`.
 
     Returns:
         Boolean mask over candidates.
     """
     need = []
     for size, _support in rows:
-        index = stratum_of(size)
+        index = stratum_of(size, strata)
         entry = solved[index] if 0 <= index < len(solved) else None
         value = None if entry is None else entry.get("effective")
         need.append(np.inf if value is None else float(value))
@@ -380,7 +388,8 @@ class Built(NamedTuple):
 
 
 def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
-          theta_same: float = THETA_MERGE) -> Built:
+          theta_same: float = THETA_MERGE,
+          strata: Sequence[tuple[int, int]] = STRATA) -> Built:
     """Gate, merge by consensus, then stack by containment.
 
     Args:
@@ -394,6 +403,8 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
             :data:`THETA_MERGE`, so every existing caller is unchanged; the overlap arm of 12 Oct
             2026 lowers it and passes the SAME value to the stale-merge pass, so one cutoff governs
             non-nested overlap everywhere instead of two that were set at different times.
+        strata: The stratum edges the gate reads, aligned with ``solved``. Defaults to
+            :data:`STRATA`, so omitting it is the behaviour every build before 17 Oct 2026 had.
 
     Returns:
         The built ontology.
@@ -407,7 +418,7 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
             f"material carries {len(got.selections)} inclusion votes for "
             f"{len(got.supports)} candidates; build needs one per candidate")
     rows = got.rows()
-    keep = np.flatnonzero(gate(rows, solved)).tolist()
+    keep = np.flatnonzero(gate(rows, solved, strata)).tolist()
     words = got.blocks.shape[1] * bits.WORD
     blocks = [got.blocks[i] for i in keep]
     supports = [float(got.supports[i]) for i in keep]

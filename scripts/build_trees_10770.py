@@ -202,6 +202,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--scramble-rows", type=int, default=100,
                         help="trees per scramble side; raising it EXTENDS a side, reusing every "
                              "tree already on disk, because row i is always subsample row i")
+    parser.add_argument("--seed-list", default="",
+                        help="comma-separated scramble seeds to build INSTEAD of the declared "
+                             "CALIBRATION_SEEDS and HELDOUT_SEEDS, for a seed outside both. "
+                             "Declared 17 Oct 2026 for O50s, whose held-out check needs 4006 and "
+                             "HELDOUT_SEEDS stops at 4005. Omitting it leaves --seeds in charge, "
+                             "so every existing invocation builds exactly what it built before")
     args = parser.parse_args(argv)
 
     root = args.data / "ontology" / f"v{args.version}"
@@ -257,6 +263,7 @@ def main(argv: list[str] | None = None) -> int:
         log["scrambles"] = {"calibration": list(CALIBRATION_SEEDS),
                             "heldout": list(HELDOUT_SEEDS) if args.seeds == "all" else [],
                             "seeds": args.seeds,
+                            "seed_list": args.seed_list or None,
                             "rows_per_side": args.scramble_rows}
         indices = np.load(root / "subsamples" / "indices.npy")
         # Every scramble side uses the SAME subsample sequence as the real side, so a difference
@@ -269,8 +276,11 @@ def main(argv: list[str] | None = None) -> int:
         # for a 200-run build must come from 200-run nulls, which is why this is a parameter.
         rows = [np.sort(indices[r]) for r in range(args.scramble_rows)]
         per = []
-        wanted_seeds = (CALIBRATION_SEEDS if args.seeds == "calibration"
-                        else (*CALIBRATION_SEEDS, *HELDOUT_SEEDS))
+        wanted_seeds = (
+            tuple(int(one) for one in args.seed_list.split(",") if one.strip())
+            if args.seed_list else
+            (CALIBRATION_SEEDS if args.seeds == "calibration"
+             else (*CALIBRATION_SEEDS, *HELDOUT_SEEDS)))
         for seed in wanted_seeds:
             scrambled = np.ascontiguousarray(null_embeddings(matrix, seed).astype(np.float32))
             sfull = distances(scrambled)
