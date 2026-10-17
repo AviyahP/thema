@@ -1,0 +1,242 @@
+THE TOP OF O50s, TWO ARMS. Declared 17 Oct 2026. EXPLORATORY: adopts nothing.
+  base: O50s, 5,658 themes, 261 roots, 164 of them 50 pathways or fewer
+  the declared ceiling is fewer than 49 roots
+
+================================================================================================================
+7 (REPORTED FIRST, AS THE ORDER ASKS). STABILITY, THE NOISE CHECK AND T
+================================================================================================================
+  band        themes     p25   MEDIAN     p75  gated n  gated med  null n  null med  null p95  0.6>p95  AUC stab  AUC supp
+  50-99          267   0.403    0.463   0.537    3,192      0.540   5,000     0.083     0.102      yes     1.000     1.000
+  100-199         67   0.414    0.457   0.539      549      0.541   5,000     0.059     0.067      yes     1.000     1.000
+  200-399         19   0.454    0.545   0.655      181      0.624   5,000     0.061     0.076      yes     1.000     1.000
+  400-799          2   0.526    0.535   0.543       95      0.600   5,000     0.102     0.142      yes     1.000     1.000
+  800-1599         3   0.603    0.663   0.684      138      0.607   5,000     0.195     0.277      yes     1.000     1.000
+  1600+            5   0.515    0.556   0.653       70      0.598   2,429     0.338     0.396      yes     1.000     1.000
+
+  T = 50 (50-99), the first band with a median below 0.6; at 0.75 the cut would be 50 (50-99)
+  the band medians, smallest band first: [0.4626, 0.4567, 0.5452, 0.5347, 0.6629, 0.5557]
+  They are NOT decreasing with size. 800-1,599 is the most stable band at 0.663,
+  and the least stable are the two smallest. The cut falls at the first band only because
+  EVERY band is under 0.6, not because stability degrades as themes grow.
+
+  O50s itself: placement 2194 of 2,370 = 92.6%; Reactome median best J 0.273
+
+================================================================================================================
+ARM A
+================================================================================================================
+  867 items -> 352 areas -> 1,212 nodes in the view
+
+  1. HELD-OUT FDR PER STRATUM
+    stratum        floor      calib   held-out    real    cap
+    3-3             0.96    0.00714        0.0       7   0.02
+    4-4            0.945    0.00588        0.0      17   0.02
+    5-5             0.79    0.00667    0.00833      30   0.02
+    6-6             0.52    0.00612     0.0102      49   0.02
+    7-9            0.475    0.00745    0.00266      94   0.02
+    10+            0.055    0.00634    0.01052   1,450   0.02
+    OVERALL                          0.00987           0.01  INSIDE both caps
+
+  2. ROOTS: 47  (PASS against fewer than 49)
+    root        kind       size  children
+    b2_00311    area      2,912        51
+    b2_00245    area      2,550        40
+    b2_00116    area      2,367        23
+    b2_00345    area      2,353        26
+    b2_00330    area      1,801        21
+    b2_00306    area      1,092        14
+    b2_00308    area      1,001         9
+    n01027      anchor      923         0
+    n01278      anchor      886         0
+    n04526      anchor      820         0
+    b2_00314    area        760         7
+    b2_00319    area        625         8
+    n04670      anchor      618         0
+    b2_00342    area        582        13
+    b2_00340    area        576        10
+    b2_00315    area        539        12
+    b2_00335    area        505         4
+    b2_00322    area        468         5
+    b2_00304    area        458        15
+    n04671      anchor      434         0
+    b2_00252    area        394         3
+    n03316      anchor      386         0
+    b2_00328    area        373         4
+    b2_00316    area        355         8
+    n04672      anchor      348         0
+    n03971      anchor      311         0
+    b2_00294    area        304         3
+    b2_00309    area        304         5
+    b2_00349    area        304         4
+    b2_00323    area        302         5
+    b2_00239    area        274         5
+    n04995      anchor      262         0
+    b2_00341    area        257        12
+    b2_00320    area        249         6
+    b2_00344    area        249        11
+    n04673      anchor      249         0
+    b2_00310    area        221         3
+    b2_00303    area        218         4
+    n04999      anchor      213         0
+    b2_00324    area        212         3
+    n00225      anchor      212         0
+    n04998      anchor      209         0
+    n05001      anchor      209         0
+    n04528      anchor      208         0
+    n05000      anchor      206         0
+    b2_00305    area        180         7
+    b2_00263    area        160         4
+
+  3. SMALL ROOTS (50 pathways or fewer): 0 of 47
+    none
+
+  4. DUPLICATION (report only, not a gate)
+    root pairs at J >= 0.5: 0
+    roots at least 80% inside another node: 37 of 47  (85 ordered pairs)
+      0.995  n04528 (208) inside b2_00345 (2,353)
+      0.995  n05000 (206) inside n01027 (923)
+      0.995  n04670 (618) inside b2_00311 (2,912)
+      0.990  n05001 (209) inside b2_00345 (2,353)
+      0.990  n05001 (209) inside b2_00311 (2,912)
+      0.987  b2_00294 (304) inside b2_00245 (2,550)
+      0.985  b2_00252 (394) inside b2_00116 (2,367)
+      0.984  b2_00320 (249) inside b2_00311 (2,912)
+      0.983  b2_00304 (458) inside b2_00116 (2,367)
+      0.977  n04995 (262) inside n01027 (923)
+      0.977  n04672 (348) inside b2_00116 (2,367)
+      0.977  n03316 (386) inside n01278 (886)
+
+  5. CHILDREN AND GIANTS
+    children per node: max 51, median 0, 0 over 60
+    nodes over 1,000 pathways, kept and flagged: 14  b2_00311 (2,912), b2_00245 (2,550), b2_00116 (2,367), b2_00345 (2,353), b2_00157 (2,133), b2_00330 (1,801), b2_00136 (1,486), b2_00283 (1,436), b2_00254 (1,419), b2_00326 (1,233)
+
+  6. SUMMARY PLACEMENT AND REACTOME
+    O50s itself: 2194 of 2,370 = 92.6%  (the declared comparison, 92.6%)
+    the view alone (1,212 nodes): 2251 = 95.0%
+    every O50s theme plus arm A's areas: 2310 = 97.5%  (+116 against O50s)
+    by band: 11-50 538, 201+ 2, 3-10 1686, 51-200 84
+    Reactome median best J: view 0.162, full pool 0.273, O50s 0.273
+
+================================================================================================================
+ARM B
+================================================================================================================
+  1330 items -> 609 areas -> 1,936 nodes in the view
+
+  1. HELD-OUT FDR PER STRATUM
+    stratum        floor      calib   held-out    real    cap
+    3-3            0.895    0.00513    0.02564      39   0.02  OVER
+    4-4            0.935    0.00455        0.0      22   0.02
+    5-5             0.73    0.00745        0.0      47   0.02
+    6-6            0.565    0.00738     0.0123      61   0.02
+    7-9             0.38    0.00788    0.00679     184   0.02
+    10+         0.040201    0.00671    0.00654   2,407   0.02
+    OVERALL                          0.00679           0.01  OVER A CAP
+
+  2. ROOTS: 49  (FAIL against fewer than 49)
+    root        kind       size  children
+    b2_00379    area      2,726        36
+    b2_00397    area      2,554        42
+    b2_00439    area      2,225        28
+    b2_00480    area      1,368        12
+    b2_00483    area      1,270        10
+    b2_00603    area      1,195        20
+    b2_00489    area      1,098        15
+    b2_00467    area      1,088        12
+    b2_00548    area      1,070        30
+    b2_00569    area      1,023        13
+    b2_00434    area        966        28
+    b2_00522    area        811        11
+    b2_00551    area        688         8
+    b2_00549    area        601         5
+    b2_00531    area        520        13
+    b2_00552    area        501         3
+    b2_00498    area        457         5
+    b2_00521    area        422         4
+    b2_00584    area        396         5
+    b2_00436    area        379         6
+    b2_00525    area        346         9
+    b2_00519    area        334        10
+    b2_00496    area        296         6
+    b2_00470    area        275         6
+    b2_00605    area        274         3
+    b2_00336    area        268         5
+    b2_00587    area        247         6
+    b2_00588    area        247         5
+    b2_00606    area        243         3
+    b2_00526    area        241         5
+    b2_00594    area        239         7
+    b2_00459    area        225         3
+    b2_00523    area        221         4
+    b2_00600    area        216         6
+    b2_00556    area        213         6
+    b2_00575    area        193         6
+    b2_00322    area        186         7
+    b2_00607    area        181        11
+    b2_00517    area        179         5
+    b2_00529    area        171         5
+    b2_00510    area        170         9
+    b2_00582    area        166         7
+    b2_00555    area        152         4
+    b2_00276    area        143         6
+    b2_00431    area        140         6
+    b2_00593    area        122         7
+    b2_00560    area        115         9
+    b2_00305    area        102         6
+    b2_00427    area         93         7
+
+  3. SMALL ROOTS (50 pathways or fewer): 0 of 49
+    none
+
+  4. DUPLICATION (report only, not a gate)
+    root pairs at J >= 0.5: 0
+    roots at least 80% inside another node: 38 of 49  (106 ordered pairs)
+      0.995  b2_00549 (601) inside b2_00603 (1,195)
+      0.993  b2_00549 (601) inside b2_00379 (2,726)
+      0.989  b2_00498 (457) inside b2_00548 (1,070)
+      0.988  b2_00483 (1,270) inside b2_00379 (2,726)
+      0.984  b2_00436 (379) inside b2_00522 (811)
+      0.976  b2_00434 (966) inside b2_00397 (2,554)
+      0.975  b2_00470 (275) inside b2_00379 (2,726)
+      0.974  b2_00555 (152) inside b2_00603 (1,195)
+      0.971  b2_00606 (243) inside b2_00483 (1,270)
+      0.971  b2_00606 (243) inside b2_00171 (934)
+      0.970  b2_00336 (268) inside b2_00480 (1,368)
+      0.970  b2_00336 (268) inside b2_00456 (520)
+
+  5. CHILDREN AND GIANTS
+    children per node: max 42, median 0, 0 over 60
+    nodes over 1,000 pathways, kept and flagged: 14  b2_00379 (2,726), b2_00397 (2,554), b2_00439 (2,225), b2_00348 (1,879), b2_00275 (1,718), b2_00480 (1,368), b2_00483 (1,270), b2_00603 (1,195), b2_00376 (1,169), b2_00355 (1,146)
+
+  6. SUMMARY PLACEMENT AND REACTOME
+    O50s itself: 2194 of 2,370 = 92.6%  (the declared comparison, 92.6%)
+    the view alone (1,936 nodes): 2193 = 92.5%
+    the O50s themes below 50 plus arm B's areas (the 363 at 50+ are dropped): 2193 = 92.5%  (-1 against O50s)
+    by band: 11-50 483, 201+ 2, 3-10 1637, 51-200 71
+    Reactome median best J: view 0.167, full pool 0.273, O50s 0.273
+
+================================================================================================================
+7b. THE 363 DROPPED THEMES OF 50+ PATHWAYS, AND THEIR BEST-MATCHING ARM B AREA
+================================================================================================================
+    best J: median 0.490, >=0.7 44, 0.5-0.7 127, <0.5 192
+    dropped        size   best area    area size       J
+    n02517           79   b2_00114            74   0.889
+    n01167          114   b2_00019           110   0.882
+    n04723           56   b2_00263            59   0.855
+    n00226           85   b2_00042            79   0.843
+    n01896           59   b2_00145            71   0.831
+    n02265           82   b2_00145            71   0.821
+    n03086          106   b2_00338           107   0.821
+    n01278          886   b2_00137           905   0.816
+    n02923           63   b2_00135            75   0.816
+    n03354           84   b2_00049            68   0.810
+    n00978           55   b2_00049            68   0.809
+    n01459           90   b2_00036            85   0.804
+    n00721           87   b2_00040            84   0.800
+    n03490          108   b2_00125           123   0.791
+    n02724           74   b2_00036            85   0.787
+    n05096           61   b2_00238            58   0.776
+    n01419        1,603   b2_00275         1,718   0.775
+    n02345           81   b2_00099            68   0.774
+    n04527          282   b2_00465           303   0.773
+    n02672        2,172   b2_00379         2,726   0.764
+    ... and 343 more; the worst is n05063 at 0.180
+    -> data/ontology/v0.4-leaves/thema_L_x2_O50s_top/B/dropped_themes.tsv
