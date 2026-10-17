@@ -7595,3 +7595,159 @@ numbers, would be a top on an unadopted base. And **the 90% bar is not met by O5
 themes either**: the 28 "kept" themes score **89.3%**, so the gap between the new themes and the
 incumbents is 8 points and both sit under 90%. That is evidence about the bar as much as about O50s,
 and it is worth settling before arm A's 47 roots are read against a similar standard.
+
+## 2026-10-18 01:16:48 UTC+1 — ARM A, STRICT CONTAINMENT FIXED (A1 and A2): declared before running
+
+Transcribed from Aviyah's prompt of 18 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_45.md`, as the prompt instructs; reproduced here **before
+any build ran**. A bug fix plus a report; **adopts nothing**. Everything below the line is the
+prompt text.
+
+**THE CAUSE, confirmed before building and narrower than the prompt's hypothesis.** All five cases
+are an **anchor strictly inside an O50s giant**: `n00225` (212), `n03971` (311) and `n04999` (213)
+inside `n01419` (1,603); `n04528` (208) inside `n01843` (2,564); `n05000` (206) inside `n03878`
+(2,135). **All five O50s giants are absent from arm A's node set.** `units_of` excludes a giant from
+being a unit by design -- a grab-bag is never a unit -- and rec2fix never re-adds the giants as
+parents, so arm A's 1,212-node structure contains **no node that could be their parent**. The edges
+are not wrong, they are missing: arm A omits 4,798 of O50s's 5,658 themes, and the five giants are
+the only omissions that sit *above* a root rather than below one.
+
+**One detail the fix has to respect, or it would quietly undo prompt 44.** The spec says the node set
+is "every area, anchor, O50s giant and O50s theme" **and** that "the twin and chain rules stay as
+they were". Arm A's rules removed 7 nodes (4 collapsed, 3 merged) and **all 7 are O50s themes** --
+`n05010`, `n04530`, `n04676`, `n04674`, `n05037`, `n04997`, `n02019`. Re-adding "every O50s theme"
+unqualified would resurrect them. So A1's node set is the surviving areas plus every O50s theme
+**minus those 7**, which honours both instructions.
+
+**Estimate: about 5 minutes.** No reclustering -- the cached areas are reused, so there are no sides
+to build. The work is strict containment over about 6,003 nodes (3.1e9 bitset word operations,
+roughly 30 s), the transitive reduction by blocked float32 product (a few seconds), summary
+placement and Reactome over the enlarged pool (about 30 s), and the same again for A2 plus its
+propagation pass. Well under the 1 h ceiling.
+
+---
+
+Prompt 45: fix strict containment in arm A of prompt 44. Declared 18 Oct 2026, before any result. A bug fix plus a report; it adopts nothing. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders or any existing build (write a new build); working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 1 h.
+
+WHY
+In arm A (data/ontology/v0.4-leaves/thema_L_x2_O50s_top/A/), 5 roots are 100% inside another node with 0 pathways missing, for example anchor n05000 inside O50s giant n03878, and n00225, n04999, n03971 inside n01419. Under strict containment they must be children. In O50s itself these edges exist, so the likely cause is the giant drop in rec2fix's unit selection: giants were removed as parents and never put back.
+
+SPEC
+1. **Find the cause** and fix it in the arm A assembly only, with rec2fix defaults unchanged (its tests must still pass).
+2. **Rebuild arm A** with no reclustering: reuse the cached areas (areas_A_848items_200runs.json). Apply strict containment over the whole structure: every area, anchor, O50s giant and O50s theme, then transitive reduction. The twin and chain rules stay as they were.
+3. **Report two views**, the second for reporting only:
+   - **A1, strict:** containment at 100%.
+   - **A2, Aviyah's propagation rule:** if a node is at least 98% inside a larger node and at most 5 pathways are missing, it becomes a child, and the missing pathways are added to the parent and all its ancestors with evidence score 0. Count the pathways added.
+
+REPORT (docs/status/2026-10-18-armA-containment.md), for A1 and A2
+- the cause, in 2-3 lines;
+- the root count, and the list of roots with id, kind (area or anchor), size and number of children;
+- where each O50s giant sits now (its parents);
+- roots ≥80% inside another node, binned by pathways missing: 0, 1-5, 6-20, 21+;
+- summary placement and agreement with Reactome's top level (median best J);
+- held-out FDR is unchanged (no reclustering); confirm this.
+
+FOR THE REVIEWER
+Write data/experiments/top_two_arms_2026-10-17/A1/roots.tsv in the same format as A/roots.tsv (id, kind, size, n_children, full member keys).
+
+FINAL
+- Save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_45.md, and copy it into DECISIONS.md as "declared before running", before building.
+- Output: data/ontology/v0.4-leaves/thema_L_x2_O50s_top/A1/ (and A2/).
+- Write docs/status/commit-2026-10-18-armA-containment.sh, to run after commit-2026-10-17-top-two-arms.sh. It commits the code, tests, builds, status note, reviewer file and PROMPT_45.md. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the cause and the time estimate. After the build, give:
+- the root counts for A1 and A2;
+- the giants' parents;
+- the near-containment bins;
+- the commit script path.
+
+## 2026-10-18 01:24:49 UTC+1 — ARM A CONTAINMENT RESULT: the bug is fixed and the root count does not move. A1 47 roots, A2 41. Adopted nothing.
+
+Full numbers: `docs/status/2026-10-18-armA-containment.md`. Outputs
+`data/ontology/v0.4-leaves/thema_L_x2_O50s_top/{A1,A2}/`; reviewer file
+`data/experiments/top_two_arms_2026-10-17/A1/roots.tsv`.
+
+**THE CAUSE.** Arm A's node set was rec2fix's -- areas, anchors and units. `units_of` excludes a
+giant from being a unit by design, a grab-bag is never a unit, and **rec2fix never re-adds the giants
+as parents**. So arm A's 1,212-node structure omitted 4,798 of O50s's 5,658 themes, the five giants
+among them, and five anchors that O50s itself places inside a giant came out as roots with no node in
+the structure that could be their parent: `n00225`, `n03971` and `n04999` under `n01419`, `n04528`
+under `n01843`, `n05000` under `n03878`. **The edges were not wrong, they were missing**, and the
+other 4,793 omissions were invisible because non-maximal themes sit *below* the units while the
+giants sit *above* them.
+
+**THE FIX, in the arm A assembly only.** The structure is assembled over every O50s theme, the five
+giants included, plus the 352 surviving areas: **6,003 nodes**. `areas_rec2fix` is **not touched** --
+`git diff` on it is empty for this prompt, its defaults and unit rule stand and its 14 tests pass --
+because the defect is in what arm A hands to the structure, not in how rec2fix builds areas. **One
+detail that would otherwise have undone prompt 44**: the spec keeps the twin and chain rules "as they
+were", and arm A's rules removed 7 nodes, **all 7 O50s themes** (`n02019`, `n04530`, `n04674`,
+`n04676`, `n04997`, `n05010`, `n05037`); re-adding "every O50s theme" unqualified would resurrect
+them, so they are excluded by name and the arithmetic 6,003 = 5,658 + 352 - 7 is asserted.
+
+**NO RECLUSTERING, confirmed rather than claimed.** The cached areas are reused verbatim and the
+floors and held-out report in A1 and A2 are **byte-identical to arm A's** and to the cache they came
+from; the build asserts it and stops if it fails, and a test asserts it too. Held-out FDR therefore
+stands at **overall 0.00987 against the 0.01 cap**, worst stratum 0.01052 -- including the 1.3%
+margin prompt 44 flagged.
+
+| | arm A | **A1 strict** | **A2 propagation** |
+|---|---:|---:|---:|
+| nodes | 1,212 | **6,003** | 6,003 |
+| **roots** | 47 | **47** | **41** |
+| root composition | 31 areas + 16 anchors | **31 areas + 11 anchors + 5 giants** | 29 + 7 + 5 |
+| roots 100% inside another node | **5** | **0** | **0** |
+| roots >=80% inside, 1-5 missing | -- | 10 | **0** |
+| children max / median | 51 / 0 | **319** / 2 | 312 / 2 |
+| placement | 97.5% | **97.5%** | **97.5%** |
+| Reactome median best J | 0.273 | **0.273** | **0.273** |
+| pathways added | -- | 0 | **22** over 6 nodes |
+
+**THE ROOT COUNT DOES NOT MOVE, and the coincidence is exact**: the roots arm A had and A1 does not
+are **precisely the five bug cases**, and the roots A1 has and arm A did not are **precisely the five
+O50s giants**. Ten of the 47 differ. **So the fix does not shrink the top level; it corrects what the
+top level is made of** -- five 200-to-311-pathway anchors out, five 1,603-to-2,564-pathway grab-bags
+in. Whether that is an improvement is a judgement, not a number.
+
+**WHERE THE GIANTS SIT NOW: all five are roots**, with 147 to 319 direct children, and **none is
+inside any area.** The areas pass never built anything that contains a giant, so re-admitting them
+adds five top-level nodes rather than slotting them under something. Of the 19 nodes over 1,000
+pathways in A1 (the 5 giants plus 14 giant areas), 12 are roots and the 7 that are contained are all
+areas, so areas do nest inside each other -- what none of them does is contain a giant.
+
+**CHILDREN MAX JUMPS 51 -> 319, and that is not a new defect**: it is O50s's own shape arriving with
+its own nodes, and O50s's own maximum is 382. Arm A's 51 was an artefact of the 4,798 missing themes.
+
+**NEAR-CONTAINMENT BINS (roots >=80% inside another node, by pathways missing).** A1: **0 missing =
+0** (it was 5 before the fix -- that is the regression test), 1-5 = 10, 6-20 = 39, 21+ = 61, over 110
+ordered pairs. A2: **0 and 1-5 both empty**, 6-20 = 31, 21+ = 54, 85 pairs. **100 of A1's 110 pairs
+are missing 6 or more pathways**, so no rule short of a loose share threshold would absorb them.
+
+**A2 BUYS SIX ROOTS FOR 22 INVENTED MEMBERSHIPS.** Six child-parent pairs created, 22 pathway slots
+added over 6 nodes, settled in 2 rounds (the second found nothing). **Four of the six put an anchor
+under an O50s giant** -- `n04670` under `n01843`, `n04671` under `n02672`, `n04995` under `n03878`,
+`n05001` under `n04994` -- and every parent was itself a root, so the "all its ancestors" clause
+never fired and all 22 slots went to the six parents directly. The 22 are in
+`A2/propagated_members.tsv`, every one at **inclusion 0.0**, asserted by test. That is why A2 is
+reporting-only: six roots are removed by **writing 22 memberships no run ever voted for**. Cheap at
+this scale, and still a different kind of object from a recurrence-backed membership.
+
+**ONE PROMPT-44 FIGURE NEEDS CORRECTING.** That note reported arm A's Reactome agreement as "view
+0.162, full pool 0.273". The 0.162 was the view alone, 1,212 nodes, which was the only pool arm A's
+structure offered -- and that pool was itself the artefact this prompt fixes. **A1's structure IS the
+full pool, so 0.273 is the figure that applies.** The areas still do not improve on O50s's 0.273, but
+they no longer appear to make it worse.
+
+**WHAT THE REVIEWER NEEDS TO KNOW: `A1/roots.tsv`'s 47 rows are not `A/roots.tsv`'s 47.** Five rows
+differ in each direction. If the blind reading of arm A's roots has already begun, five of its items
+are no longer roots and five new ones -- all O50s giants -- have appeared. And the coherence question
+got harder, not easier: **five of A1's 47 roots are now the giants** this project has repeatedly
+called grab-bags, one of which, `n04994`, prompt 43 flagged as a brand-new 2,096-pathway theme that
+no declared check had read.
+
+**Code:** `scripts/arm_a_containment.py`, 15 tests in `tests/test_arm_a_containment.py` including the
+named regression test for all five bug cases. Cost 13 s and 540 MB; no reclustering, no API calls.
+**The frozen folders, O50s, arm A, arm B and every earlier build were left alone** -- A1 and A2 are
+new directories.
