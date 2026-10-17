@@ -1,0 +1,611 @@
+[
+ {
+  "id": "T001",
+  "verdict": "linked umbrella",
+  "label": "Mitochondrial intermediary metabolism: amino acids, sugars, FA oxidation",
+  "off_topic": "3%",
+  "reason": "Amino acid catabolism/urea cycle, carbohydrate metabolism (glycolysis, glycogen, galactose/fructose, PPP) and fatty acid beta-oxidation, all joined through pyruvate/TCA, with only a few strays (oxygen transport, metanephric tubule development, resveratrol response)."
+ },
+ {
+  "id": "T002",
+  "verdict": "core with misfits",
+  "label": "Ectodermal surface tissues: eye/retinoid, skin, pigmentation",
+  "off_topic": "20%",
+  "reason": "Clear blocks for phototransduction/retinoid cycle, keratinocyte/cornified envelope and MITF/melanosome pigmentation (plus ciliary transport), but about a fifth are unrelated (odontogenesis, saliva, luteolysis, vagina and bile duct development, TNF binding, synaptic vesicle coating, TBA)."
+ },
+ {
+  "id": "T003",
+  "verdict": "coherent",
+  "label": "Innate immune sensing: TLR/RLR, NF-kB, type I IFN",
+  "off_topic": "3%",
+  "reason": "Almost every member is pattern-recognition signaling (TLR, RIG-I/MDA5, NOD, cGAS/STING, inflammasome) leading to NF-kB/IRF and interferon responses, apart from a few generic transcription factor activity terms."
+ },
+ {
+  "id": "T004",
+  "verdict": "linked umbrella",
+  "label": "Systemic energy homeostasis: insulin secretion, adipose lipid storage",
+  "off_topic": "8%",
+  "reason": "Islet hormone secretion/insulin signaling, adipocyte differentiation and thermogenesis, and triglyceride/lipid droplet regulation via PPAR/LXR/SREBP form related sub-themes of metabolic endocrinology, with a few strays (hydroperoxide response, Golgi transport, SOS signaling)."
+ },
+ {
+  "id": "T005",
+  "verdict": "linked umbrella",
+  "label": "Axon guidance, neural adhesion, myelination and neurotrophin death signaling",
+  "off_topic": "3%",
+  "reason": "Semaphorin/netrin/SLIT-ROBO/ephrin guidance and L1/NCAM adhesion, myelination/glial regulation and p75NTR dependence-receptor apoptosis are closely linked nervous system wiring sub-themes, with almost no outliers."
+ },
+ {
+  "id": "T006",
+  "verdict": "linked umbrella",
+  "label": "Mesodermal organogenesis: heart, vasculature, cartilage/bone, skeletal muscle",
+  "off_topic": "6%",
+  "reason": "Cardiac morphogenesis/valves, vascular development, chondrocyte/osteoblast (RUNX2) differentiation and myoblast/myogenesis are related mesoderm developmental programs, with a few generic or unrelated terms (ECM ligand sequestration, lung blood pressure, odontogenesis, TBA)."
+ },
+ {
+  "id": "T007",
+  "verdict": "coherent",
+  "label": "Reproduction: meiosis, gametogenesis, fertilization, maternal-zygotic transition",
+  "off_topic": "8%",
+  "reason": "Members cover meiotic recombination/synapsis, sperm and oocyte development, gonadal hormones, fertilization, piRNA silencing and MZT/ZGA, with a small set of unrelated items (neuron migration, mRNA export, TYSND1 peroxisomal cleavage, Nectin)."
+ },
+ {
+  "id": "T008",
+  "verdict": "core with misfits",
+  "label": "Developmental signaling: Wnt, Notch, TGF-beta/SMAD and cancer mutants",
+  "off_topic": "35%",
+  "reason": "A core of Wnt/beta-catenin, Notch and TGF-beta/SMAD signaling (including cancer mutants) shares the theme with sizeable unrelated blocks: estrogen/androgen/progesterone receptor signaling, PTK6 signaling, miRNA processing, and assorted transcription and RUNX3 terms."
+ },
+ {
+  "id": "T009",
+  "verdict": "unlinked mixture",
+  "label": "Pan-metabolism catch-all: small molecules, glycans, mitochondria, RNA modification",
+  "off_topic": "30%",
+  "reason": "With 820 members it pools many separate blocks (amino acid/carbohydrate/lipid/nucleotide metabolism, glycosylation/CDG, GAG/MPS, heme, xenobiotic/drug ADME, vitamins, mitochondrial translation/OXPHOS, tRNA/rRNA modification), which share only the broad label 'metabolism'."
+ },
+ {
+  "id": "T010",
+  "verdict": "coherent",
+  "label": "Lipoprotein, cholesterol and bile acid transport",
+  "off_topic": "8%",
+  "reason": "Chylomicron/VLDL/LDL/HDL assembly and clearance, cholesterol efflux/uptake via LXR/SREBP, and bile acid synthesis and recycling make one theme, apart from generic receptor internalization/endocytosis and glucose import terms."
+ },
+ {
+  "id": "T011",
+  "verdict": "linked umbrella",
+  "label": "Mitochondrial/peroxisomal metabolism: amino acids, FA oxidation, vitamin cofactors",
+  "off_topic": "6%",
+  "reason": "Amino acid catabolism/urea cycle, mitochondrial and peroxisomal fatty acid oxidation, and one-carbon/B-vitamin/sulfur/selenium cofactor metabolism are linked intermediary metabolism sub-themes, with a few strays (MGMT DNA repair, tube closure, melanin, HDL clearance, visual STRA6)."
+ },
+ {
+  "id": "T012",
+  "verdict": "core with misfits",
+  "label": "Mitochondrial gene expression, OXPHOS assembly and tRNA modification",
+  "off_topic": "25%",
+  "reason": "The core is mitochondrial transcription/translation, respiratory chain assembly and tRNA processing/modification, but a polyamine metabolism block, collagen/protein hydroxylation and basement membrane terms, plus A-to-I editing, diphthamide and Pol II elongation, are unrelated."
+ },
+ {
+  "id": "T013",
+  "verdict": "linked umbrella",
+  "label": "Musculoskeletal development: skeletal muscle, bone and cartilage",
+  "off_topic": "10%",
+  "reason": "Two clearly related blocks (myogenesis/muscle regeneration and contraction; osteoblast/chondrocyte/osteoclast and RUNX2 skeletal development) under a musculoskeletal idea, with a scattered tail of misfits (lithium, kinesins, netrin, motor neuron apoptosis, membrane raft, SCF proteolysis)."
+ },
+ {
+  "id": "T014",
+  "verdict": "linked umbrella",
+  "label": "Systemic lipid and glucose metabolism; adipocytes, insulin, eicosanoids",
+  "off_topic": "8%",
+  "reason": "Members span lipoprotein/cholesterol handling, phospholipid and eicosanoid/SPM synthesis, and insulin/glucagon/adipocyte energy homeostasis, all metabolic-lipid related, with a minority of strays (Rho GTPase cycles, exocyst, blue light/UV-A, urea transport, mRNA transcription)."
+ },
+ {
+  "id": "T015",
+  "verdict": "linked umbrella",
+  "label": "Lipid metabolism: eicosanoids, phospholipids, peroxisomal FA, retinoids/vision",
+  "off_topic": "6%",
+  "reason": "A lipid-metabolism umbrella combining eicosanoid/pro-resolving mediators and phospholipid remodeling, peroxisomal fatty acid oxidation plus isoprenoid/sterol synthesis, and retinoid metabolism with visual phototransduction, with few strays (histamine, GLUT1, GPCR clusters, succinyl-CoA)."
+ },
+ {
+  "id": "T016",
+  "verdict": "core with misfits",
+  "label": "Glycosylation, glycosaminoglycan and glycan-degradation disorders",
+  "off_topic": "12%",
+  "reason": "Clear core of N-/O-glycosylation, CDGs, GAG/proteoglycan synthesis, mucopolysaccharidoses and glycosphingolipids, but over 10% unrelated items (amyloid fibers, magnesium transport, reactive gliosis, type IV hypersensitivity, muscle fiber differentiation, CYP7B1/CYP2U1 defects, HSC migration)."
+ },
+ {
+  "id": "T017",
+  "verdict": "linked umbrella",
+  "label": "Mitosis: chromosome cohesion, spindle/centrosome, nuclear envelope and pore",
+  "off_topic": "5%",
+  "reason": "Mitotic chromosome condensation/cohesion and spindle/centrosome control sit alongside nuclear envelope/NPC breakdown and reassembly, nucleocytoplasmic transport, and SUMOylation, all tied to mitotic nuclear dynamics, with few strays."
+ },
+ {
+  "id": "T018",
+  "verdict": "core with misfits",
+  "label": "Nucleotide, one-carbon, methionine and polyamine metabolism",
+  "off_topic": "15%",
+  "reason": "Core of purine/pyrimidine synthesis and salvage, folate/methionine/SAM, selenium and polyamine metabolism plus tRNA modification, but a sizeable stray fraction (protein oligomerization terms, PGC-1alpha, diphtheria toxin, Vpr apoptosis, arylsulfatases, osmotic-stress apoptosis, mitochondrial depolarization)."
+ },
+ {
+  "id": "T019",
+  "verdict": "unlinked mixture",
+  "label": "Reproduction/germline plus viral life cycles",
+  "off_topic": "15%",
+  "reason": "Two unrelated blocks, gametogenesis/fertilization/early embryo and piRNA retroelement silencing versus viral entry, replication and protein maturation (SARS-CoV, RSV, Dengue, HIV, influenza), with no single idea linking them."
+ },
+ {
+  "id": "T020",
+  "verdict": "coherent",
+  "label": "Innate immune sensing: TLR, NF-kB, interferon, inflammasome",
+  "off_topic": "5%",
+  "reason": "Overwhelmingly pattern-recognition and innate signaling (TLR/RLR/cGAS, NF-kB, type I IFN, inflammasome/pyroptosis, cytokine regulation), with only minor strays (vitamin D synthesis, osteoclast proliferation, oxLDL, tube lumen cavitation)."
+ },
+ {
+  "id": "T021",
+  "verdict": "unlinked mixture",
+  "label": "Proliferation megacluster: cell cycle, DNA repair, RNA processing, translation",
+  "off_topic": "10%",
+  "reason": "An 886-member catch-all spanning cell cycle/mitosis, DNA replication and repair, Pol I/II/III transcription, splicing/mRNA decay, rRNA/tRNA processing, translation, mitochondrial gene expression, chromatin, meiosis and HIV biology, far more than 2-3 sub-themes, so it does not resolve into one recognisable theme."
+ },
+ {
+  "id": "T022",
+  "verdict": "linked umbrella",
+  "label": "Gametogenesis/meiosis and microtubule machinery: spindle, centrosome, cilia",
+  "off_topic": "10%",
+  "reason": "Two related blocks: reproduction (meiosis, gametes, fertilization, gonad/ovary hormones, placenta, early embryo) and microtubule-based machinery (mitotic spindle, cohesion, centrosome, cilia/axoneme, tubulin folding), linked by meiotic division and sperm flagella; misfits include hepatocyte/liver regeneration, neuronal vesicle transport, presynapse, peroxisomal TYSND1, crotonylation."
+ },
+ {
+  "id": "T023",
+  "verdict": "coherent",
+  "label": "RNA metabolism: transcription, processing, decay and translation",
+  "off_topic": "5%",
+  "reason": "Almost all members are Pol I/II/III transcription, splicing, capping/polyadenylation, mRNA decay, rRNA/tRNA/snRNA processing, miRNA silencing and translation initiation (with HIV Tat transcription as Pol II variants), with few misfits such as fibroblast proliferation, protein hydroxylation and TGFBR3 expression."
+ },
+ {
+  "id": "T024",
+  "verdict": "coherent",
+  "label": "Neutrophil/phagocyte antibacterial defense and host-pathogen interaction",
+  "off_topic": "5%",
+  "reason": "Members are neutrophil degranulation/chemotaxis, respiratory burst, Fc-gamma phagocytosis, antimicrobial peptides/defensins, IL-17 mucosal defense and bacterial host-interaction pathways, with minor misfits (hyperoxia, translation initiation, GPCR cluster, SARS therapeutics)."
+ },
+ {
+  "id": "T025",
+  "verdict": "linked umbrella",
+  "label": "ECM remodeling, angiogenesis and vascular smooth muscle/fibroblast biology",
+  "off_topic": "4%",
+  "reason": "Closely related sub-themes of collagen/integrin/ECM and TGF-beta/wound healing, endothelial VEGF/Tie angiogenesis, and vascular smooth muscle phenotype switching under vascular-stromal tissue remodeling, with very few misfits (protein oxidation, BACH1, fibrinogen levels)."
+ },
+ {
+  "id": "T026",
+  "verdict": "linked umbrella",
+  "label": "Hematopoietic cytokine signaling and oncogenic RTK mutants/TKI resistance",
+  "off_topic": "3%",
+  "reason": "Two related blocks: JAK-STAT cytokine/EPO/CSF signaling with RUNX1-driven hematopoietic differentiation, and drug-resistant/fusion mutants of FLT3, KIT, PDGFR, ALK and FGFR receptor tyrosine kinases; nearly all members fit."
+ },
+ {
+  "id": "T027",
+  "verdict": "coherent",
+  "label": "Innate inflammatory signaling: TLR/NF-kB, inflammasomes, IL-1 family",
+  "off_topic": "6%",
+  "reason": "Dominated by TLR/MyD88/TRIF, IKK/NF-kB, TAK1/MAPK, NOD, Dectin, inflammasome/pyroptosis and pro-inflammatory cytokine regulation, with a few off-theme entries (UV response, PI3K-AKT-mTOR, senescence, CD8 T cell proliferation)."
+ },
+ {
+  "id": "T028",
+  "verdict": "coherent",
+  "label": "Insulin/glucagon signaling, adipogenesis and lipid energy homeostasis",
+  "off_topic": "5%",
+  "reason": "Members cover insulin secretion and signaling, incretins/glucagon, adipocyte differentiation and thermogenesis, lipid droplets/triglyceride handling and PPAR/LXR/SREBP/ChREBP metabolic transcription, with few misfits (testosterone response, nucleotide catabolism)."
+ },
+ {
+  "id": "T029",
+  "verdict": "unlinked mixture",
+  "label": "Nucleotide metabolism, mitochondrial gene expression/OXPHOS, tRNA and base modification",
+  "off_topic": "50%",
+  "reason": "Several distinct blocks with no single unifying idea: purine/pyrimidine synthesis and salvage, mitochondrial translation/transcription and respiratory chain assembly, tRNA processing/modification, DNA base damage repair/demethylation, polyamine metabolism and protein methylation."
+ },
+ {
+  "id": "T030",
+  "verdict": "coherent",
+  "label": "Cell cycle control: E2F/RB, p53 checkpoints and senescence",
+  "off_topic": "8%",
+  "reason": "Members are G1/S and G2/M transitions, APC/C, replication licensing, DNA damage checkpoints, TP53 regulation and target transcription, and oncogene/stress-induced senescence, with minor misfits (PAK-2p34, transcription termination, histone arginine methylation)."
+ },
+ {
+  "id": "T031",
+  "verdict": "core with misfits",
+  "label": "Glycosylation, glycoconjugate metabolism and congenital glycosylation disorders",
+  "off_topic": "11%",
+  "reason": "Clear core of N/O-glycosylation, dolichol/GPI synthesis, nucleotide-sugar metabolism, glycosphingolipid and GAG catabolism and CDG disease entries, plus about 11% unrelated members (amyloid fibers, CYP2U1/CYP7B1, magnesium transport, paranodal junction, polyufmylation, palmitoylation, type IV hypersensitivity)."
+ },
+ {
+  "id": "T032",
+  "verdict": "linked umbrella",
+  "label": "Proteostasis: chaperones, ubiquitin-proteasome, autophagy and mitochondrial quality control",
+  "off_topic": "6%",
+  "reason": "Closely related sub-themes of chaperone/CCT folding and heat shock response, ubiquitin-proteasome degradation and selective autophagy, and mitochondrial import/dynamics/mitophagy under protein and organelle quality control, with few misfits (manganese/nitrogen responses, RHOBTB2)."
+ },
+ {
+  "id": "T033",
+  "verdict": "core with misfits",
+  "label": "RNA metabolism and host-virus gene expression, plus nuclear miscellany",
+  "off_topic": "20%",
+  "reason": "Large core of transcription, RNA processing/decay and translation joined by viral replication/host-gene-expression pathways and nuclear pore transport, but about 20% unrelated blocks (telomere maintenance, SUMOylation cascade, BAF complex assembly, Ig V(D)J/somatic hypermutation, glucokinase, BRAF fusions, lifespan)."
+ },
+ {
+  "id": "T034",
+  "verdict": "coherent",
+  "label": "Amino acid, one-carbon, sulfur and cofactor metabolism",
+  "off_topic": "4%",
+  "reason": "Members are amino acid synthesis/catabolism, folate/methionine/transsulfuration, glutathione, polyamines, selenium, NAD/B6/BH4 cofactors and related inborn errors, with only a few misfits (DNA protection, ketone bodies)."
+ },
+ {
+  "id": "T035",
+  "verdict": "coherent",
+  "label": "Embryonic axis patterning, gastrulation and craniofacial morphogenesis",
+  "off_topic": "5%",
+  "reason": "Members are gastrulation, germ layers, left/right and dorsal/ventral axis specification, HOX/somitogenesis, planar cell polarity and craniofacial/ear/limb morphogenesis, with few misfits (olfactory behavior, nail development, extracellular protein location)."
+ },
+ {
+  "id": "T036",
+  "verdict": "linked umbrella",
+  "label": "Innate myeloid defense: complement, phagocytosis, antimicrobial, microglia/amyloid",
+  "off_topic": "10%",
+  "reason": "Complement, antimicrobial peptides, neutrophil/phagosome killing and pathogen manipulation form the core, with a related microglial activation/amyloid-beta clearance block; scattered misfits (amide metabolism obsoletes, chitin, protein import, axon regeneration, mucus secretion)."
+ },
+ {
+  "id": "T037",
+  "verdict": "core with misfits",
+  "label": "Xenobiotic, steroid hormone and bile acid CYP metabolism",
+  "off_topic": "20%",
+  "reason": "Strong core of CYP/UGT/SLCO-mediated drug, steroid, bile acid and vitamin D metabolism, but phosphate transport, bone/tooth mineralization and vitamin K gamma-carboxylation blocks plus scattered terms sit outside it."
+ },
+ {
+  "id": "T038",
+  "verdict": "linked umbrella",
+  "label": "Lipid metabolism: lipoproteins, phospholipids, sphingolipids, bile acids",
+  "off_topic": "7%",
+  "reason": "Lipoprotein assembly/clearance and cholesterol transport, glycerophospholipid synthesis/remodelling and sphingolipid/surfactant metabolism are related lipid sub-themes; misfits include endocytic receptor recycling, membrane bending and amide obsoletes."
+ },
+ {
+  "id": "T039",
+  "verdict": "coherent",
+  "label": "Viral infection and host-virus interactions",
+  "off_topic": "6%",
+  "reason": "Nearly all members describe viral entry, replication, maturation, immune evasion (HIV, SARS-CoV, influenza, RSV, dengue, HCMV) and host antiviral restriction; few misfits like bacterial toxins and exosome assembly."
+ },
+ {
+  "id": "T040",
+  "verdict": "coherent",
+  "label": "Mitochondrial energy metabolism: TCA, OXPHOS, cofactors",
+  "off_topic": "6%",
+  "reason": "TCA cycle, respiratory chain assembly, pyruvate/BCAA catabolism and mitochondrial cofactors (CoA, thiamine, lipoate, Fe-S, heme) form one mitochondrial metabolism theme; minor misfits like lanosterol, pregnenolone and vitamin E transport."
+ },
+ {
+  "id": "T041",
+  "verdict": "coherent",
+  "label": "Intracellular membrane trafficking and organelle biogenesis",
+  "off_topic": "9%",
+  "reason": "ER-Golgi-endosome-lysosome vesicle transport, Rab/ARF regulation, phosphoinositide synthesis at membranes and melanosome/connexin trafficking cohere; misfits include voluntary movement, Lafora disease, erythrocyte enucleation and phosphatase regulation."
+ },
+ {
+  "id": "T042",
+  "verdict": "coherent",
+  "label": "B and T lymphocyte activation and development",
+  "off_topic": "5%",
+  "reason": "BCR/TCR signaling, costimulation, B cell and thymocyte differentiation and lymphocyte BTMs form one adaptive lymphocyte theme; few misfits such as PECAM1, platelet LDL sensitization and KRAS_DN."
+ },
+ {
+  "id": "T043",
+  "verdict": "linked umbrella",
+  "label": "Adaptive immunity: lymphocytes, antigen presentation, IFN-gamma responses",
+  "off_topic": "4%",
+  "reason": "B/T/NK lymphocyte activation, MHC antigen processing/presentation with DCs and proteasome, and IFN/cytokine regulation are tightly related immune sub-themes with few misfits."
+ },
+ {
+  "id": "T044",
+  "verdict": "linked umbrella",
+  "label": "Cilia, vision/retinoids and sperm-fertilization biology",
+  "off_topic": "12%",
+  "reason": "Ciliogenesis/IFT, phototransduction-retinoid cycle and eye development, and sperm flagellum/acrosome/fertilization are linked via cilia and retinoid biology; misfits include uterus morphogenesis, luteolysis, blood-brain barrier and ECM signaling."
+ },
+ {
+  "id": "T045",
+  "verdict": "linked umbrella",
+  "label": "Hemostasis and eicosanoid lipid mediators",
+  "off_topic": "8%",
+  "reason": "Coagulation cascade, platelet activation and vitamin K carboxylation pair with prostaglandin/leukotriene/SPM lipid mediator synthesis and signaling; misfits include ichthyosis CYP4F22/SLC27A4, IGFBP transport, VEGFR2 and FOSL targets."
+ },
+ {
+  "id": "T046",
+  "verdict": "coherent",
+  "label": "DNA repair, replication and telomere maintenance",
+  "off_topic": "5%",
+  "reason": "BER, NER, MMR, HR/NHEJ, translesion synthesis, replication and telomere maintenance form one genome-maintenance theme; minor misfits like chromosome Y BTM, editosome and UCH proteinases."
+ },
+ {
+  "id": "T047",
+  "verdict": "coherent",
+  "label": "ER-Golgi secretory and endosomal vesicle trafficking",
+  "off_topic": "3%",
+  "reason": "COPI/COPII transport, Golgi organization, ER protein insertion/retention and endolysosomal sorting form a tight secretory pathway theme with very few misfits."
+ },
+ {
+  "id": "T048",
+  "verdict": "coherent",
+  "label": "Cell cycle: mitosis, meiosis and DNA replication licensing",
+  "off_topic": "4%",
+  "reason": "APC/C regulation, G1/S and G2/M transitions, spindle/kinetochore, cohesion, cytokinesis and meiotic division form one cell division theme; few misfits like histone arginine methylation and Rho GTPase cycle."
+ },
+ {
+  "id": "T049",
+  "verdict": "linked umbrella",
+  "label": "Germline, fertilization and early embryo chromatin regulation",
+  "off_topic": "12%",
+  "reason": "Histone-modifying/BAF/PRC2 chromatin regulation, germ cell/piRNA biology and fertilization plus maternal-to-zygotic transition are linked by germline epigenetic reprogramming; misfits include SMAD2/3 downregulation, p75NTR, mRNA export and NER regulation."
+ },
+ {
+  "id": "T050",
+  "verdict": "coherent",
+  "label": "Amino acid metabolism, urea cycle and glutathione",
+  "off_topic": "6%",
+  "reason": "Amino acid synthesis/catabolism, urea cycle disorders, glutathione synthesis and B6/BH4 cofactors cohere as nitrogen/amino acid metabolism; minor misfits like DNA protection, molybdenum cofactor and pyrimidine catabolism."
+ },
+ {
+  "id": "T051",
+  "verdict": "coherent",
+  "label": "Cell cycle progression: E2F, G1/S and G2/M control",
+  "off_topic": "4%",
+  "reason": "E2F/MYC targets, replication licensing, APC/C mitotic exit, checkpoints and p53 cell-cycle arrest form one proliferation theme; few misfits like TFAP2A, MITF-M and histone arginine methylation."
+ },
+ {
+  "id": "T052",
+  "verdict": "linked umbrella",
+  "label": "Cell cycle, DNA replication and DNA repair",
+  "off_topic": "5%",
+  "reason": "Mitosis/checkpoints/E2F, replication origin licensing and the full range of DNA repair (BER, MMR, HR, NHEJ, NER, TLS) plus meiosis all sit under genome duplication and maintenance, with only scattered strays (ER insertion, erythrocyte enucleation, TCF7L2 mutants, TBAs)."
+ },
+ {
+  "id": "T053",
+  "verdict": "linked umbrella",
+  "label": "GPCR cAMP signalling and visceral smooth muscle",
+  "off_topic": "6%",
+  "reason": "Adenylate cyclase/PKA-coupled adrenergic, muscarinic, serotonin and purinergic GPCR signalling, nicotinic receptors and the smooth-muscle physiology they control (gut, bladder, uterus) form related blocks; insemination, mating behaviour and agmatine biosynthesis are strays."
+ },
+ {
+  "id": "T054",
+  "verdict": "linked umbrella",
+  "label": "Retinoid, steroid, vitamin D and phosphate homeostasis",
+  "off_topic": "12%",
+  "reason": "Retinoid cycle/phototransduction, CYP-driven steroid and vitamin D/thyroid hormone metabolism, and phosphate/mineralization transporters form three links of nuclear-receptor-ligand and mineral biology, but mRNA transcription, propeptide removal, selenium metabolism and SLC26 anion-transport diseases are loose."
+ },
+ {
+  "id": "T055",
+  "verdict": "linked umbrella",
+  "label": "Neurotrophin signalling, glia/myelination and amyloid",
+  "off_topic": "7%",
+  "reason": "NTRK2/3 and p75NTR signalling dominates, joined by glial/oligodendrocyte myelination and microglial and amyloid-beta neurodegeneration terms, while obsolete amide metabolism, protein import and endosome transport terms do not fit."
+ },
+ {
+  "id": "T056",
+  "verdict": "coherent",
+  "label": "Heart and vascular development",
+  "off_topic": "6%",
+  "reason": "Nearly all members cover cardiac morphogenesis (valves, septa, chambers, conduction system) and vessel development, with only TBAs, a TFAP2 term, replacement ossification and heterochronic development off-topic."
+ },
+ {
+  "id": "T057",
+  "verdict": "linked umbrella",
+  "label": "Ribosome biogenesis, Pol I/III transcription and splicing",
+  "off_topic": "8%",
+  "reason": "rRNA processing/modification with Pol I/III transcription and snRNA/spliceosome/mRNA 3'-end processing are clearly related arms of nuclear RNA processing; G0/G1 transition, inner cell mass, methionine response and TFAP2A are misfits."
+ },
+ {
+  "id": "T058",
+  "verdict": "linked umbrella",
+  "label": "Innate and adaptive immune responses",
+  "off_topic": "7%",
+  "reason": "The very large list consistently covers innate sensing/inflammation, cytokine signalling, complement, antigen presentation and lymphocyte activation, with a minority of strays (chitin metabolism, Golgi acidification, tube lumen cavitation, oncogenic fusion signalling, many TBAs)."
+ },
+ {
+  "id": "T059",
+  "verdict": "core with misfits",
+  "label": "Epithelial junctions, barrier and keratinocyte differentiation",
+  "off_topic": "15%",
+  "reason": "Adherens/tight junctions, desmosomes, polarity and cornified-envelope/keratinocyte terms form the core, but magnesium transport, MITF-M melanocyte gene regulation, hepatocyte nuclear factors, mechanosensing, light responses and many TBAs are unrelated."
+ },
+ {
+  "id": "T060",
+  "verdict": "coherent",
+  "label": "Inflammasome, NF-kB/TLR signalling and regulated cell death",
+  "off_topic": "3%",
+  "reason": "TLR/IRAK/TAK1-NF-kB, inflammasome/pyroptosis, TNFR/TRAIL/Fas apoptosis and necroptosis make up one tightly connected innate inflammatory death-signalling theme with almost no strays."
+ },
+ {
+  "id": "T061",
+  "verdict": "linked umbrella",
+  "label": "RNA processing, decay and translation incl. mitochondrial",
+  "off_topic": "8%",
+  "reason": "Transcription by Pol I/II/III, splicing, mRNA export/decay, miRNA silencing, cytosolic and mitochondrial translation and tRNA processing all fall under gene-expression machinery; arylsulfatase activation, protein oxidation, fibroblast proliferation and TGFBR3 expression are strays."
+ },
+ {
+  "id": "T062",
+  "verdict": "linked umbrella",
+  "label": "Mitochondrial amino acid, fatty acid and TCA metabolism",
+  "off_topic": "3%",
+  "reason": "Amino acid catabolism/urea cycle with inborn errors, fatty acid beta-oxidation/carnitine/ketone bodies and TCA/pyruvate dehydrogenase metabolism are related arms of mitochondrial intermediary metabolism, with only proximal tubule development and Salla disease off-topic."
+ },
+ {
+  "id": "T063",
+  "verdict": "linked umbrella",
+  "label": "Innate antibacterial defense: complement, neutrophils, antimicrobial peptides",
+  "off_topic": "6%",
+  "reason": "Complement cascade, neutrophil/phagocyte and Fc-receptor effector functions, and antimicrobial peptide/IL-17 mucosal defense are related arms of innate host defense, with only a few strays (hyperoxia, heme signaling, intestinal stem cell homeostasis, LDL platelet sensitization)."
+ },
+ {
+  "id": "T064",
+  "verdict": "coherent",
+  "label": "Branching epithelial organogenesis: kidney, lung, mammary, prostate, pancreas",
+  "off_topic": "5%",
+  "reason": "Nearly all members describe epithelial-mesenchymal morphogenesis and lineage development of branched glandular organs (nephron/ureteric bud, lung, mammary, prostate, salivary, pancreas); few strays such as ductus arteriosus closure and lens fiber differentiation."
+ },
+ {
+  "id": "T065",
+  "verdict": "coherent",
+  "label": "Receptor tyrosine kinase signaling to RAS-MAPK and PI3K-AKT",
+  "off_topic": "5%",
+  "reason": "EGFR/ERBB, MET, FGFR, PDGFR, ALK/LTK and PTK6 signaling plus their oncogenic RAS/RAF/MAPK mutants form one growth-factor signaling theme; minor strays include GPER1/estrogen and glycogen biosynthesis."
+ },
+ {
+  "id": "T066",
+  "verdict": "linked umbrella",
+  "label": "Axon guidance, neurotrophin signaling and myelination",
+  "off_topic": "3%",
+  "reason": "Axon guidance cues (netrin, SLIT-ROBO, semaphorin, ephrin, L1CAM), neurotrophin/TRK/p75NTR signaling and glial myelination are closely related sub-themes of nervous-system wiring."
+ },
+ {
+  "id": "T067",
+  "verdict": "coherent",
+  "label": "Synaptic transmission, plasticity and neural behavior",
+  "off_topic": "5%",
+  "reason": "Pre- and postsynaptic organization, glutamate/GABA receptor signaling, LTP/memory, MECP2/NPAS4 activity-dependent transcription and behavior terms all belong to synaptic function; few strays like clathrin coat assembly and RHOF cycle."
+ },
+ {
+  "id": "T068",
+  "verdict": "coherent",
+  "label": "Proteostasis: chaperone folding, UPR and ubiquitin-proteasome system",
+  "off_topic": "4%",
+  "reason": "Chaperonin/HSF1 folding, ER and mitochondrial UPR, integrated stress response, ubiquitination, DUBs and proteasome assembly are all protein quality control; minor strays include RHOBTB2 cycle and insulin processing."
+ },
+ {
+  "id": "T069",
+  "verdict": "coherent",
+  "label": "Germ cells, meiosis, fertilization and reproduction",
+  "off_topic": "4%",
+  "reason": "Meiosis, spermatogenesis/oogenesis, fertilization, maternal-to-zygotic transition, piRNA transposon silencing and gonadotropin regulation form one reproductive biology theme, with rare strays like TYSND1 peroxisomal cleavage."
+ },
+ {
+  "id": "T070",
+  "verdict": "core with misfits",
+  "label": "Lipoprotein, adipocyte and metabolic homeostasis",
+  "off_topic": "12%",
+  "reason": "A strong core of lipoprotein, cholesterol/bile acid, triglyceride, adipogenesis and insulin/glucose regulation is diluted by an amyloid-beta/microglia block and scattered strays (heme scavenging, NPAS4, ruffle assembly, immune complex clearance)."
+ },
+ {
+  "id": "T071",
+  "verdict": "linked umbrella",
+  "label": "Complement, inflammasome/pyroptosis and antibacterial host defense",
+  "off_topic": "6%",
+  "reason": "Complement cascade, inflammasome/pyroptosis (CASP1/4/5, NLRP3, AIM2) and antibacterial effector/pathogen-manipulation pathways are related innate defense sub-themes; strays include MMP activation and elastin/ECM catabolism."
+ },
+ {
+  "id": "T072",
+  "verdict": "linked umbrella",
+  "label": "SLC solute transport and phosphate/vitamin D mineralization",
+  "off_topic": "7%",
+  "reason": "SLC transporter function and its disease variants dominate, joined by related blocks on erythrocyte gas/bicarbonate exchange and phosphate-vitamin D-driven bone/tooth mineralization; strays include lactose synthesis and lens transparency."
+ },
+ {
+  "id": "T073",
+  "verdict": "linked umbrella",
+  "label": "Retinoid vision, pigmentation and epidermal differentiation",
+  "off_topic": "10%",
+  "reason": "Phototransduction/retinoid cycle, melanocyte/MITF pigmentation and keratinocyte cornification are linked via retinoid and pigment biology, but intestinal epithelium, HNF and leukocyte migration terms are unrelated and many members are uninformative TBA modules."
+ },
+ {
+  "id": "T074",
+  "verdict": "coherent",
+  "label": "Antiviral innate immunity and type I interferon response",
+  "off_topic": "5%",
+  "reason": "Nucleic-acid sensing (RIG-I, cGAS-STING, TLR3/7/8/9), IRF3/7 activation, interferon signaling and ISG effectors form one antiviral theme; minor strays include TP53 caspase transcription and STAT6 chemokines."
+ },
+ {
+  "id": "T075",
+  "verdict": "linked umbrella",
+  "label": "Lymphocyte activation, cytokine signaling and Fc/mast cell responses",
+  "off_topic": "7%",
+  "reason": "B and T cell receptor signaling/differentiation, interleukin/JAK-STAT cytokine signaling and FcR/mast-eosinophil type-2 responses are related adaptive immune sub-themes; strays include CNTF, erythropoietin and LDL platelet sensitization."
+ },
+ {
+  "id": "T076",
+  "verdict": "linked umbrella",
+  "label": "Membrane trafficking: ER-Golgi, endolysosomal, ESCRT and autophagy",
+  "off_topic": "4%",
+  "reason": "COPI/COPII and Golgi transport, endosome sorting/ESCRT, lysosome biogenesis and autophagy are tightly related membrane-trafficking sub-themes, with few strays such as ERBB signaling regulation."
+ },
+ {
+  "id": "T077",
+  "verdict": "linked umbrella",
+  "label": "Mitotic and meiotic chromosome segregation machinery",
+  "off_topic": "3%",
+  "reason": "Spindle/centrosome assembly, sister chromatid cohesion, condensation, cytokinesis and meiotic recombination/synapsis form closely related cell-division sub-themes; strays include non-motile cilium assembly and Rho GTPase cycle."
+ },
+ {
+  "id": "T078",
+  "verdict": "coherent",
+  "label": "Membrane lipid and peroxisomal fatty acid metabolism",
+  "off_topic": "3%",
+  "reason": "Phospholipid synthesis/remodeling, sphingolipid, cholesterol biosynthesis, GPI anchor and peroxisomal fatty acid oxidation/import are one lipid metabolism theme; few strays like succinyl-CoA catabolism and CYP1B1 glaucoma."
+ },
+ {
+  "id": "T079",
+  "verdict": "linked umbrella",
+  "label": "Apoptosis, p53 signaling and cellular senescence",
+  "off_topic": "5%",
+  "reason": "Intrinsic/extrinsic apoptosis, TP53 transcriptional regulation and oncogene/stress-induced senescence are tightly linked cell-fate sub-themes; strays include allograft rejection and T-cell signaling modules."
+ },
+ {
+  "id": "T080",
+  "verdict": "coherent",
+  "label": "Monoamine and cholinergic neurotransmitter synthesis, release, reuptake",
+  "off_topic": "2%",
+  "reason": "Catecholamine/serotonin/acetylcholine/GABA/glutamate synthesis, vesicular release, reuptake and clostridial toxin SNARE cleavage are all presynaptic neurotransmission; only SLC bile acid transport is off."
+ },
+ {
+  "id": "T081",
+  "verdict": "coherent",
+  "label": "Glutamatergic synapse assembly and synaptic plasticity",
+  "off_topic": "2%",
+  "reason": "AMPA/NMDA/kainate receptor signaling, postsynaptic density organization, LTP/LTD, MECP2/CREB activity-dependent transcription and memory form a single synaptic plasticity theme."
+ },
+ {
+  "id": "T082",
+  "verdict": "linked umbrella",
+  "label": "Ion channels, osmoregulation and chemosensory perception",
+  "off_topic": "8%",
+  "reason": "Three related physiology blocks (K+/TRP channels and membrane excitability, renal salt/water and vasopressin-aquaporin homeostasis, taste/smell/pain sensory perception) share an ion-transport/sensory theme, with a few strays such as fatty acid transport/cycling, oleoyl-phe metabolism, intestinal infectious diseases and GnRH neuron migration."
+ },
+ {
+  "id": "T083",
+  "verdict": "coherent",
+  "label": "RTK signaling to RAS-MAPK/PI3K and oncogenic TKI resistance",
+  "off_topic": "3%",
+  "reason": "Almost entirely receptor tyrosine kinase signaling (FGFR, ERBB, MET, KIT, FLT3, PDGFR, ALK) through RAS-MAPK and PI3K-AKT, including oncogenic mutants and drug-resistant variants; only a few strays like integrin biosynthesis, glycogen biosynthesis, synoviocyte proliferation and diphtheria toxin."
+ },
+ {
+  "id": "T084",
+  "verdict": "coherent",
+  "label": "Nervous system development, axon guidance and neurobehavior",
+  "off_topic": "4%",
+  "reason": "Dominated by axon guidance (netrin, SLIT/ROBO, semaphorin, ephrin, L1CAM), neuronal/glial differentiation, myelination and brain region development, with neural behavior terms fitting the same theme; few strays such as ceramide signalling, fungiform papilla morphogenesis and organism emergence."
+ },
+ {
+  "id": "T085",
+  "verdict": "coherent",
+  "label": "FGFR/ERBB/MET signaling via RAS-MAPK and PI3K",
+  "off_topic": "2%",
+  "reason": "A tight growth-factor RTK set (FGFR1-4, ERBB2/3/4, EGFR, MET) with downstream SHC/GRB2/FRS, RAS-RAF-MAPK and PI3K cascades and their oncogenic mutants; only integrin biosynthetic process is clearly off-topic."
+ },
+ {
+  "id": "T086",
+  "verdict": "linked umbrella",
+  "label": "Embryonic development and organogenesis (very broad)",
+  "off_topic": "6%",
+  "reason": "Nearly all members are developmental (heart, kidney, neural, muscle, skeleton, lung, mammary/pancreas lineages, gastrulation, left-right patterning, Hh/Wnt/BMP), united only at the broad level of morphogenesis and spanning far more than 2-3 sub-themes, with strays like amyloid fiber formation, ORC assembly, olfactory receptors, EDA-ID/IKBKG and TNF receptor binding."
+ },
+ {
+  "id": "T087",
+  "verdict": "linked umbrella",
+  "label": "Phospholipid, eicosanoid and neutral lipid metabolism",
+  "off_topic": "7%",
+  "reason": "Related lipid blocks (glycerophospholipid synthesis and acyl-chain remodelling, eicosanoid/SPM lipid mediator synthesis and receptors, sphingolipid and triglyceride/lipid droplet metabolism) form one lipid-metabolism idea, with misfits such as cornified envelope assembly, cristae formation, cytochrome metabolism, peptide modification and histamine metabolism."
+ }
+]
