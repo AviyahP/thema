@@ -263,6 +263,7 @@ def combine(
     *,
     theta_same: float = rt.THETA_SAME,
     collapse_share: float = rt.COLLAPSE_SHARE,
+    drop_giants: bool = True,
     report: bool = True,
 ) -> dict[str, object]:
     """One node set over areas, anchors and units, with the rules applied to every pair.
@@ -284,6 +285,10 @@ def combine(
         level_at: Global indices of the clustered units.
         theta_same: Merge cutoff.
         collapse_share: Collapse share.
+        drop_giants: Keep giant areas out of the view, which is rec2fix's own rule and the
+            default. Prompt 44 of 17 Oct 2026 asks for both of its arms to keep them in and flag
+            them instead, so this is a parameter rather than a constant; passing True reproduces
+            rec2fix exactly.
         report: Print progress.
 
     Returns:
@@ -346,11 +351,12 @@ def combine(
     giant_at = {i for i in alive
                 if kinds[i] == "area" and len(bits.unpack(repaired.members[at[i]])) > GIANT_AREA}
     giants = [i for i in alive if i in giant_at]
-    view = [i for i in alive if i not in giant_at]
+    view = [i for i in alive if not (drop_giants and i in giant_at)]
     view_blocks = [repaired.members[at[i]] for i in view]
     if report:
-        print(f"    {len(giants)} giant areas over {GIANT_AREA} pathways flagged -> "
-              f"{len(view):,} nodes in the view", flush=True)
+        print(f"    {len(giants)} giant areas over {GIANT_AREA} pathways flagged and "
+              f"{'dropped' if drop_giants else 'KEPT'} -> {len(view):,} nodes in the view",
+              flush=True)
 
     closure = containment(view_blocks) if view_blocks else np.zeros((0, 0), dtype=bool)
     edges = direct_edges(closure)
@@ -379,6 +385,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path,
                         default=Path("data/ontology/v0.4-leaves/thema_L_x2_O50_rec2fix"))
     parser.add_argument("--runs", type=int, default=rt.RUNS)
+    parser.add_argument("--anchor-pathways", type=int, default=r2.ANCHOR_PATHWAYS,
+                        help="a unit larger than this is an anchor. Raise it above the largest "
+                             "unit to run with no anchors at all, which is what prompt 44's arm B "
+                             "asks for; the default is rec2fix's own rule")
+    parser.add_argument("--keep-giants", action="store_true",
+                        help="keep giant areas in the view and flag them, instead of dropping "
+                             "them. Prompt 44 asks for this on both arms; omitting it reproduces "
+                             "rec2fix exactly")
     parser.add_argument("--estimate", action="store_true")
     args = parser.parse_args(argv)
 
@@ -390,14 +404,14 @@ def main(argv: list[str] | None = None) -> int:
     unit_members = [members[node] for node in unit_themes] + [{key} for key in loose]
     unit_support = [float(nodes[node]["support"]) for node in unit_themes] + [0.0] * len(loose)
 
-    anchor_at = [i for i, held in enumerate(unit_members) if len(held) > r2.ANCHOR_PATHWAYS]
-    level_at = [i for i, held in enumerate(unit_members) if len(held) <= r2.ANCHOR_PATHWAYS]
+    anchor_at = [i for i, held in enumerate(unit_members) if len(held) > args.anchor_pathways]
+    level_at = [i for i, held in enumerate(unit_members) if len(held) <= args.anchor_pathways]
     level_ids = [unit_ids[i] for i in level_at]
     level_members = [unit_members[i] for i in level_at]
 
     print(f"AREAS LAYER, CORRECTED (rec2fix) from {args.frozen}")
-    print(f"  units {len(unit_ids)}: {len(anchor_at)} anchors over {r2.ANCHOR_PATHWAYS} pathways, "
-          f"{len(level_at)} clustered at level 2")
+    print(f"  units {len(unit_ids)}: {len(anchor_at)} anchors over {args.anchor_pathways} "
+          f"pathways, {len(level_at)} clustered at level 2")
     for i in sorted(anchor_at, key=lambda j: -len(unit_members[j])):
         print(f"    ANCHOR {unit_ids[i]:<12} {len(unit_members[i]):>5} pathways")
 
@@ -430,7 +444,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print("\nTHE COMBINED STRUCTURE", flush=True)
     comb = combine(got["pathway_members"], area_units, got["supports"], unit_ids, unit_members,
-                   unit_support, anchor_at, level_at)
+                   unit_support, anchor_at, level_at, drop_giants=not args.keep_giants)
 
     ids, kinds, units = comb["ids"], comb["kinds"], comb["units"]
     view, edges, closure = comb["view"], comb["edges"], comb["closure"]
@@ -582,6 +596,8 @@ def main(argv: list[str] | None = None) -> int:
         "containment": "strict subset over all members, which is O50's own definition",
         "n_units": len(unit_ids), "n_anchors": len(anchor_at), "n_level2_units": len(level_at),
         "anchors": {unit_ids[i]: len(unit_members[i]) for i in anchor_at},
+        "anchor_pathways": args.anchor_pathways,
+        "giants_kept_in_the_view": bool(args.keep_giants),
         "runs": args.runs, "subsample": rt.SUBSAMPLE, "master_seed": rt.MASTER_SEED,
         "theta_match": rt.THETA_MATCH, "theta_match_space": "unit membership",
         "theta_same": rt.THETA_SAME, "theta_same_space": "union pathway sets",
