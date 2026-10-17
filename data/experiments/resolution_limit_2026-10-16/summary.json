@@ -1,0 +1,142 @@
+{
+  "target": 0.008,
+  "min_kept": 5,
+  "seeds": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "bins": [
+    [
+      10,
+      19
+    ],
+    [
+      20,
+      39
+    ],
+    [
+      40,
+      79
+    ],
+    [
+      80,
+      159
+    ],
+    [
+      160,
+      319
+    ],
+    [
+      320,
+      639
+    ],
+    [
+      640,
+      1279
+    ],
+    [
+      1280,
+      1000000000
+    ]
+  ],
+  "finer": [
+    [
+      80,
+      119
+    ],
+    [
+      120,
+      159
+    ],
+    [
+      160,
+      239
+    ],
+    [
+      240,
+      319
+    ]
+  ],
+  "scrambles_cached": true,
+  "n_scrambled_mean_per_seed": 219096.0,
+  "arms": {
+    "x2": {
+      "n_real": 99951,
+      "max_size": 2809,
+      "T_solver": 39,
+      "T_full": null,
+      "threshold": {
+        "solver": {
+          "ladder": "solver",
+          "T": 39,
+          "last_passing_bin": "20-39",
+          "first_failing_bin": "40-79",
+          "first_failing_kept": 0,
+          "first_failing_best_fdr": 0.96611032,
+          "n_passing": 2
+        },
+        "full": {
+          "ladder": "full",
+          "T": null,
+          "T_unbounded": true,
+          "last_passing_bin": "1280+",
+          "first_failing_bin": null,
+          "first_failing_kept": null,
+          "first_failing_best_fdr": null,
+          "n_passing": 8
+        }
+      },
+      "finer_fails_inside": {
+        "solver": [],
+        "full": []
+      }
+    },
+    "L": {
+      "n_real": 100564,
+      "max_size": 2739,
+      "T_solver": 39,
+      "T_full": null,
+      "threshold": {
+        "solver": {
+          "ladder": "solver",
+          "T": 39,
+          "last_passing_bin": "20-39",
+          "first_failing_bin": "40-79",
+          "first_failing_kept": 0,
+          "first_failing_best_fdr": 0.96325977,
+          "n_passing": 2
+        },
+        "full": {
+          "ladder": "full",
+          "T": null,
+          "T_unbounded": true,
+          "last_passing_bin": "1280+",
+          "first_failing_bin": null,
+          "first_failing_kept": null,
+          "first_failing_best_fdr": null,
+          "n_passing": 8
+        }
+      },
+      "finer_fails_inside": {
+        "solver": [],
+        "full": []
+      }
+    }
+  },
+  "arms_agree": {
+    "solver": true,
+    "full": true
+  },
+  "T_solver": 39,
+  "T_full": null,
+  "T_full_unbounded": true,
+  "seconds": 1.3
+}

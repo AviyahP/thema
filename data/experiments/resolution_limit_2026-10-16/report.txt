@@ -1,0 +1,85 @@
+THE FIRST PASS'S RESOLUTION LIMIT. Declared 16 Oct 2026. Read-only; adopts nothing.
+  target FDR 0.008 within a bin, at least 5 real candidates kept
+  scrambles: seeds 3001-3010 in /Users/aviyah/code/thema/data/ontology/v0.4-leaves/calibration -- all 10 CACHED, not recomputed
+  2,190,960 scrambled candidates over 10 seeds, mean 219,096 per seed (1s)
+  arm x2: 99,951 real candidates, max size 2,809  (O50's own real side, universe L minus the 23 exclusions)
+  arm L: 100,564 real candidates, max size 2,739  (the side the cal8 floors were solved from, universe L)
+  CHECK against fate.tsv: 26,223 tracked rows carry a family support; 26,095 of them match a real-side candidate exactly on (size, support)
+
+======================================================================================================================
+ARM x2: DOUBLINGS
+======================================================================================================================
+  bin           real  null/seed   r med   r p90   r max   n med   n max  n vals  SOLVER fdr  keeps  FULL fdr  at cut   keeps  3/10 bound
+  10-19       25,887   62,499.6   0.010   0.105   1.000   0.005   0.170      80     0.00006  5,793   0.00000   0.030   5,793    0.000179
+  20-39       27,148   32,063.4   0.005   0.040   1.000   0.005   0.015       3     0.00001 11,818   0.00000   0.010  11,818    0.000051
+  40-79       16,896   16,323.4   0.005   0.020   1.000   0.005   0.005       1     0.96611      0   0.00000   0.010   4,830    0.000062
+  80-159       9,053    8,275.1   0.005   0.010   0.980   0.005   0.005       1     0.91407      0   0.00000   0.010   1,030    0.000291
+  160-319      4,567    4,150.9   0.005   0.005   0.410   0.005   0.005       1     0.90889      0   0.00000   0.010     234    0.001282
+  320-639      1,974    2,082.6   0.005   0.005   0.090   0.005   0.005       1     1.05502      0   0.00000   0.010      96    0.003125
+  640-1279       709    1,052.1   0.005   0.020   0.805   0.005   0.005       1     1.48392      0   0.00000   0.010     160    0.001875
+  1280+          161      451.1   0.010   0.080   0.630   0.005   0.005       1     2.80186      0   0.00000   0.010     103    0.002913
+
+======================================================================================================================
+ARM x2: THE FINER SPLIT ACROSS THE BREAK
+======================================================================================================================
+  bin           real  null/seed   r med   r p90   r max   n med   n max  n vals  SOLVER fdr  keeps  FULL fdr  at cut   keeps  3/10 bound
+  80-119       5,968    5,512.2   0.005   0.010   0.595   0.005   0.005       1     0.92363      0   0.00000   0.010     821    0.000365
+  120-159      3,085    2,762.9   0.005   0.005   0.980   0.005   0.005       1     0.89559      0   0.00000   0.010     209    0.001435
+  160-239      3,058    2,772.8   0.005   0.005   0.410   0.005   0.005       1     0.90674      0   0.00000   0.010     187    0.001604
+  240-319      1,509    1,378.1   0.005   0.005   0.105   0.005   0.005       1     0.91325      0   0.00000   0.010      47    0.006383
+
+  ARM x2
+    T on the solver ladder = 39 (last passing bin 20-39; first failing 40-79 keeping 0 at best FDR 0.96611032)
+    T on the full ladder = UNBOUNDED, every bin passes (last passing bin 1280+)
+    the finer split on the solver ladder: 80-119 keeps 0, 120-159 keeps 0, 160-239 keeps 0, 240-319 keeps 0  -> does not move T
+    the finer split on the full ladder: 80-119 keeps 821, 120-159 keeps 209, 160-239 keeps 187, 240-319 keeps 47  -> does not move T
+
+======================================================================================================================
+ARM L: DOUBLINGS
+======================================================================================================================
+  bin           real  null/seed   r med   r p90   r max   n med   n max  n vals  SOLVER fdr  keeps  FULL fdr  at cut   keeps  3/10 bound
+  10-19       26,143   62,499.6   0.010   0.100   1.000   0.005   0.170      80     0.00006  5,843   0.00000   0.030   5,843    0.000183
+  20-39       27,398   32,063.4   0.005   0.040   1.000   0.005   0.015       3     0.00001 12,101   0.00000   0.010  12,101    0.000051
+  40-79       16,946   16,323.4   0.005   0.020   1.000   0.005   0.005       1     0.96326      0   0.00000   0.010   4,725    0.000063
+  80-159       9,007    8,275.1   0.005   0.010   0.990   0.005   0.005       1     0.91874      0   0.00000   0.010   1,038    0.000289
+  160-319      4,595    4,150.9   0.005   0.005   0.555   0.005   0.005       1     0.90335      0   0.00000   0.010     245    0.001224
+  320-639      2,014    2,082.6   0.005   0.005   0.090   0.005   0.005       1     1.03406      0   0.00000   0.010      88    0.003409
+  640-1279       719    1,052.1   0.005   0.016   0.830   0.005   0.005       1     1.46328      0   0.00000   0.010     165    0.001818
+  1280+          174      451.1   0.010   0.105   0.520   0.005   0.005       1     2.59253      0   0.00000   0.010     123    0.002439
+
+======================================================================================================================
+ARM L: THE FINER SPLIT ACROSS THE BREAK
+======================================================================================================================
+  bin           real  null/seed   r med   r p90   r max   n med   n max  n vals  SOLVER fdr  keeps  FULL fdr  at cut   keeps  3/10 bound
+  80-119       5,922    5,512.2   0.005   0.010   0.480   0.005   0.005       1     0.93080      0   0.00000   0.010     832    0.000361
+  120-159      3,085    2,762.9   0.005   0.005   0.990   0.005   0.005       1     0.89559      0   0.00000   0.010     206    0.001456
+  160-239      3,140    2,772.8   0.005   0.005   0.555   0.005   0.005       1     0.88306      0   0.00000   0.010     207    0.001449
+  240-319      1,455    1,378.1   0.005   0.005   0.070   0.005   0.005       1     0.94715      0   0.00000   0.010      38    0.007895
+
+  ARM L
+    T on the solver ladder = 39 (last passing bin 20-39; first failing 40-79 keeping 0 at best FDR 0.96325977)
+    T on the full ladder = UNBOUNDED, every bin passes (last passing bin 1280+)
+    the finer split on the solver ladder: 80-119 keeps 0, 120-159 keeps 0, 160-239 keeps 0, 240-319 keeps 0  -> does not move T
+    the finer split on the full ladder: 80-119 keeps 832, 120-159 keeps 206, 160-239 keeps 207, 240-319 keeps 38  -> does not move T
+
+======================================================================================================================
+T
+======================================================================================================================
+  solver  ladder (the ladder the floor solver actually walks)
+          arm x2: T = 39           arm L: T = 39           AGREE
+  full    ladder (every support value present in the bin)
+          arm x2: T = UNBOUNDED    arm L: T = UNBOUNDED    AGREE
+
+  The two ladders answer different questions and the gap between them IS the finding:
+  from 40 pathways up, the scrambles produce exactly ONE distinct support, 0.005 -- a
+  grouping found in one subsample of 200 and never in two. The solver's ladder has a
+  single rung there and cannot discriminate at all, which is why it reports no floor.
+  A cut just above 0.005 separates the two populations cleanly in every large bin:
+    40-79       4,830 real candidates above the scrambles' maximum, rule-of-three bound 6.211e-05
+    80-159      1,030 real candidates above the scrambles' maximum, rule-of-three bound 0.00029126
+    160-319       234 real candidates above the scrambles' maximum, rule-of-three bound 0.00128205
+    320-639        96 real candidates above the scrambles' maximum, rule-of-three bound 0.003125
+    640-1279      160 real candidates above the scrambles' maximum, rule-of-three bound 0.001875
+    1280+         103 real candidates above the scrambles' maximum, rule-of-three bound 0.00291262
+
+  -> /Users/aviyah/code/thema/data/experiments/resolution_limit_2026-10-16  (1s)
