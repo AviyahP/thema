@@ -1,0 +1,34 @@
+AREAS ON THE O50s ROOTS. Declared 18 Oct 2026; exploratory, adopts nothing.
+  units: 261 O50s roots, the 5 giants included and clustered like any other unit; NO anchors
+  sizes 10/39/2564; 164 of 50 or fewer; sum 28,582 against 5,539 pathways -> 5.16x double counting
+    real side: 1,663 candidates (2s)
+    calibration: 20 side(s) (58s cumulative)
+    held out: 4 side(s) (70s cumulative)
+    floors 3-3:None, 4-4:None, 5-5:0.9, 6-6:None, 7-9:0.74, 10+:0.16
+    269 through the gate; comparing on 5,539 pathways instead of 261 units
+    consensus at 0.5 on union sets: 269 -> 95
+    joint fixed point at 0.85/0.5 on union sets: 95 -> 66
+  66 areas, sizes 52/293/4485 pathways
+  one structure: 5,658 O50s themes (unchanged) + 66 areas = 5,724 nodes
+  12 roots, 13,407 direct edges, 73,067 containment pairs; children max 382, median 2 (74s)
+  SANITY: nodes wholly inside another without descending from it: 0
+
+  areas over 1,000 pathways: 6
+    a_00044  4,485 pathways, 92 units, CONTAINS n01843, n02672
+    a_00010  2,739 pathways, 73 units, CONTAINS n02672
+    a_00038  2,599 pathways, 14 units, CONTAINS n01843
+    a_00037  2,306 pathways, 20 units, CONTAINS n03878
+    a_00062  2,204 pathways, 28 units, CONTAINS n04994
+    a_00035  1,929 pathways, 54 units, CONTAINS n01419
+  areas containing a giant: 6 of 66
+    a_00044 (4,485) contains n01843 (2,564), n02672 (2,172)
+    a_00010 (2,739) contains n02672 (2,172)
+    a_00038 (2,599) contains n01843 (2,564)
+    a_00037 (2,306) contains n03878 (2,135)
+    a_00062 (2,204) contains n04994 (2,096)
+    a_00035 (1,929) contains n01419 (1,603)
+
+  summary placement: O50s 2,194 of 2,370 = 92.6%; with the areas 2,352 = 99.2%  (+158)
+  Reactome median best J: O50s 0.273; with the areas 0.273
+
+  -> data/ontology/v0.4-leaves/thema_L_x2_O50s_roots_areas and data/experiments/areas_on_roots_2026-10-18  (76s)
