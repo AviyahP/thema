@@ -7751,3 +7751,164 @@ no declared check had read.
 named regression test for all five bug cases. Cost 13 s and 540 MB; no reclustering, no API calls.
 **The frozen folders, O50s, arm A, arm B and every earlier build were left alone** -- A1 and A2 are
 new directories.
+
+## 2026-10-18 01:31:43 UTC+1 — AREAS ON THE O50s ROOTS (Aviyah version 1): declared before running
+
+Transcribed from Aviyah's prompt of 18 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_46.md`, as the prompt instructs; reproduced here **before any
+build ran**. **Exploratory: adopts nothing.** Prompt 45's A1/A2 output stays; this is a separate
+design, not a fix of arm A. Everything below the line is the prompt text.
+
+Confirmed before building:
+
+**261 units, and the prompt's figure is exactly right.** The O50s roots number 261, **all five giants
+among them** (`n01419`, `n01843`, `n02672`, `n03878`, `n04994`), so this design answers prompt 45's
+open question directly: a giant is a unit here, and an area can therefore contain one. Sizes 10 / 39
+/ 2,564 (min / median / max), mean 109.5; **164 of the 261 hold 50 pathways or fewer**, which is the
+clutter the areas pass is being asked to absorb. Size bands: 6 at 1-10, 158 at 11-50, 79 at 51-200,
+13 at 201-1,000, 5 over 1,000. **Double counting 5.16x** -- the unit sizes sum to 28,582 against
+5,539 pathways -- against 7.54x for arm A's 867 units, so this unit set overlaps itself noticeably
+less. **The roots cover all 5,539 pathways**, so there is no loose remainder and no unit has to be
+invented for one.
+
+**Three differences from arm A worth stating before the result, because they are the whole design.**
+Arm A clustered 848 of 867 units with 19 held out as anchors; here **all 261 are clustered and there
+are no anchors**. Arm A's structure was areas plus anchors plus units, 1,212 nodes, which is what
+left five anchors parentless; here the structure is **the whole unchanged O50s DAG plus the areas**,
+about 6,000 nodes, so containment is complete by construction. And arm A never applied the twin and
+chain rules over its combined set; here the spec applies them **inside the areas pass only** and asks
+for nothing but strict containment and a transitive reduction over the whole, so **O50s itself is
+left untouched** -- no seam victims, nothing to hold out.
+
+**Estimate: about 5 minutes.** 261 units is a quarter of arm A's clustered set, so the 25 sides
+should cost roughly 50 s rather than 352 s; consensus and the joint fixed point run on fewer
+candidates; the structure over about 6,000 nodes took 13 s in prompt 45 and will cost the same here;
+the reviewer tables and the report add a minute. Well under the 2 h ceiling.
+
+---
+
+Prompt 46: areas on the O50s roots (Aviyah's version 1). Declared 18 Oct 2026, before any result. Exploratory: this adopts nothing. Prompt 45 ran (A1/A2) and its output stays; this is a separate design, not a fix of arm A. It also answers prompt 45's open question: here the giants are units, so areas can contain them. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 2 h.
+
+WHY
+Prompt 44 arm A used rec2fix's unit selection (giant drop: 867 units) and anchors. That is not the design Aviyah asked for. Her design: the units are the O50s roots, and the areas are built on top of the whole, unchanged O50s DAG.
+
+SPEC
+1. **Units:** the 261 O50s roots, the 5 giants included, each as one unit. No giant drop, no anchors. Each unit is the centroid of its members' vectors, with equal weight. Report the unit count and sizes.
+2. **Areas pass:** rec2fix's code for everything else: 200 runs on 80% subsamples, Ward, recurrence 0.70 on unit sets, union pathway sets, consensus, the joint fixed point (twin 0.50, chain 0.85) on union sets.
+3. **Noise:** floors calibrated on 20 unit scrambles (3001-3020) and checked on held-out seeds 4002-4005. Target 0.008; caps 0.02 per stratum and 0.01 overall.
+4. **One structure:** the O50s DAG unchanged, plus the areas. Strict containment checked over every pair of nodes (areas, giants, all O50s themes), then transitive reduction. Areas over 1,000 pathways are kept and flagged.
+
+REPORT (docs/status/2026-10-18-areas-on-roots.md)
+1. Held-out FDR per stratum with counts, and overall.
+2. **Roots:** the count, and each root's id, kind (area or O50s theme), size and number of children.
+3. **Small roots (≤50 pathways):** for each, the 3 larger nodes that contain the largest share of it, with that share and the number of pathways missing.
+4. **Duplication, report only:** root pairs with J ≥ 0.5; roots ≥80% inside another node, binned by pathways missing (0, 1-5, 6-20, 21+).
+5. Areas: count, size bands, and those over 1,000 with their sizes and number of units. Say which areas contain a giant.
+6. Children per node, maximum and median.
+7. Summary placement, against O50s's 92.6%; agreement with Reactome's top level (median best J).
+8. A sanity check: 0 nodes that are 100% inside another node without being its descendant.
+
+FOR THE REVIEWER (do not judge them yourself)
+Write data/experiments/areas_on_roots_2026-10-18/ containing roots.tsv (id, kind, size, n_children, full member keys), small_roots.tsv (item 3, with full member keys of the root and its 3 containers), and areas.tsv (every area with full member keys and unit ids).
+
+DECISION RULE (same as prompt 44)
+It passes only if all hold: held-out FDR within the caps; fewer than 49 roots; blind reading of every root at least 80% coherent or linked umbrella; every small root judged, blind, a distinct topic rather than belonging under one of its 3 containers; C6 intruder test at least 70%. Duplication is reported, not a gate. Aviyah decides.
+
+FINAL
+- Save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_46.md, and copy it into DECISIONS.md as "declared before running", before building.
+- Output: data/ontology/v0.4-leaves/thema_L_x2_O50s_roots_areas/.
+- Write docs/status/commit-2026-10-18-areas-on-roots.sh, to run after commit-2026-10-18-armA-containment.sh. It commits the code, tests, build, status note, reviewer folder and PROMPT_46.md. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the unit count and the time estimate. After the build, give:
+- the FDR summary;
+- the roots with sizes;
+- the small roots and duplication bins;
+- areas over 1,000, and which contain a giant;
+- placement and Reactome agreement;
+- the commit script path.
+
+## 2026-10-18 01:40:02 UTC+1 — AREAS ON THE O50s ROOTS RESULT: both criteria ccode owns PASS, 12 roots and FDR 0.00558. Adopted nothing.
+
+Full numbers: `docs/status/2026-10-18-areas-on-roots.md`. Output
+`data/ontology/v0.4-leaves/thema_L_x2_O50s_roots_areas/`; reviewer folder
+`data/experiments/areas_on_roots_2026-10-18/`.
+
+| criterion | result |
+|---|---|
+| held-out FDR within the caps | **PASS** -- overall **0.00558**, worst stratum **0.00625** |
+| fewer than 49 roots | **PASS** -- **12** |
+| blind reading of every root, >=80% coherent or linked umbrella | the reviewer's; 12 roots listed |
+| every small root (<=50) judged a distinct topic | **VACUOUS: there are no small roots** |
+| C6 intruder test, >=70% | the reviewer's; 66 areas |
+
+**ON THE DECLARED NUMBERS THIS IS THE STRONGEST TOP LEVEL THIS PROJECT HAS BUILT.** 12 roots against
+a ceiling of 49; held-out FDR 0.00558 against a 0.01 cap with the worst stratum at 0.00625; summary
+placement **99.2%**, a new best; **0 small roots**; **0 root pairs at J >= 0.5**; only **14**
+ordered near-containment pairs with **both the 0 and the 1-5 missing bins empty**; and the
+containment invariant clean.
+
+**IT ANSWERS PROMPT 45'S OPEN QUESTION: YES.** With the giants as units, **all five are contained by
+areas** -- `a_00044` holds `n01843` and `n02672`, `a_00010` holds `n02672`, `a_00038` holds `n01843`,
+`a_00037` holds `n03878`, `a_00062` holds `n04994`, `a_00035` holds `n01419`. Six of the 66 areas
+contain a giant. Arm A's areas contained none because `units_of` never let a giant be a unit; offer
+the giants and the clustering puts every one of them inside something. **No giant and no O50s theme
+is left at the top: all 12 roots are areas.**
+
+**UNITS: 261 O50s roots, the five giants included, no anchors.** Sizes 10/39/2,564, mean 109.5; 164
+of 50 pathways or fewer; double counting **5.16x** against arm A's 7.54x. The roots cover all 5,539
+pathways, so no unit had to be invented for a remainder, and the build asserts that rather than
+assuming it.
+
+**O50s IS UNTOUCHED.** The structure is the whole unchanged O50s DAG (5,658 themes) plus the 66
+areas = 5,724 nodes, with strict containment over every pair and a transitive reduction. The twin and
+chain rules run inside the areas pass only, as the spec asks, so **0 O50s themes were removed** --
+against arm A's 7 seam victims. A test asserts every O50s theme is present at its original size.
+
+**THE SANITY CHECK IS CLEAN: 0 nodes wholly inside another without descending from it**, over 5,724
+nodes and 73,067 containment pairs. The build prints it and **refuses to write anything if it is
+non-zero**, and it is a named regression test. This is the invariant arm A broke silently, and here
+it holds by construction because every O50s theme is in the structure rather than a 1,212-node slice
+of it.
+
+**THREE THINGS TO WEIGH AGAINST IT, none a declared gate.**
+
+1. **ONE ROOT HOLDS 81% OF THE UNIVERSE.** `a_00044` is **4,485 pathways over 92 units with two
+   giants inside it**. Four roots hold more than a third of the universe each (81.0%, 41.6%, 39.8%,
+   34.8%). Twelve roots is comfortably under the ceiling, but if one of them is nearly everything
+   then the effective top is smaller than twelve, and the ceiling was never meant to be met that way.
+2. **THREE OF THE SIX STRATA ADMITTED NOTHING.** No support cut reached the 0.008 target for
+   candidates of 3, 4 or 6 units, so those strata have no floor and admit nothing; the floors that
+   do exist are high, **0.9 at 5-5 and 0.74 at 7-9**, and 10+ is 0.16. 1,663 candidates -> **269
+   gated** -> 95 after consensus -> **66 areas**, a far stricter gate than arm A's 1,647 of 4,865.
+   The survivors are strongly supported (support median **0.877**, min 0.165, max 1.000, against arm
+   A's areas sitting near their floor) but they are what a strict gate let through, not a survey.
+3. **SOME AREAS ARE A GIANT PLUS A FEW NEIGHBOURS.** `a_00038` is 2,599 pathways from **14 units**,
+   one of which is the 2,564-pathway giant `n01843` -- the giant supplies 99% of the membership.
+   Containing a giant and synthesising around one are different achievements, and only the blind
+   reading will tell them apart.
+
+**DUPLICATION IS FAR BETTER THAN ARM A'S.** 14 ordered pairs at >=80% containment over 12 roots,
+against arm A's 37 of 47 roots and A1's 110 pairs. The three tightest are `a_00048` (720) 99.2%
+inside `a_00035` missing 6, `a_00064` (385) 98.4% inside `a_00057` missing 6, and `a_00050` (262)
+97.7% inside `a_00057` missing 6 -- and **none of the three would qualify under Aviyah's propagation
+rule** from prompt 45 (>=98%, <=5 missing): all three miss by one pathway over the limit.
+
+**PLACEMENT 99.2% (+158 over O50s) is the best figure this project has recorded**, ahead of arm A's
+97.5%: only 18 of 2,370 curated summaries now lack a node holding 80% of their leaves. **Reactome
+median best J is 0.273, unchanged to three decimals** -- the sixth consecutive top-level attempt to
+leave that measure exactly where it was (the areas pass, the recursive operator, the floor change,
+arm A, A1 and this), which is evidence about the measure rather than about the builds.
+
+**Children per node: max 382, median 2.** The 382 is O50s's own maximum, belonging to a giant;
+nothing here adds a node with more children than O50s already had.
+
+**Code:** `scripts/areas_on_roots.py`, 15 tests in `tests/test_areas_on_roots.py` including the named
+containment regression test and the giant-containment test. `areas_rec2fix` is reused unchanged for
+the areas pass -- its 14 tests pass and its diff is empty. Cost 76 s and 696 MB; the 25 sides are
+cached. No API calls. **The frozen folders, O50s, arm A, arm B, A1 and A2 were all left alone** --
+this is a new directory.
+
+**Adopted: nothing.** The remaining gates are the blind reading of the 12 roots, the C6 intruder test
+on the 66 areas, and Aviyah.
