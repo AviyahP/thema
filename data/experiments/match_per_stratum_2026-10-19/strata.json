@@ -1,0 +1,593 @@
+{
+  "thetas": [
+    0.5,
+    0.6,
+    0.7
+  ],
+  "strata": [
+    [
+      3,
+      3
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      6,
+      6
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      10,
+      19
+    ],
+    [
+      20,
+      39
+    ],
+    [
+      40,
+      79
+    ],
+    [
+      80,
+      159
+    ],
+    [
+      160,
+      319
+    ],
+    [
+      320,
+      639
+    ],
+    [
+      640,
+      1279
+    ],
+    [
+      1280,
+      1000000000
+    ]
+  ],
+  "target": 0.008,
+  "rule_of_three_numerator": 3.0,
+  "selection_rule": "most real admitted at FDR <= target, higher theta on a tie",
+  "calibration": [
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010
+  ],
+  "heldout": [
+    4001,
+    4002,
+    4003,
+    4004,
+    4005,
+    4006
+  ],
+  "table": [
+    {
+      "stratum": "3-3",
+      "low": 3,
+      "index": 0,
+      "chosen_theta": 0.7,
+      "per_theta": {
+        "0.5": {
+          "floor": null,
+          "effective": null,
+          "real": 673,
+          "calibration_fdr": null,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.98,
+          "effective": 0.98,
+          "real": 20,
+          "calibration_fdr": 0.005,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.832461,
+          "effective": 0.832461,
+          "real": 213,
+          "calibration_fdr": 0.00751174,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 0,
+        "0.6": 20,
+        "0.7": 213
+      },
+      "floor": 0.832461,
+      "effective": 0.832461,
+      "real": 213,
+      "calibration_fdr": 0.00751174,
+      "bounded": false
+    },
+    {
+      "stratum": "4-4",
+      "low": 4,
+      "index": 1,
+      "chosen_theta": 0.7,
+      "per_theta": {
+        "0.5": {
+          "floor": null,
+          "effective": null,
+          "real": 820,
+          "calibration_fdr": null,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.963731,
+          "effective": 0.963731,
+          "real": 71,
+          "calibration_fdr": 0.00704225,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.915,
+          "effective": 0.915,
+          "real": 126,
+          "calibration_fdr": 0.00634921,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 0,
+        "0.6": 71,
+        "0.7": 126
+      },
+      "floor": 0.915,
+      "effective": 0.915,
+      "real": 126,
+      "calibration_fdr": 0.00634921,
+      "bounded": false
+    },
+    {
+      "stratum": "5-5",
+      "low": 5,
+      "index": 2,
+      "chosen_theta": 0.7,
+      "per_theta": {
+        "0.5": {
+          "floor": null,
+          "effective": null,
+          "real": 1045,
+          "calibration_fdr": null,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.768844,
+          "effective": 0.768844,
+          "real": 176,
+          "calibration_fdr": 0.00795455,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.515,
+          "effective": 0.515,
+          "real": 192,
+          "calibration_fdr": 0.00729167,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 0,
+        "0.6": 176,
+        "0.7": 192
+      },
+      "floor": 0.515,
+      "effective": 0.515,
+      "real": 192,
+      "calibration_fdr": 0.00729167,
+      "bounded": false
+    },
+    {
+      "stratum": "6-6",
+      "low": 6,
+      "index": 3,
+      "chosen_theta": 0.7,
+      "per_theta": {
+        "0.5": {
+          "floor": 1.0,
+          "effective": 1.0,
+          "real": 18,
+          "calibration_fdr": 0.00555556,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.665,
+          "effective": 0.665,
+          "real": 193,
+          "calibration_fdr": 0.00777202,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.326633,
+          "effective": 0.326633,
+          "real": 353,
+          "calibration_fdr": 0.00651558,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 18,
+        "0.6": 193,
+        "0.7": 353
+      },
+      "floor": 0.326633,
+      "effective": 0.326633,
+      "real": 353,
+      "calibration_fdr": 0.00651558,
+      "bounded": false
+    },
+    {
+      "stratum": "7-9",
+      "low": 7,
+      "index": 4,
+      "chosen_theta": 0.7,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.45,
+          "effective": 0.45,
+          "real": 909,
+          "calibration_fdr": 0.00792079,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.306122,
+          "effective": 0.306122,
+          "real": 1052,
+          "calibration_fdr": 0.00750951,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.195,
+          "effective": 0.195,
+          "real": 1179,
+          "calibration_fdr": 0.00771841,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 909,
+        "0.6": 1052,
+        "0.7": 1179
+      },
+      "floor": 0.195,
+      "effective": 0.195,
+      "real": 1179,
+      "calibration_fdr": 0.00771841,
+      "bounded": false
+    },
+    {
+      "stratum": "10-19",
+      "low": 10,
+      "index": 5,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.050251,
+          "effective": 0.050251,
+          "real": 7019,
+          "calibration_fdr": 0.00739422,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.035176,
+          "effective": 0.035176,
+          "real": 6713,
+          "calibration_fdr": 0.00566066,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.030151,
+          "effective": 0.030151,
+          "real": 5793,
+          "calibration_fdr": 0.0059382,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 7019,
+        "0.6": 6713,
+        "0.7": 5793
+      },
+      "floor": 0.050251,
+      "effective": 0.050251,
+      "real": 7019,
+      "calibration_fdr": 0.00739422,
+      "bounded": false
+    },
+    {
+      "stratum": "20-39",
+      "low": 20,
+      "index": 6,
+      "chosen_theta": 0.6,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01005,
+          "effective": 0.01005,
+          "real": 13030,
+          "calibration_fdr": 0.00094398,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 14294,
+          "calibration_fdr": 0.00388275,
+          "bounded": false
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 11818,
+          "calibration_fdr": 0.00076155,
+          "bounded": false
+        }
+      },
+      "admitted": {
+        "0.5": 13030,
+        "0.6": 14294,
+        "0.7": 11818
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 14294,
+      "calibration_fdr": 0.00388275,
+      "bounded": false
+    },
+    {
+      "stratum": "40-79",
+      "low": 40,
+      "index": 7,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 9335,
+          "calibration_fdr": 1.071e-05,
+          "bounded": false
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 6928,
+          "calibration_fdr": 4.33e-05,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 4830,
+          "calibration_fdr": 6.211e-05,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 9335,
+        "0.6": 6928,
+        "0.7": 4830
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 9335,
+      "calibration_fdr": 1.071e-05,
+      "bounded": false
+    },
+    {
+      "stratum": "80-159",
+      "low": 80,
+      "index": 8,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 3428,
+          "calibration_fdr": 8.751e-05,
+          "bounded": true
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 2042,
+          "calibration_fdr": 0.00014691,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 1030,
+          "calibration_fdr": 0.00029126,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 3428,
+        "0.6": 2042,
+        "0.7": 1030
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 3428,
+      "calibration_fdr": 8.751e-05,
+      "bounded": true
+    },
+    {
+      "stratum": "160-319",
+      "low": 160,
+      "index": 9,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 1274,
+          "calibration_fdr": 0.00023548,
+          "bounded": true
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 612,
+          "calibration_fdr": 0.0004902,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 234,
+          "calibration_fdr": 0.00128205,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 1274,
+        "0.6": 612,
+        "0.7": 234
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 1274,
+      "calibration_fdr": 0.00023548,
+      "bounded": true
+    },
+    {
+      "stratum": "320-639",
+      "low": 320,
+      "index": 10,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 609,
+          "calibration_fdr": 0.00049261,
+          "bounded": true
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 316,
+          "calibration_fdr": 0.00094937,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 96,
+          "calibration_fdr": 0.003125,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 609,
+        "0.6": 316,
+        "0.7": 96
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 609,
+      "calibration_fdr": 0.00049261,
+      "bounded": true
+    },
+    {
+      "stratum": "640-1279",
+      "low": 640,
+      "index": 11,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 260,
+          "calibration_fdr": 0.00115385,
+          "bounded": true
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 183,
+          "calibration_fdr": 0.00163934,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 160,
+          "calibration_fdr": 0.001875,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 260,
+        "0.6": 183,
+        "0.7": 160
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 260,
+      "calibration_fdr": 0.00115385,
+      "bounded": true
+    },
+    {
+      "stratum": "1280+",
+      "low": 1280,
+      "index": 12,
+      "chosen_theta": 0.5,
+      "per_theta": {
+        "0.5": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 152,
+          "calibration_fdr": 0.00197368,
+          "bounded": true
+        },
+        "0.6": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 122,
+          "calibration_fdr": 0.00245902,
+          "bounded": true
+        },
+        "0.7": {
+          "floor": 0.01,
+          "effective": 0.01,
+          "real": 103,
+          "calibration_fdr": 0.00291262,
+          "bounded": true
+        }
+      },
+      "admitted": {
+        "0.5": 152,
+        "0.6": 122,
+        "0.7": 103
+      },
+      "floor": 0.01,
+      "effective": 0.01,
+      "real": 152,
+      "calibration_fdr": 0.00197368,
+      "bounded": true
+    }
+  ]
+}
