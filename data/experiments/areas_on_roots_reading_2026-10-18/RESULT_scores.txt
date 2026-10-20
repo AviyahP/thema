@@ -1,0 +1,99 @@
+verdicts Counter({'linked_umbrella': 21, 'unlinked_mixture': 16, 'broad_domain': 15, 'core_with_misfits': 12, 'coherent': 2})
+all areas pass 38 66
+by size {'>1000': [1, 6], '501-1000': [6, 10], '201-500': [23, 37], '51-200': [8, 13]}
+roots pass 4 12
+ROOT a_00044 4485 unlinked_mixture | Catch-all of nearly all biology
+    child a_00010 2739 unlinked_mixture | Catch-all of non-metabolic cellular processes
+    child a_00038 2599 unlinked_mixture | Multicellular signaling, development, neuro and tissue physiology
+    child a_00054 313 linked_umbrella | Developmental signaling, hormone receptors, chromatin regulation
+    child areas 3, passing 1, cover 7.0% of root
+ROOT a_00037 2306 unlinked_mixture | Immunity, RTK signaling, cell death, hemostasis, ECM
+    child a_00000 314 core_with_misfits | Innate immunity, complement, inflammasome and host defense
+    child areas 1, passing 0, cover 0.0% of root
+ROOT a_00062 2204 unlinked_mixture | Neuro, transport, lipid, trafficking, apoptosis catch-all
+    child a_00017 208 linked_umbrella | Systemic physiology: blood pressure, steroids, senses
+    child a_00014 125 core_with_misfits | Metal ion and proton transport homeostasis
+    child areas 2, passing 1, cover 9.4% of root
+ROOT a_00035 1929 broad_domain | Metabolism, small-molecule transport, inborn metabolic errors
+    child a_00029 385 unlinked_mixture | Nucleotide metabolism, mitochondria, translation, stress mixture
+    child a_00055 346 linked_umbrella | Redox, oxygen, metal and xenobiotic detoxification
+    child a_00047 268 broad_domain | Mitochondrial energy metabolism, oxygen and redox
+    child a_00061 208 linked_umbrella | Mitochondrial respiration, heme and erythroid oxygen transport
+    child areas 4, passing 3, cover 24.1% of root
+ROOT a_00060 915 core_with_misfits | Lipid metabolism, lipoproteins and metabolic signaling
+    child a_00016 615 broad_domain | Lipid metabolism, transport and energy homeostasis
+    child a_00006 367 unlinked_mixture | Hemostasis, lipid mediators and RTK-RAS signaling
+    child a_00042 231 core_with_misfits | Membrane phospholipid and sphingolipid metabolism
+    child areas 3, passing 1, cover 67.2% of root
+ROOT a_00057 857 unlinked_mixture | Epithelia, ECM, cilia, vision, steroid/xenobiotic metabolism
+    child a_00027 404 unlinked_mixture | Xenobiotics, vision, cilia, skin, transporter diseases
+    child a_00058 272 core_with_misfits | Cell junctions, adhesion and epithelial tissue architecture
+    child a_00056 238 unlinked_mixture | Membrane transport, epithelia, lung and bile acids
+    child a_00011 140 core_with_misfits | Extracellular matrix and glycosaminoglycan metabolism
+    child areas 4, passing 0, cover 0.0% of root
+ROOT a_00048 720 broad_domain | Cellular metabolism, mitochondria and metabolic stress
+ROOT a_00052 688 broad_domain | Systemic metabolism and endocrine regulation
+ROOT a_00064 385 unlinked_mixture | ECM/GAGs, ion transport and tissue disorders
+    child a_00020 212 linked_umbrella | Extracellular matrix, glycosaminoglycans and skeletal mineralization
+    child a_00040 186 unlinked_mixture | Ion transport, acidification, bile acids, lung development
+    child areas 2, passing 1, cover 55.1% of root
+ROOT a_00050 262 core_with_misfits | Extracellular matrix and skeletal tissue
+    child a_00020 212 linked_umbrella | Extracellular matrix, glycosaminoglycans and skeletal mineralization
+    child areas 1, passing 1, cover 80.9% of root
+ROOT a_00059 257 linked_umbrella | Growth factor RTK signaling: MAPK, PI3K-AKT-mTOR
+ROOT a_00021 239 core_with_misfits | Neurotrophin signaling, neurodevelopment, glia and myelin
+    child areas 0, passing 0, cover 0.0% of root
+AREA a_00010 2739 unlinked_mixture | Catch-all of non-metabolic cellular processes
+AREA a_00038 2599 unlinked_mixture | Multicellular signaling, development, neuro and tissue physiology
+AREA a_00046 957 broad_domain | Development and morphogen signaling
+AREA a_00049 842 unlinked_mixture | Proteostasis, trafficking, mitosis/meiosis, cilia, reproduction
+AREA a_00063 740 core_with_misfits | Cell cycle and genome maintenance plus extras
+AREA a_00016 615 broad_domain | Lipid metabolism, transport and energy homeostasis
+AREA a_00025 552 broad_domain | Proteostasis and intracellular membrane trafficking
+AREA a_00041 541 broad_domain | Metabolic and endocrine homeostasis
+AREA a_00023 455 broad_domain | Endocrine and nutrient-sensing metabolic regulation
+AREA a_00034 452 broad_domain | Lipid metabolism, transport and lipid signaling
+AREA a_00027 404 unlinked_mixture | Xenobiotics, vision, cilia, skin, transporter diseases
+AREA a_00029 385 unlinked_mixture | Nucleotide metabolism, mitochondria, translation, stress mixture
+AREA a_00051 372 unlinked_mixture | Cell division, germline reproduction, cilia, nuclear transport
+AREA a_00006 367 unlinked_mixture | Hemostasis, lipid mediators and RTK-RAS signaling
+AREA a_00007 363 broad_domain | Proteostasis and organelle quality control
+AREA a_00055 346 linked_umbrella | Redox, oxygen, metal and xenobiotic detoxification
+AREA a_00008 324 unlinked_mixture | Nucleotide metabolism, mitochondria, translation, stress mixture
+AREA a_00009 322 broad_domain | Intracellular membrane trafficking and autophagy
+AREA a_00031 316 core_with_misfits | Lipid, lipoprotein and glucose metabolic regulation
+AREA a_00000 314 core_with_misfits | Innate immunity, complement, inflammasome and host defense
+AREA a_00013 314 coherent | Lipid metabolism and lipid mediators
+AREA a_00054 313 linked_umbrella | Developmental signaling, hormone receptors, chromatin regulation
+AREA a_00019 311 broad_domain | Endocrine and metabolic homeostasis signaling
+AREA a_00065 307 broad_domain | Proteostasis and intracellular protein trafficking
+AREA a_00053 280 linked_umbrella | Nutrient signalling, energy metabolism and redox stress
+AREA a_00036 272 linked_umbrella | Detoxification, redox and metal/heme homeostasis
+AREA a_00058 272 core_with_misfits | Cell junctions, adhesion and epithelial tissue architecture
+AREA a_00047 268 broad_domain | Mitochondrial energy metabolism, oxygen and redox
+AREA a_00001 267 linked_umbrella | Microtubule organelles: mitosis/meiosis, centrosome and cilia
+AREA a_00056 238 unlinked_mixture | Membrane transport, epithelia, lung and bile acids
+AREA a_00039 234 broad_domain | Protein homeostasis (proteostasis)
+AREA a_00042 231 core_with_misfits | Membrane phospholipid and sphingolipid metabolism
+AREA a_00033 227 core_with_misfits | Cell junctions, epithelial barrier and skin
+AREA a_00002 224 linked_umbrella | Microtubule organelles: mitosis/meiosis, centrosome and cilia
+AREA a_00043 221 linked_umbrella | Energy metabolism, redox/hypoxia stress, mTOR/AKT signalling
+AREA a_00028 218 linked_umbrella | Proteostasis, autophagy and mitochondrial quality control
+AREA a_00020 212 linked_umbrella | Extracellular matrix, glycosaminoglycans and skeletal mineralization
+AREA a_00017 208 linked_umbrella | Systemic physiology: blood pressure, steroids, senses
+AREA a_00061 208 linked_umbrella | Mitochondrial respiration, heme and erythroid oxygen transport
+AREA a_00018 207 linked_umbrella | Xenobiotic detoxification, oxidative stress, metal homeostasis
+AREA a_00003 203 linked_umbrella | Hemostasis and eicosanoid lipid mediators
+AREA a_00040 186 unlinked_mixture | Ion transport, acidification, bile acids, lung development
+AREA a_00045 184 linked_umbrella | PI3K-AKT-mTOR metabolic signaling, NRF2 and hypoxia
+AREA a_00026 168 linked_umbrella | Microtubule cytoskeleton: cilia, centrosome, mitotic spindle
+AREA a_00030 167 linked_umbrella | Innate antimicrobial defense: complement, inflammasome, phagosome
+AREA a_00032 166 linked_umbrella | Energy metabolism with oxidative and hypoxic stress
+AREA a_00004 162 linked_umbrella | Proteostasis: folding, degradation, autophagy, mitochondria
+AREA a_00015 148 core_with_misfits | Metal, heme, iron and oxygen homeostasis
+AREA a_00011 140 core_with_misfits | Extracellular matrix and glycosaminoglycan metabolism
+AREA a_00014 125 core_with_misfits | Metal ion and proton transport homeostasis
+AREA a_00024 116 linked_umbrella | Oxidative stress, metal ions and xenobiotic responses
+AREA a_00022 98 coherent | PI3K-AKT-mTOR insulin/IGF and nutrient signaling
+AREA a_00005 88 linked_umbrella | Lipid mediators and GPCR calcium signaling
+AREA a_00012 52 unlinked_mixture | Kinase signalling and nuclear transport miscellany
