@@ -1,0 +1,573 @@
+{
+ "arm": "M",
+ "calibration": [
+  3001,
+  3002,
+  3003,
+  3004,
+  3005,
+  3006,
+  3007,
+  3008,
+  3009,
+  3010
+ ],
+ "calibration_target": 0.008,
+ "caps": {
+  "overall": 0.01,
+  "per_stratum": 0.02
+ },
+ "confirmed": {
+  "overall_fdr": 0.00324,
+  "overall_null": 124.5,
+  "overall_real": 38434,
+  "strata": [
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00751174,
+    "chosen_theta": 0.7,
+    "effective": 0.832461,
+    "floor": 0.832461,
+    "heldout_fdr": 0.00391,
+    "heldout_null": 0.83,
+    "heldout_real": 213,
+    "m_applied": false,
+    "real": 213,
+    "stratum": "3-3"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00634921,
+    "chosen_theta": 0.7,
+    "effective": 0.915,
+    "floor": 0.915,
+    "heldout_fdr": 0.00265,
+    "heldout_null": 0.33,
+    "heldout_real": 126,
+    "m_applied": false,
+    "real": 126,
+    "stratum": "4-4"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00729167,
+    "chosen_theta": 0.7,
+    "effective": 0.515,
+    "floor": 0.515,
+    "heldout_fdr": 0.01042,
+    "heldout_null": 2.0,
+    "heldout_real": 192,
+    "m_applied": false,
+    "real": 192,
+    "stratum": "5-5"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00651558,
+    "chosen_theta": 0.7,
+    "effective": 0.326633,
+    "floor": 0.326633,
+    "heldout_fdr": 0.00378,
+    "heldout_null": 1.33,
+    "heldout_real": 353,
+    "m_applied": false,
+    "real": 353,
+    "stratum": "6-6"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00771841,
+    "chosen_theta": 0.7,
+    "effective": 0.195,
+    "floor": 0.195,
+    "heldout_fdr": 0.01088,
+    "heldout_null": 12.83,
+    "heldout_real": 1179,
+    "m_applied": false,
+    "real": 1179,
+    "stratum": "7-9"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00739422,
+    "chosen_theta": 0.5,
+    "effective": 0.050251,
+    "floor": 0.050251,
+    "heldout_fdr": 0.00741,
+    "heldout_null": 52.0,
+    "heldout_real": 7019,
+    "m_applied": false,
+    "real": 7019,
+    "stratum": "10-19"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00388275,
+    "chosen_theta": 0.6,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.00386,
+    "heldout_null": 55.17,
+    "heldout_real": 14294,
+    "m_applied": false,
+    "real": 14294,
+    "stratum": "20-39"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 1.071e-05,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 9335,
+    "m_applied": false,
+    "real": 9335,
+    "stratum": "40-79"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 8.751e-05,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 3428,
+    "m_applied": false,
+    "real": 3428,
+    "stratum": "80-159"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00023548,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 1274,
+    "m_applied": false,
+    "real": 1274,
+    "stratum": "160-319"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00049261,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 609,
+    "m_applied": false,
+    "real": 609,
+    "stratum": "320-639"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00115385,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 260,
+    "m_applied": false,
+    "real": 260,
+    "stratum": "640-1279"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00197368,
+    "chosen_theta": 0.5,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 152,
+    "m_applied": false,
+    "real": 152,
+    "stratum": "1280+"
+   }
+  ]
+ },
+ "containment": "strict",
+ "declared_m": null,
+ "directory": "thema_L_x2_O50s_M",
+ "excluded": [],
+ "floors": [
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00751174,
+   "chosen_theta": 0.7,
+   "effective": 0.832461,
+   "floor": 0.832461,
+   "m_applied": false,
+   "real": 213,
+   "stratum": "3-3"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00634921,
+   "chosen_theta": 0.7,
+   "effective": 0.915,
+   "floor": 0.915,
+   "m_applied": false,
+   "real": 126,
+   "stratum": "4-4"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00729167,
+   "chosen_theta": 0.7,
+   "effective": 0.515,
+   "floor": 0.515,
+   "m_applied": false,
+   "real": 192,
+   "stratum": "5-5"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00651558,
+   "chosen_theta": 0.7,
+   "effective": 0.326633,
+   "floor": 0.326633,
+   "m_applied": false,
+   "real": 353,
+   "stratum": "6-6"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00771841,
+   "chosen_theta": 0.7,
+   "effective": 0.195,
+   "floor": 0.195,
+   "m_applied": false,
+   "real": 1179,
+   "stratum": "7-9"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00739422,
+   "chosen_theta": 0.5,
+   "effective": 0.050251,
+   "floor": 0.050251,
+   "m_applied": false,
+   "real": 7019,
+   "stratum": "10-19"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00388275,
+   "chosen_theta": 0.6,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 14294,
+   "stratum": "20-39"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 1.071e-05,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 9335,
+   "stratum": "40-79"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 8.751e-05,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 3428,
+   "stratum": "80-159"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00023548,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 1274,
+   "stratum": "160-319"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00049261,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 609,
+   "stratum": "320-639"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00115385,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 260,
+   "stratum": "640-1279"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00197368,
+   "chosen_theta": 0.5,
+   "effective": 0.01,
+   "floor": 0.01,
+   "m_applied": false,
+   "real": 152,
+   "stratum": "1280+"
+  }
+ ],
+ "heldout": [
+  4001,
+  4002,
+  4003,
+  4004,
+  4005,
+  4006
+ ],
+ "inclusion_cut": 0.5,
+ "joint_fixed_point": true,
+ "kept_stages": [
+  "completion",
+  "greedy seed absorption",
+  "per-size support floors"
+ ],
+ "leaves_digest": "97852e70b5a820f0",
+ "m_from_size": null,
+ "max_fdr_overall": 0.01,
+ "max_fdr_stratum": 0.02,
+ "method": "v0.4-leaves, O50s strata with the match threshold per stratum (arm M)",
+ "min_size": 3,
+ "multi_parent_share": 0.6711,
+ "n": 5539,
+ "n_after_consensus": 8171,
+ "n_edges": 20005,
+ "n_effectively_unplaced": 0,
+ "n_excluded_no_genes": 0,
+ "n_gated": 38434,
+ "n_multi_parent": 4620,
+ "n_near_members": null,
+ "n_nodes": 6884,
+ "n_root_only": 0,
+ "n_roots": 394,
+ "n_undescribed": 0,
+ "n_unplaced": 0,
+ "params": {
+  "arm": "M",
+  "calibration": [
+   3001,
+   3002,
+   3003,
+   3004,
+   3005,
+   3006,
+   3007,
+   3008,
+   3009,
+   3010
+  ],
+  "calibration_target": 0.008,
+  "caps": {
+   "overall": 0.01,
+   "per_stratum": 0.02
+  },
+  "confirmed": {
+   "overall_fdr": 0.00324,
+   "overall_null": 124.5,
+   "overall_real": 38434
+  },
+  "containment": "strict",
+  "declared_m": null,
+  "floors": [],
+  "heldout": [
+   4001,
+   4002,
+   4003,
+   4004,
+   4005,
+   4006
+  ],
+  "inclusion_cut": 0.5,
+  "joint_fixed_point": true,
+  "kept_stages": [
+   "completion",
+   "greedy seed absorption",
+   "per-size support floors"
+  ],
+  "leaves_digest": "97852e70b5a820f0",
+  "m_from_size": null,
+  "max_fdr_overall": 0.01,
+  "max_fdr_stratum": 0.02,
+  "method": "v0.4-leaves, O50s strata with the match threshold per stratum (arm M)",
+  "min_size": 3,
+  "multi_parent_share": 0.6711,
+  "n": 5539,
+  "n_after_consensus": 8171,
+  "n_effectively_unplaced": 0,
+  "n_gated": 38434,
+  "n_multi_parent": 4620,
+  "n_nodes": 6884,
+  "n_root_only": 0,
+  "n_roots": 394,
+  "n_unplaced": 0,
+  "peak_mb": 3121.6,
+  "removed_stages": [
+   "size cap",
+   "TOL extras-only rule",
+   "STRAY",
+   "partial containment"
+  ],
+  "repair": {
+   "collapse_share": 0.85,
+   "joint_fixed_point": true,
+   "merge_jaccard": 0.5,
+   "n_collapsed": 873,
+   "n_merged": 414,
+   "survivor": "support"
+  },
+  "rule_of_three_numerator": 3.0,
+  "selection_rule": "most real candidates admitted at calibration FDR <= target; the higher theta on a tie",
+  "size_cap": null,
+  "strata": [],
+  "stray": 0.0,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "theta_match": "per stratum, from {0.50, 0.60, 0.70}",
+  "theta_match_per_stratum": {
+   "10-19": 0.5,
+   "1280+": 0.5,
+   "160-319": 0.5,
+   "20-39": 0.6,
+   "3-3": 0.7,
+   "320-639": 0.5,
+   "4-4": 0.7,
+   "40-79": 0.5,
+   "5-5": 0.7,
+   "6-6": 0.7,
+   "640-1279": 0.5,
+   "7-9": 0.7,
+   "80-159": 0.5
+  },
+  "theta_merge": 0.7,
+  "theta_same": 0.5,
+  "theta_same_default": 0.7,
+  "tol": 0.0,
+  "universe": "L minus the declared exclusions",
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 3121.6,
+ "removed_stages": [
+  "size cap",
+  "TOL extras-only rule",
+  "STRAY",
+  "partial containment"
+ ],
+ "repair": {
+  "collapse_share": 0.85,
+  "joint_fixed_point": true,
+  "merge_jaccard": 0.5,
+  "n_collapsed": 873,
+  "n_merged": 414,
+  "rounds": {
+   "collapse": 4,
+   "joint": 2,
+   "merge": 3
+  },
+  "survivor": "support"
+ },
+ "rule_of_three_numerator": 3.0,
+ "selection_rule": "most real candidates admitted at calibration FDR <= target; the higher theta on a tie",
+ "size_cap": null,
+ "strata": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   5
+  ],
+  [
+   6,
+   6
+  ],
+  [
+   7,
+   9
+  ],
+  [
+   10,
+   19
+  ],
+  [
+   20,
+   39
+  ],
+  [
+   40,
+   79
+  ],
+  [
+   80,
+   159
+  ],
+  [
+   160,
+   319
+  ],
+  [
+   320,
+   639
+  ],
+  [
+   640,
+   1279
+  ],
+  [
+   1280,
+   1000000000
+  ]
+ ],
+ "stray": 0.0,
+ "subsample": 0.8,
+ "theta": 0.7,
+ "theta_match": "per stratum, from {0.50, 0.60, 0.70}",
+ "theta_match_per_stratum": {
+  "10-19": 0.5,
+  "1280+": 0.5,
+  "160-319": 0.5,
+  "20-39": 0.6,
+  "3-3": 0.7,
+  "320-639": 0.5,
+  "4-4": 0.7,
+  "40-79": 0.5,
+  "5-5": 0.7,
+  "6-6": 0.7,
+  "640-1279": 0.5,
+  "7-9": 0.7,
+  "80-159": 0.5
+ },
+ "theta_merge": 0.7,
+ "theta_same": 0.5,
+ "theta_same_default": 0.7,
+ "tol": 0.0,
+ "universe": "L minus the declared exclusions",
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4-leaves"
+}
