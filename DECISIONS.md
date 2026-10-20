@@ -7912,3 +7912,181 @@ this is a new directory.
 
 **Adopted: nothing.** The remaining gates are the blind reading of the 12 roots, the C6 intruder test
 on the 66 areas, and Aviyah.
+
+## 2026-10-19 03:05:29 UTC+1 — THE MATCH THRESHOLD PER SIZE STRATUM (O50s-M): declared before running
+
+Transcribed from Aviyah's prompt of 19 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_47.md`; reproduced here **before any build ran**.
+**Exploratory: adopts nothing.** Everything below the line is the prompt text.
+
+**ESTIMATE: about 2.6 h, under the ceiling, so all three thetas run and the two-theta fallback is
+not needed.** The figure is measured rather than guessed, from two timing probes:
+
+* `prepare` -- the dedup and the eligibility matrix -- is **theta-free and costs 3.5-4 s**, so it is
+  paid once per side however many thetas are scored. Everything else is theta-dependent.
+* **Real side, per theta: 120 s** (score 72, completion 19, absorption 21, family support 0.5).
+* **Scramble side, per theta: 161 s** (score 87, completion 13, absorption 60) -- its pool is
+  319,904 groupings against the real side's 270,570.
+* 1 real + 10 calibration + 6 held-out = 17 sides at three thetas = **8,267 s = 2.30 h**, plus about
+  20 minutes for the two arm builds, the two structures and the reports.
+
+Both probes reproduce the cached sides exactly at theta 0.70 -- **99,951 candidates on the real side
+and 218,729 on seed 3001**, matching `real.npz` and `seed03001.npz` -- so the replication is faithful
+before any new number is computed. Because 2.3 h is a long single job, **every side's rows are cached
+per theta as they are produced and the run resumes from what is on disk**, so a failure late in the
+sweep does not cost the sweep.
+
+**ONE DESIGN CHOICE THE SPEC DOES NOT PIN DOWN, and it has to be stated because it is visible in the
+result.** A candidate's completed membership depends on theta, not only its support: `Pool.copies`
+is the matched cluster per run, and completion is built from the copies. The frozen matcher's own
+`match_split` mechanism handles a two-theta split by scoring one pool twice and **swapping
+`pool.support` by the GROUPING's size**, leaving the membership from the base pass. That cannot
+express thirteen strata keyed on **candidate** size, which is what the floors use. So each theta is
+run as a **complete, independent material**, and the arm's gate takes, for each stratum, the
+candidates of that size from that stratum's chosen theta. The consequence, reported rather than
+hidden: **step 1's "real count passing" and the arm's gated set are the same objects**, which is what
+makes the calibration transfer to the build -- and two near-identical candidates from different
+thetas can land in different strata, which consensus at twin 0.50 then merges.
+
+---
+
+Prompt 47: the match threshold calibrated per size stratum (O50s-M). Declared 19 Oct 2026, before any result. Exploratory: this adopts nothing. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h; if it is, propose running only theta 0.50 and 0.70 first.
+
+WHY
+Reviewer diagnostics, 18-19 Oct, are in the project docs thema-small-roots-nesting, thema-support-history-and-stability and thema-loose-match-support, with files in data/experiments/small_roots_nesting_2026-10-18/.
+- Above about 20 pathways, support at J >= 0.70 is low for nearly every theme (non-root median 0.02-0.04), because edges wobble. At J >= 0.50 the same themes recur in a large share of runs: median 0.29 for 20-50, 0.41 for 51-200, 0.95 for 201-1,000.
+- The 164 small roots of O50s stay weak even at J >= 0.50: median 0.09 for 20-50. They have no recurring parent, and every one of their pathways also sits in other themes.
+- On 8 Oct, matching at 0.50 for ALL sizes failed at 3-6 pathways, because noise recurs there. So the threshold must depend on size, like the floors.
+
+SPEC
+Start from the O50s configuration exactly: x2 universe, arm L, cached trees, the O50s strata (3, 4, 5, 6, 7-9, 10-19, 20-39, 40-79, 80-159, 160-319, 320-639, 640-1,279, 1,280+), consensus with twin 0.50, the joint fixed point with chain 0.85, and repair. THETA_MERGE (absorption and consensus) stays 0.70.
+
+Change only THETA_MATCH, the threshold used for recurrence matching and support, per stratum:
+1. **For each stratum and each theta in {0.50, 0.60, 0.70}:**
+   - recompute real and scrambled support (calibration scrambles 3001-3010);
+   - solve the floor as in prompt 43 (target 0.008; rule of three where the scrambled count is 0);
+   - record the real count passing.
+2. **Selection (declared):** per stratum, choose the theta that admits the most real candidates at calibration FDR <= 0.008. On a tie, choose the higher theta.
+3. **Two arms:**
+   - **M:** the chosen theta and its floor per stratum.
+   - **Mm:** as M, plus a minimum support of 0.33 (the original declared m) in every stratum of 10 or more, measured under that stratum's chosen theta.
+4. **Held-out check** on seeds 4001-4006, per stratum and overall. Caps: 0.02 per stratum, 0.01 overall.
+
+REPORT (docs/status/2026-10-19-match-per-stratum.md), M and Mm side by side with O50s
+1. Per stratum: the chosen theta, the floor, real counts passing at each theta, and calibration and held-out FDR.
+2. Themes by size band: 3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+.
+3. Shape:
+   - roots, and roots of 50 or fewer;
+   - giants with sizes;
+   - children per node, maximum and median;
+   - multi-parent share.
+4. Small themes: the 3-50 count against O50s, and the share of O50s themes with a counterpart at J >= 0.9.
+5. The 164 O50s small roots: how many have a counterpart at J >= 0.7, and how many of those are still roots.
+6. These O50s roots: n01027, n04526, n04670, n04671, n03316, n04672, n04995, n05001. For each: its counterpart (J), and whether it is a root.
+7. Summary placement against O50s's 92.6%; agreement with Reactome's top level (median best J).
+
+FOR THE REVIEWER (do not judge them yourself)
+Write data/experiments/match_per_stratum_2026-10-19/{M,Mm}/roots.tsv with id, size, support, the chosen theta and the full member keys.
+
+FINAL
+- Save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_47.md, and copy it into DECISIONS.md as "declared before running", before building.
+- Outputs: data/ontology/v0.4-leaves/thema_L_x2_O50s_M/ and thema_L_x2_O50s_Mm/.
+- Write docs/status/commit-2026-10-19-match-per-stratum.sh, to run after commit-2026-10-18-areas-on-roots.sh. It commits:
+  - the code, tests, builds, status note, reviewer folder and PROMPT_47.md;
+  - the reviewer's folders data/experiments/O50s_roots_reading_2026-10-18/, areas_on_roots_reading_2026-10-18/ and small_roots_nesting_2026-10-18/, if not already committed. List their files explicitly and never include any KEY_DO_NOT_SHARE* file.
+  No branch operations; no push of main.
+
+ORDER: step 1 first; report the per-stratum table before building the arms.
+
+END OF PROMPT. Before building, give the time estimate. After the build, give:
+- the per-stratum table;
+- the FDR summary;
+- roots, small roots and giants per arm;
+- items 5 and 6;
+- the commit script path.
+
+## 2026-10-19 05:54:45 UTC+1 — O50s-M RESULT: the threshold flips at 10 pathways, both arms inside the caps, and neither fixes the small roots. Adopted nothing.
+
+Full numbers: `docs/status/2026-10-19-match-per-stratum.md`. Outputs
+`data/ontology/v0.4-leaves/thema_L_x2_O50s_{M,Mm}/`; reviewer folder
+`data/experiments/match_per_stratum_2026-10-19/{M,Mm}/`.
+
+**THE REVIEWER'S DIAGNOSIS IS CONFIRMED EXACTLY, AND THE THRESHOLD FLIPS AT 10 PATHWAYS.** Chosen
+theta: **0.70 in the five strata below 10** (3-3, 4-4, 5-5, 6-6, 7-9), **0.60 in 20-39**, and **0.50
+in the other seven** (10-19, 40-79, 80-159, 160-319, 320-639, 640-1279, 1280+). **No stratum admits
+nothing.** The sweep admits **38,434 candidates against O50s's 26,120, +47%**.
+
+**The flip is sharp.** At theta 0.50, strata **3-3, 4-4 and 5-5 admit literally ZERO** candidates --
+the 8 Oct failure reproduced, the scrambles recurring as readily as the data. Above 10, loosening
+roughly doubles the intake: 40-79 goes 4,830 -> **9,335**, 80-159 1,030 -> **3,428**, 160-319 234 ->
+**1,274**, 320-639 96 -> **609**. 20-39 is the one stratum that prefers a middle theta (0.60 admits
+14,294 against 0.50's 13,030 and 0.70's 11,818).
+
+**BOTH ARMS ARE INSIDE BOTH CAPS.** M overall **0.00324**, Mm **0.00379**, against 0.01; worst
+stratum **0.01088** in both -- and that is **7-9, a FROZEN stratum neither arm changed**, so the
+worst held-out rate here is inherited from O50s rather than caused by the sweep. Every stratum the
+sweep moved (10 up) is at **0.00741 or better** and six are exactly **0.0**.
+
+| | O50s | M | Mm |
+|---|---:|---:|---:|
+| held-out overall | 0.00233 | **0.00324** | **0.00379** |
+| themes | 5,658 | **6,884** | **2,973** |
+| roots | 261 | **394** | **94** |
+| roots of 50 or fewer | 164 | **155** | 83 |
+| children max / median | 382 / 2 | **535** / 2 | 192 / 1 |
+| multi-parent | 63.3% | **67.1%** | **29.1%** |
+| effectively unplaced | 0 | **0** | **115** |
+| themes of 3-50 vs O50s | -- | **113.1%** | **54.9%** |
+| O50s themes with a counterpart at J >= 0.9 | -- | **50.7%** | **42.2%** |
+| placement | 92.6% | **93.1%** | **81.5%** |
+| Reactome median best J | 0.273 | **0.273** | **0.237** |
+
+**NEITHER ARM FIXES WHAT IT WAS BUILT TO FIX.** The 164 small roots were the target.
+
+* **Arm M makes the root count WORSE: 394 against 261**, and still leaves **155** small roots. It
+  does dissolve most of the originals -- 86 of the 164 have a counterpart at J >= 0.7 and only 20 of
+  those are still roots -- but 38,434 admitted candidates create new roots faster than the old ones
+  are absorbed. **The gate was the wrong lever for this problem.**
+* **Arm M replaces O50s rather than refining it. Only 50.7% of O50s's themes survive at J >= 0.9**,
+  against the 94.9% that survived O50s's own floor change in prompt 43. **Any reviewer reading
+  already done on O50s does not transfer to M.** That is the single most important number here for
+  anyone considering adoption.
+* **Arm Mm reaches 94 roots but is not a build worth having.** The 0.33 minimum lifted the floor in
+  all eight strata of 10 or more and cut the gate from 38,434 to **4,578**: 80-159 falls to **19**
+  candidates, 160-319 to **5**, 320-639 to **2**. Result: half the themes gone (2,973), the 100-199
+  band down to **7 themes**, the 3-50 count to **54.9%**, placement **-11.1 points to 81.5%**,
+  **115 pathways effectively unplaced**, and Reactome **worse at 0.237** -- the first build in this
+  project to move that measure the wrong way. The minimum is doing to the gate exactly what it was
+  retired for doing.
+
+**THE EIGHT NAMED O50s ROOTS.** In M, **seven of the eight stop being roots**; only `n04671` remains,
+at J = 0.551, barely the same theme. Three of the eight (`n04526` 0.474, `n04671` 0.551, `n05001`
+0.486) have no counterpart above 0.7 at all, so "no longer a root" partly means "no longer there". In
+Mm, **four of the eight are still roots** and their counterparts are much poorer (`n04670` 0.277,
+`n04672` 0.216): Mm replaces them with a few large nodes rather than parenting them.
+
+**M DOES GROW THE MID-SIZE LAYER AGAIN**, on top of O50s: 50-99 **267 -> 610**, 100-199 **67 -> 221**,
+200-399 **19 -> 55**. Against the original O50 those bands are now about 6x and 20x their starting
+size. It gains two giants and a larger maximum (2,832 against 2,564). But **placement rises only
+0.5 points for 1,226 extra themes**, against prompt 43's +7.3 and prompt 46's 99.2%.
+
+**THE HONEST COMPARISON.** Prompt 46's areas-on-roots reached **12 roots and 99.2% placement** by
+building a layer *above* O50s and leaving it untouched. This prompt reaches 394 or 94 roots by
+rebuilding O50s from a looser gate. **On every criterion the two share, the layer wins** -- and it
+does not invalidate the reviewer's reading of O50s.
+
+**WHAT IS WORTH KEEPING is the per-stratum table itself**: the measured fact that the match threshold
+should be **0.70 below 10 pathways and 0.50 above it** is a property of the data, not of this build,
+and it will hold for any future build whatever is done with the top.
+
+**Code:** `scripts/match_per_stratum.py` (the resumable sweep, the solver, the selection, both arms),
+`scripts/match_per_stratum_report.py`, 20 tests in `tests/test_match_per_stratum.py`. **The
+replication check: theta 0.70 reproduces the cached sides exactly -- 99,951 real candidates and
+218,729 on seed 3001 -- and a test asserts it.** `prepare` is theta-free at 4 s a side, so the
+three-theta sweep cost three tails rather than three materials: **8,740 s for 17 sides x 3 thetas**,
+then 458 s for M, 23 s for Mm and 6 s for the report. The 305 MB of cached rows is deliberately not
+committed. **The frozen folders, O50s and every earlier build were left alone.** No API calls.
+
+**Adopted: nothing.**
