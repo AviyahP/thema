@@ -1,0 +1,1923 @@
+{
+ "amendment": "20 Oct 2026: no minimum copy count; every grouping gets a core",
+ "calibration": [
+  3001,
+  3002,
+  3003,
+  3004,
+  3005,
+  3006,
+  3007,
+  3008,
+  3009,
+  3010
+ ],
+ "calibration_target": 0.008,
+ "caps": {
+  "overall": 0.01,
+  "per_stratum": 0.02
+ },
+ "confirmed": {
+  "overall_fdr": 0.00504,
+  "overall_null": 370.0,
+  "overall_real": 73484,
+  "strata": [
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00778547,
+    "effective": 0.540404,
+    "floor": 0.540404,
+    "heldout_fdr": 0.00894,
+    "heldout_null": 5.17,
+    "heldout_real": 578,
+    "real": 578,
+    "stratum": "3-3"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00775194,
+    "effective": 0.496689,
+    "floor": 0.496689,
+    "heldout_fdr": 0.00879,
+    "heldout_null": 11.33,
+    "heldout_real": 1289,
+    "real": 1290,
+    "stratum": "4-4"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00774462,
+    "effective": 0.140244,
+    "floor": 0.140244,
+    "heldout_fdr": 0.00826,
+    "heldout_null": 37.67,
+    "heldout_real": 4558,
+    "real": 4558,
+    "stratum": "5-5"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00762276,
+    "effective": 0.085106,
+    "floor": 0.085106,
+    "heldout_fdr": 0.00801,
+    "heldout_null": 45.17,
+    "heldout_real": 5641,
+    "real": 5641,
+    "stratum": "6-6"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00621526,
+    "effective": 0.035088,
+    "floor": 0.035088,
+    "heldout_fdr": 0.00655,
+    "heldout_null": 110.83,
+    "heldout_real": 16909,
+    "real": 16910,
+    "stratum": "7-9"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00534876,
+    "effective": 0.01005,
+    "floor": 0.01005,
+    "heldout_fdr": 0.00558,
+    "heldout_null": 151.0,
+    "heldout_real": 27053,
+    "real": 27053,
+    "stratum": "10-19"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00114356,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.00137,
+    "heldout_null": 8.83,
+    "heldout_real": 6471,
+    "real": 6471,
+    "stratum": "20-39"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 5.7e-05,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 5263,
+    "real": 5263,
+    "stratum": "40-79"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 9.542e-05,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 3144,
+    "real": 3144,
+    "stratum": "80-159"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00020576,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 1458,
+    "real": 1458,
+    "stratum": "160-319"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00043541,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 689,
+    "real": 689,
+    "stratum": "320-639"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00096463,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 311,
+    "real": 311,
+    "stratum": "640-1279"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.0025,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 120,
+    "real": 120,
+    "stratum": "1280+"
+   }
+  ]
+ },
+ "containment": "strict",
+ "core_threshold": 0.9,
+ "directory": "thema_L_x2_C1b",
+ "dropped_steps": [
+  "consensus merge",
+  "chain collapse",
+  "repair"
+ ],
+ "excluded": [],
+ "floors": [
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00778547,
+   "effective": 0.540404,
+   "floor": 0.540404,
+   "real": 578,
+   "stratum": "3-3"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00775194,
+   "effective": 0.496689,
+   "floor": 0.496689,
+   "real": 1290,
+   "stratum": "4-4"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00774462,
+   "effective": 0.140244,
+   "floor": 0.140244,
+   "real": 4558,
+   "stratum": "5-5"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00762276,
+   "effective": 0.085106,
+   "floor": 0.085106,
+   "real": 5641,
+   "stratum": "6-6"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00621526,
+   "effective": 0.035088,
+   "floor": 0.035088,
+   "real": 16910,
+   "stratum": "7-9"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00534876,
+   "effective": 0.01005,
+   "floor": 0.01005,
+   "real": 27053,
+   "stratum": "10-19"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00114356,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 6471,
+   "stratum": "20-39"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 5.7e-05,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 5263,
+   "stratum": "40-79"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 9.542e-05,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 3144,
+   "stratum": "80-159"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00020576,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 1458,
+   "stratum": "160-319"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00043541,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 689,
+   "stratum": "320-639"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00096463,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 311,
+   "stratum": "640-1279"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.0025,
+   "effective": 0.01,
+   "floor": 0.01,
+   "real": 120,
+   "stratum": "1280+"
+  }
+ ],
+ "heldout": [
+  4001,
+  4002,
+  4003,
+  4004,
+  4005,
+  4006
+ ],
+ "inclusion_cut": 0.5,
+ "kept_stages": [
+  "completion",
+  "greedy seed absorption",
+  "per-size support floors"
+ ],
+ "leaves_digest": "97852e70b5a820f0",
+ "max_fdr_overall": 0.01,
+ "max_fdr_stratum": 0.02,
+ "method": "v0.4-leaves, core-based construction (C1b)",
+ "min_copies": null,
+ "min_copies_retired": 10,
+ "min_size": 3,
+ "multi_parent_share": 0.958,
+ "n": 5539,
+ "n_after_gate": 73484,
+ "n_before_gate": 154475,
+ "n_edges": 1362498,
+ "n_effectively_unplaced": 0,
+ "n_excluded_no_genes": 0,
+ "n_families": 155939,
+ "n_groupings": 264897,
+ "n_multi_parent": 70394,
+ "n_near_members": null,
+ "n_nodes": 73484,
+ "n_root_only": 0,
+ "n_roots": 1066,
+ "n_undescribed": 0,
+ "n_unplaced": 0,
+ "p_per_stratum": {
+  "10-19": 0.9,
+  "1280+": 0.1,
+  "160-319": 0.1,
+  "20-39": 0.1,
+  "3-3": 0.9,
+  "320-639": 0.1,
+  "4-4": 0.9,
+  "40-79": 0.1,
+  "5-5": 0.9,
+  "6-6": 0.9,
+  "640-1279": 0.1,
+  "7-9": 0.9,
+  "80-159": 0.1
+ },
+ "p_table": [
+  {
+   "curve": [
+    {
+     "null": 5861.8,
+     "p": 0.1,
+     "ratio": 0.297236,
+     "real": 19721
+    },
+    {
+     "null": 4839.0,
+     "p": 0.15,
+     "ratio": 0.309103,
+     "real": 15655
+    },
+    {
+     "null": 4349.5,
+     "p": 0.2,
+     "ratio": 0.320878,
+     "real": 13555
+    },
+    {
+     "null": 3772.8,
+     "p": 0.25,
+     "ratio": 0.324263,
+     "real": 11635
+    },
+    {
+     "null": 3052.5,
+     "p": 0.3,
+     "ratio": 0.313882,
+     "real": 9725
+    },
+    {
+     "null": 2231.8,
+     "p": 0.35,
+     "ratio": 0.280447,
+     "real": 7958
+    },
+    {
+     "null": 2143.8,
+     "p": 0.4,
+     "ratio": 0.289859,
+     "real": 7396
+    },
+    {
+     "null": 1910.3,
+     "p": 0.45,
+     "ratio": 0.295895,
+     "real": 6456
+    },
+    {
+     "null": 1873.2,
+     "p": 0.5,
+     "ratio": 0.306279,
+     "real": 6116
+    },
+    {
+     "null": 799.9,
+     "p": 0.55,
+     "ratio": 0.195288,
+     "real": 4096
+    },
+    {
+     "null": 728.9,
+     "p": 0.6,
+     "ratio": 0.199044,
+     "real": 3662
+    },
+    {
+     "null": 610.8,
+     "p": 0.65,
+     "ratio": 0.201584,
+     "real": 3030
+    },
+    {
+     "null": 369.1,
+     "p": 0.7,
+     "ratio": 0.167392,
+     "real": 2205
+    },
+    {
+     "null": 311.2,
+     "p": 0.75,
+     "ratio": 0.170521,
+     "real": 1825
+    },
+    {
+     "null": 184.0,
+     "p": 0.8,
+     "ratio": 0.155405,
+     "real": 1184
+    },
+    {
+     "null": 75.1,
+     "p": 0.85,
+     "ratio": 0.138817,
+     "real": 541
+    }
+   ],
+   "index": 0,
+   "null_at_p": 75.1,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 541,
+   "stratum": "3-3"
+  },
+  {
+   "curve": [
+    {
+     "null": 61950.9,
+     "p": 0.1,
+     "ratio": 1.083891,
+     "real": 57156
+    },
+    {
+     "null": 54180.0,
+     "p": 0.15,
+     "ratio": 1.176573,
+     "real": 46049
+    },
+    {
+     "null": 50332.8,
+     "p": 0.2,
+     "ratio": 1.253744,
+     "real": 40146
+    },
+    {
+     "null": 45517.5,
+     "p": 0.25,
+     "ratio": 1.295061,
+     "real": 35147
+    },
+    {
+     "null": 38803.2,
+     "p": 0.3,
+     "ratio": 1.288116,
+     "real": 30124
+    },
+    {
+     "null": 29661.3,
+     "p": 0.35,
+     "ratio": 1.15508,
+     "real": 25679
+    },
+    {
+     "null": 29125.4,
+     "p": 0.4,
+     "ratio": 1.220116,
+     "real": 23871
+    },
+    {
+     "null": 27235.3,
+     "p": 0.45,
+     "ratio": 1.276794,
+     "real": 21331
+    },
+    {
+     "null": 27049.3,
+     "p": 0.5,
+     "ratio": 1.337882,
+     "real": 20218
+    },
+    {
+     "null": 10660.1,
+     "p": 0.55,
+     "ratio": 0.697377,
+     "real": 15286
+    },
+    {
+     "null": 10163.5,
+     "p": 0.6,
+     "ratio": 0.735846,
+     "real": 13812
+    },
+    {
+     "null": 9004.0,
+     "p": 0.65,
+     "ratio": 0.758232,
+     "real": 11875
+    },
+    {
+     "null": 5198.3,
+     "p": 0.7,
+     "ratio": 0.549736,
+     "real": 9456
+    },
+    {
+     "null": 4693.6,
+     "p": 0.75,
+     "ratio": 0.595635,
+     "real": 7880
+    },
+    {
+     "null": 2766.2,
+     "p": 0.8,
+     "ratio": 0.495114,
+     "real": 5587
+    },
+    {
+     "null": 1033.7,
+     "p": 0.85,
+     "ratio": 0.369047,
+     "real": 2801
+    }
+   ],
+   "index": 1,
+   "null_at_p": 1033.7,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 2801,
+   "stratum": "4-4"
+  },
+  {
+   "curve": [
+    {
+     "null": 11985.7,
+     "p": 0.1,
+     "ratio": 0.154266,
+     "real": 77695
+    },
+    {
+     "null": 10190.3,
+     "p": 0.15,
+     "ratio": 0.164665,
+     "real": 61885
+    },
+    {
+     "null": 9428.7,
+     "p": 0.2,
+     "ratio": 0.175643,
+     "real": 53681
+    },
+    {
+     "null": 8583.5,
+     "p": 0.25,
+     "ratio": 0.183029,
+     "real": 46897
+    },
+    {
+     "null": 7552.5,
+     "p": 0.3,
+     "ratio": 0.18588,
+     "real": 40631
+    },
+    {
+     "null": 6300.1,
+     "p": 0.35,
+     "ratio": 0.177868,
+     "real": 35420
+    },
+    {
+     "null": 6167.9,
+     "p": 0.4,
+     "ratio": 0.187765,
+     "real": 32849
+    },
+    {
+     "null": 5781.7,
+     "p": 0.45,
+     "ratio": 0.19548,
+     "real": 29577
+    },
+    {
+     "null": 5723.6,
+     "p": 0.5,
+     "ratio": 0.204758,
+     "real": 27953
+    },
+    {
+     "null": 3451.3,
+     "p": 0.55,
+     "ratio": 0.152631,
+     "real": 22612
+    },
+    {
+     "null": 3284.8,
+     "p": 0.6,
+     "ratio": 0.159456,
+     "real": 20600
+    },
+    {
+     "null": 2930.3,
+     "p": 0.65,
+     "ratio": 0.16386,
+     "real": 17883
+    },
+    {
+     "null": 2050.8,
+     "p": 0.7,
+     "ratio": 0.140823,
+     "real": 14563
+    },
+    {
+     "null": 1845.0,
+     "p": 0.75,
+     "ratio": 0.151192,
+     "real": 12203
+    },
+    {
+     "null": 1217.3,
+     "p": 0.8,
+     "ratio": 0.141251,
+     "real": 8618
+    },
+    {
+     "null": 524.7,
+     "p": 0.85,
+     "ratio": 0.121684,
+     "real": 4312
+    }
+   ],
+   "index": 2,
+   "null_at_p": 524.7,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 4312,
+   "stratum": "5-5"
+  },
+  {
+   "curve": [
+    {
+     "null": 28931.0,
+     "p": 0.1,
+     "ratio": 0.337967,
+     "real": 85603
+    },
+    {
+     "null": 25242.2,
+     "p": 0.15,
+     "ratio": 0.372579,
+     "real": 67750
+    },
+    {
+     "null": 23700.8,
+     "p": 0.2,
+     "ratio": 0.404078,
+     "real": 58654
+    },
+    {
+     "null": 21929.8,
+     "p": 0.25,
+     "ratio": 0.430173,
+     "real": 50979
+    },
+    {
+     "null": 19637.4,
+     "p": 0.3,
+     "ratio": 0.447464,
+     "real": 43886
+    },
+    {
+     "null": 16528.7,
+     "p": 0.35,
+     "ratio": 0.43758,
+     "real": 37773
+    },
+    {
+     "null": 16336.9,
+     "p": 0.4,
+     "ratio": 0.465545,
+     "real": 35092
+    },
+    {
+     "null": 15583.2,
+     "p": 0.45,
+     "ratio": 0.494925,
+     "real": 31486
+    },
+    {
+     "null": 15511.7,
+     "p": 0.5,
+     "ratio": 0.519655,
+     "real": 29850
+    },
+    {
+     "null": 8846.1,
+     "p": 0.55,
+     "ratio": 0.370657,
+     "real": 23866
+    },
+    {
+     "null": 8511.4,
+     "p": 0.6,
+     "ratio": 0.391923,
+     "real": 21717
+    },
+    {
+     "null": 7739.8,
+     "p": 0.65,
+     "ratio": 0.407379,
+     "real": 18999
+    },
+    {
+     "null": 5149.4,
+     "p": 0.7,
+     "ratio": 0.332778,
+     "real": 15474
+    },
+    {
+     "null": 4671.1,
+     "p": 0.75,
+     "ratio": 0.356464,
+     "real": 13104
+    },
+    {
+     "null": 2995.3,
+     "p": 0.8,
+     "ratio": 0.317501,
+     "real": 9434
+    },
+    {
+     "null": 1224.0,
+     "p": 0.85,
+     "ratio": 0.253049,
+     "real": 4837
+    }
+   ],
+   "index": 3,
+   "null_at_p": 1224.0,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 4837,
+   "stratum": "6-6"
+  },
+  {
+   "curve": [
+    {
+     "null": 72277.9,
+     "p": 0.1,
+     "ratio": 0.274206,
+     "real": 263590
+    },
+    {
+     "null": 69790.7,
+     "p": 0.15,
+     "ratio": 0.334287,
+     "real": 208775
+    },
+    {
+     "null": 68148.6,
+     "p": 0.2,
+     "ratio": 0.377471,
+     "real": 180540
+    },
+    {
+     "null": 65554.8,
+     "p": 0.25,
+     "ratio": 0.42004,
+     "real": 156068
+    },
+    {
+     "null": 61007.7,
+     "p": 0.3,
+     "ratio": 0.459292,
+     "real": 132830
+    },
+    {
+     "null": 51973.0,
+     "p": 0.35,
+     "ratio": 0.461392,
+     "real": 112644
+    },
+    {
+     "null": 51908.6,
+     "p": 0.4,
+     "ratio": 0.496083,
+     "real": 104637
+    },
+    {
+     "null": 51240.1,
+     "p": 0.45,
+     "ratio": 0.546439,
+     "real": 93771
+    },
+    {
+     "null": 51226.2,
+     "p": 0.5,
+     "ratio": 0.576158,
+     "real": 88910
+    },
+    {
+     "null": 16689.2,
+     "p": 0.55,
+     "ratio": 0.244882,
+     "real": 68152
+    },
+    {
+     "null": 16560.5,
+     "p": 0.6,
+     "ratio": 0.266426,
+     "real": 62158
+    },
+    {
+     "null": 15871.9,
+     "p": 0.65,
+     "ratio": 0.294235,
+     "real": 53943
+    },
+    {
+     "null": 7575.4,
+     "p": 0.7,
+     "ratio": 0.174976,
+     "real": 43294
+    },
+    {
+     "null": 7339.4,
+     "p": 0.75,
+     "ratio": 0.198577,
+     "real": 36960
+    },
+    {
+     "null": 3810.0,
+     "p": 0.8,
+     "ratio": 0.145899,
+     "real": 26114
+    },
+    {
+     "null": 1141.0,
+     "p": 0.85,
+     "ratio": 0.085945,
+     "real": 13276
+    }
+   ],
+   "index": 4,
+   "null_at_p": 1141.0,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 13276,
+   "stratum": "7-9"
+  },
+  {
+   "curve": [
+    {
+     "null": 119183.8,
+     "p": 0.1,
+     "ratio": 0.094797,
+     "real": 1257259
+    },
+    {
+     "null": 113678.1,
+     "p": 0.15,
+     "ratio": 0.11406,
+     "real": 996654
+    },
+    {
+     "null": 110651.4,
+     "p": 0.2,
+     "ratio": 0.128929,
+     "real": 858236
+    },
+    {
+     "null": 106087.5,
+     "p": 0.25,
+     "ratio": 0.143586,
+     "real": 738842
+    },
+    {
+     "null": 98163.4,
+     "p": 0.3,
+     "ratio": 0.156975,
+     "real": 625344
+    },
+    {
+     "null": 82235.8,
+     "p": 0.35,
+     "ratio": 0.156112,
+     "real": 526776
+    },
+    {
+     "null": 81826.2,
+     "p": 0.4,
+     "ratio": 0.169631,
+     "real": 482377
+    },
+    {
+     "null": 79529.4,
+     "p": 0.45,
+     "ratio": 0.186705,
+     "real": 425962
+    },
+    {
+     "null": 79385.4,
+     "p": 0.5,
+     "ratio": 0.198838,
+     "real": 399247
+    },
+    {
+     "null": 23365.3,
+     "p": 0.55,
+     "ratio": 0.077009,
+     "real": 303411
+    },
+    {
+     "null": 22644.8,
+     "p": 0.6,
+     "ratio": 0.083044,
+     "real": 272686
+    },
+    {
+     "null": 20559.4,
+     "p": 0.65,
+     "ratio": 0.088074,
+     "real": 233433
+    },
+    {
+     "null": 10297.6,
+     "p": 0.7,
+     "ratio": 0.055506,
+     "real": 185522
+    },
+    {
+     "null": 9427.8,
+     "p": 0.75,
+     "ratio": 0.06106,
+     "real": 154402
+    },
+    {
+     "null": 5079.2,
+     "p": 0.8,
+     "ratio": 0.046812,
+     "real": 108503
+    },
+    {
+     "null": 1634.5,
+     "p": 0.85,
+     "ratio": 0.029887,
+     "real": 54690
+    }
+   ],
+   "index": 5,
+   "null_at_p": 1634.5,
+   "p": 0.9,
+   "ratio": null,
+   "real_at_p": 54690,
+   "stratum": "10-19"
+  },
+  {
+   "curve": [
+    {
+     "null": 36.9,
+     "p": 0.1,
+     "ratio": 6.1e-05,
+     "real": 608270
+    },
+    {
+     "null": 36.9,
+     "p": 0.15,
+     "ratio": 7.3e-05,
+     "real": 505631
+    },
+    {
+     "null": 36.9,
+     "p": 0.2,
+     "ratio": 8.2e-05,
+     "real": 451544
+    },
+    {
+     "null": 36.9,
+     "p": 0.25,
+     "ratio": 9.3e-05,
+     "real": 397747
+    },
+    {
+     "null": 36.9,
+     "p": 0.3,
+     "ratio": 0.000109,
+     "real": 337869
+    },
+    {
+     "null": 36.3,
+     "p": 0.35,
+     "ratio": 0.000131,
+     "real": 276419
+    },
+    {
+     "null": 36.3,
+     "p": 0.4,
+     "ratio": 0.000139,
+     "real": 261093
+    },
+    {
+     "null": 36.3,
+     "p": 0.45,
+     "ratio": 0.000154,
+     "real": 235732
+    },
+    {
+     "null": 36.3,
+     "p": 0.5,
+     "ratio": 0.00016,
+     "real": 227559
+    },
+    {
+     "null": 0.2,
+     "p": 0.55,
+     "ratio": 1e-06,
+     "real": 143556
+    },
+    {
+     "null": 0.2,
+     "p": 0.6,
+     "ratio": 2e-06,
+     "real": 131820
+    },
+    {
+     "null": 0.2,
+     "p": 0.65,
+     "ratio": 2e-06,
+     "real": 114251
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 83878
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 71707
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 48724
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 23232
+    }
+   ],
+   "index": 6,
+   "null_at_p": 36.9,
+   "p": 0.1,
+   "ratio": 6.1e-05,
+   "real_at_p": 608270,
+   "stratum": "20-39"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 588725
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 505337
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 461386
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 414125
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 356270
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 288506
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 277222
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 253517
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 247478
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 134424
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 124437
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 107810
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 74157
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 64160
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 41625
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 18282
+    }
+   ],
+   "index": 7,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 588725,
+   "stratum": "40-79"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 281416
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 257305
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 243278
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 225122
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 198399
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 159998
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 156656
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 145878
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 144528
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 60051
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 56961
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 50175
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 29677
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 26646
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 16146
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 6007
+    }
+   ],
+   "index": 8,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 281416,
+   "stratum": "80-159"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 248695
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 233394
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 224810
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 212630
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 192333
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 158142
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 155286
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 146998
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 145649
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 59267
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 56272
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 49906
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 26959
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 23938
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 13145
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 4528
+    }
+   ],
+   "index": 9,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 248695,
+   "stratum": "160-319"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 653453
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 579412
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 529804
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 482304
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 427300
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 365344
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 337637
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 306184
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 288415
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 206931
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 188554
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 164701
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 124348
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 104953
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 70784
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 34640
+    }
+   ],
+   "index": 10,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 653453,
+   "stratum": "320-639"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 1261432
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 1099151
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 979502
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 872381
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 770314
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 679207
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 620019
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 556754
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 520636
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 427478
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 385872
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 338288
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 281514
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 233556
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 166260
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 86950
+    }
+   ],
+   "index": 11,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 1261432,
+   "stratum": "640-1279"
+  },
+  {
+   "curve": [
+    {
+     "null": 0.0,
+     "p": 0.1,
+     "ratio": 0.0,
+     "real": 903993
+    },
+    {
+     "null": 0.0,
+     "p": 0.15,
+     "ratio": 0.0,
+     "real": 806490
+    },
+    {
+     "null": 0.0,
+     "p": 0.2,
+     "ratio": 0.0,
+     "real": 733386
+    },
+    {
+     "null": 0.0,
+     "p": 0.25,
+     "ratio": 0.0,
+     "real": 665315
+    },
+    {
+     "null": 0.0,
+     "p": 0.3,
+     "ratio": 0.0,
+     "real": 597971
+    },
+    {
+     "null": 0.0,
+     "p": 0.35,
+     "ratio": 0.0,
+     "real": 540433
+    },
+    {
+     "null": 0.0,
+     "p": 0.4,
+     "ratio": 0.0,
+     "real": 492119
+    },
+    {
+     "null": 0.0,
+     "p": 0.45,
+     "ratio": 0.0,
+     "real": 443103
+    },
+    {
+     "null": 0.0,
+     "p": 0.5,
+     "ratio": 0.0,
+     "real": 402164
+    },
+    {
+     "null": 0.0,
+     "p": 0.55,
+     "ratio": 0.0,
+     "real": 352410
+    },
+    {
+     "null": 0.0,
+     "p": 0.6,
+     "ratio": 0.0,
+     "real": 312240
+    },
+    {
+     "null": 0.0,
+     "p": 0.65,
+     "ratio": 0.0,
+     "real": 272332
+    },
+    {
+     "null": 0.0,
+     "p": 0.7,
+     "ratio": 0.0,
+     "real": 228616
+    },
+    {
+     "null": 0.0,
+     "p": 0.75,
+     "ratio": 0.0,
+     "real": 182173
+    },
+    {
+     "null": 0.0,
+     "p": 0.8,
+     "ratio": 0.0,
+     "real": 129680
+    },
+    {
+     "null": 0.0,
+     "p": 0.85,
+     "ratio": 0.0,
+     "real": 69818
+    }
+   ],
+   "index": 12,
+   "null_at_p": 0.0,
+   "p": 0.1,
+   "ratio": 0.0,
+   "real_at_p": 903993,
+   "stratum": "1280+"
+  }
+ ],
+ "params": {
+  "amendment": "20 Oct 2026: no minimum copy count; every grouping gets a core",
+  "calibration": [
+   3001,
+   3002,
+   3003,
+   3004,
+   3005,
+   3006,
+   3007,
+   3008,
+   3009,
+   3010
+  ],
+  "calibration_target": 0.008,
+  "caps": {
+   "overall": 0.01,
+   "per_stratum": 0.02
+  },
+  "confirmed": {
+   "overall_fdr": 0.00504,
+   "overall_null": 370.0,
+   "overall_real": 73484
+  },
+  "containment": "strict",
+  "core_threshold": 0.9,
+  "dropped_steps": [
+   "consensus merge",
+   "chain collapse",
+   "repair"
+  ],
+  "floors": [],
+  "heldout": [
+   4001,
+   4002,
+   4003,
+   4004,
+   4005,
+   4006
+  ],
+  "inclusion_cut": 0.5,
+  "kept_stages": [
+   "completion",
+   "greedy seed absorption",
+   "per-size support floors"
+  ],
+  "leaves_digest": "97852e70b5a820f0",
+  "max_fdr_overall": 0.01,
+  "max_fdr_stratum": 0.02,
+  "method": "v0.4-leaves, core-based construction (C1b)",
+  "min_copies": null,
+  "min_copies_retired": 10,
+  "min_size": 3,
+  "multi_parent_share": 0.958,
+  "n": 5539,
+  "n_after_gate": 73484,
+  "n_before_gate": 154475,
+  "n_effectively_unplaced": 0,
+  "n_families": 155939,
+  "n_groupings": 264897,
+  "n_multi_parent": 70394,
+  "n_nodes": 73484,
+  "n_root_only": 0,
+  "n_roots": 1066,
+  "n_unplaced": 0,
+  "p_per_stratum": {
+   "10-19": 0.9,
+   "1280+": 0.1,
+   "160-319": 0.1,
+   "20-39": 0.1,
+   "3-3": 0.9,
+   "320-639": 0.1,
+   "4-4": 0.9,
+   "40-79": 0.1,
+   "5-5": 0.9,
+   "6-6": 0.9,
+   "640-1279": 0.1,
+   "7-9": 0.9,
+   "80-159": 0.1
+  },
+  "p_table": [],
+  "peak_mb": 2071.7,
+  "removed_stages": [
+   "size cap",
+   "TOL extras-only rule",
+   "STRAY",
+   "partial containment"
+  ],
+  "rule_of_three_numerator": 3.0,
+  "same_theme_rule": "mutual core: core(g) inside members(seed) and core(seed) inside members(g), compared against the seed only, no chaining",
+  "size_cap": null,
+  "strata": [],
+  "stray": 0.0,
+  "subsample": 0.8,
+  "theta": 0.7,
+  "theta_match": "per stratum, prompt 47's choice",
+  "theta_match_per_stratum": {
+   "10-19": 0.5,
+   "1280+": 0.5,
+   "160-319": 0.5,
+   "20-39": 0.6,
+   "3-3": 0.7,
+   "320-639": 0.5,
+   "4-4": 0.7,
+   "40-79": 0.5,
+   "5-5": 0.7,
+   "6-6": 0.7,
+   "640-1279": 0.5,
+   "7-9": 0.7,
+   "80-159": 0.5
+  },
+  "theta_merge": 0.7,
+  "theta_same_default": 0.7,
+  "tol": 0.0,
+  "universe": "L minus the declared exclusions",
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 2071.7,
+ "removed_stages": [
+  "size cap",
+  "TOL extras-only rule",
+  "STRAY",
+  "partial containment"
+ ],
+ "rule_of_three_numerator": 3.0,
+ "same_theme_rule": "mutual core: core(g) inside members(seed) and core(seed) inside members(g), compared against the seed only, no chaining",
+ "size_cap": null,
+ "strata": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   5
+  ],
+  [
+   6,
+   6
+  ],
+  [
+   7,
+   9
+  ],
+  [
+   10,
+   19
+  ],
+  [
+   20,
+   39
+  ],
+  [
+   40,
+   79
+  ],
+  [
+   80,
+   159
+  ],
+  [
+   160,
+   319
+  ],
+  [
+   320,
+   639
+  ],
+  [
+   640,
+   1279
+  ],
+  [
+   1280,
+   1000000000
+  ]
+ ],
+ "stray": 0.0,
+ "subsample": 0.8,
+ "theta": 0.7,
+ "theta_match": "per stratum, prompt 47's choice",
+ "theta_match_per_stratum": {
+  "10-19": 0.5,
+  "1280+": 0.5,
+  "160-319": 0.5,
+  "20-39": 0.6,
+  "3-3": 0.7,
+  "320-639": 0.5,
+  "4-4": 0.7,
+  "40-79": 0.5,
+  "5-5": 0.7,
+  "6-6": 0.7,
+  "640-1279": 0.5,
+  "7-9": 0.7,
+  "80-159": 0.5
+ },
+ "theta_merge": 0.7,
+ "theta_same_default": 0.7,
+ "tol": 0.0,
+ "universe": "L minus the declared exclusions",
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4-leaves"
+}
