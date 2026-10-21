@@ -8090,3 +8090,266 @@ then 458 s for M, 23 s for Mm and 6 s for the report. The 305 MB of cached rows 
 committed. **The frozen folders, O50s and every earlier build were left alone.** No API calls.
 
 **Adopted: nothing.**
+
+## 2026-10-20 18:43:02 UTC+1 — PROMPT 48, declared before running: is arm M better than O50s below the top?
+
+Transcribed from Aviyah's message of 20 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_48_49.md`, which carries both prompts; **split here into two
+entries as the prompt instructs.** This entry is the shared preamble and Part A. **Exploratory and
+evaluation only: nothing is adopted.** Part B was withdrawn before building, so the shared
+FINAL section is not reproduced here; it is in `PROMPT_48_49.md`, and only its Part A half applies.
+
+**TIME ESTIMATE, given before anything was computed: Part A about 5 minutes, Part B about 45
+minutes** -- so neither ceiling (1 h and 4 h) binds and no cheaper order is needed. Measured from
+three probes rather than guessed:
+
+* Part A is all bitset work over two finished builds: best-Jaccard between O50s's 5,658 themes and
+  M's 6,884, the within-build redundancy at a size factor of 1.5, and the member lists. Seconds
+  each.
+* **Part B's sweep is the cost: 96 s a side** -- load 6 s, `prepare` 4 s, `score` 80 s, and the
+  per-grouping inclusion and extras histogram **16 s** -- over 17 sides (real, 10 calibration, 6
+  held-out) = **27 min**.
+* **Part B's mutual-core merge is almost free, which was the one real risk.** A naive pairwise rule
+  over 264,897 groupings would be 7e10 comparisons. Restricting each seed's candidates to the
+  holders of the **rarest pathway in its core**, via an inverted index, resolved **28.4% of all
+  groupings in 0.2 s** on the real pool, so the full merge is seconds rather than the hour a
+  vectorised scan over the whole alive set would have cost.
+
+Two facts worth recording before the result, because they bound what step 2's core rule can do:
+**51.5% of the 270,570 groupings have 10 or more copies** and so get a core at all; the other 48.5%
+keep their own set as both core and members by the spec. Core size at inclusion 0.9 has median 12
+and maximum 3,539, and **exactly one grouping has an empty core**.
+
+---
+
+Prompts 48 and 49, run in order: Part A (prompt 48, light) and then Part B (prompt 49, the build). Both declared 20 Oct 2026, before any result. Exploratory and evaluation only: nothing is adopted. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules for both parts: no API calls; do not commit, leave one commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time (Part A finishes before Part B starts); times in UTC+1. Give one time estimate for both parts before starting. Stop if Part A is over 1 h or Part B is over 4 h, and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_48_49.md, and copy it into DECISIONS.md as two entries, "Prompt 48, declared before running" and "Prompt 49, declared before running", before computing anything.
+
+==================== PART A: PROMPT 48. Is arm M better than O50s below the top? Inputs for a blind comparison ====================
+
+WHY
+Prompt 47's arm M (data/ontology/v0.4-leaves/thema_L_x2_O50s_M/) admits 47% more candidates than O50s. Its top level is already known to be worse (394 roots against 261). The open question is below the top: are M's extra themes coherent and distinct, or near-copies that only just pass? The reviewer reads the themes blind; you prepare the inputs and compute two descriptive measures. Do not judge any theme yourself.
+
+POPULATIONS
+- Builds: O50s (data/ontology/v0.4-leaves/thema_L_x2_O50s/) and M.
+- M-unique: M themes of 10 or more pathways whose best Jaccard to any O50s theme is below 0.9. O50s-unique: the converse.
+- Report both counts per size band: 10-19, 20-49, 50-199, 200+.
+
+A1. BLIND READING INPUTS
+- Per side, draw 15 themes at random per band (seed 20261019); if a band has fewer, take all and say so.
+- Pool the up to 120 themes, shuffle (same seed), and give each a random id T001...
+- For each theme write its full member list, one line per pathway: name [source], sorted by name. No build label, node id, theme name or support.
+- Batches of about 2,600 lines in data/experiments/m_vs_o50s_2026-10-19/read_inputs/T_bNN.md; a theme is never split across batches.
+- Write index.json (id -> size) and KEY_DO_NOT_SHARE_m_vs_o50s.json (id -> build, node, size, band, support).
+
+A2. REDUNDANCY (both builds, unique themes and all themes)
+For each theme, its best Jaccard to any other theme of the same build whose size is within a factor of 1.5. Per band: the share at or above 0.8, and the median. Write redundancy.tsv (build, node, size, band, unique yes/no, best J, partner node).
+
+A3. SUPPORT
+For each unique theme, its support as used by its own build's gate (M: the stratum's chosen theta; O50s: 0.70) and its stratum's floor. Per band and side: median support, and the share at or below 0.02. Write support.tsv.
+
+DECISION RULE (applied by the reviewer after the blind reading; record it now)
+M counts as better than O50s below the top only if both hold: M-unique themes read coherent or linked umbrella at a rate no more than 10 points below O50s-unique themes; and M-unique themes have a near-copy share (best J >= 0.8) no higher than O50s-unique themes. Otherwise O50s stays the base and prompt 47's size-dependent threshold is recorded as a finding, not adopted. Aviyah decides.
+
+Part A status note: docs/status/2026-10-19-m-vs-o50s-inputs.md (counts, the two tables, the batch list).
+
+## 2026-10-20 18:46:08 UTC+1 — Prompt 49 (Part B) withdrawn before building
+
+Prompt 49 (Part B) withdrawn before building, 20 Oct: reviewer check showed most mid themes have fewer than 10 matched copies at J >= 0.70, so cores could not form.
+
+## 2026-10-20 18:55:24 UTC+1 — CORE-BASED CONSTRUCTION, C1b: declared before running
+
+Transcribed from Aviyah's message of 20 Oct 2026 and saved verbatim as
+`data/experiments/reviewer_notes/PROMPT_50.md`; reproduced here **before anything was computed**.
+**Exploratory: nothing is adopted without Aviyah.** It replaces the withdrawn Part B of
+`PROMPT_48_49.md` with one change -- copies matched at prompt 47's per-stratum thresholds -- and the
+withdrawal reason is exactly what that change addresses.
+
+**THE WITHDRAWAL IS CORROBORATED BY MY OWN PROBE, which is why the change is the right one.** Part
+B's core step needs 10 or more matched copies before a grouping gets a core. Measured on the real
+side at a flat J >= 0.70: **copies per grouping had a median of exactly 10, and only 51.5% of the
+270,570 groupings reached 10** -- so by the spec the other 48.5% would have kept their own set as
+both core and members, and the core idea would have been inert for half the build and for most of
+the mid-sized groups the reviewer cares about. Matching at 0.50 from 40 pathways up is what gives
+those groupings copies to average over.
+
+**TIME ESTIMATE: about 1 h 45 min, so the 4 h ceiling does not bind and no cheaper order is needed.**
+Measured from the prompt-49 probes rather than guessed, and the shape of the cost is worth stating
+because it drove the design:
+
+* `prepare` -- the dedup and the eligibility matrix -- is **threshold-free, 4 s a side**, so it is
+  paid once however many thresholds are scored.
+* **`score` is the cost at 80-87 s a pass, and three passes a side are unavoidable**: the matching
+  threshold depends on the grouping's own stratum, and the strata call for 0.70, 0.60 and 0.50, so
+  each side is scored at all three and each grouping takes the copies from its own stratum's pass.
+* The per-grouping inclusion pass is **16 s**.
+* So **about 275 s a side over 17 sides = 78 min** for the one expensive phase.
+
+**The pass is split in two and the expensive half is cached, because p cannot be known in advance.**
+Step 5 solves p from the real and calibration extras histograms, so members cannot be formed until
+all eleven of those sides have been seen. Rather than score every side twice, phase 1 scores each
+side once and **caches its per-grouping inclusion to disk**; phase 2 then solves p and builds
+members, the merge and the gate from the cache with no further scoring. That makes phase 2 minutes
+instead of another 78.
+
+**One reading the spec leaves open, settled the same way as in the withdrawn Part B.** Step 7 says a
+merged theme recomputes its members "using the seed's stratum p", so a merged theme's stratum is the
+**seed's own**, fixed when the family forms, and is not re-derived from the merged size -- otherwise a
+theme's members would depend on a quantity computed from those same members.
+
+---
+
+Prompt 50: does the core-based algorithm (build C1b) beat O50s? Declared 20 Oct 2026, before any result. Exploratory: nothing is adopted without Aviyah. It replaces the withdrawn Part B of PROMPT_48_49.md, with one change: copies are matched at prompt 47's per-stratum thresholds, so that mid-sized groups have enough copies to form a core. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; stop if it is over 4 h and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_50.md, and copy it into DECISIONS.md as "declared before running", before computing anything.
+
+SPEC. Start from O50s exactly: x2 universe, arm L, the 200 cached trees, the cached sides (real, calibration 3001-3010, held-out 4001-4006), the O50s strata. Change only what follows. Every step is applied identically to the real and to the scramble sides.
+1. Candidates. Unchanged: every cluster of 3 or more; identical sets stored once (groupings).
+2. Matching. A run finds a grouping if one of its clusters matches it at the threshold prompt 47 chose for the grouping's stratum: 0.70 below 10 pathways, 0.50 for 10-19, 0.60 for 20-39, 0.50 from 40 up. Pathways counted on those present in both subsamples. One copy per run.
+3. Inclusion. For each grouping, from its matched copies: inclusion of a pathway = copies holding it / copies from runs where it was in the subsample. Groupings with fewer than 10 copies keep their own set as both core and members.
+4. Core. Inclusion >= 0.9. Also report core size at inclusion 1.0.
+5. p, the extras cut, per stratum. Extras = pathways with inclusion below 0.9. For p from 0.10 to 0.85 in steps of 0.05: R(p) = real extras with inclusion >= p, summed over the stratum's groupings; N(p) = the mean over the 10 calibration scrambles. p = the lowest value with N(p)/R(p) <= 0.008; if none qualifies, p = 0.9. Report the table and the held-out ratio at the chosen p.
+6. Members. Core plus extras with inclusion >= the stratum's p. MIN_SIZE 3 applies to members.
+7. Same theme: the mutual core rule. In today's rank order, each unclaimed grouping becomes a seed and claims every unclaimed grouping g with core(g) inside members(seed) AND core(seed) inside members(g). Always compare with the seed's own core and members (no chaining). The merged theme pools its groupings' copies (one per run: the union of that run's copies); inclusion, core and members are recomputed from the pool, using the seed's stratum p.
+8. Gate. Support of a merged theme = runs that found any of its groupings / runs able to judge any. Floors solved per stratum on the scrambles after steps 2-7: target 0.008, rule of three where the scrambled count is 0, caps 0.02 per stratum and 0.01 overall. Checked once on 4001-4006.
+9. Edges. Strict containment on members (every member of the child is a member of the parent), immediate parents only. No consensus merge, no chain collapse, no repair.
+
+Tests before building: on a fixture, the mutual core rule never chains and is order-stable; with prompt 47's thresholds replaced by 0.70 everywhere, p = 0.5, no core step and the twin rule restored, the merge reproduces O50s's pre-gate families.
+
+REPORT (docs/status/2026-10-20-core-construction-C1b.md), side by side with O50s
+1. Copies per grouping by band (median); the p table; floors; calibration and held-out FDR per stratum and overall.
+2. Themes per size band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); median core share per band.
+3. Shape: roots and roots of 50 or fewer; giants (over 1,280) with sizes and core sizes; children per node, maximum and median; multi-parent share; mean themes per pathway; levels from a pathway to its root, median and maximum.
+4. What the dropped steps would act on: parent-child pairs with the child holding at least 85% of the parent; non-merged theme pairs with J >= 0.5, by band.
+5. O50s themes with a C1b counterpart at J >= 0.9 (share); the 164 O50s small roots and the roots n01027, n04526, n04670, n04671, n03316, n04672, n04995, n05001: counterpart J, and whether still a root.
+6. Summary placement against 92.6%; Reactome median best J against 0.273.
+
+FOR THE REVIEWER (do not judge anything yourself), in data/experiments/core_construction_C1b_2026-10-20/:
+- R: every C1b root (if more than 300, a random 300, seed 20261020), full member lists as "name [source]" sorted by name, random ids, batches of about 2,600 lines in read_roots/.
+- T: 24 random non-root themes per band (3-9, 10-19, 20-49, 50-199, 200+) from C1b AND the same from O50s, pooled, shuffled (seed 20261020), random ids, no build label, batches in read_themes/.
+- KEY_DO_NOT_SHARE_C1b.json (id -> build, node, size, band); roots.tsv and themes.tsv with every member's inclusion and core flag; p_table.tsv.
+
+DECISION RULE (applied by the reviewer and Aviyah after the readings; record it now)
+C1b counts as better than O50s only if all hold:
+1. held-out FDR within the caps;
+2. fewer roots than O50s (261) and fewer roots of 50 or fewer (164);
+3. its roots read coherent or linked umbrella at no less than 78.9% (O50s's 83.9% minus 5 points), with the R1 classes;
+4. its sampled non-root themes read coherent or linked umbrella no more than 5 points below the O50s themes read in the same blind pool;
+5. placement of at least 90% and Reactome median best J of at least 0.25.
+Reported, not gates: giants, children per node, multi-parent share, and item 4 of the report.
+
+FINAL
+- Output build: data/ontology/v0.4-leaves/thema_L_x2_C1b/.
+- Write docs/status/commit-2026-10-20-core-construction-C1b.sh, to run after the Prompt 48 commit script. It commits the code, tests, build, status note, reviewer folder and PROMPT_50.md, listing files explicitly and never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate and confirm the reproduction test passes. After the build, give: the copies table, the p table, the FDR summary, the shape table against O50s, items 4 and 5, and the commit script path.
+
+## 2026-10-20 19:18:36 UTC+1 — AMENDMENT TO PROMPT 50, declared before building: no minimum copy count for a core
+
+Saved verbatim as `data/experiments/reviewer_notes/PROMPT_50_AMENDMENT.md` and reproduced here
+**before any build ran**. It arrived while phase 1 was still computing, and phase 1's caches are
+unaffected: they store each grouping's **raw inclusion**, and the withdrawn rule only governed how
+that inclusion was *interpreted*. So nothing was recomputed.
+
+**What it changes, and it is not only step 3.** The old rule said a grouping with fewer than 10
+copies kept its own set as both core and members. Removing it has three consequences:
+
+* **Every grouping now gets a core from its inclusion**, however few copies it has. A grouping seen
+  once has one copy -- its own appearance, which `family_members` already counts -- so every member
+  is at inclusion 1.0 and the core equals its own set. The amendment's wording and the old rule
+  therefore **agree on the 1-copy case** and differ for 2 to 9 copies, where the core is now the
+  intersection-like majority rather than the whole set.
+* **The p sweep changes**, because extras are pathways below the core threshold and groupings under
+  10 copies previously contributed none. They now contribute, so `R(p)` and `N(p)` both grow and the
+  solved p may move. This is the substantive effect.
+* **The merged-theme recompute changes** the same way: a family whose seed had few copies no longer
+  short-circuits to the seed's own set.
+
+**Whether a group is kept is decided only by the gate, as before** -- the amendment does not admit
+anything on its own; it changes what a theme's members *are*, and the floor still decides what
+survives.
+
+Recorded before building, and the old rule is kept in the code only as the named constant the
+amendment retires, so the diff is legible.
+
+---
+
+Amendment to prompt 50, before building: remove the minimum number of copies for a core. Step 3 now reads: "Inclusion. For each grouping, from its matched copies: inclusion of a pathway = copies holding it / copies from runs where it was in the subsample. Every grouping gets a core, however many copies it has; its own appearance counts as a copy, as in family_members. Report the distribution of copies per final theme by band (1, 2, 3-9, 10+)." Whether a group is kept is decided only by the gate, as before. Save this amendment verbatim beside PROMPT_50.md and in DECISIONS.md, before building.
+
+---
+
+## 2026-10-21 00:12:03 UTC+1 — CORE-BASED CONSTRUCTION, C1b: ANSWERED NO
+
+**C1b does not beat O50s, and the declared rule settles it without the readings.** Criterion 2
+requires fewer than 261 roots; C1b has **1,066**. Build at
+`data/ontology/v0.4-leaves/thema_L_x2_C1b/`; nothing adopted; **O50s stays the working version**.
+
+| # | criterion | required | C1b | verdict |
+|---|---|---|---|---|
+| 1 | held-out FDR | <= 0.01 overall, <= 0.02 stratum | 0.00504, worst 0.00894 | PASS |
+| 2 | roots and small roots | < 261 AND < 164 | **1,066** roots; 50 small | **FAIL** |
+| 3 | roots read coherent | >= 78.9% | reviewer | pending |
+| 4 | non-root themes vs O50s | within 5 points | reviewer | pending |
+| 5 | placement, Reactome | >= 90%, J >= 0.25 | 99.9%, 0.286 | PASS |
+
+**The build is dominated by one degenerate parameter, and this is the finding to carry forward.**
+The 20 Oct amendment removed the copy minimum, so a one-copy grouping has every member at inclusion
+1.0 and therefore **no extras by construction**. Scrambled groupings of 40+ pathways almost never
+recur and so are nearly all one-copy, which makes the null extras count **literally 0.00 from 40
+pathways up**. `N(p)/R(p)` is then 0 at every cut, and step 5 selects the lowest `p` available,
+0.10, for every stratum from 20 upward -- admitting nearly every extra. Below 20 no cut qualifies
+and `p = 0.9`, so members are exactly the core. **No stratum chose anything in between.** Step 8's
+floors carry a rule-of-three substitution for an observed zero; **step 5's `p` does not**, so the
+zero is taken at face value. That is a defect in the declared rule as amended, reported rather than
+silently accepted; whether to add the guard is Aviyah's call and costs about 100 min to rebuild.
+
+Headline shape against O50s: themes 5,658 -> **73,484**; roots 261 -> **1,066**; small roots 164 ->
+**50**; giants over 1,280 **5 -> 119**; multi-parent 0.633 -> **0.958**; mean themes per pathway
+23.3 -> **448.5**; median depth 6 -> 13; edges 1,362,498. The largest giant holds 4,451 pathways on
+a core of 1,061, and `n12995` holds **3,816 pathways on a core of 4** -- verified independently from
+`themes_detail.tsv`, and the single clearest picture of what `p = 0.1` does. Core share falls to
+**0.426** in the 1,600+ band: 57% of those members are extras admitted because the null showed none.
+
+Three further measured facts:
+
+* **Mid and large groupings recur about three times in 200 runs.** Median copies per final theme is
+  3 in the 20-49, 50-199 and 200+ bands, against 36 at 3-9 and 20 at 10-19. Prompt 47's loosened
+  per-stratum thresholds raised copy counts below 20 pathways and **not** above, so prompt 49's
+  withdrawal reason survives prompt 50's fix.
+* **The mutual core rule does not merge.** 1,430,335 non-nested theme pairs sit unmerged at
+  J >= 0.5, and 42,554 parent-child pairs have the child holding >= 85% of the parent (25,509
+  distinct children, a third of the build). O50s does that work inside the build with its same-theme
+  cutoff.
+* **C1b does not contain O50s.** Only 2,310 of 5,658 O50s themes (40.8%) have a counterpart at
+  J >= 0.9. Of the 164 O50s small roots, 83 have a counterpart at J >= 0.70 and only 4 are still
+  roots. It is a different decomposition, not a refinement.
+
+Criterion 5 passes on the letter and means little: at 448.5 themes per pathway, a summary is almost
+certain to find some theme containing it. Reviewer material is written anyway -- 300 roots in 75
+batches, 227 pooled non-root themes in 8 batches -- as a calibration of how a `p = 0.1` theme reads.
+
+**Two caches and one bug fix, all in the harness rather than the method.** `--only SIDE` builds one
+theme side and stops, so a kill costs one side rather than seventeen; `p_table.json` is reused if
+present, because solving `p` peaks at 15.3 GB and is deterministic in the phase-1 caches. The build
+was killed three times by a bug in tonight's caching patch, not by the method:
+`handle["keys"][a:b]` inside a comprehension re-decompresses the whole array every iteration and
+each slice pins its own copy, turning 0.6 GB of members into an 18 GB peak. Hoisting the arrays took
+the peak to 4.5 GB. The arrays were correct throughout, so only peak RSS revealed it.
+`test_no_npz_handle_is_subscripted_inside_a_comprehension` walks the AST, and
+`test_the_guard_fails_on_the_code_that_caused_the_kill` proves it fires on the verbatim pre-fix
+expression -- a first attempt with a regex did not, because that expression nests brackets. No other
+instance exists in `src/` or `scripts/`.
+
+Full record: `docs/status/2026-10-20-core-construction-C1b.md`. Commit script:
+`docs/status/commit-2026-10-20-core-construction-C1b.sh`, to run after the Prompt 48 script. It
+omits four files over the 50 MB limit (`members.tsv` 191 MB, `themes_detail.tsv` 75 MB, the
+reviewer's `themes.tsv` 75 MB, and the `sides/` and `themes/` caches), so the committed build is
+`nodes.tsv`, `edges.tsv`, `unplaced.tsv`, `manifest.json` and `c1b.json`; **the build is rebuildable
+from the cached trees and the stored `p_table.json`.**
+
+A revised prompt 50 (J >= 0.70 for all sizes, core-size strata, full comparison) was pasted after the C1b run finished and withdrawn unexecuted, 20 Oct: its p calibration has the same zero-null flaw.
