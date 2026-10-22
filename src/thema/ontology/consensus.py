@@ -84,6 +84,14 @@ class Outcome:
         accepted: Candidate indices that became nodes, in acceptance order.
         members: Final member bitset per accepted node, aligned with ``accepted``.
         superseded: ``{dropped candidate: the candidate that beat it}``.
+        superseded_blocks: ``{dropped candidate: its member bitset AT THE MOMENT IT WAS DROPPED}``.
+            Not the same as ``member_sets[candidate]``: a newcomer can grow by inheritance before
+            it meets the theme that supersedes it, and the pair that was actually compared is the
+            grown one. Recorded for analysis only -- nothing in the build reads it.
+        superseded_against: ``{dropped candidate: the seated theme's bitset as compared}``. The
+            other half of the same pair, and equally not recoverable afterwards: the seated theme
+            goes on growing after it supersedes someone, so its FINAL membership gives a different
+            Jaccard from the one the rule acted on. Analysis only.
         inherited: Every member added to a parent, in order.
         rules: Count per :class:`Rule`.
         grew: ``{accepted candidate: how many members it gained}``.
@@ -92,6 +100,8 @@ class Outcome:
     accepted: list[int]
     members: list[np.ndarray]
     superseded: dict[int, int] = field(default_factory=dict)
+    superseded_blocks: dict[int, np.ndarray] = field(default_factory=dict)
+    superseded_against: dict[int, np.ndarray] = field(default_factory=dict)
     inherited: list[Inheritance] = field(default_factory=list)
     rules: dict[str, int] = field(default_factory=dict)
     grew: dict[int, int] = field(default_factory=dict)
@@ -237,6 +247,7 @@ def consensus_pairwise(
     for candidate in order_candidates(support, member_sets):
         block = member_sets[candidate].copy()
         dropped_for = -1
+        against: np.ndarray | None = None
         rounds = 0
 
         while True:
@@ -249,6 +260,7 @@ def consensus_pairwise(
                     # Processing order is decreasing support, so the seated theme has at least as
                     # much support and keeps its place.
                     dropped_for = out.accepted[position]
+                    against = accepted_block.copy()
                     break
                 if rule is not Rule.INHERITED:
                     continue
@@ -282,6 +294,9 @@ def consensus_pairwise(
 
         if dropped_for >= 0:
             out.superseded[candidate] = dropped_for
+            out.superseded_blocks[candidate] = block.copy()
+            if against is not None:
+                out.superseded_against[candidate] = against
             counts[Rule.SUPERSEDED.value] += 1
             continue
         out.accepted.append(candidate)
@@ -399,6 +414,7 @@ def consensus(
     for candidate in order_candidates(support, member_sets):
         block = member_sets[candidate].copy()
         dropped_for = -1
+        against: np.ndarray | None = None
         rounds = 0
 
         while True:
@@ -414,6 +430,7 @@ def consensus(
                     position = int(acting[0])
                     if code[position] == _SUPERSEDED:
                         dropped_for = out.accepted[position]
+                        against = stack[position].copy()
                     else:
                         accepted_block = stack[position]
                         if bool(newcomer_is_a[position]):
@@ -452,6 +469,9 @@ def consensus(
 
         if dropped_for >= 0:
             out.superseded[candidate] = dropped_for
+            out.superseded_blocks[candidate] = block.copy()
+            if against is not None:
+                out.superseded_against[candidate] = against
             counts[Rule.SUPERSEDED.value] += 1
             continue
         out.accepted.append(candidate)

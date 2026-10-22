@@ -210,7 +210,7 @@ def sha256(path: Path) -> str:
 
 def write_build(real: object, solved: Sequence[dict], strata: Sequence[tuple[int, int]],
                 confirmed: dict, args: argparse.Namespace, meta: dict, n: int,
-                directory: str) -> Path:
+                directory: str, probe: dict | None = None) -> Path:
     """Gate, consensus, the joint fixed point and the export -- all the frozen build's own code.
 
     Args:
@@ -222,6 +222,9 @@ def write_build(real: object, solved: Sequence[dict], strata: Sequence[tuple[int
         meta: The universe record.
         n: Universe size.
         directory: Output directory name under the version.
+        probe: Analysis hook, passed straight to :func:`thema.ontology.v04.build` and then filled
+            with the post-consensus members and the repair result. **Write-only and additive**:
+            left at ``None`` this function behaves exactly as before.
 
     Returns:
         Where the build was written.
@@ -236,7 +239,7 @@ def write_build(real: object, solved: Sequence[dict], strata: Sequence[tuple[int
     from thema.ontology.universe import load_embedded
 
     clock = time.perf_counter()
-    built = v04.build(real, solved, theta_same=args.theta_same, strata=strata)
+    built = v04.build(real, solved, theta_same=args.theta_same, strata=strata, probe=probe)
     print(f"  {built.gated:,} of {len(real.supports):,} through the gate; "
           f"{len(built.members):,} after consensus ({built.superseded} superseded) "
           f"({time.perf_counter() - clock:.0f}s)", flush=True)
@@ -258,6 +261,13 @@ def write_build(real: object, solved: Sequence[dict], strata: Sequence[tuple[int
             {"dropped_size": sizes_before[d], "kept_size": sizes_before[k],
              "kind": repaired.merged_kind[d]}
             for d, k in sorted(repaired.merged.items())]}
+    if probe is not None:
+        # Neither repair sub-pass mutates a membership -- both only ever drop rows -- so the
+        # post-consensus members, indexed by repair_joint's ORIGINAL positions, give both member
+        # sets of every collapse and every stale merge without instrumenting repair at all.
+        probe["consensus_members"] = list(built.members)
+        probe["consensus_supports"] = list(built.supports)
+        probe["repaired"] = repaired
     built = v04.Built(members=repaired.members, supports=repaired.supports,
                       inclusions=repaired.inclusions, parents=hasse(repaired.members),
                       superseded=built.superseded + len(repaired.merged)
@@ -335,6 +345,53 @@ def write_build(real: object, solved: Sequence[dict], strata: Sequence[tuple[int
     return Path(written)
 
 
+def dump_probe(probe: dict, path: Path) -> None:
+    """Write the merge provenance the probe collected.
+
+    Analysis output only. The build does not read it, and ``--verify`` passing with the probe on is
+    the evidence that collecting it changes nothing.
+
+    Args:
+        probe: The filled probe dict.
+        path: Destination ``.npz``.
+    """
+    import numpy as np
+
+    verdict = probe["verdict"]
+    dropped = sorted(verdict.superseded)
+    position = {candidate: i for i, candidate in enumerate(verdict.accepted)}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(
+        path,
+        keep=np.asarray(probe["keep"], dtype=np.int64),
+        gated_supports=np.asarray(probe["gated_supports"], dtype=np.float64),
+        accepted=np.asarray(verdict.accepted, dtype=np.int64),
+        # consensus: the dropped candidate, what beat it, and the block AS COMPARED
+        sup_dropped=np.asarray(dropped, dtype=np.int64),
+        sup_kept=np.asarray([verdict.superseded[d] for d in dropped], dtype=np.int64),
+        sup_kept_position=np.asarray([position[verdict.superseded[d]] for d in dropped],
+                                     dtype=np.int64),
+        sup_blocks=(np.vstack([verdict.superseded_blocks[d] for d in dropped]) if dropped
+                    else np.zeros((0, 1), dtype=np.uint64)),
+        sup_against=(np.vstack([verdict.superseded_against[d] for d in dropped]) if dropped
+                     else np.zeros((0, 1), dtype=np.uint64)),
+        # the post-consensus stack: repair_joint's ORIGINAL index space
+        consensus_members=np.vstack(probe["consensus_members"]),
+        consensus_supports=np.asarray(probe["consensus_supports"], dtype=np.float64),
+        collapse_victim=np.asarray(sorted(probe["repaired"].collapsed), dtype=np.int64),
+        collapse_keeper=np.asarray([probe["repaired"].collapsed[v]
+                                    for v in sorted(probe["repaired"].collapsed)], dtype=np.int64),
+        merge_dropped=np.asarray(sorted(probe["repaired"].merged), dtype=np.int64),
+        merge_kept=np.asarray([probe["repaired"].merged[d]
+                               for d in sorted(probe["repaired"].merged)], dtype=np.int64),
+        merge_kind=np.asarray([probe["repaired"].merged_kind[d]
+                               for d in sorted(probe["repaired"].merged)], dtype="U10"),
+    )
+    print(f"  probe -> {path}  ({len(dropped):,} consensus, "
+          f"{len(probe['repaired'].collapsed):,} collapse, "
+          f"{len(probe['repaired'].merged):,} stale)", flush=True)
+
+
 def main(argv: list[str] | None = None) -> int:
     """Solve the new strata and build O50s, or verify the harness against the frozen O50."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -357,6 +414,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--keep-verify", action="store_true",
                         help="keep the --verify build instead of removing it. It is a duplicate "
                              "of the frozen O50 by construction, so it is removed by default")
+    parser.add_argument("--probe", type=Path, default=None,
+                        help="write the merge provenance to this .npz: the gate's kept candidates, "
+                             "every consensus supersession with the dropped block, the "
+                             "post-consensus members, and the repair maps. Analysis only -- it "
+                             "changes nothing about the build, which is what --verify proves")
     parser.add_argument("--verify", action="store_true",
                         help="build with the FROZEN six strata and the frozen cal8 floors; the "
                              "four tables must match the frozen O50 byte for byte, and the "
@@ -366,6 +428,8 @@ def main(argv: list[str] | None = None) -> int:
     from build_10770 import confirm
     from leaves_build import side
     from thema.ontology.v04 import STRATA
+
+    probe: dict | None = {} if args.probe else None
 
     meta = json.loads((args.space_root / "universe.json").read_text())
     n = meta["n_embedded"]
@@ -392,7 +456,7 @@ def main(argv: list[str] | None = None) -> int:
         if not same:
             raise SystemExit("the strata-aware held-out check does not reproduce confirm")
         written = write_build(real, cal8, STRATA, mine, args, meta, n,
-                              f"{args.directory}_verify")
+                              f"{args.directory}_verify", probe=probe)
         bad = []
         for name in TABLES:
             if sha256(written / name) != sha256(args.frozen / name):
@@ -403,6 +467,8 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"NOT identical: {bad}")
         print("  PROOF 2 PASSED. With the frozen strata and floors this harness reproduces the "
               "frozen O50 byte for byte.")
+        if probe is not None:
+            dump_probe(probe, args.probe)
         if args.keep_verify:
             print(f"  kept at {written}")
         else:
@@ -445,7 +511,8 @@ def main(argv: list[str] | None = None) -> int:
           + (f"; OVER the per-stratum cap: {over}" if over
              else f"; every stratum inside {CAP_STRATUM}"), flush=True)
 
-    written = write_build(real, solved, O50S_STRATA, confirmed, args, meta, n, args.directory)
+    written = write_build(real, solved, O50S_STRATA, confirmed, args, meta, n, args.directory,
+                          probe=probe)
     (written / "floors_o50s.json").write_text(json.dumps({
         "strata": [list(s) for s in O50S_STRATA], "frozen_small": FROZEN_SMALL,
         "calibration_target": TARGET, "rule_of_three_numerator": RULE_OF_THREE,
@@ -458,6 +525,8 @@ def main(argv: list[str] | None = None) -> int:
         "seconds": round(time.perf_counter() - clock, 1),
     }, indent=2, default=float) + "\n", encoding="utf-8")
     print(f"  floors -> {written / 'floors_o50s.json'}")
+    if probe is not None:
+        dump_probe(probe, args.probe)
     return 0
 
 

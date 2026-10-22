@@ -224,6 +224,7 @@ def material(
     runs: Sequence[object], n: int, *, legacy: bool = False,
     theta_match: float = THETA_MATCH,
     match_split: tuple[int, float, float] | None = None,
+    probe: dict | None = None,
 ) -> Material:
     """Match, complete and absorb: everything the gate needs, for one side.
 
@@ -245,6 +246,10 @@ def material(
         theta_match: Recurrence threshold for every grouping, unless ``match_split`` is given.
         match_split: ``(size, theta_below, theta_at_or_above)`` for a per-size threshold. The
             first pass must run at ``theta_below``, so pass ``theta_match=theta_below`` with it.
+        probe: Analysis hook. When a dict is passed it is filled with the raw grouping pool, which
+            groupings survived completion, the families absorption formed, and which family became
+            which output row -- everything needed to say where a grouping was lost. **Write-only
+            and additive**: left at ``None`` this function behaves exactly as before.
 
     Returns:
         The gate's input.
@@ -294,6 +299,8 @@ def material(
     grouped = families(list(completed), completed, pool, None, conf)
 
     blocks, supports, selections = [], [], []
+    if probe is not None:
+        probe["row_seed"] = []
     for seed, family in grouped:
         support = family_support(family, pool, ready.eligible_mask)
         if np.isnan(support):
@@ -301,6 +308,26 @@ def material(
         blocks.append(completed[seed])
         supports.append(float(support))
         selections.append(votes[seed])
+        if probe is not None:
+            probe["row_seed"].append(int(seed))
+    if probe is not None:
+        probe["groupings"] = pool.groupings
+        probe["grouping_support"] = pool.support
+        # Runs FOUND, not support: the report bands dropped parents by how many runs saw them
+        # (1 meaning only its own run), and support is found/eligible, which does not invert to a
+        # run count. family_support unions copies with origins, so the same union is taken here.
+        probe["grouping_found"] = np.array(
+            [len(set(pool.copies[g]) | pool.origins[g]) for g in range(len(pool.groupings))],
+            dtype=np.int64)
+        probe["grouping_eligible"] = np.asarray(pool.eligible, dtype=np.int64)
+        probe["family_found"] = np.array(
+            [len({run for g in family for run in set(pool.copies[g]) | pool.origins[g]})
+             for _seed, family in grouped], dtype=np.int64)
+        probe["completed_keys"] = sorted(completed)
+        probe["completed_blocks"] = (np.vstack([completed[g] for g in sorted(completed)])
+                                     if completed
+                                     else np.zeros((0, ready.present.shape[1]), np.uint64))
+        probe["families"] = [(int(seed), [int(g) for g in family]) for seed, family in grouped]
     return Material(
         blocks=np.vstack(blocks) if blocks
         else np.zeros((0, ready.present.shape[1]), np.uint64),
@@ -389,7 +416,8 @@ class Built(NamedTuple):
 
 def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
           theta_same: float = THETA_MERGE,
-          strata: Sequence[tuple[int, int]] = STRATA) -> Built:
+          strata: Sequence[tuple[int, int]] = STRATA,
+          probe: dict | None = None) -> Built:
     """Gate, merge by consensus, then stack by containment.
 
     Args:
@@ -405,6 +433,11 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
             non-nested overlap everywhere instead of two that were set at different times.
         strata: The stratum edges the gate reads, aligned with ``solved``. Defaults to
             :data:`STRATA`, so omitting it is the behaviour every build before 17 Oct 2026 had.
+        probe: Analysis hook. When a dict is passed it is filled with the gate's kept candidate
+            indices, the gated bitsets and the consensus verdict, so a caller can see what
+            consensus merged without re-deriving it. **Write-only and additive**: nothing here
+            reads it, and left at ``None`` this function behaves exactly as before, which the
+            byte-for-byte reproduction of the frozen build is the proof of.
 
     Returns:
         The built ontology.
@@ -428,6 +461,11 @@ def build(got: Material, solved: Sequence[dict], *, legacy: bool = False,
     # inherited, and the ablation found nothing lost by that.
     verdict = consensus(blocks, supports, inclusions, words,
                         stray=LEGACY_STRAY if legacy else 0.0, jaccard=float(theta_same))
+    if probe is not None:
+        probe["keep"] = keep
+        probe["gated_blocks"] = blocks
+        probe["gated_supports"] = supports
+        probe["verdict"] = verdict
     members = [verdict.members[i] for i in range(len(verdict.accepted))]
     kept_support = [supports[c] for c in verdict.accepted]
     # The node's inclusion column is the ACCEPTED CANDIDATE's own vote, as v0.3 writes it -- not a
