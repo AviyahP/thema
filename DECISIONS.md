@@ -8353,3 +8353,217 @@ reviewer's `themes.tsv` 75 MB, and the `sides/` and `themes/` caches), so the co
 from the cached trees and the stored `p_table.json`.**
 
 A revised prompt 50 (J >= 0.70 for all sizes, core-size strata, full comparison) was pasted after the C1b run finished and withdrawn unexecuted, 20 Oct: its p calibration has the same zero-null flaw.
+
+---
+
+## 2026-10-21 11:06:14 UTC+1 — CORE AFTER POOLING, C2 (prompt 51): declared before running
+
+Declared verbatim below, before computing anything. **C2 changes one thing against O50s: the core.**
+Step 2 is O50s's family formation unchanged -- the 0.5 completion and the 10% twin rule -- and the
+core is computed from the family's **pooled** copies rather than per raw grouping, which is what
+C1b got wrong. Step 4 adds the rule-of-three substitution to `p`, the guard whose absence let C1b's
+`p` fall to 0.10 on a zero scrambled count. No decision rule is set in advance.
+
+```
+Prompt 51: the core-based algorithm with cores computed after pooling (build C2), with a full comparison against O50s. Declared 20 Oct 2026, before any result. Exploratory: nothing is adopted and no decision rule is set in advance; Aviyah decides after the full comparison. Every design choice below was decided by Aviyah on 20 Oct, or is unchanged from O50s. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY: C1b (prompt 50, first version) computed cores per raw grouping, most of which have 1-3 copies above 20 pathways, and its p calibration had no guard for a zero scrambled count, so p fell to 0.10 and themes ballooned (73,484 themes, 1,066 roots). C2 pools a theme's variants first with today's families (unchanged, so that C2 tests one change: the core), so cores rest on all the runs where the theme recurred, and guards p as the floors are guarded.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders, cached trees, the C1b outputs or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split by build and by evaluation; stop if the total is over 6 h and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_51.md, and copy it into DECISIONS.md as "declared before running", before computing anything.
+
+SPEC. Start from O50s exactly: x2 universe, arm L, the 200 cached trees, the cached sides (real, calibration 3001-3010, held-out 4001-4006), the O50s strata edges. Change only what follows. Every step is applied identically to the real and the scramble sides.
+1. Candidates and matching. Unchanged: every cluster of 3 or more; identical sets stored once (groupings); a run finds a grouping if one of its clusters matches it at J >= 0.70, computed on pathways present in both subsamples; one copy per run.
+2. Pooling variants: today's families, unchanged. Exactly as O50s forms them: each grouping's completed set (inclusion >= 0.5, MIN_SIZE 3), then greedy seed absorption by the 10% twin rule (each side differs from the shared part by at most max(2, 10% of the shared part)), compared with the seed's own set (no chaining). The 0.5 completion is used ONLY to form families, as today; it does not define membership in C2. A family's pooled copies: per run, the union of that run's copies of any of its groupings.
+3. Core and extras from the family's pooled copies. Inclusion of a pathway = pooled copies holding it / pooled copies from runs where it was in the subsample. Core = inclusion >= 0.9. Extras = pathways with inclusion below 0.9, each with its inclusion. No minimum number of copies. Also report core size at inclusion 1.0.
+4. p, the extras cut, per stratum by CORE size. For every inclusion value that occurs among extras in the stratum (real or scrambled): R(p) = real extras with inclusion >= p, summed over the stratum's families; N(p) = the mean over the 10 calibration scrambles. Where the scrambled count is 0, use the same rule-of-three substitution the floor solver uses. p = the lowest such value with N(p)/R(p) <= 0.008; if none qualifies, members = core. Report the table and the held-out ratio at the chosen p.
+5. Members. Core plus extras with inclusion >= the stratum's p. MIN_SIZE 3 applies to members.
+6. Same theme: the mutual core rule, over families. In rank order, each unclaimed family becomes a seed and claims every unclaimed family f with core(f) inside members(seed) AND core(seed) inside members(f); compare with the seed only (no chaining). The merged theme pools all copies; inclusion, core and members are recomputed, using the p of the merged theme's new core-size stratum (the p table is fixed in step 4, so nothing loops).
+7. Gate. Support of a theme = runs that found any of its groupings / runs able to judge any. Themes stratified by CORE size, real and scrambled alike. Floors solved per stratum on the scrambles after steps 1-6, as now: target 0.008, rule of three where the scrambled count is 0, caps 0.02 per stratum and 0.01 overall. Checked once on 4001-4006. No minimum support beyond the floors.
+8. Edges. Strict containment on members (every member of the child is a member of the parent), immediate parents only. No consensus merge, no chain collapse, no repair.
+
+Tests before building: on a fixture, step 6 never chains and is order-stable; step 2 reproduces O50s's pre-gate families exactly (same seeds, same members), on the real side and on one scramble side.
+
+FULL COMPARISON (docs/status/2026-10-20-core-construction-C2.md). Every measure for C2 AND O50s, computed by the same code for both, side by side; C1b's values too where already computed. Use the existing evaluation scripts where they exist; for any measure without one, say so and how it was computed.
+A. Construction: groupings, families after step 2, themes after step 6, themes after the gate; copies per family by band (median; shares at 1, 2, 3-9, 10+); the p table; floors; calibration and held-out FDR per stratum and overall; pooled support of final themes per core-size stratum (median, quartiles, share at 2 or fewer, 5 or fewer, 10 or fewer runs), reported for a later decision on a minimum, which is NOT applied here.
+B. Size and shape: themes per band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); median core share per band; roots and roots of 50 or fewer; giants (over 1,280) with sizes and core sizes; children per node, maximum and median; multi-parent share; mean themes per pathway; levels from a pathway to its root, median and maximum.
+C. Duplication: theme pairs with J >= 0.5 (count by band); nodes at least 80% inside another node without being its descendant, binned by pathways missing (0, 1-5, 6-20, 21+); parent-child pairs with the child holding at least 85% of the parent.
+D. Compression (Aviyah's concern that core plus extras may be a parent and its child in one node): merges in steps 2 and 6 where one set is strictly inside the other, with the size ratio; themes whose extras contain the members of another gated C2 theme not inside the core (count and examples); O50s parent-child edges whose two ends map to the same C2 theme (best counterpart J >= 0.9 for both), by the parent's size band.
+E. Agreement and placement: O50s themes with a C2 counterpart at J >= 0.9 (share, by band); the 164 O50s small roots and the roots n01027, n04526, n04670, n04671, n03316, n04672, n04995, n05001 (counterpart J, and whether still a root); summary placement; Reactome median best J; curated recall per band for Reactome and GO (J > 0.5); sibling specificity AUROC.
+F. Stability: final-theme match between half-builds from runs 1-100 and 101-200, worse direction, J >= 0.70, same floors.
+G. Gene coherence per band: mean pairwise gene Jaccard against size-matched random sets (evaluation only).
+
+FOR THE REVIEWER (do not judge anything yourself), in data/experiments/core_construction_C2_2026-10-20/:
+- R (root reading): EVERY C2 root, whatever its size, giants included in full. Full member lists as "name [source]", sorted by name, random ids (seed 20261020), batches of about 2,600 lines in read_roots/; a root is never split across batches.
+- S (small-root test): for every C2 root of 50 or fewer pathways, as in PREREG_O50s_roots.md: the root's full list plus its 3 largest-share larger containers labelled P, Q, R in random order, each with its size and a random sample of up to 40 of its members not in the root; shares and missing counts go only into the KEY file. Batches in small_inputs/.
+- T (theme reading): 40 random non-root themes per band (3-9, 10-19, 20-49, 50-199, 200+) from C2 AND 40 per band from O50s, pooled, shuffled (seed 20261020), random ids, no build label; batches in read_themes/.
+- I (intruder test): for the same T themes, the inputs exactly as the C6 intruder test was prepared before.
+- KEY_DO_NOT_SHARE_C2.json (id -> build, node, size, band, and the S shares); roots.tsv and themes.tsv with every member's inclusion and core flag; p_table.tsv.
+Prepare R, S, T and I only if the build has 600 roots or fewer; otherwise stop after the report and say so.
+
+FINAL
+- Output build: data/ontology/v0.4-leaves/thema_L_x2_C2/.
+- Write docs/status/commit-2026-10-20-core-construction-C2.sh, to run after the C1b commit script. It commits the code, tests, build, status note, reviewer folder and PROMPT_51.md, listing files explicitly, leaving out any file over 50 MB (and saying which), and never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate and confirm both tests pass. After everything, give: sections A to G as tables against O50s (and C1b where available), the reviewer batch paths, and the commit script path.
+```
+
+Prompt 51 (C2, cores computed after pooling) is on hold by Aviyah's decision, 22 Oct: do not run it.
+
+---
+
+## 2026-10-22 17:30:52 UTC+1 — WHICH RELATIONSHIPS DO O50s MERGES ACT ON (prompt 52): declared before running
+
+Evaluation only; no build changes and nothing adopted. Declared verbatim below, before computing
+anything. Saved at `data/experiments/reviewer_notes/PROMPT_52.md` (39 lines, ends with END OF
+PROMPT); it was placed there by Aviyah because pasting truncated it, and the pasted fragment was
+confirmed against the file before starting.
+
+```
+Prompt 52: which relationships do O50s's merges act on? Declared 22 Oct 2026, before any result. Evaluation only: no build changes, nothing adopted. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Stop if the estimate is over 3 h.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_52.md, and copy it into DECISIONS.md as "declared before running".
+
+WHY
+The O50s merges were designed for relationships: twins are siblings (themes sharing a parent), chains are parent and child. In the code, the consensus merge (J >= 0.5) and the stale-merge repair test only the two sets, not whether they share a parent, and consensus runs before the DAG exists. This checks what the merges actually act on.
+
+TASK
+1. Re-run the O50s build from the cached trees and stored floors with logging only, and verify it reproduces O50s byte for byte (scripts/o50s_build.py --verify or equivalent). Log every merge with both member sets:
+   - consensus: every pair resolved as "same theme" (the dropped one and the one kept);
+   - repair, stale merges (identical and overlap);
+   - repair, chain collapses (child holding at least 0.85 of the parent).
+2. Classify each merged pair against the final O50s DAG, adding the dropped set as if it were a node (its parents = the smallest final themes that strictly contain it):
+   - siblings: they share at least one immediate parent, or both have none (both roots);
+   - nested: one strictly inside the other (say whether immediate parent-child or deeper ancestor);
+   - unrelated: neither.
+3. For chain collapses: whether the kept node was the parent or the child, by size band of the parent.
+4. DROPPED PARENTS, ALL OF THEM (Aviyah's question: which parents that would build the top exist anywhere in the data, and where and why were they lost?). Do not filter on support or redundancy; record them as attributes instead.
+   - Units: every grouping (its completed set, as the build sees it; also record its raw size) and every family (after step 5).
+   - A unit is a POTENTIAL PARENT if it strictly contains at least 2 final O50s themes that are not nested in each other, at least one of which is a final root, and it is not in the final build (no final theme at J >= 0.9).
+   - For each potential parent record: size; runs that found it (including 1 = only its own run); support; its stratum's floor; J to its nearest final theme; whether the build's rules would call it redundant (J >= 0.5 with a final theme it is not nested with; or a final theme inside it holding 0.85 or more of it); the final themes and roots it contains.
+   - And the STAGE where it was lost, with the reason: completion (completed set under 3), absorbed as a variant into another grouping's family (which seed), the gate (support, floor, gap), consensus (superseded by which theme, J, both supports), stale merge, chain collapse (replaced by which child, that child's support), or other (say what).
+
+REPORT (docs/status/2026-10-22-merge-relationships.md)
+- Counts per merge kind (consensus, stale identical, stale overlap, chain) by relationship (siblings, nested immediate, nested deeper, unrelated), with size bands (3-9, 10-19, 20-49, 50-199, 200+) of the kept node.
+- For pairs classed unrelated: J distribution and 10 examples with sizes and node ids.
+- Chain collapses: kept parent vs kept child, by the parent's size band.
+- Potential parents, every drop: counts by stage x runs found (1, 2-4, 5-19, 20+) x size band (20-49, 50-199, 200-399, 400-799, 800+), separately for groupings and families, and how many are redundant by the build's rules; for each stage, how many current roots its potential parents would contain (each root counted once) and how many current roots of 50 or fewer; per stage, the 30 that contain the most current roots, with size, runs, support, floor, reason and the roots they contain.
+- Verification line: O50s reproduced byte for byte.
+Write the per-pair table to data/experiments/merge_relationships_2026-10-22/pairs.tsv, and every potential parent to potential_parents.tsv (id, unit, size, raw size, runs, support, floor, redundant flags, stage, reason, the final themes and roots it contains, and its full member keys) in the same folder.
+
+FOR THE REVIEWER (coherence is judged blind by the reviewer; do not judge anything yourself): in the same folder, read_parents/: per stage, the 15 potential parents that contain the most current roots plus 15 drawn at random (seed 20261022), families preferred over groupings when both exist for the same set; full member lists as "name [source]" sorted by name, random ids, no stage, support or node id shown; batches of about 2,600 lines, a parent never split. KEY_DO_NOT_SHARE_parents.json maps ids to everything else.
+
+FINAL
+Write docs/status/commit-2026-10-22-merge-relationships.sh, to run now (the earlier scripts have all been run; HEAD is b1090a2). It commits the code, status note, experiment folder, PROMPT_52.md, DECISIONS.md and data/experiments/reviewer_notes/PROMPT_51.md (carried forward), listing files explicitly, leaving out any file over 50 MB (and saying which), and never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give the counts table, the chain table, the potential-parents tables, the reviewer batch paths, and the commit script path.
+```
+
+---
+
+## 2026-10-22 17:59:11 UTC+1 — O50s IS ADOPTED AND FROZEN AS THE WORKING BASELINE
+
+**Aviyah's decision, 22 Oct 2026.** `thema_L_x2_O50s` is adopted as the working baseline and frozen
+at `data/ontology/frozen/working-O50s-2026-10-22/`, copied unchanged and guarded by checksum in
+`tests/ontology/test_frozen_baseline.py`. **Frozen O50 (14 Oct) is kept as the previous baseline**,
+as are c85 and the 2026-10-09 baseline. Code identity: the tag `thema-O50s-2026-10-22`.
+
+**It is adopted although its 17 Oct reading FAILED the declared 90% bar -- 81.4%, against 89.3% for
+O50's own large themes.** The reasons, as Aviyah stated them:
+
+* its per-size floors are **calibrated like every other stratum**, not asserted;
+* it raises summary placement from **85.3% to 92.6%** (+173 of 2,370 curated summaries);
+* it adds the **101-1,000 band** -- 87 themes against O50's 17, of which 59 are new at J < 0.7;
+* **all work since 17 Oct rests on it.**
+
+**The open question, recorded and deliberately not resolved: its new large themes rest on 2 to 4
+runs of 200.** All 59 new themes sit at support 0.0100 to 0.0200. That is a later minimum-support
+decision; no minimum beyond the floors is applied now.
+
+For the record, the headline shape against O50: themes 4,602 -> **5,658**; roots 188 -> **261**;
+roots of 50 or fewer 168 (89.4%) -> **164 (62.8%)**; multi-parent 43.7% -> **63.3%**; giants over
+1,000 4 -> **5**; edges **12,555**. Held-out FDR overall **0.00233**, no stratum over its cap, with
+the rule-of-three bound deciding the cut in six strata. 94.9% of O50's themes have an O50s
+counterpart at J >= 0.9.
+
+A quirk worth knowing, true of all four freezes and not introduced here: `CHECKSUMS.sha256` lists
+bare filenames, so it must be checked from inside the folder. The root-level form in CLAUDE.md
+fails for every freeze.
+
+Prompt 52 ceiling raised from 3 h to 4.5 h by Aviyah's decision, 22 Oct, to run both parts in order.
+
+---
+
+## 2026-10-22 18:23:55 UTC+1 — O50s MERGES ACT MOSTLY ON UNRELATED PAIRS (prompt 52): RESULT
+
+Evaluation only; no build changed and nothing adopted. **O50s reproduced BYTE FOR BYTE** from the
+cached trees and re-solved floors with every logging hook in place, against the new freeze
+`working-O50s-2026-10-22`; `--verify` separately still reproduces frozen O50 byte for byte. The
+hooks are inert, which is what makes the rest of this trustworthy.
+
+**The merge designed for siblings acts on unrelated pairs more often than on siblings.** Consensus
+is 19,531 of the 20,462 merges and **54.0% of its pairs are unrelated** in the finished DAG against
+40.0% siblings. The two repair passes land on what they were built for: chain collapse **99.3%
+nested immediate**, stale merge **100% siblings** on identical pairs and **89.6%** on overlapping
+ones. Consensus runs before any DAG exists, so it cannot test a relationship even in principle.
+
+| merge kind | siblings | nested imm. | nested deeper | unrelated | total |
+|---|---|---|---|---|---|
+| consensus | 40.0% | 5.8% | 0.2% | **54.0%** | 19,531 |
+| stale identical | 100.0% | - | - | - | 32 |
+| stale overlap | 89.6% | 0.7% | - | 9.7% | 134 |
+| chain | 0.4% | **99.3%** | - | 0.3% | 765 |
+| ALL | 38.9% | 9.2% | 0.2% | **51.6%** | 20,462 |
+
+Consensus's unrelated share is worst in the middle (10-19: 60.8%, 20-49: 58.0%) and falls to 21.6%
+at 200+. **At merge time the unrelated pairs' Jaccard has minimum exactly 0.500, the cutoff, with
+nothing below it** -- the rule did what it says, and 6,428 of 10,567 sit in 0.50-0.60, just above.
+Measuring against the kept node's *final* set instead puts 711 pairs under 0.5, purely because a
+consensus keeper keeps growing by inheritance after it supersedes someone; reporting only that
+would have looked like a merge bug.
+
+**Chain collapse discards the parent 71.9% of the time** (550 of 765 kept the child), because
+`survivor="support"` keeps the higher-support end and the child usually is. The stage that acts
+most cleanly on a real parent-child relationship resolves it by deleting the more general node in
+five cases out of seven.
+
+**Dropped parents.** A unit qualifies if it strictly contains 2+ non-nested final themes, one a
+final root, and no final theme matches it at J >= 0.9. Pipeline now visible: 270,570 groupings ->
+264,897 completed -> 99,951 families -> 26,120 gated -> 6,589 after consensus -> 5,658. **Only 587
+of 264,897 completed groupings contain even one current root**; 570 qualify as groupings, 244 as
+families. By stage: absorbed 326, gate 120, consensus 76, stale 48, and **completion 0 and chain 0**
+-- completion by construction (a set under MIN_SIZE cannot contain two themes), chain because it
+never fires above 199 members.
+
+* **the gate's 120 are the only non-redundant group** (105 of 120 pass the build's own redundancy
+  rules) and **117 of the 120 were found by exactly one run of 200**, support 0.0050 against a 0.01
+  floor. **So the parents that would build the top do exist and mostly do not recur**: the gate is
+  declining what one subsample in two hundred proposed, not discarding evidence.
+* **consensus's 76 are the ones that should give pause**: well supported -- 62, 53, 52, 52 runs of
+  200 -- each superseded as "the same theme" by one of just two gated candidates, and between them
+  they contain **74 of the 261 current roots**, 64 of them small.
+* **absorbed's 326 are one variant cloud**, nearly all absorbed into the family of a single
+  grouping at best-J 0.60-0.63, and 97.9% redundant.
+* across all stages the lost parents cover **110 of 261 roots** (85 of the 164 small ones).
+
+Limits stated in the note: the classes are computed against the final DAG, which did not exist when
+consensus ran -- that is the measurement, not a flaw, but "unrelated" describes the outcome rather
+than a mistake visible at the time. Nothing here tests coherence; that is the blind reading.
+
+Instrumentation was deliberately minimal and provably additive. Neither repair sub-pass mutates a
+membership, and `repair_joint` already maps drops to post-consensus indices, so both sides of every
+collapse and stale merge are recoverable by index with **no repair instrumentation at all** -- the
+script asserts it (0 membership disagreements against `members.tsv`). Only consensus needed a hook,
+because a newcomer grows by inheritance before meeting the theme that supersedes it: two write-only
+fields on `consensus.Outcome` plus `probe=None` hooks on `v04.build`, `v04.material` and
+`o50s_build.write_build`, all off by default and read by nothing in the build.
+
+Full record: `docs/status/2026-10-22-merge-relationships.md`. Outputs in
+`data/experiments/merge_relationships_2026-10-22/`: `pairs.tsv` (20,462), `potential_parents.tsv`
+(814), `read_parents/b01.md`..`b97.md` (120 parents, 30 per stage: the 15 widest plus 15 at random,
+seed 20261022), and the key. Commit script:
+`docs/status/commit-2026-10-22-merge-relationships.sh`; it leaves out `side.npz` (22 MB) and
+`probe.npz` (3.2 MB) as regenerable caches and names them, and never lists the key.
