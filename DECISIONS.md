@@ -8567,3 +8567,137 @@ Full record: `docs/status/2026-10-22-merge-relationships.md`. Outputs in
 seed 20261022), and the key. Commit script:
 `docs/status/commit-2026-10-22-merge-relationships.sh`; it leaves out `side.npz` (22 MB) and
 `probe.npz` (3.2 MB) as regenerable caches and names them, and never lists the key.
+
+---
+
+## 2026-10-22 18:45:03 UTC+1 — O50s RESTRUCTURED AS DESIGNED, S1p and S1s (prompt 53): declared before running
+
+Exploratory; nothing is adopted. **Aviyah's design, 22 Oct**, answering prompt 52's finding that the
+J >= 0.5 sibling rule does 95% of its work as consensus, which runs before any DAG exists and so
+cannot test a relationship: 54% of its merges joined themes that end up neither siblings nor nested,
+and it superseded 76 well-supported parents (52-62 runs) covering 74 of the 261 roots. The
+restructure keeps the 10% variant merge before the gate, then **builds the DAG first** and applies
+the sibling rule only to real siblings and the chain rule only to real parent-child pairs, iterated
+to a fixed point. **No consensus step.**
+
+Two arms, because the chain survivor is not yet chosen: **S1p** keeps the parent always; **S1s**
+keeps the higher support, with the parent surviving on a tie or when it has no parent (today's
+rule). Aviyah will confirm the version on her return.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_53.md` (43 lines, ends with END OF PROMPT).
+
+```
+Prompt 53: O50s restructured as designed (builds S1p and S1s). Declared 22 Oct 2026, before any result. Exploratory: nothing is adopted. The design is Aviyah's (22 Oct); the two chain-survivor arms are both built because she has not yet chosen between them, and she will confirm the version on her return. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+Prompt 52 showed that the J >= 0.5 sibling rule does 95% of its work as "consensus", which runs after the gate but BEFORE any DAG exists: 19,531 merges shrink 26,120 gated themes to 6,589, and 54% of those merges join themes that end up neither siblings nor nested. It also superseded 76 well-supported parents (52-62 runs) covering 74 of the 261 roots. Aviyah's design: the 10% variant merge before the gate (as now); after the gate, build the DAG; then apply the sibling rule (J >= 0.5) only to real siblings and the chain rule (0.85) only to real parent-child pairs, on the DAG.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; Aviyah is away, so if it is under 5 h, start without waiting; if over, do the build and sections A-B only and stop.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_53.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SPEC. Start from frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/) exactly: x2 universe, cached trees and sides, stored floors.
+1-6. Unchanged: candidates, J >= 0.70 support, completion at 0.5, 10% families, the gate with O50s's floors. The 26,120 gated themes are the input below (as logged in prompt 52). No consensus step.
+7. DAG: strict containment over all gated themes (every member of the child in the parent, parent larger), immediate parents only.
+8. On the DAG, repeated until nothing changes, rebuilding the DAG after each round:
+   a. Chain rule first: a child holding at least 0.85 of an immediate parent's members becomes one node with it. Survivor by arm:
+      - S1p: the parent always survives;
+      - S1s: the higher support survives; on a tie, or when the parent has no parent, the parent survives (today's rule).
+      The survivor's children and parents are re-linked; memberships are not changed.
+   b. Sibling rule: siblings = themes sharing at least one immediate parent, or both roots. In today's consensus order (support descending, then size descending, then key), a theme is dropped if an already kept sibling overlaps it at J >= 0.5 and neither contains the other. Memberships are not changed (no inheritance). Non-sibling overlaps of any size are kept.
+9. Final edges: strict containment, immediate parents only.
+Report the number of rounds and, per round, the chain collapses and sibling drops.
+
+Tests before building: on a fixture, the sibling rule never merges non-siblings and is order-stable; with the consensus step restored and steps 7-8 replaced by today's repair, the code reproduces frozen O50s byte for byte.
+
+REPORT (docs/status/2026-10-22-restructured-S1.md), S1p, S1s and O50s side by side, computed by the same code. Use the existing evaluation scripts where they exist; for any measure without one, say so and how it was computed.
+A. Construction: gated themes, chain collapses, sibling drops, final themes; held-out FDR (unchanged at the gate; confirm).
+B. Size and shape: themes per band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); roots and roots of 50 or fewer; giants (over 1,280) with sizes; children per node, maximum and median; multi-parent share; mean themes per pathway; levels from a pathway to its root, median and maximum.
+C. Duplication: non-nested pairs at J >= 0.5 that remain (by band, and how many are non-siblings); nodes at least 80% inside another node without being its descendant, by pathways missing (0, 1-5, 6-20, 21+).
+D. The prompt-52 parents: of the 76 parents consensus superseded, how many survive in each arm, and how many current O50s roots they contain; the two themes that superseded them in O50s (node ids, sizes, whether giants).
+E. Agreement and placement: O50s themes with a counterpart at J >= 0.9 (share, by band); the 164 O50s small roots and the roots n01027, n04526, n04670, n04671, n03316, n04672, n04995, n05001 (counterpart J, and whether still a root); summary placement; Reactome median best J; curated recall per band for Reactome and GO (J > 0.5); sibling specificity AUROC.
+F. Stability: half-builds from runs 1-100 and 101-200 through the same steps, final-theme match, worse direction, J >= 0.70.
+G. Gene coherence per band against size-matched random sets (evaluation only).
+
+FOR THE REVIEWER (do not judge anything yourself), for EACH arm separately, in data/experiments/restructured_S1_2026-10-22/{S1p,S1s}/, only if that arm has 600 roots or fewer:
+- R: every root, whatever its size, giants in full; "name [source]" sorted by name; random ids (seed 20261022); batches of about 2,600 lines in read_roots/; a root never split.
+- S: for every root of 50 or fewer pathways, as in PREREG_O50s_roots.md (3 largest-share larger containers as P, Q, R in random order, each with its size and up to 40 members not in the root); shares only in the KEY file; batches in small_inputs/.
+- KEY_DO_NOT_SHARE_S1.json per arm; roots.tsv per arm.
+The 40-per-band theme sample and intruder inputs are NOT prepared now; they wait for Aviyah's choice of arm.
+
+FINAL
+- Output builds: data/ontology/v0.4-leaves/thema_L_x2_S1p/ and thema_L_x2_S1s/.
+- Write docs/status/commit-2026-10-22-restructured-S1.sh, to run after commit-2026-10-22-merge-relationships.sh. It commits the code, tests, both builds, status note, reviewer folders and PROMPT_53.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate and confirm both tests pass. After everything, give sections A-G as tables for S1p, S1s and O50s, the reviewer batch paths, and the commit script path.
+```
+
+---
+
+## 2026-10-22 18:54:52 UTC+1 — RESTRUCTURED S1p AND S1s: SAME THEMES, FIVE TIMES THE ROOTS (prompt 53)
+
+Exploratory; nothing adopted. **Scope: the build and sections A-B only** -- the full A-G estimate
+was about 7 h against the prompt's 5 h ceiling, whose instruction for that case is build plus A-B.
+The reviewer material is also not prepared, and needs no judgement call: the prompt gates it on 600
+roots or fewer and **S1p has 991, S1s has 1,017**.
+
+**Both declared tests pass.** The sibling rule never merges non-siblings on fixtures (two themes
+overlapping highly under different parents are both kept), resolves a true sibling pair, and is
+order-stable over 8 fixtures. And **with consensus restored and today's repair in place, the same
+code reproduces frozen O50s byte for byte** from the same gated input -- 26,120 -> 6,589 (19,531
+superseded) -> 5,658 (765 collapsed, 166 merged), all four tables identical. That proves the gated
+input and the export path, so the S1 numbers differ from O50s only by the restructure. The input is
+checked directly too: the 26,120 gated themes rebuilt from cache are **identical to prompt 52's
+logged gate**, supports included; no side was recomputed.
+
+**A. Construction.** The gate is untouched -- all three carry the same floors and the same held-out
+report, checked mechanically, so held-out FDR stays **0.00233** in all three.
+
+| | O50s | S1p | S1s |
+|---|---|---|---|
+| gated input | 26,120 | 26,120 | 26,120 |
+| consensus supersessions | 19,531 | none | none |
+| chain collapses | 765 | 1,720 | 1,508 |
+| sibling drops | 166 (stale) | 18,585 | 18,734 |
+| rounds | 2 | 5 | 5 |
+| **final themes** | **5,658** | **5,815** | **5,878** |
+
+Round 1 does almost all the work; rounds 2-4 still remove 1,071 more in S1p, which is what
+rebuilding the DAG between rounds buys. **19,531 relationship-blind merges are replaced by 18,585
+relationship-checked ones and the theme total barely moves** -- within 3 to 4% of O50s.
+
+**B. Shape: the themes survive, the hierarchy above them does not.** Every band is within 4% of
+O50s, but:
+
+| | O50s | S1p | S1s |
+|---|---|---|---|
+| roots | 261 | **991** | **1,017** |
+| roots of 50 or fewer | 164 | **754** | **772** |
+| giants over 1,280 | 5 | **9** | **9** |
+| children per node, median | 2.0 | 1.0 | 1.0 |
+| levels to a root, median | 6.0 | **4.0** | **5.0** |
+| mean themes per pathway | 23.30 | 26.44 | 26.67 |
+
+**Nearly five times as many roots, mostly small, and the structure is shallower.** The mechanism
+explains it: consensus merged *any* pair at J >= 0.5, and prompt 52 showed 54% of those pairs end
+up neither siblings nor nested -- those relationship-blind merges were also, transitively, what tied
+the upper structure together. Restrict the rule to real siblings and those pairs stand as separate
+themes; a theme nothing contains is a root. Giants get worse too, 5 to 9, including the
+2,809-pathway theme -- the largest gated theme there is -- which consensus used to absorb and which
+now survives intact in both arms.
+
+**The two arms barely differ**: 5,815 against 5,878 themes, 991 against 1,017 roots, and the same
+nine giant sets. The chain survivor was consequential in O50s (prompt 52: it discards the parent
+71.9% of the time) and is nearly immaterial once the sibling rule only fires on siblings. On these
+two sections it is close to a free choice, and **S1p is the simpler rule**.
+
+**Not yet known, and it is the part the design was aimed at.** Section D -- whether the 76
+well-supported parents consensus superseded now survive -- is unmeasured, as are duplication (C),
+agreement and placement (E), stability (F) and gene coherence (G), and no theme has been read. **A
+build with more roots and less depth is not self-evidently worse**: O50s's 261 roots came partly
+from merges prompt 52 showed to be relationship-blind. Nothing here says which is more faithful.
+
+Full record: `docs/status/2026-10-22-restructured-S1.md`. Builds:
+`data/ontology/v0.4-leaves/thema_L_x2_S1p/` and `thema_L_x2_S1s/`. Commit script:
+`docs/status/commit-2026-10-22-restructured-S1.sh`, to run after the prompt 52 script.
