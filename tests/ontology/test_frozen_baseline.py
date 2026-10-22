@@ -1,6 +1,6 @@
 """The frozen builds cannot change silently.
 
-Two folders under `data/ontology/frozen/` are frozen, and both are guarded the same way:
+Four folders under `data/ontology/frozen/` are frozen, and all are guarded the same way:
 
 `baseline-2026-10-09/`
     The reference build (`thema_L_x2`, 8,740 themes), frozen 9 Oct 2026, kept as the **fallback**.
@@ -10,13 +10,20 @@ Two folders under `data/ontology/frozen/` are frozen, and both are guarded the s
     differs from the baseline in the chain-collapse rule and nothing else.
 
 `working-O50-2026-10-14/`
-    `thema_L_x2_O50` (4,602 themes), the **working version** every analysis from 14 Oct uses. It
-    differs from c85 in the same-theme cutoff (0.50 in both places) and the joint fixed point.
+    `thema_L_x2_O50` (4,602 themes), the working version from 14 to 22 Oct, now the **previous
+    baseline**. It differs from c85 in the same-theme cutoff (0.50 in both places) and the joint
+    fixed point.
+
+`working-O50s-2026-10-22/`
+    `thema_L_x2_O50s` (5,658 themes), the **WORKING BASELINE** every analysis from 22 Oct uses. It
+    differs from O50 in having thirteen size strata instead of six, so the gate is calibrated per
+    size. Adopted by Aviyah although its 17 Oct reading scored 81.4% against a declared 90% bar;
+    `FROZEN.md` there records why, and records that its new large themes rest on 2-4 runs of 200.
 
 Each is only a reference if its bytes are the ones that were measured, so these tests re-hash every
 file against that folder's own `CHECKSUMS.sha256` and fail on any drift -- a changed file, a deleted
 one, or a new file slipped in without a checksum. The tests are parametrised over the folders, so a
-third freeze is guarded by adding one entry to :data:`FROZEN`.
+further freeze is guarded by adding one entry to :data:`FROZEN`.
 """
 
 from __future__ import annotations
@@ -46,6 +53,12 @@ FROZEN: dict[str, frozenset[str]] = {
         "match_to_c85.tsv", "O50_new_themes.json", "repair_map.json", "report.txt",
         "excluded_inputs.tsv", "floors_L_cal8.json", "universe.json", "trees_build_log.json",
         "all_verdicts_O50.json", "REPORT_o50_eval.md", "FROZEN.md",
+    }),
+    "working-O50s-2026-10-22": frozenset({
+        "nodes.tsv", "members.tsv", "edges.tsv", "unplaced.tsv", "manifest.json",
+        "repair_map.json", "report.txt", "verify.txt",
+        "excluded_inputs.tsv", "floors_o50s.json", "universe.json", "trees_build_log.json",
+        "FROZEN.md",
     }),
 }
 
