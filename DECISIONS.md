@@ -8701,3 +8701,526 @@ from merges prompt 52 showed to be relationship-blind. Nothing here says which i
 Full record: `docs/status/2026-10-22-restructured-S1.md`. Builds:
 `data/ontology/v0.4-leaves/thema_L_x2_S1p/` and `thema_L_x2_S1s/`. Commit script:
 `docs/status/commit-2026-10-22-restructured-S1.sh`, to run after the prompt 52 script.
+
+---
+
+## 2026-10-22 19:33:15 UTC+1 — S2: O50s WITH THE SAME-THEME MERGE RESTRICTED TO SIBLINGS (prompt 54): declared before running
+
+Exploratory; nothing adopted. **Aviyah's design, 22 Oct.** S1 (prompt 53) changed two things at
+once -- it removed consensus's inheritance *and* restricted the same-theme merge to siblings -- so
+its 991 roots cannot be attributed to either. The checks after it showed inheritance added 11,932
+members in O50s and that **55.2% of O50s's edges exist only because of it**. S2 changes **one** thing
+against O50s: consensus rule 3 and the stale merges apply only to pairs that are siblings in the
+DAG. Rules 1 and 2, including inheritance with its propagation, are untouched and apply to every
+pair as now.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_54.md` (30 lines, ends with END OF PROMPT).
+
+```
+Prompt 54: O50s's own logic with one change, the same-theme merge restricted to siblings (build S2). Declared 22 Oct 2026, before any result. Exploratory: nothing is adopted. Design: Aviyah, 22 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+Prompt 53's S1 changed two things at once: it removed consensus's inheritance (rule 2: a theme with at most 1 member outside a larger theme makes the larger one grow to contain it) AND restricted the same-theme merge to siblings. The result (991 roots) cannot separate the two. The checks after it showed inheritance added 11,932 members in O50s and that 55.2% of O50s's edges exist only because of it. S2 changes ONE thing relative to O50s: the same-theme merge (consensus rule 3, superseded at J >= 0.5, and the stale merges in repair) applies only to pairs that are siblings in the DAG. Everything else is exactly O50s.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; if under 3 h, proceed without waiting; if over, stop and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_54.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SPEC. Start from the 26,120 gated themes of frozen O50s, exactly as prompt 53 reconstructed them. Use O50s's consensus and repair code unchanged, with this single change:
+- Sibling = two themes sharing at least one immediate parent, or both roots, in the DAG (strict containment, immediate parents) of the current theme set.
+- Consensus rule 3 (superseded: non-nested, J >= 0.5, the lower in consensus order dropped) applies only if the pair are siblings. Non-sibling pairs that would have been superseded fall through to rule 4 (coexist). Rules 1 (nested) and 2 (inherited: at most 1 member outside, the larger grows, with propagation to ancestors exactly as the code does it) are unchanged and apply to every pair as now.
+- Repair unchanged (chain collapse at 0.85 with survivor "support", joint fixed point), except that stale merges apply only between siblings.
+- Rounds: build the DAG of the gated themes; run the restricted consensus; run the restricted repair; rebuild the DAG from the resulting memberships; repeat consensus and repair on the resulting themes until a round changes nothing. Report the number of rounds and, per round, inherited members, themes that grew, supersessions, chain collapses and stale merges.
+- Final edges: strict containment, immediate parents.
+
+Tests before building: with the sibling restriction switched off, the code reproduces frozen O50s byte for byte; on a fixture, the restricted rule 3 never supersedes a non-sibling pair, and rule 2 still fires on non-sibling pairs.
+
+REPORT (docs/status/2026-10-22-S2-sibling-restricted.md), S2 against O50s and S1p, same code:
+A. Construction: gated themes, inherited members and themes grown, supersessions (and how many O50s supersessions became coexist), chain collapses, stale merges, rounds, final themes; held-out FDR (unchanged at the gate; confirm).
+B. Shape: themes per band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); roots and roots of 50 or fewer; giants (over 1,280) with sizes and how many members each gained by inheritance; children per node, maximum and median; multi-parent share; mean themes per pathway; levels to root, median and maximum; edges that exist only because of inherited members.
+D. The 76 parents consensus superseded in O50s: how many survive in S2 (J >= 0.9), how many O50s roots they contain.
+E (short). O50s themes with an S2 counterpart at J >= 0.9 (share, by band); summary placement; Reactome median best J.
+Sections C, F, G and reviewer material are NOT run now.
+
+FINAL
+- Output: data/ontology/v0.4-leaves/thema_L_x2_S2/.
+- Write docs/status/commit-2026-10-22-S2.sh, to run after commit-2026-10-22-restructured-S1.sh. It commits the code, tests, build, status note and PROMPT_54.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate and confirm both tests pass. After, give sections A, B, D and E as tables for S2, O50s and S1p, and the commit script path.
+```
+
+---
+
+## 2026-10-22 19:41:30 UTC+1 — AMENDMENT to prompt 54, before building
+
+**Aviyah's amendment, 22 Oct, recorded before any build.** To match O50s exactly:
+
+* **consensus runs ONCE**, as in O50s, with the sibling relation taken from the DAG of the 26,120
+  gated themes. It is **not** repeated in rounds.
+* **repair then runs to its joint fixed point as in O50s**, with stale merges restricted to
+  siblings in the DAG of the **current memberships**, rebuilt whenever repair needs it.
+
+This removes the second-pass vote question -- what a merged theme's inclusion vote would be on a
+second consensus pass -- which was the part of the original round loop with no answer in O50s's own
+code, and which carried most of the risk in the 4 h estimate.
+
+Scope and ceiling for this prompt, also Aviyah's: run **Part 1** (tests, build, sections A and B),
+give a short summary, then continue to **Part 2** (sections D and E) **without waiting**. The time
+ceiling is raised to **4 h**.
+
+Verbatim: "Amendment to prompt 54, by Aviyah, before building: to match O50s exactly, consensus runs
+ONCE (as in O50s), with the sibling relation taken from the DAG of the 26,120 gated themes; it is
+not repeated in rounds. Repair then runs to its joint fixed point as in O50s, with stale merges
+restricted to siblings in the DAG of the current memberships, rebuilt whenever repair needs it. This
+removes the second-pass vote question. Record this amendment in DECISIONS.md. Then run Part 1
+(tests, build, A and B), give a short summary, and continue to Part 2 (D and E) without waiting; the
+time ceiling is raised to 4 h for this prompt."
+
+Revised estimate: about **3 h 40**, inside the raised ceiling, so both parts run.
+
+---
+
+## 2026-10-22 21:31:00 UTC+1 — S2: THE SIBLING RESTRICTION COSTS ALMOST NOTHING; S1 ROOTS WERE AN INHERITANCE EFFECT (prompt 54)
+
+Exploratory; nothing adopted. Sections C, F, G and reviewer material not run, as the prompt says.
+
+**Both declared tests pass**, including **byte-for-byte reproduction of frozen O50s with the
+restriction switched off**. The 26,120 gated themes are identical to prompt 52's logged gate.
+
+**The result: restricting the same-theme merge to siblings moves roots from 261 to 270. S1's 991
+roots were caused by removing inheritance, not by the sibling restriction.** The two variables
+prompt 53 confounded are now separated.
+
+| | O50s | **S2** | S1p |
+|---|---|---|---|
+| themes | 5,658 | **5,646** | 5,815 |
+| roots | 261 | **270** | 991 |
+| roots of 50 or fewer | 164 | **174** | 754 |
+| giants over 1,280 | 5 | **5** | 9 |
+| levels to a root, median | 6.0 | **6.0** | 4.0 |
+| edges resting on inherited members | 55.2% | **55.9%** | 0.0% |
+
+**Only 2,018 of O50s's 19,531 supersessions were non-sibling and became coexist -- 10.3%.** This
+qualifies prompt 52's headline: 54% of consensus's merges are non-sibling **against the finished
+DAG**, but against the DAG of the *gated* themes -- the one that exists when consensus runs -- nearly
+nine in ten already share a parent. Both numbers are right; they are taken against different DAGs,
+and only the second is knowable at the time.
+
+**What the restriction mostly does is move work later.** Inheritance rises from 23,007 members into
+3,691 themes to **39,269 into 5,483**; consensus leaves 8,607 instead of 6,589; repair then does far
+more -- 1,037 collapses against 765 and **1,924 stale merges against 166**, over 5 rounds instead of
+2. Pairs rule 3 declines are absorbed slightly later by a different rule rather than surviving.
+
+**On its own motivation S2 does not deliver.** It does not reduce reliance on inheritance (55.2% ->
+55.9% of edges, marginally worse) and it does not recover the superseded parents: **1 of 76 at
+J >= 0.9**, against 3 of 76 for S1p, with median best Jaccard barely moving (0.633 -> 0.644). That
+is the second negative result on this hypothesis and it closes it: the parents are not held out by
+the same-theme rule specifically -- remove it and chain collapse or the stale merge takes them.
+
+**Where S2 does differ from O50s is the middle.** Agreement at J >= 0.9 is 84.7% overall (S1p:
+58.0%) but **55-63% in the 25-199 bands**, against 100% at 3-5 and 98.7% at 6-11 and 100% in the
+largest bands. Same count, same roots, same depth, materially different mid-size composition.
+Placement 92.6% -> **93.0%**; Reactome median best J **0.273 unchanged** (S1p 0.250). Placement and
+Reactome reuse `o50s_report.py`'s machinery and reproduce O50s's own published figures exactly,
+which is what makes the column comparable.
+
+**One invariant had to change, stated plainly.** `repair.assert_no_stale_pair` refuses any build in
+which a stale pair survives; under the restriction a surviving **non-sibling** stale pair is the
+intended outcome, so the unrestricted invariant rejected exactly the build the restriction produces
+(413 pairs on the first attempt). It now takes the restriction and checks only pairs the rule was
+allowed to act on. The unrestricted form is untouched, which test 1 proves.
+
+**Not measured:** duplication (C), stability (F), gene coherence (G), and no theme has been read.
+Whether S2's different middle is better or worse than O50s's is precisely what is not known.
+
+Full record: `docs/status/2026-10-22-S2-sibling-restricted.md`. Build:
+`data/ontology/v0.4-leaves/thema_L_x2_S2/`. Commit script:
+`docs/status/commit-2026-10-22-S2.sh`, to run after the S1 script.
+
+---
+
+## 2026-10-22 23:37:26 UTC+1 — CLARIFICATION: which population an inheritance count is taken over
+
+Appended rather than edited, so the earlier entries stand as written. Aviyah asked why section A of
+the prompt-54 entry reports 23,007 inherited members into 3,691 themes for O50s while the
+inheritance check earlier the same day reported 11,932 into 2,873.
+
+**Neither figure is wrong and neither note contradicts the other. They are the same measure over
+different populations**, and the prompt-54 entry simply failed to say which:
+
+* **Post-consensus population** -- every theme consensus accepted: O50s **23,007 members into 3,691
+  of 6,589 themes**; S2 **39,269 into 5,483 of 8,607**. This is the construction figure, what
+  consensus itself did.
+* **Final-surviving population** -- only themes still standing after repair: O50s **11,932 into
+  2,873 of 5,658**; S2 **14,447 into 2,893 of 5,646**. This is what the finished build carries, and
+  it is the right population for the edge figures, since an edge can only rest on a member of a
+  surviving node.
+
+The gap is entirely the themes repair drops. Of O50s's 23,007, **11,075 sat in the 931 themes repair
+removed**, and 818 of those 931 had grown. For S2, 24,822 of 39,269 sat in the 2,961 removed, 2,590
+of them grown.
+
+Both figures count **unique (node, member) pairs** -- a member is counted once per node -- and both
+**include members that arrived by propagation to ancestors**, because the measure is a set
+difference between a node's final membership and its own gated block, which cannot distinguish how
+a member arrived.
+
+**A third quantity exists and is much larger; it was never the one reported.** The raw event count
+from `consensus.Outcome.inherited` is one record per member addition to any candidate, including
+candidates later superseded: **O50s 73,354 (71,351 direct, 2,003 propagated)** and **S2 101,851
+(97,465 direct, 4,386 propagated)**, with no repeated (node, member) pairs in either. It exceeds the
+post-consensus figure roughly threefold because most additions went into candidates that never
+became nodes.
+
+**Correction applied:** `docs/status/2026-10-22-S2-sibling-restricted.md` now carries all four rows
+in section A, states which definition section B's edge figures use, and records the event counts.
+The sentence in the prompt-54 entry above reading "Inheritance rises from 23,007 members into 3,691
+themes to 39,269 into 5,483" should be read as **post-consensus population**; on the
+final-surviving population the same comparison is 11,932 -> 14,447 into 2,873 -> 2,893.
+
+**One substantive thing this clarification adds rather than just tidies:** on the final-surviving
+definition S2 inherits **more in absolute terms** than O50s, 14,447 against 11,932, into almost the
+same number of themes. That strengthens, not weakens, the finding that restricting the merge
+increased reliance on inheritance slightly (edges 55.2% -> 55.9%).
+
+---
+
+## 2026-10-22 23:53:14 UTC+1 — FULL JUDGEMENT OF S2 AGAINST O50s (prompt 55): declared before running
+
+Evaluation only; no build changes and nothing adopted. **The judgement rule is declared below before
+any result, and the reviewer applies it, not me.** S2 has O50s's shape (270 roots against 261, depth
+6, the same five giants) but only 55-63% of its 25-199 themes match O50s at J >= 0.9, so the
+question is whether it is equivalent, better or worse.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_55.md` (36 lines, ends with END OF PROMPT).
+
+```
+Prompt 55: full judgement of S2 against O50s. Declared 22 Oct 2026, before any result. Evaluation only: no build changes, nothing adopted. Design approved by Aviyah, 22 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+S2 (prompt 54) has O50s's shape (270 roots against 261, depth 6, the same 5 giants) but only 55-63% of its 25-199 themes match O50s at J >= 0.9. Aviyah asks whether S2 is equivalent, better or worse. The judgement combines the computed measures not yet run for S2 with blind readings by the reviewer, focused on where the two builds differ.
+
+JUDGEMENT RULE (declared now; applied by the reviewer after all results)
+- Equivalent: every reading rate within 5 points of O50s, and every computed score within 0.02 (or within its CI where one exists).
+- Better or worse: a reading difference above 5 points, or a computed score beyond 0.02 with its CI excluding zero, in a consistent direction.
+- Mixed: better on some and worse on others; reported as such for Aviyah to decide.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; if under 5 h, proceed without waiting; if over, do PART 1 and the cheapest of PART 2 and stop.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_55.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+Builds: frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/) and S2 (data/ontology/v0.4-leaves/thema_L_x2_S2/).
+
+PART 1, FIRST: inputs for the reviewer (do not judge anything yourself), in data/experiments/S2_vs_O50s_2026-10-22/
+- R (roots that differ): every S2 root with no O50s ROOT at J >= 0.9, and every O50s root with no S2 ROOT at J >= 0.9, pooled and shuffled (seed 20261022), random ids, no build label. Full member lists as "name [source]" sorted by name, giants in full; batches of about 2,600 lines in read_roots/, a root never split. Report both counts.
+- T (middle themes that differ): themes unique to each build (best J below 0.9 to ANY theme of the other build), in the bands 12-24, 25-49, 50-99, 100-199; 40 per band per build drawn at random (seed 20261022), all if fewer (say so); pooled and shuffled, random ids, no build label; batches in read_themes/.
+- I (intruder test): for the same T themes, inputs exactly as the C6 intruder test was prepared before; batches in intruder/.
+- S (small-root test): for every S2 root of 50 or fewer pathways, as in PREREG_O50s_roots.md (the root's full list and its 3 largest-share larger S2 containers as P, Q, R in random order, each with its size and up to 40 members not in the root); shares and missing counts only in the KEY; batches in small_inputs/.
+- KEY_DO_NOT_SHARE_S2_vs_O50s.json mapping every id to build, node, size, band and, for S, the shares.
+Write a short note listing the counts and batch paths as soon as PART 1 is done, then continue.
+
+PART 2: computed measures, S2 and O50s side by side, same code, existing scripts where they exist (say which, and how anything new was computed):
+C. Duplication: non-nested pairs at J >= 0.5 by band (and how many are non-siblings); nodes at least 80% inside another node without being its descendant, by pathways missing (0, 1-5, 6-20, 21+).
+E. Curated recall per band for Reactome and GO (J > 0.5), with CIs; sibling specificity AUROC with CIs; and repeat for S2 the counterpart, placement and Reactome rows already reported in prompt 54.
+F. Stability: half-builds from runs 1-100 and 101-200, each through its own build's steps (O50s's and S2's), final-theme match, worse direction, J >= 0.70.
+G. Gene coherence per band against size-matched random sets (evaluation only).
+
+REPORT: docs/status/2026-10-22-S2-vs-O50s-judgement.md with PART 1's counts and paths and PART 2's tables, S2 next to O50s, differences with CIs where available. Do not apply the judgement rule; the reviewer does.
+
+FINAL
+Write docs/status/commit-2026-10-22-S2-judgement.sh, to run after commit-2026-10-22-S2.sh. It commits the code, status note, experiment folder (without the KEY file), PROMPT_55.md and scripts/s1_checks.py (carried forward), listing files explicitly, leaving out any file over 50 MB (and saying which). No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After PART 1, give the counts and batch paths. After PART 2, give the tables and the commit script path.
+```
+
+---
+
+## 2026-10-23 00:00:44 UTC+1 — S2 AGAINST O50s: INPUTS PREPARED, DUPLICATION MEASURED, NO VERDICT (prompt 55)
+
+Evaluation only; nothing adopted. **No judgement is offered here. The rule is declared in prompt 55
+and the reviewer applies it.**
+
+**Scope.** The full prompt estimated at about **6 h 35** against its 5 h ceiling, so its own
+instruction applied: PART 1 plus the cheapest of PART 2. **PART 1 is complete and section C is
+complete; E, F and G are not run.** C was cheapest on concrete grounds -- the band logic and the
+J >= 0.5 pair counting existed, and the non-sibling test reuses `build_s2.sibling_predicate`
+verbatim, leaving only the transitive-descendant test new -- while E needs an AUROC with CIs that
+does not exist, F needs four half-builds and two uncached sides, and G needs a size-matched null.
+
+**PART 1, in `data/experiments/S2_vs_O50s_2026-10-22/`, seed 20261022:** R **207** items in 5
+batches (**108 of S2's 270 roots have no O50s root at J >= 0.9; 99 of O50s's 261 have no S2 root**);
+T **294** in 7; I **122** in 4; S **174** in 10. Two band-build cells were short and taken whole
+(S2 100-199: 24; O50s 100-199: 30). **172 of the 294 T themes could not get an intruder item** --
+the C6 recipe needs four maximal strict subsets among themes of 5 to 150 pathways, which small
+themes rarely have; that falls on both builds alike and is a property of the recipe. Blind-safety
+checked mechanically: no node id and no build label in any batch, the only `S2` substrings being
+gene names (`NPAS2`, `PAPSS2`, `TRPS2`, `NEP/NS2`), `O50s` absent, nothing split across batches.
+
+**Section C1: O50s has 0 non-nested pairs at J >= 0.5 and S2 has 413, every one non-sibling.**
+Neither is a discovery. O50s's zero is *guaranteed* by `repair.assert_no_stale_pair`; the 100%
+non-sibling share is true by construction, since S2 merges every sibling pair above the cutoff. And
+**S2's 413 are exactly the 413 that tripped that invariant during the S2 build** before it was made
+restriction-aware -- an exact cross-check between two independently written pieces of code. So C1
+measures the size of the hole the restriction deliberately leaves -- 413 pairs, 307 of them in the
+12-49 bands -- not whether S2 duplicates more in any substantive sense. Whether those 413 are two
+views of one thing is a reading question, and T draws from exactly those themes.
+
+**Section C2: near-containment is indistinguishable.** Nodes at least 80% inside a non-descendant:
+**2,779 (49.1%) for O50s against 2,790 (49.4%) for S2**, a difference of 11 nodes in ~5,650, and
+93%+ of cases in both are 1-5 pathways short. The `0 missing` bin is empty in both for a structural
+reason: if a node's pathways are all inside a strictly larger node, strict containment makes that
+node an ancestor, so it can never be counted. This is the same phenomenon the 22 Oct checks found in
+S1p (84.1% of its small roots within 3 pathways of containment); it is a property of strict
+containment as an edge rule, already present in O50s at half of all themes, and **S2 neither
+improves nor worsens it.**
+
+**What is not known.** Nothing here bears on equivalent/better/worse: C1's two numbers are both
+entailed by the builds' own rules and C2 shows no difference. **No CIs appear because neither C
+measure is an estimate with one** -- the CI columns the prompt asks for belong to E, F and G. The
+question turns on the four readings, which are prepared and waiting.
+
+Full record: `docs/status/2026-10-22-S2-vs-O50s-judgement.md`, with the PART 1 interim note at
+`data/experiments/S2_vs_O50s_2026-10-22/PART1_NOTE.md`. Commit script:
+`docs/status/commit-2026-10-22-S2-judgement.sh`, after the S2 script; it carries
+`scripts/s1_checks.py` forward and **deliberately does not commit the KEY file**.
+
+---
+
+## 2026-10-23 01:35:47 UTC+1 — PART 2 COMPLETE: NO COMPUTED MEASURE SEPARATES S2 FROM O50s (prompt 55)
+
+Evaluation only; nothing adopted. **No judgement is offered. The rule is the reviewer's to apply.**
+Aviyah asked for F, then E, then G after section C, so **all four PART 2 sections are now done**.
+
+| measure | O50s | S2 | S2 - O50s | CI excludes zero |
+|---|---|---|---|---|
+| C1 non-nested pairs at J >= 0.5 | 0 | 413 | +413 | a count, entailed by the rules |
+| C2 near-contained nodes | 49.1% | 49.4% | +0.3 pts | a count |
+| F stability, worse direction | 0.5862 | 0.5817 | **-0.0045** | not computed |
+| E1 curated recall, 6 cells | - | - | 0.0000 to -0.0526 | **none of 6** |
+| E2 curated precision, 12 cells | - | - | +0.0201 to -0.0152 | **1 of 12** |
+| E3 sibling AUROC, 4 sources | 0.824-0.967 | 0.827-0.967 | -0.0002 to +0.0056 | **none; all overlap** |
+| E4 placement at 80% | 92.6% | 93.0% | +0.4 pts | not computed |
+| E4 Reactome median best J | 0.273 | 0.273 | 0.000 | not computed |
+| G gene coherence, all bands | 0.0697 | 0.0700 | +0.0003 | one null draw per theme |
+
+**One cell of twenty-two moves beyond its CI**: GO precision at 51-200, S2 lower by 0.0152 on 138
+themes, the smallest cell in E2.
+
+**The finding worth recording is the tension, not the verdict.** Every aggregate agrees, while only
+**55-63% of O50s's 25-199 themes have an S2 counterpart at J >= 0.9**. The builds disagree
+substantially about the middle of the ontology and are indistinguishable on every computed measure.
+That is consistent either with two equally good descriptions or with one being better and no measure
+here being sensitive to it; nothing computed can choose. **The readings are the remaining
+evidence** -- R (207 roots), T (294 middle themes, drawn from exactly the disputed bands), I (122
+intruder items) and S (174 small roots), all prepared, none judged.
+
+**Three method points that cost real time and are worth not repeating.**
+
+* **F's gate had to be transferred, and the first attempt was wrong.** Six of thirteen stored floors
+  are solved rates; the other seven are exactly 0.01, which is the rule-of-three bound and encodes
+  "at least 2 runs of 200", not a rate. Applied unchanged to a 100-run half it means "at least 1
+  run" and gates **38,811 themes of which 59.5% are single-run**. That was caught before reporting
+  and the seven bound floors are transferred as a run count instead (0.02), gating 15,726 and
+  15,377. The choice is identical across arms, so the difference is unaffected; the absolute rates
+  are not comparable with a 200-run build.
+* **v04_score's precision bootstrap resamples the curated-set pool**, so its per-arm precision
+  intervals sit below their own point estimates -- 0.1722 with [0.1058, 0.1337]. That is documented
+  behaviour of that estimator, not an error here, but those intervals are not uncertainty around the
+  point and are omitted from the note. The paired difference CIs are unaffected.
+* **G samples pairs**, up to 500 per theme, and the sample binds from the 25-49 band upward -- 591
+  of 1,059 exact there and **none above it**. One null set per theme, so no CI is offered on the
+  lift and none should be inferred.
+
+New: `scripts/s2_stability.py`, `s2_recall_ci.py` (a thin wrapper that keeps v04_score's bootstrap
+draws), `s2_sibling_auroc.py` (the AUROC has no existing script; the definition is in its docstring
+and is part of the result), `s2_gene_coherence.py`.
+
+Full record: `docs/status/2026-10-22-S2-vs-O50s-judgement.md`. Commit script:
+`docs/status/commit-2026-10-22-S2-judgement.sh`; it omits the two half-side caches (9 MB each,
+regenerable with `--sides`) and **never lists the KEY file**.
+
+---
+
+## 2026-10-23 01:47:27 UTC+1 — HOW MANY OF O50s AFTER-GATE MERGES ARE MISSED TWINS (prompt 56): declared before running
+
+Evaluation only; no build changes and nothing adopted. **Aviyah's question:** O50s removes
+duplicates twice -- the 10% twin rule in families before the gate, and consensus rule 3 plus the
+stale merges and chain collapses after it. If the after-gate rules are mostly catching twins that
+families should already have pooled, the fix belongs in families; if not, they are doing a different
+job and stay.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_56.md` (34 lines, ends with END OF PROMPT).
+
+```
+Prompt 56: how many of O50s's after-gate merges are missed twins? Declared 22 Oct 2026, before any result. Evaluation only: no build changes, nothing adopted. Design approved by Aviyah, 22 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+O50s removes duplicates twice: the 10% twin rule in families (before the gate) and consensus rule 3 (superseded, J >= 0.5) plus the stale merges and chain collapses in repair (after the gate). Consensus rule 2 (inherited) creates containment. Aviyah asks whether the after-gate rules are mostly catching twins that families should already have pooled. If so, the fix belongs in families; if not, the after-gate rules are doing a different job and stay.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; if under 3 h, proceed without waiting; if over, stop and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_56.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+Build: frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/). Reuse the event logs of prompt 52 (data/experiments/merge_relationships_2026-10-22/) if they hold both sets as they were at the moment of each event; otherwise replay O50s's consensus and repair with logging only, and confirm the replay reproduces frozen O50s byte for byte.
+
+TWIN TEST: the step-5 variant test exactly as the code implements it (each side's private part at most max(2, 10% of the shared part), with the code's rounding). Quote the code lines you use. Applied to the two sets as they were at the moment of the event.
+
+0. From the code: does step 5 compare groupings on their raw sets or their completed sets? Quote the lines.
+
+1. Event counts in O50s, by rule: consensus rule 1 (nested), rule 2 (inherited), rule 3 (superseded), rule 4 (coexist), repair stale merges, chain collapses. Reconcile with 26,120 gated -> final 5,658.
+
+2. For each of: rule 3 supersessions, stale merges, chain collapses, rule 2 inheritances, report
+   a. how many pass the twin test (share, with counts);
+   b. by J band: 0.5-0.6, 0.6-0.7, 0.7-0.83, 0.83+ (for chains and inheritances, also by size ratio smaller/larger: under 0.5, 0.5-0.8, 0.8-0.91, 0.91+);
+   c. by size band of the larger theme (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+).
+
+3. For the twin-test passes among rule 3 and stale merges: why families missed them. For each pair, take the two families' seed groupings (raw sets) and apply the twin test to them: raw twins too (greedy seeding split them) / raw not twins (completion moved the borders). Counts only.
+
+4. For the rule 3 supersessions that FAIL the twin test: how many dropped themes are not strictly inside any final O50s theme (would be a root if kept); by size band.
+
+5. Twenty examples, drawn at random (seed 20261022) from the rule 3 supersessions that fail the twin test, and twenty from those that pass: both member lists as "name [source]" sorted by name, J and sizes, no support values, no node ids, in data/experiments/missed_twins_2026-10-22/examples/. Do not judge them.
+
+REPORT: docs/status/2026-10-22-missed-twins.md, tables for 0-4, and the example path.
+
+FINAL
+Write docs/status/commit-2026-10-22-missed-twins.sh, to run after commit-2026-10-22-S2-judgement.sh. It commits the code, status note, data/experiments/missed_twins_2026-10-22/ and PROMPT_56.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give the tables for 0-4 and the commit script path.
+```
+
+---
+
+## 2026-10-23 13:13:23 UTC+1 — PROMPT 56 SCOPE AND A PREDICTION RECORDED BEFORE RUNNING
+
+**Scope, Aviyah's decision:** Part A only. Tasks 0, 1 and 2 for the three after-gate **merge** kinds
+(rule 3 supersessions, stale merges, chain collapses), task 4, and **task 3 redefined**: for every
+rule-3 supersession and stale merge, apply `is_variant` to the two themes' sets **as they left the
+gate, before any inheritance**, and report twins / not twins; for any pair that passes there, say why
+families did not pool them. **Part B is skipped** -- no replay, so no rule 1, 2 or 4 counts, no
+rule-2 twin test, and consequently no full 26,120 -> 5,658 reconciliation. Prompt 56's task 5
+(forty examples) falls in the skipped part and is not produced.
+
+**Reviewer prediction, recorded before any result:** near-zero passes at gate exit, and passes at
+event time only where inheritance grew a theme first.
+
+That prediction is worth stating sharply because it is close to a structural claim rather than a
+guess. A gated theme's members **are** its seed grouping's completed set -- `v04.material` does
+`blocks.append(completed[seed])` -- and families compares completed sets (`recurrent.py:1180`, with
+`member_bits` non-None). So two gated themes that pass `is_variant` at gate exit are two family
+seeds whose completed sets are twins, which greedy absorption should already have pooled. A non-zero
+count there would be an inconsistency in families, not merely a missed opportunity, and would need
+explaining rather than reporting.
+
+**Task 0 is already answered:** step 5 compares **completed** sets, not raw sets.
+`recurrent.py:1180` is `of = (lambda g: member_bits[g]) if member_bits is not None else (lambda g:
+pool.groupings[g])`, and `v04.py:299` passes `completed`, so the first branch is taken. The twin
+rule is `recurrent.py:1067-1086` with `TWIN_FLOOR = 2`, `TWIN_FRACTION = 0.10`, and the allowance
+`max(2, int(0.10 * shared))` computed on the **shared part** with `int()` truncation.
+
+---
+
+## 2026-10-23 13:17:44 UTC+1 — AFTER-GATE MERGES ARE NOT MISSED TWINS: ZERO AT GATE EXIT (prompt 56, Part A)
+
+Evaluation only; nothing adopted. **Part A only** -- Part B (the replay, rules 1/2/4, the rule-2
+twin test, the full reconciliation) and prompt 56's task 5 are skipped by Aviyah's decision.
+
+**The answer is a zero. Of 19,531 rule-3 supersessions and 166 stale merges, not one pair passes
+the twin test on the sets as they left the gate.** Families missed nothing, so the fix Aviyah was
+weighing -- strengthening the twin rule in families -- has nothing to act on. The after-gate rules
+are doing a different job and they stay.
+
+**The reviewer's prediction, recorded before the run, holds on both halves exactly** -- near-zero at
+gate exit (it is 0), and passes at event time only where inheritance grew a theme first:
+
+| | pairs |
+|---|---|
+| twin at the event but NOT at gate exit | **418** |
+| twin at gate exit but NOT at the event | **0** |
+
+418 is the whole twin-passing population (384 rule 3 + 34 stale), so **every twin the after-gate
+rules catch was manufactured after the gate by consensus rule 2.** Inheritance only ever creates
+twins here and never destroys one -- a perfectly one-directional effect.
+
+**Why a zero here is a consistency result, not just an absence.** A gated theme's members *are* its
+seed grouping's completed set (`v04.material`: `blocks.append(completed[seed])`), and families
+compares completed sets (`recurrent.py:1180`, `member_bits` non-None). So a pass at gate exit would
+have been two family seeds whose completed sets are twins -- an inconsistency inside families, not a
+missed opportunity. There are none.
+
+**Twin test at the event, by kind:**
+
+| kind | events | twin | share | where they sit |
+|---|---|---|---|---|
+| rule 3 | 19,531 | 384 | **2.0%** | 52% at J >= 0.83; **0.0%** in the 0.5-0.6 band that holds 10,434 events |
+| stale merge | 166 | 34 | 20.5% | 94.3% at J >= 0.83 |
+| chain collapse | 765 | 417 | 54.5% | **301 of 301 at size ratio >= 0.91**; 25% below it |
+
+**Rule 3 is not a twin rule in any sense** -- 98% of its events fail the test even at the moment
+they fire, and the majority sit at J 0.5-0.6 with a 0.0% pass rate. **Chain collapse above a 0.91
+size ratio IS the twin rule**, exactly 301 of 301, and below it is not: a clean split in one
+measure.
+
+**Task 4: 1,770 of the 19,147 failing rule-3 drops (9.2%) were strictly inside no final theme**, so
+they would have been roots had they been kept. The share rises monotonically with size, 0.3% at
+6-11 to **100% at 1,600+**, and 194 of the 207 failing drops above 400 pathways sit inside no final
+theme. That is prompt 52's superseded-parents population seen from the other side and without the
+parent predicate -- 1,770 themes, not 76. Whether that is correct pruning or lost structure is not
+measured and nothing was read.
+
+Part A needed **no replay**: prompt 52's probe already holds both sets at each merge event, and the
+gated blocks are reconstructed from the cached x2 side and asserted identical to prompt 52's logged
+gate. Counts reconcile exactly: 26,120 - 19,531 = 6,589, and 6,589 - 765 - 166 = 5,658.
+
+Full record: `docs/status/2026-10-22-missed-twins.md`. Per-event records:
+`data/experiments/missed_twins_2026-10-22/events.json`. Commit script:
+`docs/status/commit-2026-10-22-missed-twins.sh`, after the S2-judgement script.
+
+---
+
+## 2026-10-23 13:21:25 UTC+1 — TRIM THE CHILD INSTEAD OF GROWING THE PARENT, T1 (prompt 57): declared before running
+
+Exploratory; nothing adopted. **Aviyah's design, 23 Oct.** Prompt 54's checks found inheritance adds
+11,932 members to surviving O50s themes and underwrites 55.2% of its edges; prompt 56 Part A found
+it also manufactures every one of the 418 twins the after-gate rules then remove. T1 keeps strict
+containment -- a hard requirement, since downstream statistics need a parent's genes to include its
+child's -- but edits in the other direction: the **smaller** theme drops its stray member instead of
+the larger theme growing to swallow it.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_57.md` (30 lines, ends with END OF PROMPT).
+
+```
+Prompt 57: trim the child instead of growing the parent (build T1). Declared 23 Oct 2026, before any result. Exploratory: nothing is adopted. Design approved by Aviyah, 23 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+In O50s, consensus rule 2 (inherited) makes containment strict by GROWING the larger theme to take the smaller one's stray member, and propagating the growth to every ancestor. That growth piles up at the top (the giants) and builds 55% of the edges. Strict containment is a hard requirement (downstream statistics on the DAG need a parent's genes to include its child's). T1 keeps strictness but edits in the other direction: the SMALLER theme drops its stray member. One change relative to O50s; nothing else moves.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time (start after prompt 56 Part A is finished); times in UTC+1. Give the time estimate first; if under 3 h, proceed without waiting; if over, stop and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_57.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SPEC. Start from the 26,120 gated themes of frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/), exactly as prompts 53-54 reconstructed them. Use O50s's consensus and repair code unchanged except for rule 2:
+- Trigger unchanged: the same pairs, in the same consensus order, that fire rule 2 in O50s's code (the smaller theme has at most 1 member outside the larger).
+- Edit flipped: instead of adding the stray member to the larger theme and its ancestors, REMOVE it from the smaller theme, and from every kept theme contained in the smaller theme that holds it (downward propagation, which strict containment requires; the mirror of today's upward propagation).
+- A theme that falls below 3 members is dropped (the existing minimum size, unchanged).
+- Rules 1, 3, 4, the repair (stale merges J >= 0.5, chain collapse 0.85, survivor "support", joint fixed point) and final edges (strict containment, immediate parents) unchanged.
+
+Tests before building: with the flip switched off, the code reproduces frozen O50s byte for byte; on a fixture, the flipped rule never adds a member to any theme, and every final edge is strict containment.
+
+REPORT (docs/status/2026-10-23-trim-T1.md), T1 next to O50s, same code:
+A. Edits: rule-2 events; members added (O50s) vs members removed (T1); themes edited; themes losing more than 10% and more than 25% of their members (counts, by size band 3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); themes dropped for falling below 3; themes trimmed by more than one parent.
+B. Shape: final themes; themes per band; roots, and roots of 50 or fewer; giants (over 1,280) with sizes, and for each O50s giant its best T1 counterpart (J, size); children per node, maximum and median; multi-parent share; levels to root, median and maximum; edges, and how many O50s edges survive.
+C. Placement: share of the 5,539 pathways in at least one theme; of the members T1 removed, how many are still in another theme; mean themes per pathway.
+D. Agreement: O50s themes with a T1 counterpart at J >= 0.9 (share, by band).
+E. Held-out FDR at the gate (unchanged; confirm).
+Readings, stability, recall and the other evaluation sections are NOT run now.
+
+FINAL
+- Output: data/ontology/v0.4-leaves/thema_L_x2_T1/.
+- Write docs/status/commit-2026-10-23-trim-T1.sh, to run after commit-2026-10-22-missed-twins.sh. It commits the code, tests, build, status note and PROMPT_57.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before building, give the time estimate and confirm both tests pass. After, give sections A-E as tables, T1 next to O50s, and the commit script path.
+```
