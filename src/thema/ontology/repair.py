@@ -47,7 +47,7 @@ memberships and could otherwise leave a fresh identical pair behind.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -256,7 +256,8 @@ def stale_pairs(members: Sequence[np.ndarray],
 
 def merge_stale(
     members: Sequence[np.ndarray], supports: Sequence[float],
-    inclusions: Sequence[dict[int, float]], jaccard: float = MERGE_JACCARD
+    inclusions: Sequence[dict[int, float]], jaccard: float = MERGE_JACCARD,
+    siblings: Callable[[int, int], bool] | None = None
 ) -> Repaired:
     """Fix 1: apply the 0.70 merge again on final memberships, to a fixed point.
 
@@ -269,6 +270,8 @@ def merge_stale(
         supports: Support per theme.
         inclusions: Inclusion vote per theme.
         jaccard: The merge threshold.
+        siblings: Optional ``(dropped, keeper) -> bool``. When given, a pair is merged only if it
+            is a sibling pair. Left at ``None`` this is exactly today's behaviour.
 
     Returns:
         The surviving themes, with what superseded what.
@@ -298,6 +301,8 @@ def merge_stale(
                 union = len(a) + len(b) - inter
                 same = a == b
                 if same or (not (a < b or b < a) and union and inter / union >= jaccard):
+                    if siblings is not None and not siblings(position, other):
+                        continue
                     alive.discard(position)
                     dropped[position] = other
                     kind[position] = "identical" if same else "overlap"
@@ -315,17 +320,27 @@ def merge_stale(
 
 
 def assert_no_stale_pair(members: Sequence[np.ndarray],
-                         jaccard: float = MERGE_JACCARD) -> None:
+                         jaccard: float = MERGE_JACCARD,
+                         siblings: Callable[[int, int], bool] | None = None) -> None:
     """Refuse a build that still holds a pair fix 1 was meant to remove.
+
+    The invariant has to match the rule. Unrestricted, no identical or non-nested pair above the
+    threshold may survive. **Under a sibling restriction, a surviving NON-sibling pair is the
+    intended outcome, not a defect** -- that is the whole content of the restriction -- so only
+    sibling pairs are checked. Asserting the unrestricted form on a restricted build would reject
+    exactly the build the restriction is meant to produce.
 
     Args:
         members: Member bitsets.
         jaccard: The merge threshold.
+        siblings: The restriction the merge ran under, if any.
 
     Raises:
-        ValueError: If any identical or non-nested pair at or above the threshold survives.
+        ValueError: If any pair the rule was allowed to act on survives.
     """
     left = stale_pairs(members, jaccard)
+    if siblings is not None:
+        left = [pair for pair in left if siblings(pair[0], pair[1])]
     if left:
         kinds = {k for _i, _j, k, _v in left}
         raise ValueError(
@@ -364,7 +379,9 @@ def assert_no_chain_pair(members: Sequence[np.ndarray],
 def repair_joint(
     members: Sequence[np.ndarray], supports: Sequence[float],
     inclusions: Sequence[dict[int, float]], share: float = COLLAPSE_SHARE,
-    jaccard: float = MERGE_JACCARD, survivor: str = "parent"
+    jaccard: float = MERGE_JACCARD, survivor: str = "parent",
+    stale_siblings: Callable[
+        [Sequence[np.ndarray]], Callable[[int, int], bool]] | None = None
 ) -> Repaired:
     """Both fixes, iterated TOGETHER to a joint fixed point.
 
@@ -387,6 +404,10 @@ def repair_joint(
         share: Chain-collapse share.
         jaccard: Same-theme cutoff for the non-nested merge.
         survivor: Chain-collapse survivor rule.
+        stale_siblings: Optional factory. Given the CURRENT member list it returns the sibling
+            predicate for that list, so the DAG the sibling relation comes from is rebuilt whenever
+            repair needs it rather than computed once and allowed to go stale. Left at ``None`` the
+            stale merge is unrestricted, exactly as today.
 
     Returns:
         The repaired build, with ``rounds["joint"]`` counting the outer iterations.
@@ -427,7 +448,8 @@ def repair_joint(
         rounds["collapse"] += step.rounds.get("collapse", 0)
         absorb(step, step.collapsed)
 
-        step = merge_stale(live_members, live_supports, live_inclusions, jaccard)
+        restrict = None if stale_siblings is None else stale_siblings(live_members)
+        step = merge_stale(live_members, live_supports, live_inclusions, jaccard, restrict)
         for victim, keeper in step.merged.items():
             merged[origin[victim]] = origin[keeper]
             kind[origin[victim]] = step.merged_kind[victim]
@@ -440,7 +462,8 @@ def repair_joint(
         raise RuntimeError(
             f"the joint collapse/merge loop did not settle in {MAX_ROUNDS} rounds")
 
-    assert_no_stale_pair(live_members, jaccard)
+    assert_no_stale_pair(live_members, jaccard,
+                         None if stale_siblings is None else stale_siblings(live_members))
     assert_no_chain_pair(live_members, share)
     return Repaired(
         members=live_members, supports=live_supports, inclusions=live_inclusions,

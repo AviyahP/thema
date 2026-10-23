@@ -26,7 +26,7 @@ across clusters; here it is confounded with size, so nothing may be discarded fo
 support. Growing the larger set respects the confound: no theme is ever rejected for being big.
 """
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from enum import StrEnum
 
@@ -88,6 +88,12 @@ class Outcome:
             Not the same as ``member_sets[candidate]``: a newcomer can grow by inheritance before
             it meets the theme that supersedes it, and the pair that was actually compared is the
             grown one. Recorded for analysis only -- nothing in the build reads it.
+        trimmed: ``[(theme candidate, member, propagated)]`` -- every member the FLIPPED rule 2
+            removed, when ``trim`` is on. ``propagated`` is False for the smaller theme of the pair
+            itself and True for a kept theme inside it that had to lose the same member. Empty
+            unless ``trim`` is on.
+        dropped_small: Candidates whose set fell below ``min_size`` through trimming and were
+            therefore not kept. Empty unless ``trim`` is on.
         superseded_against: ``{dropped candidate: the seated theme's bitset as compared}``. The
             other half of the same pair, and equally not recoverable afterwards: the seated theme
             goes on growing after it supersedes someone, so its FINAL membership gives a different
@@ -102,6 +108,8 @@ class Outcome:
     superseded: dict[int, int] = field(default_factory=dict)
     superseded_blocks: dict[int, np.ndarray] = field(default_factory=dict)
     superseded_against: dict[int, np.ndarray] = field(default_factory=dict)
+    trimmed: list[tuple[int, int, bool]] = field(default_factory=list)
+    dropped_small: set[int] = field(default_factory=set)
     inherited: list[Inheritance] = field(default_factory=list)
     rules: dict[str, int] = field(default_factory=dict)
     grew: dict[int, int] = field(default_factory=dict)
@@ -167,6 +175,40 @@ def classify(
     return Rule.COEXIST, left_is_a
 
 
+def _trim_down(out: "Outcome", stack: np.ndarray, sizes: np.ndarray, holder: int,
+               shrunk: np.ndarray, stray: np.ndarray) -> None:
+    """Remove ``stray`` from every kept theme contained in ``shrunk`` that holds it.
+
+    The mirror of :func:`_propagate`. Today's rule 2 grows a theme and must push the growth UP to
+    every ancestor so the ancestors still contain it; the flipped rule shrinks a theme and must push
+    the removal DOWN to every kept theme inside it, or those themes would stop being contained and
+    strict containment -- the one property the edit exists to preserve -- would break.
+
+    Only kept themes that actually hold the stray can be affected, and the caller passes the stray
+    rather than a set, because the trigger guarantees exactly one member.
+
+    Args:
+        out: The outcome being built.
+        stack: Row-aligned copy of ``out.members``, updated in place.
+        sizes: Row-aligned sizes, updated in place.
+        holder: Row of the theme that was shrunk, which is skipped.
+        shrunk: The shrunk theme's membership BEFORE the removal.
+        stray: Bitset holding only the member being removed.
+    """
+    for row in range(len(out.members)):
+        if row == holder:
+            continue
+        theirs = out.members[row]
+        if not bits.count(theirs & stray):
+            continue
+        if bits.count(theirs & ~shrunk):
+            continue                            # not inside the shrunk theme, so unaffected
+        out.members[row] = theirs & ~stray
+        stack[row] = out.members[row]
+        sizes[row] = bits.count(out.members[row])
+        out.trimmed.append((out.accepted[row], int(next(iter(bits.unpack(stray)))), True))
+
+
 def _propagate(
     out: Outcome,
     grown: int,
@@ -223,6 +265,9 @@ def consensus_pairwise(
     stray: float = DEFAULT_STRAY,
     jaccard: float = DEFAULT_JACCARD,
     max_rounds: int = 50,
+    siblings: Callable[[int, int], bool] | None = None,
+    trim: bool = False,
+    min_size: int = 3,
 ) -> Outcome:
     """Greedy consensus, one pair at a time. The reference implementation.
 
@@ -237,10 +282,26 @@ def consensus_pairwise(
         stray: Stray share threshold. Declared, not tuned.
         jaccard: Same-theme threshold. Declared, not tuned.
         max_rounds: Fixed-point guard per newcomer.
+        siblings: Optional ``(candidate, accepted) -> bool``. When given, **rule 3 applies only to
+            sibling pairs**; a non-sibling pair that rule 3 would have superseded falls through to
+            rule 4 and coexists. Rules 1 and 2 are untouched and still apply to every pair. Left at
+            ``None`` this is exactly today's behaviour, which the byte-for-byte reproduction of the
+            frozen build is the proof of.
+        trim: Flip rule 2's edit; see :func:`consensus`. **Not implemented in the reference
+            path**, which raises rather than silently running the unflipped rule.
+        min_size: A theme trimmed below this is dropped.
 
     Returns:
         What consensus did.
+
+    Raises:
+        NotImplementedError: If ``trim`` is on. The flip is implemented in the vectorised path
+            only, and returning the unflipped result here would be a silent wrong answer.
     """
+    if trim:
+        raise NotImplementedError(
+            "trim is implemented in the vectorised consensus only; "
+            "method='pairwise' would silently run the unflipped rule 2")
     out = Outcome(accepted=[], members=[])
     counts: dict[str, int] = {rule.value: 0 for rule in Rule}
 
@@ -257,6 +318,9 @@ def consensus_pairwise(
                 accepted_block = out.members[position]
                 rule, newcomer_is_a = classify(block, accepted_block, stray, jaccard)
                 if rule is Rule.SUPERSEDED:
+                    if siblings is not None and not siblings(candidate,
+                                                             out.accepted[position]):
+                        continue            # rule 4: a non-sibling pair coexists
                     # Processing order is decreasing support, so the seated theme has at least as
                     # much support and keeps its place.
                     dropped_for = out.accepted[position]
@@ -372,6 +436,9 @@ def consensus(
     jaccard: float = DEFAULT_JACCARD,
     max_rounds: int = 50,
     method: str = "vector",
+    siblings: Callable[[int, int], bool] | None = None,
+    trim: bool = False,
+    min_size: int = 3,
 ) -> Outcome:
     """Greedy consensus over voted clusters.
 
@@ -387,6 +454,14 @@ def consensus(
         jaccard: Same-theme threshold. Declared before the run.
         max_rounds: Fixed-point guard per newcomer.
         method: ``"vector"`` or ``"pairwise"``.
+        siblings: Optional ``(candidate, accepted) -> bool`` restricting **rule 3 only** to sibling
+            pairs; see :func:`consensus_pairwise`.
+        trim: Flip rule 2's edit. Off, the larger theme GROWS to swallow the smaller one's stray and
+            the growth propagates up to every ancestor, which is what O50s does. On, the **smaller**
+            theme drops the stray instead and the removal propagates DOWN to every kept theme inside
+            it. Strict containment is preserved either way; what changes is which side is edited.
+            The trigger is untouched, so the same pairs fire in the same order.
+        min_size: A theme trimmed below this is dropped. Only consulted when ``trim`` is on.
 
     Returns:
         What consensus did.
@@ -396,7 +471,8 @@ def consensus(
     """
     if method == "pairwise":
         return consensus_pairwise(
-            member_sets, support, inclusions, n_bits, stray, jaccard, max_rounds
+            member_sets, support, inclusions, n_bits, stray, jaccard, max_rounds, siblings,
+            trim, min_size
         )
     if method != "vector":
         raise ValueError(f"method must be 'vector' or 'pairwise', not {method!r}")
@@ -425,6 +501,13 @@ def consensus(
                 code, newcomer_is_a = _rules_against(
                     block, stack, sizes, shared, stray, jaccard
                 )
+                if siblings is not None:
+                    # Rule 3 restricted to siblings. Rewriting the code to _COEXIST before the
+                    # order is resolved is exactly "falls through to rule 4": the position stops
+                    # acting and the scan carries on to the next one.
+                    for where in np.flatnonzero(code == _SUPERSEDED).tolist():
+                        if not siblings(candidate, out.accepted[int(where)]):
+                            code[int(where)] = _COEXIST
                 acting = np.flatnonzero((code == _INHERITED) | (code == _SUPERSEDED))
                 if len(acting):
                     position = int(acting[0])
@@ -435,33 +518,65 @@ def consensus(
                         accepted_block = stack[position]
                         if bool(newcomer_is_a[position]):
                             added = accepted_block & ~block
-                            block = block | added
-                            source = out.accepted[position]
-                            for member in bits.unpack(added):
-                                out.inherited.append(
-                                    Inheritance(candidate, member, source,
-                                                float(inclusions[source].get(member, 0.0)), False)
-                                )
-                            out.grew[candidate] = out.grew.get(candidate, 0) + bits.count(added)
+                            if trim:
+                                # FLIPPED: the SMALLER theme -- the seated one here -- drops its
+                                # stray, instead of the newcomer growing to swallow it.
+                                was = accepted_block.copy()
+                                out.members[position] = accepted_block & ~added
+                                stack[position] = out.members[position]
+                                sizes[position] = bits.count(out.members[position])
+                                for member in bits.unpack(added):
+                                    out.trimmed.append(
+                                        (out.accepted[position], member, False))
+                                _trim_down(out, stack, sizes, position, was, added)
+                            else:
+                                block = block | added
+                                source = out.accepted[position]
+                                for member in bits.unpack(added):
+                                    out.inherited.append(
+                                        Inheritance(candidate, member, source,
+                                                    float(inclusions[source].get(member, 0.0)),
+                                                    False)
+                                    )
+                                out.grew[candidate] = (
+                                    out.grew.get(candidate, 0) + bits.count(added))
                         else:
                             added = block & ~accepted_block
-                            was = accepted_block.copy()
-                            out.members[position] = accepted_block | added
-                            stack[position] = out.members[position]
-                            sizes[position] = bits.count(out.members[position])
-                            grown = out.accepted[position]
-                            out.grew[grown] = out.grew.get(grown, 0) + bits.count(added)
-                            for member in bits.unpack(added):
-                                out.inherited.append(
-                                    Inheritance(grown, member, candidate,
-                                                float(inclusions[candidate].get(member, 0.0)),
-                                                False)
-                                )
-                            _propagate(out, position, was, added, candidate, inclusions)
+                            if trim:
+                                # FLIPPED: the newcomer is the smaller one, so it drops its stray.
+                                was = block.copy()
+                                block = block & ~added
+                                for member in bits.unpack(added):
+                                    out.trimmed.append((candidate, member, False))
+                                _trim_down(out, stack, sizes, -1, was, added)
+                            else:
+                                was = accepted_block.copy()
+                                out.members[position] = accepted_block | added
+                                stack[position] = out.members[position]
+                                sizes[position] = bits.count(out.members[position])
+                                grown = out.accepted[position]
+                                out.grew[grown] = out.grew.get(grown, 0) + bits.count(added)
+                                for member in bits.unpack(added):
+                                    out.inherited.append(
+                                        Inheritance(grown, member, candidate,
+                                                    float(inclusions[candidate].get(member, 0.0)),
+                                                    False)
+                                    )
+                                _propagate(out, position, was, added, candidate, inclusions)
                             # Only the rows the propagation touched need refreshing.
                             for index in range(len(out.members)):
                                 stack[index] = out.members[index]
                                 sizes[index] = bits.count(out.members[index])
+                        if trim:
+                            # A seated theme trimmed below the minimum is zeroed, which makes it
+                            # inert for every later comparison (classify returns COEXIST on an
+                            # empty side), and is filtered out before the outcome is returned.
+                            for index in range(len(out.members)):
+                                if 0 < sizes[index] < min_size:
+                                    out.dropped_small.add(out.accepted[index])
+                                    out.members[index] = np.zeros_like(out.members[index])
+                                    stack[index] = out.members[index]
+                                    sizes[index] = 0
                         counts[Rule.INHERITED.value] += 1
                         changed = True
             if dropped_for >= 0 or not changed or rounds >= max_rounds:
@@ -474,11 +589,20 @@ def consensus(
                 out.superseded_against[candidate] = against
             counts[Rule.SUPERSEDED.value] += 1
             continue
+        if trim and bits.count(block) < min_size:
+            out.dropped_small.add(candidate)
+            continue
         out.accepted.append(candidate)
         out.members.append(block)
         stack = np.vstack([stack, block[None, :]])
         sizes = np.append(sizes, bits.count(block))
 
+    if trim and out.dropped_small:
+        # Drop the zeroed rows. Only trimming can produce them, so the unflipped path returns the
+        # same object it always did.
+        alive = [i for i in range(len(out.members)) if bits.count(out.members[i])]
+        out.accepted = [out.accepted[i] for i in alive]
+        out.members = [out.members[i] for i in alive]
     counts[Rule.NESTED.value] = len(out.accepted)
     out.rules = counts
     return out
