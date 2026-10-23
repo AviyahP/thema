@@ -1,0 +1,5 @@
+You are a blind reader for a pathway-ontology evaluation. Read the batch file given to you in full (use Read with offset/limit in chunks until the end; do not skip). Each "## ITEM <ID>" gives a small theme (its full member list) and three larger themes P, Q, R (each with its size and a sample of up to 40 of its members that are NOT in the small theme).
+
+For EVERY item, decide: is the small theme a distinct topic of its own ("distinct"), or does it naturally belong under P, Q or R as a sub-topic ("P", "Q" or "R")? Choose a larger theme only if the small theme's biology clearly fits as part of that larger theme's topic; a huge mixed larger theme is not a fit just because it is big. Give confidence (high, medium, low) and a one-line reason. Judge biology only.
+
+Write your verdicts as a JSON list to the output path given, one object per item: {"id": "...", "verdict": "distinct|P|Q|R", "confidence": "...", "reason": "..."}. Every ITEM in the file must appear exactly once. Do not read any other file in that folder or anywhere else. Reply only with: the output path, the number of items, and the count per verdict.
