@@ -1,0 +1,97 @@
+{
+  "half": "all",
+  "relations": "primary",
+  "bootstrap": 1000,
+  "seed": 0,
+  "margin": 0.02,
+  "arms": {
+    "O50s": {
+      "themes": 5658,
+      "path": "frozen/working-O50s-2026-10-22",
+      "reactome": {
+        "3-10": {
+          "recall": 0.4906,
+          "precision": 0.1722,
+          "n_curated": 371,
+          "n_themes": 2514
+        },
+        "11-50": {
+          "recall": 0.4775,
+          "precision": 0.1817,
+          "n_curated": 111,
+          "n_themes": 996
+        },
+        "51-200": {
+          "recall": 0.3158,
+          "precision": 0.1132,
+          "n_curated": 19,
+          "n_themes": 53
+        }
+      },
+      "go": {
+        "3-10": {
+          "recall": 0.1258,
+          "precision": 0.0796,
+          "n_curated": 1645,
+          "n_themes": 2700
+        },
+        "11-50": {
+          "recall": 0.052,
+          "precision": 0.0254,
+          "n_curated": 558,
+          "n_themes": 2007
+        },
+        "51-200": {
+          "recall": 0.0493,
+          "precision": 0.0652,
+          "n_curated": 142,
+          "n_themes": 138
+        }
+      }
+    },
+    "S2": {
+      "themes": 5646,
+      "path": "v0.4-leaves/thema_L_x2_S2",
+      "reactome": {
+        "3-10": {
+          "recall": 0.4906,
+          "precision": 0.1737,
+          "n_curated": 371,
+          "n_themes": 2522
+        },
+        "11-50": {
+          "recall": 0.4505,
+          "precision": 0.1787,
+          "n_curated": 111,
+          "n_themes": 985
+        },
+        "51-200": {
+          "recall": 0.2632,
+          "precision": 0.1333,
+          "n_curated": 19,
+          "n_themes": 60
+        }
+      },
+      "go": {
+        "3-10": {
+          "recall": 0.124,
+          "precision": 0.079,
+          "n_curated": 1645,
+          "n_themes": 2720
+        },
+        "11-50": {
+          "recall": 0.0466,
+          "precision": 0.0253,
+          "n_curated": 558,
+          "n_themes": 1974
+        },
+        "51-200": {
+          "recall": 0.0493,
+          "precision": 0.05,
+          "n_curated": 142,
+          "n_themes": 140
+        }
+      }
+    }
+  }
+}

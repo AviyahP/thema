@@ -1,0 +1,44 @@
+{
+ "match_at": 0.7,
+ "rows": [
+  {
+   "style": "O50s",
+   "themes_first": 4814,
+   "themes_second": 4691,
+   "forward": 0.5862,
+   "backward": 0.596,
+   "worse": 0.5862,
+   "forward_median": 0.75,
+   "backward_median": 0.75
+  },
+  {
+   "style": "S2",
+   "themes_first": 4958,
+   "themes_second": 4828,
+   "forward": 0.5817,
+   "backward": 0.5903,
+   "worse": 0.5817,
+   "forward_median": 0.746,
+   "backward_median": 0.75
+  }
+ ],
+ "floors_note": [
+  "20-39: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "40-79: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "80-159: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "160-319: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "320-639: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "640-1279: 0.01 -> 0.02 (hold 2 runs, not the rate)",
+  "1280+: 0.01 -> 0.02 (hold 2 runs, not the rate)"
+ ],
+ "floors_rejected": {
+  "stored_unchanged_gated": [
+   38811,
+   38565
+  ],
+  "single_run_share": [
+   0.595,
+   0.601
+  ]
+ }
+}
