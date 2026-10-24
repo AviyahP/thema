@@ -1,0 +1,528 @@
+{
+ "arm": "L",
+ "collapse_share": 0.85,
+ "confirmed": {
+  "overall_fdr": 0.00233,
+  "overall_null": 60.83,
+  "overall_real": 26120,
+  "strata": [
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00729,
+    "effective": 0.84,
+    "floor": 0.84,
+    "heldout_fdr": 0.00242,
+    "heldout_null": 0.5,
+    "heldout_real": 207,
+    "real": 804,
+    "source": "frozen cal8, unchanged",
+    "stratum": "3-3"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00696,
+    "effective": 0.915,
+    "floor": 0.915,
+    "heldout_fdr": 0.00265,
+    "heldout_null": 0.33,
+    "heldout_real": 126,
+    "real": 1090,
+    "source": "frozen cal8, unchanged",
+    "stratum": "4-4"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00778,
+    "effective": 0.515,
+    "floor": 0.515,
+    "heldout_fdr": 0.01042,
+    "heldout_null": 2.0,
+    "heldout_real": 192,
+    "real": 1455,
+    "source": "frozen cal8, unchanged",
+    "stratum": "5-5"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00652,
+    "effective": 0.33,
+    "floor": 0.33,
+    "heldout_fdr": 0.00379,
+    "heldout_null": 1.33,
+    "heldout_real": 352,
+    "real": 2193,
+    "source": "frozen cal8, unchanged",
+    "stratum": "6-6"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00774,
+    "effective": 0.195,
+    "floor": 0.195,
+    "heldout_fdr": 0.01088,
+    "heldout_null": 12.83,
+    "heldout_real": 1179,
+    "real": 8026,
+    "source": "frozen cal8, unchanged",
+    "stratum": "7-9"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.0059382,
+    "effective": 0.030151,
+    "floor": 0.030151,
+    "heldout_fdr": 0.00613,
+    "heldout_null": 35.5,
+    "heldout_real": 5793,
+    "n_cuts": 380,
+    "null_max": 0.17,
+    "null_per_seed": 62499.6,
+    "real": 5793,
+    "source": "solved 17 Oct 2026",
+    "stratum": "10-19"
+   },
+   {
+    "bounded": false,
+    "calibration_fdr": 0.00076155,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.00071,
+    "heldout_null": 8.33,
+    "heldout_real": 11818,
+    "n_cuts": 176,
+    "null_max": 0.015,
+    "null_per_seed": 32063.4,
+    "real": 11818,
+    "source": "solved 17 Oct 2026",
+    "stratum": "20-39"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 6.211e-05,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 4830,
+    "n_cuts": 113,
+    "null_max": 0.005,
+    "null_per_seed": 16323.4,
+    "real": 4830,
+    "source": "solved 17 Oct 2026",
+    "stratum": "40-79"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00029126,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 1030,
+    "n_cuts": 34,
+    "null_max": 0.005,
+    "null_per_seed": 8275.1,
+    "real": 1030,
+    "source": "solved 17 Oct 2026",
+    "stratum": "80-159"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00128205,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 234,
+    "n_cuts": 17,
+    "null_max": 0.005,
+    "null_per_seed": 4150.9,
+    "real": 234,
+    "source": "solved 17 Oct 2026",
+    "stratum": "160-319"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.003125,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 96,
+    "n_cuts": 8,
+    "null_max": 0.005,
+    "null_per_seed": 2082.6,
+    "real": 96,
+    "source": "solved 17 Oct 2026",
+    "stratum": "320-639"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.001875,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 160,
+    "n_cuts": 28,
+    "null_max": 0.005,
+    "null_per_seed": 1052.1,
+    "real": 160,
+    "source": "solved 17 Oct 2026",
+    "stratum": "640-1279"
+   },
+   {
+    "bounded": true,
+    "calibration_fdr": 0.00291262,
+    "effective": 0.01,
+    "floor": 0.01,
+    "heldout_fdr": 0.0,
+    "heldout_null": 0.0,
+    "heldout_real": 103,
+    "n_cuts": 30,
+    "null_max": 0.005,
+    "null_per_seed": 451.1,
+    "real": 103,
+    "source": "solved 17 Oct 2026",
+    "stratum": "1280+"
+   }
+  ]
+ },
+ "construction": {
+  "after_consensus": 3814,
+  "gated": 26120,
+  "n_collapsed": 171,
+  "n_dropped_small": 3788,
+  "n_members_removed": 53951,
+  "n_removed_direct": 38199,
+  "n_removed_propagated": 15752,
+  "n_stale": 187,
+  "n_superseded": 18518,
+  "rules": {
+   "coexist": 0,
+   "inherited": 38199,
+   "nested": 3814,
+   "superseded": 18518
+  }
+ },
+ "containment": "strict",
+ "design": "Aviyah, 23 Oct 2026: rule 2's trigger is unchanged, but instead of the larger theme growing to swallow the smaller one's stray and propagating up, the SMALLER theme drops the stray and the removal propagates DOWN to every kept theme inside it. Strict containment is preserved; the edited side is flipped.",
+ "directory": "thema_L_x2_T1",
+ "excluded": [],
+ "exclusions_file": "data/excluded_inputs.tsv",
+ "floors": [
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00729,
+   "effective": 0.84,
+   "floor": 0.84,
+   "real": 804,
+   "source": "frozen cal8, unchanged",
+   "stratum": "3-3"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00696,
+   "effective": 0.915,
+   "floor": 0.915,
+   "real": 1090,
+   "source": "frozen cal8, unchanged",
+   "stratum": "4-4"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00778,
+   "effective": 0.515,
+   "floor": 0.515,
+   "real": 1455,
+   "source": "frozen cal8, unchanged",
+   "stratum": "5-5"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00652,
+   "effective": 0.33,
+   "floor": 0.33,
+   "real": 2193,
+   "source": "frozen cal8, unchanged",
+   "stratum": "6-6"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00774,
+   "effective": 0.195,
+   "floor": 0.195,
+   "real": 8026,
+   "source": "frozen cal8, unchanged",
+   "stratum": "7-9"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.0059382,
+   "effective": 0.030151,
+   "floor": 0.030151,
+   "n_cuts": 380,
+   "null_max": 0.17,
+   "null_per_seed": 62499.6,
+   "real": 5793,
+   "source": "solved 17 Oct 2026",
+   "stratum": "10-19"
+  },
+  {
+   "bounded": false,
+   "calibration_fdr": 0.00076155,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 176,
+   "null_max": 0.015,
+   "null_per_seed": 32063.4,
+   "real": 11818,
+   "source": "solved 17 Oct 2026",
+   "stratum": "20-39"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 6.211e-05,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 113,
+   "null_max": 0.005,
+   "null_per_seed": 16323.4,
+   "real": 4830,
+   "source": "solved 17 Oct 2026",
+   "stratum": "40-79"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00029126,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 34,
+   "null_max": 0.005,
+   "null_per_seed": 8275.1,
+   "real": 1030,
+   "source": "solved 17 Oct 2026",
+   "stratum": "80-159"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00128205,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 17,
+   "null_max": 0.005,
+   "null_per_seed": 4150.9,
+   "real": 234,
+   "source": "solved 17 Oct 2026",
+   "stratum": "160-319"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.003125,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 8,
+   "null_max": 0.005,
+   "null_per_seed": 2082.6,
+   "real": 96,
+   "source": "solved 17 Oct 2026",
+   "stratum": "320-639"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.001875,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 28,
+   "null_max": 0.005,
+   "null_per_seed": 1052.1,
+   "real": 160,
+   "source": "solved 17 Oct 2026",
+   "stratum": "640-1279"
+  },
+  {
+   "bounded": true,
+   "calibration_fdr": 0.00291262,
+   "effective": 0.01,
+   "floor": 0.01,
+   "n_cuts": 30,
+   "null_max": 0.005,
+   "null_per_seed": 451.1,
+   "real": 103,
+   "source": "solved 17 Oct 2026",
+   "stratum": "1280+"
+  }
+ ],
+ "floors_source": "O50s's stored floors, unchanged; the gate is untouched",
+ "inclusion_cut": 0.5,
+ "joint_fixed_point": true,
+ "kept_stages": [
+  "completion",
+  "greedy seed absorption",
+  "per-size support floors"
+ ],
+ "leaves_digest": "97852e70b5a820f0",
+ "max_fdr_overall": 0.01,
+ "max_fdr_stratum": 0.02,
+ "method": "v0.4-leaves O50s, rule 2 flipped: trim the child (T1)",
+ "min_size": 3,
+ "multi_parent_share": 0.5784,
+ "n": 5539,
+ "n_edges": 7608,
+ "n_effectively_unplaced": 2,
+ "n_excluded_inputs": 23,
+ "n_excluded_no_genes": 0,
+ "n_multi_parent": 1999,
+ "n_near_members": null,
+ "n_nodes": 3456,
+ "n_root_only": 2,
+ "n_roots": 551,
+ "n_undescribed": 0,
+ "n_unplaced": 0,
+ "params": {
+  "arm": "L",
+  "collapse_share": 0.85,
+  "confirmed": {
+   "overall_fdr": 0.00233,
+   "overall_null": 60.83,
+   "overall_real": 26120
+  },
+  "construction": {
+   "after_consensus": 3814,
+   "gated": 26120,
+   "n_collapsed": 171,
+   "n_dropped_small": 3788,
+   "n_members_removed": 53951,
+   "n_removed_direct": 38199,
+   "n_removed_propagated": 15752,
+   "n_stale": 187,
+   "n_superseded": 18518
+  },
+  "containment": "strict",
+  "design": "Aviyah, 23 Oct 2026: rule 2's trigger is unchanged, but instead of the larger theme growing to swallow the smaller one's stray and propagating up, the SMALLER theme drops the stray and the removal propagates DOWN to every kept theme inside it. Strict containment is preserved; the edited side is flipped.",
+  "exclusions_file": "data/excluded_inputs.tsv",
+  "floors": [],
+  "floors_source": "O50s's stored floors, unchanged; the gate is untouched",
+  "inclusion_cut": 0.5,
+  "joint_fixed_point": true,
+  "kept_stages": [
+   "completion",
+   "greedy seed absorption",
+   "per-size support floors"
+  ],
+  "leaves_digest": "97852e70b5a820f0",
+  "max_fdr_overall": 0.01,
+  "max_fdr_stratum": 0.02,
+  "method": "v0.4-leaves O50s, rule 2 flipped: trim the child (T1)",
+  "min_size": 3,
+  "multi_parent_share": 0.5784,
+  "n": 5539,
+  "n_effectively_unplaced": 2,
+  "n_excluded_inputs": 23,
+  "n_multi_parent": 1999,
+  "n_nodes": 3456,
+  "n_root_only": 2,
+  "n_roots": 551,
+  "n_unplaced": 0,
+  "peak_mb": 1358.7,
+  "removed_stages": [
+   "size cap",
+   "TOL extras-only rule",
+   "STRAY",
+   "partial containment"
+  ],
+  "rows": "1-200",
+  "runs": 200,
+  "size_cap": null,
+  "strata": [],
+  "stray": 0.0,
+  "subsample": 0.8,
+  "survivor": "support",
+  "theta": 0.7,
+  "theta_match": 0.7,
+  "theta_merge": 0.5,
+  "theta_same": 0.5,
+  "theta_same_default": 0.7,
+  "tol": 0.0,
+  "trim": true,
+  "universe": "L (every curated summary removed), minus the declared exclusions",
+  "universe_digest": "c54319cdfbbe9eb7"
+ },
+ "peak_mb": 1358.7,
+ "removed_stages": [
+  "size cap",
+  "TOL extras-only rule",
+  "STRAY",
+  "partial containment"
+ ],
+ "rows": "1-200",
+ "runs": 200,
+ "size_cap": null,
+ "strata": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   5
+  ],
+  [
+   6,
+   6
+  ],
+  [
+   7,
+   9
+  ],
+  [
+   10,
+   19
+  ],
+  [
+   20,
+   39
+  ],
+  [
+   40,
+   79
+  ],
+  [
+   80,
+   159
+  ],
+  [
+   160,
+   319
+  ],
+  [
+   320,
+   639
+  ],
+  [
+   640,
+   1279
+  ],
+  [
+   1280,
+   1000000000
+  ]
+ ],
+ "stray": 0.0,
+ "subsample": 0.8,
+ "survivor": "support",
+ "theta": 0.7,
+ "theta_match": 0.7,
+ "theta_merge": 0.5,
+ "theta_same": 0.5,
+ "theta_same_default": 0.7,
+ "tol": 0.0,
+ "trim": true,
+ "universe": "L (every curated summary removed), minus the declared exclusions",
+ "universe_digest": "c54319cdfbbe9eb7",
+ "version": "0.4-leaves"
+}
