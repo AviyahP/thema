@@ -9224,3 +9224,501 @@ FINAL
 
 END OF PROMPT. Before building, give the time estimate and confirm both tests pass. After, give sections A-E as tables, T1 next to O50s, and the commit script path.
 ```
+
+---
+
+## 2026-10-23 14:33:52 UTC+1 — T1: TRIMMING THE CHILD WORKS AND COSTS 39% OF THE THEMES (prompt 57)
+
+Exploratory; nothing adopted. Readings, stability, recall and the other evaluation sections not run.
+
+**Both declared tests pass.** Flip off reproduces frozen O50s **byte for byte** with 0 members
+removed; on fixtures the flipped rule never adds a member, the downward propagation reaches a
+contained theme, every final edge is strict containment, and a theme trimmed below 3 is dropped.
+
+**The flip is implementable, preserves strictness, and is very expensive.**
+
+| | O50s | T1 |
+|---|---|---|
+| members **added** by rule 2 | **73,354** | 0 |
+| members **removed** by rule 2 | 0 | **53,951** (38,199 direct + 15,752 propagated) |
+| themes edited / propagated into | - | 10,822 / 2,986 |
+| themes dropped under 3 | 0 | **3,788** |
+| themes trimmed by more than one parent | - | 6,226 |
+| final themes | 5,658 | **3,456** (-38.9%) |
+| roots / roots of 50 or fewer | 261 / 164 | **551 / 399** |
+| giants over 1,280 | 5 | **8** |
+| levels to a root, median | 6.0 | **3.0** |
+| edges | 12,555 | **7,608** |
+| O50s themes matched at J >= 0.9 | - | **9.1%** |
+| held-out FDR | 0.00233 | 0.00233 (gate untouched, confirmed) |
+
+**The decisive finding is that the cost is not symmetric with inheritance -- it moves between size
+bands.** Inheritance pays for strictness by growing the big themes; trimming pays by destroying the
+small ones. **Above 100 pathways not one theme loses even 10% of its members; at 3-5 every trimmed
+theme loses more than 25%** and a 3-member theme losing its single stray falls under the minimum and
+dies. 4,851 themes lose more than a quarter of their members; 1,431 of the 2,202 net theme losses
+come from the 6-11 band alone. So T1 is not "the other way to do the same thing"; it relocates the
+damage from the top to the bottom.
+
+**T1 is a different ontology, not a variant.** 9.1% of O50s's themes have a counterpart at J >= 0.9,
+under 3% in the two smallest bands; and of O50s's 12,555 edges only **207 even have both endpoints
+matched**, of which 112 survive. Median depth falls from 6 to 3.
+
+**The giants are not cured: 5 -> 8**, including the 2,809-member theme -- the largest gated theme
+there is -- which O50s's consensus had absorbed. Trimming removes the small themes around the
+giants and leaves the top heavier in relative terms.
+
+**Coverage is the one thing it does not break.** All 5,539 pathways stay in at least one theme, and
+of the 5,441 pathways that lost a membership somewhere, **every one is still held by another theme --
+zero orphaned**. The build reports 2 "effectively unplaced", a weaker thing: two pathways sit only
+in root themes with no non-root home (O50s has 0).
+
+**Separated accounting, as asked.** Direct: the 53,951 removals above. Indirect, from running the
+same pipeline twice and differencing: rule-2 events -33,152 (trimming removes the strays that would
+have fired later events, and 3,788 themes stop existing), rule 3 -1,013, **chain collapses -594, a
+78% drop**, stale merges +21, final themes -2,202. **The chain-collapse collapse independently
+confirms prompt 56 Part A from a second direction**: inheritance was manufacturing most of the
+near-chains the repair later collapses, just as it manufactured all 418 twins. Rule 4 is 0 in both,
+worth stating because it means consensus never reaches the coexist rule in this configuration.
+
+Full record: `docs/status/2026-10-23-trim-T1.md`. Build:
+`data/ontology/v0.4-leaves/thema_L_x2_T1/`; accounting in
+`data/experiments/trim_T1_2026-10-23/`. Commit script:
+`docs/status/commit-2026-10-23-trim-T1.sh`, after the missed-twins script.
+
+---
+
+## 2026-10-23 15:29:43 UTC+1 — MERGE BY CORE, ARMS CI AND CT (prompt 58): declared before running
+
+Exploratory; **no ontology is built** and nothing is adopted. **Aviyah's design, 23 Oct.** O50s's
+near-copies come from comparing versions of one theme on their full sets, wobbly borders included
+(step 5's 10% rule on completed sets). This compares versions on their **cores** instead, and runs
+only as far as the merge.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_58.md` (31 lines, ends with END OF PROMPT).
+
+```
+Prompt 58: merge by core, up to the merge only (arms CI and CT). Declared 23 Oct 2026, before any result. Exploratory: no ontology is built, nothing adopted. Design: Aviyah, 23 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+O50s's near-copies come from comparing versions of one theme on their full sets, wobbly borders included (step 5, 10% rule on completed sets). Aviyah's design compares versions on their CORES instead: each run's cluster is matched at J >= 0.70, its matched copies define a core, and clusters with the same core are one theme. This prompt runs only that far and compares the result with O50s at each of its stages.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first; if under 3 h, proceed without waiting; if over, stop and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_58.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+INPUT: frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/): x2 universe, the 200 cached runs, the stored groupings, their J >= 0.70 matched copies and supports, exactly as O50s computes them. Reuse, do not recompute, wherever the cache allows.
+
+SPEC (both arms):
+1. Candidates, matching, support: unchanged from O50s (every cluster of 3 or more, stored once as groupings; matched copies at J >= 0.70 on shared pathways, one per run; eligibility at 3 shared; support = runs that found it / runs able to judge it).
+2. Core of a grouping: the pathways with inclusion >= 0.9 in its matched copies (inclusion = copies holding the pathway / copies from runs where it was drawn, as in O50s's completion). A grouping whose core has fewer than 3 pathways has no core: count these by size band and leave them out of the themes.
+3. Merge by core: in O50s's family order (support descending, then size descending, then key), each unclaimed grouping with a core becomes a seed and absorbs every unclaimed grouping whose core is the same as the SEED's core (compared with the seed only, never with the growing theme, so no chaining):
+   - arm CI: identical cores;
+   - arm CT: cores that pass O50s's twin test (is_variant, imported, unchanged: each side's private part at most max(2, int(10% of the shared part))).
+4. Each theme: support pooled as O50s pools family support (runs that found any of its groupings / runs able to judge any). Pooled copies: one per run, the copy of the highest-support grouping of the theme found in that run. From the pooled copies, recompute inclusions; core = inclusion >= 0.9; members = inclusion >= 0.5.
+No gate, no consensus, no repair, no edges.
+
+REPORT (docs/status/2026-10-23-core-merge.md). CI and CT next to O50s at its stages: (s1) groupings, (s2) families before the gate, (s3) the 26,120 gated themes, (s4) after consensus (6,589), (s5) final (5,658).
+A. Counts: groupings without a core (by band); themes; groupings per theme (median, maximum); themes per band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); core size as a share of members (median by band).
+B. Support: median support by band, and the share of themes at or above 0.05, 0.1, 0.33, by band; CI and CT against s2.
+C. Near-copies (the thing consensus and repair fix), per arm and for s2 and s3: non-nested pairs at J >= 0.5 (count, by band of the larger); nested pairs with the smaller holding >= 0.85 of the larger; pairs where the smaller has exactly 1 member outside the larger (the inheritance trigger); and the same three counts restricted to themes passing O50s's stored floors (INDICATIVE ONLY: the floors were calibrated for O50s's families, not for these arms; label it so).
+D. Correspondence: share of s5 (final O50s) themes with a CI / CT counterpart at J >= 0.9 and at J >= 0.7, by band; for the 5 O50s giants, the best CI / CT counterpart (J, size) and their cores' sizes.
+E. Twenty CI themes and twenty CT themes of 25 or more members, drawn at random (seed 20261023), as "name [source]" member lists with the core marked, in data/experiments/core_merge_2026-10-23/examples/. Do not judge them.
+
+FINAL
+Write docs/status/commit-2026-10-23-core-merge.sh, to run after commit-2026-10-23-trim-T1.sh. It commits the code, status note, data/experiments/core_merge_2026-10-23/ and PROMPT_58.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give sections A-D as tables and the commit script path.
+```
+
+---
+
+## 2026-10-23 16:20:30 UTC+1 — MERGING BY CORE DOES NOT REMOVE THE NEAR-COPIES (prompt 58)
+
+Exploratory; **no ontology built**, nothing adopted.
+
+**The hypothesis does not hold.** Comparing versions of a theme on their **cores** instead of their
+full sets gives the same number of themes and **more** near-copies, not fewer. CT -- cores compared
+by O50s's own twin test -- lands on **98,817 themes against O50s's 99,951 families**, almost the
+same count from an entirely different comparison, and:
+
+| set | themes | non-nested J >= 0.5 | nested, smaller >= 0.85 | smaller 1 outside |
+|---|---|---|---|---|
+| **CT** | 98,817 | **1,063,235** (+29%) | 18,408 (5x) | 5,296,155 |
+| **CI** | 183,091 | **4,115,817** (5.0x) | 364,412 (98x) | 28,895,622 |
+| O50s s2 | 99,951 | 823,931 | 3,704 | 5,308,972 |
+| O50s s3 | 26,120 | 409,858 | 1,968 | 570,291 |
+
+**Every section-C figure is exact and verified.** Counted by chunked sparse products of the
+theme-by-pathway matrix with its transpose, then checked against an explicit double loop on a random
+sample of 2,000 themes (seed 20261023): **all seven runs matched exactly.** Relations 1 and 2 admit
+exact size windows but relation 3 admits none -- a 3-member theme can sit one stray from a
+2,000-member theme -- so the unwindowed product is needed anyway and the windows are applied as
+masks on its triples rather than as three separate products. That deviation from the letter of the
+instruction is exact and strictly less work; it is recorded rather than left implicit.
+
+**Why it fails is visible in one measurement: for most themes the core IS the membership.** Median
+core share is **1.000** from 12 members (CT) or 50 (CI) all the way to 799, falling to about 0.70
+only in the giants. A rule comparing cores is therefore comparing almost the same objects as a rule
+comparing full sets. The wobbly borders were not what made the near-copies; cores wobble too.
+
+**Other findings.** Only **331 of 264,897** groupings lack a core of 3+, all of them small (180 at
+3-5, 151 at 6-11), so the no-core rule removes nothing of substance. **Groupings per theme is a
+median of 1.0 in both arms** -- most themes absorb nothing. CT tracks s2 band for band above 12
+members and its support distribution is within a few points of s2's throughout; CI inflates every
+band and merges almost nothing. **O50s's answers are already in the pool**: 100% (CI) and 96% (CT)
+of its 5,658 final themes have a J >= 0.7 counterpart before any gate, consensus or repair, and all
+five giants do, at J 0.82-0.95 with cores of 980-1,600 pathways. Whatever consensus and repair
+contribute, it is not the discovery of these themes.
+
+**Two method points worth keeping.** The seed order is O50s's -- support, then the grouping's own
+**completed-set** size, then its key -- with only the merge *test* moved to the core; that is why
+the arms are not `families(candidates, cores, ...)`, which would have changed the seeding too. And
+step 4's pooling is the prompt's, *the copy of the highest-support grouping found in that run*, not
+O50s's union of every copy a run holds.
+
+**One bug found and fixed in the indicative floors filter.** `Material.rows` rounds support to six
+decimals before `v04.gate` compares it; comparing the raw float rejected 28 themes the real gate
+keeps. After the fix, applying the stored floors to s2 reproduces **exactly** the 26,120 gated
+themes and exactly s3's three counts -- a clean internal check. The floors-restricted rows stay
+labelled INDICATIVE ONLY, since those floors were calibrated for O50s's families and neither arm
+pools the same way.
+
+Full record: `docs/status/2026-10-23-core-merge.md`. Arms and counts in
+`data/experiments/core_merge_2026-10-23/`; twenty CI and twenty CT examples of 25+ members, cores
+marked, under `examples/`, not judged. Commit script:
+`docs/status/commit-2026-10-23-core-merge.sh`, after the T1 script.
+
+---
+
+## 2026-10-23 16:32:06 UTC+1 — FINDING CORES IN THE WARD TREES, ARM K (prompt 59): declared before running
+
+Exploratory; **no ontology is built** and nothing is adopted. **Aviyah's design, 23 Oct.** Prompt 58
+showed why cores taken from J >= 0.70 copies cannot work: from 25 pathways up the median cluster is
+found in one run of 200 -- its own -- so its "core" is the whole cluster. Arm K looks for cores
+directly in the trees instead: a core need not appear on its own, it has to keep coming back inside
+clusters that are mostly the core.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_59.md` (31 lines, ends with END OF PROMPT). It contains one
+non-ASCII character, the intersection sign, preserved as written.
+
+```
+Prompt 59: finding cores in the Ward trees (arm K). Declared 23 Oct 2026, before any result. Exploratory: no ontology is built, nothing adopted. Design: Aviyah, 23 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+Prompt 58 showed that cores taken from J >= 0.70 copies cannot work: from 25 pathways up the median cluster is found in 1 run of 200 (its own), so its "core" is the whole cluster. Aviyah's design finds cores directly in the trees: a core K is found in a run if the smallest cluster of that run's tree holding all of K is at least 70% K. A core does not have to appear on its own; it has to keep coming back inside clusters that are mostly the core. This prompt finds such cores, measures their support, and compares what is retained with O50s's stages and with prompt 58's arms CI and CT.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; proceed unless the COMPUTE alone is expected to exceed 2 h; if it is, stop and propose a cheaper order.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_59.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+INPUT: frozen O50s (data/ontology/frozen/working-O50s-2026-10-22/): x2 universe, the 200 cached real runs (trees and subsamples). Reuse caches wherever possible. Exact computation throughout (sparse matrix products and exact size windows, as in prompt 58, verified against brute force on a random sample; report the check).
+
+SPEC
+1. The test. For a set K and a run r: K is judged in r if at least 3 of K's pathways were drawn in r. Then take the smallest cluster of r's tree holding all of K's drawn pathways (their lowest common ancestor). r FINDS K if K's drawn pathways make up at least 70% of that cluster. Support(K) = runs that find K / runs that judge K.
+2. Candidates. Any set found in two runs r1 and r2 lies inside both enclosing clusters, each at least 70% the set. So candidates are the intersections C1 ∩ C2 of clusters (3 or more pathways) from DIFFERENT runs, where the intersection has at least 3 pathways and makes up at least 70% of C1 and at least 70% of C2. Deduplicate identical sets. Report the number of qualifying cluster pairs and of distinct candidates, by size band. If the distinct candidates exceed 5 million, stop after reporting the counts and propose a cheaper order.
+3. Score every candidate with the test in all 200 runs: support, runs found, runs judged.
+4. Closed cores: drop a candidate if a strictly larger candidate containing it has the same or higher support (it adds nothing). Keep the rest; report how many were dropped by this rule, by band.
+5. Members of each core: the core plus every pathway present in at least half of the enclosing clusters of the runs that found it (counted over runs where that pathway was drawn). Report core size as a share of members, by band.
+6. How many runs make a core. If scramble trees (seeds 3001-3010, held-out 4001-4006) are cached, run steps 1-5 on them and solve a required support per size band with the gate's own procedure (target 0.008, rule of three where scrambles never pass, caps 0.01 overall and 0.02 per band, check once on held-out). If they are not cached, do NOT build them: report the support distributions only, and use "found in at least 2 runs" as a labelled placeholder. Report the retained cores both at 2 runs and, if solved, at the calibrated floors.
+No consensus, no repair, no edges.
+
+REPORT (docs/status/2026-10-23-tree-cores.md). Arm K (at 2 runs, and at the calibrated floors if solved) next to O50s's stages (s2 families before the gate, s3 the 26,120 gated themes, s5 the 5,658 final themes) and prompt 58's CI and CT:
+A. Counts: qualifying pairs, candidates, closed cores, retained cores; themes per band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+).
+B. Support: median support and runs found, by band; share at or above 0.05, 0.1, 0.33, by band.
+C. Near-copies, exactly as prompt 58 section C: non-nested pairs at J >= 0.5 (by band of the larger); nested pairs with the smaller >= 0.85 of the larger; pairs where the smaller has exactly 1 member outside the larger. Computed on the members of the retained themes.
+D. What is retained: share of s5 themes with a K counterpart at J >= 0.9 and at J >= 0.7, by band; share of s5 themes that contain a retained core making up at least 70% of the theme; for the 5 O50s giants, the largest retained cores inside each (size, support) and the best K counterpart (J, size).
+E. Twenty retained K themes of 25 or more members and twenty of 6-24, drawn at random (seed 20261023), as "name [source]" member lists with the core marked, support shown, in data/experiments/tree_cores_2026-10-23/examples/. Do not judge them.
+
+FINAL
+Write docs/status/commit-2026-10-23-tree-cores.sh, to run after commit-2026-10-23-core-merge.sh. It commits the code, status note, data/experiments/tree_cores_2026-10-23/ and PROMPT_59.md, listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give sections A-D as tables and the commit script path.
+```
+
+---
+
+## 2026-10-23 16:44:20 UTC+1 — ARM K STEP 2 DONE, STEPS 3-6 STOPPED AND RE-ESTIMATED (prompt 59)
+
+Exploratory; no ontology built, nothing adopted. **Step 2 is complete and verified. Steps 3 to 6 and
+sections A-E are not run**, and I am proposing a cheaper order rather than carrying on, for the
+reason set out below.
+
+**Step 2's census, from all 200 cached real runs:**
+
+| | |
+|---|---|
+| clusters of 3+ pathways | **537,024** |
+| qualifying cluster pairs | **16,039,739** |
+| **distinct candidates** | **921,420** |
+
+Under the prompt's 5,000,000 bound, so step 2 does not itself stop the work. By band, distinct
+candidates: 3-5 **93,399**; 6-11 **336,799**; 12-24 **374,187**; 25-49 **94,412**; 50-99 **15,312**;
+100-199 **5,556**; 200-399 **507**; 400-799 **937**; 800-1,599 **311**; 1,600+ **0**.
+
+**Verified:** sparse (197 pairs, 170 distinct) against an explicit double loop (197, 170) on a
+random sample of 2,000 clusters, seed 20261023 -- **IDENTICAL**. The size window is exact, not a
+heuristic: a qualifying pair needs `|I| >= 0.7 * max`, so `max / min <= 1 / 0.7`, and clusters
+outside that ratio are never compared.
+
+**Step 6 cannot be done at all as specified.** The scramble trees are **not cached for the x2
+universe** -- that tree directory holds `row00001` to `row00200` and nothing else -- and the prompt
+forbids building them. So no floors can be solved, and "found in at least 2 runs" stays the labelled
+placeholder.
+
+**Why I stopped rather than finishing.** Step 2 took **49 seconds** against the 10-40 minutes I
+estimated, so my compute estimate was badly wrong in the cheap direction, and I revised the total
+down to about an hour and carried on. Step 3 then restated soundly -- the LCA maximises
+`|drawn| / |C|` over containing clusters, so "found" is an existential over clusters and needs no
+ancestor walk, which one sparse product per run delivers. **Step 5 is where it broke.** Its
+accumulators are (retained cores x 5,539) counts over runs, which at a plausible retained count is
+about **22 GB**, and its natural loop is ~10^8 Python iterations. I had written it before seeing
+that, and **removed it rather than leave an unsound implementation in the repo or build sections
+A-E on top of it.** `scripts/tree_cores.py` is therefore the verified step-2 scope only, 303 lines,
+lint clean, full suite passing.
+
+That is twice in this prompt that my compute estimate was wrong in opposite directions. I do not
+trust a third guess, so the proposal below is ordered by what can be *measured* cheaply first.
+
+**Proposed cheaper order.**
+
+1. **Step 3 alone (~20-30 min compute, ~40 min coding).** Score all 921,420 candidates in all 200
+   runs and report the support distribution. That is section B's substance and it is the number the
+   whole arm turns on: if cores found in 2+ runs are rare, arm K answers prompt 58's problem; if
+   almost every candidate is found twice, it does not, and nothing downstream matters.
+2. **Steps 4 and 5 (~1 h 30 coding, compute to be measured).** Step 4 is sound as drafted -- a
+   superset must hold the candidate's rarest member, which bounds the search exactly. Step 5 needs
+   a different formulation: accumulate per (core, pathway) only over the runs that found the core,
+   as a sparse COO rather than a dense matrix.
+3. **Sections A-E (~1 h 30).** C reuses prompt 58's verified sparse counter unchanged.
+
+Outputs so far: `data/experiments/tree_cores_2026-10-23/candidates_census.json` and
+`candidates.npz` (921,420 candidates, 10.2 MB). No commit script is written yet, since there is no
+status note to commit.
+
+---
+
+## 2026-10-23 22:20:09 UTC+1 — ARM K STEP 3: CORES RECUR BELOW 25 PATHWAYS AND NOT ABOVE 50 (prompt 59)
+
+Exploratory; no ontology built, nothing adopted. Steps 4, 5, 6 and sections A-E remain unrun.
+
+**The invariant Aviyah flagged holds exactly: 921,420 of 921,420 candidates are found in at least 2
+runs = 100.00%.** A candidate is `C1 & C2` with `|K| >= 0.7|C1|` and `>= 0.7|C2|`; K is wholly drawn
+in each of those two runs, and its LCA there sits inside C1 (or C2), which it covers at >= 70%. **So
+the 2-run placeholder retains every candidate and cannot be used as a cutoff** -- it is the
+construction's own floor, not evidence. Step 3 ran in 1 min 50 s.
+
+**Runs found, by band** (candidates; buckets; median runs; median support):
+
+| band | candidates | 2 | 3-4 | 5-9 | 10-19 | 20-49 | 50+ | med runs | med support |
+|---|---|---|---|---|---|---|---|---|---|
+| 3-5 | 93,399 | 6,843 | 11,793 | 21,559 | 23,200 | 21,306 | 8,698 | **12** | 0.0707 |
+| 6-11 | 336,799 | 13,662 | 33,630 | 73,203 | 89,708 | 88,349 | 38,247 | **14** | 0.0700 |
+| 12-24 | 374,187 | 43,431 | 52,937 | 76,054 | 77,906 | 81,778 | 42,081 | **11** | 0.0550 |
+| 25-49 | 94,412 | 39,716 | 16,822 | 13,631 | 10,692 | 9,788 | 3,763 | **3** | 0.0150 |
+| 50-99 | 15,312 | 13,309 | 618 | 346 | 300 | 651 | 88 | **2** | 0.0100 |
+| 100-199 | 5,556 | 5,355 | 186 | 14 | 1 | 0 | 0 | **2** | 0.0100 |
+| 200-399 | 507 | **507** | 0 | 0 | 0 | 0 | 0 | **2** | 0.0100 |
+| 400-799 | 937 | **937** | 0 | 0 | 0 | 0 | 0 | **2** | 0.0100 |
+| 800-1599 | 311 | **311** | 0 | 0 | 0 | 0 | 0 | **2** | 0.0100 |
+| ALL | 921,420 | 124,071 | 115,986 | 184,807 | 201,807 | 201,872 | 92,877 | 11 | 0.0550 |
+
+Share at or above each support, and median runs that judged the candidate:
+
+| band | >=0.05 | >=0.10 | >=0.33 | med judged |
+|---|---|---|---|---|
+| 3-5 | 62.5% | 38.0% | 8.4% | 174 |
+| 6-11 | 64.2% | 37.6% | 6.8% | 200 |
+| 12-24 | 53.9% | 33.1% | 6.9% | 200 |
+| 25-49 | 25.7% | 14.4% | 2.2% | 200 |
+| 50-99 | 6.8% | 4.8% | 0.0% | 200 |
+| 100-199 and above | **0.0%** | **0.0%** | **0.0%** | 200 |
+
+**Arm K works below 25 pathways and fails above 50, and the failure is total.** Below 25 the design
+does what it was meant to: median 11-14 runs of 200, against prompt 58's finding that from 25
+pathways up the median cluster is found in **one** run. Above 50 pathways the median collapses to
+exactly 2 -- the construction's floor -- and **every one of the 1,755 candidates above 200 pathways
+is found in exactly 2 runs and no more**, which is to say in nothing but the two runs that created
+it. Not one candidate above 100 pathways reaches support 0.05.
+
+Every band is judged by essentially all 200 runs (median 200, and 174 at 3-5 where a 3-member set
+sometimes has fewer than 3 pathways drawn), so this is a failure to recur, not a failure to be
+testable.
+
+**So the wall prompt 58 hit has moved, not gone.** It sat at 25 pathways there; here it sits between
+25 and 50. The mid and large structure still has no recurrent core, by a second and quite different
+definition of core. Taken with prompt 58, two independent core definitions now agree that recurrence
+above ~50 pathways is not present in this resampling at all.
+
+**Estimate for scramble trees, seeds 3001-3002 only** -- measured, not guessed. One Ward tree at the
+x2 scale (4,431 x 768 subsample) takes **1.46 s**: 1.36 s for the condensed distances and 0.10 s for
+the linkage. So
+
+| | |
+|---|---|
+| 200 trees for one seed | **~5 min** of linkage work |
+| 400 trees for both seeds | **~10 min** of linkage work |
+| plus cluster extraction, parent and ancestor chains, npz writes | call it **2x**, so **~20 min** |
+| then step 2 + step 3 on each scramble side | ~3 min per seed, **~6 min** |
+| **total for seeds 3001-3002** | **~25 min compute** |
+| disk | 0.12 MB per tree, so **~48 MB** for 400; 708 GB free |
+
+**Two seeds are not enough to solve the floors** as step 6 specifies -- that procedure wants the ten
+calibration seeds 3001-3010 and the six held-out 4001-4006, and a rule-of-three substitution needs
+the full calibration set to estimate a mean. Two seeds would give a sanity check on whether
+scrambled trees produce candidates at all and roughly how many, which is worth having cheaply, but
+it would not produce a defensible floor. On these measured costs the full sixteen seeds would be
+about **3 h 20** of compute and ~380 MB.
+
+Outputs: `data/experiments/tree_cores_2026-10-23/scored.npz` and `step3.json`, beside
+`candidates.npz` and `candidates_census.json`. No status note or commit script yet.
+
+---
+
+## 2026-10-23 23:12:46 UTC+1 — ARM K AT 50% AS WELL AS 70%: THE WALL IS NOT THE THRESHOLD (prompt 59, steps 2-3)
+
+Exploratory; no ontology built, nothing adopted. Steps 4, 5, 6 and sections A, C, D, E remain unrun.
+
+Aviyah asked for steps 2-3 repeated with the test at **50%** instead of 70%, everything else
+unchanged. **The answer is that the threshold is not what creates the wall.**
+
+| | cover 0.70 | cover 0.50 |
+|---|---|---|
+| qualifying cluster pairs | 16,039,739 | **45,507,049** |
+| distinct candidates | 921,420 | **4,881,836** (5.3x) |
+| found in >= 2 runs | 100.00% | 100.00% |
+| verification against brute force | **IDENTICAL** | **IDENTICAL** |
+
+**The by-construction floor held exactly at both thresholds**, as Aviyah predicted: 921,420 of
+921,420 and 4,881,836 of 4,881,836. K is wholly drawn in each of its two originating runs and its
+LCA there sits in a cluster it covers at the threshold, so the 2-run placeholder retains everything
+and **is not usable as a cutoff**. The code now asserts this and the message reports the actual
+cover rather than a hardcoded 70%.
+
+**Median runs found, by band:**
+
+| band | 0.70 | 0.50 |
+|---|---|---|
+| 3-5 | 12 | **22** |
+| 6-11 | 14 | **29** |
+| 12-24 | 11 | **24** |
+| 25-49 | 3 | **7** |
+| 50-99 | **2** | **2** |
+| 100-199 | **2** | **2** |
+| 200-399 | **2** | **2** |
+| 400-799 | **2** | **2** |
+| 800-1599 | **2** | **2** |
+
+**Halving the coverage requirement admits 5.3 times as many candidates and roughly doubles
+recurrence below 25 pathways, while changing nothing at all above 50.** At 0.70, all 1,755
+candidates above 200 pathways are found in exactly 2 runs; at 0.50, 171,487 of 171,568 are -- 99.95%.
+**No candidate above 200 pathways reaches support 0.05 at either threshold.** Every band is judged by
+essentially all 200 runs (median 200), so this is a failure to recur, not a failure to be testable.
+
+The boundary sits between 25 and 50 pathways and is slightly threshold-dependent in the 25-49 band
+(median 3 runs at 0.70, 7 at 0.50) and not at all above 50.
+
+**Taken with prompt 58, three different core definitions now agree that there is no recurrent core
+above about 50 pathways in this resampling** -- cores from J >= 0.70 copies (median one run above 25
+pathways), tree cores at 70%, and tree cores at 50%. O50s's large themes and its five giants are not
+recurrent objects under any of them. That is a statement about the data and the resampling, not
+about any merge rule.
+
+**Measured costs.** Step 2 at 0.70 took 49 s and step 3 1 min 50 s; at 0.50, ~2 min and ~24 min. One
+Ward tree at the x2 scale is **1.46 s** (1.36 s distances, 0.10 s linkage), so scramble trees for
+seeds 3001-3002 would be **~25 min and ~48 MB** including steps 2-3 on them, and all sixteen seeds
+~3 h 25 and ~380 MB. Two seeds cannot solve the floors -- step 6 needs the ten calibration seeds to
+estimate a mean -- and on these numbers no floor can rescue a population whose whole support
+distribution is one point at the construction's minimum.
+
+One refactor note: ``cover`` is now a parameter rather than a module constant, and the 70% arm was
+re-run at 6 runs to confirm the refactor is behaviour-preserving -- 11,875 pairs and 5,181 distinct,
+identical to before.
+
+Full record: `docs/status/2026-10-23-tree-cores.md`, which carries both thresholds side by side.
+Outputs in `data/experiments/tree_cores_2026-10-23/` with the 50% arm under `cover50/`. No commit
+script yet.
+
+---
+
+## 2026-10-23 23:27:46 UTC+1 — TREE CORES AT 70%: WHAT EACH RECURRENCE BAR KEEPS (prompt 60): declared before running
+
+Exploratory; nothing built beyond the cores, nothing adopted. **Aviyah's design, 23 Oct.** Steps 1-2
+of the new pipeline are: find the tree cores (prompt 59, done) and keep the ones that recur. This
+shows what bars of 5, 10 and 20 runs of 200 keep, before a bar is chosen. Nothing after step 2 runs.
+
+**This prompt authorises building scramble trees for seeds 3001 and 3002**, which prompt 59
+forbade; it supersedes that for those two seeds only, in a new directory, overwriting nothing.
+
+Declared verbatim below, before computing anything. Saved at
+`data/experiments/reviewer_notes/PROMPT_60.md` (27 lines, ends with END OF PROMPT).
+
+```
+Prompt 60: tree cores at 70%, what each recurrence bar keeps (5, 10, 20 runs). Declared 23 Oct 2026, before any result. Exploratory: nothing is built beyond the cores, nothing adopted. Design: Aviyah, 23 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+The new pipeline rebuilds themes from scratch with the tree-core definition (prompt 59, cover 0.70): a run finds a core K if K's drawn pathways make up at least 70% of the smallest cluster holding them. Steps 1-2 of the pipeline are: find the cores (done in prompt 59, steps 2-3), and keep the cores that recur. Aviyah wants to see what bars of 5, 10 and 20 runs (of 200) keep before choosing one. Nothing after step 2 is run.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; proceed unless the COMPUTE alone is expected to exceed 2 h.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_60.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+INPUT: prompt 59's cover-0.70 candidates and scores (data/experiments/tree_cores_2026-10-23/candidates.npz, scored.npz), unchanged. Do not recompute them.
+
+1. Retained cores at each bar: found in at least 5, at least 10, at least 20 runs. For each bar:
+   a. retained cores, by size band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599);
+   b. the largest retained core sizes (top 10);
+   c. pathways covered: how many of the 5,539 are in at least one retained core;
+   d. redundancy among the retained cores, with prompt 58's verified exact counter (sparse products, exact size windows, brute-force check on a 2,000 sample, seed 20261023): non-nested pairs at J >= 0.5 (by band of the larger), nested pairs with the smaller >= 0.85 of the larger, pairs where the smaller has exactly 1 member outside the larger.
+
+2. Noise check (indicative, NOT a calibration): build Ward trees for scramble seeds 3001 and 3002 only (200 trees each, x2 universe, the same subsamples and scramble procedure O50s uses: each embedding dimension shuffled independently across pathways, rows rescaled to length 1), in a new directory; never overwrite anything cached. Run prompt 59 steps 2-3 at cover 0.70 on each. Report, by band and for each bar (5, 10, 20): scrambled candidates retained (per seed and the mean), and the ratio scrambled / real retained. Label it clearly as two seeds, indicative only.
+
+3. For reading later (do not judge): from the real retained cores, 20 drawn at random (seed 20261023) from each of these groups: found in 5-9 runs (kept by 5, dropped by 10); 10-19 runs (kept by 10, dropped by 20); 20 or more runs. Only cores of 6 or more pathways. Each as a "name [source]" member list with its runs-found count, in data/experiments/tree_cores_2026-10-23/bars/examples/.
+
+REPORT: add a section "Recurrence bars" to docs/status/2026-10-23-tree-cores.md, with tables for 1a-1d at each bar side by side, and 2.
+
+FINAL
+Write docs/status/commit-2026-10-23-tree-cores.sh, to run after commit-2026-10-23-core-merge.sh. It commits the code, the status note, data/experiments/tree_cores_2026-10-23/ (including bars/), PROMPT_59.md and PROMPT_60.md, listing files explicitly. Leave out any file over 50 MB and say which (cover50/candidates.npz, 122 MB, regenerable, must be left out; also the scramble trees). Never include any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give the tables for 1a-1d and 2 and the commit script path. Then stop.
+```
+
+## 2026-10-23 -- Prompt 60, recurrence bars on arm K's tree cores: the bars confirm the ceiling
+
+Run at cover 0.70 on prompt 59's candidates and scores, unchanged; nothing was rebuilt and nothing is
+adopted. Of 921,420 candidates, 681,363 clear 5 runs of 200, 496,556 clear 10 and 294,749 clear 20.
+
+**The largest retained core is 115 pathways at 5 runs, 113 at 10, and 59 at 20**, and the 100-199
+band falls 15 -> 1 -> 0. So the 2-run figure prompt 59 warned about was not what produced the
+ceiling: a real bar does not change where cores are, it only thins the small bands, and 83-85% of
+retained cores sit in 6-11 and 12-24 at every bar. Coverage stays complete -- 5,537 of 5,539
+pathways are in some core even at 20 runs -- so the bars prune descriptions, not the universe.
+
+Redundancy is counted exactly with prompt 58's counter and **verified against a brute-force loop on
+2,000 cores at all three bars, matching exactly each time.** Non-nested pairs at J >= 0.5 fall from
+474,570,657 to 204,223,984, exactly in proportion to the object count, so **per core the redundancy
+is flat at about 696 -- 44 times O50s's 15.7 per gated theme.** A bar is therefore not a substitute
+for consensus and repair.
+
+Prompt 60 lifts prompt 59's prohibition on building scramble trees, **for seeds 3001-3002 only**: two
+seeds are a noise check, not a calibration, and step 6 still cannot be run. The two sides agree
+closely and retain 4.31%, 2.33% and 1.30% of the real counts at the three bars. All but one of their
+retained cores is in 3-5 or 6-11. So the 3-5 band is where noise lives (33% of real at the 5-run bar,
+13% at 20) and **from 25 pathways up the scramble is exactly empty at every bar** -- one core of the
+58,674 the two seeds retain at the 5-run bar reaches 12-24, and none does at 10 or 20. The bands arm
+K finds are real, and they still stop at 50.
+
+**One error, caught and paid for.** The first scramble side was built from `embeddings.npy`, which on
+this universe is stored RAW, while the cached real trees come from the centred sidecar
+`vectors_leaves_centred.npy` -- so it scrambled one space and compared it against another, and
+nothing about that fails loudly. The repository's own rule that analysis may not load embeddings
+except through the verifying loader is what caught it, and the wrong side really did differ (68,670
+and 69,409 candidates against 72,307 and 72,429). Both sides were rebuilt, 12 min 13 s paid twice,
+and `build_scramble_trees` now proves its matrix by rebuilding cached real run 1 from it and
+requiring the clusters to match exactly before scrambling anything.
+
+Costs, measured: 10 min 30 s for the 2 x 200 scramble trees (50 MB), 1 min 43 s for steps 2-3 on both
+sides, 6 min 58 s for the bars, of which 6 min 39 s is the redundancy count; the bars reproduced
+1a-1d identically across two runs. `docs/status/2026-10-23-tree-cores.md`.
