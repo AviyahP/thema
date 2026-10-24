@@ -1,0 +1,28 @@
+{
+ "cover": 0.7,
+ "min_size": 3,
+ "runs": 200,
+ "clusters": 453073,
+ "qualifying_pairs": 1823999,
+ "distinct_candidates": 72307,
+ "pairs_by_band": {
+  "3-5": 1763957,
+  "6-11": 59777,
+  "12-24": 265
+ },
+ "candidates_by_band": {
+  "3-5": 55431,
+  "6-11": 16793,
+  "12-24": 83
+ },
+ "verification": {
+  "sample": 2000,
+  "seed": 20261023,
+  "sparse_pairs": 36,
+  "brute_pairs": 36,
+  "sparse_distinct": 34,
+  "brute_distinct": 34,
+  "identical": true
+ },
+ "scramble_trees_cached": false
+}

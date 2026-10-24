@@ -1,0 +1,54 @@
+{
+ "candidates": 72307,
+ "found_at_least_2": 72307,
+ "by_band": [
+  {
+   "band": "3-5",
+   "candidates": 55431,
+   "buckets": {
+    "2": 14698,
+    "3-4": 15812,
+    "5-9": 14033,
+    "10-19": 7120,
+    "20-49": 3070,
+    "50+": 698
+   },
+   "median_runs": 4.0,
+   "median_support": 0.030303030303030304,
+   "median_judged": 156.0
+  },
+  {
+   "band": "6-11",
+   "candidates": 16793,
+   "buckets": {
+    "2": 6069,
+    "3-4": 6447,
+    "5-9": 3658,
+    "10-19": 574,
+    "20-49": 45,
+    "50+": 0
+   },
+   "median_runs": 3.0,
+   "median_support": 0.015228426395939087,
+   "median_judged": 198.0
+  },
+  {
+   "band": "12-24",
+   "candidates": 83,
+   "buckets": {
+    "2": 77,
+    "3-4": 5,
+    "5-9": 1,
+    "10-19": 0,
+    "20-49": 0,
+    "50+": 0
+   },
+   "median_runs": 2.0,
+   "median_support": 0.01,
+   "median_judged": 200.0
+  }
+ ],
+ "median_runs_overall": 4.0,
+ "median_support_overall": 0.025252525252525252,
+ "note": "every candidate is found in at least 2 runs by construction, so the 2-run placeholder retains all of them and is not usable as a cutoff"
+}
