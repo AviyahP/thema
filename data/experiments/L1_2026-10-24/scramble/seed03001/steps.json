@@ -1,0 +1,54 @@
+{
+ "theta": 0.7,
+ "core_cut": 0.9,
+ "member_cut": 0.5,
+ "merge_j": 0.9,
+ "min_size": 3,
+ "min_shared": 3,
+ "seed": 20261024,
+ "seeds": 318738,
+ "cored_groups": 313572,
+ "themes": 278888,
+ "core_pairs": 140932,
+ "verification": {
+  "step1": {
+   "pairs_judged": 375,
+   "verdicts_agree": 375,
+   "copies_agree": 375,
+   "found_fast": 8,
+   "found_slow": 8,
+   "identical": true
+  },
+  "step2": {
+   "groups": 500,
+   "inclusions_agree": 500,
+   "cores_agree": 500,
+   "identical": true
+  },
+  "step3": {
+   "cores": 2000,
+   "sparse": 1,
+   "brute": 1,
+   "identical": true
+  },
+  "step4": {
+   "themes": 300,
+   "copies_agree": 300,
+   "support_agree": 300,
+   "members_agree": 300,
+   "identical": true
+  },
+  "invariants": {
+   "singleton_themes": 258525,
+   "singleton_found_matches_group": 258525,
+   "singleton_judged_matches_group": 258525,
+   "absorbed_groups": 34684,
+   "absorbed_reach_J0.9_with_the_seed": 34684,
+   "themes": 278888,
+   "core_subset_of_members": 278888,
+   "cored_groups_placed": 313572,
+   "cored_groups": 313572,
+   "identical": true
+  }
+ }
+}
