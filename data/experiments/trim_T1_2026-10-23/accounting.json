@@ -1,0 +1,34 @@
+{
+ "direct": {
+  "members_removed": 38199,
+  "distinct_themes_edited": 10822,
+  "propagated_removals": 15752,
+  "distinct_themes_propagated_into": 2986,
+  "themes_dropped_under_min": 3788
+ },
+ "indirect": {
+  "rules_off": {
+   "nested": 6589,
+   "inherited": 71351,
+   "superseded": 19531,
+   "coexist": 0
+  },
+  "rules_on": {
+   "nested": 3814,
+   "inherited": 38199,
+   "superseded": 18518,
+   "coexist": 0
+  },
+  "superseded_off": 19531,
+  "superseded_on": 18518,
+  "collapsed_off": 765,
+  "collapsed_on": 171,
+  "stale_off": 166,
+  "stale_on": 187,
+  "after_consensus_off": 6589,
+  "after_consensus_on": 3814,
+  "final_off": 5658,
+  "final_on": 3456
+ },
+ "inherited_off": 73354
+}
