@@ -1,0 +1,2067 @@
+## CT-01  (38 pathways, 20 in the core)
+
+- CD4 T cell surface signature Th2-stimulated [btm]
+- FCERI mediated Ca+2 mobilization [reactome]
+- FCERI mediated MAPK activation [reactome]
+- FCERI mediated NF-kB activation [reactome]
+- Fc-epsilon receptor signaling pathway [go]
+- Interleukin-33 signaling [reactome]
+- Interleukin-4 and Interleukin-13 signaling [reactome]
+- Role of LAT2/NTAL/LAB on calcium mobilization [reactome]
+- T cell differentiation (Th2) [btm]  **core**
+- eosinophil activation [go]  **core**
+- eosinophil chemotaxis [go]  **core**
+- eosinophil differentiation [go]  **core**
+- eosinophil mediated immunity [go]  **core**
+- interleukin-13-mediated signaling pathway [go]  **core**
+- interleukin-33-mediated signaling pathway [go]
+- mast cell cytokine production [go]  **core**
+- mast cell differentiation [go]  **core**
+- negative regulation of T-helper 2 cell differentiation [go]  **core**
+- negative regulation of immunoglobulin production [go]
+- negative regulation of interleukin-13 production [go]  **core**
+- negative regulation of interleukin-4 production [go]  **core**
+- negative regulation of interleukin-5 production [go]  **core**
+- negative regulation of mast cell activation [go]
+- negative regulation of mast cell degranulation [go]
+- obsolete regulation of mast cell activation involved in immune response [go]  **core**
+- positive regulation of T-helper 2 cell cytokine production [go]  **core**
+- positive regulation of T-helper 2 cell differentiation [go]  **core**
+- positive regulation of interleukin-13 production [go]  **core**
+- positive regulation of interleukin-4 production [go]  **core**
+- positive regulation of interleukin-5 production [go]  **core**
+- positive regulation of mast cell activation [go]  **core**
+- positive regulation of mast cell degranulation [go]
+- regulation of eosinophil migration [go]
+- regulation of histamine secretion by mast cell [go]
+- regulation of interleukin-4-mediated signaling pathway [go]
+- regulation of isotype switching to IgE isotypes [go]  **core**
+- response to nematode [go]
+- type I hypersensitivity [go]
+
+## CT-02  (25 pathways, 22 in the core)
+
+- Alpha-oxidation of phytanate [reactome]  **core**
+- Cobalamin (Cbl) metabolism [reactome]
+- Defective ABCD4 causes MAHCJ [reactome]  **core**
+- Defective AMN causes MGA1 [reactome]  **core**
+- Defective CBLIF causes IFD [reactome]  **core**
+- Defective CD320 causes MMATC [reactome]  **core**
+- Defective CUBN causes MGA1 [reactome]  **core**
+- Defective MMACHC causes MAHCC [reactome]  **core**
+- Defective MMADHC causes MMAHCD [reactome]  **core**
+- Defective TCN2 causes TCN2 deficiency [reactome]  **core**
+- Transport of RCbl within the body [reactome]  **core**
+- Uptake of dietary cobalamins into enterocytes [reactome]  **core**
+- Vitamin B1 (thiamin) metabolism [reactome]  **core**
+- Vitamin B2 (riboflavin) metabolism [reactome]  **core**
+- Vitamin E transport [reactome]
+- cobalamin metabolic process [go]  **core**
+- cobalamin transport [go]  **core**
+- cobalt ion transport [go]
+- fatty acid alpha-oxidation [go]  **core**
+- riboflavin metabolic process [go]  **core**
+- riboflavin transport [go]  **core**
+- thiamine diphosphate biosynthetic process [go]  **core**
+- thiamine transport [go]  **core**
+- vitamin E metabolic process [go]  **core**
+- vitamin transmembrane transport [go]  **core**
+
+## CT-03  (35 pathways, 21 in the core)
+
+- Metabolism of Angiotensinogen to Angiotensins [reactome]  **core**
+- NOSIP mediated eNOS trafficking [reactome]
+- NOSTRIN mediated eNOS trafficking [reactome]
+- Physiological factors [reactome]
+- angiotensin-activated signaling pathway [go]  **core**
+- artery smooth muscle contraction [go]  **core**
+- bradykinin catabolic process [go]
+- cGMP biosynthetic process [go]  **core**
+- cGMP effects [reactome]  **core**
+- cellular response to cGMP [go]
+- eNOS activation [reactome]
+- negative regulation of receptor guanylyl cyclase signaling pathway [go]  **core**
+- negative regulation of systemic arterial blood pressure [go]  **core**
+- negative regulation of vasoconstriction [go]  **core**
+- nervous system process involved in regulation of systemic arterial blood pressure [go]  **core**
+- neuropeptide catabolic process [go]
+- nitric oxide-cGMP-mediated signaling [go]  **core**
+- obsolete nitric oxide mediated signal transduction [go]
+- obsolete positive regulation of nitric oxide mediated signal transduction [go]  **core**
+- obsolete regulation of nitric oxide mediated signal transduction [go]  **core**
+- obsolete renal control of peripheral vascular resistance involved in regulation of systemic arterial blood pressure [go]  **core**
+- positive regulation of actin filament-based movement [go]
+- positive regulation of nitric oxide biosynthetic process [go]
+- positive regulation of systemic arterial blood pressure [go]
+- positive regulation of urine volume [go]  **core**
+- positive regulation of vasoconstriction [go]  **core**
+- regulation of angiotensin levels in blood [go]  **core**
+- regulation of blood volume by renin-angiotensin [go]  **core**
+- regulation of lung blood pressure [go]
+- regulation of nitric-oxide synthase activity [go]
+- regulation of renal sodium excretion [go]  **core**
+- regulation of systemic arterial blood pressure by norepinephrine-epinephrine [go]  **core**
+- regulation of vascular associated smooth muscle contraction [go]  **core**
+- relaxation of vascular associated smooth muscle [go]  **core**
+- renal response to blood flow involved in circulatory renin-angiotensin regulation of systemic arterial blood pressure [go]
+
+## CT-04  (27 pathways, 22 in the core)
+
+- Dectin-1 mediated noncanonical NF-kB signaling [reactome]  **core**
+- IKBKB deficiency causes SCID [reactome]  **core**
+- IKBKG deficiency causes anhidrotic ectodermal dysplasia with immunodeficiency (EDA-ID) (via TLR) [reactome]
+- IRAK1 recruits IKK complex [reactome]
+- IkBA variant leads to EDA-ID [reactome]  **core**
+- MAP3K8 (TPL2)-dependent MAPK1/3 activation [reactome]  **core**
+- NIK-->noncanonical NF-kB signaling [reactome]  **core**
+- Regulation of NF-kappa B signaling [reactome]  **core**
+- Regulation of TNFR1 signaling [reactome]  **core**
+- SUMOylation of immune response proteins [reactome]  **core**
+- TNF receptor superfamily (TNFSF) members mediating non-canonical NF-kB pathway [reactome]  **core**
+- TNFR1-induced NF-kappa-B signaling pathway [reactome]  **core**
+- TNFR1-induced proapoptotic signaling [reactome]  **core**
+- activation of NF-kappaB-inducing kinase activity [go]  **core**
+- negative regulation of canonical NF-kappaB signal transduction [go]  **core**
+- negative regulation of non-canonical NF-kappaB signal transduction [go]  **core**
+- negative regulation of toll-like receptor signaling pathway [go]  **core**
+- obsolete negative regulation of DNA-binding transcription factor activity [go]  **core**
+- obsolete negative regulation of NF-kappaB transcription factor activity [go]  **core**
+- obsolete positive regulation of DNA-binding transcription factor activity [go]
+- obsolete positive regulation of NF-kappaB transcription factor activity [go]
+- obsolete regulation of DNA-binding transcription factor activity [go]  **core**
+- positive regulation of canonical NF-kappaB signal transduction [go]
+- positive regulation of non-canonical NF-kappaB signal transduction [go]  **core**
+- protein deubiquitination involved in ubiquitin-dependent protein catabolic process [go]  **core**
+- protein linear polyubiquitination [go]  **core**
+- regulation of CD40 signaling pathway [go]  **core**
+
+## CT-05  (25 pathways, 21 in the core)
+
+- HALLMARK_ANGIOGENESIS [hallmark]
+- negative regulation of Rac protein signal transduction [go]  **core**
+- negative regulation of blood vessel endothelial cell proliferation involved in sprouting angiogenesis [go]  **core**
+- negative regulation of cell chemotaxis to fibroblast growth factor [go]  **core**
+- negative regulation of cell migration involved in sprouting angiogenesis [go]  **core**
+- negative regulation of cellular response to vascular endothelial growth factor stimulus [go]  **core**
+- negative regulation of endothelial cell chemotaxis [go]  **core**
+- negative regulation of fibroblast growth factor production [go]  **core**
+- negative regulation of integrin-mediated signaling pathway [go]
+- negative regulation of lamellipodium assembly [go]  **core**
+- negative regulation of sprouting angiogenesis [go]  **core**
+- negative regulation of vascular endothelial cell proliferation [go]  **core**
+- negative regulation of vascular endothelial growth factor production [go]  **core**
+- negative regulation of vascular endothelial growth factor receptor signaling pathway [go]  **core**
+- positive regulation of blood vessel branching [go]  **core**
+- positive regulation of blood vessel endothelial cell proliferation involved in sprouting angiogenesis [go]  **core**
+- positive regulation of cell migration involved in sprouting angiogenesis [go]  **core**
+- positive regulation of endothelial cell apoptotic process [go]  **core**
+- positive regulation of sprouting angiogenesis [go]  **core**
+- positive regulation of vascular endothelial cell proliferation [go]  **core**
+- positive regulation of vascular endothelial growth factor production [go]
+- positive regulation of vascular endothelial growth factor receptor signaling pathway [go]  **core**
+- positive regulation of vascular endothelial growth factor signaling pathway [go]
+- positive regulation of vascular wound healing [go]  **core**
+- regulation of endothelial tube morphogenesis [go]  **core**
+
+## CT-06  (29 pathways, 27 in the core)
+
+- High laminar flow shear stress activates signaling by PIEZO1 and PECAM1:CDH5:KDR in endothelial cells [reactome]
+- Turbulent (oscillatory, disturbed) flow shear stress activates signaling by PIEZO1 and integrins in endothelial cells [reactome]  **core**
+- aorta smooth muscle tissue morphogenesis [go]  **core**
+- cardiac vascular smooth muscle cell differentiation [go]  **core**
+- cell differentiation involved in phenotypic switching [go]  **core**
+- cytoskeleton/actin (SRF transcription targets) [btm]  **core**
+- cytoskeleton/actin (SRF transcription targets) [btm]  **core**
+- muscle contraction, SRF targets [btm]  **core**
+- negative regulation of smooth muscle cell chemotaxis [go]
+- negative regulation of vascular associated smooth muscle cell apoptotic process [go]  **core**
+- negative regulation of vascular associated smooth muscle cell differentiation [go]  **core**
+- negative regulation of vascular associated smooth muscle cell migration [go]  **core**
+- negative regulation of vascular associated smooth muscle cell proliferation [go]  **core**
+- negative regulation of vascular wound healing [go]  **core**
+- positive regulation of artery morphogenesis [go]  **core**
+- positive regulation of blood vessel remodeling [go]  **core**
+- positive regulation of endothelial cell apoptotic process [go]  **core**
+- positive regulation of vascular associated smooth muscle cell apoptotic process [go]  **core**
+- positive regulation of vascular associated smooth muscle cell differentiation [go]  **core**
+- positive regulation of vascular associated smooth muscle cell migration [go]  **core**
+- positive regulation of vascular associated smooth muscle cell proliferation [go]  **core**
+- positive regulation of vascular wound healing [go]  **core**
+- regulation of phenotypic switching [go]  **core**
+- regulation of vascular associated smooth muscle cell dedifferentiation [go]  **core**
+- response to oscillatory fluid shear stress [go]  **core**
+- smooth muscle adaptation [go]  **core**
+- smooth muscle cell-matrix adhesion [go]  **core**
+- vascular associated smooth muscle cell development [go]  **core**
+- vascular endothelial cell response to laminar fluid shear stress [go]  **core**
+
+## CT-07  (448 pathways, 448 in the core)
+
+- ATP export [go]  **core**
+- Abacavir transmembrane transport [reactome]  **core**
+- Acetylation [reactome]  **core**
+- Activation of the phototransduction cascade [reactome]  **core**
+- Acyl chain remodeling of CL [reactome]  **core**
+- Acyl chain remodeling of DAG and TAG [reactome]  **core**
+- Acyl chain remodelling of PC [reactome]  **core**
+- Acyl chain remodelling of PS [reactome]  **core**
+- Aflatoxin activation and detoxification [reactome]  **core**
+- Amino acid transport across the plasma membrane [reactome]  **core**
+- Androgen biosynthesis [reactome]  **core**
+- Arachidonate production from DAG [reactome]  **core**
+- Aromatic amines can be N-hydroxylated or N-dealkylated by CYP1A2 [reactome]  **core**
+- Aryl hydrocarbon receptor signalling [reactome]  **core**
+- Aspirin ADME [reactome]  **core**
+- Attachment of bacteria to epithelial cells [reactome]  **core**
+- Beta-oxidation of pristanoyl-CoA [reactome]  **core**
+- Beta-oxidation of very long chain fatty acids [reactome]  **core**
+- Biosynthesis of A2E, implicated in retinal degradation [reactome]  **core**
+- Biosynthesis of D-series resolvins [reactome]  **core**
+- Biosynthesis of DPAn-3-derived 13-series resolvins [reactome]  **core**
+- Biosynthesis of DPAn-3-derived maresins [reactome]  **core**
+- Biosynthesis of DPAn-3-derived protectins and resolvins [reactome]  **core**
+- Biosynthesis of DPAn-6 SPMs [reactome]  **core**
+- Biosynthesis of E-series 18(R)-resolvins [reactome]  **core**
+- Biosynthesis of Lipoxins (LX) [reactome]  **core**
+- Biosynthesis of aspirin-triggered D-series resolvins [reactome]  **core**
+- Biosynthesis of electrophilic ω-3 PUFA oxo-derivatives [reactome]  **core**
+- Biosynthesis of maresin conjugates in tissue regeneration (MCTR) [reactome]  **core**
+- Biosynthesis of maresin-like SPMs [reactome]  **core**
+- Biosynthesis of protectin and resolvin conjugates in tissue regeneration (PCTR and RCTR) [reactome]  **core**
+- Biosynthesis of protectins [reactome]  **core**
+- CDP-choline pathway [go]  **core**
+- CDP-diacylglycerol metabolic process [go]  **core**
+- COX reactions [reactome]  **core**
+- CYP2E1 reactions [reactome]  **core**
+- Cation-coupled Chloride cotransporters [reactome]  **core**
+- Cellular hexose transport [reactome]  **core**
+- Cholesterol biosynthesis from zymosterol (modified Kandutsch-Russell pathway) [reactome]  **core**
+- Ciprofloxacin ADME [reactome]  **core**
+- Class I peroxisomal membrane protein import [reactome]  **core**
+- Conjugation of benzoate with glycine [reactome]  **core**
+- Conjugation of phenylacetate with glutamine [reactome]  **core**
+- Conjugation of salicylate with glycine [reactome]  **core**
+- Cytosolic iron-sulfur cluster assembly [reactome]  **core**
+- Cytosolic sulfonation of small molecules [reactome]  **core**
+- Defective ABCB11 causes PFIC2 and BRIC2 [reactome]  **core**
+- Defective ABCB4 causes PFIC3, ICP3 and GBD1 [reactome]  **core**
+- Defective ABCB6 causes MCOPCB7 [reactome]  **core**
+- Defective ABCC2 causes DJS [reactome]  **core**
+- Defective ABCC6 causes PXE [reactome]  **core**
+- Defective AVP does not bind AVPR1A,B and causes neurohypophyseal diabetes insipidus (NDI) [reactome]  **core**
+- Defective AVP does not bind AVPR2 and causes neurohypophyseal diabetes insipidus (NDI) [reactome]  **core**
+- Defective CFTR causes cystic fibrosis [reactome]  **core**
+- Defective CP causes aceruloplasminemia (ACERULOP) [reactome]  **core**
+- Defective CYP11A1 causes AICSR [reactome]  **core**
+- Defective CYP11B1 causes AH4 [reactome]  **core**
+- Defective CYP11B2 causes CMO-1 deficiency [reactome]  **core**
+- Defective CYP17A1 causes AH5 [reactome]  **core**
+- Defective CYP19A1 causes AEXS [reactome]  **core**
+- Defective CYP1B1 causes Glaucoma [reactome]  **core**
+- Defective CYP21A2 causes AH3 [reactome]  **core**
+- Defective CYP24A1 causes HCAI [reactome]  **core**
+- Defective CYP26B1 causes RHFCA [reactome]  **core**
+- Defective CYP26C1 causes FFDD4 [reactome]  **core**
+- Defective CYP27A1 causes CTX [reactome]  **core**
+- Defective CYP27B1 causes VDDR1A [reactome]  **core**
+- Defective CYP27B1 causes VDDR1B [reactome]  **core**
+- Defective CYP2U1 causes SPG56 [reactome]  **core**
+- Defective CYP7B1 causes SPG5A and CBAS3 [reactome]  **core**
+- Defective PAPSS2 causes SEMD-PA [reactome]  **core**
+- Defective RHAG causes regulator type Rh-null hemolytic anemia (RHN) [reactome]  **core**
+- Defective SLC11A2 causes hypochromic microcytic anemia, with iron overload 1 (AHMIO1) [reactome]  **core**
+- Defective SLC12A1 causes Bartter syndrome 1 (BS1) [reactome]  **core**
+- Defective SLC12A3 causes Gitelman syndrome (GS) [reactome]  **core**
+- Defective SLC12A6 causes agenesis of the corpus callosum, with peripheral neuropathy (ACCPN) [reactome]  **core**
+- Defective SLC20A2 causes idiopathic basal ganglia calcification 1 (IBGC1) [reactome]  **core**
+- Defective SLC22A12 causes renal hypouricemia 1 (RHUC1) [reactome]  **core**
+- Defective SLC22A18 causes lung cancer (LNCR) and embryonal rhabdomyosarcoma 1 (RMSE1) [reactome]  **core**
+- Defective SLC22A5 causes systemic primary carnitine deficiency (CDSP) [reactome]  **core**
+- Defective SLC24A4 causes hypomineralized amelogenesis imperfecta (AI) [reactome]  **core**
+- Defective SLC26A3 causes congenital secretory chloride diarrhea 1 (DIAR1) [reactome]  **core**
+- Defective SLC26A4 causes Pendred syndrome (PDS) [reactome]  **core**
+- Defective SLC27A4 causes ichthyosis prematurity syndrome (IPS) [reactome]  **core**
+- Defective SLC2A1 causes GLUT1 deficiency syndrome 1 (GLUT1DS1) [reactome]  **core**
+- Defective SLC2A2 causes Fanconi-Bickel syndrome (FBS) [reactome]  **core**
+- Defective SLC2A9 causes hypouricemia renal 2 (RHUC2) [reactome]  **core**
+- Defective SLC36A2 causes iminoglycinuria (IG) and hyperglycinuria (HG) [reactome]  **core**
+- Defective SLC3A1 causes cystinuria (CSNU) [reactome]  **core**
+- Defective SLC40A1 causes hemochromatosis 4 (HFE4) (duodenum) [reactome]  **core**
+- Defective SLC40A1 causes hemochromatosis 4 (HFE4) (macrophages) [reactome]  **core**
+- Defective SLC4A1 causes hereditary spherocytosis type 4 (HSP4),  distal renal tubular acidosis (dRTA) and dRTA with hemolytic anemia (dRTA-HA) [reactome]  **core**
+- Defective SLC4A4 causes renal tubular acidosis, proximal, with ocular abnormalities and mental retardation (pRTA-OA) [reactome]  **core**
+- Defective SLC5A1 causes congenital glucose/galactose malabsorption (GGM) [reactome]  **core**
+- Defective SLC5A5 causes thyroid dyshormonogenesis 1 (TDH1) [reactome]  **core**
+- Defective SLC5A7 in the neurotransmitter release cycle causes distal hereditary motor neuronopathy 7A (HMN7A) [reactome]  **core**
+- Defective SLCO1B1 causes hyperbilirubinemia, Rotor type (HBLRR) [reactome]  **core**
+- Defective SLCO2A1 causes primary, autosomal recessive hypertrophic osteoarthropathy 2 (PHOAR2) [reactome]  **core**
+- Defective TBXAS1 causes GHDD [reactome]  **core**
+- Defective UGT1A1 causes hyperbilirubinemia [reactome]  **core**
+- Defective UGT1A4 causes hyperbilirubinemia [reactome]  **core**
+- Defective transport by SLC5A7 causes distal hereditary motor neuronopathy 7A (HMN7A) [reactome]  **core**
+- Defective transport of amino acids by SLC6A19 causes Hartnup disorder (HND) [reactome]  **core**
+- Defective transport of neurotransmitters by SLC6A19 causes Hartnup disorder (HND) [reactome]  **core**
+- Defective visual phototransduction due to ABCA4 loss of function [reactome]  **core**
+- Defective visual phototransduction due to LRAT loss of function [reactome]  **core**
+- Defective visual phototransduction due to OPN1LW loss of function [reactome]  **core**
+- Defective visual phototransduction due to OPN1MW loss of function [reactome]  **core**
+- Defective visual phototransduction due to OPN1SW loss of function [reactome]  **core**
+- Defective visual phototransduction due to RDH12 loss of function [reactome]  **core**
+- Defective visual phototransduction due to RDH5 loss of function [reactome]  **core**
+- Defective visual phototransduction due to STRA6 loss of function [reactome]  **core**
+- Detoxification of Reactive Oxygen Species [reactome]  **core**
+- Digestion of dietary carbohydrate [reactome]  **core**
+- Eicosanoids [reactome]  **core**
+- Electron transport from NADPH to Ferredoxin [reactome]  **core**
+- Erythrocytes take up oxygen and release carbon dioxide [reactome]  **core**
+- Estrogen biosynthesis [reactome]  **core**
+- Ethanol oxidation [reactome]  **core**
+- Events associated with phagocytolytic activity of PMN cells [reactome]  **core**
+- FGFR1c and Klotho ligand binding and activation [reactome]  **core**
+- Fatty acids [reactome]  **core**
+- G protein-coupled purinergic nucleotide receptor signaling pathway [go]  **core**
+- Glucocorticoid biosynthesis [reactome]  **core**
+- HALLMARK_BILE_ACID_METABOLISM [hallmark]  **core**
+- HALLMARK_CHOLESTEROL_HOMEOSTASIS [hallmark]  **core**
+- HALLMARK_HEME_METABOLISM [hallmark]  **core**
+- HALLMARK_PEROXISOME [hallmark]  **core**
+- HALLMARK_REACTIVE_OXYGEN_SPECIES_PATHWAY [hallmark]  **core**
+- HALLMARK_XENOBIOTIC_METABOLISM [hallmark]  **core**
+- Heme assimilation [reactome]  **core**
+- Hydrolysis of LPC [reactome]  **core**
+- Inorganic anion exchange by SLC26 transporters [reactome]  **core**
+- Inositol transporters [reactome]  **core**
+- Intestinal hexose absorption [reactome]  **core**
+- Intestinal infectious diseases [reactome]  **core**
+- Intestinal saccharidase deficiencies [reactome]  **core**
+- Intracellular oxygen transport [reactome]  **core**
+- L-alanine transmembrane transport [go]  **core**
+- L-ascorbic acid metabolic process [go]  **core**
+- L-cystine transport [go]  **core**
+- L-glutamine import across plasma membrane [go]  **core**
+- L-histidine transmembrane transport [go]  **core**
+- L-leucine import across plasma membrane [go]  **core**
+- L-proline transmembrane transport [go]  **core**
+- LTC4-CYSLTR mediated IL4 production [reactome]  **core**
+- Lactose synthesis [reactome]  **core**
+- Lanosterol biosynthesis [reactome]  **core**
+- Leukotriene receptors [reactome]  **core**
+- Linoleic acid (LA) metabolism [reactome]  **core**
+- MTF1 activates gene expression [reactome]  **core**
+- Metabolism of ingested H2SeO4 and H2SeO3 into H2Se [reactome]  **core**
+- Metabolism of vitamin K [reactome]  **core**
+- Metallothioneins bind metals [reactome]  **core**
+- Methylation [reactome]  **core**
+- Microtubule-dependent trafficking of connexons from Golgi to the plasma membrane [reactome]  **core**
+- Mineralocorticoid biosynthesis [reactome]  **core**
+- Miscellaneous substrates [reactome]  **core**
+- Mitochondrial ABC transporters [reactome]  **core**
+- N-acylethanolamine metabolic process [go]  **core**
+- N-acylphosphatidylethanolamine metabolic process [go]  **core**
+- Nephrin family interactions [reactome]  **core**
+- Oligomerization of connexins into connexons [reactome]  **core**
+- Opsins [reactome]  **core**
+- Organic anion transport by SLC22 transporters [reactome]  **core**
+- Organic anion transport by SLCO transporters [reactome]  **core**
+- P2Y receptors [reactome]  **core**
+- Paracetamol ADME [reactome]  **core**
+- Phosphate bond hydrolysis by NTPDase proteins [reactome]  **core**
+- Plasmalogen biosynthesis [reactome]  **core**
+- Post-translational protein phosphorylation [reactome]  **core**
+- Pregnenolone biosynthesis [reactome]  **core**
+- Proton-coupled neutral amino acid transporters [reactome]  **core**
+- Proton/oligopeptide cotransporters [reactome]  **core**
+- RA biosynthesis pathway [reactome]  **core**
+- RHO GTPases regulate CFTR trafficking [reactome]  **core**
+- Recycling of bile acids and salts [reactome]  **core**
+- Regulation of HMOX1 expression and activity [reactome]  **core**
+- Regulation of gap junction activity [reactome]  **core**
+- Regulation of thyroid hormone activity [reactome]  **core**
+- Retinoid metabolism disease events [reactome]  **core**
+- Reversible hydration of carbon dioxide [reactome]  **core**
+- Rhesus blood group biosynthesis [reactome]  **core**
+- Rhesus glycoproteins mediate ammonium transport [reactome]  **core**
+- SARS-CoV-2 targets PDZ proteins in cell-cell junction [reactome]  **core**
+- SLC-mediated transport of organic cations [reactome]  **core**
+- Scavenging of heme from plasma [reactome]  **core**
+- Selenocysteine synthesis [reactome]  **core**
+- Sterols are 12-hydroxylated by CYP8B1 [reactome]  **core**
+- Synthesis of (16-20)-hydroxyeicosatetraenoic acids (HETE) [reactome]  **core**
+- Synthesis of 12-eicosatetraenoic acid derivatives [reactome]  **core**
+- Synthesis of 5-eicosatetraenoic acids [reactome]  **core**
+- Synthesis of CL [reactome]  **core**
+- Synthesis of Hepoxilins (HX) and Trioxilins (TrX) [reactome]  **core**
+- Synthesis of Leukotrienes (LT) and Eoxins (EX) [reactome]  **core**
+- Synthesis of PA [reactome]  **core**
+- Synthesis of PG [reactome]  **core**
+- Synthesis of PS [reactome]  **core**
+- Synthesis of Prostaglandins (PG) and Thromboxanes (TX) [reactome]  **core**
+- Synthesis of bile acids and bile salts via 24-hydroxycholesterol [reactome]  **core**
+- Synthesis of bile acids and bile salts via 27-hydroxycholesterol [reactome]  **core**
+- Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol [reactome]  **core**
+- TBA [btm]  **core**
+- TYSND1 cleaves peroxisomal proteins [reactome]  **core**
+- The retinoid cycle in cones (daylight vision) [reactome]  **core**
+- Tight junction interactions [reactome]  **core**
+- Transferrin endocytosis and recycling [reactome]  **core**
+- Transport and metabolism of PAPS [reactome]  **core**
+- Transport of connexins along the secretory pathway [reactome]  **core**
+- Transport of fatty acids [reactome]  **core**
+- Triglyceride biosynthesis [reactome]  **core**
+- Type II Na+/Pi cotransporters [reactome]  **core**
+- Ubiquinol biosynthesis [reactome]  **core**
+- Variant SLC6A14 may confer susceptibility towards obesity [reactome]  **core**
+- Variant SLC6A20 affecting amino acid transport contributes towards hyperglycinuria (HG) and iminoglycinuria (IG) [reactome]  **core**
+- Variant SLC6A20 affecting neurotransmitter transport contributes towards hyperglycinuria (HG) and iminoglycinuria (IG) [reactome]  **core**
+- Vasopressin regulates renal water homeostasis via Aquaporins [reactome]  **core**
+- Vasopressin-like receptors [reactome]  **core**
+- Vitamin B2 (riboflavin) metabolism [reactome]  **core**
+- Vitamin C (ascorbate) metabolism [reactome]  **core**
+- Vitamin D (calciferol) metabolism [reactome]  **core**
+- Vitamins [reactome]  **core**
+- Wax biosynthesis [reactome]  **core**
+- Zinc efflux and compartmentalization by the SLC30 family [reactome]  **core**
+- Zinc influx into cells by the SLC39 gene family [reactome]  **core**
+- Zymostenol biosynthesis via lathosterol (Kandutsch-Russell pathway) [reactome]  **core**
+- [4Fe-4S] cluster assembly [go]  **core**
+- alkaloid catabolic process [go]  **core**
+- alpha-linolenic acid (ALA) metabolism [reactome]  **core**
+- alpha-linolenic acid metabolic process [go]  **core**
+- amacrine cell differentiation [go]  **core**
+- amino acid metabolishm and transport [btm]  **core**
+- ammonium transmembrane transport [go]  **core**
+- androgen biosynthetic process [go]  **core**
+- androgen catabolic process [go]  **core**
+- benzene-containing compound metabolic process [go]  **core**
+- bicarbonate transport [go]  **core**
+- bile acid signaling pathway [go]  **core**
+- brush border assembly [go]  **core**
+- cadmium ion transmembrane transport [go]  **core**
+- calcium-independent cell-cell adhesion [go]  **core**
+- carbon dioxide transmembrane transport [go]  **core**
+- cardiolipin metabolic process [go]  **core**
+- cellular hyperosmotic response [go]  **core**
+- cellular response to cadmium ion [go]  **core**
+- cellular response to copper ion [go]  **core**
+- cellular response to iron ion [go]  **core**
+- cellular response to light intensity [go]  **core**
+- cellular response to parathyroid hormone stimulus [go]  **core**
+- cellular response to retinoic acid [go]  **core**
+- cellular response to salt stress [go]  **core**
+- cellular response to water stimulus [go]  **core**
+- cellular response to zinc ion [go]  **core**
+- cholesterol catabolic process [go]  **core**
+- choline transport [go]  **core**
+- copper ion import [go]  **core**
+- cortical microtubule organization [go]  **core**
+- cyclic-GMP-AMP transmembrane import across plasma membrane [go]  **core**
+- cytochrome metabolic process [go]  **core**
+- dehydroascorbic acid transport [go]  **core**
+- dentinogenesis [go]  **core**
+- detection of light stimulus involved in sensory perception [go]  **core**
+- detection of oxygen [go]  **core**
+- detoxification of cadmium ion [go]  **core**
+- detoxification of copper ion [go]  **core**
+- detoxification of nitrogen compound [go]  **core**
+- diacylglycerol biosynthetic process [go]  **core**
+- diacylglycerol catabolic process [go]  **core**
+- diterpenoid biosynthetic process [go]  **core**
+- endocannabinoid signaling pathway [go]  **core**
+- enriched in G-protein coupled receptors [btm]  **core**
+- enriched in plasma membrane proteins (I) [btm]  **core**
+- enriched in plasma membrane proteins (II) [btm]  **core**
+- epoxygenase P450 pathway [go]  **core**
+- estrogen biosynthetic process [go]  **core**
+- ethanol metabolic process [go]  **core**
+- ether biosynthetic process [go]  **core**
+- ether catabolic process [go]  **core**
+- fatty acid alpha-oxidation [go]  **core**
+- fatty acid beta-oxidation using acyl-CoA oxidase [go]  **core**
+- fatty acid elongation, saturated fatty acid [go]  **core**
+- fatty acid omega-oxidation [go]  **core**
+- flavone metabolic process [go]  **core**
+- fructose transmembrane transport [go]  **core**
+- galactose transmembrane transport [go]  **core**
+- gap junction-mediated intercellular transport [go]  **core**
+- geranylgeranyl diphosphate metabolic process [go]  **core**
+- glomerular epithelial cell development [go]  **core**
+- glycine import across plasma membrane [go]  **core**
+- heme A biosynthetic process [go]  **core**
+- heme biosynthesis (I) [btm]  **core**
+- heme transport [go]  **core**
+- hepoxilin biosynthetic process [go]  **core**
+- hydrogen peroxide catabolic process [go]  **core**
+- icosanoid catabolic process [go]  **core**
+- inositol metabolic process [go]  **core**
+- intestinal hexose absorption [go]  **core**
+- intracellular magnesium ion homeostasis [go]  **core**
+- intracellular manganese ion homeostasis [go]  **core**
+- intracellular monoatomic anion homeostasis [go]  **core**
+- intracellular phosphate ion homeostasis [go]  **core**
+- intracellular zinc ion homeostasis [go]  **core**
+- iodide transport [go]  **core**
+- iron ion import across plasma membrane [go]  **core**
+- isoleucine transport [go]  **core**
+- leukotriene D4 biosynthetic process [go]  **core**
+- leukotriene catabolic process [go]  **core**
+- leukotriene signaling pathway [go]  **core**
+- leukotriene transport [go]  **core**
+- light absorption [go]  **core**
+- lipid hydroxylation [go]  **core**
+- lipid transport across blood-brain barrier [go]  **core**
+- lipoxin A4 metabolic process [go]  **core**
+- lipoxygenase pathway [go]  **core**
+- long-chain fatty acid catabolic process [go]  **core**
+- long-chain fatty-acyl-CoA biosynthetic process [go]  **core**
+- magnesium ion transport [go]  **core**
+- maintenance of animal organ identity [go]  **core**
+- maintenance of apical/basal cell polarity [go]  **core**
+- malonyl-CoA metabolic process [go]  **core**
+- manganese ion transmembrane transport [go]  **core**
+- medium-chain fatty acid catabolic process [go]  **core**
+- menaquinone catabolic process [go]  **core**
+- monoacylglycerol biosynthetic process [go]  **core**
+- monoterpenoid metabolic process [go]  **core**
+- multi-pass transmembrane protein insertion into ER membrane [go]  **core**
+- multicellular organismal-level iron ion homeostasis [go]  **core**
+- mycotoxin metabolic process [go]  **core**
+- negative regulation of phospholipid metabolic process [go]  **core**
+- negative regulation of response to drug [go]  **core**
+- negative regulation of retinoic acid receptor signaling pathway [go]  **core**
+- obsolete amide transport [go]  **core**
+- obsolete calcitriol biosynthetic process from calciol [go]  **core**
+- obsolete cholesterol biosynthetic process via desmosterol [go]  **core**
+- obsolete isoleucine metabolic process [go]  **core**
+- obsolete organic anion transport [go]  **core**
+- obsolete organic cation transport [go]  **core**
+- obsolete protoporphyrinogen IX biosynthetic process [go]  **core**
+- obsolete regulation of cellular pH reduction [go]  **core**
+- oligopeptide import across plasma membrane [go]  **core**
+- omega-hydroxylase P450 pathway [go]  **core**
+- osmosensory signaling pathway [go]  **core**
+- oxalate transport [go]  **core**
+- oxidative demethylation [go]  **core**
+- oxygen transport [go]  **core**
+- pH reduction [go]  **core**
+- paracellular transport [go]  **core**
+- peroxisome fission [go]  **core**
+- phenylalanine transport [go]  **core**
+- phenylpropanoid metabolic process [go]  **core**
+- phosphate ion transmembrane transport [go]  **core**
+- phosphatidic acid metabolic process [go]  **core**
+- phosphatidylcholine acyl-chain remodeling [go]  **core**
+- phosphatidylethanolamine biosynthetic process [go]  **core**
+- phosphatidylglycerol acyl-chain remodeling [go]  **core**
+- phosphatidylglycerol biosynthetic process [go]  **core**
+- phospho-PLA2 pathway [reactome]  **core**
+- photoreceptor cell morphogenesis [go]  **core**
+- photoreceptor cell outer segment organization [go]  **core**
+- podocyte cell migration [go]  **core**
+- polyketide metabolic process [go]  **core**
+- positive regulation of MAPKKK cascade by fibroblast growth factor receptor signaling pathway [go]  **core**
+- positive regulation of arachidonate secretion [go]  **core**
+- positive regulation of bone mineralization [go]  **core**
+- positive regulation of enamel mineralization [go]  **core**
+- positive regulation of microvillus assembly [go]  **core**
+- positive regulation of phospholipid biosynthetic process [go]  **core**
+- positive regulation of prostaglandin biosynthetic process [go]  **core**
+- positive regulation of vitamin D receptor signaling pathway [go]  **core**
+- primary alcohol catabolic process [go]  **core**
+- progesterone biosynthetic process [go]  **core**
+- protein hexamerization [go]  **core**
+- protein import into peroxisome matrix, receptor recycling [go]  **core**
+- protein import into peroxisome membrane [go]  **core**
+- protein targeting to peroxisome [go]  **core**
+- purine nucleoside bisphosphate metabolic process [go]  **core**
+- quinone biosynthetic process [go]  **core**
+- regulation of amino acid metabolic process [go]  **core**
+- regulation of bile acid biosynthetic process [go]  **core**
+- regulation of bile acid secretion [go]  **core**
+- regulation of corticosterone secretion [go]  **core**
+- regulation of hepatic stellate cell activation [go]  **core**
+- regulation of iron ion transmembrane transport [go]  **core**
+- regulation of microvillus length [go]  **core**
+- regulation of opsin-mediated signaling pathway [go]  **core**
+- regulation of phosphatidylcholine biosynthetic process [go]  **core**
+- regulation of photoreceptor cell differentiation [go]  **core**
+- regulation of prostaglandin secretion [go]  **core**
+- regulation of removal of superoxide radicals [go]  **core**
+- regulation of tetrapyrrole metabolic process [go]  **core**
+- regulation of thyroid hormone generation [go]  **core**
+- renal sodium ion transport [go]  **core**
+- renal water absorption [go]  **core**
+- response to L-ascorbic acid [go]  **core**
+- response to bile acid [go]  **core**
+- response to cobalt ion [go]  **core**
+- response to fructose [go]  **core**
+- response to genistein [go]  **core**
+- response to glycoprotein [go]  **core**
+- response to herbicide [go]  **core**
+- response to high light intensity [go]  **core**
+- response to insecticide [go]  **core**
+- response to iron(II) ion [go]  **core**
+- response to lead ion [go]  **core**
+- response to mercury ion [go]  **core**
+- response to prostaglandin D [go]  **core**
+- response to selenium ion [go]  **core**
+- response to sodium phosphate [go]  **core**
+- response to vasopressin [go]  **core**
+- response to vitamin A [go]  **core**
+- response to vitamin E [go]  **core**
+- response to water deprivation [go]  **core**
+- retina layer formation [go]  **core**
+- retinal bipolar neuron differentiation [go]  **core**
+- retinal cone cell development [go]  **core**
+- retinal metabolic process [go]  **core**
+- retinal rod cell development [go]  **core**
+- retinoic acid metabolic process [go]  **core**
+- retinol metabolic process [go]  **core**
+- riboflavin metabolic process [go]  **core**
+- riboflavin transport [go]  **core**
+- short-chain fatty acid catabolic process [go]  **core**
+- sodium-independent organic anion transport [go]  **core**
+- succinyl-CoA catabolic process [go]  **core**
+- terpenoid catabolic process [go]  **core**
+- tetrapyrrole catabolic process [go]  **core**
+- thyroid hormone transport [go]  **core**
+- tooth eruption [go]  **core**
+- toxin catabolic process [go]  **core**
+- transepithelial chloride transport [go]  **core**
+- transepithelial water transport [go]  **core**
+- transferrin transport [go]  **core**
+- translational readthrough [go]  **core**
+- transmembrane and ion transporters (I) [btm]  **core**
+- transmembrane transport (I) [btm]  **core**
+- transmembrane transport (SLC cluster) [btm]  **core**
+- tryptophan transport [go]  **core**
+- urate metabolic process [go]  **core**
+- urate transport [go]  **core**
+- vacuolar transmembrane transport [go]  **core**
+- very long-chain fatty acid biosynthetic process [go]  **core**
+- very long-chain fatty acid catabolic process [go]  **core**
+- vitamin A metabolic process [go]  **core**
+- vitamin D3 metabolic process [go]  **core**
+- xenobiotic metabolism [btm]  **core**
+- xenobiotic transport across blood-brain barrier [go]  **core**
+- zinc ion import across plasma membrane [go]  **core**
+- zymosterol metabolic process [go]  **core**
+
+## CT-08  (286 pathways, 286 in the core)
+
+- ADORA2B mediated anti-inflammatory cytokines production [reactome]  **core**
+- AMPA glutamate receptor clustering [go]  **core**
+- AMPA selective glutamate receptor signaling pathway [go]  **core**
+- ATP export [go]  **core**
+- ATP sensitive Potassium channels [reactome]  **core**
+- Acetylcholine regulates insulin secretion [reactome]  **core**
+- Activation of AMPK downstream of NMDARs [reactome]  **core**
+- Activation of Ca-permeable Kainate Receptor [reactome]  **core**
+- Activation of G protein gated Potassium channels [reactome]  **core**
+- Activation of Na-permeable kainate receptors [reactome]  **core**
+- Activation of RAC1 downstream of NMDARs [reactome]  **core**
+- Adenylate cyclase activating pathway [reactome]  **core**
+- Adenylate cyclase inhibitory pathway [reactome]  **core**
+- Adrenaline,noradrenaline inhibits insulin secretion [reactome]  **core**
+- Agmatine biosynthesis [reactome]  **core**
+- Assembly and cell surface presentation of NMDA receptors [reactome]  **core**
+- Astrocytic Glutamate-Glutamine Uptake And Metabolism [reactome]  **core**
+- Biogenic amines are oxidatively deaminated to aldehydes by MAOA and MAOB [reactome]  **core**
+- CREB1 phosphorylation through the activation of Adenylate Cyclase [reactome]  **core**
+- CREB1 phosphorylation through the activation of CaMKII/CaMKK/CaMKIV cascasde [reactome]  **core**
+- Ca2+ activated K+ channels [reactome]  **core**
+- CaMK IV-mediated phosphorylation of CREB [reactome]  **core**
+- Calcitonin-like ligand receptors [reactome]  **core**
+- Catecholamine biosynthesis [reactome]  **core**
+- Class C/3 (Metabotropic glutamate/pheromone receptors) [reactome]  **core**
+- D-aspartate transmembrane transport [go]  **core**
+- DARPP-32 events [reactome]  **core**
+- Defective ABCC8 can cause hypo- and hyper-glycemias [reactome]  **core**
+- Defective ABCC9 causes CMD10, ATFB12 and Cantu syndrome [reactome]  **core**
+- Defective MAOA causes BRUNS [reactome]  **core**
+- Defective SLC17A8 causes autosomal dominant deafness 25 (DFNA25) [reactome]  **core**
+- Defective SLC1A1 is implicated in schizophrenia 18 (SCZD18) and dicarboxylic aminoaciduria (DCBXA) [reactome]  **core**
+- Defective SLC1A3 causes episodic ataxia 6 (EA6) [reactome]  **core**
+- Defective SLC6A2 causes orthostatic intolerance (OI) [reactome]  **core**
+- Defective SLC6A5 causes hyperekplexia 3 (HKPX3) [reactome]  **core**
+- Defective SLC9A6 causes  X-linked, syndromic mental retardation,, Christianson type (MRXSCH) [reactome]  **core**
+- Defective SLC9A9 causes autism 16 (AUTS16) [reactome]  **core**
+- Defective neurotransmitter clearance by SLC6A3 causes Parkinsonism-dystonia infantile (PKDYS) [reactome]  **core**
+- Defective transport by SLC5A7 causes distal hereditary motor neuronopathy 7A (HMN7A) [reactome]  **core**
+- Defective transport of neurotransmitters by SLC6A3 causes Parkinsonism-dystonia infantile (PKDYS) [reactome]  **core**
+- Dopamine Neurotransmitter Release Cycle [reactome]  **core**
+- Dopamine receptors [reactome]  **core**
+- Enzymatic degradation of Dopamine by monoamine oxidase [reactome]  **core**
+- Expression and translocation of olfactory receptors [reactome]  **core**
+- G alpha (z) signalling events [reactome]  **core**
+- G protein-coupled opioid receptor signaling pathway [go]  **core**
+- G protein-coupled purinergic receptor signaling pathway [go]  **core**
+- G protein-coupled receptor signaling pathway, coupled to cyclic nucleotide second messenger [go]  **core**
+- GABA biosynthetic process [go]  **core**
+- Glucagon-like Peptide-1 (GLP1) regulates insulin secretion [reactome]  **core**
+- Glutamate Neurotransmitter Release Cycle [reactome]  **core**
+- Highly calcium permeable nicotinic acetylcholine receptors [reactome]  **core**
+- Highly calcium permeable postsynaptic nicotinic acetylcholine receptors [reactome]  **core**
+- Highly sodium permeable postsynaptic acetylcholine nicotinic receptors [reactome]  **core**
+- Histamine receptors [reactome]  **core**
+- Inhibition  of voltage gated Ca2+ channels via Gbeta/gamma subunits [reactome]  **core**
+- L-aspartate import across plasma membrane [go]  **core**
+- Metabolism of serotonin [reactome]  **core**
+- NMDA glutamate receptor clustering [go]  **core**
+- NMDA selective glutamate receptor signaling pathway [go]  **core**
+- Negative regulation of NMDA receptor-mediated neuronal transmission [reactome]  **core**
+- Neurexins and neuroligins [reactome]  **core**
+- Norepinephrine Neurotransmitter Release Cycle [reactome]  **core**
+- P2Y receptors [reactome]  **core**
+- PKA activation [reactome]  **core**
+- Phosphate bond hydrolysis by NTPDase proteins [reactome]  **core**
+- Presynaptic depolarization and calcium channel opening [reactome]  **core**
+- Presynaptic function of Kainate receptors [reactome]  **core**
+- Ras activation upon Ca2+ influx through NMDA receptor [reactome]  **core**
+- Receptor-type tyrosine-protein phosphatases [reactome]  **core**
+- Regulation of cortical dendrite branching [reactome]  **core**
+- Reuptake of GABA [reactome]  **core**
+- SLC-mediated bile acid transport [reactome]  **core**
+- SLC-mediated transport of neurotransmitters [reactome]  **core**
+- Sensory perception of salty taste [reactome]  **core**
+- Sensory perception of sour taste [reactome]  **core**
+- Sensory perception of sweet, bitter, and umami (glutamate) taste [reactome]  **core**
+- Serotonin and melatonin biosynthesis [reactome]  **core**
+- Serotonin receptors [reactome]  **core**
+- Synaptic adhesion-like molecules [reactome]  **core**
+- TBA [btm]  **core**
+- TWIK related potassium channel (TREK) [reactome]  **core**
+- TWIK-related alkaline pH activated K+ channel (TALK) [reactome]  **core**
+- TWIK-related spinal cord K+ channel (TRESK) [reactome]  **core**
+- TWIK-releated acid-sensitive K+ channel (TASK) [reactome]  **core**
+- Tandem pore domain halothane-inhibited K+ channel (THIK) [reactome]  **core**
+- Toxicity of botulinum toxin type A (botA) [reactome]  **core**
+- Toxicity of botulinum toxin type B (botB) [reactome]  **core**
+- Toxicity of botulinum toxin type C (botC) [reactome]  **core**
+- Toxicity of botulinum toxin type D (botD) [reactome]  **core**
+- Toxicity of botulinum toxin type E (botE) [reactome]  **core**
+- Toxicity of botulinum toxin type F (botF) [reactome]  **core**
+- Toxicity of botulinum toxin type G (botG) [reactome]  **core**
+- Toxicity of tetanus toxin (tetX) [reactome]  **core**
+- Trafficking of GluR2-containing AMPA receptors [reactome]  **core**
+- Unblocking of NMDA receptors, glutamate binding and activation [reactome]  **core**
+- acetylcholine metabolic process [go]  **core**
+- acetylcholine secretion [go]  **core**
+- activation of protein kinase A activity [go]  **core**
+- adenylate cyclase-activating dopamine receptor signaling pathway [go]  **core**
+- adenylate cyclase-inhibiting G protein-coupled glutamate receptor signaling pathway [go]  **core**
+- adenylate cyclase-inhibiting adrenergic receptor signaling pathway [go]  **core**
+- adenylate cyclase-inhibiting dopamine receptor signaling pathway [go]  **core**
+- adenylate cyclase-inhibiting serotonin receptor signaling pathway [go]  **core**
+- amine catabolic process [go]  **core**
+- amygdala development [go]  **core**
+- amylin receptor signaling pathway [go]  **core**
+- behavioral response to cocaine [go]  **core**
+- behavioral response to ethanol [go]  **core**
+- behavioral response to nicotine [go]  **core**
+- behavioral response to pain [go]  **core**
+- beta-arrestin-dependent dopamine receptor signaling pathway [go]  **core**
+- cAMP biosynthetic process [go]  **core**
+- cAMP catabolic process [go]  **core**
+- calcitonin gene-related peptide receptor signaling pathway [go]  **core**
+- catechol-containing compound catabolic process [go]  **core**
+- cellular response to ATP [go]  **core**
+- cellular response to L-glutamate [go]  **core**
+- cellular response to cAMP [go]  **core**
+- cellular response to cGMP [go]  **core**
+- cellular response to caffeine [go]  **core**
+- cellular response to cocaine [go]  **core**
+- cellular response to corticotropin-releasing hormone stimulus [go]  **core**
+- cellular response to epinephrine stimulus [go]  **core**
+- cellular response to ethanol [go]  **core**
+- cellular response to ether [go]  **core**
+- cellular response to gonadotropin-releasing hormone [go]  **core**
+- cellular response to insulin-like growth factor stimulus [go]  **core**
+- cellular response to nicotine [go]  **core**
+- cellular response to peptide [go]  **core**
+- circadian sleep/wake cycle, non-REM sleep [go]  **core**
+- conditioned place preference [go]  **core**
+- dendrite arborization [go]  **core**
+- detection of chemical stimulus involved in sensory perception of taste [go]  **core**
+- detection of mechanical stimulus involved in sensory perception of pain [go]  **core**
+- detection of temperature stimulus involved in thermoception [go]  **core**
+- dopamine biosynthetic process [go]  **core**
+- drinking behavior [go]  **core**
+- epinephrine metabolic process [go]  **core**
+- estrous cycle [go]  **core**
+- excitatory chemical synaptic transmission [go]  **core**
+- female mating behavior [go]  **core**
+- gamma-aminobutyric acid secretion [go]  **core**
+- gastric motility [go]  **core**
+- general adaptation syndrome, behavioral process [go]  **core**
+- gephyrin clustering involved in postsynaptic density assembly [go]  **core**
+- glutamate reuptake [go]  **core**
+- grooming behavior [go]  **core**
+- hormone-mediated apoptotic signaling pathway [go]  **core**
+- intestine smooth muscle contraction [go]  **core**
+- locomotory exploration behavior [go]  **core**
+- maintenance of postsynaptic density structure [go]  **core**
+- male mating behavior [go]  **core**
+- micturition [go]  **core**
+- negative regulation of action potential [go]  **core**
+- negative regulation of amine metabolic process [go]  **core**
+- negative regulation of cAMP/PKA signal transduction [go]  **core**
+- negative regulation of calcium ion-dependent exocytosis [go]  **core**
+- negative regulation of dendrite development [go]  **core**
+- negative regulation of dendritic spine maintenance [go]  **core**
+- negative regulation of dendritic spine morphogenesis [go]  **core**
+- negative regulation of epinephrine secretion [go]  **core**
+- negative regulation of excitatory postsynaptic potential [go]  **core**
+- negative regulation of insulin secretion involved in cellular response to glucose stimulus [go]  **core**
+- negative regulation of membrane depolarization [go]  **core**
+- negative regulation of neurotransmitter secretion [go]  **core**
+- negative regulation of nitric oxide biosynthetic process [go]  **core**
+- negative regulation of norepinephrine secretion [go]  **core**
+- negative regulation of synaptic transmission, GABAergic [go]  **core**
+- negative regulation of synaptic transmission, glutamatergic [go]  **core**
+- negative regulation of synaptic vesicle exocytosis [go]  **core**
+- negative regulation of transmission of nerve impulse [go]  **core**
+- negative regulation of voltage-gated calcium channel activity [go]  **core**
+- neuromuscular synaptic transmission [go]  **core**
+- neuron-neuron synaptic transmission [go]  **core**
+- neuropeptide signaling pathway [go]  **core**
+- neurotransmitter loading into synaptic vesicle [go]  **core**
+- neurotransmitter receptor transport, endosome to postsynaptic membrane [go]  **core**
+- nonassociative learning [go]  **core**
+- norepinephrine biosynthetic process [go]  **core**
+- obsolete catecholamine transport [go]  **core**
+- obsolete catecholamine uptake involved in synaptic transmission [go]  **core**
+- obsolete detection of stimulus involved in sensory perception of pain [go]  **core**
+- obsolete dopamine transport [go]  **core**
+- obsolete epinephrine transport [go]  **core**
+- obsolete monoamine transport [go]  **core**
+- obsolete norepinephrine transport [go]  **core**
+- obsolete regulation of catecholamine uptake involved in synaptic transmission [go]  **core**
+- obsolete serotonin transport [go]  **core**
+- obsolete synaptic vesicle docking [go]  **core**
+- obsolete vesicle docking [go]  **core**
+- obsolete vesicle docking involved in exocytosis [go]  **core**
+- olfactory receptors [btm]  **core**
+- operant conditioning [go]  **core**
+- phospholipase C-activating dopamine receptor signaling pathway [go]  **core**
+- phospholipase C-activating serotonin receptor signaling pathway [go]  **core**
+- phospholipase C-activating tachykinin receptor signaling pathway [go]  **core**
+- positive regulation of action potential [go]  **core**
+- positive regulation of cAMP/PKA signal transduction [go]  **core**
+- positive regulation of calcium ion import across plasma membrane [go]  **core**
+- positive regulation of calcium ion transport into cytosol [go]  **core**
+- positive regulation of circadian sleep/wake cycle, sleep [go]  **core**
+- positive regulation of dendritic spine morphogenesis [go]  **core**
+- positive regulation of dopamine receptor signaling pathway [go]  **core**
+- positive regulation of excitatory postsynaptic potential [go]  **core**
+- positive regulation of fear response [go]  **core**
+- positive regulation of fever generation [go]  **core**
+- positive regulation of gastro-intestinal system smooth muscle contraction [go]  **core**
+- positive regulation of glutamate secretion [go]  **core**
+- positive regulation of inhibitory postsynaptic potential [go]  **core**
+- positive regulation of long-term synaptic depression [go]  **core**
+- positive regulation of long-term synaptic potentiation [go]  **core**
+- positive regulation of neuron projection arborization [go]  **core**
+- positive regulation of protein localization to synapse [go]  **core**
+- positive regulation of sensory perception of pain [go]  **core**
+- positive regulation of synapse assembly [go]  **core**
+- positive regulation of synapse maturation [go]  **core**
+- positive regulation of synaptic plasticity [go]  **core**
+- positive regulation of synaptic transmission, GABAergic [go]  **core**
+- positive regulation of synaptic transmission, cholinergic [go]  **core**
+- positive regulation of synaptic vesicle exocytosis [go]  **core**
+- positive regulation of synaptic vesicle fusion to presynaptic active zone membrane [go]  **core**
+- positive regulation of transmission of nerve impulse [go]  **core**
+- postsynapse to nucleus signaling pathway [go]  **core**
+- postsynaptic density protein 95 clustering [go]  **core**
+- postsynaptic membrane assembly [go]  **core**
+- postsynaptic modulation of chemical synaptic transmission [go]  **core**
+- prepulse inhibition [go]  **core**
+- presynaptic dense core vesicle exocytosis [go]  **core**
+- presynaptic membrane assembly [go]  **core**
+- presynaptic modulation of chemical synaptic transmission [go]  **core**
+- psychomotor behavior [go]  **core**
+- receptor diffusion trapping [go]  **core**
+- regulation of AMPA receptor activity [go]  **core**
+- regulation of CAMKK-AMPK signaling cascade [go]  **core**
+- regulation of L-glutamate import across plasma membrane [go]  **core**
+- regulation of SNARE complex assembly [go]  **core**
+- regulation of calcium ion-dependent exocytosis of neurotransmitter [go]  **core**
+- regulation of catecholamine metabolic process [go]  **core**
+- regulation of circadian sleep/wake cycle, wakefulness [go]  **core**
+- regulation of glutamate receptor clustering [go]  **core**
+- regulation of glutamate secretion, neurotransmission [go]  **core**
+- regulation of inhibitory synapse assembly [go]  **core**
+- regulation of locomotion involved in locomotory behavior [go]  **core**
+- regulation of membrane hyperpolarization [go]  **core**
+- regulation of modification of postsynaptic actin cytoskeleton [go]  **core**
+- regulation of neuron maturation [go]  **core**
+- regulation of neuronal action potential [go]  **core**
+- regulation of postsynapse assembly [go]  **core**
+- regulation of postsynaptic cytosolic calcium ion concentration [go]  **core**
+- regulation of postsynaptic density assembly [go]  **core**
+- regulation of postsynaptic membrane organization [go]  **core**
+- regulation of presynapse organization [go]  **core**
+- regulation of presynaptic cytosolic calcium ion concentration [go]  **core**
+- regulation of respiratory gaseous exchange by nervous system process [go]  **core**
+- regulation of resting membrane potential [go]  **core**
+- regulation of saliva secretion [go]  **core**
+- regulation of short-term neuronal synaptic plasticity [go]  **core**
+- regulation of spontaneous synaptic transmission [go]  **core**
+- regulation of synapse structural plasticity [go]  **core**
+- regulation of synaptic vesicle clustering [go]  **core**
+- regulation of synaptic vesicle priming [go]  **core**
+- response to 2,3,7,8-tetrachlorodibenzodioxine [go]  **core**
+- response to amphetamine [go]  **core**
+- response to anesthetic [go]  **core**
+- response to bisphenol A [go]  **core**
+- response to corticosterone [go]  **core**
+- response to forskolin [go]  **core**
+- response to fungicide [go]  **core**
+- response to herbicide [go]  **core**
+- response to insecticide [go]  **core**
+- response to isoquinoline alkaloid [go]  **core**
+- response to odorant [go]  **core**
+- sensory perception of bitter taste [go]  **core**
+- sensory perception of itch [go]  **core**
+- sensory perception of smell [go]  **core**
+- sensory perception of sour taste [go]  **core**
+- sensory perception of touch [go]  **core**
+- serotonin-gated cation-selective signaling pathway [go]  **core**
+- short-term memory [go]  **core**
+- somatostatin receptor signaling pathway [go]  **core**
+- spontaneous neurotransmitter secretion [go]  **core**
+- swimming behavior [go]  **core**
+- synaptic signaling via neuropeptide [go]  **core**
+- synaptic transmission, glycinergic [go]  **core**
+- urinary tract smooth muscle contraction [go]  **core**
+
+## CT-09  (262 pathways, 262 in the core)
+
+- ARF protein signal transduction [go]  **core**
+- Acyl chain remodeling of CL [reactome]  **core**
+- Acyl chain remodelling of PC [reactome]  **core**
+- Acyl chain remodelling of PE [reactome]  **core**
+- Acyl chain remodelling of PG [reactome]  **core**
+- Acyl chain remodelling of PI [reactome]  **core**
+- Acyl chain remodelling of PS [reactome]  **core**
+- Arachidonate production from DAG [reactome]  **core**
+- C-terminal protein amino acid modification [go]  **core**
+- CDP-choline pathway [go]  **core**
+- CDP-diacylglycerol metabolic process [go]  **core**
+- COPI-coated vesicle budding [go]  **core**
+- COPI-dependent Golgi-to-ER retrograde traffic [reactome]  **core**
+- COPI-mediated anterograde transport [reactome]  **core**
+- Cargo concentration in the ER [reactome]  **core**
+- Cargo recognition for clathrin-mediated endocytosis [reactome]  **core**
+- Complex IV assembly [reactome]  **core**
+- Cristae formation [reactome]  **core**
+- Cytosolic iron-sulfur cluster assembly [reactome]  **core**
+- Defective ANO6 does not expose PS, PE on the platelet membrane [reactome]  **core**
+- Defective CFTR causes cystic fibrosis [reactome]  **core**
+- Defective MAN1B1 causes MRT15 [reactome]  **core**
+- E3 ubiquitin ligases ubiquitinate target proteins [reactome]  **core**
+- ER Quality Control Compartment (ERQC) [reactome]  **core**
+- Formation of ATP by chemiosmotic coupling [reactome]  **core**
+- Formation of annular gap junctions [reactome]  **core**
+- Glycerophospholipid catabolism [reactome]  **core**
+- Glycosphingolipid transport [reactome]  **core**
+- Golgi Associated Vesicle Biogenesis [reactome]  **core**
+- Golgi Cisternae Pericentriolar Stack Reorganization [reactome]  **core**
+- Golgi disassembly [go]  **core**
+- Golgi reassembly [go]  **core**
+- Golgi ribbon formation [go]  **core**
+- Golgi to endosome transport [go]  **core**
+- Golgi to lysosome transport [go]  **core**
+- Golgi vesicle budding [go]  **core**
+- HALLMARK_APICAL_SURFACE [hallmark]  **core**
+- HALLMARK_OXIDATIVE_PHOSPHORYLATION [hallmark]  **core**
+- HALLMARK_PEROXISOME [hallmark]  **core**
+- HALLMARK_PROTEIN_SECRETION [hallmark]  **core**
+- HHAT G278V doesn't palmitoylate Hh-Np [reactome]  **core**
+- Hh mutants are degraded by ERAD [reactome]  **core**
+- Hydrolysis of LPC [reactome]  **core**
+- Hydrolysis of LPE [reactome]  **core**
+- Insertion of tail-anchored proteins into the endoplasmic reticulum membrane [reactome]  **core**
+- Intra-Golgi traffic [reactome]  **core**
+- Josephin domain DUBs [reactome]  **core**
+- LGK974 inhibits PORCN [reactome]  **core**
+- Lysosome Vesicle Biogenesis [reactome]  **core**
+- Maturation of TCA enzymes and regulation of TCA cycle [reactome]  **core**
+- Mitochondrial protein degradation [reactome]  **core**
+- Mitochondrial protein import [reactome]  **core**
+- N-acylethanolamine metabolic process [go]  **core**
+- N-acylphosphatidylethanolamine metabolic process [go]  **core**
+- N-terminal protein lipidation [go]  **core**
+- PI and PC transport between ER and Golgi membranes [reactome]  **core**
+- PINK1-PRKN Mediated Mitophagy [reactome]  **core**
+- Processing of SMDT1 [reactome]  **core**
+- RAB GEFs exchange GTP for GDP on RABs [reactome]  **core**
+- RAB geranylgeranylation [reactome]  **core**
+- RAS processing [reactome]  **core**
+- RHOT1 GTPase cycle [reactome]  **core**
+- RHOT2 GTPase cycle [reactome]  **core**
+- RNA import into mitochondrion [go]  **core**
+- Receptor Mediated Mitophagy [reactome]  **core**
+- Retrograde transport at the Trans-Golgi-Network [reactome]  **core**
+- Role of second messengers in netrin-1 signaling [reactome]  **core**
+- SRP-dependent cotranslational protein targeting to membrane [reactome]  **core**
+- SRP-dependent cotranslational protein targeting to membrane, signal sequence recognition [go]  **core**
+- SRP-dependent cotranslational protein targeting to membrane, translocation [go]  **core**
+- Sphingolipid de novo biosynthesis [reactome]  **core**
+- Synthesis of CL [reactome]  **core**
+- Synthesis of IP2, IP, and Ins in the cytosol [reactome]  **core**
+- Synthesis of IP3 and IP4 in the cytosol [reactome]  **core**
+- Synthesis of IPs in the ER lumen [reactome]  **core**
+- Synthesis of PC [reactome]  **core**
+- Synthesis of PE [reactome]  **core**
+- Synthesis of PG [reactome]  **core**
+- Synthesis of PI [reactome]  **core**
+- Synthesis of PIPs at the ER membrane [reactome]  **core**
+- Synthesis of PIPs at the early endosome membrane [reactome]  **core**
+- Synthesis of PIPs at the late endosome membrane [reactome]  **core**
+- Synthesis of PIPs at the plasma membrane [reactome]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- TBC/RABGAPs [reactome]  **core**
+- TNFR1-mediated ceramide production [reactome]  **core**
+- TYSND1 cleaves peroxisomal proteins [reactome]  **core**
+- Ubiquinol biosynthesis [reactome]  **core**
+- WNT ligand biogenesis and trafficking [reactome]  **core**
+- [4Fe-4S] cluster assembly [go]  **core**
+- activation of GTPase activity [go]  **core**
+- aminophospholipid translocation [go]  **core**
+- anterograde dendritic transport of neurotransmitter receptor complex [go]  **core**
+- apical protein localization [go]  **core**
+- autophagosome membrane docking [go]  **core**
+- autophagy of peroxisome [go]  **core**
+- axo-dendritic protein transport [go]  **core**
+- axonal transport of mitochondrion [go]  **core**
+- calcium activated phosphatidylcholine scrambling [go]  **core**
+- cardiolipin metabolic process [go]  **core**
+- ceramide 1-phosphate transport [go]  **core**
+- clathrin coat disassembly [go]  **core**
+- constitutive secretory pathway [go]  **core**
+- cristae formation [go]  **core**
+- early endosome to Golgi transport [go]  **core**
+- endoplasmic reticulum membrane fusion [go]  **core**
+- endoplasmic reticulum to cytosol transport [go]  **core**
+- endoplasmic reticulum tubular network formation [go]  **core**
+- endoplasmic reticulum tubular network membrane organization [go]  **core**
+- endosomal vesicle fusion [go]  **core**
+- endosome membrane tubulation [go]  **core**
+- establishment of Golgi localization [go]  **core**
+- exocyst localization [go]  **core**
+- glycerophospholipid metabolism [btm]  **core**
+- glycolipid transport [go]  **core**
+- golgi membrane (I) [btm]  **core**
+- golgi membrane (II) [btm]  **core**
+- inositol phosphate metabolism [btm]  **core**
+- intermembrane lipid transfer [go]  **core**
+- intracellular distribution of mitochondria [go]  **core**
+- intracellular sphingolipid homeostasis [go]  **core**
+- intracellular transport [btm]  **core**
+- late endosome to Golgi transport [go]  **core**
+- late endosome to lysosome transport [go]  **core**
+- maintenance of presynaptic active zone structure [go]  **core**
+- maintenance of protein location in mitochondrion [go]  **core**
+- membrane bending [go]  **core**
+- membrane fission [go]  **core**
+- mitochondrial ADP transmembrane transport [go]  **core**
+- mitochondrial ATP transmembrane transport [go]  **core**
+- mitochondrial electron transport, succinate to ubiquinone [go]  **core**
+- mitochondrial fragmentation involved in apoptotic process [go]  **core**
+- mitochondrial protein processing [go]  **core**
+- mitochondrial respirasome assembly [go]  **core**
+- monoacylglycerol catabolic process [go]  **core**
+- multi-pass transmembrane protein insertion into ER membrane [go]  **core**
+- multivesicular body-lysosome fusion [go]  **core**
+- negative regulation of ERAD pathway [go]  **core**
+- negative regulation of GTPase activity [go]  **core**
+- negative regulation of Golgi to plasma membrane protein transport [go]  **core**
+- negative regulation of autophagy of mitochondrion [go]  **core**
+- negative regulation of ceramide biosynthetic process [go]  **core**
+- negative regulation of membrane potential [go]  **core**
+- negative regulation of mitochondrial fission [go]  **core**
+- negative regulation of neurotransmitter secretion [go]  **core**
+- negative regulation of pinocytosis [go]  **core**
+- negative regulation of protein catabolic process in the vacuole [go]  **core**
+- negative regulation of protein localization to cell surface [go]  **core**
+- negative regulation of protein targeting to membrane [go]  **core**
+- negative regulation of receptor internalization [go]  **core**
+- obsolete early endosome to recycling endosome transport [go]  **core**
+- obsolete endoplasmic reticulum-plasma membrane tethering [go]  **core**
+- obsolete establishment of protein localization to mitochondrial membrane [go]  **core**
+- obsolete establishment of protein localization to mitochondrion [go]  **core**
+- obsolete membrane lipid biosynthetic process [go]  **core**
+- obsolete mitochondrion-endoplasmic reticulum membrane tethering [go]  **core**
+- obsolete negative regulation of protein exit from endoplasmic reticulum [go]  **core**
+- obsolete positive regulation of protein exit from endoplasmic reticulum [go]  **core**
+- obsolete protein exit from endoplasmic reticulum [go]  **core**
+- obsolete protein localization to endoplasmic reticulum exit site [go]  **core**
+- obsolete protein processing involved in protein targeting to mitochondrion [go]  **core**
+- obsolete protein targeting to mitochondrion [go]  **core**
+- obsolete regulation of COPII vesicle coating [go]  **core**
+- obsolete regulation of membrane lipid metabolic process [go]  **core**
+- obsolete regulation of protein exit from endoplasmic reticulum [go]  **core**
+- obsolete vesicle targeting [go]  **core**
+- obsolete vesicle targeting, to, from or within Golgi [go]  **core**
+- obsolete vesicle tethering involved in exocytosis [go]  **core**
+- obsolete vesicle tethering to Golgi [go]  **core**
+- outer mitochondrial membrane organization [go]  **core**
+- peroxisome fission [go]  **core**
+- phosphatidylethanolamine acyl-chain remodeling [go]  **core**
+- phosphatidylethanolamine biosynthetic process [go]  **core**
+- phosphatidylglycerol acyl-chain remodeling [go]  **core**
+- phosphatidylserine acyl-chain remodeling [go]  **core**
+- phospholipid transfer to membrane [go]  **core**
+- piecemeal microautophagy of the nucleus [go]  **core**
+- plasma membrane raft assembly [go]  **core**
+- plus-end-directed organelle transport along microtubule [go]  **core**
+- positive regulation of ER to Golgi vesicle-mediated transport [go]  **core**
+- positive regulation of ERAD pathway [go]  **core**
+- positive regulation of Golgi to plasma membrane protein transport [go]  **core**
+- positive regulation of endocytic recycling [go]  **core**
+- positive regulation of mitochondrial calcium ion concentration [go]  **core**
+- positive regulation of mitochondrial fission [go]  **core**
+- positive regulation of mitochondrial fusion [go]  **core**
+- positive regulation of mitochondrial membrane potential [go]  **core**
+- positive regulation of protein localization to early endosome [go]  **core**
+- positive regulation of protein localization to mitochondrion [go]  **core**
+- positive regulation of protein targeting to membrane [go]  **core**
+- positive regulation of sphingolipid biosynthetic process [go]  **core**
+- positive regulation of synaptic vesicle recycling [go]  **core**
+- presynaptic cytoskeleton organization [go]  **core**
+- protein autoprocessing [go]  **core**
+- protein geranylgeranylation [go]  **core**
+- protein import into peroxisome matrix, receptor recycling [go]  **core**
+- protein import into peroxisome matrix, substrate release [go]  **core**
+- protein import into peroxisome membrane [go]  **core**
+- protein insertion into ER membrane by stop-transfer membrane-anchor sequence [go]  **core**
+- protein insertion into mitochondrial inner membrane [go]  **core**
+- protein localization to Golgi membrane [go]  **core**
+- protein localization to phagophore assembly site [go]  **core**
+- protein quality control for misfolded or incompletely synthesized proteins [go]  **core**
+- protein retention in ER lumen [go]  **core**
+- protein retention in Golgi apparatus [go]  **core**
+- protein targeting to lysosome [go]  **core**
+- protein to membrane docking [go]  **core**
+- protein transport into membrane raft [go]  **core**
+- protein unfolding [go]  **core**
+- proton motive force-driven ATP synthesis [go]  **core**
+- quinone biosynthetic process [go]  **core**
+- regulation of G protein-coupled receptor internalization [go]  **core**
+- regulation of Golgi organization [go]  **core**
+- regulation of Rab protein signal transduction [go]  **core**
+- regulation of Wnt protein secretion [go]  **core**
+- regulation of caveolin-mediated endocytosis [go]  **core**
+- regulation of clathrin-dependent endocytosis [go]  **core**
+- regulation of dendrite extension [go]  **core**
+- regulation of endoplasmic reticulum tubular network organization [go]  **core**
+- regulation of endosome organization [go]  **core**
+- regulation of endosome size [go]  **core**
+- regulation of endosome to plasma membrane protein transport [go]  **core**
+- regulation of lysosome size [go]  **core**
+- regulation of membrane tubulation [go]  **core**
+- regulation of organelle transport along microtubule [go]  **core**
+- regulation of phosphatidylinositol dephosphorylation [go]  **core**
+- regulation of phospholipid translocation [go]  **core**
+- regulation of postsynaptic membrane organization [go]  **core**
+- regulation of protein lipidation [go]  **core**
+- regulation of retrograde protein transport, ER to cytosol [go]  **core**
+- regulation of retrograde transport, endosome to Golgi [go]  **core**
+- regulation of spontaneous synaptic transmission [go]  **core**
+- regulation of synaptic vesicle clustering [go]  **core**
+- regulation of synaptic vesicle cycle [go]  **core**
+- regulation of synaptic vesicle endocytosis [go]  **core**
+- regulation of synaptic vesicle transport [go]  **core**
+- regulation protein catabolic process at synapse [go]  **core**
+- respiratory chain complex III assembly [go]  **core**
+- respiratory chain complex IV assembly [go]  **core**
+- respiratory electron transport chain (mitochondrion) [btm]  **core**
+- respiratory electron transport chain (mitochondrion) [btm]  **core**
+- respiratory electron transport chain (mitochondrion) [btm]  **core**
+- response to mitochondrial depolarisation [go]  **core**
+- reticulophagy [go]  **core**
+- retrograde neuronal dense core vesicle transport [go]  **core**
+- retrograde transport, vesicle recycling within Golgi [go]  **core**
+- retrograde vesicle-mediated transport, Golgi to endoplasmic reticulum [go]  **core**
+- self proteolysis [go]  **core**
+- sphingomyelin biosynthetic process [go]  **core**
+- sphingomyelin catabolic process [go]  **core**
+- substrate localization to autophagosome [go]  **core**
+- synaptic vesicle cytoskeletal transport [go]  **core**
+- tRNA transport [go]  **core**
+- tail-anchored membrane protein insertion into ER membrane [go]  **core**
+- transepithelial water transport [go]  **core**
+- transmembrane transport (II) [btm]  **core**
+- vacuole fusion [go]  **core**
+- vesicle fusion with Golgi apparatus [go]  **core**
+- vesicle transport along actin filament [go]  **core**
+- vesicle-mediated cholesterol transport [go]  **core**
+
+## CT-10  (147 pathways, 147 in the core)
+
+- AURKA Activation by TPX2 [reactome]  **core**
+- Amplification  of signal from unattached  kinetochores via a MAD2  inhibitory signal [reactome]  **core**
+- Anchoring of the basal body to the plasma membrane [reactome]  **core**
+- BBSome-mediated cargo-targeting to cilium [reactome]  **core**
+- C-terminal protein amino acid modification [go]  **core**
+- CENP-A containing chromatin assembly [go]  **core**
+- Carboxyterminal post-translational modifications of tubulin [reactome]  **core**
+- Condensation of Prometaphase Chromosomes [reactome]  **core**
+- Condensation of Prophase Chromosomes [reactome]  **core**
+- Defective TPR may confer susceptibility towards thyroid papillary carcinoma (TPC) [reactome]  **core**
+- Depolymerization of the Nuclear Lamina [reactome]  **core**
+- Deposition of new CENPA-containing nucleosomes at the centromere [reactome]  **core**
+- EML4 and NUDC in mitotic spindle formation [reactome]  **core**
+- ESCRT complex disassembly [go]  **core**
+- Endosomal Sorting Complex Required For Transport (ESCRT) [reactome]  **core**
+- Establishment of Sister Chromatid Cohesion [reactome]  **core**
+- FBXL7 down-regulates AURKA during mitotic entry and in early mitosis [reactome]  **core**
+- HALLMARK_SPERMATOGENESIS [hallmark]  **core**
+- IP3 and IP4 transport between cytosol and nucleus [reactome]  **core**
+- IP6 and IP7 transport between cytosol and nucleus [reactome]  **core**
+- IPs transport between nucleus and cytosol [reactome]  **core**
+- Initiation of Nuclear Envelope (NE) Reformation [reactome]  **core**
+- Interaction between PHLDA1 and AURKA [reactome]  **core**
+- Intraflagellar transport [reactome]  **core**
+- Kinesins [reactome]  **core**
+- Loss of Nlp from mitotic centrosomes [reactome]  **core**
+- Meiotic recombination [reactome]  **core**
+- Meiotic synapsis [reactome]  **core**
+- Nuclear Pore Complex (NPC) Disassembly [reactome]  **core**
+- Nuclear import of Rev protein [reactome]  **core**
+- PLK1 signaling events [btm]  **core**
+- Postmitotic nuclear pore complex (NPC) reformation [reactome]  **core**
+- Ran mediated mitosis [btm]  **core**
+- Recruitment of NuMA to mitotic centrosomes [reactome]  **core**
+- Recruitment of mitotic centrosome proteins and complexes [reactome]  **core**
+- Regulation of PLK1 Activity at G2/M Transition [reactome]  **core**
+- Resolution of Sister Chromatid Cohesion [reactome]  **core**
+- Rev-mediated nuclear export of HIV RNA [reactome]  **core**
+- Rho GTPase cycle [btm]  **core**
+- SUMO is proteolytically processed [reactome]  **core**
+- SUMO is transferred from E1 to E2 (UBE2I, UBC9) [reactome]  **core**
+- SUMOylation of DNA damage response and repair proteins [reactome]  **core**
+- SUMOylation of RNA binding proteins [reactome]  **core**
+- SUMOylation of SUMOylation proteins [reactome]  **core**
+- SUMOylation of nuclear envelope proteins [reactome]  **core**
+- SUMOylation of ubiquitinylation proteins [reactome]  **core**
+- Sealing of the nuclear envelope (NE) by ESCRT-III [reactome]  **core**
+- Separation of Sister Chromatids [reactome]  **core**
+- Sperm Motility And Taxes [reactome]  **core**
+- Trafficking of myristoylated proteins to the cilium [reactome]  **core**
+- Transcriptional regulation of multiciliogenesis [reactome]  **core**
+- VxPx cargo-targeting to cilium [reactome]  **core**
+- astral microtubule organization [go]  **core**
+- axonemal central apparatus assembly [go]  **core**
+- cell cycle, ATP binding [btm]  **core**
+- cell cycle, mitotic phase [btm]  **core**
+- centriole-centriole cohesion [go]  **core**
+- cerebrospinal fluid circulation [go]  **core**
+- chaperone-mediated protein complex assembly [go]  **core**
+- chiasma assembly [go]  **core**
+- chromatin looping [go]  **core**
+- chromosome movement towards spindle pole [go]  **core**
+- ciliary basal body organization [go]  **core**
+- cilium disassembly [go]  **core**
+- cytosolic ciliogenesis [go]  **core**
+- de novo centriole assembly involved in multi-ciliated epithelial cell differentiation [go]  **core**
+- double-strand break repair involved in meiotic recombination [go]  **core**
+- establishment of Sertoli cell barrier [go]  **core**
+- establishment of meiotic sister chromatid cohesion [go]  **core**
+- establishment of mitotic sister chromatid cohesion [go]  **core**
+- establishment of mitotic spindle localization [go]  **core**
+- establishment of spindle orientation [go]  **core**
+- female meiosis I [go]  **core**
+- female meiosis chromosome segregation [go]  **core**
+- inner dynein arm assembly [go]  **core**
+- intraciliary anterograde transport [go]  **core**
+- intraciliary transport involved in cilium assembly [go]  **core**
+- maintenance of centrosome location [go]  **core**
+- male meiosis I [go]  **core**
+- manchette assembly [go]  **core**
+- meiotic DNA double-strand break formation [go]  **core**
+- meiotic attachment of telomere to nuclear envelope [go]  **core**
+- meiotic cell cycle checkpoint signaling [go]  **core**
+- meiotic chromosome condensation [go]  **core**
+- meiotic metaphase chromosome alignment [go]  **core**
+- meiotic sister chromatid cohesion, centromeric [go]  **core**
+- membrane fission [go]  **core**
+- metaphase/anaphase transition of meiotic cell cycle [go]  **core**
+- microtubule anchoring at microtubule organizing center [go]  **core**
+- microtubule nucleation by microtubule organizing center [go]  **core**
+- microtubule severing [go]  **core**
+- midbody abscission [go]  **core**
+- migracytosis [go]  **core**
+- mitotic cell division [btm]  **core**
+- mitotic chromosome condensation [go]  **core**
+- mitotic nuclear membrane disassembly [go]  **core**
+- mitotic nuclear membrane organization [go]  **core**
+- mitotic spindle elongation [go]  **core**
+- mucociliary clearance [go]  **core**
+- multivesicular body organization [go]  **core**
+- negative regulation of centriole replication [go]  **core**
+- negative regulation of cilium assembly [go]  **core**
+- negative regulation of meiotic cell cycle phase transition [go]  **core**
+- negative regulation of meiotic chromosome separation [go]  **core**
+- negative regulation of meiotic nuclear division [go]  **core**
+- negative regulation of microtubule depolymerization [go]  **core**
+- negative regulation of microtubule polymerization [go]  **core**
+- negative regulation of mitotic spindle assembly checkpoint signaling [go]  **core**
+- non-lytic viral release [go]  **core**
+- nuclear membrane reassembly [go]  **core**
+- nuclear pore complex (mitosis) [btm]  **core**
+- nuclear pore complex [btm]  **core**
+- nuclear pore complex assembly [go]  **core**
+- nuclear pore localization [go]  **core**
+- obsolete ubiquitin-independent protein catabolic process via the multivesicular body sorting pathway [go]  **core**
+- positive regulation of centrosome duplication [go]  **core**
+- positive regulation of chromosome condensation [go]  **core**
+- positive regulation of cilium movement [go]  **core**
+- positive regulation of exosomal secretion [go]  **core**
+- positive regulation of maintenance of sister chromatid cohesion [go]  **core**
+- positive regulation of mitotic cytokinesis [go]  **core**
+- positive regulation of protein localization to cell cortex [go]  **core**
+- positive regulation of protein localization to centrosome [go]  **core**
+- positive regulation of spindle assembly [go]  **core**
+- protein deglutamylation [go]  **core**
+- protein desumoylation [go]  **core**
+- protein localization to CENP-A containing chromatin [go]  **core**
+- protein localization to ciliary transition zone [go]  **core**
+- protein localization to condensed chromosome [go]  **core**
+- protein localization to motile cilium [go]  **core**
+- regulation of G2/MI transition of meiotic cell cycle [go]  **core**
+- regulation of centromeric sister chromatid cohesion [go]  **core**
+- regulation of cilium beat frequency involved in ciliary motility [go]  **core**
+- regulation of cytokinetic process [go]  **core**
+- regulation of flagellated sperm motility [go]  **core**
+- regulation of meiosis I [go]  **core**
+- regulation of mitotic centrosome separation [go]  **core**
+- regulation of mitotic spindle assembly [go]  **core**
+- resolution of meiotic recombination intermediates [go]  **core**
+- ribosomal large subunit export from nucleus [go]  **core**
+- ribosomal small subunit export from nucleus [go]  **core**
+- septin ring organization [go]  **core**
+- sperm axoneme assembly [go]  **core**
+- spindle assembly involved in female meiosis [go]  **core**
+- synaptonemal complex organization [go]  **core**
+- third ventricle development [go]  **core**
+- viral budding [go]  **core**
+
+## CT-11  (128 pathways, 128 in the core)
+
+- 3'-UTR-mediated mRNA destabilization [go]  **core**
+- 5S class rRNA transcription by RNA polymerase III [go]  **core**
+- 7-methylguanosine cap hypermethylation [go]  **core**
+- B-WICH complex positively regulates rRNA expression [reactome]  **core**
+- CRD-mediated mRNA stabilization [go]  **core**
+- CUT catabolic process [go]  **core**
+- Competing endogenous RNAs (ceRNAs) regulate PTEN translation [reactome]  **core**
+- HuR (ELAVL1) binds and stabilizes mRNA [reactome]  **core**
+- IP3 and IP4 transport between cytosol and nucleus [reactome]  **core**
+- IP6 and IP7 transport between cytosol and nucleus [reactome]  **core**
+- IPs transport between nucleus and cytosol [reactome]  **core**
+- Insulin-like Growth Factor-2 mRNA Binding Proteins (IGF2BPs/IMPs/VICKZs) bind RNA [reactome]  **core**
+- KSRP (KHSRP) binds and destabilizes mRNA [reactome]  **core**
+- Major pathway of rRNA processing in the nucleolus and cytosol [reactome]  **core**
+- MicroRNA (miRNA) biogenesis [reactome]  **core**
+- NoRC negatively regulates rRNA expression [reactome]  **core**
+- Nuclear Pore Complex (NPC) Disassembly [reactome]  **core**
+- Nuclear RNA decay [reactome]  **core**
+- Post-transcriptional silencing by small RNAs [reactome]  **core**
+- Postmitotic nuclear pore complex (NPC) reformation [reactome]  **core**
+- Processing of Intronless Pre-mRNAs [reactome]  **core**
+- RISC complex assembly [go]  **core**
+- RNA Polymerase I Promoter Opening [reactome]  **core**
+- RNA Polymerase I Transcription Initiation [reactome]  **core**
+- RNA Polymerase I Transcription Termination [reactome]  **core**
+- RNA Polymerase II Transcription Termination [reactome]  **core**
+- RNA Polymerase III Abortive And Retractive Initiation [reactome]  **core**
+- RNA Polymerase III Chain Elongation [reactome]  **core**
+- RNA Polymerase III Transcription Initiation From Type 2 Promoter [reactome]  **core**
+- RNA Polymerase III Transcription Initiation From Type 3 Promoter [reactome]  **core**
+- RNA Polymerase III Transcription Termination [reactome]  **core**
+- RNA import into mitochondrion [go]  **core**
+- RNA polymerase I preinitiation complex assembly [go]  **core**
+- RNA polymerase II transcribes snRNA genes [reactome]  **core**
+- Regulation of CDH11 mRNA translation by microRNAs [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in apoptosis [reactome]  **core**
+- Regulation of NPAS4 mRNA translation [reactome]  **core**
+- Regulation of PD-L1(CD274) translation [reactome]  **core**
+- SIRT1 negatively regulates rRNA expression [reactome]  **core**
+- SLBP independent Processing of Histone Pre-mRNAs [reactome]  **core**
+- SUMO is conjugated to E1 (UBA2:SAE1) [reactome]  **core**
+- SUMO is proteolytically processed [reactome]  **core**
+- SUMO is transferred from E1 to E2 (UBE2I, UBC9) [reactome]  **core**
+- SUMOylation of DNA damage response and repair proteins [reactome]  **core**
+- SUMOylation of RNA binding proteins [reactome]  **core**
+- SUMOylation of SUMOylation proteins [reactome]  **core**
+- SUMOylation of transcription factors [reactome]  **core**
+- SUMOylation of ubiquitinylation proteins [reactome]  **core**
+- Small interfering RNA (siRNA) biogenesis [reactome]  **core**
+- TBA [btm]  **core**
+- TGFBR3 expression [reactome]  **core**
+- TP53 regulates transcription of additional cell cycle genes whose exact role in the p53 pathway remain uncertain [reactome]  **core**
+- Transcriptional regulation by small RNAs [reactome]  **core**
+- Transport of Mature mRNA Derived from an Intronless Transcript [reactome]  **core**
+- Transport of Mature mRNA derived from an Intron-Containing Transcript [reactome]  **core**
+- Transport of the SLBP independent Mature mRNA [reactome]  **core**
+- Tristetraprolin (TTP, ZFP36) binds and destabilizes mRNA [reactome]  **core**
+- U2-type prespliceosome assembly [go]  **core**
+- U4 snRNA 3'-end processing [go]  **core**
+- cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- lncRNA-mediated post-transcriptional gene silencing [go]  **core**
+- mRNA 3'-end processing by stem-loop binding and cleavage [go]  **core**
+- mRNA 3'-splice site recognition [go]  **core**
+- mRNA 5'-splice site recognition [go]  **core**
+- mRNA Polyadenylation [reactome]  **core**
+- mRNA Splicing - Major Pathway [reactome]  **core**
+- mRNA Splicing - Minor Pathway [reactome]  **core**
+- mRNA decay by 3' to 5' exoribonuclease [reactome]  **core**
+- mRNA decay by 5' to 3' exoribonuclease [reactome]  **core**
+- mRNA methylguanosine-cap decapping [go]  **core**
+- miRNA-mediated gene silencing by inhibition of translation [go]  **core**
+- negative regulation of intracellular estrogen receptor signaling pathway [go]  **core**
+- negative regulation of mRNA processing [go]  **core**
+- negative regulation of nuclear-transcribed mRNA catabolic process, deadenylation-dependent decay [go]  **core**
+- negative regulation of protein export from nucleus [go]  **core**
+- negative regulation of transcription by RNA polymerase I [go]  **core**
+- nuclear histone mRNA catabolic process [go]  **core**
+- nuclear mRNA surveillance [go]  **core**
+- nuclear pore complex (mitosis) [btm]  **core**
+- nuclear pore complex [btm]  **core**
+- nuclear pore complex assembly [go]  **core**
+- nuclear pore localization [go]  **core**
+- nuclear pore, transport; mRNA splicing, processing [btm]  **core**
+- nuclear-transcribed mRNA catabolic process, deadenylation-independent decay [go]  **core**
+- nucleolar chromatin organization [go]  **core**
+- poly(A)+ mRNA export from nucleus [go]  **core**
+- poly(A)-dependent snoRNA 3'-end processing [go]  **core**
+- positive regulation of 3'-UTR-mediated mRNA stabilization [go]  **core**
+- positive regulation of RNA export from nucleus [go]  **core**
+- positive regulation of cytoplasmic mRNA processing body assembly [go]  **core**
+- positive regulation of cytoplasmic translation [go]  **core**
+- positive regulation of mRNA 3'-end processing [go]  **core**
+- positive regulation of mRNA splicing, via spliceosome [go]  **core**
+- positive regulation of miRNA catabolic process [go]  **core**
+- positive regulation of protein localization to nucleolus [go]  **core**
+- positive regulation of protein sumoylation [go]  **core**
+- positive regulation of rRNA processing [go]  **core**
+- positive regulation of transcription by RNA polymerase III [go]  **core**
+- positive regulation of transcription of nucleolar large rRNA by RNA polymerase I [go]  **core**
+- protein deneddylation [go]  **core**
+- protein desumoylation [go]  **core**
+- rRNA 5'-end processing [go]  **core**
+- regulation of alternative mRNA splicing, via spliceosome [go]  **core**
+- regulation of intracellular mRNA localization [go]  **core**
+- regulation of mRNA export from nucleus [go]  **core**
+- regulation of nuclear-transcribed mRNA poly(A) tail shortening [go]  **core**
+- regulation of ribosome biogenesis [go]  **core**
+- regulation of snRNA transcription by RNA polymerase II [go]  **core**
+- ribosomal large subunit export from nucleus [go]  **core**
+- ribosomal small subunit export from nucleus [go]  **core**
+- siRNA processing [go]  **core**
+- snRNA catabolic process [go]  **core**
+- snRNA transcription by RNA polymerase III [go]  **core**
+- snRNA transport [go]  **core**
+- snRNP Assembly [reactome]  **core**
+- spliceosomal conformational changes to generate catalytic conformation [go]  **core**
+- spliceosomal tri-snRNP complex assembly [go]  **core**
+- spliceosome [btm]  **core**
+- tRNA surveillance [go]  **core**
+- tRNA transcription [go]  **core**
+- tRNA transport [go]  **core**
+- target-directed miRNA degradation [go]  **core**
+- termination of RNA polymerase I transcription [go]  **core**
+- termination of RNA polymerase III transcription [go]  **core**
+- transcription elongation by RNA polymerase I [go]  **core**
+
+## CT-12  (109 pathways, 109 in the core)
+
+- 5S class rRNA transcription by RNA polymerase III [go]  **core**
+- 7-methylguanosine cap hypermethylation [go]  **core**
+- 7-methylguanosine mRNA capping [go]  **core**
+- B-WICH complex positively regulates rRNA expression [reactome]  **core**
+- CUT catabolic process [go]  **core**
+- ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression [reactome]  **core**
+- Eukaryotic Translation Termination [reactome]  **core**
+- FGFR2 alternative splicing [reactome]  **core**
+- Formation of the ternary complex, and subsequently, the 43S complex [reactome]  **core**
+- Hypusine synthesis from eIF5A-lysine [reactome]  **core**
+- Major pathway of rRNA processing in the nucleolus and cytosol [reactome]  **core**
+- Negative regulation of activity of TFAP2 (AP-2) family transcription factors [reactome]  **core**
+- NoRC negatively regulates rRNA expression [reactome]  **core**
+- Nonsense Mediated Decay (NMD) enhanced by the Exon Junction Complex (EJC) [reactome]  **core**
+- Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC) [reactome]  **core**
+- PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA [reactome]  **core**
+- Peptide chain elongation [reactome]  **core**
+- Processing of Intronless Pre-mRNAs [reactome]  **core**
+- Protein hydroxylation [reactome]  **core**
+- RNA (guanine-N7)-methylation [go]  **core**
+- RNA Polymerase I Promoter Escape [reactome]  **core**
+- RNA Polymerase I Promoter Opening [reactome]  **core**
+- RNA Polymerase I Transcription Termination [reactome]  **core**
+- RNA Polymerase II Transcription Termination [reactome]  **core**
+- RNA Polymerase III Abortive And Retractive Initiation [reactome]  **core**
+- RNA Polymerase III Chain Elongation [reactome]  **core**
+- RNA Polymerase III Transcription Initiation From Type 2 Promoter [reactome]  **core**
+- RNA Polymerase III Transcription Initiation From Type 3 Promoter [reactome]  **core**
+- RNA Polymerase III Transcription Termination [reactome]  **core**
+- RNA folding [go]  **core**
+- RNA polymerase I preinitiation complex assembly [go]  **core**
+- RNA polymerase II transcribes snRNA genes [reactome]  **core**
+- Ribosome Quality Control (RQC) complex extracts and degrades nascent peptide [reactome]  **core**
+- SLBP Dependent Processing of Replication-Dependent Histone Pre-mRNAs [reactome]  **core**
+- Signaling by FGFR2 IIIa TM [reactome]  **core**
+- Synthesis of diphthamide-EEF2 [reactome]  **core**
+- Synthesis of wybutosine at G37 of tRNA(Phe) [reactome]  **core**
+- TBA [btm]  **core**
+- Translation initiation complex formation [reactome]  **core**
+- Transport of Mature mRNA Derived from an Intronless Transcript [reactome]  **core**
+- Transport of Mature mRNA derived from an Intron-Containing Transcript [reactome]  **core**
+- Transport of the SLBP independent Mature mRNA [reactome]  **core**
+- U2-type prespliceosome assembly [go]  **core**
+- U4 snRNA 3'-end processing [go]  **core**
+- ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA [reactome]  **core**
+- box C/D snoRNP assembly [go]  **core**
+- cap-dependent translational initiation [go]  **core**
+- co-transcriptional mRNA 3'-end processing, cleavage and polyadenylation pathway [go]  **core**
+- endonucleolytic cleavage in 5'-ETS of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- enzyme-directed rRNA pseudouridine synthesis [go]  **core**
+- exonucleolytic trimming to generate mature 3'-end of 5.8S rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- formation of cytoplasmic translation initiation complex [go]  **core**
+- mRNA 3'-end processing by stem-loop binding and cleavage [go]  **core**
+- mRNA 3'-splice site recognition [go]  **core**
+- mRNA Capping [reactome]  **core**
+- mRNA Polyadenylation [reactome]  **core**
+- mRNA decay by 3' to 5' exoribonuclease [reactome]  **core**
+- mRNA pseudouridine synthesis [go]  **core**
+- negative regulation of mRNA processing [go]  **core**
+- negative regulation of tRNA metabolic process [go]  **core**
+- negative regulation of translational elongation [go]  **core**
+- nuclear histone mRNA catabolic process [go]  **core**
+- nuclear mRNA surveillance [go]  **core**
+- nuclear pore, transport; mRNA splicing, processing [btm]  **core**
+- nuclear-transcribed mRNA catabolic process, no-go decay [go]  **core**
+- nucleolar chromatin organization [go]  **core**
+- obsolete peptidyl-histidine modification [go]  **core**
+- peptidyl-lysine hydroxylation [go]  **core**
+- peptidyl-proline modification [go]  **core**
+- poly(A)+ mRNA export from nucleus [go]  **core**
+- poly(A)-dependent snoRNA 3'-end processing [go]  **core**
+- positive regulation of RNA export from nucleus [go]  **core**
+- positive regulation of cytoplasmic translational initiation [go]  **core**
+- positive regulation of mRNA 3'-end processing [go]  **core**
+- positive regulation of mRNA splicing, via spliceosome [go]  **core**
+- positive regulation of protein localization to Cajal body [go]  **core**
+- positive regulation of rRNA processing [go]  **core**
+- positive regulation of telomerase RNA localization to Cajal body [go]  **core**
+- positive regulation of termination of DNA-templated transcription [go]  **core**
+- positive regulation of transcription by RNA polymerase III [go]  **core**
+- positive regulation of translational elongation [go]  **core**
+- pre-mRNA catabolic process [go]  **core**
+- rRNA 5'-end processing [go]  **core**
+- rRNA base methylation [go]  **core**
+- regulation of alternative mRNA splicing, via spliceosome [go]  **core**
+- regulation of termination of RNA polymerase II transcription, poly(A)-coupled [go]  **core**
+- regulation of translational termination [go]  **core**
+- rescue of stalled cytosolic ribosome [go]  **core**
+- ribosome-associated ubiquitin-dependent protein catabolic process [go]  **core**
+- snRNA catabolic process [go]  **core**
+- snRNA modification [go]  **core**
+- snRNA transcription by RNA polymerase III [go]  **core**
+- snRNP Assembly [reactome]  **core**
+- snoRNA localization [go]  **core**
+- spliceosomal conformational changes to generate catalytic conformation [go]  **core**
+- spliceosomal tri-snRNP complex assembly [go]  **core**
+- spliceosome [btm]  **core**
+- tRNA methylation [go]  **core**
+- tRNA pseudouridine synthesis [go]  **core**
+- tRNA surveillance [go]  **core**
+- tRNA transcription [go]  **core**
+- termination of RNA polymerase I transcription [go]  **core**
+- termination of RNA polymerase III transcription [go]  **core**
+- transcription initiation at RNA polymerase III promoter [go]  **core**
+- translation initiation [btm]  **core**
+- translation initiation factor 3 complex [btm]  **core**
+- viral translational frameshifting [go]  **core**
+- wybutosine biosynthetic process [go]  **core**
+
+## CT-13  (106 pathways, 106 in the core)
+
+- 5S class rRNA transcription by RNA polymerase III [go]  **core**
+- 7-methylguanosine cap hypermethylation [go]  **core**
+- Abortive elongation of HIV-1 transcript in the absence of Tat [reactome]  **core**
+- B-WICH complex positively regulates rRNA expression [reactome]  **core**
+- CUT catabolic process [go]  **core**
+- FASTK family proteins regulate processing and stability of mitochondrial RNAs [reactome]  **core**
+- Formation of HIV-1 elongation complex containing HIV-1 Tat [reactome]  **core**
+- Formation of the Early Elongation Complex [reactome]  **core**
+- Formation of the HIV-1 Early Elongation Complex [reactome]  **core**
+- HALLMARK_MYC_TARGETS_V1 [hallmark]  **core**
+- HALLMARK_MYC_TARGETS_V2 [hallmark]  **core**
+- HIV Transcription Initiation [reactome]  **core**
+- HIV elongation arrest and recovery [reactome]  **core**
+- Major pathway of rRNA processing in the nucleolus and cytosol [reactome]  **core**
+- Mitochondrial mRNA modification [reactome]  **core**
+- Mitochondrial ribosome-associated quality control [reactome]  **core**
+- Mitochondrial transcription initiation [reactome]  **core**
+- Mitochondrial transcription termination [reactome]  **core**
+- NoRC negatively regulates rRNA expression [reactome]  **core**
+- Nuclear RNA decay [reactome]  **core**
+- Pausing and recovery of Tat-mediated HIV elongation [reactome]  **core**
+- Processing of Intronless Pre-mRNAs [reactome]  **core**
+- RNA (guanine-N7)-methylation [go]  **core**
+- RNA Pol II CTD phosphorylation and interaction with CE [reactome]  **core**
+- RNA Pol II CTD phosphorylation and interaction with CE during HIV infection [reactome]  **core**
+- RNA Polymerase I Promoter Escape [reactome]  **core**
+- RNA Polymerase I Promoter Opening [reactome]  **core**
+- RNA Polymerase I Transcription Initiation [reactome]  **core**
+- RNA Polymerase I Transcription Termination [reactome]  **core**
+- RNA Polymerase II HIV Promoter Escape [reactome]  **core**
+- RNA Polymerase II Pre-transcription Events [reactome]  **core**
+- RNA Polymerase II Transcription Initiation [reactome]  **core**
+- RNA Polymerase II Transcription Termination [reactome]  **core**
+- RNA Polymerase III Abortive And Retractive Initiation [reactome]  **core**
+- RNA Polymerase III Chain Elongation [reactome]  **core**
+- RNA Polymerase III Transcription Initiation From Type 3 Promoter [reactome]  **core**
+- RNA import into mitochondrion [go]  **core**
+- RNA polymerase I preinitiation complex assembly [go]  **core**
+- RNA polymerase II transcribes snRNA genes [reactome]  **core**
+- RNA polymerase II transcription initiation surveillance [go]  **core**
+- SIRT1 negatively regulates rRNA expression [reactome]  **core**
+- Tat-mediated HIV elongation arrest and recovery [reactome]  **core**
+- U2-type prespliceosome assembly [go]  **core**
+- U4 snRNA 3'-end processing [go]  **core**
+- box C/D snoRNP assembly [go]  **core**
+- cleavage in ITS2 between 5.8S rRNA and LSU-rRNA of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA) [go]  **core**
+- co-transcriptional mRNA 3'-end processing, cleavage and polyadenylation pathway [go]  **core**
+- cytosolic ribosome assembly [go]  **core**
+- enzyme-directed rRNA pseudouridine synthesis [go]  **core**
+- inner cell mass cell proliferation [go]  **core**
+- mRNA 3'-end processing by stem-loop binding and cleavage [go]  **core**
+- mRNA 5'-splice site recognition [go]  **core**
+- mRNA Capping [reactome]  **core**
+- mRNA Polyadenylation [reactome]  **core**
+- mRNA Splicing - Major Pathway [reactome]  **core**
+- mRNA decay by 3' to 5' exoribonuclease [reactome]  **core**
+- mRNA pseudouridine synthesis [go]  **core**
+- mitochondrial DNA repair [go]  **core**
+- mitochondrial DNA replication [go]  **core**
+- mitochondrial RNA 3'-end processing [go]  **core**
+- mitochondrial mRNA catabolic process [go]  **core**
+- negative regulation of RNA splicing [go]  **core**
+- negative regulation of mRNA processing [go]  **core**
+- negative regulation of tRNA metabolic process [go]  **core**
+- negative regulation of transcription by RNA polymerase I [go]  **core**
+- negative regulation of transcription elongation by RNA polymerase II [go]  **core**
+- nuclear histone mRNA catabolic process [go]  **core**
+- nuclear mRNA surveillance [go]  **core**
+- nucleolar chromatin organization [go]  **core**
+- positive regulation of DNA-templated transcription, elongation [go]  **core**
+- positive regulation of mRNA splicing, via spliceosome [go]  **core**
+- positive regulation of protein localization to nucleolus [go]  **core**
+- positive regulation of rRNA processing [go]  **core**
+- positive regulation of termination of DNA-templated transcription [go]  **core**
+- positive regulation of transcription by RNA polymerase III [go]  **core**
+- positive regulation of transcription of nucleolar large rRNA by RNA polymerase I [go]  **core**
+- promoter clearance during DNA-templated transcription [go]  **core**
+- rRNA 2'-O-methylation [go]  **core**
+- rRNA 5'-end processing [go]  **core**
+- rRNA modification in the mitochondrion [reactome]  **core**
+- regulation of mitochondrial DNA metabolic process [go]  **core**
+- regulation of mitochondrial RNA catabolic process [go]  **core**
+- regulation of mitochondrial mRNA stability [go]  **core**
+- regulation of mitochondrial transcription [go]  **core**
+- regulation of snRNA transcription by RNA polymerase II [go]  **core**
+- regulation of termination of RNA polymerase II transcription, poly(A)-coupled [go]  **core**
+- ribosomal large subunit export from nucleus [go]  **core**
+- snRNA catabolic process [go]  **core**
+- snRNA modification [go]  **core**
+- snRNA transcription by RNA polymerase III [go]  **core**
+- snRNA transport [go]  **core**
+- snoRNA localization [go]  **core**
+- spliceosomal conformational changes to generate catalytic conformation [go]  **core**
+- spliceosome [btm]  **core**
+- tRNA 3'-end processing [go]  **core**
+- tRNA 5'-leader removal [go]  **core**
+- tRNA methylation [go]  **core**
+- tRNA modification in the mitochondrion [reactome]  **core**
+- tRNA processing in the nucleus [reactome]  **core**
+- tRNA pseudouridine synthesis [go]  **core**
+- tRNA transport [go]  **core**
+- termination of RNA polymerase III transcription [go]  **core**
+- transcription elongation by RNA polymerase I [go]  **core**
+- transcription elongation, RNA polymerase II [btm]  **core**
+- transcription initiation at RNA polymerase III promoter [go]  **core**
+- transcription pausing by RNA polymerase II [go]  **core**
+
+## CT-14  (83 pathways, 83 in the core)
+
+- Activated PKN1 stimulates transcription of AR (androgen receptor) regulated genes KLK2 and KLK3 [reactome]  **core**
+- CHD6, CHD7, CHD8, CHD9 subfamily [reactome]  **core**
+- ChAHP complex assembly [reactome]  **core**
+- DNA methylation [reactome]  **core**
+- Degradation of CRY and PER proteins [reactome]  **core**
+- ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression [reactome]  **core**
+- Estrogen-dependent gene expression [reactome]  **core**
+- Estrogen-dependent nuclear events downstream of ESR-membrane signaling [reactome]  **core**
+- Estrogen-stimulated signaling through PRKCZ [reactome]  **core**
+- Expression of BMAL (ARNTL), CLOCK, and NPAS2 [reactome]  **core**
+- Formation of WDR5-containing histone-modifying complexes [reactome]  **core**
+- Formation of neuronal progenitor and neuronal BAF (npBAF and nBAF) [reactome]  **core**
+- Formation of the canonical BAF (cBAF) complex [reactome]  **core**
+- Formation of the embryonic stem cell BAF (esBAF) complex [reactome]  **core**
+- Formation of the non-canonical BAF (ncBAF) complex [reactome]  **core**
+- HALLMARK_ANDROGEN_RESPONSE [hallmark]  **core**
+- HALLMARK_ESTROGEN_RESPONSE_EARLY [hallmark]  **core**
+- HALLMARK_ESTROGEN_RESPONSE_LATE [hallmark]  **core**
+- HDACs deacetylate histones [reactome]  **core**
+- HDMs demethylate histones [reactome]  **core**
+- HSP90 chaperone cycle for steroid hormone receptors (SHR) in the presence of ligand [reactome]  **core**
+- Interaction of NuRD complexes with transcription factors [reactome]  **core**
+- Loss of MECP2 binding ability to 5hmC-DNA [reactome]  **core**
+- Loss of MECP2 binding ability to 5mC-DNA [reactome]  **core**
+- Loss of MECP2 binding ability to the NCoR/SMRT complex [reactome]  **core**
+- Loss of phosphorylation of MECP2 at T308 [reactome]  **core**
+- MECP2 regulates neuronal receptors and channels [reactome]  **core**
+- MECP2 regulates transcription factors [reactome]  **core**
+- Negative Regulation of CDH1 Gene Transcription [reactome]  **core**
+- Nuclear Receptor transcription pathway [reactome]  **core**
+- Nuclear events stimulated by ALK signaling in cancer [reactome]  **core**
+- PKMTs methylate histone lysines [reactome]  **core**
+- PRC2 methylates histones and DNA [reactome]  **core**
+- Phosphorylated BMAL1:CLOCK (ARNTL:CLOCK) activates expression of core clock genes [reactome]  **core**
+- Phosphorylation and nuclear translocation of BMAL1 (ARNTL) and CLOCK [reactome]  **core**
+- Phosphorylation and nuclear translocation of the CRY:PER:kinase complex [reactome]  **core**
+- Phosphorylation of CLOCK, acetylation of BMAL1 (ARNTL) at target gene promoters [reactome]  **core**
+- RMTs methylate histone arginines [reactome]  **core**
+- RUNX1 interacts with co-factors whose precise effect on RUNX1 targets is not known [reactome]  **core**
+- Regulation of CDH11 gene transcription [reactome]  **core**
+- Regulation of MECP2 expression and activity [reactome]  **core**
+- Regulation of MITF-M dependent genes involved in invasion [reactome]  **core**
+- Regulation of MITF-M dependent genes involved in metabolism [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in DNA replication, damage repair and senescence [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in apoptosis [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in cell cycle and proliferation [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in extracellular matrix, focal adhesion and epithelial-to-mesenchymal transition [reactome]  **core**
+- Regulation of MITF-M-dependent genes involved in lysosome biogenesis and autophagy [reactome]  **core**
+- Regulation of PD-L1(CD274) transcription [reactome]  **core**
+- Regulation of PTEN gene transcription [reactome]  **core**
+- Regulation of TP53 Activity through Methylation [reactome]  **core**
+- STAT3 nuclear events downstream of ALK signaling [reactome]  **core**
+- SUMOylation of DNA methylation proteins [reactome]  **core**
+- SUMOylation of intracellular receptors [reactome]  **core**
+- TBA [btm]  **core**
+- TFAP2 (AP-2) family regulates transcription of growth factors and their receptors [reactome]  **core**
+- The CRY:PER:kinase complex represses transactivation by the BMAL:CLOCK (ARNTL:CLOCK) complex [reactome]  **core**
+- Transcriptional Regulation by E2F6 [reactome]  **core**
+- Transcriptional and post-translational regulation of MITF-M expression and activity [reactome]  **core**
+- autosome genomic imprinting [go]  **core**
+- cellular response to estradiol stimulus [go]  **core**
+- cellular response to estrogen stimulus [go]  **core**
+- cellular response to testosterone stimulus [go]  **core**
+- circadian regulation of gene expression [go]  **core**
+- enriched for TF motif PAX3 [btm]  **core**
+- negative regulation of DNA binding [go]  **core**
+- negative regulation of DNA-templated transcription initiation [go]  **core**
+- negative regulation of androgen receptor signaling pathway [go]  **core**
+- negative regulation of circadian rhythm [go]  **core**
+- negative regulation of epithelial cell proliferation involved in prostate gland development [go]  **core**
+- negative regulation of gene expression via chromosomal CpG island methylation [go]  **core**
+- negative regulation of heterochromatin organization [go]  **core**
+- negative regulation of transcription by RNA polymerase II [go]  **core**
+- obsolete negative regulation of transcription by competitive promoter binding [go]  **core**
+- organism emergence from protective structure [go]  **core**
+- peptidyl-lysine dimethylation [go]  **core**
+- positive regulation of intracellular estrogen receptor signaling pathway [go]  **core**
+- positive regulation of stem cell population maintenance [go]  **core**
+- positive regulation of transcription regulatory region DNA binding [go]  **core**
+- progesterone receptor signaling pathway [go]  **core**
+- putative targets of PAX3 [btm]  **core**
+- putative targets of PAX3 [btm]  **core**
+- short-term memory [go]  **core**
+
+## CT-15  (53 pathways, 53 in the core)
+
+- Activated (LPS) dendritic cell surface signature [btm]  **core**
+- B cell homeostasis [go]  **core**
+- B cell lineage commitment [go]  **core**
+- B cell proliferation involved in immune response [go]  **core**
+- B cell surface signature [btm]  **core**
+- B-1 B cell differentiation [go]  **core**
+- Butyrophilin (BTN) family interactions [reactome]  **core**
+- Co-stimulation by ICOS [reactome]  **core**
+- DC surface signature [btm]  **core**
+- Expression of NOTCH2NL genes [reactome]  **core**
+- Memory B cell surface signature [btm]  **core**
+- Naive B cell surface signature [btm]  **core**
+- Plasma cell surface signature [btm]  **core**
+- Resting dendritic cell surface signature [btm]  **core**
+- Somatic hypermutation of immunoglobulin genes by error-prone base excision repair (BER) [reactome]  **core**
+- Somatic hypermutation of immunoglobulin genes by error-prone mismatch repair (MMR) [reactome]  **core**
+- T cell surface signature [btm]  **core**
+- T follicular helper cell differentiation [go]  **core**
+- TBA (source: B cells) [btm]  **core**
+- TBA (source: memory B cells) [btm]  **core**
+- TBA (source: naive B cells) [btm]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- adaptive immune memory response [go]  **core**
+- cell division (stimulated CD4+ T cells) [btm]  **core**
+- cell division in stimulated CD4 T cells [btm]  **core**
+- enriched in B cells (I) [btm]  **core**
+- enriched in B cells (II) [btm]  **core**
+- enriched in B cells (III) [btm]  **core**
+- enriched in B cells (V) [btm]  **core**
+- enriched in B cells (VI) [btm]  **core**
+- enriched in T cells (II) [btm]  **core**
+- enriched in dendritic cells [btm]  **core**
+- enriched in naive and memory B cells [btm]  **core**
+- enriched in nuclear pore complex interacting proteins [btm]  **core**
+- extrathymic T cell differentiation [go]  **core**
+- germinal center B cell differentiation [go]  **core**
+- isotype switching to IgA isotypes [go]  **core**
+- mitotic cell cycle in stimulated CD4 T cells [btm]  **core**
+- mitotic cell cycle in stimulated CD4 T cells [btm]  **core**
+- negative regulation of B cell apoptotic process [go]  **core**
+- negative regulation of B cell proliferation [go]  **core**
+- plasma cells & B cells, immunoglobulins [btm]  **core**
+- plasma cells, immunoglobulins [btm]  **core**
+- positive regulation of B cell proliferation [go]  **core**
+- positive regulation of B cell receptor signaling pathway [go]  **core**
+- positive regulation of humoral immune response mediated by circulating immunoglobulin [go]  **core**
+- positive regulation of isotype switching to IgG isotypes [go]  **core**
+- pre-B cell differentiation [go]  **core**
+- regulation of germinal center formation [go]  **core**
+- regulation of plasma cell differentiation [go]  **core**
+- response to ionomycin [go]  **core**
+
+## CT-16  (51 pathways, 51 in the core)
+
+- 10-formyltetrahydrofolate metabolic process [go]  **core**
+- Cysteine formation from homocysteine [reactome]  **core**
+- Defective ACY1 causes encephalopathy [reactome]  **core**
+- Defective AHCY causes HMAHCHD [reactome]  **core**
+- Defective GCLC causes HAGGSD [reactome]  **core**
+- Defective GGT1 causes GLUTH [reactome]  **core**
+- Defective GGT1 in aflatoxin detoxification causes GLUTH [reactome]  **core**
+- Defective GSS causes GSS deficiency [reactome]  **core**
+- Defective MAT1A causes MATD [reactome]  **core**
+- Defective MTR causes HMAG [reactome]  **core**
+- Defective MTRR causes HMAE [reactome]  **core**
+- Glutathione synthesis and recycling [reactome]  **core**
+- Histidine catabolism [reactome]  **core**
+- L-cystine transport [go]  **core**
+- L-methionine metabolic process [go]  **core**
+- L-serine catabolic process [go]  **core**
+- Metabolism of folate and pterines [reactome]  **core**
+- Methionine salvage pathway [reactome]  **core**
+- S-adenosylmethionine metabolic process [go]  **core**
+- Serine metabolism [reactome]  **core**
+- Sulfide oxidation to sulfate [reactome]  **core**
+- The activation of arylsulfatases [reactome]  **core**
+- Vitamin B6 activation to pyridoxal phosphate [reactome]  **core**
+- alkanesulfonate metabolic process [go]  **core**
+- amino acid salvage [go]  **core**
+- aspartate family amino acid biosynthetic process [go]  **core**
+- folic acid metabolic process [go]  **core**
+- folic acid transport [go]  **core**
+- glutathione catabolic process [go]  **core**
+- glutathione transmembrane transport [go]  **core**
+- heme B biosynthetic process [go]  **core**
+- hydrogen sulfide metabolic process [go]  **core**
+- nonribosomal peptide biosynthetic process [go]  **core**
+- obsolete L-histidine metabolic process [go]  **core**
+- obsolete L-methionine salvage from methylthioadenosine [go]  **core**
+- obsolete amide biosynthetic process [go]  **core**
+- obsolete amide metabolic process [go]  **core**
+- obsolete cysteine catabolic process [go]  **core**
+- obsolete cysteine metabolic process [go]  **core**
+- obsolete methionine biosynthetic process [go]  **core**
+- obsolete protoporphyrinogen IX biosynthetic process [go]  **core**
+- prosthetic group metabolic process [go]  **core**
+- protein oxidation [go]  **core**
+- pteridine-containing compound catabolic process [go]  **core**
+- response to folic acid [go]  **core**
+- serine transport [go]  **core**
+- sulfur amino acid biosynthetic process [go]  **core**
+- sulfur amino acid catabolic process [go]  **core**
+- tetrahydrofolate interconversion [go]  **core**
+- transsulfuration [go]  **core**
+- tube closure [go]  **core**
+
+## CT-17  (51 pathways, 51 in the core)
+
+- ECM proteoglycans [reactome]  **core**
+- Formation of the dystrophin-glycoprotein complex (DGC) [reactome]  **core**
+- HALLMARK_MYOGENESIS [hallmark]  **core**
+- Myogenesis [reactome]  **core**
+- Pyrophosphate hydrolysis [reactome]  **core**
+- Role of second messengers in netrin-1 signaling [reactome]  **core**
+- Smooth Muscle Contraction [reactome]  **core**
+- Striated Muscle Contraction [reactome]  **core**
+- cytoskeleton/actin (SRF transcription targets) [btm]  **core**
+- cytoskeleton/actin (SRF transcription targets) [btm]  **core**
+- enriched in calcium signaling proteins [btm]  **core**
+- localization of cell [go]  **core**
+- muscle cell cellular homeostasis [go]  **core**
+- muscle contraction, SRF targets [btm]  **core**
+- myoblast fate commitment [go]  **core**
+- myoblast fusion involved in skeletal muscle regeneration [go]  **core**
+- myoblast migration [go]  **core**
+- myosin filament organization [go]  **core**
+- negative regulation of calcineurin-mediated signaling [go]  **core**
+- negative regulation of cell size [go]  **core**
+- negative regulation of dendrite morphogenesis [go]  **core**
+- negative regulation of dephosphorylation [go]  **core**
+- negative regulation of muscle organ development [go]  **core**
+- negative regulation of muscle tissue development [go]  **core**
+- negative regulation of myoblast differentiation [go]  **core**
+- negative regulation of myoblast proliferation [go]  **core**
+- negative regulation of myotube differentiation [go]  **core**
+- negative regulation of relaxation of muscle [go]  **core**
+- negative regulation of satellite cell differentiation [go]  **core**
+- positive regulation of actin filament-based movement [go]  **core**
+- positive regulation of calcineurin-mediated signaling [go]  **core**
+- positive regulation of cell size [go]  **core**
+- positive regulation of dephosphorylation [go]  **core**
+- positive regulation of myotube differentiation [go]  **core**
+- positive regulation of skeletal muscle acetylcholine-gated channel clustering [go]  **core**
+- positive regulation of skeletal muscle tissue regeneration [go]  **core**
+- post-embryonic animal morphogenesis [go]  **core**
+- postsynaptic membrane assembly [go]  **core**
+- regulation of SCF-dependent proteasomal ubiquitin-dependent protein catabolic process [go]  **core**
+- regulation of hepatic stellate cell activation [go]  **core**
+- regulation of phosphatase activity [go]  **core**
+- regulation of skeletal muscle cell proliferation [go]  **core**
+- regulation of synaptic assembly at neuromuscular junction [go]  **core**
+- response to muscle inactivity [go]  **core**
+- satellite cell activation involved in skeletal muscle regeneration [go]  **core**
+- skeletal muscle atrophy [go]  **core**
+- skeletal muscle fiber differentiation [go]  **core**
+- skeletal muscle satellite cell maintenance involved in skeletal muscle regeneration [go]  **core**
+- skeletal muscle thin filament assembly [go]  **core**
+- transition between fast and slow fiber [go]  **core**
+- voluntary skeletal muscle contraction [go]  **core**
+
+## CT-18  (48 pathways, 48 in the core)
+
+- C-terminal protein amino acid modification [go]  **core**
+- Formation of annular gap junctions [reactome]  **core**
+- Myoclonic epilepsy of Lafora [reactome]  **core**
+- N-terminal protein lipidation [go]  **core**
+- RAB geranylgeranylation [reactome]  **core**
+- RAS processing [reactome]  **core**
+- SARS-CoV-2 modulates autophagy [reactome]  **core**
+- Synthesis of IP2, IP, and Ins in the cytosol [reactome]  **core**
+- Synthesis of PIPs at the ER membrane [reactome]  **core**
+- Synthesis of PIPs at the Golgi membrane [reactome]  **core**
+- Synthesis of PIPs at the early endosome membrane [reactome]  **core**
+- Synthesis of PIPs at the late endosome membrane [reactome]  **core**
+- Synthesis of PIPs at the plasma membrane [reactome]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- TBA [btm]  **core**
+- WNT ligand biogenesis and trafficking [reactome]  **core**
+- amyloid-beta clearance by transcytosis [go]  **core**
+- clathrin coat assembly [go]  **core**
+- enucleate erythrocyte maturation [go]  **core**
+- golgi membrane (I) [btm]  **core**
+- late endosome to lysosome transport [go]  **core**
+- multivesicular body-lysosome fusion [go]  **core**
+- negative regulation of dephosphorylation [go]  **core**
+- negative regulation of protein localization to cell surface [go]  **core**
+- obsolete early endosome to recycling endosome transport [go]  **core**
+- obsolete peptidyl-amino acid modification [go]  **core**
+- obsolete peptidyl-cysteine modification [go]  **core**
+- obsolete vesicle docking [go]  **core**
+- phosphatidylinositol signaling system [btm]  **core**
+- positive regulation of calcium ion transport into cytosol [go]  **core**
+- positive regulation of protein localization to early endosome [go]  **core**
+- protein geranylgeranylation [go]  **core**
+- regulation of G protein-coupled receptor internalization [go]  **core**
+- regulation of SNARE complex assembly [go]  **core**
+- regulation of Wnt protein secretion [go]  **core**
+- regulation of cholesterol import [go]  **core**
+- regulation of clathrin-dependent endocytosis [go]  **core**
+- regulation of endosome organization [go]  **core**
+- regulation of lysosome size [go]  **core**
+- regulation of phosphatase activity [go]  **core**
+- regulation of phosphatidylinositol dephosphorylation [go]  **core**
+- regulation of protein complex stability [go]  **core**
+- regulation of protein lipidation [go]  **core**
+- regulation of protein localization to lysosome [go]  **core**
+- response to oxygen-glucose deprivation [go]  **core**
+- secretion of lysosomal enzymes [go]  **core**
+- vacuole fusion [go]  **core**
+
+## CT-19  (31 pathways, 31 in the core)
+
+- AP-1 transcription factor network [btm]  **core**
+- Activation of the AP-1 family of transcription factors [reactome]  **core**
+- Activation, myristolyation of BID and translocation to mitochondria [reactome]  **core**
+- FasL/ CD95L signaling [reactome]  **core**
+- HALLMARK_PI3K_AKT_MTOR_SIGNALING [hallmark]  **core**
+- HALLMARK_TNFA_SIGNALING_VIA_NFKB [hallmark]  **core**
+- Influenza Virus Induced Apoptosis [reactome]  **core**
+- Microbial modulation of RIPK1-mediated regulated necrosis [reactome]  **core**
+- Regulation by c-FLIP [reactome]  **core**
+- SARS-CoV-1 targets PDZ proteins in cell-cell junction [reactome]  **core**
+- SARS-CoV-1 targets host intracellular signalling and regulatory pathways [reactome]  **core**
+- SARS-CoV-1-mediated effects on programmed cell death [reactome]  **core**
+- SARS-CoV-2 targets PDZ proteins in cell-cell junction [reactome]  **core**
+- SARS-CoV-2 targets host intracellular signalling and regulatory pathways [reactome]  **core**
+- TLR3-mediated TICAM1-dependent programmed cell death [reactome]  **core**
+- TRAIL  signaling [reactome]  **core**
+- Vpr-mediated induction of apoptosis by mitochondrial outer membrane permeabilization [reactome]  **core**
+- cell cycle and growth arrest [btm]  **core**
+- cellular response to external stimulus [go]  **core**
+- enriched for TF motif TTCNRGNNNNTTC [btm]  **core**
+- granzyme-mediated programmed cell death signaling pathway [go]  **core**
+- growth factor induced, enriched in nuclear receptor subfamily 4 [btm]  **core**
+- necroptotic signaling pathway [go]  **core**
+- negative regulation of Fas signaling pathway [go]  **core**
+- negative regulation of JUN kinase activity [go]  **core**
+- negative regulation of interleukin-8 production [go]  **core**
+- negative regulation of p38MAPK cascade [go]  **core**
+- negative regulation of tumor necrosis factor-mediated signaling pathway [go]  **core**
+- positive regulation of extrinsic apoptotic signaling pathway via death domain receptors [go]  **core**
+- regulation of activation-induced cell death of T cells [go]  **core**
+- targets of FOSL1/2 [btm]  **core**
+
+## CT-20  (25 pathways, 25 in the core)
+
+- ERK5 cascade [go]  **core**
+- ERKs are inactivated [reactome]  **core**
+- MAPK, RAS signaling [btm]  **core**
+- MAPK6/MAPK4 signaling [reactome]  **core**
+- Negative feedback regulation of MAPK pathway [reactome]  **core**
+- RUNX3 regulates YAP1-mediated transcription [reactome]  **core**
+- Signaling by Hippo [reactome]  **core**
+- Signaling by MAPK mutants [reactome]  **core**
+- TBA [btm]  **core**
+- YAP1- and WWTR1 (TAZ)-stimulated gene expression [reactome]  **core**
+- detection of cell density [go]  **core**
+- negative regulation of ERK1 and ERK2 cascade [go]  **core**
+- negative regulation of cyclin-dependent protein serine/threonine kinase activity [go]  **core**
+- negative regulation of epithelial cell proliferation involved in prostate gland development [go]  **core**
+- negative regulation of hippo signaling [go]  **core**
+- negative regulation of peptidyl-serine phosphorylation [go]  **core**
+- negative regulation of peptidyl-threonine phosphorylation [go]  **core**
+- obsolete peptidyl-serine modification [go]  **core**
+- peptidyl-threonine dephosphorylation [go]  **core**
+- peptidyl-tyrosine dephosphorylation [go]  **core**
+- positive regulation of hippo signaling [go]  **core**
+- positive regulation of peptidyl-serine phosphorylation [go]  **core**
+- positive regulation of protein autophosphorylation [go]  **core**
+- regulation of protein autoubiquitination [go]  **core**
+- suppression of MAPK signaling [btm]  **core**
+
