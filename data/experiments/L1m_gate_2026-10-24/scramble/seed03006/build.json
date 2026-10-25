@@ -1,0 +1,225 @@
+{
+ "merge": "90% each way on MEMBERS, repeated to a fixed point",
+ "merge_j": 0.9,
+ "found_bar": 10,
+ "max_passes": 50,
+ "seed": 20261024,
+ "groups_with_a_core": 313412,
+ "themes": 280626,
+ "kept_at_the_bar": 9378,
+ "passes": 3,
+ "capped": false,
+ "history": [
+  {
+   "pass": 1,
+   "themes_before": 313412,
+   "merges": 32739,
+   "themes_after": 280673,
+   "largest_before": [
+    2213,
+    2212,
+    2211,
+    2206,
+    2205,
+    2204,
+    2203,
+    2198,
+    2192,
+    2182
+   ],
+   "seconds": 14.7
+  },
+  {
+   "pass": 2,
+   "themes_before": 280673,
+   "merges": 47,
+   "themes_after": 280626,
+   "largest_before": [
+    2213,
+    2212,
+    2211,
+    2206,
+    2205,
+    2204,
+    2203,
+    2198,
+    2192,
+    2182
+   ],
+   "seconds": 12.9
+  },
+  {
+   "pass": 3,
+   "themes_before": 280626,
+   "merges": 0,
+   "themes_after": 280626,
+   "largest_before": [
+    2213,
+    2212,
+    2211,
+    2206,
+    2205,
+    2204,
+    2203,
+    2198,
+    2192,
+    2182
+   ],
+   "seconds": 13.2
+  }
+ ],
+ "largest_after_each_pass": [
+  [
+   2213,
+   2212,
+   2211,
+   2206,
+   2205,
+   2204,
+   2203,
+   2198,
+   2192,
+   2182
+  ],
+  [
+   2213,
+   2212,
+   2211,
+   2206,
+   2205,
+   2204,
+   2203,
+   2198,
+   2192,
+   2182
+  ],
+  [
+   2213,
+   2212,
+   2211,
+   2206,
+   2205,
+   2204,
+   2203,
+   2198,
+   2192,
+   2182
+  ]
+ ],
+ "lineage_top": [
+  {
+   "final_theme": 132818,
+   "final_size": 2213,
+   "size_per_pass": [
+    2213,
+    2213,
+    2213
+   ]
+  },
+  {
+   "final_theme": 132819,
+   "final_size": 2212,
+   "size_per_pass": [
+    2212,
+    2212,
+    2212
+   ]
+  },
+  {
+   "final_theme": 132820,
+   "final_size": 2211,
+   "size_per_pass": [
+    2211,
+    2211,
+    2211
+   ]
+  },
+  {
+   "final_theme": 132821,
+   "final_size": 2206,
+   "size_per_pass": [
+    2206,
+    2206,
+    2206
+   ]
+  },
+  {
+   "final_theme": 132822,
+   "final_size": 2205,
+   "size_per_pass": [
+    2205,
+    2205,
+    2205
+   ]
+  },
+  {
+   "final_theme": 132823,
+   "final_size": 2204,
+   "size_per_pass": [
+    2204,
+    2204,
+    2204
+   ]
+  },
+  {
+   "final_theme": 132824,
+   "final_size": 2203,
+   "size_per_pass": [
+    2203,
+    2203,
+    2203
+   ]
+  },
+  {
+   "final_theme": 132825,
+   "final_size": 2198,
+   "size_per_pass": [
+    2198,
+    2198,
+    2198
+   ]
+  },
+  {
+   "final_theme": 132826,
+   "final_size": 2192,
+   "size_per_pass": [
+    2192,
+    2192,
+    2192
+   ]
+  },
+  {
+   "final_theme": 132827,
+   "final_size": 2182,
+   "size_per_pass": [
+    2182,
+    2182,
+    2182
+   ]
+  }
+ ],
+ "verification": {
+  "final_pass_merges_nothing": {
+   "merges": 0,
+   "identical": true
+  },
+  "adjacency": {
+   "themes": 2000,
+   "sparse": 0,
+   "brute": 0,
+   "identical": true
+  },
+  "full_pass_replay": {
+   "themes": 280626,
+   "ran": false,
+   "identical": true,
+   "note": "skipped: 280,626 themes is above the 20,000 all-pairs limit"
+  },
+  "identical_member_sets": {
+   "themes": 280626,
+   "distinct": 280626,
+   "repeats": 0,
+   "identical": true
+  }
+ }
+}
