@@ -232,3 +232,6 @@ data/experiments/naming_O50_2026-10-14/code_run/
 # per-file limit. The deduplicated payload brought it to 12.8 MB, so it is committed now and this
 # rule is gone. Kept as a note because the reason mattered: 98% of that file was pathway objects
 # inlined once per occurrence, 61,218 copies of 5,539 pathways.
+
+# Scramble trees are a permanent cache: 397 MB, deterministic, regenerable, never committed.
+data/cache/
