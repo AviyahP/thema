@@ -49,6 +49,7 @@ THETA = 0.70
 CORE_CUT = 0.90
 MEMBER_CUT = 0.50
 MERGE_J = 0.90
+MERGE_RULES = ("jaccard", "both-ways")
 SEED = 20261024
 SAMPLE_PAIRS = 400
 SAMPLE_GROUPS = 500
@@ -437,19 +438,52 @@ def family_order(side: dict[str, object], one: dict[str, object],
     return rows[order]
 
 
+def same_theme(inter: np.ndarray, left: np.ndarray, right: np.ndarray,
+               rule: str) -> np.ndarray:
+    """Whether two cores are the same theme, under either merge rule.
+
+    ``jaccard`` is prompt 61's declared rule, ``J >= 0.90`` on the two cores. ``both-ways`` is the
+    follow-up rule: **at least 90% of each core lies inside the other**, which is
+    ``inter >= 0.90 * max``. The second is the LOOSER of the two -- at equal sizes it admits
+    ``J = 0.9 / 1.1 = 0.818`` -- so it can only merge more, never less.
+
+    Both force ``min >= 0.90 * max``, so the size window the products use is exact for either:
+    ``J >= 0.9`` gives ``inter >= 0.9 * union >= 0.9 * max``, and the containment rule says so
+    directly. Integer arithmetic throughout, so no threshold sits on a floating-point edge.
+
+    Args:
+        inter: Overlap of each pair.
+        left: Core size of one side.
+        right: Core size of the other.
+        rule: One of :data:`MERGE_RULES`.
+
+    Returns:
+        A boolean mask.
+
+    Raises:
+        ValueError: On an unknown rule, rather than defaulting to one of them.
+    """
+    if rule == "jaccard":
+        return inter * 100 >= 90 * (left + right - inter)
+    if rule == "both-ways":
+        return inter * 10 >= 9 * np.maximum(left, right)
+    raise ValueError(f"unknown merge rule {rule!r}; expected one of {MERGE_RULES}")
+
+
 def step_three(side: dict[str, object], one: dict[str, object], two: dict[str, object],
-               report: bool = True) -> dict[str, object]:
+               rule: str = "jaccard", report: bool = True) -> dict[str, object]:
     """Step 3: merge groups whose cores agree at Jaccard 0.9 with the seed's core.
 
     In family order, each unclaimed group becomes a theme seed and absorbs every unclaimed group
-    whose core reaches ``J >= 0.9`` with the SEED's core. The comparison is against the seed only,
-    so there is no chaining. ``J >= 0.9`` forces ``smaller >= 0.9 * larger``, which is the exact
-    window the products use.
+    whose core matches the SEED's core under ``rule``. The comparison is against the seed only, so
+    there is no chaining. Both rules force ``smaller >= 0.9 * larger``, which is the exact window
+    the products use; see :func:`same_theme`.
 
     Args:
         side: As :func:`load_side` returns.
         one: As :func:`step_one` returns.
         two: As :func:`step_two` returns.
+        rule: One of :data:`MERGE_RULES`.
         report: Print progress.
 
     Returns:
@@ -497,8 +531,7 @@ def step_three(side: dict[str, object], one: dict[str, object], two: dict[str, o
             left = mine[band == b][got.row]
             right = columns[got.col]
             inter = got.data.astype(np.int64)
-            union = sizes[left] + sizes[right] - inter
-            keep = (left != right) & (inter * 100 >= MERGE_J * 100 * union)
+            keep = (left != right) & same_theme(inter, sizes[left], sizes[right], rule)
             left, right = left[keep], right[keep]
             pairs += int(len(left))
             order_by = np.lexsort((right, left))
@@ -524,19 +557,20 @@ def step_three(side: dict[str, object], one: dict[str, object], two: dict[str, o
                   f"{len(seed_group):,} themes ({time.perf_counter() - clock:.0f}s)", flush=True)
     if report:
         print(f"    step 3: {len(seed_group):,} themes from {len(rows):,} cored groups, "
-              f"{pairs:,} ordered core pairs at J >= {MERGE_J} "
+              f"{pairs:,} ordered core pairs under {rule} "
               f"({time.perf_counter() - clock:.0f}s)", flush=True)
     return {"theme_of": theme_of, "seed_group": np.array(seed_group, dtype=np.int64),
             "pairs": pairs, "seconds": round(time.perf_counter() - clock, 1)}
 
 
-def brute_step_three(side: dict[str, object], two: dict[str, object],
+def brute_step_three(side: dict[str, object], two: dict[str, object], rule: str = "jaccard",
                      sample: int = SAMPLE_CORES) -> dict[str, object]:
-    """The ``J >= 0.9`` core adjacency by an explicit double loop, on a random sample of cores.
+    """The core adjacency by an explicit double loop, on a random sample of cores.
 
     Args:
         side: As :func:`load_side` returns.
         two: As :func:`step_two` returns.
+        rule: One of :data:`MERGE_RULES`.
         sample: How many cored groups to compare.
 
     Returns:
@@ -553,7 +587,8 @@ def brute_step_three(side: dict[str, object], two: dict[str, object],
     for i, a in enumerate(sets):
         for b in sets[i + 1:]:
             inter = len(a & b)
-            if inter and inter * 100 >= MERGE_J * 100 * (len(a) + len(b) - inter):
+            if inter and same_theme(np.array([inter]), np.array([len(a)]),
+                                    np.array([len(b)]), rule)[0]:
                 slow += 1
     block = sparse.csr_matrix(
         (np.ones(sum(len(s) for s in sets), dtype=np.int32),
@@ -564,9 +599,9 @@ def brute_step_three(side: dict[str, object], two: dict[str, object],
     sizes = np.array([len(s) for s in sets], dtype=np.int64)
     upper = got.row < got.col
     left, right, inter = got.row[upper], got.col[upper], got.data[upper].astype(np.int64)
-    union = sizes[left] + sizes[right] - inter
-    fast = int(((inter * 100) >= MERGE_J * 100 * union).sum())
-    return {"cores": len(pick), "sparse": fast, "brute": slow, "identical": fast == slow}
+    fast = int(same_theme(inter, sizes[left], sizes[right], rule).sum())
+    return {"cores": len(pick), "rule": rule, "sparse": fast, "brute": slow,
+            "identical": fast == slow}
 
 
 def step_four(side: dict[str, object], one: dict[str, object], two: dict[str, object],
@@ -700,12 +735,13 @@ def brute_step_four(side: dict[str, object], one: dict[str, object], two: dict[s
 
 
 def invariants(side: dict[str, object], one: dict[str, object], two: dict[str, object],
-               three: dict[str, object], four: dict[str, object]) -> dict[str, object]:
+               three: dict[str, object], four: dict[str, object],
+               rule: str = "jaccard") -> dict[str, object]:
     """Checks over EVERY theme, not a sample, of things the four steps must satisfy.
 
     A singleton theme must inherit its one group's support exactly; every absorbed group's core
-    must really reach ``J >= 0.9`` with its theme seed's core, which is what "compared with the
-    seed only, no chaining" means; and the core must be a subset of the members, since 0.9 > 0.5.
+    must really match its theme seed's core under ``rule``, which is what "compared with the seed
+    only, no chaining" means; and the core must be a subset of the members, since 0.9 > 0.5.
 
     Args:
         side: As :func:`load_side` returns.
@@ -713,6 +749,7 @@ def invariants(side: dict[str, object], one: dict[str, object], two: dict[str, o
         two: As :func:`step_two` returns.
         three: As :func:`step_three` returns.
         four: As :func:`step_four` returns.
+        rule: One of :data:`MERGE_RULES`.
 
     Returns:
         One count per invariant and whether all of them hold.
@@ -733,7 +770,8 @@ def invariants(side: dict[str, object], one: dict[str, object], two: dict[str, o
         a = set(core_path[core_ptr[g]:core_ptr[g + 1]].tolist())
         b = set(core_path[core_ptr[seed]:core_ptr[seed + 1]].tolist())
         inter = len(a & b)
-        merge_ok += inter * 100 >= MERGE_J * 100 * (len(a) + len(b) - inter)
+        merge_ok += bool(same_theme(np.array([inter]), np.array([len(a)]),
+                                    np.array([len(b)]), rule)[0])
 
     subset_ok = 0
     for t in range(themes):
@@ -748,7 +786,7 @@ def invariants(side: dict[str, object], one: dict[str, object], two: dict[str, o
         "singleton_found_matches_group": found_ok,
         "singleton_judged_matches_group": judged_ok,
         "absorbed_groups": int(len(absorbed)),
-        "absorbed_reach_J0.9_with_the_seed": merge_ok,
+        "absorbed_match_the_seed": merge_ok,
         "themes": themes,
         "core_subset_of_members": subset_ok,
         "cored_groups_placed": claimed,
@@ -761,7 +799,8 @@ def invariants(side: dict[str, object], one: dict[str, object], two: dict[str, o
 
 def write_side(out: Path, side: dict[str, object], one: dict[str, object],
                two: dict[str, object], three: dict[str, object],
-               four: dict[str, object], checks: dict[str, object]) -> None:
+               four: dict[str, object], checks: dict[str, object],
+               rule: str = "jaccard") -> None:
     """Persist one side's four steps.
 
     Args:
@@ -772,6 +811,7 @@ def write_side(out: Path, side: dict[str, object], one: dict[str, object],
         three: As :func:`step_three` returns.
         four: As :func:`step_four` returns.
         checks: The brute-force comparisons.
+        rule: The merge rule this side used.
     """
     out.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
@@ -788,6 +828,7 @@ def write_side(out: Path, side: dict[str, object], one: dict[str, object],
         incl_value=four["incl"]["inclusion"])
     (out / "steps.json").write_text(json.dumps({
         "theta": THETA, "core_cut": CORE_CUT, "member_cut": MEMBER_CUT, "merge_j": MERGE_J,
+        "merge_rule": rule,
         "min_size": MIN_SIZE, "min_shared": MIN_SHARED, "seed": SEED,
         "seeds": int(len(side["sizes"])), "cored_groups": int(two["has_core"].sum()),
         "themes": int(len(three["seed_group"])), "core_pairs": int(three["pairs"]),
@@ -812,18 +853,31 @@ def main(argv: list[str] | None = None) -> int:
                         default=Path("data/experiments/L1_2026-10-24/real"))
     parser.add_argument("--trees", type=Path, default=None,
                         help="override the cached real-tree directory, for a scramble side")
+    parser.add_argument("--scramble-seed", type=int, default=None,
+                        help="read a scramble side from the permanent cache by seed, instead of "
+                             "spelling its path with --trees")
     parser.add_argument("--runs", type=int, default=200)
     parser.add_argument("--cover", type=float, default=THETA,
                         help="kept for tree_cores.load_clusters; the match uses THETA on each side")
+    parser.add_argument("--merge-rule", choices=MERGE_RULES, default="jaccard",
+                        help="jaccard is prompt 61's declared rule, J >= 0.90 on the two cores; "
+                             "both-ways is the follow-up, at least 90%% of each core inside the "
+                             "other")
     parser.add_argument("--no-verify", action="store_true")
     args = parser.parse_args(argv)
+    if args.scramble_seed is not None:
+        from scramble_cache import trees_for
 
-    print(f"L1 STEPS 1-4  theta {THETA} on each side, core {CORE_CUT}, merge J {MERGE_J}, "
-          f"members {MEMBER_CUT}", flush=True)
+        if args.trees is not None:
+            raise SystemExit("pass --trees or --scramble-seed, not both")
+        args.trees = trees_for(args.scramble_seed)
+
+    print(f"L1 STEPS 1-4  theta {THETA} on each side, core {CORE_CUT}, "
+          f"merge rule {args.merge_rule}, members {MEMBER_CUT}", flush=True)
     side = load_side(args)
     one = step_one(side)
     two = step_two(side, one)
-    three = step_three(side, one, two)
+    three = step_three(side, one, two, args.merge_rule)
     four = step_four(side, one, two, three)
 
     checks: dict[str, object] = {}
@@ -831,16 +885,16 @@ def main(argv: list[str] | None = None) -> int:
         clock = time.perf_counter()
         checks["step1"] = brute_step_one(side, one)
         checks["step2"] = brute_step_two(side, one, two)
-        checks["step3"] = brute_step_three(side, two)
+        checks["step3"] = brute_step_three(side, two, args.merge_rule)
         checks["step4"] = brute_step_four(side, one, two, three, four)
-        checks["invariants"] = invariants(side, one, two, three, four)
+        checks["invariants"] = invariants(side, one, two, three, four, args.merge_rule)
         print(f"  VERIFICATION against brute force, seed {SEED} "
               f"({time.perf_counter() - clock:.0f}s)", flush=True)
         for name in ("step1", "step2", "step3", "step4", "invariants"):
             got = checks[name]
             print(f"    {name}: {'IDENTICAL' if got['identical'] else 'MISMATCH'}  {got}",
                   flush=True)
-    write_side(args.out, side, one, two, three, four, checks)
+    write_side(args.out, side, one, two, three, four, checks, args.merge_rule)
     print(f"  -> {args.out}", flush=True)
     bad = [k for k, v in checks.items() if not v["identical"]]
     return 1 if bad else 0

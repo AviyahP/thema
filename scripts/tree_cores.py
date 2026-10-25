@@ -243,11 +243,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--trees", type=Path, default=None,
                         help="tree directory to read instead of the cached real one, for a "
                              "scramble side. Must hold row00001.npz upwards.")
+    parser.add_argument("--scramble-seed", type=int, default=None,
+                        help="read a scramble side from the permanent cache by seed, instead of "
+                             "spelling its path with --trees")
     parser.add_argument("--candidates", action="store_true",
                         help="run step 2 and stop, which is the prompt's own decision point")
     parser.add_argument("--score", action="store_true",
                         help="step 3: judge and find every cached candidate in every run")
     args = parser.parse_args(argv)
+    if args.scramble_seed is not None:
+        from scramble_cache import trees_for
+
+        if args.trees is not None:
+            raise SystemExit("pass --trees or --scramble-seed, not both")
+        args.trees = trees_for(args.scramble_seed)
     args.out.mkdir(parents=True, exist_ok=True)
 
     if args.score:
