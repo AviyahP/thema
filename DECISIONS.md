@@ -10185,3 +10185,30 @@ on the number of large near-copies** -- the third time prompts 62-65 have pointe
 Cost: 73 min for 14 scramble sides of Ward trees (348 MB, not committed), 26 min for L1m on them,
 28 s for the calibration and report; about 1 h 40 against an estimate of 1 h 45.
 `docs/status/2026-10-24-L1m-gate.md`.
+
+## 2026-10-25 -- DECISION: the scramble trees are a permanent cache
+
+**The 16 scramble sides live in `data/cache/scramble_trees_x2_centred/` and are never overwritten or
+rebuilt unless the universe digest or the clustering matrix changes.** Calibration 3001-3010,
+held-out 4001-4006; 200 trees each, 3,200 in all, 397 MB.
+
+They are not an experiment output. They are fully determined by the universe
+(`c54319cdfbbe9eb7`, 5,539 pathways), the centred matrix
+(`vectors_leaves_centred.npy`, sha256 `60ed309f...3582ed`), the real runs' own subsamples and the
+seed; they cost about 5 minutes a seed; and prompts 60, 64 and 65 all read them. Keeping them under
+one prompt's output directory invited exactly the mistake prompt 60 made once already -- building a
+side from the **raw** `embeddings.npy` instead of the centred sidecar, which fails silently and
+produced a whole discarded side.
+
+Enforced rather than asserted: the folder is **read-only** on disk (`chmod -R a-w`),
+`data/cache/` is in `.gitignore`, and `scripts/scramble_cache.py` is the only place that knows the
+path. `trees_for(seed)` **raises** on a missing or short side rather than returning a path that
+reads as empty, because a quietly empty null side changes a calibration without failing. Readers take
+`--scramble-seed N` instead of spelling a path: `tree_cores.py`, `l1_build.py`, `l1m_build.py`.
+`MANIFEST.md` beside the seeds records the seeds, the tree counts, the universe, the matrix and its
+hash, that the subsamples are the real runs', the scramble procedure
+(`recurrent.null_embeddings`: each dimension shuffled independently, rows renormalised), the
+proof each side passed before being written (rebuilding cached real run 1 from the sidecar and
+requiring 2,681 matching clusters), and the regeneration command.
+
+Nothing was rebuilt in the move: the files are the ones prompts 60 and 65 produced.
