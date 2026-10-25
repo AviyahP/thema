@@ -328,14 +328,15 @@ uv run scripts/tree_cores.py --score      --cover 0.50 --out OUT/cover50
 # prompt 60. The trees first; then steps 2-3 on each side; then the bars.
 uv run scripts/tree_core_bars.py --scramble-trees      # 2 x 200 Ward trees, 10 min, 50 MB
 uv run scripts/tree_cores.py --candidates --cover 0.70 \
-    --trees OUT/scramble_trees/seed03001 --out OUT/bars/scramble/seed03001
+    --scramble-seed 3001 --out OUT/bars/scramble/seed03001
 uv run scripts/tree_cores.py --score --cover 0.70 \
-    --trees OUT/scramble_trees/seed03001 --out OUT/bars/scramble/seed03001
+    --scramble-seed 3001 --out OUT/bars/scramble/seed03001
 uv run scripts/tree_core_bars.py                       # tasks 1, 2 and 3; 7 min
 ```
 
 **Two things are deliberately not committed**, both regenerable from the commands above:
-`cover50/candidates.npz` (129 MB) and `scramble_trees/` (50 MB, 400 `.npz` trees). Everything else
+`cover50/candidates.npz` (129 MB) and the scramble trees (moved 25 Oct to the permanent cache
+`data/cache/scramble_trees_x2_centred/`). Everything else
 in `tree_cores_2026-10-23/`, including all of `bars/`, is in the repository.
 
 `--trees` is an override on `tree_cores.py` used by both the cluster loader and the scorer, added for
