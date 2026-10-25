@@ -116,10 +116,13 @@ def build_scramble_trees(args: argparse.Namespace) -> int:
     print(f"  {args.vectors} reproduces cached real run 1 exactly "
           f"({np.asarray(reference.clusters).shape[0]:,} clusters)", flush=True)
 
+    from scramble_cache import CACHE
+
     seeds = (tuple(int(s) for s in args.seeds.split(",")) if getattr(args, "seeds", None)
              else SEEDS)
-    root = (args.trees_out if getattr(args, "trees_out", None)
-            else args.out / "scramble_trees")
+    # The cache is where the sides live; it is read-only on disk, so an already-built seed is
+    # skipped before anything tries to write, and a new seed needs the folder made writable first.
+    root = args.trees_out if getattr(args, "trees_out", None) else CACHE
     for seed in seeds:
         out = root / f"seed{seed:05d}"
         if out.exists() and len(list(out.glob("row*.npz"))) >= args.runs:
@@ -324,7 +327,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seeds", default=None,
                         help="comma-separated scramble seeds; defaults to prompt 60's 3001,3002")
     parser.add_argument("--trees-out", type=Path, default=None,
-                        help="where to write them; defaults to --out/scramble_trees")
+                        help="where to write them; defaults to the permanent cache, "
+                             "scramble_cache.CACHE")
     args = parser.parse_args(argv)
 
     if args.scramble_trees:
