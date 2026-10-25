@@ -116,8 +116,12 @@ def build_scramble_trees(args: argparse.Namespace) -> int:
     print(f"  {args.vectors} reproduces cached real run 1 exactly "
           f"({np.asarray(reference.clusters).shape[0]:,} clusters)", flush=True)
 
-    for seed in SEEDS:
-        out = args.out / "scramble_trees" / f"seed{seed:05d}"
+    seeds = (tuple(int(s) for s in args.seeds.split(",")) if getattr(args, "seeds", None)
+             else SEEDS)
+    root = (args.trees_out if getattr(args, "trees_out", None)
+            else args.out / "scramble_trees")
+    for seed in seeds:
+        out = root / f"seed{seed:05d}"
         if out.exists() and len(list(out.glob("row*.npz"))) >= args.runs:
             print(f"  seed {seed}: already built, skipping", flush=True)
             continue
@@ -316,7 +320,11 @@ def main(argv: list[str] | None = None) -> int:
                              "to --space-root; the x2 universe stores embeddings.npy "
                              "RAW and this centred sidecar beside it")
     parser.add_argument("--scramble-trees", action="store_true",
-                        help="build the two scramble sides' trees and stop")
+                        help="build the scramble sides' trees and stop")
+    parser.add_argument("--seeds", default=None,
+                        help="comma-separated scramble seeds; defaults to prompt 60's 3001,3002")
+    parser.add_argument("--trees-out", type=Path, default=None,
+                        help="where to write them; defaults to --out/scramble_trees")
     args = parser.parse_args(argv)
 
     if args.scramble_trees:
