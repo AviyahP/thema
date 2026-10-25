@@ -424,6 +424,9 @@ def main(argv: list[str] | None = None) -> int:
                         default=Path("data/experiments/L1m_2026-10-24/real"))
     parser.add_argument("--trees", type=Path, default=None,
                         help="override the cached real-tree directory, for a scramble side")
+    parser.add_argument("--scramble-seed", type=int, default=None,
+                        help="read a scramble side from the permanent cache by seed, instead of "
+                             "spelling its path with --trees")
     parser.add_argument("--runs", type=int, default=200)
     parser.add_argument("--cover", type=float, default=0.70,
                         help="kept for tree_cores.load_clusters; the match is 70% on each side")
@@ -431,6 +434,12 @@ def main(argv: list[str] | None = None) -> int:
                         help="write only size, support, found and judged per theme")
     parser.add_argument("--no-verify", action="store_true")
     args = parser.parse_args(argv)
+    if args.scramble_seed is not None:
+        from scramble_cache import trees_for
+
+        if args.trees is not None:
+            raise SystemExit("pass --trees or --scramble-seed, not both")
+        args.trees = trees_for(args.scramble_seed)
 
     print(f"L1m  merge on MEMBERS at {MERGE_J} each way, repeated to a fixed point "
           f"(cap {MAX_PASSES})", flush=True)
