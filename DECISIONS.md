@@ -9807,3 +9807,381 @@ Cost: 65 s for the real side, ~55 s per scramble side, ~90 s for the report -- u
 total, against an estimate of 60-90 minutes. That estimate was wrong in the same direction as prompts
 59 and 60: the exact size window prunes far harder than the arithmetic suggested.
 `docs/status/2026-10-24-L1-steps1-4.md`.
+
+## 2026-10-24 -- Prompt 61 follow-up: two-sided 90% containment instead of J >= 0.9 on cores
+
+Step 3 only, everything else unchanged and verified; the new side is
+`data/experiments/L1_2026-10-24/real_bothways/` and the declared side is untouched. Steps 1 and 2
+reproduce the declared side exactly (10,525,135 copies, 261,984 cored groups), every brute-force
+check passes, and all five invariants hold over all 131,373 themes -- including that each of the
+130,611 absorbed groups satisfies the new rule against its theme seed.
+
+**The containment rule is the looser of the two**, not the stricter: `inter >= 0.90 * max` admits
+`J = 0.818` at equal core sizes, so it can only merge more. Both force `min >= 0.90 * max`, so the
+exact size window the products used stays exact.
+
+**The answer is a clean negative.** Themes fall 137,008 -> 131,373 (-4.1%), concentrated where the
+variants are worst (-34.1% at 1600+, nothing below 12 members). But the **distinct** object count
+barely moves: 340 -> 342 at 25-49, 49 -> 46 at 100-199, 20 -> 20, 10 -> 9, 4 -> 4, 4 -> 4, and
+**exactly 7 distinct sets above 800 members under both rules** (from 237 themes under J >= 0.9 and
+134 under containment). So the share distinct rises only from about 5% to about 7%. Near-copies per
+theme improve by a fifth -- non-nested pairs at J >= 0.5 fall 14.9 -> 11.9 over all themes and
+13.4 -> 10.6 among the recurrent ones, against O50s's 15.7 -- which is real but small.
+
+**Conclusion: moving a core-similarity threshold does not reach whatever produces twenty variants per
+object.** Both rules leave level 2 a population that is about 93% variants. `--merge-rule` defaults
+to `jaccard` and reproduces prompt 61's side exactly, proven on the 6-run smoke.
+
+The seven distinct large sets are written out as plain sorted `name [source]` lists, no identifiers
+and no support values, in `data/experiments/L1_2026-10-24/large7/set_{1..7}.md` (2,412 / 2,381 /
+2,271 / 2,267 / 1,491 / 1,143 / 867 pathways). `docs/status/2026-10-24-L1-steps1-4.md`.
+
+---
+
+## 2026-10-24 13:43:56 UTC+1 — DECISION: the L1 merge rule is 90% each way, not Jaccard 0.9 (Aviyah, 24 Oct)
+
+**Aviyah's decision, 24 Oct 2026.** L1's step-3 merge rule is **"two groups are the same theme if at
+least 90% of each core is inside the other"** (90% each way), replacing the declared Jaccard >= 0.9
+on cores. The working side is `data/experiments/L1_2026-10-24/real_bothways/`: 131,373 themes,
+52,001 of them found in 10 or more runs.
+
+The evidence is the 24 Oct follow-up. Containment both ways is the **looser** rule -- `inter >= 0.9 *
+max` admits J = 0.818 at equal core sizes -- and it removes 4.1% of the themes, concentrated where
+variants are worst (-34.1% at 1600+, nothing below 12 members), while leaving the distinct object
+count unchanged (4 giants either way, 20 against 20 at 200-399, exactly 7 distinct sets above 800
+members under both). Non-nested near-copies at J >= 0.5 fall from 14.9 to 11.9 per theme, which is
+below O50s's 15.7. So it is strictly better on redundancy at no cost in objects.
+
+The Jaccard side stays at `data/experiments/L1_2026-10-24/real/` as prompt 61's declared reference.
+`--merge-rule` defaults to `jaccard` so that side is reproducible; the working side needs
+`--merge-rule both-ways`.
+
+---
+
+## 2026-10-24 13:43:56 UTC+1 — ARE L1 LARGE THEMES UNIONS OF SMALLER THEMES (prompt 62): declared before running
+
+Evaluation only: **no rule is applied and nothing is removed.** Design by Aviyah and the reviewer,
+24 Oct. A blind reading of the seven distinct sets above 800 pathways gave three broad domains (867
+immunity, 1,143 metabolism, 1,491 core cell machinery) and four giants of 2,267-2,412 that read as
+two or three domains glued together. This measures how often a large theme is mostly made of smaller
+accepted themes that are unrelated to each other, before any rule is chosen against such unions.
+
+Saved verbatim at `data/experiments/reviewer_notes/PROMPT_62.md`. Its text, as declared:
+
+```
+Prompt 62: are L1's large themes unions of smaller themes? Declared 24 Oct 2026, before any result. Evaluation only: no rule is applied, nothing removed. Design: Aviyah and reviewer, 24 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+DECISION TO RECORD FIRST (Aviyah, 24 Oct): the L1 merge rule is "two groups are the same theme if at least 90% of each core is inside the other" (90% each way), replacing Jaccard >= 0.9 on cores. Working side: data/experiments/L1_2026-10-24/real_bothways/. Record it in DECISIONS.md.
+
+WHY
+A blind reading of the 7 distinct sets above 800 pathways (found in >= 10 runs) gave: three broad domains (867 immunity, 1,143 metabolism, 1,491 core cell machinery) and four giants (2,267-2,412) that read as two or three domains glued together. Before choosing any rule against such unions, measure how often a large theme is mostly made of smaller accepted themes that are unrelated to each other.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; proceed unless the COMPUTE alone is expected to exceed 2 h. Exact computation, verified against a brute-force loop on a random sample (seed 20261024); report each check.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_62.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SET: the 90%-each-way themes found in at least 10 runs (provisional working bar; label it so). Call them accepted themes.
+
+MEASURES, for every accepted theme T of 25 or more pathways:
+a. Inner themes of T: accepted themes S smaller than T with at least 90% of S inside T.
+b. Single cover: the largest share of T covered by one inner theme.
+c. Greedy cover: repeatedly add the inner theme that covers the most still-uncovered pathways of T; record the coverage of T after 1, 2 and 3 picks, and the Jaccard between pick 1 and pick 2.
+d. Two-block pattern: T is covered at least 90% by its first two picks AND those two picks have Jaccard below 0.5 with each other. Also report the three-pick version (at least 90% by three picks, every pair of the three below 0.5).
+
+REPORT (add a section to docs/status/2026-10-24-L1-steps1-4.md, or a new note docs/status/2026-10-24-L1-unions.md):
+1. By band (25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+): accepted themes; median single cover; median coverage after 1, 2, 3 picks; share with the two-block pattern; share with the three-block pattern.
+2. For each of the 7 distinct sets in large7/ (by their file number, set_1 to set_7): its first three picks, each with size, the share of the set it covers, how many of the other six sets it overlaps at J >= 0.5 (none of the six may be a pick of itself), and the coverage after 1, 2, 3 picks; and whether sets 5, 6 and 7 (the three read as broad domains) appear among the picks of sets 1-4, with the share covered.
+3. Twenty random accepted themes of 100 or more pathways with the two-block pattern, and twenty without it (seed 20261024), each as "name [source]" member lists with the members of pick 1 and pick 2 marked, in data/experiments/L1_2026-10-24/unions/examples/. Do not judge them.
+
+FINAL
+Add the new code, note, outputs and PROMPT_62.md to docs/status/commit-2026-10-24-L1.sh (or a new script commit-2026-10-24-L1-unions.sh to run after it), listing files explicitly, leaving out any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give tables 1 and 2 and the commit script path. Then stop.
+```
+
+## 2026-10-24 -- Prompt 62 result: the mid-sized L1 themes are unions of unrelated blocks; the giants are not
+
+Evaluation only; nothing applied, nothing removed. 52,001 accepted themes (90% each way, found in
+>= 10 runs -- a **provisional** bar), 7,958 of them with 25+ pathways measured. Both passes verified
+against explicit set loops on 200 targets (seed 20261024): all four comparisons identical.
+
+**The declared measure is dominated by variants, and that had to be reported rather than hidden.**
+Inner themes are defined by *containment*, so an accepted theme one pathway smaller than the target
+is 100% inside it and covers 93% alone: median single cover is **0.929** across all 7,958 targets, so
+the declared "two-block" share of 26.4% mostly means "pick 1 was a variant and pick 2 was a small
+distant remainder". A second pass was added, dropping inner themes within J < 0.5 of the target --
+the same 0.5 the block patterns use -- and both are reported.
+
+**On the added pass the answer is size-dependent.** Three unrelated blocks cover 90% of **57.2% of
+themes at 25-49, 61.3% at 50-99 and 61.7% at 100-199**, falling to 16.0% at 400-799, **4.1% at
+800-1,599 and 2.8% at 1600+**. Median coverage by three distant picks is 0.971 at 25-49 and 0.791 at
+1600+. So a rule against unions would act on the middle of the distribution, not on the giants that
+motivated the question.
+
+**The giants do contain the broad domains, as halves, but need more than three pieces.** Three of the
+four contain one at J >= 0.5 as their largest distinct block: `set_2` contains `set_7` (33.0% of it),
+`set_3` contains `set_6` at **J = 1.000** (50.1%), and `set_4` contains `set_5` (52.6%) and `set_7`
+(37.5%), whose union is **86.7%** of it. `set_1` contains none of them; its largest distinct block
+matches `set_2`. None of the seven is two-block or three-block: three disjoint blocks reach only
+72-88%.
+
+**The sharpest finding is about the relation, not the threshold.** `set_6` is a piece of `set_3`
+*exactly*, and they are separate themes only because 1,143 is under 90% of 2,271, so the
+90%-each-way rule never treats them as the same theme -- correctly, since a half is not a whole.
+**What L1 is missing here is hierarchy, not deduplication**, which is level 2's job. And one number
+recurs: excluding variants, the largest distinct piece of an accepted theme is 0.485 to 0.501 of it
+in every band from 25 to 1,599.
+
+Cost: 14 s and 0.98 GB for everything, against an estimate of 5-20 minutes -- wrong in the same
+direction for the fourth prompt running. `docs/status/2026-10-24-L1-unions.md`.
+
+---
+
+## 2026-10-24 14:35:08 UTC+1 — THE DAG OF L1 RECURRING THEMES, STRICT CONTAINMENT (prompt 63): declared before running
+
+Exploratory; **nothing adopted.** Aviyah's design, 24 Oct. L1 with the 90%-each-way merge gives
+recurring themes and no hierarchy; prompt 62 found the four giant sets contain the three broad
+domains (`set_3` holds all of `set_6`, `set_4` holds `set_5` and `set_7`). This builds the strict
+containment DAG over the accepted themes and looks at the top before anything is decided.
+Memberships are not changed: no inheritance, no chain collapse, no merging.
+
+Saved verbatim at `data/experiments/reviewer_notes/PROMPT_63.md`. Its text, as declared:
+
+```
+Prompt 63: the DAG of L1's recurring themes (strict containment). Declared 24 Oct 2026, before any result. Exploratory: nothing adopted. Design: Aviyah, 24 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+L1 (90%-each-way merge) gives recurring themes but no hierarchy yet. Prompt 62 showed the four giant sets contain the three broad domains (set_3 holds all of set_6; set_4 holds set_5 and set_7). Build the DAG and look at the top before deciding anything.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; proceed unless the COMPUTE alone is expected to exceed 2 h. Exact computation, verified against brute force on a random sample (seed 20261024); report each check.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_63.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SET: the 90%-each-way L1 themes (data/experiments/L1_2026-10-24/real_bothways/) found in at least 10 runs (provisional bar; label it so). Members = inclusion >= 0.5.
+
+DAG: A is a parent of B if every member of B is in A and A is larger; keep immediate parents only (transitive reduction). No inheritance, no chain collapse, no merging: memberships are not changed.
+
+REPORT (docs/status/2026-10-24-L1-dag.md)
+A. Shape: themes; edges; roots, and roots by band (3-5, 6-11, 12-24, 25-49, 50-99, 100-199, 200-399, 400-799, 800-1,599, 1,600+); the same root counts if themes of 3-5 are left out; multi-parent share; children per node (max, median); levels to a root (median, max); themes with no parent and no child.
+B. The top: every root of 200 or more pathways, with size, number of children, and its largest three children (size, share of the root); for the seven large7 sets (matched at J >= 0.9 to an L1 theme, say which, or none), whether each is a root, and its parents.
+C. What a tolerance would change (report only, apply nothing): pairs where B is at least 90% inside a larger A but not 100% (by pathways missing: 1, 2-5, 6+); how many roots would gain a parent if such pairs counted as edges, by band; how many edges are near-chains (child holding at least 85% of its parent).
+D. Placement: pathways in at least one theme; pathways in no theme; mean themes per pathway; for each pathway, the size of the largest theme holding it (median).
+
+FOR THE REVIEWER (do not judge): every root of 50 or more pathways, shuffled (seed 20261024), with random ids, as "name [source]" member lists sorted by name, in batches of about 2,600 lines, in data/experiments/L1_2026-10-24/dag/read_roots/; the id-to-theme mapping (with size and runs found) only in KEY_DO_NOT_SHARE_L1_roots.json in the same folder.
+
+FINAL
+Write docs/status/commit-2026-10-24-L1-dag.sh, to run after commit-2026-10-24-L1-unions.sh. It commits the code, note, data/experiments/L1_2026-10-24/dag/ (without the KEY file) and PROMPT_63.md, listing files explicitly, leaving out any file over 50 MB (and saying which). No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give sections A-D as tables, the reading batch paths, and the commit script path. Then stop.
+```
+
+## 2026-10-24 -- Prompt 63 result: three pathways separate the seven giants from a two-level hierarchy
+
+Exploratory; nothing adopted, no membership changed. The strict containment DAG over the 52,001
+accepted themes (90% each way, found in >= 10 runs -- a **provisional** bar): **388,287 edges** from
+5,541,622 ancestor pairs, **594 roots**, 91.16% multi-parent, median 4 children, 16 levels per
+pathway. Ancestor sets and immediate-parent sets verified against explicit set loops on 300 random
+themes (seed 20261024): 300/300 and 300/300 identical.
+
+**The relation cannot see the hierarchy prompt 62 measured, and the margin is three pathways.** All
+seven `large7` sets match an L1 theme at J >= 0.90 and **all seven are roots with no parent**.
+`set_6`'s theme is **99.56% inside** `set_3`'s -- 5 members outside -- and `set_7`'s is **99.65%
+inside** `set_4`'s -- **3 members outside**. Prompt 62's J = 1.000 was between `set_6` and a *piece*
+of `set_3`; the theme that matches `set_3` at 0.985 is not that piece.
+
+**A tolerance is needed and 90% is too much.** Of 777,123 near-miss pairs, **555,728 miss by exactly
+one pathway** across 26,899 distinct children. At 90%, **418 of 594 roots gain a parent and the top
+empties**: 100% of the 400-799 roots, 99% of 800-1599, 83% of 1600+. A one-pathway tolerance alone
+still reparents 218 roots, 20 of them above 800. So the right tolerance looks **absolute (one or two
+pathways), not proportional**.
+
+**And the duplication must go first.** 17,433 of the 52,001 themes repeat another theme's membership
+*exactly* -- only 34,568 distinct member sets -- because the merge rule compares **cores**, so equal
+membership with unequal cores is never merged. With that, 91% multi-parent and 18.5% of edges being
+near-chains (child >= 85% of parent), any hierarchy built on this population inherits a lattice of
+variants. **Deduplicating on membership is the obvious missing step**, and prompts 61, 62 and 63 all
+point at it.
+
+Placement: every one of the 5,539 pathways is in a theme, every pathway sits in a theme of at least
+2,021 members, and a pathway belongs to 210.7 themes on average against O50s's 23.5.
+
+For the reviewer: 295 roots of 50+ pathways, shuffled, random ids, in 114 batches totalling 229,515
+lines at `data/experiments/L1_2026-10-24/dag/read_roots/`; the key is
+`KEY_DO_NOT_SHARE_L1_roots.json`, written once, never reopened, and not committed.
+
+Cost: 12.6 s and 1.32 GB for everything, against an estimate of 10-30 minutes -- wrong in the same
+direction for the fifth prompt running. `docs/status/2026-10-24-L1-dag.md`.
+
+---
+
+## 2026-10-24 21:54:24 UTC+1 — DECISION: the L1 merge compares MEMBERS, not cores (Aviyah, 24 Oct)
+
+**Aviyah's decision, 24 Oct 2026.** L1's merge applies the 90%-each-way test to **members**
+(inclusion >= 0.5), not to cores (inclusion >= 0.9), and is **repeated until nothing changes**. It
+replaces the core-based merge; the threshold is unchanged, so there is **no new number**.
+
+The evidence is prompt 63. Comparing cores left 17,433 of 52,001 recurring themes repeating another
+theme's members exactly, each pathway in 210.7 themes against O50s's 23.5, and a top of 205 roots of
+200+ pathways that are variants of the same seven sets. Cores are unstable, so two versions of one
+theme with slightly different cores never merged although their members were identical.
+
+Prompt 61's steps 1-2 are unchanged. The build is `data/experiments/L1m_2026-10-24/`; the
+core-merged sides stay as the reference.
+
+---
+
+## 2026-10-24 21:54:24 UTC+1 — L1 MERGE ON MEMBERS, REPEATED UNTIL STABLE, THEN THE DAG (prompt 64): declared before running
+
+Exploratory; **nothing adopted.** Aviyah's design, 24 Oct. Saved verbatim at
+`data/experiments/reviewer_notes/PROMPT_64.md`. Its text, as declared:
+
+```
+Prompt 64: L1 merge on members, repeated until stable (L1m), then the DAG. Declared 24 Oct 2026, before any result. Exploratory: nothing adopted. Design: Aviyah, 24 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+Prompt 63 showed L1 keeps many copies of each theme: 17,433 of 52,001 recurring themes repeat another's members exactly, each pathway sits in 210 themes (O50s: 23.5), and the top is 205 roots of 200+ that are variants of the same 7 sets. Cause: step 3 compared CORES (inclusion >= 0.9), which are unstable, so versions of one theme with slightly different cores never merged although their MEMBERS (inclusion >= 0.5) are the same or nearly so. Fix (Aviyah, 24 Oct): the same 90%-each-way rule, applied to members, repeated until nothing changes. It replaces the core-based merge; no new number.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file after writing it; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; proceed unless the COMPUTE alone is expected to exceed 2 h. Exact computation; verify each step against brute force on a random sample (seed 20261024) and report each check.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_64.md (if not already there), and copy it into DECISIONS.md as "declared before running". Record in DECISIONS: the L1 merge compares members, not cores (Aviyah, 24 Oct).
+
+INPUT: prompt 61's steps 1-2 output (the 261,984 groups with a core: their copies, support, inclusions), real side and both scramble sides. Steps 1-2 are unchanged.
+
+SPEC (real side and each scramble side)
+1. Start: every group with a core is a theme; members = inclusion >= 0.5 over its copies; core = inclusion >= 0.9.
+2. One pass: in O50s's family order (support descending, then member-set size descending, then key), each unclaimed theme becomes a seed and absorbs every unclaimed theme whose MEMBERS pass the test against the seed's members: at least 90% of each member set is inside the other. Compare with the seed only within a pass (no chaining inside a pass).
+3. After the pass, each merged theme: copies pooled, one per run (the copy of its highest-support constituent found in that run); support pooled (runs that found any constituent / runs able to judge any); inclusions recomputed; members = inclusion >= 0.5; core = inclusion >= 0.9.
+4. Repeat passes 2-3 on the resulting themes until a pass merges nothing. Report passes and merges per pass; cap at 50 passes and report if the cap is hit.
+5. Keep themes found in at least 10 runs (provisional bar; label it so).
+6. DAG: strict containment on members, immediate parents only; no inheritance, no collapse, memberships unchanged.
+
+REPORT (docs/status/2026-10-24-L1m.md), L1m next to prompt 63's L1 (and O50s where given):
+A. Merge: passes, merges per pass; themes before and after; groups per theme (median, max); largest themes and how much each grew across passes; identical member sets remaining (must be 0; assert it).
+B. Themes per band (3-5 ... 1,600+) before and after the 10-run bar; scrambled / real ratio by band at 10 and 20 runs (two seeds, indicative); mean themes per pathway; non-nested J >= 0.5 pairs per theme.
+C. DAG: roots (by band, and without 3-5); multi-parent share; children per node (max, median); levels to a root (median, max); every root of 200 or more pathways with size, children and its three largest children (share); for the seven large7 sets (best L1m match at J >= 0.9, or none), whether each is a root and its parents.
+D. Near-misses (report only): pairs where the smaller is inside the larger except for 1, 2-5, 6+ pathways; how many roots would gain a parent with a tolerance of 1 and of 2 pathways, by band.
+E. FOR THE REVIEWER (do not judge): every root of 100 or more pathways, shuffled (seed 20261024), random ids, "name [source]" sorted by name, batches of about 2,600 lines, in data/experiments/L1m_2026-10-24/read_roots/; mapping only in KEY_DO_NOT_SHARE_L1m_roots.json there. If this exceeds 40 batches, take roots of 200 or more instead and say so.
+
+FINAL
+Write docs/status/commit-2026-10-24-L1m.sh, to run after commit-2026-10-24-L1-dag.sh. It commits the code, note, data/experiments/L1m_2026-10-24/ (without the KEY file) and PROMPT_64.md, listing files explicitly, leaving out any file over 50 MB (and saying which). No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give sections A-D as tables, the reading batch paths, and the commit script path. Then stop.
+```
+
+## 2026-10-24 -- Prompt 64 result: merging on members removes every duplicate theme, and the giants stay flat
+
+Exploratory; nothing adopted. Steps 1-2 are prompt 61's, recomputed unchanged (10,525,135 copies,
+261,984 groups with a core). **Seven passes converge geometrically** -- 138,045 merges, then 3,481,
+253, 22, 2, 1, 0, with the 50-pass cap not hit -- to **120,180 themes and ZERO identical member
+sets**, asserted in the build and again in the report, and guaranteed by the fixed point. L1's figure
+for comparison is 18,918 over all 131,373 of its themes (prompt 63's 17,433 was over the 52,001 it
+accepted -- two populations, not a contradiction).
+
+**Every measure prompt 63 complained about improves.** Mean themes per pathway **102.6** against
+210.7 (O50s 23.5); non-nested near-copies **5.9 per theme**, **below O50s's 15.7 for the first time**;
+near-miss pairs down 85% from 777,123 to 116,390; DAG edges 161,869 against 388,287; multi-parent
+81.94% against 91.16%; levels per pathway 12 against 16; **roots of 200+ down from 205 to 75**. Roots
+overall barely move, 617 against 594, because duplicates were never anyone's parent.
+
+**And the giants are flat as a finding rather than an artefact.** All seven `large7` sets match an
+L1m theme at J >= 0.914 (`set_4` exactly) and all seven are still roots with no parent. Where prompt
+63's 90% *proportional* tolerance reparented 83% of the 1600+ roots and 99-100% of everything above
+400, an **absolute** tolerance of one or two pathways reparents **none of the 18 giants** and only 2
+of the 12 roots at 400-799, while reaching 71% of the 12-24 roots. Prompt 63's top-level near-misses
+were variants nearly containing variants.
+
+**The new problem is the small end.** Re-pooling after a merge recomputes inclusions, so members fall
+below the 0.5 cut and mass moves down: the 12-24 accepted band halves (14,062 -> 7,216) while 3-5
+grows by 3,200, and **61.7% of the real 3-5 count is matched by scrambled embeddings at the 10-run
+bar** (31.5% at 20). From 12 pathways up the scramble is empty. A size floor near 12, which prompt 61
+already argued for, would remove 24,930 of the 120,180 themes and the whole noise-dominated region.
+
+Checks on all three sides: a further pass merges nothing; the 90%-each-way adjacency matches an
+explicit double loop on 2,000 themes; zero duplicate member sets. **The whole greedy pass is replayed
+with Python sets on the 6-run smoke and reproduces the vectorised assignment array exactly** (11,023
+themes), so the greedy itself is checked, not only the adjacency; on the real side that replay is
+reported as skipped above 20,000 themes rather than quietly omitted. DAG ancestors and immediate
+parents verified against set loops on 300 themes, 300/300 and 300/300.
+
+Reviewer material: 101 roots of 100+ pathways in 40 batches (the prompt's cap, so the floor stays at
+100) at `data/experiments/L1m_2026-10-24/read_roots/` -- 3.9 MB against prompt 63's 11 MB for the
+same job. Key at `KEY_DO_NOT_SHARE_L1m_roots.json`, written once, never reopened, not committed.
+
+Cost: 102 s for the real side, ~110 s per scramble side, 9 s for the report -- under 6 minutes,
+against an estimate of 30-70 minutes. `docs/status/2026-10-24-L1m.md`.
+
+---
+
+## 2026-10-24 23:48:56 UTC+1 — THE GATE FOR L1m, CALIBRATED ON SCRAMBLES AS O50s DOES (prompt 65): declared before running
+
+Exploratory; **nothing adopted.** Aviyah's design, 24 Oct. L1m's 10-run bar is provisional and two
+scramble seeds showed it admits noise below 12 pathways (3-5: 62% of the real count; 6-11: 12%) and
+none above. This replaces it with **O50s's own gate procedure, unchanged**: the same 13 size bands,
+the same 0.008 target, the same rule-of-three bound, floors solved on calibration seeds 3001-3010 and
+checked once on held-out 4001-4006. No new numbers.
+
+Saved verbatim at `data/experiments/reviewer_notes/PROMPT_65.md`. Its text, as declared:
+
+```
+Prompt 65: the gate for L1m, calibrated on scrambles exactly as O50s's gate. Declared 24 Oct 2026, before any result. Exploratory: nothing adopted. Design: Aviyah, 24 Oct. This message ends with END OF PROMPT; if that line is missing, stop and say so.
+
+WHY
+L1m (prompt 64) uses a provisional bar of 10 runs. Two scramble seeds show it lets in noise among small themes (3-5: 62% of the real count; 6-11: 12%) and none from 12 up. Replace the provisional bar with O50s's own gate procedure, unchanged, applied to L1m. No new numbers.
+
+Rules: no API calls; do not commit, leave a commit script; never open any KEY_DO_NOT_SHARE* file; do not change frozen folders, cached trees or any existing build; working branch leaves-2026-10; never create, switch or delete branches outside a commit script, not even as a dry run; one heavy job at a time; times in UTC+1. Give the time estimate first, split into coding and compute; for this prompt proceed unless the COMPUTE alone is expected to exceed 3 h. Exact computation, verified as in prompts 61-64; report each check.
+
+FIRST: save this prompt verbatim as data/experiments/reviewer_notes/PROMPT_65.md (if not already there), and copy it into DECISIONS.md as "declared before running".
+
+SCRAMBLES: build Ward trees for the remaining calibration seeds 3003-3010 and the held-out seeds 4001-4006, exactly as prompt 60 built 3001-3002 (same procedure, the centred matrix proved against cached real run 1, the real runs' subsamples), in new directories; reuse 3001-3002. Run L1m unchanged (prompt 61 steps 1-2, then prompt 64's members merge to a fixed point) on every scramble side.
+
+GATE (O50s's procedure, unchanged): its 13 size bands (3, 4, 5, 6, 7-9, 10-19, 20-39, 40-79, 80-159, 160-319, 320-639, 640-1,279, 1,280+) by member count; support = runs found / runs able to judge, as L1m computes it. For each band, the floor is the lowest support at which (mean over the 10 calibration seeds of scrambled themes at or above it) / (real themes at or above it) is at most 0.008; where the scrambles never pass, the rule-of-three bound as O50s computes it. Floors are solved on 3001-3010 only, then checked ONCE on 4001-4006: held-out FDR overall (cap 0.01) and per band (cap 0.02). Report any cap failure; never adjust floors using the held-out seeds. Quote the O50s code you reuse.
+
+REPORT (docs/status/2026-10-24-L1m-gate.md)
+A. Floors per band (support and the equivalent runs out of 200), next to O50s's floors and next to the provisional 10-run bar.
+B. Held-out FDR, overall and per band, with counts.
+C. Real themes kept per band (calibrated gate vs the 10-run bar); mean themes per pathway; non-nested J >= 0.5 pairs per theme.
+D. DAG on the gated themes (strict containment, immediate parents, memberships unchanged, as prompt 64): themes, edges, roots by band (3-5 ... 1,600+), multi-parent share, children per node (max, median), levels to a root (median, max), roots of 200 or more (count).
+
+FINAL
+Write docs/status/commit-2026-10-24-L1m-gate.sh, to run after commit-2026-10-24-L1m.sh. It commits the code, note, small outputs and PROMPT_65.md, listing files explicitly, leaving out the scramble trees and any file over 50 MB (and saying which), never including any KEY_DO_NOT_SHARE* file. No branch operations; no push of main.
+
+END OF PROMPT. Before starting, give the time estimate. After, give sections A-D as tables and the commit script path. Then stop.
+```
+
+## 2026-10-25 -- Prompt 65 result: the calibrated gate is sound and makes L1m's structure worse
+
+Exploratory; nothing adopted. O50s's gate procedure was **reused by import, not reimplemented**:
+`o50s_build.{O50S_STRATA, TARGET=0.008, RULE_OF_THREE=3.0, solve_stratum, confirm_with,
+CAP_OVERALL=0.01, CAP_STRATUM=0.02, CALIBRATION, HELDOUT}` and `v04.{gate, stratum_of}`. Two
+deliberate differences, both because L1m is a different population: **all 13 bands are solved**
+(O50s's `FROZEN_SMALL = 5` has nothing to freeze here), and support is rounded to six decimals on
+every side before comparison, as `Material.rows` does. Floors solved on seeds 3001-3010 only; the
+held-out seeds 4001-4006 were read **once** and the floors untouched after.
+
+**Nothing failed.** Held-out FDR **0.00528** against the 0.01 cap, worst band 0.01018 against 0.02,
+and the held-out rates track the calibration rates in every band that has any scrambled themes.
+`solve_stratum` was checked against an explicit loop on four bands; all identical.
+
+**The floors invert the provisional bar.** 3 pathways: 0.4859, **97 runs of 200**, against the flat
+10; and against O50s's own 0.84, so L1m's small themes are about twice as separable from noise as
+O50s's were. From 10-19 up the floors equal O50s's to six decimals -- 0.030151 is 6/199 and 0.0100 is
+2/200, the lowest rungs, so both calibrations land on the same quantised value. **From 40 pathways up
+every floor is the rule-of-three bound**, because the scrambles are empty there: saying nothing is
+being read as consent, and every large theme that exists is admitted.
+
+**So the gate fixes the small end and ruins the top.** 3-5 falls 10,995 -> 2,830 and 6-11 20,261 ->
+12,055, while 12-24 gains 4,808, 25-49 gains 7,023 and **1600+ goes from 18 themes to 54**. Totals
+barely move (43,867 against 41,605) but themes per pathway rise **102.6 -> 365.8**, non-nested
+near-copies 5.9 -> 10.5, DAG edges 161,869 -> 676,623, roots 617 -> **4,164**, and roots of 200+
+**75 -> 1,263**. One genuine gain: **every surviving 3-5 theme now has a parent** (0 roots in that
+band, against 39).
+
+**The lesson is about the provisional bar, not the gate.** A flat 10 runs of 200 is a high bar for a
+giant (they recur in 10-63 runs) and a low one for a triple, so it was capping the variant cloud by
+accident while admitting noise. FDR control against scrambled embeddings cannot replace that cap,
+because above 40 pathways the null is empty. **What is needed next is not another floor but a limit
+on the number of large near-copies** -- the third time prompts 62-65 have pointed there.
+
+Cost: 73 min for 14 scramble sides of Ward trees (348 MB, not committed), 26 min for L1m on them,
+28 s for the calibration and report; about 1 h 40 against an estimate of 1 h 45.
+`docs/status/2026-10-24-L1m-gate.md`.
